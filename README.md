@@ -34,6 +34,7 @@ To run the project, just use `.\gradlew run` in FanControl folder.
 <br/>
   
 > LibreHardwareMonitor [implementation](https://github.com/lich426/FanCtrl) in C#
+
 > Github of [compose-desktop](https://github.com/JetBrains/compose-jb)
 
 </details>
