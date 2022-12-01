@@ -2,14 +2,14 @@ package hardware.external
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.Control
-import model.Fan
-import model.Temp
+import model.hardware.control.FanControl
+import model.hardware.sensor.FanSpeed
+import model.hardware.sensor.Temp
 
 class ExternalWindows : External {
 
 
-    val values: IntArray = IntArray(25) { 0 }
+    private val values: IntArray = IntArray(25) { 0 }
     override fun start() {
         try {
             System.loadLibrary("CppProxy")
@@ -23,13 +23,13 @@ class ExternalWindows : External {
         externalStop()
     }
 
-    override fun getFan(): SnapshotStateList<Fan> {
+    override fun getFan(): SnapshotStateList<FanSpeed> {
         val result = externalGetFan()
-        val fans = mutableStateListOf<Fan>()
+        val fans = mutableStateListOf<FanSpeed>()
 
         for (i in 0..(result.size - 1) / 3) {
             fans.add(
-                Fan(
+                FanSpeed(
                     index = result[i * 3].toInt(),
                     id = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2]
@@ -55,13 +55,13 @@ class ExternalWindows : External {
         return temps
     }
 
-    override fun getControl(): SnapshotStateList<Control> {
+    override fun getControl(): SnapshotStateList<FanControl> {
         val result = externalGetControl()
-        val controls = mutableStateListOf<Control>()
+        val controls = mutableStateListOf<FanControl>()
 
         for (i in 0..(result.size - 1) / 3) {
             controls.add(
-                Control(
+                FanControl(
                     index = result[i * 3].toInt(),
                     id = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2]
@@ -71,7 +71,7 @@ class ExternalWindows : External {
         return controls
     }
 
-    override fun updateFan(fans: SnapshotStateList<Fan>) {
+    override fun updateFan(fans: SnapshotStateList<FanSpeed>) {
         externalUpdateFan(fans.size)
 
         for (i in fans.indices) {
@@ -90,7 +90,7 @@ class ExternalWindows : External {
         }
     }
 
-    override fun updateControl(controls: SnapshotStateList<Control>) {
+    override fun updateControl(controls: SnapshotStateList<FanControl>) {
         externalUpdateControl(controls.size)
         for (i in controls.indices) {
             controls[i] = controls[i].copy(
@@ -100,7 +100,7 @@ class ExternalWindows : External {
     }
 
 
-    override fun setControl(id: Int, isAuto: Boolean, value: Int) {
+    override fun setControl(id: String, isAuto: Boolean, value: Int) {
         externalSetControl(id, isAuto, value)
     }
 
@@ -112,5 +112,5 @@ class ExternalWindows : External {
     private external fun externalUpdateFan(size: Int)
     private external fun externalUpdateTemp(size: Int)
     private external fun externalUpdateControl(size: Int)
-    private external fun externalSetControl(id: Int, isAuto: Boolean, value: Int)
+    private external fun externalSetControl(id: String, isAuto: Boolean, value: Int)
 }

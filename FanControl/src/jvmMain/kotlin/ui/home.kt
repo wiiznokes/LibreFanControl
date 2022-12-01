@@ -33,7 +33,7 @@ fun home(viewModel: MainViewModel) {
                         .height(20.dp)
                 )
             }
-            items(uiStates.value.fans) {
+            items(uiStates.value.fanList) {
                 Text(text = "${it.libName} = ${it.value}")
             }
         }
@@ -49,7 +49,7 @@ fun home(viewModel: MainViewModel) {
                 )
             }
 
-            items(uiStates.value.temps) {
+            items(uiStates.value.tempList) {
                 Text(text = "${it.libName} = ${it.value}")
             }
         }
@@ -65,7 +65,7 @@ fun home(viewModel: MainViewModel) {
                 )
             }
 
-            items(uiStates.value.controls) {
+            items(uiStates.value.controlList) {
                 Text(text = "${it.libName} = ${it.value}")
             }
         }

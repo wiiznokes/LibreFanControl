@@ -2,9 +2,10 @@ package hardware.external
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.Control
-import model.Fan
-import model.Temp
+import model.hardware.control.FanControl
+import model.hardware.sensor.BaseSensor
+import model.hardware.sensor.FanSpeed
+import model.hardware.sensor.Temp
 import kotlin.random.Random
 
 class ExternalLinux : External {
@@ -14,24 +15,24 @@ class ExternalLinux : External {
     override fun stop() {
     }
 
-    override fun getFan(): SnapshotStateList<Fan> {
-        val fans = mutableStateListOf<Fan>()
+    override fun getFan(): SnapshotStateList<FanSpeed> {
+        val fans = mutableStateListOf<FanSpeed>()
         fans.add(
-            Fan(
+            FanSpeed(
                 index = 0,
                 id = "fan1",
                 libName = "fan1"
             )
         )
         fans.add(
-            Fan(
+            FanSpeed(
                 index = 1,
                 id = "fan2",
                 libName = "fan2"
             )
         )
         fans.add(
-            Fan(
+            FanSpeed(
                 index = 2,
                 id = "fan3",
                 libName = "fan3"
@@ -68,24 +69,24 @@ class ExternalLinux : External {
         return temps
     }
 
-    override fun getControl(): SnapshotStateList<Control> {
-        val controls = mutableStateListOf<Control>()
+    override fun getControl(): SnapshotStateList<FanControl> {
+        val controls = mutableStateListOf<FanControl>()
         controls.add(
-            Control(
+            FanControl(
                 index = 0,
                 id = "fan1",
                 libName = "fan1"
             )
         )
         controls.add(
-            Control(
+            FanControl(
                 index = 1,
                 id = "fan2",
                 libName = "fan2"
             )
         )
         controls.add(
-            Control(
+            FanControl(
                 index = 2,
                 id = "fan3",
                 libName = "fan3"
@@ -94,13 +95,14 @@ class ExternalLinux : External {
         return controls
     }
 
-    override fun updateFan(fans: SnapshotStateList<Fan>) {
+    override fun updateFan(fans: SnapshotStateList<FanSpeed>) {
         for (i in fans.indices) {
             fans[i] = fans[i].copy(
                 value = Random.nextInt(0, 4000)
             )
         }
     }
+
 
     override fun updateTemp(temps: SnapshotStateList<Temp>) {
         for (i in temps.indices) {
@@ -110,7 +112,7 @@ class ExternalLinux : External {
         }
     }
 
-    override fun updateControl(controls: SnapshotStateList<Control>) {
+    override fun updateControl(controls: SnapshotStateList<FanControl>) {
         for (i in controls.indices) {
             controls[i] = controls[i].copy(
                 value = Random.nextInt(0, 100)
@@ -118,7 +120,7 @@ class ExternalLinux : External {
         }
     }
 
-    override fun setControl(id: Int, isAuto: Boolean, value: Int) {
+    override fun setControl(id: String, isAuto: Boolean, value: Int) {
 
     }
 }

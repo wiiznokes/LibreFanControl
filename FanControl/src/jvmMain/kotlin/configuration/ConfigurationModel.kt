@@ -1,0 +1,4 @@
+package configuration
+
+class ConfigurationModel {
+}
