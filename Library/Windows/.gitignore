@@ -1,0 +1,15 @@
+### Solution ###
+
+HardwareWrapper/x64/
+HardwareWrapper/.vs/
+HardwareWrapper/packages/
+
+### C# project: Hardware ###
+
+HardwareWrapper/LHMWrapper/obj/
+HardwareWrapper/LHMWrapper/bin/
+
+
+### CppProxy ###
+
+HardwareWrapper/CppProxy/x64/
