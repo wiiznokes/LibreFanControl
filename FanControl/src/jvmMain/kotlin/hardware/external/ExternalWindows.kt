@@ -12,7 +12,7 @@ class ExternalWindows : External {
     val values: IntArray = IntArray(25) { 0 }
     override fun start() {
         try {
-            System.loadLibrary("LHMCppProxy")
+            System.loadLibrary("CppProxy")
         } catch (e: Exception) {
             e.printStackTrace()
         }
