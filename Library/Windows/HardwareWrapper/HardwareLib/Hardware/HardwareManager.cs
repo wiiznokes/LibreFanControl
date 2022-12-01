@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using HardwareLib.Hardware.Control;
-using LHMWrapper.Hardware;
 using LHMWrapper.Hardware.Sensor;
 
 namespace HardwareLib.Hardware

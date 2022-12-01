@@ -47,6 +47,7 @@ namespace HardwareLib.Hardware.Control
             {
                 return false;
             }
+
             Value = value;
             return true;
         }
@@ -54,10 +55,10 @@ namespace HardwareLib.Hardware.Control
         public override bool SetAuto()
         {
             if (_mSensor?.Control == null) return false;
-            
+
             if (IsSetSpeed == false)
                 return true;
-            
+
             _mSensor.Control.SetDefault();
             IsSetSpeed = false;
             return true;

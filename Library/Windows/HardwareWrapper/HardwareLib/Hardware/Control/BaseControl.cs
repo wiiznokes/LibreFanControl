@@ -1,6 +1,4 @@
-﻿using LHMWrapper.Hardware;
-
-namespace HardwareLib.Hardware.Control
+﻿namespace HardwareLib.Hardware.Control
 {
     public class BaseControl : BaseDevice
     {
