@@ -1,9 +1,9 @@
 package hardware.external
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.Control
-import model.Fan
-import model.Temp
+import model.hardware.control.Control
+import model.hardware.sensor.Fan
+import model.hardware.sensor.Temp
 
 class ExternalManager(os: OS) {
 
@@ -57,7 +57,7 @@ class ExternalManager(os: OS) {
         println("updateControl : success")
     }
 
-    fun setControl(id: Int, isAuto: Boolean, value: Int) {
+    fun setControl(id: String, isAuto: Boolean, value: Int) {
         external.setControl(id, isAuto, value)
         println("setControl : success")
     }

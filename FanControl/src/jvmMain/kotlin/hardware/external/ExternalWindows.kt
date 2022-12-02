@@ -2,14 +2,16 @@ package hardware.external
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.Control
-import model.Fan
-import model.Temp
+import model.hardware.control.Control
+import model.hardware.sensor.Fan
+import model.hardware.sensor.Temp
+import ui.FlagGlobalItemType
+import ui.FlagSpecifyItemType
 
 class ExternalWindows : External {
 
 
-    val values: IntArray = IntArray(25) { 0 }
+    private val values: IntArray = IntArray(25) { 0 }
     override fun start() {
         try {
             System.loadLibrary("CppProxy")
@@ -32,7 +34,10 @@ class ExternalWindows : External {
                 Fan(
                     index = result[i * 3].toInt(),
                     id = result[(i * 3) + 1],
-                    libName = result[(i * 3) + 2]
+                    libName = result[(i * 3) + 2],
+                    globalType = FlagGlobalItemType.FAN_SENSOR,
+                    specifyType = FlagSpecifyItemType.FAN_SENSOR,
+                    name = result[(i * 3) + 2],
                 )
             )
         }
@@ -48,7 +53,10 @@ class ExternalWindows : External {
                 Temp(
                     index = result[i * 3].toInt(),
                     id = result[(i * 3) + 1],
-                    libName = result[(i * 3) + 2]
+                    libName = result[(i * 3) + 2],
+                    globalType = FlagGlobalItemType.TEMP_SENSOR,
+                    specifyType = FlagSpecifyItemType.TEMP_SENSOR,
+                    name = result[(i * 3) + 2],
                 )
             )
         }
@@ -64,7 +72,10 @@ class ExternalWindows : External {
                 Control(
                     index = result[i * 3].toInt(),
                     id = result[(i * 3) + 1],
-                    libName = result[(i * 3) + 2]
+                    libName = result[(i * 3) + 2],
+                    globalType = FlagGlobalItemType.FAN_CONTROL,
+                    specifyType = FlagSpecifyItemType.FAN_CONTROL,
+                    name = result[(i * 3) + 2],
                 )
             )
         }
@@ -100,7 +111,7 @@ class ExternalWindows : External {
     }
 
 
-    override fun setControl(id: Int, isAuto: Boolean, value: Int) {
+    override fun setControl(id: String, isAuto: Boolean, value: Int) {
         externalSetControl(id, isAuto, value)
     }
 
@@ -112,5 +123,5 @@ class ExternalWindows : External {
     private external fun externalUpdateFan(size: Int)
     private external fun externalUpdateTemp(size: Int)
     private external fun externalUpdateControl(size: Int)
-    private external fun externalSetControl(id: Int, isAuto: Boolean, value: Int)
+    private external fun externalSetControl(id: String, isAuto: Boolean, value: Int)
 }
