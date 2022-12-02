@@ -2,7 +2,7 @@ package model.hardware.sensor
 
 
 data class Temp(
-    override val index: Int,
+    override val libIndex: Int,
     override val id: String,
     override var name: String = "",
     override var libName: String = "",

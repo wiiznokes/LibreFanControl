@@ -7,4 +7,6 @@ interface BaseHardware : BaseItem {
     var minValue: Int
 
     var libName: String
+
+    val libIndex: Int
 }

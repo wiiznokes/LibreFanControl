@@ -32,7 +32,7 @@ class ExternalWindows : External {
         for (i in 0..(result.size - 1) / 3) {
             fans.add(
                 Fan(
-                    index = result[i * 3].toInt(),
+                    libIndex = result[i * 3].toInt(),
                     id = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2],
                     globalType = FlagGlobalItemType.FAN_SENSOR,
@@ -51,7 +51,7 @@ class ExternalWindows : External {
         for (i in 0..(result.size - 1) / 3) {
             temps.add(
                 Temp(
-                    index = result[i * 3].toInt(),
+                    libIndex = result[i * 3].toInt(),
                     id = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2],
                     globalType = FlagGlobalItemType.TEMP_SENSOR,
@@ -70,7 +70,7 @@ class ExternalWindows : External {
         for (i in 0..(result.size - 1) / 3) {
             controls.add(
                 Control(
-                    index = result[i * 3].toInt(),
+                    libIndex = result[i * 3].toInt(),
                     id = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2],
                     globalType = FlagGlobalItemType.FAN_CONTROL,
@@ -87,7 +87,7 @@ class ExternalWindows : External {
 
         for (i in fans.indices) {
             fans[i] = fans[i].copy(
-                value = values[fans[i].index]
+                value = values[fans[i].libIndex]
             )
         }
     }
@@ -96,7 +96,7 @@ class ExternalWindows : External {
         externalUpdateTemp(temps.size)
         for (i in temps.indices) {
             temps[i] = temps[i].copy(
-                value = values[temps[i].index]
+                value = values[temps[i].libIndex]
             )
         }
     }
@@ -105,7 +105,7 @@ class ExternalWindows : External {
         externalUpdateControl(controls.size)
         for (i in controls.indices) {
             controls[i] = controls[i].copy(
-                value = values[controls[i].index]
+                value = values[controls[i].libIndex]
             )
         }
     }

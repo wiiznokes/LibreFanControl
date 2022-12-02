@@ -32,8 +32,8 @@ fun listItemManager(
                     .height(20.dp)
             )
         }
-        when(title) {
-
+        when (title) {
+            
         }
         itemsIndexed(uiStates.value.fanList) { index, item ->
             Spacer(
