@@ -20,7 +20,7 @@ class ExternalLinux : External {
         val fans = mutableStateListOf<Fan>()
         fans.add(
             Fan(
-                index = 0,
+                libIndex = 0,
                 id = "fan1",
                 libName = "fan1",
                 globalType = FlagGlobalItemType.FAN_SENSOR,
@@ -29,7 +29,7 @@ class ExternalLinux : External {
         )
         fans.add(
             Fan(
-                index = 1,
+                libIndex = 1,
                 id = "fan2",
                 libName = "fan2",
                 globalType = FlagGlobalItemType.FAN_SENSOR,
@@ -38,7 +38,7 @@ class ExternalLinux : External {
         )
         fans.add(
             Fan(
-                index = 2,
+                libIndex = 2,
                 id = "fan3",
                 libName = "fan3",
                 globalType = FlagGlobalItemType.FAN_SENSOR,
@@ -53,7 +53,7 @@ class ExternalLinux : External {
         val temps = mutableStateListOf<Temp>()
         temps.add(
             Temp(
-                index = 0,
+                libIndex = 0,
                 id = "fan1",
                 libName = "fan1",
                 globalType = FlagGlobalItemType.TEMP_SENSOR,
@@ -62,7 +62,7 @@ class ExternalLinux : External {
         )
         temps.add(
             Temp(
-                index = 1,
+                libIndex = 1,
                 id = "fan2",
                 libName = "fan2",
                 globalType = FlagGlobalItemType.TEMP_SENSOR,
@@ -71,7 +71,7 @@ class ExternalLinux : External {
         )
         temps.add(
             Temp(
-                index = 2,
+                libIndex = 2,
                 id = "fan3",
                 libName = "fan3",
                 globalType = FlagGlobalItemType.TEMP_SENSOR,
@@ -86,7 +86,7 @@ class ExternalLinux : External {
         val controls = mutableStateListOf<Control>()
         controls.add(
             Control(
-                index = 0,
+                libIndex = 0,
                 id = "fan1",
                 libName = "fan1",
                 globalType = FlagGlobalItemType.FAN_CONTROL,
@@ -95,7 +95,7 @@ class ExternalLinux : External {
         )
         controls.add(
             Control(
-                index = 1,
+                libIndex = 1,
                 id = "fan2",
                 libName = "fan2",
                 globalType = FlagGlobalItemType.FAN_CONTROL,
@@ -104,7 +104,7 @@ class ExternalLinux : External {
         )
         controls.add(
             Control(
-                index = 2,
+                libIndex = 2,
                 id = "fan3",
                 libName = "fan3",
                 globalType = FlagGlobalItemType.FAN_CONTROL,
@@ -139,7 +139,7 @@ class ExternalLinux : External {
         }
     }
 
-    override fun setControl(id: String, isAuto: Boolean, value: Int) {
+    override fun setControl(index: Int, isAuto: Boolean, value: Int) {
 
     }
 }

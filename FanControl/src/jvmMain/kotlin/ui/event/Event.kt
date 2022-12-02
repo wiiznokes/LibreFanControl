@@ -25,7 +25,7 @@ open class Event {
             Event()
 
         open class Control {
-            data class SetValue(val id: String, val isAuto: Boolean, val value: Int) : Event()
+            data class SetValue(val index: Int, val isAuto: Boolean, val value: Int) : Event()
             data class SetBehaviorId(val index: Int, val behaviorId: String) : Event()
         }
     }

@@ -2,7 +2,7 @@ package model.hardware.sensor
 
 
 data class Fan(
-    override val index: Int,
+    override val libIndex: Int,
     override val id: String,
     override var libName: String = "",
     override var value: Int = 0,

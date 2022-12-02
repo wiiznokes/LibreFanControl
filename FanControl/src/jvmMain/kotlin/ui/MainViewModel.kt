@@ -135,7 +135,7 @@ class MainViewModel {
             }
 
             is Event.Item.Control.SetValue -> {
-                externalManager.setControl(event.id, event.isAuto, event.value)
+                //externalManager.setControl(event.index, event.isAuto, event.value)
             }
 
             is Event.Item.Control.SetBehaviorId -> {

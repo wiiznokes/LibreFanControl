@@ -55,7 +55,7 @@ fun control(control: Control, viewModel: MainViewModel, index: Int) {
                     onCheckedChange = {
                         viewModel.onEvent(
                             Event.Item.Control.SetValue(
-                                id = control.id,
+                                index = control.libIndex,
                                 isAuto = !control.isAuto,
                                 value = control.value
                             )
