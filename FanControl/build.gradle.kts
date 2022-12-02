@@ -18,7 +18,7 @@ kotlin {
     jvm {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "18"
+                jvmTarget = "17"
 
             }
         }
@@ -43,7 +43,6 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "FanControl"
             packageVersion = "1.0.0"
-            appResourcesRootDir.set(project.layout.projectDirectory.dir("resources"))
         }
 
 
