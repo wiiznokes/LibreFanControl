@@ -14,5 +14,14 @@ HardwareWrapper/HardwareLib/bin/
 
 ### CppProxy ###
 
+HardwareWrapper/CppProxy/Debug/
+HardwareWrapper/CppProxy/obj/
+HardwareWrapper/CppProxy/Release/
 HardwareWrapper/CppProxy/x64/
+
 HardwareWrapper/CppProxy/*.log
+HardwareWrapper/CppProxy/*.tlog/
+HardwareWrapper/CppProxy/*.obj
+HardwareWrapper/CppProxy/*.pdb
+HardwareWrapper/CppProxy/*.pch
+HardwareWrapper/CppProxy/*.dll.recipe
