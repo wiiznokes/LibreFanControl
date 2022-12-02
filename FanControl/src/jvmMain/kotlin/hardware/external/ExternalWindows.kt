@@ -2,9 +2,11 @@ package hardware.external
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.hardware.control.FanControl
-import model.hardware.sensor.FanSpeed
+import model.hardware.control.Control
+import model.hardware.sensor.Fan
 import model.hardware.sensor.Temp
+import ui.FlagGlobalItemType
+import ui.FlagSpecifyItemType
 
 class ExternalWindows : External {
 
@@ -23,16 +25,19 @@ class ExternalWindows : External {
         externalStop()
     }
 
-    override fun getFan(): SnapshotStateList<FanSpeed> {
+    override fun getFan(): SnapshotStateList<Fan> {
         val result = externalGetFan()
-        val fans = mutableStateListOf<FanSpeed>()
+        val fans = mutableStateListOf<Fan>()
 
         for (i in 0..(result.size - 1) / 3) {
             fans.add(
-                FanSpeed(
+                Fan(
                     index = result[i * 3].toInt(),
                     id = result[(i * 3) + 1],
-                    libName = result[(i * 3) + 2]
+                    libName = result[(i * 3) + 2],
+                    globalType = FlagGlobalItemType.FAN_SENSOR,
+                    specifyType = FlagSpecifyItemType.FAN_SENSOR,
+                    name = result[(i * 3) + 2],
                 )
             )
         }
@@ -48,30 +53,36 @@ class ExternalWindows : External {
                 Temp(
                     index = result[i * 3].toInt(),
                     id = result[(i * 3) + 1],
-                    libName = result[(i * 3) + 2]
+                    libName = result[(i * 3) + 2],
+                    globalType = FlagGlobalItemType.TEMP_SENSOR,
+                    specifyType = FlagSpecifyItemType.TEMP_SENSOR,
+                    name = result[(i * 3) + 2],
                 )
             )
         }
         return temps
     }
 
-    override fun getControl(): SnapshotStateList<FanControl> {
+    override fun getControl(): SnapshotStateList<Control> {
         val result = externalGetControl()
-        val controls = mutableStateListOf<FanControl>()
+        val controls = mutableStateListOf<Control>()
 
         for (i in 0..(result.size - 1) / 3) {
             controls.add(
-                FanControl(
+                Control(
                     index = result[i * 3].toInt(),
                     id = result[(i * 3) + 1],
-                    libName = result[(i * 3) + 2]
+                    libName = result[(i * 3) + 2],
+                    globalType = FlagGlobalItemType.FAN_CONTROL,
+                    specifyType = FlagSpecifyItemType.FAN_CONTROL,
+                    name = result[(i * 3) + 2],
                 )
             )
         }
         return controls
     }
 
-    override fun updateFan(fans: SnapshotStateList<FanSpeed>) {
+    override fun updateFan(fans: SnapshotStateList<Fan>) {
         externalUpdateFan(fans.size)
 
         for (i in fans.indices) {
@@ -90,7 +101,7 @@ class ExternalWindows : External {
         }
     }
 
-    override fun updateControl(controls: SnapshotStateList<FanControl>) {
+    override fun updateControl(controls: SnapshotStateList<Control>) {
         externalUpdateControl(controls.size)
         for (i in controls.indices) {
             controls[i] = controls[i].copy(

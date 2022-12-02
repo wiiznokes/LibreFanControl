@@ -2,8 +2,8 @@
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.example.myapplication.ui.theme.FanControlTheme
-import ui.event.Event
 import ui.MainViewModel
+import ui.event.Event
 import ui.home
 
 

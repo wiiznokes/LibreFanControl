@@ -1,48 +1,49 @@
 package ui
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.behavior.BaseBehavior
-import model.behavior.Flat
-import model.hardware.control.FanControl
-import model.hardware.sensor.FanSpeed
+import model.behavior.Behavior
+import model.hardware.control.Control
+import model.hardware.sensor.Fan
 import model.hardware.sensor.Temp
 
 data class UiStates(
-    val fanList: SnapshotStateList<FanSpeed>,
+    val fanList: SnapshotStateList<Fan>,
     val tempList: SnapshotStateList<Temp>,
-    val controlList: SnapshotStateList<FanControl>,
-    val behaviorList: SnapshotStateList<Flat>,
+    val controlList: SnapshotStateList<Control>,
+    val behaviorList: SnapshotStateList<Behavior>,
 
-    val addFanList: SnapshotStateList<FanSpeed>,
+    val addFanList: SnapshotStateList<Fan>,
     val addTempList: SnapshotStateList<Temp>,
-    val addControlList: SnapshotStateList<FanControl>,
-    val addBehaviorList: SnapshotStateList<Flat>,
+    val addControlList: SnapshotStateList<Control>,
+    val addBehaviorList: SnapshotStateList<Behavior>,
 )
 
 
+class FlagGlobalItemType {
+    companion object {
+        // behavior
+        const val FLAT_BEHAVIOR = "FLAT_BEHAVIOR"
 
+        // control
+        const val FAN_CONTROL = "FAN_CONTROL"
 
-
-data class ItemType(
-    val itemType: ITEM_TYPE,
-    val itemTypeSpecific: ITEM_TYPE_SPECIFIC
-)
-
-enum class ITEM_TYPE {
-    BEHAVIOR,
-    CONTROL,
-    SENSOR
+        // sensor
+        const val FAN_SENSOR = "FAN_SENSOR"
+        const val TEMP_SENSOR = "TEMP_SENSOR"
+    }
 }
 
+class FlagSpecifyItemType {
+    companion object {
+        // behavior
+        const val FLAT_BEHAVIOR = "FLAT_BEHAVIOR"
 
-enum class ITEM_TYPE_SPECIFIC {
-    // behavior
-    FLAT,
+        // control
+        const val FAN_CONTROL = "FAN_CONTROL"
 
-    // control
-    FAN_CONTROL,
-
-    // sensor
-    FAN_SPEED,
-    TEMP
+        // sensor
+        const val FAN_SENSOR = "FAN_SENSOR"
+        const val TEMP_SENSOR = "TEMP_SENSOR"
+    }
 }
+

@@ -1,4 +1,3 @@
 package configuration
 
-class ConfigurationModel {
-}
+class ConfigurationModel

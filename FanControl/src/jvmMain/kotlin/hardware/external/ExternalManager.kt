@@ -1,8 +1,8 @@
 package hardware.external
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.hardware.control.FanControl
-import model.hardware.sensor.FanSpeed
+import model.hardware.control.Control
+import model.hardware.sensor.Fan
 import model.hardware.sensor.Temp
 
 class ExternalManager(os: OS) {
@@ -23,7 +23,7 @@ class ExternalManager(os: OS) {
         println("stop lib : success")
     }
 
-    fun getFan(): SnapshotStateList<FanSpeed> {
+    fun getFan(): SnapshotStateList<Fan> {
         val fans = external.getFan()
         println("getFan : success")
         return fans
@@ -35,13 +35,13 @@ class ExternalManager(os: OS) {
         return temps
     }
 
-    fun getControl(): SnapshotStateList<FanControl> {
+    fun getControl(): SnapshotStateList<Control> {
         val controls = external.getControl()
         println("getControl : success")
         return controls
     }
 
-    fun updateFan(fans: SnapshotStateList<FanSpeed>) {
+    fun updateFan(fans: SnapshotStateList<Fan>) {
         external.updateFan(fans)
         println("updateFan : success")
 
@@ -52,7 +52,7 @@ class ExternalManager(os: OS) {
         println("updateTemp : success")
     }
 
-    fun updateControl(controls: SnapshotStateList<FanControl>) {
+    fun updateControl(controls: SnapshotStateList<Control>) {
         external.updateControl(controls)
         println("updateControl : success")
     }

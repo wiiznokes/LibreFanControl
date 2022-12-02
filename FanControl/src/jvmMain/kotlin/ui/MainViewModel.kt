@@ -1,7 +1,6 @@
 package ui
 
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import hardware.external.ExternalManager
 import hardware.external.getOS
 import kotlinx.coroutines.*
@@ -9,14 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import model.BaseItem
-import model.behavior.Flat
-import model.hardware.control.FanControl
-import model.hardware.sensor.FanSpeed
-import model.hardware.sensor.Temp
 import ui.event.Event
-import ui.event.Source
-import javax.print.attribute.standard.Destination
 
 class MainViewModel {
     private val externalManager = ExternalManager(getOS())
@@ -44,7 +36,6 @@ class MainViewModel {
     }
 
 
-
     fun onEvent(event: Event) {
         when (event) {
             is Event.Initialisation.FetchHardware -> {
@@ -67,83 +58,80 @@ class MainViewModel {
             }
 
             is Event.Organisation.Add -> {
-                when(event.type.itemTypeSpecific) {
-                    ITEM_TYPE_SPECIFIC.FLAT -> {
-                    changeBehaviorList(event.id, _uiState.value.addBehaviorList, _uiState.value.behaviorList)
+                when (event.globalItemType) {
+                    FlagGlobalItemType.FAN_CONTROL -> {
+                        _uiState.value.controlList.add(_uiState.value.addControlList.removeAt(event.index))
                     }
-                    ITEM_TYPE_SPECIFIC.FAN_CONTROL -> {
-                        changeControlList(event.id, _uiState.value.addControlList, _uiState.value.controlList)
+
+                    FlagGlobalItemType.FAN_SENSOR -> {
+                        _uiState.value.fanList.add(_uiState.value.addFanList.removeAt(event.index))
                     }
-                    ITEM_TYPE_SPECIFIC.FAN_SPEED -> {
-                        changeFanList(event.id, _uiState.value.addFanList, _uiState.value.fanList)
+
+                    FlagGlobalItemType.TEMP_SENSOR -> {
+                        _uiState.value.tempList.add(_uiState.value.addTempList.removeAt(event.index))
                     }
-                    ITEM_TYPE_SPECIFIC.TEMP -> {
-                        changeTempList(event.id, _uiState.value.addTempList, _uiState.value.tempList)
+
+                    FlagGlobalItemType.FLAT_BEHAVIOR -> {
+                        _uiState.value.behaviorList.add(_uiState.value.addBehaviorList.removeAt(event.index))
                     }
                 }
             }
 
             is Event.Organisation.Remove -> {
-                when(event.type.itemTypeSpecific) {
-                    ITEM_TYPE_SPECIFIC.FLAT -> {
-                        changeBehaviorList(event.id, _uiState.value.behaviorList, _uiState.value.addBehaviorList)
+                when (event.globalItemType) {
+                    FlagGlobalItemType.FAN_CONTROL -> {
+                        _uiState.value.addControlList.add(_uiState.value.controlList.removeAt(event.index))
                     }
-                    ITEM_TYPE_SPECIFIC.FAN_CONTROL -> {
-                        changeControlList(event.id, _uiState.value.controlList, _uiState.value.addControlList)
+
+                    FlagGlobalItemType.FAN_SENSOR -> {
+                        _uiState.value.addFanList.add(_uiState.value.fanList.removeAt(event.index))
                     }
-                    ITEM_TYPE_SPECIFIC.FAN_SPEED -> {
-                        changeFanList(event.id, _uiState.value.fanList, _uiState.value.addFanList)
+
+                    FlagGlobalItemType.TEMP_SENSOR -> {
+                        _uiState.value.addTempList.add(_uiState.value.tempList.removeAt(event.index))
                     }
-                    ITEM_TYPE_SPECIFIC.TEMP -> {
-                        changeTempList(event.id, _uiState.value.tempList, _uiState.value.addTempList)
+
+                    FlagGlobalItemType.FLAT_BEHAVIOR -> {
+                        _uiState.value.addBehaviorList.add(_uiState.value.behaviorList.removeAt(event.index))
                     }
                 }
             }
 
             is Event.Configuration.Save -> {
             }
+
             is Event.Configuration.Remove -> {
             }
+
             is Event.Configuration.Apply -> {
             }
 
             is Event.Item.SetName -> {
-                when(event.source) {
-                    Source.HOME_VIEW -> {
-                        when(event.type.itemTypeSpecific) {
-                            ITEM_TYPE_SPECIFIC.FLAT -> _uiState.value.behaviorList[event.index] = _uiState.value.behaviorList[event.index].copy(
-                                name = event.name
-                            )
-                            ITEM_TYPE_SPECIFIC.FAN_CONTROL -> _uiState.value.controlList[event.index] = _uiState.value.controlList[event.index].copy(
-                                name = event.name
-                            )
-                            ITEM_TYPE_SPECIFIC.FAN_SPEED -> _uiState.value.fanList[event.index] = _uiState.value.fanList[event.index].copy(
-                                name = event.name
-                            )
-
-                            ITEM_TYPE_SPECIFIC.TEMP -> _uiState.value.tempList[event.index] = _uiState.value.tempList[event.index].copy(
-                                name = event.name
-                            )
-                        }
+                when (event.globalItemType) {
+                    FlagGlobalItemType.FAN_CONTROL -> {
+                        _uiState.value.controlList[event.index] = _uiState.value.controlList[event.index].copy(
+                            name = event.name
+                        )
                     }
-                    Source.ADD_VIEW ->
-                        when(event.type.itemTypeSpecific) {
-                            ITEM_TYPE_SPECIFIC.FLAT -> _uiState.value.addBehaviorList[event.index] = _uiState.value.addBehaviorList[event.index].copy(
-                                name = event.name
-                            )
-                            ITEM_TYPE_SPECIFIC.FAN_CONTROL -> _uiState.value.addControlList[event.index] = _uiState.value.addControlList[event.index].copy(
-                                name = event.name
-                            )
-                            ITEM_TYPE_SPECIFIC.FAN_SPEED -> _uiState.value.addFanList[event.index] = _uiState.value.addFanList[event.index].copy(
-                                name = event.name
-                            )
 
-                            ITEM_TYPE_SPECIFIC.TEMP -> _uiState.value.addTempList[event.index] = _uiState.value.addTempList[event.index].copy(
-                                name = event.name
-                            )
+                    FlagGlobalItemType.FAN_SENSOR -> {
+                        _uiState.value.fanList[event.index] = _uiState.value.fanList[event.index].copy(
+                            name = event.name
+                        )
+                    }
+
+                    FlagGlobalItemType.TEMP_SENSOR -> {
+                        _uiState.value.tempList[event.index] = _uiState.value.tempList[event.index].copy(
+                            name = event.name
+                        )
+                    }
+
+                    FlagGlobalItemType.FLAT_BEHAVIOR -> {
+                        _uiState.value.behaviorList[event.index] = _uiState.value.behaviorList[event.index].copy(
+                            name = event.name
+                        )
                     }
                 }
-
             }
 
             is Event.Item.Control.SetValue -> {
@@ -159,47 +147,6 @@ class MainViewModel {
     }
 
     private var updateShouldStop = false
-
-
-    private fun changeFanList(id: String, sourceList: SnapshotStateList<FanSpeed>, destinationList: SnapshotStateList<FanSpeed>) {
-        destinationList.add(
-            sourceList.removeAt(
-                sourceList.indexOfFirst {
-                    it.id == id
-                }
-            )
-        )
-    }
-
-    private fun changeControlList(id: String, sourceList: SnapshotStateList<FanControl>, destinationList: SnapshotStateList<FanControl>) {
-        destinationList.add(
-            sourceList.removeAt(
-                sourceList.indexOfFirst {
-                    it.id == id
-                }
-            )
-        )
-    }
-
-    private fun changeTempList(id: String, sourceList: SnapshotStateList<Temp>, destinationList: SnapshotStateList<Temp>) {
-        destinationList.add(
-            sourceList.removeAt(
-                sourceList.indexOfFirst {
-                    it.id == id
-                }
-            )
-        )
-    }
-
-    private fun changeBehaviorList(id: String, sourceList: SnapshotStateList<Flat>, destinationList: SnapshotStateList<Flat>) {
-        destinationList.add(
-            sourceList.removeAt(
-                sourceList.indexOfFirst {
-                    it.id == id
-                }
-            )
-        )
-    }
 
 
     private fun startUpdate() {

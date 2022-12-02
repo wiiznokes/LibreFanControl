@@ -2,13 +2,9 @@ package model.hardware
 
 import model.BaseItem
 
-interface BaseHardware: BaseItem {
-
-
-    var name: String?
+interface BaseHardware : BaseItem {
     var maxValue: Int
     var minValue: Int
 
     var libName: String
-    var value: Int
 }
