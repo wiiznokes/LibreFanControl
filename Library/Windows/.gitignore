@@ -15,3 +15,4 @@ HardwareWrapper/HardwareLib/bin/
 ### CppProxy ###
 
 HardwareWrapper/CppProxy/x64/
+HardwareWrapper/CppProxy/*.log
