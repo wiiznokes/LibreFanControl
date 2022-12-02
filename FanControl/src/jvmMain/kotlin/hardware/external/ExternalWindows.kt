@@ -87,7 +87,7 @@ class ExternalWindows : External {
 
         for (i in fans.indices) {
             fans[i] = fans[i].copy(
-                value = values[i]
+                value = values[fans[i].index]
             )
         }
     }
@@ -96,7 +96,7 @@ class ExternalWindows : External {
         externalUpdateTemp(temps.size)
         for (i in temps.indices) {
             temps[i] = temps[i].copy(
-                value = values[i]
+                value = values[temps[i].index]
             )
         }
     }
@@ -105,14 +105,14 @@ class ExternalWindows : External {
         externalUpdateControl(controls.size)
         for (i in controls.indices) {
             controls[i] = controls[i].copy(
-                value = values[i]
+                value = values[controls[i].index]
             )
         }
     }
 
 
-    override fun setControl(id: String, isAuto: Boolean, value: Int) {
-        externalSetControl(id, isAuto, value)
+    override fun setControl(index: Int, isAuto: Boolean, value: Int) {
+        externalSetControl(index, isAuto, value)
     }
 
     private external fun externalStart(values: IntArray)
@@ -123,5 +123,5 @@ class ExternalWindows : External {
     private external fun externalUpdateFan(size: Int)
     private external fun externalUpdateTemp(size: Int)
     private external fun externalUpdateControl(size: Int)
-    private external fun externalSetControl(id: String, isAuto: Boolean, value: Int)
+    private external fun externalSetControl(index: Int, isAuto: Boolean, value: Int)
 }

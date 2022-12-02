@@ -21,5 +21,5 @@ interface External {
     fun updateTemp(temps: SnapshotStateList<Temp>)
     fun updateControl(controls: SnapshotStateList<Control>)
 
-    fun setControl(id: String, isAuto: Boolean, value: Int)
+    fun setControl(index: Int, isAuto: Boolean, value: Int)
 }
