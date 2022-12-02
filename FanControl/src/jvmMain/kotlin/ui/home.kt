@@ -12,6 +12,7 @@ import ui.component.behavior.fan
 import ui.component.control.control
 import ui.component.sensor.temp
 import ui.component.utils.managerTextHomeScreen
+import ui.screen.body
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -19,82 +20,11 @@ import ui.component.utils.managerTextHomeScreen
 fun home(viewModel: MainViewModel) {
     val uiStates = viewModel.uiState.collectAsState()
 
-    Row(
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalArrangement = Arrangement.SpaceAround
-    ) {
-        LazyColumn {
-            stickyHeader {
-                managerTextHomeScreen(
-                    text = "Fan"
-                )
-                Spacer(
-                    modifier = Modifier
-                        .height(20.dp)
-                )
-            }
-            itemsIndexed(uiStates.value.fanList) { index, item ->
-                Spacer(
-                    modifier = Modifier
-                        .height(5.dp)
-                )
-                fan(
-                    fan = item,
-                    viewModel = viewModel,
-                    index = index
-                )
-            }
-        }
 
-        LazyColumn {
-            stickyHeader {
-                managerTextHomeScreen(
-                    text = "Temp"
-                )
-                Spacer(
-                    modifier = Modifier
-                        .height(20.dp)
-                )
-            }
-
-            itemsIndexed(uiStates.value.tempList) { index, item ->
-                Spacer(
-                    modifier = Modifier
-                        .height(5.dp)
-                )
-                temp(
-                    temp = item,
-                    viewModel = viewModel,
-                    index = index
-                )
-            }
-        }
-
-        LazyColumn {
-            stickyHeader {
-                managerTextHomeScreen(
-                    text = "Control"
-                )
-                Spacer(
-                    modifier = Modifier
-                        .height(20.dp)
-                )
-            }
-
-            itemsIndexed(uiStates.value.controlList) { index, item ->
-                Spacer(
-                    modifier = Modifier
-                        .height(5.dp)
-                )
-                control(
-                    control = item,
-                    viewModel = viewModel,
-                    index = index
-                )
-            }
-        }
-    }
+    body(
+        viewModel = viewModel,
+        uiStates = uiStates
+    )
 }
 
 

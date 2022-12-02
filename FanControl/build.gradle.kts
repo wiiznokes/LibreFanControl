@@ -18,7 +18,7 @@ kotlin {
     jvm {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "18"
+                jvmTarget = "17"
 
             }
         }
@@ -44,5 +44,7 @@ compose.desktop {
             packageName = "FanControl"
             packageVersion = "1.0.0"
         }
+
+
     }
 }
