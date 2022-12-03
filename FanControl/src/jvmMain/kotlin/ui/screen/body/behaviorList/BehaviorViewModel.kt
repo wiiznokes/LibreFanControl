@@ -1,13 +1,14 @@
 package ui.screen.body.behaviorList
 
+import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import model.behavior.Behavior
 
 class BehaviorViewModel(
-    private val _behaviorList: MutableStateFlow<SnapshotStateList<Behavior>>,
-    private val _addBehaviorList: MutableStateFlow<SnapshotStateList<Behavior>>
+    private val _behaviorList: MutableStateFlow<SnapshotStateList<Behavior>> = State._behaviorList,
+    private val _addBehaviorList: MutableStateFlow<SnapshotStateList<Behavior>> = State._addBehaviorList
 ) {
     fun remove(index: Int) {
         _behaviorList.update {

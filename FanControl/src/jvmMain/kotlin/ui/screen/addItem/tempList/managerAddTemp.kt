@@ -1,4 +1,4 @@
-package ui.component.sensor
+package ui.screen.addItem.tempList
 
 
 import androidx.compose.foundation.BorderStroke
@@ -15,20 +15,11 @@ import androidx.compose.ui.unit.dp
 import model.hardware.sensor.Temp
 import ui.screen.body.tempList.TempViewModel
 import ui.screen.component.managerOutlinedTextField
-import ui.utils.ViewModelFactory
 
 @Composable
-fun temp(temp: Temp, index: Int) {
+fun addTemp(temp: Temp, index: Int) {
 
-    val viewModel: TempViewModel
-
-    if (ViewModelFactory.tempViewModel == null) {
-        ViewModelFactory.tempViewModel = TempViewModel().also {
-            viewModel = it
-        }
-    } else {
-        viewModel = ViewModelFactory.tempViewModel!!
-    }
+    val viewModel = TempViewModel()
 
 
     Surface(

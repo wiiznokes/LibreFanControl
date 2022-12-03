@@ -1,4 +1,4 @@
-package ui.screen.body.tempList.tem
+package ui.screen.addItem.tempList
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList

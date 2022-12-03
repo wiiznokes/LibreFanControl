@@ -1,4 +1,4 @@
-package ui.screen.addItem.behavior
+package ui.screen.addItem.behaviorList
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList

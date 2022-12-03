@@ -1,4 +1,4 @@
-package ui.screen.addItem.control
+package ui.screen.addItem.controlList
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList

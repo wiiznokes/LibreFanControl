@@ -20,3 +20,31 @@ class State {
         val _addBehaviorList: MutableStateFlow<SnapshotStateList<Behavior>> = MutableStateFlow(mutableStateListOf())
     }
 }
+
+class FlagGlobalItemType {
+    companion object {
+        // behavior
+        const val FLAT_BEHAVIOR = "FLAT_BEHAVIOR"
+
+        // control
+        const val FAN_CONTROL = "FAN_CONTROL"
+
+        // sensor
+        const val FAN_SENSOR = "FAN_SENSOR"
+        const val TEMP_SENSOR = "TEMP_SENSOR"
+    }
+}
+
+class FlagSpecifyItemType {
+    companion object {
+        // behavior
+        const val FLAT_BEHAVIOR = "FLAT_BEHAVIOR"
+
+        // control
+        const val FAN_CONTROL = "FAN_CONTROL"
+
+        // sensor
+        const val FAN_SENSOR = "FAN_SENSOR"
+        const val TEMP_SENSOR = "TEMP_SENSOR"
+    }
+}

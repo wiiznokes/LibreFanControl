@@ -1,13 +1,13 @@
 package hardware.external
 
+import FlagGlobalItemType
+import FlagSpecifyItemType
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import model.hardware.control.Control
 import model.hardware.sensor.Fan
 import model.hardware.sensor.Temp
-import ui.FlagGlobalItemType
-import ui.FlagSpecifyItemType
 
 class ExternalWindows : External {
 

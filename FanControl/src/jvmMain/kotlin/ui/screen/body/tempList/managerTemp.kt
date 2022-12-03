@@ -1,33 +1,24 @@
-package ui.component.control
+package ui.screen.body.tempList
+
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import model.hardware.control.Control
-import ui.screen.body.controlList.ControlViewModel
+import model.hardware.sensor.Temp
 import ui.screen.component.managerOutlinedTextField
-import ui.utils.ViewModelFactory
 
 @Composable
-fun control(control: Control, index: Int) {
+fun temp(temp: Temp, index: Int) {
 
-    val viewModel: ControlViewModel
-
-    if (ViewModelFactory.controlViewModel == null) {
-        ViewModelFactory.controlViewModel = ControlViewModel().also {
-            viewModel = it
-        }
-    } else {
-        viewModel = ViewModelFactory.controlViewModel!!
-    }
-
+    val viewModel = TempViewModel()
 
     Surface(
         modifier = Modifier
@@ -46,8 +37,9 @@ fun control(control: Control, index: Int) {
                 .padding(20.dp)
         ) {
 
+
             managerOutlinedTextField(
-                value = control.name,
+                value = temp.name,
                 label = "name",
                 onValueChange = {
 
@@ -58,27 +50,14 @@ fun control(control: Control, index: Int) {
                 }
             )
 
-            Row(
-                modifier = Modifier,
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Switch(
-                    checked = !control.isAuto,
-                    onCheckedChange = {
-                    }
-                )
-                Text(
-                    text = control.behaviorId.toString()
-                )
-            }
 
             Row {
                 Text(
-                    text = "Speed:"
+                    text = "value:"
                 )
+
                 Text(
-                    text = "${control.value}%"
+                    text = "${temp.value} °C"
                 )
             }
         }

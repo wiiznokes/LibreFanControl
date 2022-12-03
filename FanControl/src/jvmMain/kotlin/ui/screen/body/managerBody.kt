@@ -1,10 +1,11 @@
-package ui.screen.body.component
+package ui.screen.body
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
@@ -14,13 +15,50 @@ import model.behavior.Behavior
 import model.hardware.control.Control
 import model.hardware.sensor.Fan
 import model.hardware.sensor.Temp
-import ui.component.control.control
-import ui.component.sensor.temp
-import ui.screen.body.behaviorList.component.behavior
-import ui.screen.body.fanList.component.fan
+import ui.screen.body.behaviorList.behavior
+import ui.screen.body.controlList.control
+import ui.screen.body.fanList.fan
+import ui.screen.body.tempList.temp
 import ui.screen.component.managerTextHomeScreen
-import ui.utils.Resources.Companion.getString
+import ui.utils.Resources
 
+@Composable
+fun body(
+    fans: StateFlow<SnapshotStateList<Fan>>,
+    temps: StateFlow<SnapshotStateList<Temp>>,
+    controls: StateFlow<SnapshotStateList<Control>>,
+    behaviors: StateFlow<SnapshotStateList<Behavior>>,
+) {
+
+    val viewModel = BodyViewModel()
+
+
+
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                color = MaterialTheme.colorScheme.background
+            ),
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+
+        listOf(
+            Resources.getString("title_fan"),
+            Resources.getString("title_temp"),
+            Resources.getString("title_control"),
+            Resources.getString("title_behavior")
+        ).forEach {
+            managerBodyListItem(
+                title = it,
+                fans = fans,
+                temps = temps,
+                controls = controls,
+                behaviors = behaviors
+            )
+        }
+    }
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -43,7 +81,7 @@ fun managerBodyListItem(
             )
         }
         when (title) {
-            getString("title_fan") -> {
+            Resources.getString("title_fan") -> {
                 itemsIndexed(fans.value) { index, item ->
                     Spacer(
                         modifier = Modifier
@@ -56,7 +94,7 @@ fun managerBodyListItem(
                 }
             }
 
-            getString("title_temp") -> {
+            Resources.getString("title_temp") -> {
                 itemsIndexed(temps.value) { index, item ->
                     Spacer(
                         modifier = Modifier
@@ -69,7 +107,7 @@ fun managerBodyListItem(
                 }
             }
 
-            getString("title_control") -> {
+            Resources.getString("title_control") -> {
                 itemsIndexed(controls.value) { index, item ->
                     Spacer(
                         modifier = Modifier
@@ -82,7 +120,7 @@ fun managerBodyListItem(
                 }
             }
 
-            getString("title_behavior") -> {
+            Resources.getString("title_behavior") -> {
                 itemsIndexed(behaviors.value) { index, item ->
                     Spacer(
                         modifier = Modifier

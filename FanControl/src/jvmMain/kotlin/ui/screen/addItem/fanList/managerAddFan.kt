@@ -1,4 +1,4 @@
-package ui.screen.body.fanList.component
+package ui.screen.addItem.fanList
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
@@ -14,20 +14,11 @@ import androidx.compose.ui.unit.dp
 import model.hardware.sensor.Fan
 import ui.screen.body.fanList.FanViewModel
 import ui.screen.component.managerOutlinedTextField
-import ui.utils.ViewModelFactory
 
 @Composable
-fun fan(fan: Fan, index: Int) {
+fun addFan(fan: Fan, index: Int) {
 
-    val viewModel: FanViewModel
-
-    if (ViewModelFactory.fanViewModel == null) {
-        ViewModelFactory.fanViewModel = FanViewModel().also {
-            viewModel = it
-        }
-    } else {
-        viewModel = ViewModelFactory.fanViewModel!!
-    }
+    val viewModel = FanViewModel()
 
 
     Surface(

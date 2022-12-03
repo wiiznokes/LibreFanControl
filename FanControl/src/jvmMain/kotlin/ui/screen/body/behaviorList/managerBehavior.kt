@@ -1,6 +1,5 @@
-package ui.screen.body.behaviorList.component
+package ui.screen.body.behaviorList
 
-import State
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,9 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.behavior.Behavior
-import ui.screen.body.behaviorList.BehaviorViewModel
 import ui.screen.component.managerOutlinedTextField
-import ui.utils.ViewModelFactory
 
 
 @Composable
@@ -24,18 +21,7 @@ fun behavior(
     index: Int
 ) {
 
-    val viewModel: BehaviorViewModel
-
-    if (ViewModelFactory.behaviorViewModel == null) {
-        ViewModelFactory.behaviorViewModel = BehaviorViewModel(
-            _behaviorList = State._behaviorList,
-            _addBehaviorList = State._addBehaviorList,
-        ).also {
-            viewModel = it
-        }
-    } else {
-        viewModel = ViewModelFactory.behaviorViewModel!!
-    }
+    val viewModel = BehaviorViewModel()
 
     Surface(
         modifier = Modifier
