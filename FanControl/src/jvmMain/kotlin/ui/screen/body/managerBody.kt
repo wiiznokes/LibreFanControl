@@ -35,6 +35,7 @@ fun body(
 ) {
 
     val viewModel = BodyViewModel()
+
     Box {
         Row(
             modifier = Modifier
@@ -90,7 +91,7 @@ fun managerBodyListItem(
 ) {
 
     LazyColumn {
-        stickyHeader {
+        item {
             managerTextHomeScreen(
                 text = title
             )
@@ -104,7 +105,7 @@ fun managerBodyListItem(
                 itemsIndexed(fans.value) { index, item ->
                     Spacer(
                         modifier = Modifier
-                            .height(5.dp)
+                            .height(10.dp)
                     )
                     fan(
                         fan = item,

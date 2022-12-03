@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.StateFlow
 import model.hardware.sensor.Fan
 import ui.screen.component.managerOutlinedTextField
+import ui.screen.component.managerTextView
 
 @Composable
 fun fan(
@@ -55,14 +56,17 @@ fun fan(
                     }
                 )
 
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
 
                 Row {
-                    Text(
+                    managerTextView(
                         text = "value:"
                     )
-
-                    Text(
-                        text = "${fan.value} °C"
+                    managerTextView(
+                        text = "${fan.value} rpm"
                     )
                 }
             }
