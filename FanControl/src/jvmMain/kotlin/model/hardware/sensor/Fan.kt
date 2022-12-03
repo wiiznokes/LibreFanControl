@@ -9,5 +9,7 @@ data class Fan(
     override var maxValue: Int = 4000,
     override var minValue: Int = 0,
     override var name: String = "",
-    override val specifyType: String, override val globalType: String
+    override val specifyType: String,
+    override val globalType: String,
+    override var isExpanded: Boolean = false
 ) : BaseSensor

@@ -1,5 +1,6 @@
 package ui.component.control
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -10,12 +11,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.hardware.control.Control
-import ui.MainViewModel
-import ui.component.utils.managerOutlinedTextField
-import ui.event.Event
+import ui.screen.body.controlList.ControlViewModel
+import ui.screen.component.managerOutlinedTextField
+import ui.utils.ViewModelFactory
 
 @Composable
-fun control(control: Control, viewModel: MainViewModel, index: Int) {
+fun control(control: Control, index: Int) {
+
+    val viewModel: ControlViewModel
+
+    if (ViewModelFactory.controlViewModel == null) {
+        ViewModelFactory.controlViewModel = ControlViewModel().also {
+            viewModel = it
+        }
+    } else {
+        viewModel = ViewModelFactory.controlViewModel!!
+    }
 
 
     Surface(
@@ -23,7 +34,11 @@ fun control(control: Control, viewModel: MainViewModel, index: Int) {
             .wrapContentSize(),
         shape = MaterialTheme.shapes.medium,
         color = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onSurface
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        border = BorderStroke(
+            width = 2.dp,
+            color = MaterialTheme.colorScheme.onSurface
+        )
     ) {
 
         Column(
@@ -35,12 +50,10 @@ fun control(control: Control, viewModel: MainViewModel, index: Int) {
                 value = control.name,
                 label = "name",
                 onValueChange = {
-                    viewModel.onEvent(
-                        Event.Item.SetName(
-                            name = it,
-                            globalItemType = control.globalType,
-                            index = index
-                        )
+
+                    viewModel.setName(
+                        name = it,
+                        index = index
                     )
                 }
             )
@@ -53,13 +66,6 @@ fun control(control: Control, viewModel: MainViewModel, index: Int) {
                 Switch(
                     checked = !control.isAuto,
                     onCheckedChange = {
-                        viewModel.onEvent(
-                            Event.Item.Control.SetValue(
-                                index = control.libIndex,
-                                isAuto = !control.isAuto,
-                                value = control.value
-                            )
-                        )
                     }
                 )
                 Text(

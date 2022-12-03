@@ -1,6 +1,6 @@
-package ui.component.sensor
+package ui.screen.body.fanList.component
 
-
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -11,13 +11,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import model.hardware.sensor.Temp
-import ui.MainViewModel
-import ui.component.utils.managerOutlinedTextField
-import ui.event.Event
+import model.hardware.sensor.Fan
+import ui.screen.body.fanList.FanViewModel
+import ui.screen.component.managerOutlinedTextField
+import ui.utils.ViewModelFactory
 
 @Composable
-fun temp(temp: Temp, viewModel: MainViewModel, index: Int) {
+fun fan(fan: Fan, index: Int) {
+
+    val viewModel: FanViewModel
+
+    if (ViewModelFactory.fanViewModel == null) {
+        ViewModelFactory.fanViewModel = FanViewModel().also {
+            viewModel = it
+        }
+    } else {
+        viewModel = ViewModelFactory.fanViewModel!!
+    }
 
 
     Surface(
@@ -25,7 +35,11 @@ fun temp(temp: Temp, viewModel: MainViewModel, index: Int) {
             .wrapContentSize(),
         shape = MaterialTheme.shapes.medium,
         color = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onSurface
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        border = BorderStroke(
+            width = 2.dp,
+            color = MaterialTheme.colorScheme.onSurface
+        )
     ) {
 
         Column(
@@ -35,15 +49,13 @@ fun temp(temp: Temp, viewModel: MainViewModel, index: Int) {
 
 
             managerOutlinedTextField(
-                value = temp.name,
+                value = fan.name,
                 label = "name",
                 onValueChange = {
-                    viewModel.onEvent(
-                        Event.Item.SetName(
-                            name = it,
-                            globalItemType = temp.globalType,
-                            index = index
-                        )
+
+                    viewModel.setName(
+                        name = it,
+                        index = index
                     )
                 }
             )
@@ -55,13 +67,11 @@ fun temp(temp: Temp, viewModel: MainViewModel, index: Int) {
                 )
 
                 Text(
-                    text = "${temp.value} °C"
+                    text = "${fan.value} °C"
                 )
             }
         }
 
     }
 }
-
-
 

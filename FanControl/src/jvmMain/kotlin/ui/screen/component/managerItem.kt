@@ -1,4 +1,4 @@
-package ui.component.utils
+package ui.screen.component
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -27,7 +27,13 @@ fun managerOutlinedTextField(value: String, onValueChange: (it: String) -> Unit,
 fun managerTextHomeScreen(text: String) {
     Text(
         text = text,
-        color = MaterialTheme.colorScheme.onTertiary,
+        color = MaterialTheme.colorScheme.onSurface,
         fontSize = 40.sp
     )
+}
+
+
+@Composable
+fun managerBaseItem() {
+
 }

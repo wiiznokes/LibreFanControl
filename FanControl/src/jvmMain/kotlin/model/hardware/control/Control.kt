@@ -11,5 +11,7 @@ data class Control(
     override var maxValue: Int = 100,
     override var minValue: Int = 0,
     override var behaviorId: String? = null,
-    override val specifyType: String, override val globalType: String
+    override val specifyType: String,
+    override val globalType: String,
+    override var isExpanded: Boolean = false
 ) : BaseControl

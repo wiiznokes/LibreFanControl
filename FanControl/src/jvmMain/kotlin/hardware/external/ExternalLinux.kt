@@ -1,7 +1,8 @@
 package hardware.external
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import model.hardware.control.Control
 import model.hardware.sensor.Fan
 import model.hardware.sensor.Temp
@@ -10,15 +11,12 @@ import ui.FlagSpecifyItemType
 import kotlin.random.Random
 
 class ExternalLinux : External {
-    override fun start() {
-    }
 
     override fun stop() {
     }
 
-    override fun getFan(): SnapshotStateList<Fan> {
-        val fans = mutableStateListOf<Fan>()
-        fans.add(
+    override fun getFan(fans: MutableStateFlow<SnapshotStateList<Fan>>) {
+        fans.value.add(
             Fan(
                 libIndex = 0,
                 id = "fan1",
@@ -27,7 +25,7 @@ class ExternalLinux : External {
                 specifyType = FlagSpecifyItemType.FAN_SENSOR
             )
         )
-        fans.add(
+        fans.value.add(
             Fan(
                 libIndex = 1,
                 id = "fan2",
@@ -36,7 +34,7 @@ class ExternalLinux : External {
                 specifyType = FlagSpecifyItemType.FAN_SENSOR
             )
         )
-        fans.add(
+        fans.value.add(
             Fan(
                 libIndex = 2,
                 id = "fan3",
@@ -45,13 +43,10 @@ class ExternalLinux : External {
                 specifyType = FlagSpecifyItemType.FAN_SENSOR
             )
         )
-
-        return fans
     }
 
-    override fun getTemp(): SnapshotStateList<Temp> {
-        val temps = mutableStateListOf<Temp>()
-        temps.add(
+    override fun getTemp(temps: MutableStateFlow<SnapshotStateList<Temp>>) {
+        temps.value.add(
             Temp(
                 libIndex = 0,
                 id = "fan1",
@@ -60,7 +55,7 @@ class ExternalLinux : External {
                 specifyType = FlagSpecifyItemType.TEMP_SENSOR
             )
         )
-        temps.add(
+        temps.value.add(
             Temp(
                 libIndex = 1,
                 id = "fan2",
@@ -69,7 +64,7 @@ class ExternalLinux : External {
                 specifyType = FlagSpecifyItemType.TEMP_SENSOR
             )
         )
-        temps.add(
+        temps.value.add(
             Temp(
                 libIndex = 2,
                 id = "fan3",
@@ -78,13 +73,10 @@ class ExternalLinux : External {
                 specifyType = FlagSpecifyItemType.TEMP_SENSOR
             )
         )
-
-        return temps
     }
 
-    override fun getControl(): SnapshotStateList<Control> {
-        val controls = mutableStateListOf<Control>()
-        controls.add(
+    override fun getControl(controls: MutableStateFlow<SnapshotStateList<Control>>) {
+        controls.value.add(
             Control(
                 libIndex = 0,
                 id = "fan1",
@@ -93,7 +85,7 @@ class ExternalLinux : External {
                 specifyType = FlagSpecifyItemType.FAN_CONTROL
             )
         )
-        controls.add(
+        controls.value.add(
             Control(
                 libIndex = 1,
                 id = "fan2",
@@ -102,7 +94,7 @@ class ExternalLinux : External {
                 specifyType = FlagSpecifyItemType.FAN_CONTROL
             )
         )
-        controls.add(
+        controls.value.add(
             Control(
                 libIndex = 2,
                 id = "fan3",
@@ -111,31 +103,49 @@ class ExternalLinux : External {
                 specifyType = FlagSpecifyItemType.FAN_CONTROL
             )
         )
-        return controls
     }
 
-    override fun updateFan(fans: SnapshotStateList<Fan>) {
-        for (i in fans.indices) {
-            fans[i] = fans[i].copy(
-                value = Random.nextInt(0, 4000)
-            )
+    override fun updateFan(
+        fans: MutableStateFlow<SnapshotStateList<Fan>>,
+        fans2: MutableStateFlow<SnapshotStateList<Fan>>
+    ) {
+
+        for (i in fans.value.indices) {
+            fans.update {
+                fans.value[i] = fans.value[i].copy(
+                    value = Random.nextInt(0, 4000)
+                )
+                it
+            }
         }
     }
 
 
-    override fun updateTemp(temps: SnapshotStateList<Temp>) {
-        for (i in temps.indices) {
-            temps[i] = temps[i].copy(
-                value = Random.nextInt(0, 100)
-            )
+    override fun updateTemp(
+        temps: MutableStateFlow<SnapshotStateList<Temp>>,
+        temps2: MutableStateFlow<SnapshotStateList<Temp>>
+    ) {
+        for (i in temps.value.indices) {
+            temps.update {
+                temps.value[i] = temps.value[i].copy(
+                    value = Random.nextInt(0, 100)
+                )
+                it
+            }
         }
     }
 
-    override fun updateControl(controls: SnapshotStateList<Control>) {
-        for (i in controls.indices) {
-            controls[i] = controls[i].copy(
-                value = Random.nextInt(0, 100)
-            )
+    override fun updateControl(
+        controls: MutableStateFlow<SnapshotStateList<Control>>,
+        controls2: MutableStateFlow<SnapshotStateList<Control>>
+    ) {
+        for (i in controls.value.indices) {
+            controls.update {
+                controls.value[i] = controls.value[i].copy(
+                    value = Random.nextInt(0, 100)
+                )
+                it
+            }
         }
     }
 

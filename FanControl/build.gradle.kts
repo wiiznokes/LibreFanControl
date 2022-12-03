@@ -25,11 +25,18 @@ kotlin {
         withJava()
     }
     sourceSets {
+
+
         val jvmMain by getting {
+            resources.srcDirs("resources")
+
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation("org.jetbrains.compose.material3:material3-desktop:1.2.1")
+
+                implementation("org.json:json:20220924")
             }
+
         }
         val jvmTest by getting
     }

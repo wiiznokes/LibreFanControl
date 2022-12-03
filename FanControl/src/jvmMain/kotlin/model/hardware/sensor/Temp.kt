@@ -9,5 +9,7 @@ data class Temp(
     override var value: Int = 0,
     override var maxValue: Int = 100,
     override var minValue: Int = 0,
-    override val specifyType: String, override val globalType: String
+    override val specifyType: String,
+    override val globalType: String,
+    override var isExpanded: Boolean = false
 ) : BaseSensor

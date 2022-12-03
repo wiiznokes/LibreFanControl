@@ -7,4 +7,5 @@ interface BaseItem {
     val id: String
     val globalType: String
     val specifyType: String
+    var isExpanded: Boolean
 }
