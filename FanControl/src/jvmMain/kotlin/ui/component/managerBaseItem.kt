@@ -1,4 +1,4 @@
-package ui.screen.component
+package ui.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -6,23 +6,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.StateFlow
-import ui.component.managerOutlinedTextField
-import ui.component.managerTextView
-
 
 @Composable
-fun baseItem(
-    content: @Composable (ColumnScope.() -> Unit),
+private fun baseItem(
     editModeActivated: StateFlow<Boolean>,
-    onRemove: () -> Unit,
-    name: String,
-    onNameChange: (it: String) -> Unit
+    onEditChange: () -> Unit,
+    content: @Composable (ColumnScope.() -> Unit)
 ) {
-
 
     Surface(
         modifier = Modifier
@@ -41,23 +33,13 @@ fun baseItem(
                 modifier = Modifier
                     .padding(20.dp)
             ) {
-
-                managerOutlinedTextField(
-                    value = name,
-                    label = "name",
-                    onValueChange = {
-                        onNameChange(it)
-                    }
-                )
-
                 content()
 
             }
-
             if (editModeActivated.value) {
                 Button(
                     onClick = {
-                        onRemove()
+                        onEditChange()
                     },
                     modifier = Modifier
                         .align(Alignment.TopEnd)
@@ -66,40 +48,123 @@ fun baseItem(
                 }
             }
         }
+
+    }
+}
+
+@Composable
+private fun baseSensor(
+    editModeActivated: StateFlow<Boolean>,
+    onEditChange: () -> Unit,
+    value: String,
+    suffix: String,
+    content: @Composable ColumnScope.() -> Unit
+) {
+
+    baseItem(
+        editModeActivated = editModeActivated,
+        onEditChange = onEditChange,
+        content = {
+            content()
+            Spacer(
+                modifier = Modifier
+                    .height(10.dp)
+            )
+            Row {
+                Text(
+                    text = value,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = suffix,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }
+    )
+}
+
+@Composable
+fun baseSensorBody(
+    editModeActivated: StateFlow<Boolean>,
+    onEditChange: () -> Unit,
+    value: String,
+    suffix: String,
+    name: String,
+    label: String,
+    onNameChange: (String) -> Unit
+) {
+
+    baseSensor(
+        editModeActivated = editModeActivated,
+        onEditChange = onEditChange,
+        value = value,
+        suffix = suffix
+    ) {
+        OutlinedTextField(
+            modifier = Modifier,
+            value = name,
+            onValueChange = {
+                onNameChange(it)
+            },
+            textStyle = MaterialTheme.typography.bodyMedium,
+            label = { Text(label) },
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = MaterialTheme.colorScheme.onPrimary,
+                containerColor = MaterialTheme.colorScheme.primary,
+            ),
+            maxLines = 1
+        )
     }
 }
 
 
 
 @Composable
-fun managerBaseSensorBody(
+fun baseAddSensor(
     editModeActivated: StateFlow<Boolean>,
-    onRemove: () -> Unit,
-    name: String,
-    onNameChange: (it: String) -> Unit,
+    onEditChange: () -> Unit,
     value: String,
-    suffix: String
+    suffix: String,
+    name: String,
 ) {
 
-    baseItem(
+    baseSensor(
         editModeActivated = editModeActivated,
-        onRemove = onRemove,
-        name = name,
-        onNameChange = onNameChange,
-        content = {
-            Spacer(
-                modifier = Modifier
-                    .height(10.dp)
-            )
-
-            Row {
-                managerTextView(
-                    text = "value:"
-                )
-                managerTextView(
-                    text = "$value$suffix"
-                )
-            }
-        }
-    )
+        onEditChange = onEditChange,
+        value = value,
+        suffix = suffix
+    ) {
+        Text(
+            text = name,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
 }
+
+
+@Composable
+fun baseBodyBehavior(
+    editModeActivated: StateFlow<Boolean>,
+    onEditChange: () -> Unit,
+    value: String,
+    suffix: String,
+    name: String,
+) {
+
+    baseSensor(
+        editModeActivated = editModeActivated,
+        onEditChange = onEditChange,
+        value = value,
+        suffix = suffix
+    ) {
+        Text(
+            text = name,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
+
+

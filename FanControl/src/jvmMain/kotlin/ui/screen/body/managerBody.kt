@@ -13,6 +13,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.StateFlow
 import model.behavior.Behavior
 import model.hardware.control.Control
@@ -79,7 +80,6 @@ fun body(
 
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun managerBodyListItem(
     title: String,
@@ -92,8 +92,10 @@ fun managerBodyListItem(
 
     LazyColumn {
         item {
-            managerTextHomeScreen(
-                text = title
+            Text(
+                text = title,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontSize = 40.sp
             )
             Spacer(
                 modifier = Modifier
