@@ -1,4 +1,4 @@
-package ui.component.behavior
+package ui.screen.body.fanList.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
@@ -11,13 +11,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import model.behavior.Behavior
-import ui.MainViewModel
-import ui.component.utils.managerOutlinedTextField
-import ui.event.Event
+import model.hardware.sensor.Fan
+import ui.screen.body.fanList.FanViewModel
+import ui.screen.component.managerOutlinedTextField
+import ui.utils.ViewModelFactory
 
 @Composable
-fun behavior(behavior: Behavior, viewModel: MainViewModel, index: Int) {
+fun fan(fan: Fan, index: Int) {
+
+    val viewModel: FanViewModel
+
+    if (ViewModelFactory.fanViewModel == null) {
+        ViewModelFactory.fanViewModel = FanViewModel().also {
+            viewModel = it
+        }
+    } else {
+        viewModel = ViewModelFactory.fanViewModel!!
+    }
 
 
     Surface(
@@ -37,37 +47,31 @@ fun behavior(behavior: Behavior, viewModel: MainViewModel, index: Int) {
                 .padding(20.dp)
         ) {
 
-            Row {
-                managerOutlinedTextField(
-                    value = behavior.name,
-                    label = "name",
-                    onValueChange = {
-                        viewModel.onEvent(
-                            Event.Item.SetName(
-                                name = it,
-                                globalItemType = behavior.globalType,
-                                index = index
-                            )
-                        )
-                    }
-                )
-                Text(
-                    text = behavior.specifyType
-                )
-            }
+
+            managerOutlinedTextField(
+                value = fan.name,
+                label = "name",
+                onValueChange = {
+
+                    viewModel.setName(
+                        name = it,
+                        index = index
+                    )
+                }
+            )
+
 
             Row {
                 Text(
-                    text = "Speed:"
+                    text = "value:"
                 )
+
                 Text(
-                    text = "${behavior.value}%"
+                    text = "${fan.value} °C"
                 )
             }
         }
 
     }
 }
-
-
 

@@ -1,4 +1,4 @@
-package ui.screen.body
+package ui.screen.body.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Spacer
@@ -6,16 +6,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ui.MainViewModel
-import ui.UiStates
-import ui.component.behavior.behavior
+import kotlinx.coroutines.flow.StateFlow
+import model.behavior.Behavior
+import model.hardware.control.Control
+import model.hardware.sensor.Fan
+import model.hardware.sensor.Temp
 import ui.component.control.control
-import ui.component.sensor.fan
 import ui.component.sensor.temp
-import ui.component.utils.managerTextHomeScreen
+import ui.screen.body.behaviorList.component.behavior
+import ui.screen.body.fanList.component.fan
+import ui.screen.component.managerTextHomeScreen
 import ui.utils.Resources.Companion.getString
 
 
@@ -23,9 +26,12 @@ import ui.utils.Resources.Companion.getString
 @Composable
 fun managerBodyListItem(
     title: String,
-    viewModel: MainViewModel,
-    uiStates: State<UiStates>
+    fans: StateFlow<SnapshotStateList<Fan>>,
+    temps: StateFlow<SnapshotStateList<Temp>>,
+    controls: StateFlow<SnapshotStateList<Control>>,
+    behaviors: StateFlow<SnapshotStateList<Behavior>>,
 ) {
+
     LazyColumn {
         stickyHeader {
             managerTextHomeScreen(
@@ -38,56 +44,52 @@ fun managerBodyListItem(
         }
         when (title) {
             getString("title_fan") -> {
-                itemsIndexed(uiStates.value.fanList) { index, item ->
+                itemsIndexed(fans.value) { index, item ->
                     Spacer(
                         modifier = Modifier
                             .height(5.dp)
                     )
                     fan(
                         fan = item,
-                        viewModel = viewModel,
                         index = index
                     )
                 }
             }
 
             getString("title_temp") -> {
-                itemsIndexed(uiStates.value.tempList) { index, item ->
+                itemsIndexed(temps.value) { index, item ->
                     Spacer(
                         modifier = Modifier
                             .height(5.dp)
                     )
                     temp(
                         temp = item,
-                        viewModel = viewModel,
                         index = index
                     )
                 }
             }
 
             getString("title_control") -> {
-                itemsIndexed(uiStates.value.controlList) { index, item ->
+                itemsIndexed(controls.value) { index, item ->
                     Spacer(
                         modifier = Modifier
                             .height(5.dp)
                     )
                     control(
                         control = item,
-                        viewModel = viewModel,
                         index = index
                     )
                 }
             }
 
             getString("title_behavior") -> {
-                itemsIndexed(uiStates.value.behaviorList) { index, item ->
+                itemsIndexed(behaviors.value) { index, item ->
                     Spacer(
                         modifier = Modifier
                             .height(5.dp)
                     )
                     behavior(
                         behavior = item,
-                        viewModel = viewModel,
                         index = index
                     )
                 }

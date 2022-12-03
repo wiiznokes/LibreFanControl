@@ -1,5 +1,6 @@
-package ui.component.sensor
+package ui.screen.body.behaviorList.component
 
+import State
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,14 +12,30 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import model.hardware.sensor.Fan
-import ui.MainViewModel
-import ui.component.utils.managerOutlinedTextField
-import ui.event.Event
+import model.behavior.Behavior
+import ui.screen.body.behaviorList.BehaviorViewModel
+import ui.screen.component.managerOutlinedTextField
+import ui.utils.ViewModelFactory
+
 
 @Composable
-fun fan(fan: Fan, viewModel: MainViewModel, index: Int) {
+fun behavior(
+    behavior: Behavior,
+    index: Int
+) {
 
+    val viewModel: BehaviorViewModel
+
+    if (ViewModelFactory.behaviorViewModel == null) {
+        ViewModelFactory.behaviorViewModel = BehaviorViewModel(
+            _behaviorList = State._behaviorList,
+            _addBehaviorList = State._addBehaviorList,
+        ).also {
+            viewModel = it
+        }
+    } else {
+        viewModel = ViewModelFactory.behaviorViewModel!!
+    }
 
     Surface(
         modifier = Modifier
@@ -37,29 +54,28 @@ fun fan(fan: Fan, viewModel: MainViewModel, index: Int) {
                 .padding(20.dp)
         ) {
 
-
-            managerOutlinedTextField(
-                value = fan.name,
-                label = "name",
-                onValueChange = {
-                    viewModel.onEvent(
-                        Event.Item.SetName(
+            Row {
+                managerOutlinedTextField(
+                    value = behavior.name,
+                    label = "name",
+                    onValueChange = {
+                        viewModel.setName(
                             name = it,
-                            globalItemType = fan.globalType,
                             index = index
                         )
-                    )
-                }
-            )
-
+                    }
+                )
+                Text(
+                    text = behavior.specifyType
+                )
+            }
 
             Row {
                 Text(
-                    text = "value:"
+                    text = "Speed:"
                 )
-
                 Text(
-                    text = "${fan.value} RPM"
+                    text = "${behavior.value}%"
                 )
             }
         }

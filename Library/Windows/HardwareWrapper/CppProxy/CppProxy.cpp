@@ -18,6 +18,15 @@ int c_array[array_size];
 // array declared in Kotlin (c_array values are set in this array)
 jintArray values;
 
+/*
+    size tab to use SetIntArrayRegion on values
+    initialisation after discovery of hardware
+*/
+
+int size_fan_array;
+int size_temp_array;
+int size_control_array;
+
 JNIEXPORT void JNICALL
 Java_hardware_external_ExternalWindows_externalStart(JNIEnv* env, jobject o, const jintArray _values)
 {
@@ -50,7 +59,7 @@ Java_hardware_external_ExternalWindows_externalGetFan(JNIEnv* env, jobject o)
     String^ str_len_managed = fan_list[0];
     const auto str_len = msclr::interop::marshal_as<std::string>(str_len_managed);
     const int len = atoi(str_len.c_str());
-
+    size_fan_array = (len - 1) / 3;
     // len is len - 1 because the index[0] is ignored
     const jobjectArray fan_list_java = env->NewObjectArray(len - 1, env->FindClass("java/lang/String"), nullptr);
     for (int i = 1; i < len; i++)
@@ -72,7 +81,7 @@ Java_hardware_external_ExternalWindows_externalGetTemp(JNIEnv* env, jobject o)
     const auto str_len = msclr::interop::marshal_as<std::string>(str_len_managed);
 
     const int len = atoi(str_len.c_str());
-
+    size_temp_array = (len - 1) / 3;
     const jobjectArray temp_list_java = env->NewObjectArray(len - 1, env->FindClass("java/lang/String"), nullptr);
 
     for (int i = 1; i < len; i++)
@@ -95,7 +104,7 @@ Java_hardware_external_ExternalWindows_externalGetControl(JNIEnv* env, jobject o
     const auto str_len = msclr::interop::marshal_as<std::string>(str_len_managed);
 
     const int len = atoi(str_len.c_str());
-
+    size_control_array = (len - 1) / 3;
     const jobjectArray control_list_java = env->NewObjectArray(len - 1, env->FindClass("java/lang/String"), nullptr);
 
     for (int i = 1; i < len; i++)
@@ -111,25 +120,25 @@ Java_hardware_external_ExternalWindows_externalGetControl(JNIEnv* env, jobject o
 
 
 JNIEXPORT void JNICALL
-Java_hardware_external_ExternalWindows_externalUpdateFan(JNIEnv* env, jobject o, const jint size)
+Java_hardware_external_ExternalWindows_externalUpdateFan(JNIEnv* env, jobject o)
 {
     Api::UpdateFan(c_array);
-    env->SetIntArrayRegion(values, 0, size, reinterpret_cast<const jint*>(c_array));
+    env->SetIntArrayRegion(values, 0, size_fan_array, reinterpret_cast<const jint*>(c_array));
 }
 
 
 JNIEXPORT void JNICALL
-Java_hardware_external_ExternalWindows_externalUpdateTemp(JNIEnv* env, jobject o, const jint size)
+Java_hardware_external_ExternalWindows_externalUpdateTemp(JNIEnv* env, jobject o)
 {
     Api::UpdateTemp(c_array);
-    env->SetIntArrayRegion(values, 0, size, reinterpret_cast<const jint*>(c_array));
+    env->SetIntArrayRegion(values, 0, size_temp_array, reinterpret_cast<const jint*>(c_array));
 }
 
 JNIEXPORT void JNICALL
-Java_hardware_external_ExternalWindows_externalUpdateControl(JNIEnv* env, jobject o, const jint size)
+Java_hardware_external_ExternalWindows_externalUpdateControl(JNIEnv* env, jobject o)
 {
     Api::UpdateControl(c_array);
-    env->SetIntArrayRegion(values, 0, size, reinterpret_cast<const jint*>(c_array));
+    env->SetIntArrayRegion(values, 0, size_control_array, reinterpret_cast<const jint*>(c_array));
 }
 
 JNIEXPORT void JNICALL

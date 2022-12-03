@@ -13,12 +13,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.hardware.sensor.Temp
-import ui.MainViewModel
-import ui.component.utils.managerOutlinedTextField
-import ui.event.Event
+import ui.screen.body.tempList.TempViewModel
+import ui.screen.component.managerOutlinedTextField
+import ui.utils.ViewModelFactory
 
 @Composable
-fun temp(temp: Temp, viewModel: MainViewModel, index: Int) {
+fun temp(temp: Temp, index: Int) {
+
+    val viewModel: TempViewModel
+
+    if (ViewModelFactory.tempViewModel == null) {
+        ViewModelFactory.tempViewModel = TempViewModel().also {
+            viewModel = it
+        }
+    } else {
+        viewModel = ViewModelFactory.tempViewModel!!
+    }
 
 
     Surface(
@@ -43,12 +53,10 @@ fun temp(temp: Temp, viewModel: MainViewModel, index: Int) {
                 value = temp.name,
                 label = "name",
                 onValueChange = {
-                    viewModel.onEvent(
-                        Event.Item.SetName(
-                            name = it,
-                            globalItemType = temp.globalType,
-                            index = index
-                        )
+
+                    viewModel.setName(
+                        name = it,
+                        index = index
                     )
                 }
             )

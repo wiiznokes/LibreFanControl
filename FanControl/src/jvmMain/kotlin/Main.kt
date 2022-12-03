@@ -2,25 +2,27 @@
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.example.myapplication.ui.theme.FanControlTheme
-import ui.MainViewModel
-import ui.event.Event
 import ui.home
 
 
 fun main() {
-    val viewModel = MainViewModel()
 
-    application {
+    val application = Application()
+    application.onStart()
+
+    application(
+        exitProcessOnExit = true
+    ) {
         Window(
             title = "FanControl",
             onCloseRequest = {
-                viewModel.onEvent(Event.Initialisation.Stop)
+                application.onStop()
                 (::exitApplication)()
             }
 
         ) {
             FanControlTheme {
-                home(viewModel)
+                home()
             }
         }
     }

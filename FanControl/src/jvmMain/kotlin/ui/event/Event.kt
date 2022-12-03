@@ -24,7 +24,12 @@ open class Event {
         data class SetName(val name: String, val globalItemType: String, val index: Int, val source: Source? = null) :
             Event()
 
-        data class SetExpanded(val expanded: Boolean, val globalItemType: String, val index: Int, val source: Source? = null) :
+        data class SetExpanded(
+            val expanded: Boolean,
+            val globalItemType: String,
+            val index: Int,
+            val source: Source? = null
+        ) :
             Event()
 
         open class Control {

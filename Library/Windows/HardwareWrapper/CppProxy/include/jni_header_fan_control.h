@@ -26,15 +26,15 @@ Java_hardware_external_ExternalWindows_externalGetControl(JNIEnv*, jobject);
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_hardware_external_ExternalWindows_externalUpdateFan(JNIEnv*, jobject, jint);
+Java_hardware_external_ExternalWindows_externalUpdateFan(JNIEnv*, jobject);
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_hardware_external_ExternalWindows_externalUpdateTemp(JNIEnv*, jobject, jint);
+Java_hardware_external_ExternalWindows_externalUpdateTemp(JNIEnv*, jobject);
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_hardware_external_ExternalWindows_externalUpdateControl(JNIEnv*, jobject, jint);
+Java_hardware_external_ExternalWindows_externalUpdateControl(JNIEnv*, jobject);
 
 extern "C"
 JNIEXPORT void JNICALL
