@@ -1,14 +1,13 @@
-package ui
+package ui.screen
 
-import androidx.compose.material3.DrawerValue
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import ui.screen.HomeViewModel
+import androidx.compose.ui.Modifier
 import ui.screen.body.body
-import ui.screen.drawer.component.drawer
-import ui.screen.topBar.component.topBar
+import ui.screen.drawer.drawer
+import ui.screen.topBar.topBar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -17,27 +16,29 @@ fun home() {
 
     val viewModel = HomeViewModel()
 
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
-
 
     ModalNavigationDrawer(
+        modifier = Modifier,
         drawerContent = {
             drawer(
 
             )
         },
-        drawerState = drawerState,
+        drawerState = viewModel.drawerState.value,
         gesturesEnabled = true
     ) {
 
-        topBar()
+        Column {
+            topBar()
 
-        body(
-            fans = viewModel.fanList,
-            temps = viewModel.tempList,
-            controls = viewModel.controlList,
-            behaviors = viewModel.behaviorList
-        )
+            body(
+                fans = viewModel.fanList,
+                temps = viewModel.tempList,
+                controls = viewModel.controlList,
+                behaviors = viewModel.behaviorList,
+                editModeActivated = viewModel.editModeActivated
+            )
+        }
     }
 }
 

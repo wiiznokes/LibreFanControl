@@ -1,3 +1,6 @@
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +21,13 @@ class State {
         val _addTempList: MutableStateFlow<SnapshotStateList<Temp>> = MutableStateFlow(mutableStateListOf())
         val _addControlList: MutableStateFlow<SnapshotStateList<Control>> = MutableStateFlow(mutableStateListOf())
         val _addBehaviorList: MutableStateFlow<SnapshotStateList<Behavior>> = MutableStateFlow(mutableStateListOf())
+
+
+        @OptIn(ExperimentalMaterial3Api::class)
+        val _drawerState: MutableStateFlow<DrawerState> = MutableStateFlow(DrawerState(DrawerValue.Closed))
+        val _addItemExpanded: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
+        val _editModeActivated: MutableStateFlow<Boolean> = MutableStateFlow(false)
     }
 }
 

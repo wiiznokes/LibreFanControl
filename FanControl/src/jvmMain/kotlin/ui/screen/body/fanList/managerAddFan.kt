@@ -1,21 +1,25 @@
 package ui.screen.body.fanList
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.StateFlow
 import model.hardware.sensor.Fan
 import ui.screen.component.managerOutlinedTextField
 
 @Composable
-fun fan(fan: Fan, index: Int) {
+fun fan(
+    fan: Fan,
+    index: Int,
+    editModeActivated: StateFlow<Boolean>
+) {
 
     val viewModel = FanViewModel()
 
@@ -30,37 +34,50 @@ fun fan(fan: Fan, index: Int) {
             color = MaterialTheme.colorScheme.onSurface
         )
     ) {
-
-        Column(
-            modifier = Modifier
-                .padding(20.dp)
-        ) {
+        Box {
 
 
-            managerOutlinedTextField(
-                value = fan.name,
-                label = "name",
-                onValueChange = {
+            Column(
+                modifier = Modifier
+                    .padding(20.dp)
+            ) {
 
-                    viewModel.setName(
-                        name = it,
-                        index = index
+
+                managerOutlinedTextField(
+                    value = fan.name,
+                    label = "name",
+                    onValueChange = {
+
+                        viewModel.setName(
+                            name = it,
+                            index = index
+                        )
+                    }
+                )
+
+
+                Row {
+                    Text(
+                        text = "value:"
+                    )
+
+                    Text(
+                        text = "${fan.value} °C"
                     )
                 }
-            )
-
-
-            Row {
-                Text(
-                    text = "value:"
-                )
-
-                Text(
-                    text = "${fan.value} °C"
-                )
+            }
+            if(editModeActivated.value) {
+                Button(
+                    onClick = {
+                        viewModel.remove(index)
+                    },
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                ) {
+                    Text("remove")
+                }
             }
         }
-
     }
 }
 

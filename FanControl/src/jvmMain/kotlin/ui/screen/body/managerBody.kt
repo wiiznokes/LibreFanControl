@@ -5,9 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.StateFlow
@@ -28,36 +31,51 @@ fun body(
     temps: StateFlow<SnapshotStateList<Temp>>,
     controls: StateFlow<SnapshotStateList<Control>>,
     behaviors: StateFlow<SnapshotStateList<Behavior>>,
+    editModeActivated: StateFlow<Boolean>
 ) {
 
     val viewModel = BodyViewModel()
+    Box {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    color = MaterialTheme.colorScheme.background
+                ),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
 
+            listOf(
+                Resources.getString("title_fan"),
+                Resources.getString("title_temp"),
+                Resources.getString("title_control"),
+                Resources.getString("title_behavior")
+            ).forEach {
+                managerBodyListItem(
+                    title = it,
+                    fans = fans,
+                    temps = temps,
+                    controls = controls,
+                    behaviors = behaviors,
+                    editModeActivated = editModeActivated
 
+                )
+            }
+        }
 
-    Row(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                color = MaterialTheme.colorScheme.background
-            ),
-        horizontalArrangement = Arrangement.SpaceAround
-    ) {
+        Button(
+            modifier = Modifier
+                .align(Alignment.BottomEnd),
+            onClick = {
 
-        listOf(
-            Resources.getString("title_fan"),
-            Resources.getString("title_temp"),
-            Resources.getString("title_control"),
-            Resources.getString("title_behavior")
-        ).forEach {
-            managerBodyListItem(
-                title = it,
-                fans = fans,
-                temps = temps,
-                controls = controls,
-                behaviors = behaviors
+            }
+        ) {
+            Text(
+                text = "Add"
             )
         }
     }
+
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -68,6 +86,7 @@ fun managerBodyListItem(
     temps: StateFlow<SnapshotStateList<Temp>>,
     controls: StateFlow<SnapshotStateList<Control>>,
     behaviors: StateFlow<SnapshotStateList<Behavior>>,
+    editModeActivated: StateFlow<Boolean>
 ) {
 
     LazyColumn {
@@ -89,7 +108,8 @@ fun managerBodyListItem(
                     )
                     fan(
                         fan = item,
-                        index = index
+                        index = index,
+                        editModeActivated
                     )
                 }
             }
