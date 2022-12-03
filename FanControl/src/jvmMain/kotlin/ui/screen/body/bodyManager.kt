@@ -11,13 +11,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ui.MainViewModel
 import ui.UiStates
-import ui.component.behavior.fan
+import ui.component.behavior.behavior
+import ui.component.control.control
+import ui.component.sensor.fan
+import ui.component.sensor.temp
 import ui.component.utils.managerTextHomeScreen
+import ui.utils.Resources.Companion.getString
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun listItemManager(
+fun managerBodyListItem(
     title: String,
     viewModel: MainViewModel,
     uiStates: State<UiStates>
@@ -33,18 +37,62 @@ fun listItemManager(
             )
         }
         when (title) {
-            
+            getString("title_fan") -> {
+                itemsIndexed(uiStates.value.fanList) { index, item ->
+                    Spacer(
+                        modifier = Modifier
+                            .height(5.dp)
+                    )
+                    fan(
+                        fan = item,
+                        viewModel = viewModel,
+                        index = index
+                    )
+                }
+            }
+
+            getString("title_temp") -> {
+                itemsIndexed(uiStates.value.tempList) { index, item ->
+                    Spacer(
+                        modifier = Modifier
+                            .height(5.dp)
+                    )
+                    temp(
+                        temp = item,
+                        viewModel = viewModel,
+                        index = index
+                    )
+                }
+            }
+
+            getString("title_control") -> {
+                itemsIndexed(uiStates.value.controlList) { index, item ->
+                    Spacer(
+                        modifier = Modifier
+                            .height(5.dp)
+                    )
+                    control(
+                        control = item,
+                        viewModel = viewModel,
+                        index = index
+                    )
+                }
+            }
+
+            getString("title_behavior") -> {
+                itemsIndexed(uiStates.value.behaviorList) { index, item ->
+                    Spacer(
+                        modifier = Modifier
+                            .height(5.dp)
+                    )
+                    behavior(
+                        behavior = item,
+                        viewModel = viewModel,
+                        index = index
+                    )
+                }
+            }
         }
-        itemsIndexed(uiStates.value.fanList) { index, item ->
-            Spacer(
-                modifier = Modifier
-                    .height(5.dp)
-            )
-            fan(
-                fan = item,
-                viewModel = viewModel,
-                index = index
-            )
-        }
+
     }
 }

@@ -1,6 +1,7 @@
 package ui.component.sensor
 
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -25,7 +26,11 @@ fun temp(temp: Temp, viewModel: MainViewModel, index: Int) {
             .wrapContentSize(),
         shape = MaterialTheme.shapes.medium,
         color = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onSurface
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        border = BorderStroke(
+            width = 2.dp,
+            color = MaterialTheme.colorScheme.onSurface
+        )
     ) {
 
         Column(

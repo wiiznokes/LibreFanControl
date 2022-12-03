@@ -106,6 +106,34 @@ class MainViewModel {
             is Event.Configuration.Apply -> {
             }
 
+            is Event.Item.SetExpanded -> {
+                when (event.globalItemType) {
+                    FlagGlobalItemType.FAN_CONTROL -> {
+                        _uiState.value.controlList[event.index] = _uiState.value.controlList[event.index].copy(
+                            isExpanded = event.expanded
+                        )
+                    }
+
+                    FlagGlobalItemType.FAN_SENSOR -> {
+                        _uiState.value.fanList[event.index] = _uiState.value.fanList[event.index].copy(
+                            isExpanded = event.expanded
+                        )
+                    }
+
+                    FlagGlobalItemType.TEMP_SENSOR -> {
+                        _uiState.value.tempList[event.index] = _uiState.value.tempList[event.index].copy(
+                            isExpanded = event.expanded
+                        )
+                    }
+
+                    FlagGlobalItemType.FLAT_BEHAVIOR -> {
+                        _uiState.value.behaviorList[event.index] = _uiState.value.behaviorList[event.index].copy(
+                            isExpanded = event.expanded
+                        )
+                    }
+                }
+            }
+
             is Event.Item.SetName -> {
                 when (event.globalItemType) {
                     FlagGlobalItemType.FAN_CONTROL -> {

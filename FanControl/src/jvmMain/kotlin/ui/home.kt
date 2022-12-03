@@ -2,7 +2,7 @@ package ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import ui.screen.body
+import ui.screen.body.body
 
 
 @Composable

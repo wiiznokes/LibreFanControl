@@ -1,5 +1,6 @@
 package ui.component.control
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -23,7 +24,11 @@ fun control(control: Control, viewModel: MainViewModel, index: Int) {
             .wrapContentSize(),
         shape = MaterialTheme.shapes.medium,
         color = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onSurface
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        border = BorderStroke(
+            width = 2.dp,
+            color = MaterialTheme.colorScheme.onSurface
+        )
     ) {
 
         Column(
