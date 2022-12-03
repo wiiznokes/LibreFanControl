@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.behavior.Behavior
-import ui.screen.component.managerOutlinedTextField
+import ui.component.managerOutlinedTextField
 
 
 @Composable

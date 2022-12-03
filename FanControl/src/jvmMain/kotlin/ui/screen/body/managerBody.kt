@@ -18,11 +18,11 @@ import model.behavior.Behavior
 import model.hardware.control.Control
 import model.hardware.sensor.Fan
 import model.hardware.sensor.Temp
+import ui.component.managerTextHomeScreen
 import ui.screen.body.behaviorList.behavior
 import ui.screen.body.controlList.control
 import ui.screen.body.fanList.fan
 import ui.screen.body.tempList.temp
-import ui.screen.component.managerTextHomeScreen
 import ui.utils.Resources
 
 @Composable

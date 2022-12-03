@@ -13,8 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.hardware.sensor.Temp
+import ui.component.managerOutlinedTextField
 import ui.screen.body.tempList.TempViewModel
-import ui.screen.component.managerOutlinedTextField
 
 @Composable
 fun addTemp(temp: Temp, index: Int) {

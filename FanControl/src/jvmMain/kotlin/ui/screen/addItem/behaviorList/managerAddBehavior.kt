@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.behavior.Behavior
+import ui.component.managerOutlinedTextField
 import ui.screen.body.behaviorList.BehaviorViewModel
-import ui.screen.component.managerOutlinedTextField
 
 
 @Composable

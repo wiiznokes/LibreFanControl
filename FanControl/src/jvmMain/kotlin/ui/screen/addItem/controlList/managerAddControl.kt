@@ -11,8 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.hardware.control.Control
+import ui.component.managerOutlinedTextField
 import ui.screen.body.controlList.ControlViewModel
-import ui.screen.component.managerOutlinedTextField
 
 @Composable
 fun addControl(control: Control, index: Int) {

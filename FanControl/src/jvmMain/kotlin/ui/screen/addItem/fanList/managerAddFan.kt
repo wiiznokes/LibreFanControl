@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.hardware.sensor.Fan
+import ui.component.managerOutlinedTextField
 import ui.screen.body.fanList.FanViewModel
-import ui.screen.component.managerOutlinedTextField
 
 @Composable
 fun addFan(fan: Fan, index: Int) {
