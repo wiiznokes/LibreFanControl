@@ -1,18 +1,26 @@
 package ui.component
 
+import Source
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.StateFlow
+import ui.utils.Resources
 
 @Composable
 private fun baseItem(
-    editModeActivated: StateFlow<Boolean>,
-    onEditChange: () -> Unit,
+    iconPainter: Painter,
+    iconContentDescription: String,
+    name: String,
+    label: String,
+    onNameChange: ((String) -> Unit)? = null,
+    editModeActivated: StateFlow<Boolean>? = null,
+    onEditClick: () -> Unit,
+    source: Source,
     content: @Composable (ColumnScope.() -> Unit)
 ) {
 
@@ -33,137 +41,125 @@ private fun baseItem(
                 modifier = Modifier
                     .padding(20.dp)
             ) {
-                content()
+                Row {
+                    Icon(
+                        painter = iconPainter,
+                        contentDescription = iconContentDescription
+                    )
+                    when(source) {
+                        Source.ADD -> {
+                            TextField(
+                                modifier = Modifier,
+                                value = name,
+                                onValueChange = {},
+                                textStyle = MaterialTheme.typography.bodyMedium,
+                                colors = TextFieldDefaults.textFieldColors(
+                                    textColor = MaterialTheme.colorScheme.onPrimary,
+                                    containerColor = MaterialTheme.colorScheme.primary,
+                                )
+                            )
+                        }
+                        Source.BODY -> {
+                            OutlinedTextField(
+                                modifier = Modifier,
+                                value = name,
+                                onValueChange = {
+                                    onNameChange?.invoke(it)
+                                },
+                                textStyle = MaterialTheme.typography.bodyMedium,
+                                label = { Text(label) },
+                                colors = TextFieldDefaults.textFieldColors(
+                                    textColor = MaterialTheme.colorScheme.onPrimary,
+                                    containerColor = MaterialTheme.colorScheme.primary,
+                                ),
+                                maxLines = 1
+                            )
+                        }
+                    }
+                }
 
+                content()
             }
-            if (editModeActivated.value) {
-                Button(
-                    onClick = {
-                        onEditChange()
-                    },
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                ) {
-                    Text("remove")
+
+            when(source) {
+                Source.BODY -> {
+                    if(editModeActivated?.value == true) {
+                        IconButton(
+                            onClick = {
+                                onEditClick()
+                            }
+                        ) {
+                            Icon(
+                                painter = Resources.getIcon("add"),
+                                contentDescription = Resources.getString("editContentDescriptionRemove")
+                            )
+                        }
+                    }
+                }
+                Source.ADD -> {
+                    IconButton(
+                        onClick = {
+                            onEditClick()
+                        }
+                    ) {
+                        Icon(
+                            painter = Resources.getIcon("add"),
+                            contentDescription = Resources.getString("editContentDescriptionAdd")
+                        )
+                    }
                 }
             }
         }
-
     }
 }
+
 
 @Composable
 private fun baseSensor(
-    editModeActivated: StateFlow<Boolean>,
-    onEditChange: () -> Unit,
-    value: String,
-    suffix: String,
-    content: @Composable ColumnScope.() -> Unit
-) {
+    iconPainter: Painter,
+    iconContentDescription: String,
+    name: String,
+    label: String,
+    onNameChange: ((String) -> Unit)? = null,
+    editModeActivated: StateFlow<Boolean>? = null,
+    onEditClick: () -> Unit,
+    source: Source,
 
+    sensorName: String,
+    onChangeSensorClick: (() -> Unit)? = null
+) {
     baseItem(
+        iconPainter = iconPainter,
+        iconContentDescription = iconContentDescription,
+        name = name,
+        label = label,
+        onNameChange = onNameChange,
         editModeActivated = editModeActivated,
-        onEditChange = onEditChange,
-        content = {
-            content()
-            Spacer(
-                modifier = Modifier
-                    .height(10.dp)
-            )
-            Row {
-                Text(
-                    text = value,
-                    color = MaterialTheme.colorScheme.onSurface
+        onEditClick = onEditClick,
+        source = source,
+    ) {
+        Row {
+            TextField(
+                modifier = Modifier,
+                value = sensorName,
+                onValueChange = {},
+                textStyle = MaterialTheme.typography.bodyMedium,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = MaterialTheme.colorScheme.onPrimary,
+                    containerColor = MaterialTheme.colorScheme.primary,
                 )
-                Text(
-                    text = suffix,
-                    color = MaterialTheme.colorScheme.onSurface
+            )
+            IconButton(
+                onClick = {
+                    onChangeSensorClick?.invoke()
+                }
+            ) {
+                Icon(
+                    painter = Resources.getIcon("add"),
+                    contentDescription = Resources.getString("changeSensorContentDescription")
                 )
             }
         }
-    )
-}
-
-@Composable
-fun baseSensorBody(
-    editModeActivated: StateFlow<Boolean>,
-    onEditChange: () -> Unit,
-    value: String,
-    suffix: String,
-    name: String,
-    label: String,
-    onNameChange: (String) -> Unit
-) {
-
-    baseSensor(
-        editModeActivated = editModeActivated,
-        onEditChange = onEditChange,
-        value = value,
-        suffix = suffix
-    ) {
-        OutlinedTextField(
-            modifier = Modifier,
-            value = name,
-            onValueChange = {
-                onNameChange(it)
-            },
-            textStyle = MaterialTheme.typography.bodyMedium,
-            label = { Text(label) },
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = MaterialTheme.colorScheme.onPrimary,
-                containerColor = MaterialTheme.colorScheme.primary,
-            ),
-            maxLines = 1
-        )
-    }
-}
-
-
-
-@Composable
-fun baseAddSensor(
-    editModeActivated: StateFlow<Boolean>,
-    onEditChange: () -> Unit,
-    value: String,
-    suffix: String,
-    name: String,
-) {
-
-    baseSensor(
-        editModeActivated = editModeActivated,
-        onEditChange = onEditChange,
-        value = value,
-        suffix = suffix
-    ) {
-        Text(
-            text = name,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-    }
-}
-
-
-@Composable
-fun baseBodyBehavior(
-    editModeActivated: StateFlow<Boolean>,
-    onEditChange: () -> Unit,
-    value: String,
-    suffix: String,
-    name: String,
-) {
-
-    baseSensor(
-        editModeActivated = editModeActivated,
-        onEditChange = onEditChange,
-        value = value,
-        suffix = suffix
-    ) {
-        Text(
-            text = name,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface
-        )
     }
 }
 

@@ -1,5 +1,8 @@
 package ui.utils
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.useResource
 import org.json.JSONArray
 import org.json.JSONObject
@@ -36,6 +39,11 @@ class Resources {
         fun getString(id: String): String {
             return _rootJsonObject.getString(id)
         }
+
+        @Composable
+        fun getIcon(id: String): Painter = painterResource("drawable/$id-48px.xml")
+
+
 
 
         private fun experimentalGetString(path: List<Pair<JsonObjectType, String>>): String {

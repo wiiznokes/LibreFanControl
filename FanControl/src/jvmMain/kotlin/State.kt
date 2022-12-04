@@ -58,3 +58,8 @@ class FlagSpecifyItemType {
         const val TEMP_SENSOR = "TEMP_SENSOR"
     }
 }
+
+enum class Source {
+    ADD,
+    BODY
+}
