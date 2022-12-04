@@ -1,9 +1,9 @@
-import hardware.external.ExternalManager
-import hardware.external.getOS
+import external.ExternalManager
+import external.getOS
 import kotlinx.coroutines.*
 
 
-class Application() {
+class Application {
 
     private var jobUpdate: Job? = null
 

@@ -2,7 +2,7 @@
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.example.myapplication.ui.theme.FanControlTheme
-import ui.home
+import ui.screen.home
 
 
 fun main() {

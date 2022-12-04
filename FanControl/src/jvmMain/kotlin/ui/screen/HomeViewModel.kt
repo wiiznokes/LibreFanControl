@@ -1,10 +1,10 @@
 package ui.screen
 
 import State
+import androidx.compose.material3.ExperimentalMaterial3Api
 import kotlinx.coroutines.flow.asStateFlow
 
-class HomeViewModel(
-) {
+class HomeViewModel {
 
 
     val fanList = State._fanList.asStateFlow()
@@ -16,4 +16,10 @@ class HomeViewModel(
     val addTempList = State._addTempList.asStateFlow()
     val addControlList = State._addControlList.asStateFlow()
     val addBehaviorList = State._addBehaviorList.asStateFlow()
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    val drawerState = State._drawerState.asStateFlow()
+    val addItemExpanded = State._addItemExpanded.asStateFlow()
+
+    val editModeActivated = State._editModeActivated.asStateFlow()
 }
