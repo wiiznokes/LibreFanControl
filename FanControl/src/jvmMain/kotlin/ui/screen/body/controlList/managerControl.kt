@@ -1,79 +1,42 @@
 package ui.screen.body.controlList
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
+import Source
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.StateFlow
 import model.hardware.control.Control
-import ui.component.managerOutlinedTextField
+import ui.component.baseControl
+import ui.utils.Resources
 
 @Composable
-fun control(control: Control, index: Int) {
-
+fun control(control: Control,
+            index: Int,
+            editModeActivated: StateFlow<Boolean>
+) {
     val viewModel = ControlViewModel()
 
+    baseControl(
+        iconPainter = Resources.getIcon("add"),
+        iconContentDescription = "",
+        name = control.name,
+        label = "name",
+        onNameChange = { viewModel.setName(it, index) },
+        editModeActivated = editModeActivated,
+        onEditClick = { viewModel.remove(index) },
+        source = Source.BODY,
 
-    Surface(
-        modifier = Modifier
-            .wrapContentSize(),
-        shape = MaterialTheme.shapes.medium,
-        color = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onSurface,
-        border = BorderStroke(
-            width = 2.dp,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-    ) {
-
-        Column(
-            modifier = Modifier
-                .padding(20.dp)
-        ) {
-
-            managerOutlinedTextField(
-                value = control.name,
-                label = "name",
-                onValueChange = {
-
-                    viewModel.setName(
-                        name = it,
-                        index = index
-                    )
-                }
+        behaviorName = "",
+        onChangeBehaviorClick = {},
+        isActive = !control.isAuto,
+        onSwitchClick = {
+            viewModel.setControl(
+                libIndex = control.libIndex,
+                isAuto = it,
+                value = control.value
             )
-
-            Row(
-                modifier = Modifier,
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Switch(
-                    checked = !control.isAuto,
-                    onCheckedChange = {
-                    }
-                )
-                Text(
-                    text = control.behaviorId.toString()
-                )
-            }
-
-            Row {
-                Text(
-                    text = "Speed:"
-                )
-                Text(
-                    text = "${control.value}%"
-                )
-            }
-        }
-
-    }
+        },
+        value = "${control.value} %",
+        fanValue = ""
+    )
 }
 
 

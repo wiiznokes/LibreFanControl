@@ -1,72 +1,43 @@
 package ui.screen.body.behaviorList
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import Source
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.StateFlow
 import model.behavior.Behavior
-import ui.component.managerOutlinedTextField
+import ui.component.baseBehavior
+import ui.utils.Resources
 
 
 @Composable
 fun behavior(
     behavior: Behavior,
-    index: Int
+    index: Int,
+    editModeActivated: StateFlow<Boolean>
 ) {
 
     val viewModel = BehaviorViewModel()
 
-    Surface(
-        modifier = Modifier
-            .wrapContentSize(),
-        shape = MaterialTheme.shapes.medium,
-        color = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onSurface,
-        border = BorderStroke(
-            width = 2.dp,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-    ) {
+    baseBehavior(
+        iconPainter = Resources.getIcon("add"),
+        iconContentDescription = "",
+        name = behavior.name,
+        label = "name",
+        onNameChange = { viewModel.setName(it, index) },
+        editModeActivated = editModeActivated,
+        onEditClick = { viewModel.remove(index) },
+        source = Source.BODY,
 
-        Column(
-            modifier = Modifier
-                .padding(20.dp)
-        ) {
-
-            Row {
-                managerOutlinedTextField(
-                    value = behavior.name,
-                    label = "name",
-                    onValueChange = {
-                        viewModel.setName(
-                            name = it,
-                            index = index
-                        )
-                    }
-                )
-                Text(
-                    text = behavior.specifyType
-                )
-            }
-
-            Row {
-                Text(
-                    text = "Speed:"
-                )
-                Text(
-                    text = "${behavior.value}%"
-                )
-            }
+        onMoreButtonClick = {
+            viewModel.onMore(index)
+        },
+        onLessButtonClick = {
+            viewModel.onLess(index)
+        },
+        value = behavior.value,
+        onSliderValueChange = {
+            viewModel.onChange(index, it)
         }
-
-    }
+    )
 }
 
 

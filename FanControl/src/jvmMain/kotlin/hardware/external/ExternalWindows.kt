@@ -159,8 +159,8 @@ class ExternalWindows : External {
     }
 
 
-    override fun setControl(index: Int, isAuto: Boolean, value: Int) {
-        externalSetControl(index, isAuto, value)
+    override fun setControl(libIndex: Int, isAuto: Boolean, value: Int) {
+        externalSetControl(libIndex, isAuto, value)
     }
 
     private external fun externalStart(values: IntArray)
@@ -171,5 +171,5 @@ class ExternalWindows : External {
     private external fun externalUpdateFan()
     private external fun externalUpdateTemp()
     private external fun externalUpdateControl()
-    private external fun externalSetControl(index: Int, isAuto: Boolean, value: Int)
+    private external fun externalSetControl(libIndex: Int, isAuto: Boolean, value: Int)
 }

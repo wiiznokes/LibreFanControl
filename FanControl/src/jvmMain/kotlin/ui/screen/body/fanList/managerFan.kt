@@ -3,7 +3,8 @@ package ui.screen.body.fanList
 import androidx.compose.runtime.Composable
 import kotlinx.coroutines.flow.StateFlow
 import model.hardware.sensor.Fan
-import ui.screen.component.managerBaseSensorBody
+import ui.component.baseSensor
+import ui.utils.Resources
 
 @Composable
 fun fan(
@@ -13,20 +14,23 @@ fun fan(
 ) {
     val viewModel = FanViewModel()
 
-    managerBaseSensorBody(
+    baseSensor(
+        iconPainter = Resources.getIcon("add"),
+        iconContentDescription = "",
+        name = fan.name,
+        label = "name",
+        onNameChange = {
+            viewModel.setName(it, index)
+        },
         editModeActivated = editModeActivated,
-        onRemove = {
+        onEditClick = {
             viewModel.remove(index)
         },
-        name = fan.name,
-        onNameChange = {
-            viewModel.setName(
-                name = it,
-                index = index
-            )
-        },
-        value = fan.value.toString(),
-        suffix = "RMP"
+        source = Source.BODY,
+        sensorName = fan.libName,
+        onChangeSensorClick = {
+
+        }
     )
 }
 

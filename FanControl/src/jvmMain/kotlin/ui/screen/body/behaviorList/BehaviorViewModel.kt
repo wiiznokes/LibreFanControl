@@ -22,6 +22,33 @@ class BehaviorViewModel(
     }
 
 
+    fun onMore(index: Int) {
+        _behaviorList.update {
+            _behaviorList.value[index] = _behaviorList.value[index].copy(
+                value = _behaviorList.value[index].value + 1
+            )
+            it
+        }
+    }
+    fun onLess(index: Int) {
+        _behaviorList.update {
+            _behaviorList.value[index] = _behaviorList.value[index].copy(
+                value = _behaviorList.value[index].value - 1
+            )
+            it
+        }
+    }
+
+    fun onChange(index: Int, value: Int) {
+        _behaviorList.update {
+            _behaviorList.value[index] = _behaviorList.value[index].copy(
+                value = value
+            )
+            it
+        }
+    }
+
+
     fun setName(name: String, index: Int) {
 
         _behaviorList.update {

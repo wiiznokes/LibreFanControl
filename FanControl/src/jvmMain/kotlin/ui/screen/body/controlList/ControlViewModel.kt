@@ -21,6 +21,10 @@ class ControlViewModel(
         }
     }
 
+    fun setControl(libIndex: Int, isAuto: Boolean, value: Int) {
+
+    }
+
 
     fun setName(name: String, index: Int) {
 
