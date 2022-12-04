@@ -19,7 +19,7 @@ fun addControl(
         name = control.name,
         onEditClick = { viewModel.add(index) },
         source = Source.ADD,
-        behaviorName = ""
+        behaviorName = Resources.getString("undefined")
     )
 }
 

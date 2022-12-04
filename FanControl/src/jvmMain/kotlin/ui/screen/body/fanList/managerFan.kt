@@ -31,7 +31,8 @@ fun fan(
         sensorName = fan.libName,
         onChangeSensorClick = {
 
-        }
+        },
+        sensorValue = "${fan.value} RPM"
     )
 }
 

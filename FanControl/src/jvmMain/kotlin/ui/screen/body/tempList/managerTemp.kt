@@ -32,7 +32,8 @@ fun temp(
         sensorName = temp.libName,
         onChangeSensorClick = {
 
-        }
+        },
+        sensorValue = "${temp.value} °C"
     )
 }
 

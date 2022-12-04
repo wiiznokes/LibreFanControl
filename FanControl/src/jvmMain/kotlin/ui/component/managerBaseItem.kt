@@ -1,32 +1,37 @@
 package ui.component
 
 import Source
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.StateFlow
 import ui.utils.Resources
+
+
 
 @Composable
 fun baseItem(
     iconPainter: Painter,
     iconContentDescription: String,
     name: String,
+    onEditClick: () -> Unit,
+    source: Source,
     label: String? = null,
     onNameChange: ((String) -> Unit)? = null,
     editModeActivated: StateFlow<Boolean>? = null,
-    onEditClick: () -> Unit,
-    source: Source,
     content: @Composable (ColumnScope.() -> Unit)
 ) {
-
+    Box {
     Surface(
         modifier = Modifier
             .wrapContentSize(),
@@ -38,7 +43,7 @@ fun baseItem(
             color = MaterialTheme.colorScheme.onSurface
         )
     ) {
-        Box {
+
 
             Column(
                 modifier = Modifier
@@ -70,35 +75,36 @@ fun baseItem(
 
                 content()
             }
-
-            when (source) {
-                Source.BODY -> {
-                    if (editModeActivated?.value == true) {
-                        IconButton(
-                            onClick = {
-                                onEditClick()
-                            }
-                        ) {
-                            Icon(
-                                painter = Resources.getIcon("add"),
-                                contentDescription = Resources.getString("editContentDescriptionRemove")
-                            )
-                        }
+        }
+    }
+    when (source) {
+        Source.BODY -> {
+            if (editModeActivated?.value == true) {
+                IconButton(
+                    onClick = {
+                        onEditClick()
                     }
+                ) {
+                    Icon(
+                        painter = Resources.getIcon("cancel"),
+                        contentDescription = Resources.getString("editContentDescriptionRemove"),
+                        tint = Color.Red
+                    )
                 }
+            }
+        }
 
-                Source.ADD -> {
-                    IconButton(
-                        onClick = {
-                            onEditClick()
-                        }
-                    ) {
-                        Icon(
-                            painter = Resources.getIcon("add"),
-                            contentDescription = Resources.getString("editContentDescriptionAdd")
-                        )
-                    }
+        Source.ADD -> {
+            IconButton(
+                onClick = {
+                    onEditClick()
                 }
+            ) {
+                Icon(
+                    painter = Resources.getIcon("add_circle"),
+                    contentDescription = Resources.getString("editContentDescriptionAdd"),
+                    tint = Color.Green
+                )
             }
         }
     }

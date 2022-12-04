@@ -17,6 +17,7 @@ fun baseSensor(
     editModeActivated: StateFlow<Boolean>? = null,
 
     sensorName: String,
+    sensorValue: String,
     onChangeSensorClick: (() -> Unit)? = null
 ) {
     baseItem(
@@ -30,9 +31,13 @@ fun baseSensor(
         source = source,
     ) {
 
+
         managerListChoice(
             sensorName = sensorName,
             onChangeSensorClick = onChangeSensorClick
+        )
+        managerTextField(
+            value = sensorValue
         )
     }
 }

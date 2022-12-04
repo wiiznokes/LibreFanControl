@@ -1,6 +1,9 @@
 package ui.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,15 +14,12 @@ import ui.utils.Resources
 fun managerTextField(
     value: String
 ) {
-    TextField(
+    Text(
         modifier = Modifier,
-        value = value,
-        onValueChange = {},
-        textStyle = MaterialTheme.typography.bodyMedium,
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = MaterialTheme.colorScheme.onPrimary,
-            containerColor = MaterialTheme.colorScheme.primary,
-        )
+        text = value,
+        color = androidx.compose.material.MaterialTheme.colors.onPrimary,
+        maxLines = 1,
+        style = MaterialTheme.typography.bodyMedium
     )
 }
 
@@ -31,7 +31,10 @@ fun managerOutlinedTextField(
     label: String?,
 ) {
     OutlinedTextField(
-        modifier = Modifier,
+        modifier = Modifier
+            .wrapContentSize(
+                unbounded = true
+            ),
         value = value,
         onValueChange = {
             onValueChange?.invoke(it)
@@ -42,7 +45,7 @@ fun managerOutlinedTextField(
             textColor = MaterialTheme.colorScheme.onPrimary,
             containerColor = MaterialTheme.colorScheme.primary,
         ),
-        maxLines = 1
+        singleLine = true
     )
 }
 
@@ -52,16 +55,13 @@ fun managerListChoice(
     sensorName: String,
     onChangeSensorClick: (() -> Unit)? = null
 ) {
-    Row {
-        TextField(
-            modifier = Modifier,
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        managerTextField(
             value = sensorName,
-            onValueChange = {},
-            textStyle = MaterialTheme.typography.bodyMedium,
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = MaterialTheme.colorScheme.onPrimary,
-                containerColor = MaterialTheme.colorScheme.primary,
-            )
         )
         IconButton(
             onClick = {
@@ -69,7 +69,7 @@ fun managerListChoice(
             }
         ) {
             Icon(
-                painter = Resources.getIcon("add"),
+                painter = Resources.getIcon("expand_more"),
                 contentDescription = Resources.getString("changeSensorContentDescription")
             )
         }

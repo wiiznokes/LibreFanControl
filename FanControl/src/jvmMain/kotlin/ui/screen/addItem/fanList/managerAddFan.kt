@@ -17,11 +17,12 @@ fun addFan(
     baseSensor(
         iconPainter = Resources.getIcon("toys_fan"),
         iconContentDescription = "",
-        name = fan.name,
+        name = "fan name",
         onEditClick = {
             viewModel.add(index)
         },
         source = Source.ADD,
-        sensorName = fan.libName
+        sensorName = "fan name example",
+        sensorValue = "2000 RPM"
     )
 }

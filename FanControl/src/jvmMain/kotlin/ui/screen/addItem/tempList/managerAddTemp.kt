@@ -24,7 +24,8 @@ fun addTemp(
             viewModel.add(index)
         },
         source = Source.ADD,
-        sensorName = temp.libName
+        sensorName = temp.libName,
+        sensorValue = "40°C"
     )
 }
 
