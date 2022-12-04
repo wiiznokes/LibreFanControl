@@ -31,7 +31,7 @@ class JsonHelper {
 
         private fun experimentalGetString(path: List<Pair<JsonObjectType, String>>): String {
 
-            var tempJSONObject: JSONObject = JsonHelper._rootJsonObject
+            var tempJSONObject: JSONObject = _rootJsonObject
             var tempJsonArray: JSONArray? = null
 
             var lastUseObjectType: JsonObjectType = JsonObjectType.OBJECT

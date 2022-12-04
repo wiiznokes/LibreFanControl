@@ -1,12 +1,12 @@
 package ui.component
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import ui.utils.Resources
 
 
@@ -32,9 +32,7 @@ fun managerOutlinedTextField(
 ) {
     OutlinedTextField(
         modifier = Modifier
-            .wrapContentSize(
-                unbounded = true
-            ),
+            .widthIn(1.dp, Dp.Infinity),
         value = value,
         onValueChange = {
             onValueChange?.invoke(it)
@@ -56,8 +54,7 @@ fun managerListChoice(
     onChangeSensorClick: (() -> Unit)? = null
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         managerTextField(
