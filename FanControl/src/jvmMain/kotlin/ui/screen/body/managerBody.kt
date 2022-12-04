@@ -1,6 +1,5 @@
 package ui.screen.body
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,7 +18,6 @@ import model.behavior.Behavior
 import model.hardware.control.Control
 import model.hardware.sensor.Fan
 import model.hardware.sensor.Temp
-import ui.component.managerTextHomeScreen
 import ui.screen.body.behaviorList.behavior
 import ui.screen.body.controlList.control
 import ui.screen.body.fanList.fan

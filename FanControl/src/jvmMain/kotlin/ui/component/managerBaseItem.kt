@@ -3,7 +3,10 @@ package ui.component
 import Source
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -12,7 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import ui.utils.Resources
 
 @Composable
-private fun baseItem(
+fun baseItem(
     iconPainter: Painter,
     iconContentDescription: String,
     name: String,
@@ -46,33 +49,20 @@ private fun baseItem(
                         painter = iconPainter,
                         contentDescription = iconContentDescription
                     )
-                    when(source) {
+                    when (source) {
                         Source.ADD -> {
-                            TextField(
-                                modifier = Modifier,
-                                value = name,
-                                onValueChange = {},
-                                textStyle = MaterialTheme.typography.bodyMedium,
-                                colors = TextFieldDefaults.textFieldColors(
-                                    textColor = MaterialTheme.colorScheme.onPrimary,
-                                    containerColor = MaterialTheme.colorScheme.primary,
-                                )
+                            managerTextField(
+                                value = name
                             )
                         }
+
                         Source.BODY -> {
-                            OutlinedTextField(
-                                modifier = Modifier,
+                            managerOutlinedTextField(
                                 value = name,
                                 onValueChange = {
                                     onNameChange?.invoke(it)
                                 },
-                                textStyle = MaterialTheme.typography.bodyMedium,
-                                label = { Text(label) },
-                                colors = TextFieldDefaults.textFieldColors(
-                                    textColor = MaterialTheme.colorScheme.onPrimary,
-                                    containerColor = MaterialTheme.colorScheme.primary,
-                                ),
-                                maxLines = 1
+                                label = label,
                             )
                         }
                     }
@@ -81,9 +71,9 @@ private fun baseItem(
                 content()
             }
 
-            when(source) {
+            when (source) {
                 Source.BODY -> {
-                    if(editModeActivated?.value == true) {
+                    if (editModeActivated?.value == true) {
                         IconButton(
                             onClick = {
                                 onEditClick()
@@ -96,6 +86,7 @@ private fun baseItem(
                         }
                     }
                 }
+
                 Source.ADD -> {
                     IconButton(
                         onClick = {
@@ -114,53 +105,6 @@ private fun baseItem(
 }
 
 
-@Composable
-private fun baseSensor(
-    iconPainter: Painter,
-    iconContentDescription: String,
-    name: String,
-    label: String,
-    onNameChange: ((String) -> Unit)? = null,
-    editModeActivated: StateFlow<Boolean>? = null,
-    onEditClick: () -> Unit,
-    source: Source,
 
-    sensorName: String,
-    onChangeSensorClick: (() -> Unit)? = null
-) {
-    baseItem(
-        iconPainter = iconPainter,
-        iconContentDescription = iconContentDescription,
-        name = name,
-        label = label,
-        onNameChange = onNameChange,
-        editModeActivated = editModeActivated,
-        onEditClick = onEditClick,
-        source = source,
-    ) {
-        Row {
-            TextField(
-                modifier = Modifier,
-                value = sensorName,
-                onValueChange = {},
-                textStyle = MaterialTheme.typography.bodyMedium,
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = MaterialTheme.colorScheme.onPrimary,
-                    containerColor = MaterialTheme.colorScheme.primary,
-                )
-            )
-            IconButton(
-                onClick = {
-                    onChangeSensorClick?.invoke()
-                }
-            ) {
-                Icon(
-                    painter = Resources.getIcon("add"),
-                    contentDescription = Resources.getString("changeSensorContentDescription")
-                )
-            }
-        }
-    }
-}
 
 

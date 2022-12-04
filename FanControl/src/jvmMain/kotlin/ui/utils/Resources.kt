@@ -44,8 +44,6 @@ class Resources {
         fun getIcon(id: String): Painter = painterResource("drawable/$id-48px.xml")
 
 
-
-
         private fun experimentalGetString(path: List<Pair<JsonObjectType, String>>): String {
 
             var tempJSONObject: JSONObject = _rootJsonObject
