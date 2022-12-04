@@ -8,9 +8,10 @@ import ui.component.baseControl
 import ui.utils.Resources
 
 @Composable
-fun control(control: Control,
-            index: Int,
-            editModeActivated: StateFlow<Boolean>
+fun control(
+    control: Control,
+    index: Int,
+    editModeActivated: StateFlow<Boolean>
 ) {
     val viewModel = ControlViewModel()
 

@@ -10,14 +10,14 @@ import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun baseControl(
+    onEditClick: () -> Unit,
+    source: Source,
     iconPainter: Painter,
     iconContentDescription: String,
     name: String,
-    label: String,
+    label: String? = null,
     onNameChange: ((String) -> Unit)? = null,
     editModeActivated: StateFlow<Boolean>? = null,
-    onEditClick: () -> Unit,
-    source: Source,
 
     behaviorName: String,
     onChangeBehaviorClick: (() -> Unit)? = null,

@@ -19,7 +19,7 @@ fun baseItem(
     iconPainter: Painter,
     iconContentDescription: String,
     name: String,
-    label: String,
+    label: String? = null,
     onNameChange: ((String) -> Unit)? = null,
     editModeActivated: StateFlow<Boolean>? = null,
     onEditClick: () -> Unit,

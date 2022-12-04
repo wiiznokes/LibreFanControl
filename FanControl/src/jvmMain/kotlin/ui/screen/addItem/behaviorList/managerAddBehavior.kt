@@ -1,7 +1,10 @@
-package ui.screen.addItem.behaviorList.component
+package ui.screen.addItem.behaviorList
 
+import Source
 import androidx.compose.runtime.Composable
 import model.behavior.Behavior
+import ui.component.baseBehavior
+import ui.utils.Resources
 
 
 @Composable
@@ -10,7 +13,15 @@ fun addBehavior(
     index: Int
 ) {
 
+    val viewModel = AddBehaviorViewModel()
 
+    baseBehavior(
+        iconPainter = Resources.getIcon("add"),
+        iconContentDescription = "",
+        name = behavior.name,
+        onEditClick = { viewModel.add(index) },
+        source = Source.ADD,
+    )
 }
 
 

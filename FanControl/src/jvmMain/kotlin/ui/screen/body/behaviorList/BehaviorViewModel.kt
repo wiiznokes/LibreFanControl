@@ -30,6 +30,7 @@ class BehaviorViewModel(
             it
         }
     }
+
     fun onLess(index: Int) {
         _behaviorList.update {
             _behaviorList.value[index] = _behaviorList.value[index].copy(
