@@ -1,5 +1,6 @@
 package ui.screen.body.fanList
 
+import Source
 import androidx.compose.runtime.Composable
 import kotlinx.coroutines.flow.StateFlow
 import model.hardware.sensor.Fan

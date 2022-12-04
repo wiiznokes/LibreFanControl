@@ -16,15 +16,16 @@ fun baseBehavior(
     iconPainter: Painter,
     iconContentDescription: String,
     name: String,
-    label: String,
-    onNameChange: ((String) -> Unit)? = null,
-    editModeActivated: StateFlow<Boolean>? = null,
     onEditClick: () -> Unit,
     source: Source,
+    label: String? = null,
+    onNameChange: ((String) -> Unit)? = null,
+    editModeActivated: StateFlow<Boolean>? = null,
 
+
+    value: Int = 50,
     onMoreButtonClick: (() -> Unit)? = null,
     onLessButtonClick: (() -> Unit)? = null,
-    value: Int = 50,
     onSliderValueChange: ((Int) -> Unit)? = null
 ) {
     baseItem(

@@ -3,7 +3,7 @@ import hardware.external.getOS
 import kotlinx.coroutines.*
 
 
-class Application() {
+class Application {
 
     private var jobUpdate: Job? = null
 
