@@ -47,7 +47,7 @@ fun baseItem(
                 Row {
                     Icon(
                         painter = iconPainter,
-                        contentDescription = iconContentDescription
+                        contentDescription = iconContentDescription 
                     )
                     when (source) {
                         Source.ADD -> {
