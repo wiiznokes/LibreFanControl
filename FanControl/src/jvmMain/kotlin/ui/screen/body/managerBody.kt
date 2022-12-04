@@ -123,7 +123,8 @@ fun managerBodyListItem(
                     )
                     temp(
                         temp = item,
-                        index = index
+                        index = index,
+                        editModeActivated = editModeActivated
                     )
                 }
             }
@@ -136,7 +137,8 @@ fun managerBodyListItem(
                     )
                     control(
                         control = item,
-                        index = index
+                        index = index,
+                        editModeActivated = editModeActivated
                     )
                 }
             }
@@ -149,7 +151,8 @@ fun managerBodyListItem(
                     )
                     behavior(
                         behavior = item,
-                        index = index
+                        index = index,
+                        editModeActivated = editModeActivated
                     )
                 }
             }
