@@ -1,4 +1,4 @@
-package hardware.external
+package external
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow

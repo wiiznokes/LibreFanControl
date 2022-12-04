@@ -1,4 +1,4 @@
-package hardware.external
+package external
 
 import java.util.*
 
