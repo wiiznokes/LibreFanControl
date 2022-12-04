@@ -16,7 +16,7 @@ fun fan(
     val viewModel = FanViewModel()
 
     baseSensor(
-        iconPainter = Resources.getIcon("add"),
+        imageVector = Resources.getIcon("add"),
         iconContentDescription = "",
         name = fan.name,
         label = "name",

@@ -17,7 +17,7 @@ fun addTemp(
 
 
     baseSensor(
-        iconPainter = Resources.getIcon("add"),
+        imageVector = Resources.getIcon("add"),
         iconContentDescription = "",
         name = temp.name,
         onEditClick = {

@@ -16,7 +16,7 @@ fun addBehavior(
     val viewModel = AddBehaviorViewModel()
 
     baseBehavior(
-        iconPainter = Resources.getIcon("add"),
+        imageVector = Resources.getIcon("add"),
         iconContentDescription = "",
         name = behavior.name,
         onEditClick = { viewModel.add(index) },

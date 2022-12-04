@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.coroutines.flow.StateFlow
 
 
@@ -12,7 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 fun baseControl(
     onEditClick: () -> Unit,
     source: Source,
-    iconPainter: Painter,
+    imageVector: ImageVector,
     iconContentDescription: String,
     name: String,
     label: String? = null,
@@ -27,7 +28,7 @@ fun baseControl(
     fanValue: String = "2000 RPM"
 ) {
     baseItem(
-        iconPainter = iconPainter,
+        imageVector = imageVector,
         iconContentDescription = iconContentDescription,
         name = name,
         label = label,

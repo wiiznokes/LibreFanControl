@@ -14,7 +14,7 @@ fun addControl(
     val viewModel = AddControlViewModel()
 
     baseControl(
-        iconPainter = Resources.getIcon("add"),
+        imageVector = Resources.getIcon("add"),
         iconContentDescription = "",
         name = control.name,
         onEditClick = { viewModel.add(index) },

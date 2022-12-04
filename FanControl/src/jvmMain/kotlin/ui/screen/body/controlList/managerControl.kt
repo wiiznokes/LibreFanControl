@@ -16,7 +16,7 @@ fun control(
     val viewModel = ControlViewModel()
 
     baseControl(
-        iconPainter = Resources.getIcon("add"),
+        imageVector = Resources.getIcon("add"),
         iconContentDescription = "",
         name = control.name,
         label = "name",

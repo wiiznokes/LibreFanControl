@@ -9,14 +9,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.StateFlow
 import ui.utils.Resources
 
 @Composable
 fun baseItem(
-    iconPainter: Painter,
+    imageVector: ImageVector,
     iconContentDescription: String,
     name: String,
     label: String? = null,
@@ -46,8 +48,9 @@ fun baseItem(
             ) {
                 Row {
                     Icon(
-                        painter = iconPainter,
-                        contentDescription = iconContentDescription
+                        imageVector = imageVector,
+                        contentDescription = iconContentDescription,
+                        tint = Color.Green
                     )
                     when (source) {
                         Source.ADD -> {
@@ -80,7 +83,7 @@ fun baseItem(
                             }
                         ) {
                             Icon(
-                                painter = Resources.getIcon("add"),
+                                imageVector = Resources.getIcon("add"),
                                 contentDescription = Resources.getString("editContentDescriptionRemove")
                             )
                         }
@@ -94,7 +97,7 @@ fun baseItem(
                         }
                     ) {
                         Icon(
-                            painter = Resources.getIcon("add"),
+                            imageVector = Resources.getIcon("add"),
                             contentDescription = Resources.getString("editContentDescriptionAdd")
                         )
                     }

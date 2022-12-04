@@ -30,6 +30,7 @@ kotlin {
         val jvmMain by getting {
             resources.srcDirs("resources")
 
+
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation("org.jetbrains.compose.material3:material3-desktop:1.2.1")

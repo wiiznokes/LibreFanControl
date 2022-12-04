@@ -1,12 +1,14 @@
 package ui.utils
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.loadXmlImageVector
 import androidx.compose.ui.res.useResource
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
+import org.xml.sax.InputSource
 
 
 enum class JsonObjectType {
@@ -41,7 +43,11 @@ class Resources {
         }
 
         @Composable
-        fun getIcon(id: String): Painter = painterResource("drawable/$id-48px.xml")
+        fun getIcon(id: String): ImageVector {
+            useResource("drawable/$id-48px.xml") {
+                return loadXmlImageVector(InputSource(it), LocalDensity.current)
+            }
+        }
 
 
         private fun experimentalGetString(path: List<Pair<JsonObjectType, String>>): String {

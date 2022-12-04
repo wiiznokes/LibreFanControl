@@ -69,7 +69,7 @@ fun managerListChoice(
             }
         ) {
             Icon(
-                painter = Resources.getIcon("add"),
+                imageVector = Resources.getIcon("add"),
                 contentDescription = Resources.getString("changeSensorContentDescription")
             )
         }

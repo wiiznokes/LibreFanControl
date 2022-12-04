@@ -7,13 +7,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.coroutines.flow.StateFlow
 import ui.utils.Resources
 
 
 @Composable
 fun baseBehavior(
-    iconPainter: Painter,
+    imageVector: ImageVector,
     iconContentDescription: String,
     name: String,
     onEditClick: () -> Unit,
@@ -29,7 +30,7 @@ fun baseBehavior(
     onSliderValueChange: ((Int) -> Unit)? = null
 ) {
     baseItem(
-        iconPainter = iconPainter,
+        imageVector = imageVector,
         iconContentDescription = iconContentDescription,
         name = name,
         label = label,
@@ -47,7 +48,7 @@ fun baseBehavior(
                 }
             ) {
                 Icon(
-                    painter = Resources.getIcon("add"),
+                    imageVector = Resources.getIcon("add"),
                     contentDescription = Resources.getString("editContentDescriptionAdd")
                 )
             }
@@ -57,7 +58,7 @@ fun baseBehavior(
                 }
             ) {
                 Icon(
-                    painter = Resources.getIcon("add"),
+                    imageVector = Resources.getIcon("add"),
                     contentDescription = Resources.getString("editContentDescriptionRemove")
                 )
             }
