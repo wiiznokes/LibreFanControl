@@ -17,7 +17,7 @@ fun temp(
     val viewModel = TempViewModel()
 
     baseSensor(
-        iconPainter = Resources.getIcon("add"),
+        iconPainter = Resources.getIcon("thermometer"),
         iconContentDescription = "",
         name = temp.name,
         label = "name",

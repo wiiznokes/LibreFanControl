@@ -15,7 +15,7 @@ fun addFan(
     val viewModel = AddFanViewModel()
 
     baseSensor(
-        iconPainter = Resources.getIcon("add"),
+        iconPainter = Resources.getIcon("toys_fan"),
         iconContentDescription = "",
         name = fan.name,
         onEditClick = {

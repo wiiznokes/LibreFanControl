@@ -17,7 +17,7 @@ fun addTemp(
 
 
     baseSensor(
-        iconPainter = Resources.getIcon("add"),
+        iconPainter = Resources.getIcon("thermometer"),
         iconContentDescription = "",
         name = temp.name,
         onEditClick = {

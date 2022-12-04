@@ -14,6 +14,8 @@ private const val STRING_FILE_NAME = "strings.json"
 
 private const val DEFAULT_LANGUAGE = "en"
 
+private const val SUFFIX_DRAWABLE = "_FILL0_wght400_GRAD0_opsz48"
+
 
 class Resources {
 
@@ -38,7 +40,7 @@ class Resources {
         fun getIcon(id: String): Painter {
             val density = LocalDensity.current // to calculate the intrinsic size of vector images (SVG, XML)
             return remember {
-                useResource("resources/drawable/$id.svg") {
+                useResource("drawable/$id$SUFFIX_DRAWABLE.svg") {
                     loadSvgPainter(it, density)
                 }
             }

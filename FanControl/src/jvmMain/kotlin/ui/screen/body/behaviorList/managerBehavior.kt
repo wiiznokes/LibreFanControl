@@ -18,7 +18,7 @@ fun behavior(
     val viewModel = BehaviorViewModel()
 
     baseBehavior(
-        iconPainter = Resources.getIcon("add"),
+        iconPainter = Resources.getIcon("horizontal_rule"),
         iconContentDescription = "",
         name = behavior.name,
         label = "name",

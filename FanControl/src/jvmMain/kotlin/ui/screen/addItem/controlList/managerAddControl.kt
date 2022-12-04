@@ -14,7 +14,7 @@ fun addControl(
     val viewModel = AddControlViewModel()
 
     baseControl(
-        iconPainter = Resources.getIcon("add"),
+        iconPainter = Resources.getIcon("alternate_email"),
         iconContentDescription = "",
         name = control.name,
         onEditClick = { viewModel.add(index) },

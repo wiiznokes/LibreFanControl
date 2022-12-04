@@ -16,7 +16,7 @@ fun control(
     val viewModel = ControlViewModel()
 
     baseControl(
-        iconPainter = Resources.getIcon("add"),
+        iconPainter = Resources.getIcon("alternate_email"),
         iconContentDescription = "",
         name = control.name,
         label = "name",
