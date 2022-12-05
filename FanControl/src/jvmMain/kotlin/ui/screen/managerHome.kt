@@ -32,10 +32,6 @@ fun home() {
             topBar()
 
             body(
-                fans = viewModel.fanList,
-                temps = viewModel.tempList,
-                controls = viewModel.controlList,
-                behaviors = viewModel.behaviorList,
                 editModeActivated = viewModel.editModeActivated
             )
         }
