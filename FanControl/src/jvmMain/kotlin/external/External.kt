@@ -27,18 +27,15 @@ interface External {
     fun getControl(controls: MutableStateFlow<SnapshotStateList<Control>>)
 
     fun updateFan(
-        fans: MutableStateFlow<SnapshotStateList<Fan>>,
-        fans2: MutableStateFlow<SnapshotStateList<Fan>>
+        fans: MutableStateFlow<SnapshotStateList<Fan>>
     )
 
     fun updateTemp(
-        temps: MutableStateFlow<SnapshotStateList<Temp>>,
-        temps2: MutableStateFlow<SnapshotStateList<Temp>>
+        temps: MutableStateFlow<SnapshotStateList<Temp>>
     )
 
     fun updateControl(
-        controls: MutableStateFlow<SnapshotStateList<Control>>,
-        controls2: MutableStateFlow<SnapshotStateList<Control>>
+        controls: MutableStateFlow<SnapshotStateList<Control>>
     )
 
     fun setControl(libIndex: Int, isAuto: Boolean, value: Int)

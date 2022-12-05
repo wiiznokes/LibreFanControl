@@ -15,7 +15,9 @@ private val viewModel: FanViewModel = FanViewModel()
 fun LazyListScope.fanList (
     editModeActivated: Boolean
 ) {
-    itemsIndexed(viewModel.fanList.value) {index, fan ->
+    itemsIndexed(viewModel.fanList.value.filter {
+        it.visible
+    }) {index, fan ->
         fan(
             fan = fan,
             index = index,

@@ -13,5 +13,6 @@ data class Control(
     override var behaviorId: String? = null,
     override val specifyType: String,
     override val globalType: String,
-    override var isExpanded: Boolean = false
+    override var isExpanded: Boolean = false,
+    override val visible: Boolean = true
 ) : BaseControl

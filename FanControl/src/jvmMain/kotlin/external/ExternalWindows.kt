@@ -83,10 +83,7 @@ class ExternalWindows : External {
         }
     }
 
-    override fun updateFan(
-        fans: MutableStateFlow<SnapshotStateList<Fan>>,
-        fans2: MutableStateFlow<SnapshotStateList<Fan>>
-    ) {
+    override fun updateFan(fans: MutableStateFlow<SnapshotStateList<Fan>>) {
         externalUpdateFan()
 
         for (i in fans.value.indices) {
@@ -97,21 +94,9 @@ class ExternalWindows : External {
                 it
             }
         }
-
-        for (i in fans2.value.indices) {
-            fans2.update {
-                fans2.value[i] = fans2.value[i].copy(
-                    value = values[fans2.value[i].libIndex]
-                )
-                it
-            }
-        }
     }
 
-    override fun updateTemp(
-        temps: MutableStateFlow<SnapshotStateList<Temp>>,
-        temps2: MutableStateFlow<SnapshotStateList<Temp>>
-    ) {
+    override fun updateTemp(temps: MutableStateFlow<SnapshotStateList<Temp>>) {
         externalUpdateTemp()
 
         for (i in temps.value.indices) {
@@ -122,21 +107,9 @@ class ExternalWindows : External {
                 it
             }
         }
-
-        for (i in temps2.value.indices) {
-            temps2.update {
-                temps2.value[i] = temps2.value[i].copy(
-                    value = values[temps2.value[i].libIndex]
-                )
-                it
-            }
-        }
     }
 
-    override fun updateControl(
-        controls: MutableStateFlow<SnapshotStateList<Control>>,
-        controls2: MutableStateFlow<SnapshotStateList<Control>>
-    ) {
+    override fun updateControl(controls: MutableStateFlow<SnapshotStateList<Control>>) {
         externalUpdateControl()
 
 
@@ -144,14 +117,6 @@ class ExternalWindows : External {
             controls.update {
                 controls.value[i] = controls.value[i].copy(
                     value = values[controls.value[i].libIndex]
-                )
-                it
-            }
-        }
-        for (i in controls2.value.indices) {
-            controls2.update {
-                controls2.value[i] = controls2.value[i].copy(
-                    value = values[controls2.value[i].libIndex]
                 )
                 it
             }

@@ -53,9 +53,9 @@ class Application {
     private fun startUpdate() {
         jobUpdate = CoroutineScope(Dispatchers.Default).launch {
             while (!updateShouldStop) {
-                externalManager.updateFan(State._fanList, State._addFanList)
-                externalManager.updateTemp(State._tempList, State._addTempList)
-                externalManager.updateControl(State._controlList, State._addControlList)
+                externalManager.updateFan(State._fanList)
+                externalManager.updateTemp(State._tempList)
+                externalManager.updateControl(State._controlList)
 
                 delay(2000L)
             }

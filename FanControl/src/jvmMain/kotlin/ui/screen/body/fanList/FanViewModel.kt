@@ -8,8 +8,7 @@ import kotlinx.coroutines.flow.update
 import model.hardware.sensor.Fan
 
 class FanViewModel(
-    private val _fanList: MutableStateFlow<SnapshotStateList<Fan>> = State._fanList,
-    private val _addFanList: MutableStateFlow<SnapshotStateList<Fan>> = State._addFanList
+    private val _fanList: MutableStateFlow<SnapshotStateList<Fan>> = State._fanList
 ) {
 
 
@@ -18,16 +17,11 @@ class FanViewModel(
 
 
 
-
-
-
     fun remove(index: Int) {
         _fanList.update {
-            val tempFan = it.removeAt(index)
-            _addFanList.update { it2 ->
-                _addFanList.value.add(tempFan)
-                it2
-            }
+            _fanList.value[index] = _fanList.value[index].copy(
+                visible = false
+            )
             it
         }
     }

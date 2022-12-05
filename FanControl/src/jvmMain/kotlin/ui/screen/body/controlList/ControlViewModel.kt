@@ -9,18 +9,16 @@ import model.hardware.control.Control
 
 class ControlViewModel(
     private val _controlList: MutableStateFlow<SnapshotStateList<Control>> = State._controlList,
-    private val _addControlList: MutableStateFlow<SnapshotStateList<Control>> = State._controlList
 ) {
 
     val controlList = State._controlList.asStateFlow()
 
+
     fun remove(index: Int) {
         _controlList.update {
-            val tempBehavior = it.removeAt(index)
-            _addControlList.update { it2 ->
-                _addControlList.value.add(tempBehavior)
-                it2
-            }
+            _controlList.value[index] = _controlList.value[index].copy(
+                visible = false
+            )
             it
         }
     }

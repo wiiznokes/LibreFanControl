@@ -16,7 +16,9 @@ private val viewModel: TempViewModel = TempViewModel()
 fun LazyListScope.tempList (
     editModeActivated: Boolean
 ) {
-    itemsIndexed(viewModel.tempList.value) { index, temp ->
+    itemsIndexed(viewModel.tempList.value.filter {
+        it.visible
+    }) { index, temp ->
         temp(
             temp = temp,
             index = index,

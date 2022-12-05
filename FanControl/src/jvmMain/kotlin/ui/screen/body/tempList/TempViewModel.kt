@@ -9,18 +9,17 @@ import model.hardware.sensor.Temp
 
 class TempViewModel(
     private val _tempList: MutableStateFlow<SnapshotStateList<Temp>> = State._tempList,
-    private val _addTempList: MutableStateFlow<SnapshotStateList<Temp>> = State._addTempList
 ) {
 
     val tempList = State._tempList.asStateFlow()
 
+
+
     fun remove(index: Int) {
         _tempList.update {
-            val tempBehavior = it.removeAt(index)
-            _addTempList.update { it2 ->
-                _addTempList.value.add(tempBehavior)
-                it2
-            }
+            _tempList.value[index] = _tempList.value[index].copy(
+                visible = false
+            )
             it
         }
     }

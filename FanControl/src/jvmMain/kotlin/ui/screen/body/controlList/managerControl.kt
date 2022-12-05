@@ -13,7 +13,9 @@ private val viewModel: ControlViewModel = ControlViewModel()
 fun LazyListScope.controlList (
     editModeActivated: Boolean
 ) {
-    itemsIndexed(viewModel.controlList.value) { index, control ->
+    itemsIndexed(viewModel.controlList.value.filter {
+        it.visible
+    }) { index, control ->
         control(
             control = control,
             index = index,

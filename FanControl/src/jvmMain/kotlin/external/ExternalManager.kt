@@ -44,27 +44,24 @@ class ExternalManager(os: OS) {
     }
 
     fun updateFan(
-        fans: MutableStateFlow<SnapshotStateList<Fan>>,
-        fans2: MutableStateFlow<SnapshotStateList<Fan>>
+        fans: MutableStateFlow<SnapshotStateList<Fan>>
     ) {
-        external.updateFan(fans, fans2)
+        external.updateFan(fans)
         println("updateFan : success")
 
     }
 
     fun updateTemp(
-        temps: MutableStateFlow<SnapshotStateList<Temp>>,
-        temps2: MutableStateFlow<SnapshotStateList<Temp>>
+        temps: MutableStateFlow<SnapshotStateList<Temp>>
     ) {
-        external.updateTemp(temps, temps2)
+        external.updateTemp(temps)
         println("updateTemp : success")
     }
 
     fun updateControl(
-        controls: MutableStateFlow<SnapshotStateList<Control>>,
-        controls2: MutableStateFlow<SnapshotStateList<Control>>
+        controls: MutableStateFlow<SnapshotStateList<Control>>
     ) {
-        external.updateControl(controls, controls2)
+        external.updateControl(controls)
         println("updateControl : success")
     }
 

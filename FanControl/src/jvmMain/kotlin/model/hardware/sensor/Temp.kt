@@ -11,5 +11,6 @@ data class Temp(
     override var minValue: Int = 0,
     override val specifyType: String,
     override val globalType: String,
-    override var isExpanded: Boolean = false
+    override var isExpanded: Boolean = false,
+    override val visible: Boolean = true
 ) : BaseSensor

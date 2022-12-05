@@ -105,10 +105,7 @@ class ExternalLinux : External {
         )
     }
 
-    override fun updateFan(
-        fans: MutableStateFlow<SnapshotStateList<Fan>>,
-        fans2: MutableStateFlow<SnapshotStateList<Fan>>
-    ) {
+    override fun updateFan(fans: MutableStateFlow<SnapshotStateList<Fan>>) {
 
         for (i in fans.value.indices) {
             fans.update {
@@ -121,10 +118,7 @@ class ExternalLinux : External {
     }
 
 
-    override fun updateTemp(
-        temps: MutableStateFlow<SnapshotStateList<Temp>>,
-        temps2: MutableStateFlow<SnapshotStateList<Temp>>
-    ) {
+    override fun updateTemp(temps: MutableStateFlow<SnapshotStateList<Temp>>) {
         for (i in temps.value.indices) {
             temps.update {
                 temps.value[i] = temps.value[i].copy(
@@ -135,10 +129,7 @@ class ExternalLinux : External {
         }
     }
 
-    override fun updateControl(
-        controls: MutableStateFlow<SnapshotStateList<Control>>,
-        controls2: MutableStateFlow<SnapshotStateList<Control>>
-    ) {
+    override fun updateControl(controls: MutableStateFlow<SnapshotStateList<Control>>) {
         for (i in controls.value.indices) {
             controls.update {
                 controls.value[i] = controls.value[i].copy(

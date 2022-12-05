@@ -8,8 +8,7 @@ import kotlinx.coroutines.flow.update
 import model.behavior.Behavior
 
 class BehaviorViewModel(
-    private val _behaviorList: MutableStateFlow<SnapshotStateList<Behavior>> = State._behaviorList,
-    private val _addBehaviorList: MutableStateFlow<SnapshotStateList<Behavior>> = State._addBehaviorList
+    private val _behaviorList: MutableStateFlow<SnapshotStateList<Behavior>> = State._behaviorList
 ) {
 
     val behaviorList = State._behaviorList.asStateFlow()
@@ -17,11 +16,7 @@ class BehaviorViewModel(
 
     fun remove(index: Int) {
         _behaviorList.update {
-            val tempBehavior = it.removeAt(index)
-            _addBehaviorList.update { it2 ->
-                _addBehaviorList.value.add(tempBehavior)
-                it2
-            }
+            it.removeAt(index)
             it
         }
     }

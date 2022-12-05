@@ -17,11 +17,6 @@ class State {
         val _controlList: MutableStateFlow<SnapshotStateList<Control>> = MutableStateFlow(mutableStateListOf())
         val _behaviorList: MutableStateFlow<SnapshotStateList<Behavior>> = MutableStateFlow(mutableStateListOf())
 
-        val _addFanList: MutableStateFlow<SnapshotStateList<Fan>> = MutableStateFlow(mutableStateListOf())
-        val _addTempList: MutableStateFlow<SnapshotStateList<Temp>> = MutableStateFlow(mutableStateListOf())
-        val _addControlList: MutableStateFlow<SnapshotStateList<Control>> = MutableStateFlow(mutableStateListOf())
-        val _addBehaviorList: MutableStateFlow<SnapshotStateList<Behavior>> = MutableStateFlow(mutableStateListOf())
-
 
         @OptIn(ExperimentalMaterial3Api::class)
         val _drawerState: MutableStateFlow<DrawerState> = MutableStateFlow(DrawerState(DrawerValue.Closed))

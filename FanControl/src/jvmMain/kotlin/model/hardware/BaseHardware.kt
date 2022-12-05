@@ -9,4 +9,5 @@ interface BaseHardware : BaseItem {
     var libName: String
 
     val libIndex: Int
+    val visible: Boolean
 }
