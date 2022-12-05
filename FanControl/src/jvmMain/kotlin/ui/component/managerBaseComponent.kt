@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ui.utils.Resources
 
@@ -28,22 +26,24 @@ fun managerTextField(
 fun managerOutlinedTextField(
     value: String,
     onValueChange: ((String) -> Unit)? = null,
-    label: String?,
+    label: String
 ) {
+
     OutlinedTextField(
         modifier = Modifier
-            .widthIn(1.dp, Dp.Infinity),
+            .width(IntrinsicSize.Min)
+            .widthIn(70.dp, 200.dp),
         value = value,
         onValueChange = {
             onValueChange?.invoke(it)
         },
         textStyle = MaterialTheme.typography.bodyMedium,
-        label = { Text(label!!) },
         colors = TextFieldDefaults.textFieldColors(
             textColor = MaterialTheme.colorScheme.onPrimary,
-            containerColor = MaterialTheme.colorScheme.primary,
+            containerColor = MaterialTheme.colorScheme.primary
         ),
-        singleLine = true
+        singleLine = true,
+        label = { Text(label) }
     )
 }
 
@@ -54,7 +54,8 @@ fun managerListChoice(
     onChangeSensorClick: (() -> Unit)? = null
 ) {
     Row(
-        modifier = Modifier,
+        modifier = Modifier
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         managerTextField(

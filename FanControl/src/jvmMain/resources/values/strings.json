@@ -1,35 +1,22 @@
 {
   "title_setting": "Setting",
-
   "title_fan": "Fan",
   "title_temp": "Temp",
   "title_control": "Control",
   "title_behavior": "Behavior",
-
-
   "editContentDescriptionAdd": "Add",
   "editContentDescriptionRemove": "Remove",
-
   "fanContentDescription": "Fan",
   "controlContentDescription": "Control",
   "tempContentDescription": "Temp",
   "behaviorContentDescription": "Behavior",
-
-
   "changeSensorContentDescription": "Choose sensor",
   "changeBehaviorContentDescription": "Choose behavior",
-
-
   "undefined": "undefined",
-
-
-
   "defaultName": "Name",
   "defaultBehaviorName": "Behavior name",
   "defaultSensorName": "Sensor name",
-
-
-  "degree" : "°C",
+  "degree": "°C",
   "rpm": "RPM"
 }
 

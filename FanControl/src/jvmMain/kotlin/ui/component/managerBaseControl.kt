@@ -1,6 +1,7 @@
 package ui.component
 
 import Source
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
@@ -44,11 +45,13 @@ fun baseControl(
                     onSwitchClick?.invoke(it)
                 }
             )
+            Box {
+                managerListChoice(
+                    sensorName = behaviorName,
+                    onChangeSensorClick = onChangeBehaviorClick
+                )
+            }
 
-            managerListChoice(
-                sensorName = behaviorName,
-                onChangeSensorClick = onChangeBehaviorClick
-            )
         }
         Row {
             managerTextField(value)

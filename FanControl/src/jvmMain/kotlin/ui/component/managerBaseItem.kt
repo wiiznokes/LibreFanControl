@@ -32,16 +32,15 @@ fun baseItem(
 ) {
     Box(
         modifier = Modifier
-            .wrapContentSize()
             .background(Color.Green)
     ) {
         Box(
             modifier = Modifier
                 .padding(10.dp)
         ) {
-
-
             Surface(
+                modifier = Modifier
+                    .padding(10.dp),
                 shape = MaterialTheme.shapes.medium,
                 color = MaterialTheme.colorScheme.surface,
                 contentColor = MaterialTheme.colorScheme.onSurface,
@@ -55,8 +54,15 @@ fun baseItem(
                 Column(
                     modifier = Modifier
                         .padding(20.dp)
+                        .width(IntrinsicSize.Min)
                 ) {
-                    Row {
+                    Row(
+                        modifier = Modifier
+                            .wrapContentWidth(
+                                align = Alignment.Start,
+                                unbounded = true
+                            )
+                    ) {
                         Icon(
                             painter = iconPainter,
                             contentDescription = iconContentDescription
@@ -78,7 +84,7 @@ fun baseItem(
                                     onValueChange = {
                                         onNameChange?.invoke(it)
                                     },
-                                    label = label,
+                                    label = "name"
                                 )
                             }
                         }
@@ -88,8 +94,8 @@ fun baseItem(
                             .height(10.dp)
                     )
 
-                    
                     content()
+
                 }
             }
 
