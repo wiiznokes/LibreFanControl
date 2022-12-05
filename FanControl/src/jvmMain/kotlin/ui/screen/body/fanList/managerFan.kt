@@ -2,17 +2,14 @@ package ui.screen.body.fanList
 
 import Source
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import kotlinx.coroutines.flow.StateFlow
 import model.hardware.sensor.Fan
 import ui.component.baseSensor
 import ui.utils.Resources
 
 
-
-val viewModel: FanViewModel = FanViewModel()
+private val viewModel: FanViewModel = FanViewModel()
 
 
 fun LazyListScope.fanList (
@@ -26,9 +23,6 @@ fun LazyListScope.fanList (
         )
     }
 }
-
-
-
 
 
 @Composable

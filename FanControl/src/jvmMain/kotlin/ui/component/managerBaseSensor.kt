@@ -14,7 +14,7 @@ fun baseSensor(
     name: String,
     label: String? = null,
     onNameChange: ((String) -> Unit)? = null,
-    editModeActivated: StateFlow<Boolean>? = null,
+    editModeActivated: Boolean? = null,
 
     sensorName: String,
     sensorValue: String,

@@ -3,6 +3,7 @@ package ui.screen.body.controlList
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.hardware.control.Control
 
@@ -10,6 +11,9 @@ class ControlViewModel(
     private val _controlList: MutableStateFlow<SnapshotStateList<Control>> = State._controlList,
     private val _addControlList: MutableStateFlow<SnapshotStateList<Control>> = State._controlList
 ) {
+
+    val controlList = State._controlList.asStateFlow()
+
     fun remove(index: Int) {
         _controlList.update {
             val tempBehavior = it.removeAt(index)

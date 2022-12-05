@@ -18,7 +18,7 @@ fun baseControl(
     name: String,
     label: String? = null,
     onNameChange: ((String) -> Unit)? = null,
-    editModeActivated: StateFlow<Boolean>? = null,
+    editModeActivated: Boolean? = null,
 
     behaviorName: String,
     onChangeBehaviorClick: (() -> Unit)? = null,

@@ -27,7 +27,7 @@ fun baseItem(
     source: Source,
     label: String? = null,
     onNameChange: ((String) -> Unit)? = null,
-    editModeActivated: StateFlow<Boolean>? = null,
+    editModeActivated: Boolean? = null,
     content: @Composable (ColumnScope.() -> Unit)
 ) {
     Box(
@@ -101,7 +101,7 @@ fun baseItem(
         }
         when (source) {
             Source.BODY -> {
-                if (editModeActivated?.value == true) {
+                if (editModeActivated == true) {
                     IconButton(
                         modifier = Modifier
                             .align(Alignment.TopEnd),

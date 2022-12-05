@@ -2,17 +2,35 @@ package ui.screen.body.tempList
 
 
 import Source
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import kotlinx.coroutines.flow.StateFlow
 import model.hardware.sensor.Temp
 import ui.component.baseSensor
 import ui.utils.Resources
+
+
+
+private val viewModel: TempViewModel = TempViewModel()
+
+fun LazyListScope.tempList (
+    editModeActivated: Boolean
+) {
+    itemsIndexed(viewModel.tempList.value) { index, temp ->
+        temp(
+            temp = temp,
+            index = index,
+            editModeActivated = editModeActivated
+        )
+    }
+}
+
 
 @Composable
 fun temp(
     temp: Temp,
     index: Int,
-    editModeActivated: StateFlow<Boolean>
+    editModeActivated: Boolean
 ) {
     val viewModel = TempViewModel()
 

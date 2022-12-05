@@ -21,10 +21,13 @@ import model.hardware.sensor.Fan
 import model.hardware.sensor.Temp
 import ui.component.itemsList
 import ui.screen.body.behaviorList.behavior
+import ui.screen.body.behaviorList.behaviorList
 import ui.screen.body.controlList.control
+import ui.screen.body.controlList.controlList
 import ui.screen.body.fanList.fan
 import ui.screen.body.fanList.fanList
 import ui.screen.body.tempList.temp
+import ui.screen.body.tempList.tempList
 import ui.utils.Resources
 
 @Composable
@@ -51,17 +54,17 @@ fun body(
             itemsList(
                 title = Resources.getString("title_temp")
             ){
-                fanList(editModeActivated.value)
+                tempList(editModeActivated.value)
             }
             itemsList(
                 title = Resources.getString("title_control")
             ){
-                fanList(editModeActivated.value)
+                controlList(editModeActivated.value)
             }
             itemsList(
                 title = Resources.getString("title_behavior")
             ){
-                fanList(editModeActivated.value)
+                behaviorList(editModeActivated.value)
             }
         }
 

@@ -1,18 +1,40 @@
 package ui.screen.body.behaviorList
 
 import Source
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import kotlinx.coroutines.flow.StateFlow
 import model.behavior.Behavior
 import ui.component.baseBehavior
+import ui.screen.body.fanList.FanViewModel
+import ui.screen.body.fanList.fan
 import ui.utils.Resources
+
+
+
+private val viewModel: BehaviorViewModel = BehaviorViewModel()
+
+
+fun LazyListScope.behaviorList (
+    editModeActivated: Boolean
+) {
+    itemsIndexed(viewModel.behaviorList.value) {index, behavior ->
+        behavior(
+            behavior = behavior,
+            index = index,
+            editModeActivated = editModeActivated
+        )
+    }
+}
+
 
 
 @Composable
 fun behavior(
     behavior: Behavior,
     index: Int,
-    editModeActivated: StateFlow<Boolean>
+    editModeActivated: Boolean
 ) {
 
     val viewModel = BehaviorViewModel()

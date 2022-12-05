@@ -20,7 +20,7 @@ fun baseBehavior(
     source: Source,
     label: String? = null,
     onNameChange: ((String) -> Unit)? = null,
-    editModeActivated: StateFlow<Boolean>? = null,
+    editModeActivated: Boolean? = null,
 
 
     value: Int = 50,

@@ -1,17 +1,35 @@
 package ui.screen.body.controlList
 
 import Source
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import kotlinx.coroutines.flow.StateFlow
 import model.hardware.control.Control
 import ui.component.baseControl
 import ui.utils.Resources
+
+
+private val viewModel: ControlViewModel = ControlViewModel()
+fun LazyListScope.controlList (
+    editModeActivated: Boolean
+) {
+    itemsIndexed(viewModel.controlList.value) { index, control ->
+        control(
+            control = control,
+            index = index,
+            editModeActivated = editModeActivated
+        )
+    }
+}
+
+
+
 
 @Composable
 fun control(
     control: Control,
     index: Int,
-    editModeActivated: StateFlow<Boolean>
+    editModeActivated: Boolean
 ) {
     val viewModel = ControlViewModel()
 
