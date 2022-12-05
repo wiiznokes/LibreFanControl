@@ -103,10 +103,6 @@ fun managerBodyListItem(
         when (title) {
             Resources.getString("title_fan") -> {
                 itemsIndexed(fans.value) { index, item ->
-                    Spacer(
-                        modifier = Modifier
-                            .height(10.dp)
-                    )
                     fan(
                         fan = item,
                         index = index,
@@ -117,10 +113,6 @@ fun managerBodyListItem(
 
             Resources.getString("title_temp") -> {
                 itemsIndexed(temps.value) { index, item ->
-                    Spacer(
-                        modifier = Modifier
-                            .height(5.dp)
-                    )
                     temp(
                         temp = item,
                         index = index,
@@ -131,10 +123,6 @@ fun managerBodyListItem(
 
             Resources.getString("title_control") -> {
                 itemsIndexed(controls.value) { index, item ->
-                    Spacer(
-                        modifier = Modifier
-                            .height(5.dp)
-                    )
                     control(
                         control = item,
                         index = index,
@@ -145,10 +133,6 @@ fun managerBodyListItem(
 
             Resources.getString("title_behavior") -> {
                 itemsIndexed(behaviors.value) { index, item ->
-                    Spacer(
-                        modifier = Modifier
-                            .height(5.dp)
-                    )
                     behavior(
                         behavior = item,
                         index = index,

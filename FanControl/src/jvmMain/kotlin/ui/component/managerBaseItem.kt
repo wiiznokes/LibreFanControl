@@ -32,11 +32,10 @@ fun baseItem(
 ) {
     Box(
         modifier = Modifier
-            .background(Color.Green)
     ) {
         Box(
             modifier = Modifier
-                .padding(10.dp)
+                .padding(8.dp)
         ) {
             Surface(
                 modifier = Modifier
@@ -84,7 +83,7 @@ fun baseItem(
                                     onValueChange = {
                                         onNameChange?.invoke(it)
                                     },
-                                    label = "name"
+                                    label = label!!
                                 )
                             }
                         }
