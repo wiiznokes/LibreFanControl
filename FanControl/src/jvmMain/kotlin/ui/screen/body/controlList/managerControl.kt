@@ -56,10 +56,11 @@ fun control(
         onEditClick = { viewModel.remove(index) },
         source = Source.BODY,
 
-        behaviorName = "",
+        behaviorName = controlItem.behaviorName,
         isActive = !control.isAuto,
         onSwitchClick = {
             viewModel.setControl(
+                index = index,
                 libIndex = control.libIndex,
                 isAuto = it,
                 value = control.value

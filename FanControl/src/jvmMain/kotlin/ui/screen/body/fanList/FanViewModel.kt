@@ -32,22 +32,12 @@ class FanViewModel(
         }
     }
 
-    fun setName(name: String, index: Int): Boolean {
+    fun setName(name: String, index: Int) {
 
         if (_fanItemList.value.count {
                 it.name == name
             } != 0
-        ) {
-            println("nom pareil")
-            _fanItemList.update {
-                _fanItemList.value[index] = _fanItemList.value[index].copy(
-                    name = _fanItemList.value[index].name
-                )
-                it
-            }
-
-            return false
-        }
+        ) throw IllegalArgumentException()
 
         _fanItemList.update {
             _fanItemList.value[index] = _fanItemList.value[index].copy(
@@ -55,6 +45,5 @@ class FanViewModel(
             )
             it
         }
-        return true
     }
 }

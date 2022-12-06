@@ -1,8 +1,6 @@
 package ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -11,9 +9,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import model.hardware.Sensor
 import model.item.BehaviorItem
@@ -38,63 +33,24 @@ fun managerText(
 @Composable
 fun managerOutlinedTextField(
     text: MutableState<String>,
-    trueName: String,
-    onValueChange: ((String) -> Boolean),
+    onValueChange: (String) -> Unit,
     label: String
 ) {
-    val focusRequester = remember { FocusRequester() }
-
-    val hasFocus = remember { mutableStateOf(false) }
-
-    val enabled = remember { mutableStateOf(true) }
-
+    val isError = remember { mutableStateOf(false) }
     OutlinedTextField(
-        enabled = enabled.value,
+        isError = isError.value,
         modifier = Modifier
             .width(IntrinsicSize.Min)
-            .widthIn(70.dp, 200.dp)
-
-            .clickable { focusRequester.requestFocus() }
-            .focusRequester(focusRequester)
-            .onFocusChanged {
-                /*
-                println("onFocusChanged: " +
-                "isFocused = ${it.isFocused}, " +
-                "hasFocus = ${it.hasFocus}")
-                 */
-
-                if (hasFocus.value && !it.isFocused && !it.hasFocus) {
-                    println("onValueChange")
-                    enabled.value = false
-                    if (onValueChange(text.value)) {
-
-                    } else {
-                        text.value = trueName
-                    }
-                    enabled.value = true
-                    hasFocus.value = false
-                }
-
-                if (it.isFocused && it.hasFocus) {
-                    if (hasFocus.value) {
-                        println("onValueChange")
-                        enabled.value = false
-                        if (onValueChange(text.value)) {
-
-                        } else {
-                            text.value = trueName
-                        }
-                        enabled.value = true
-                        hasFocus.value = false
-                    } else {
-                        hasFocus.value = true
-                    }
-                }
-            }
-            .focusable(),
+            .widthIn(70.dp, 200.dp),
         value = text.value,
         onValueChange = {
-            text.value = it
+            try {
+                onValueChange(it)
+                isError.value = false
+            } catch (e: IllegalArgumentException) {
+                text.value = it
+                isError.value = true
+            }
         },
         textStyle = MaterialTheme.typography.bodyMedium,
         colors = TextFieldDefaults.textFieldColors(
@@ -141,7 +97,7 @@ fun listChoice(
 @JvmName("listChoice1")
 @Composable
 fun listChoice(
-    sensorName: String?,
+    sensorName: String,
     behaviorItemList: SnapshotStateList<BehaviorItem>,
     onItemClick: (String) -> Unit
 ) {

@@ -42,10 +42,10 @@ fun behavior(
         source = Source.BODY,
 
         onMoreButtonClick = {
-            viewModel.onMore(index)
+            viewModel.onMore(index, it)
         },
         onLessButtonClick = {
-            viewModel.onLess(index)
+            viewModel.onLess(index, it)
         },
         value = behaviorItem.value,
         onSliderValueChange = {

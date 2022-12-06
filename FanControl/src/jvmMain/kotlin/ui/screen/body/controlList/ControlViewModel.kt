@@ -29,6 +29,7 @@ class ControlViewModel(
     }
 
     fun setBehavior(index: Int, behaviorName: String) {
+        println("set Behavior: $index, $behaviorName")
         _controlItemList.update {
             _controlItemList.value[index] = _controlItemList.value[index].copy(
                 behaviorName = behaviorName
@@ -37,17 +38,22 @@ class ControlViewModel(
         }
     }
 
-    fun setControl(libIndex: Int, isAuto: Boolean, value: Int) {
-
+    fun setControl(index: Int, libIndex: Int, isAuto: Boolean, value: Int) {
+        _controlList.update {
+            _controlList.value[index] = _controlList.value[index].copy(
+                isAuto = isAuto
+            )
+            it
+        }
     }
 
 
-    fun setName(name: String, index: Int): Boolean {
+    fun setName(name: String, index: Int) {
 
         if (_controlItemList.value.count {
                 it.name == name
             } != 0
-        ) return false
+        ) throw IllegalArgumentException()
 
         _controlItemList.update {
             _controlItemList.value[index] = _controlItemList.value[index].copy(
@@ -55,7 +61,6 @@ class ControlViewModel(
             )
             it
         }
-        return true
     }
 
     fun changeBehaviorId(index: Int, menuIndex: Int) {

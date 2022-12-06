@@ -22,19 +22,21 @@ class BehaviorViewModel(
     }
 
 
-    fun onMore(index: Int) {
+    fun onMore(index: Int, value: Int) {
+        if (value >= 100) return
         _behaviorItemList.update {
             _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(
-                value = _behaviorItemList.value[index].value + 1
+                value = value + 1
             )
             it
         }
     }
 
-    fun onLess(index: Int) {
+    fun onLess(index: Int, value: Int) {
+        if (value <= 0) return
         _behaviorItemList.update {
             _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(
-                value = _behaviorItemList.value[index].value - 1
+                value = value - 1
             )
             it
         }
@@ -50,11 +52,11 @@ class BehaviorViewModel(
     }
 
 
-    fun setName(name: String, index: Int): Boolean {
+    fun setName(name: String, index: Int) {
         if (_behaviorItemList.value.count {
                 it.name == name
             } != 0
-        ) return false
+        ) throw IllegalArgumentException()
 
         _behaviorItemList.update {
             _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(
@@ -62,6 +64,5 @@ class BehaviorViewModel(
             )
             it
         }
-        return true
     }
 }
