@@ -42,13 +42,20 @@ class ControlViewModel(
     }
 
 
-    fun setName(name: String, index: Int) {
+    fun setName(name: String, index: Int): Boolean {
+
+        if (_controlItemList.value.count {
+                it.name == name
+            } != 0
+        ) return false
+
         _controlItemList.update {
             _controlItemList.value[index] = _controlItemList.value[index].copy(
                 name = name
             )
             it
         }
+        return true
     }
 
     fun changeBehaviorId(index: Int, menuIndex: Int) {

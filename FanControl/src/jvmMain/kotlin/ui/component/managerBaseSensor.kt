@@ -14,7 +14,7 @@ fun baseSensor(
     iconContentDescription: String,
     name: String,
     label: String? = null,
-    onNameChange: ((String) -> Unit)? = null,
+    onNameChange: (String) -> Boolean,
     editModeActivated: Boolean? = null,
 
     sensorName: String?,

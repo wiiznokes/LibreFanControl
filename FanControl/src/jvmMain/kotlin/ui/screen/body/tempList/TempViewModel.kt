@@ -34,11 +34,12 @@ class TempViewModel(
     }
 
 
-    fun setName(name: String, index: Int) {
+    fun setName(name: String, index: Int): Boolean {
 
-        if(_tempItemList.value.count {
-                it.name == name } != 0
-        ) return
+        if (_tempItemList.value.count {
+                it.name == name
+            } != 0
+        ) return false
 
         _tempItemList.update {
             _tempItemList.value[index] = _tempItemList.value[index].copy(
@@ -46,5 +47,6 @@ class TempViewModel(
             )
             it
         }
+        return true
     }
 }

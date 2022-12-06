@@ -8,6 +8,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,7 +26,7 @@ fun baseItem(
     onEditClick: () -> Unit,
     source: Source,
     label: String? = null,
-    onNameChange: ((String) -> Unit)? = null,
+    onNameChange: (String) -> Boolean = { true },
     editModeActivated: Boolean? = null,
     content: @Composable (ColumnScope.() -> Unit)
 ) {
@@ -76,12 +78,18 @@ fun baseItem(
                             }
 
                             Source.BODY -> {
+
+                                val text = remember {
+                                    mutableStateOf(name)
+                                }
+
                                 managerOutlinedTextField(
-                                    value = name,
+                                    text = text,
                                     onValueChange = {
-                                        onNameChange?.invoke(it)
+                                        onNameChange(it)
                                     },
-                                    label = label!!
+                                    label = label!!,
+                                    trueName = name
                                 )
                             }
                         }

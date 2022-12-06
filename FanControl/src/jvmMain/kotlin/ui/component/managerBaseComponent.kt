@@ -38,16 +38,14 @@ fun managerText(
 
 @Composable
 fun managerOutlinedTextField(
-    value: String,
-    onValueChange: ((String) -> Unit),
+    text: MutableState<String>,
+    trueName: String,
+    onValueChange: ((String) -> Boolean),
     label: String
 ) {
     val focusRequester = remember { FocusRequester() }
 
-    val text = remember { mutableStateOf(value) }
-
     val hasFocus = remember { mutableStateOf(false) }
-
 
     OutlinedTextField(
         modifier = Modifier
@@ -57,36 +55,37 @@ fun managerOutlinedTextField(
             .clickable { focusRequester.requestFocus() }
             .focusRequester(focusRequester)
             .onFocusChanged {
+                /*
                 println("onFocusChanged: " +
                 "isFocused = ${it.isFocused}, " +
                 "hasFocus = ${it.hasFocus}")
+                 */
 
+                if (hasFocus.value && !it.isFocused && !it.hasFocus) {
+                    if (onValueChange(text.value)) {
 
-
-                if(hasFocus.value && !it.isFocused && !it.hasFocus) {
-                    println("ask viewModel to change ${text.value}")
-                    onValueChange(text.value)
+                    } else {
+                        text.value = trueName
+                    }
                     hasFocus.value = false
                 }
 
-                if(it.isFocused && it.hasFocus) {
-                    if(hasFocus.value) {
-                        println("ask viewModel to change ${text.value}")
-                        onValueChange(text.value)
+                if (it.isFocused && it.hasFocus) {
+                    if (hasFocus.value) {
+                        if (onValueChange(text.value)) {
+
+                        } else {
+                            text.value = trueName
+                        }
                         hasFocus.value = false
-                    }
-                    else {
-                        println("has focus = true")
+                    } else {
                         hasFocus.value = true
                     }
                 }
-
             }
-            .focusable()
-        ,
-        value = value,
+            .focusable(),
+        value = text.value,
         onValueChange = {
-            println("onValueChange $it")
             text.value = it
         },
         textStyle = MaterialTheme.typography.bodyMedium,
@@ -192,7 +191,7 @@ private fun managerListChoice(
         val iconShouldTrigger = remember { mutableStateOf(true) }
         IconButton(
             onClick = {
-                if(!iconShouldTrigger.value) {
+                if (!iconShouldTrigger.value) {
                     iconShouldTrigger.value = true
                     return@IconButton
                 }

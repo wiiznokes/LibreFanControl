@@ -18,7 +18,7 @@ fun baseBehavior(
     onEditClick: () -> Unit,
     source: Source,
     label: String? = null,
-    onNameChange: ((String) -> Unit)? = null,
+    onNameChange: (String) -> Boolean,
     editModeActivated: Boolean? = null,
 
 

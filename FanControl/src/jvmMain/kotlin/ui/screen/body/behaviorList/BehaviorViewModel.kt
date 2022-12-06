@@ -50,7 +50,11 @@ class BehaviorViewModel(
     }
 
 
-    fun setName(name: String, index: Int) {
+    fun setName(name: String, index: Int): Boolean {
+        if (_behaviorItemList.value.count {
+                it.name == name
+            } != 0
+        ) return false
 
         _behaviorItemList.update {
             _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(
@@ -58,5 +62,6 @@ class BehaviorViewModel(
             )
             it
         }
+        return true
     }
 }
