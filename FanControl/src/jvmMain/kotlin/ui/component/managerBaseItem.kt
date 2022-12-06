@@ -70,7 +70,7 @@ fun baseItem(
                         )
                         when (source) {
                             Source.ADD -> {
-                                managerTextField(
+                                managerText(
                                     value = name
                                 )
                             }

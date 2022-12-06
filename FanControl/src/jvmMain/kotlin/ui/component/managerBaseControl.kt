@@ -56,8 +56,8 @@ fun baseControl(
 
         }
         Row {
-            managerTextField(value)
-            managerTextField(fanValue)
+            managerText(value)
+            managerText(fanValue)
         }
     }
 }

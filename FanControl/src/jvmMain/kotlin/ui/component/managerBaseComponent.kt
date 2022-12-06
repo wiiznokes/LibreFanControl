@@ -1,5 +1,6 @@
 package ui.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -9,19 +10,21 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import model.hardware.Sensor
 import model.item.BehaviorItem
 import ui.utils.Resources
 
 
 @Composable
-fun managerTextField(
+fun managerText(
     value: String
 ) {
     Text(
         modifier = Modifier,
         text = value,
-        color = androidx.compose.material.MaterialTheme.colors.onPrimary,
+        color = MaterialTheme.colorScheme.onPrimary,
         maxLines = 1,
         style = MaterialTheme.typography.bodyMedium
     )
@@ -60,17 +63,28 @@ fun listChoice(
     sensorList: SnapshotStateList<Sensor>,
     onItemClick: (Sensor) -> Unit
 ) {
+    val expanded = MutableStateFlow(mutableStateOf(false))
+
+
+
     managerListChoice(
         sensorName = sensorName,
+        expanded = expanded
     ) {
         sensorList.forEach {
             DropdownMenuItem(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.primary),
                 onClick = {
                     onItemClick(it)
+                    expanded.update {
+                        it.value = false
+                        it
+                    }
                 }
             ) {
-                Text(
-                    text = it.libName
+                managerText(
+                    value = it.libName
                 )
             }
         }
@@ -84,17 +98,26 @@ fun listChoice(
     behaviorItemList: SnapshotStateList<BehaviorItem>,
     onItemClick: (String) -> Unit
 ) {
+    val expanded = MutableStateFlow(mutableStateOf(false))
+
     managerListChoice(
         sensorName = sensorName,
+        expanded = expanded
     ) {
         behaviorItemList.forEach {
             DropdownMenuItem(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.primary),
                 onClick = {
                     onItemClick(it.name)
+                    expanded.update {
+                        it.value = false
+                        it
+                    }
                 }
             ) {
-                Text(
-                    text = it.name
+                managerText(
+                    value = it.name
                 )
             }
         }
@@ -104,6 +127,7 @@ fun listChoice(
 @Composable
 private fun managerListChoice(
     sensorName: String?,
+    expanded: MutableStateFlow<MutableState<Boolean>>,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Row(
@@ -113,23 +137,25 @@ private fun managerListChoice(
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (sensorName != null) {
-            managerTextField(
+            managerText(
                 value = sensorName,
             )
         } else {
-            managerTextField(
+            managerText(
                 value = "Pas de sensor",
             )
         }
 
-        var expanded by remember { mutableStateOf(false) }
-
         IconButton(
             onClick = {
-                expanded = !expanded
+                if (!expanded.value.value)
+                    expanded.update {
+                        it.value = true
+                        it
+                    }
             }
         ) {
-            if (expanded) {
+            if (expanded.value.value) {
                 Icon(
                     painter = Resources.getIcon("expand_more"),
                     contentDescription = Resources.getString("changeSensorContentDescription")
@@ -143,9 +169,12 @@ private fun managerListChoice(
         }
 
         DropdownMenu(
-            expanded = expanded,
+            expanded = expanded.value.value,
             onDismissRequest = {
-                expanded = !expanded
+                expanded.update {
+                    it.value = false
+                    it
+                }
             }
         ) {
             content()

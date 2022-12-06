@@ -38,7 +38,7 @@ fun baseBehavior(
         source = source,
     ) {
         Row {
-            managerTextField("Fan speed")
+            managerText("Fan speed")
 
             IconButton(
                 onClick = {
