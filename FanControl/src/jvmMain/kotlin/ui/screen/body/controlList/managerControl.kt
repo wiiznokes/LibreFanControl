@@ -4,7 +4,6 @@ import Source
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import model.item.ControlItem
 import ui.component.baseControl
 import ui.utils.Resources
@@ -26,7 +25,6 @@ fun LazyListScope.controlList(
         controlItem.visible
     }) { index, it ->
 
-        println("display index = $index, list index = ${previousIndexList[index]}")
         control(
             controlItem = it,
             index = previousIndexList[index],
@@ -58,10 +56,11 @@ fun control(
         onEditClick = { viewModel.remove(index) },
         source = Source.BODY,
 
-        behaviorName = "",
+        behaviorName = controlItem.behaviorName,
         isActive = !control.isAuto,
         onSwitchClick = {
             viewModel.setControl(
+                index = index,
                 libIndex = control.libIndex,
                 isAuto = it,
                 value = control.value

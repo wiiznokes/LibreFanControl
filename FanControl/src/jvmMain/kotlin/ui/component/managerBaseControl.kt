@@ -2,10 +2,14 @@ package ui.component
 
 import Source
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.unit.dp
 import model.item.BehaviorItem
 
 
@@ -16,15 +20,15 @@ fun baseControl(
     iconPainter: Painter,
     iconContentDescription: String,
     name: String,
-    label: String? = null,
-    onNameChange: (String) -> Boolean,
-    editModeActivated: Boolean? = null,
+    label: String,
+    onNameChange: (String) -> Unit,
+    editModeActivated: Boolean,
 
     behaviorName: String,
-    isActive: Boolean = false,
-    onSwitchClick: ((Boolean) -> Unit)? = null,
-    value: String = "50 %",
-    fanValue: String = "2000 RPM",
+    isActive: Boolean,
+    onSwitchClick: (Boolean) -> Unit,
+    value: String,
+    fanValue: String,
     behaviorItemList: SnapshotStateList<BehaviorItem>,
     onItemClick: (String) -> Unit
 ) {
@@ -43,8 +47,12 @@ fun baseControl(
             Switch(
                 checked = isActive,
                 onCheckedChange = {
-                    onSwitchClick?.invoke(it)
+                    onSwitchClick(it)
                 }
+            )
+            Spacer(
+                modifier = Modifier
+                    .width(10.dp)
             )
 
             listChoice(

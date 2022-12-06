@@ -13,11 +13,11 @@ fun baseSensor(
     iconPainter: Painter,
     iconContentDescription: String,
     name: String,
-    label: String? = null,
-    onNameChange: (String) -> Boolean,
-    editModeActivated: Boolean? = null,
+    label: String,
+    onNameChange: (String) -> Unit,
+    editModeActivated: Boolean,
 
-    sensorName: String?,
+    sensorName: String,
     sensorValue: String,
 
     sensorList: SnapshotStateList<Sensor>,
@@ -39,7 +39,6 @@ fun baseSensor(
             sensorList = sensorList,
             onItemClick = onItemClick
         )
-
         managerText(
             value = sensorValue
         )

@@ -34,12 +34,12 @@ class TempViewModel(
     }
 
 
-    fun setName(name: String, index: Int): Boolean {
+    fun setName(name: String, index: Int) {
 
         if (_tempItemList.value.count {
                 it.name == name
             } != 0
-        ) return false
+        ) throw IllegalArgumentException()
 
         _tempItemList.update {
             _tempItemList.value[index] = _tempItemList.value[index].copy(
@@ -47,6 +47,5 @@ class TempViewModel(
             )
             it
         }
-        return true
     }
 }

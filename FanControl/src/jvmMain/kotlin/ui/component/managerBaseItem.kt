@@ -8,12 +8,16 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ui.utils.Resources
 
@@ -25,10 +29,10 @@ fun baseItem(
     name: String,
     onEditClick: () -> Unit,
     source: Source,
-    label: String? = null,
-    onNameChange: (String) -> Boolean = { true },
-    editModeActivated: Boolean? = null,
-    content: @Composable (ColumnScope.() -> Unit)
+    label: String,
+    onNameChange: (String) -> Unit,
+    editModeActivated: Boolean,
+    content: @Composable ColumnScope.() -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -49,18 +53,22 @@ fun baseItem(
                 )
             ) {
 
+                val density = LocalDensity.current
+
+                val finalWidth: MutableState<Dp> = remember { mutableStateOf(0.dp) }
+
+
 
                 Column(
                     modifier = Modifier
                         .padding(20.dp)
-                        .width(IntrinsicSize.Min)
+
                 ) {
                     Row(
                         modifier = Modifier
-                            .wrapContentWidth(
-                                align = Alignment.Start,
-                                unbounded = true
-                            )
+                            .onGloballyPositioned {
+                                finalWidth.value = density.run { it.size.width.toDp() }
+                            }
                     ) {
                         Icon(
                             painter = iconPainter,
@@ -86,8 +94,7 @@ fun baseItem(
                                     onValueChange = {
                                         onNameChange(it)
                                     },
-                                    label = label!!,
-                                    trueName = name
+                                    label = label
                                 )
                             }
                         }
@@ -97,15 +104,19 @@ fun baseItem(
                             .height(10.dp)
                     )
 
-                    content()
-
+                    Column(
+                        modifier = Modifier
+                            .width(finalWidth.value)
+                    ) {
+                        content()
+                    }
                 }
             }
 
         }
         when (source) {
             Source.BODY -> {
-                if (editModeActivated == true) {
+                if (editModeActivated) {
                     IconButton(
                         modifier = Modifier
                             .align(Alignment.TopEnd),
