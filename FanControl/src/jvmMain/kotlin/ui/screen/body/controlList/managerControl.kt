@@ -2,9 +2,12 @@ package ui.screen.body.controlList
 
 import Source
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.item.ControlItem
+import model.item.SensorItem
 import ui.component.baseControl
 import ui.utils.Resources
 
@@ -12,11 +15,29 @@ import ui.utils.Resources
 private val viewModel: ControlViewModel = ControlViewModel()
 
 
+
 fun LazyListScope.controlList(
     editModeActivated: Boolean
 ) {
 
-    itemsIndexed(viewModel.controlItemList.value) { index, control ->
+
+    val previousIndexList = mutableListOf<Int>()
+    itemsIndexed(viewModel.controlItemList.value.filterIndexed { index, controlItem ->
+        if(controlItem.visible)
+            previousIndexList.add(index)
+        controlItem.visible
+    }) {index, it ->
+        control(
+            controlItem = it,
+            index = previousIndexList[index],
+            editModeActivated = editModeActivated
+        )
+    }
+
+
+    itemsIndexed(viewModel.controlItemList.value.filter {
+        it.visible
+    }) { index, control ->
         control(
             controlItem = control,
             index = index,
