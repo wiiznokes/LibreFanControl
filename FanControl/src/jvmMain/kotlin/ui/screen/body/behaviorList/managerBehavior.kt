@@ -31,9 +31,6 @@ fun behavior(
     index: Int,
     editModeActivated: Boolean
 ) {
-
-    val viewModel = BehaviorViewModel()
-
     baseBehavior(
         iconPainter = Resources.getIcon("horizontal_rule"),
         iconContentDescription = "",

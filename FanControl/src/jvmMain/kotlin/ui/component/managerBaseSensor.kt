@@ -2,7 +2,9 @@ package ui.component
 
 import Source
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.painter.Painter
+import model.hardware.Sensor
 
 @Composable
 fun baseSensor(
@@ -17,7 +19,9 @@ fun baseSensor(
 
     sensorName: String?,
     sensorValue: String,
-    onChangeSensorClick: (() -> Unit)? = null
+
+    sensorList: SnapshotStateList<Sensor>,
+    onItemClick: (Sensor) -> Unit
 ) {
     baseItem(
         iconPainter = iconPainter,
@@ -30,9 +34,10 @@ fun baseSensor(
         source = source,
     ) {
 
-        managerListChoice(
+        listChoice(
             sensorName = sensorName,
-            onChangeSensorClick = onChangeSensorClick
+            sensorList = sensorList,
+            onItemClick = onItemClick
         )
 
         managerTextField(

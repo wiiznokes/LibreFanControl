@@ -50,10 +50,11 @@ fun temp(
         },
         source = Source.BODY,
         sensorName = sensorItem.sensorName,
-        onChangeSensorClick = {
-
-        },
-        sensorValue = "${sensor.value} °C"
+        sensorValue = "${sensor.value} °C",
+        sensorList = viewModel.tempList.value,
+        onItemClick = {
+            viewModel.setTemp(index, it)
+        }
     )
 }
 

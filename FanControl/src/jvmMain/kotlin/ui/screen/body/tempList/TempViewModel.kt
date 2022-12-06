@@ -23,10 +23,11 @@ class TempViewModel(
         }
     }
 
-    fun changeSensorId(index: Int, menuIndex: Int) {
+    fun setTemp(index: Int, temp: Sensor) {
         _tempItemList.update {
             _tempItemList.value[index] = _tempItemList.value[index].copy(
-                sensorName = _tempList.value[menuIndex].libName
+                sensorName = temp.libName,
+                sensorId = temp.libId
             )
             it
         }

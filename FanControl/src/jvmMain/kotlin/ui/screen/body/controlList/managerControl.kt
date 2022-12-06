@@ -49,7 +49,6 @@ fun control(
         source = Source.BODY,
 
         behaviorName = "",
-        onChangeBehaviorClick = {},
         isActive = !control.isAuto,
         onSwitchClick = {
             viewModel.setControl(
@@ -59,7 +58,11 @@ fun control(
             )
         },
         value = "${control.value} %",
-        fanValue = ""
+        fanValue = "",
+        behaviorItemList = viewModel.behaviorItemList.value,
+        onItemClick = {
+            viewModel.setBehavior(index, it)
+        }
     )
 }
 

@@ -7,8 +7,10 @@ data class ControlItem(
     override var isExpanded: Boolean = false,
     override val type: ItemType,
 
-    var sensorName: String? = null,
-    var sensorId: String? = null,
+    val sensorName: String,
+    val sensorId: String,
 
-    var visible: Boolean = true
+    var visible: Boolean = true,
+
+    var behaviorName: String? = null
 ) : BaseItem

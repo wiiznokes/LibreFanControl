@@ -13,8 +13,9 @@ private val viewModel: FanViewModel = FanViewModel()
 
 
 fun LazyListScope.fanList(
-    editModeActivated: Boolean
-) {
+    editModeActivated: Boolean,
+
+    ) {
     itemsIndexed(viewModel.fanItemList.value) { index, item ->
         fan(
             sensorItem = item,
@@ -49,11 +50,13 @@ fun fan(
             viewModel.remove(index)
         },
         sensorName = sensorItem.sensorName,
-        onChangeSensorClick = {
 
-        },
         source = Source.BODY,
-        sensorValue = "${sensor.value} RPM"
+        sensorValue = "${sensor.value} RPM",
+        sensorList = viewModel.fanList.value,
+        onItemClick = {
+            viewModel.setFan(index, it)
+        }
     )
 }
 

@@ -1,11 +1,16 @@
 package ui.component
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import model.hardware.Sensor
+import model.item.BehaviorItem
 import ui.utils.Resources
 
 
@@ -50,9 +55,56 @@ fun managerOutlinedTextField(
 
 
 @Composable
-fun managerListChoice(
+fun listChoice(
     sensorName: String?,
-    onChangeSensorClick: (() -> Unit)? = null
+    sensorList: SnapshotStateList<Sensor>,
+    onItemClick: (Sensor) -> Unit
+) {
+    managerListChoice(
+        sensorName = sensorName,
+    ) {
+        sensorList.forEach {
+            DropdownMenuItem(
+                onClick = {
+                    onItemClick(it)
+                }
+            ) {
+                Text(
+                    text = it.libName
+                )
+            }
+        }
+    }
+}
+
+@JvmName("listChoice1")
+@Composable
+fun listChoice(
+    sensorName: String?,
+    behaviorItemList: SnapshotStateList<BehaviorItem>,
+    onItemClick: (String) -> Unit
+) {
+    managerListChoice(
+        sensorName = sensorName,
+    ) {
+        behaviorItemList.forEach {
+            DropdownMenuItem(
+                onClick = {
+                    onItemClick(it.name)
+                }
+            ) {
+                Text(
+                    text = it.name
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun managerListChoice(
+    sensorName: String?,
+    content: @Composable ColumnScope.() -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -70,15 +122,33 @@ fun managerListChoice(
             )
         }
 
+        var expanded by remember { mutableStateOf(false) }
+
         IconButton(
             onClick = {
-                onChangeSensorClick?.invoke()
+                expanded = !expanded
             }
         ) {
-            Icon(
-                painter = Resources.getIcon("expand_more"),
-                contentDescription = Resources.getString("changeSensorContentDescription")
-            )
+            if (expanded) {
+                Icon(
+                    painter = Resources.getIcon("expand_more"),
+                    contentDescription = Resources.getString("changeSensorContentDescription")
+                )
+            } else {
+                Icon(
+                    painter = Resources.getIcon("expand_less"),
+                    contentDescription = Resources.getString("changeSensorContentDescription")
+                )
+            }
+        }
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = {
+                expanded = !expanded
+            }
+        ) {
+            content()
         }
     }
 }
