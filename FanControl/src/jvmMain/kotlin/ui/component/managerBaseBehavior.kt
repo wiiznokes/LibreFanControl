@@ -17,15 +17,15 @@ fun baseBehavior(
     name: String,
     onEditClick: () -> Unit,
     source: Source,
-    label: String? = null,
+    label: String,
     onNameChange: (String) -> Boolean,
-    editModeActivated: Boolean? = null,
+    editModeActivated: Boolean,
 
 
     value: Int = 50,
-    onMoreButtonClick: (() -> Unit)? = null,
-    onLessButtonClick: (() -> Unit)? = null,
-    onSliderValueChange: ((Int) -> Unit)? = null
+    onMoreButtonClick:() -> Unit,
+    onLessButtonClick: () -> Unit,
+    onSliderValueChange: (Int) -> Unit
 ) {
     baseItem(
         iconPainter = iconPainter,
@@ -42,7 +42,7 @@ fun baseBehavior(
 
             IconButton(
                 onClick = {
-                    onMoreButtonClick?.invoke()
+                    onMoreButtonClick()
                 }
             ) {
                 Icon(
@@ -52,7 +52,7 @@ fun baseBehavior(
             }
             IconButton(
                 onClick = {
-                    onLessButtonClick?.invoke()
+                    onLessButtonClick()
                 }
             ) {
                 Icon(
@@ -66,7 +66,7 @@ fun baseBehavior(
             value = value.toFloat() / 100,
             steps = 100,
             onValueChange = {
-                onSliderValueChange?.invoke(
+                onSliderValueChange(
                     (it * 100).toInt()
                 )
             }

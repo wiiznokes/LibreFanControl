@@ -15,11 +15,11 @@ import model.item.SensorItem
 class State {
 
     companion object {
-        val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = MutableStateFlow(mutableStateListOf())
-        val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = MutableStateFlow(mutableStateListOf())
         val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = MutableStateFlow(mutableStateListOf())
         val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> =
             MutableStateFlow(mutableStateListOf())
+        val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = MutableStateFlow(mutableStateListOf())
+        val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = MutableStateFlow(mutableStateListOf())
 
         val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = MutableStateFlow(mutableStateListOf())
         val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = MutableStateFlow(mutableStateListOf())
@@ -29,7 +29,6 @@ class State {
         @OptIn(ExperimentalMaterial3Api::class)
         val _drawerState: MutableStateFlow<DrawerState> = MutableStateFlow(DrawerState(DrawerValue.Closed))
         val _addItemExpanded: MutableStateFlow<MutableState<Boolean>> = MutableStateFlow(mutableStateOf(false))
-
         val _editModeActivated: MutableStateFlow<MutableState<Boolean>> = MutableStateFlow(mutableStateOf(false))
     }
 }

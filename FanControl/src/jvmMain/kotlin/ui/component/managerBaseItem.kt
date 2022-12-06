@@ -9,7 +9,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -57,10 +56,6 @@ fun baseItem(
                 ) {
                     Row(
                         modifier = Modifier
-                            .wrapContentWidth(
-                                align = Alignment.Start,
-                                unbounded = true
-                            )
                     ) {
                         Icon(
                             painter = iconPainter,
@@ -78,9 +73,7 @@ fun baseItem(
                             }
 
                             Source.BODY -> {
-
                                 val text = mutableStateOf(name)
-
                                 managerOutlinedTextField(
                                     text = text,
                                     onValueChange = {
