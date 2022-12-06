@@ -32,7 +32,7 @@ fun home() {
             topBar()
 
             body(
-                editModeActivated = viewModel.editModeActivated
+                editModeActivated = viewModel.editModeActivated.value
             )
         }
     }
