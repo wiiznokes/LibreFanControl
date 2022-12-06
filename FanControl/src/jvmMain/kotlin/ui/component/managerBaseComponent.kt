@@ -1,6 +1,8 @@
 package ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -9,6 +11,9 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -34,17 +39,55 @@ fun managerText(
 @Composable
 fun managerOutlinedTextField(
     value: String,
-    onValueChange: ((String) -> Unit)? = null,
+    onValueChange: ((String) -> Unit),
     label: String
 ) {
+    val focusRequester = remember { FocusRequester() }
+
+    val text = remember { mutableStateOf(value) }
+
+    val hasFocus = remember { mutableStateOf(false) }
+
 
     OutlinedTextField(
         modifier = Modifier
             .width(IntrinsicSize.Min)
-            .widthIn(70.dp, 200.dp),
+            .widthIn(70.dp, 200.dp)
+
+            .clickable { focusRequester.requestFocus() }
+            .focusRequester(focusRequester)
+            .onFocusChanged {
+                println("onFocusChanged: " +
+                "isFocused = ${it.isFocused}, " +
+                "hasFocus = ${it.hasFocus}")
+
+
+
+                if(hasFocus.value && !it.isFocused && !it.hasFocus) {
+                    println("ask viewModel to change ${text.value}")
+                    onValueChange(text.value)
+                    hasFocus.value = false
+                }
+
+                if(it.isFocused && it.hasFocus) {
+                    if(hasFocus.value) {
+                        println("ask viewModel to change ${text.value}")
+                        onValueChange(text.value)
+                        hasFocus.value = false
+                    }
+                    else {
+                        println("has focus = true")
+                        hasFocus.value = true
+                    }
+                }
+
+            }
+            .focusable()
+        ,
         value = value,
         onValueChange = {
-            onValueChange?.invoke(it)
+            println("onValueChange $it")
+            text.value = it
         },
         textStyle = MaterialTheme.typography.bodyMedium,
         colors = TextFieldDefaults.textFieldColors(

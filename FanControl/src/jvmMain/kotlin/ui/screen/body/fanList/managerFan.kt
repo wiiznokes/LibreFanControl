@@ -49,7 +49,7 @@ fun fan(
         onEditClick = {
             viewModel.remove(index)
         },
-        sensorName = sensorItem.sensorName,
+        sensorName = sensorItem.sensorId,
 
         source = Source.BODY,
         sensorValue = "${sensor.value} RPM",

@@ -36,6 +36,10 @@ class TempViewModel(
 
     fun setName(name: String, index: Int) {
 
+        if(_tempItemList.value.count {
+                it.name == name } != 0
+        ) return
+
         _tempItemList.update {
             _tempItemList.value[index] = _tempItemList.value[index].copy(
                 name = name
