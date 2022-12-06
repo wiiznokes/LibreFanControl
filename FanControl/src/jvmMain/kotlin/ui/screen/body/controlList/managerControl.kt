@@ -4,6 +4,7 @@ import Source
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import model.item.ControlItem
 import ui.component.baseControl
 import ui.utils.Resources
@@ -16,10 +17,19 @@ fun LazyListScope.controlList(
     editModeActivated: Boolean
 ) {
 
-    itemsIndexed(viewModel.controlItemList.value) { index, control ->
+
+    val previousIndexList = mutableListOf<Int>()
+
+    itemsIndexed(viewModel.controlItemList.value.filterIndexed { index, controlItem ->
+        if (controlItem.visible)
+            previousIndexList.add(index)
+        controlItem.visible
+    }) { index, it ->
+
+        println("display index = $index, list index = ${previousIndexList[index]}")
         control(
-            controlItem = control,
-            index = index,
+            controlItem = it,
+            index = previousIndexList[index],
             editModeActivated = editModeActivated
         )
     }
@@ -49,7 +59,6 @@ fun control(
         source = Source.BODY,
 
         behaviorName = "",
-        onChangeBehaviorClick = {},
         isActive = !control.isAuto,
         onSwitchClick = {
             viewModel.setControl(
@@ -59,7 +68,11 @@ fun control(
             )
         },
         value = "${control.value} %",
-        fanValue = ""
+        fanValue = "",
+        behaviorItemList = viewModel.behaviorItemList.value,
+        onItemClick = {
+            viewModel.setBehavior(index, it)
+        }
     )
 }
 

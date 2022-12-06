@@ -22,21 +22,39 @@ class FanViewModel(
         }
     }
 
-    fun changeSensorId(index: Int, menuIndex: Int) {
+    fun setFan(index: Int, fan: Sensor) {
         _fanItemList.update {
             _fanItemList.value[index] = _fanItemList.value[index].copy(
-                sensorName = _fanList.value[menuIndex].libName
+                sensorName = fan.libName,
+                sensorId = fan.libId
             )
             it
         }
     }
 
-    fun setName(name: String, index: Int) {
+    fun setName(name: String, index: Int): Boolean {
+
+        if (_fanItemList.value.count {
+                it.name == name
+            } != 0
+        ) {
+            println("nom pareil")
+            _fanItemList.update {
+                _fanItemList.value[index] = _fanItemList.value[index].copy(
+                    name = _fanItemList.value[index].name
+                )
+                it
+            }
+
+            return false
+        }
+
         _fanItemList.update {
             _fanItemList.value[index] = _fanItemList.value[index].copy(
                 name = name
             )
             it
         }
+        return true
     }
 }

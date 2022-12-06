@@ -1,11 +1,12 @@
 package ui.component
 
 import Source
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.painter.Painter
+import model.item.BehaviorItem
 
 
 @Composable
@@ -16,15 +17,16 @@ fun baseControl(
     iconContentDescription: String,
     name: String,
     label: String? = null,
-    onNameChange: ((String) -> Unit)? = null,
+    onNameChange: (String) -> Boolean,
     editModeActivated: Boolean? = null,
 
     behaviorName: String,
-    onChangeBehaviorClick: (() -> Unit)? = null,
     isActive: Boolean = false,
     onSwitchClick: ((Boolean) -> Unit)? = null,
     value: String = "50 %",
-    fanValue: String = "2000 RPM"
+    fanValue: String = "2000 RPM",
+    behaviorItemList: SnapshotStateList<BehaviorItem>,
+    onItemClick: (String) -> Unit
 ) {
     baseItem(
         iconPainter = iconPainter,
@@ -44,17 +46,18 @@ fun baseControl(
                     onSwitchClick?.invoke(it)
                 }
             )
-            Box {
-                managerListChoice(
-                    sensorName = behaviorName,
-                    onChangeSensorClick = onChangeBehaviorClick
-                )
-            }
+
+            listChoice(
+                sensorName = behaviorName,
+                behaviorItemList = behaviorItemList,
+                onItemClick = onItemClick
+            )
+
 
         }
         Row {
-            managerTextField(value)
-            managerTextField(fanValue)
+            managerText(value)
+            managerText(fanValue)
         }
     }
 }

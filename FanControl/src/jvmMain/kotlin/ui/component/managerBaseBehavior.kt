@@ -18,7 +18,7 @@ fun baseBehavior(
     onEditClick: () -> Unit,
     source: Source,
     label: String? = null,
-    onNameChange: ((String) -> Unit)? = null,
+    onNameChange: (String) -> Boolean,
     editModeActivated: Boolean? = null,
 
 
@@ -38,7 +38,7 @@ fun baseBehavior(
         source = source,
     ) {
         Row {
-            managerTextField("Fan speed")
+            managerText("Fan speed")
 
             IconButton(
                 onClick = {

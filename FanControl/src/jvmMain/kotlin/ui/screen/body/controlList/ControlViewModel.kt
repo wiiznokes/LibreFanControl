@@ -16,11 +16,24 @@ class ControlViewModel(
 ) {
     val controlList = _controlList.asStateFlow()
     val controlItemList = _controlItemList.asStateFlow()
+    val behaviorItemList = _behaviorItemList.asStateFlow()
 
 
     fun remove(index: Int) {
+        println("control remove index = $index")
         _controlItemList.update {
-            _controlItemList.value.removeAt(index)
+            _controlItemList.value[index] = _controlItemList.value[index].copy(
+                visible = false
+            )
+            it
+        }
+    }
+
+    fun setBehavior(index: Int, behaviorName: String) {
+        _controlItemList.update {
+            _controlItemList.value[index] = _controlItemList.value[index].copy(
+                behaviorName = behaviorName
+            )
             it
         }
     }
@@ -30,13 +43,20 @@ class ControlViewModel(
     }
 
 
-    fun setName(name: String, index: Int) {
+    fun setName(name: String, index: Int): Boolean {
+
+        if (_controlItemList.value.count {
+                it.name == name
+            } != 0
+        ) return false
+
         _controlItemList.update {
             _controlItemList.value[index] = _controlItemList.value[index].copy(
                 name = name
             )
             it
         }
+        return true
     }
 
     fun changeBehaviorId(index: Int, menuIndex: Int) {

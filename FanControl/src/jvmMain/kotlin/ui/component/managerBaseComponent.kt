@@ -1,22 +1,35 @@
 package ui.component
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
+import model.hardware.Sensor
+import model.item.BehaviorItem
 import ui.utils.Resources
 
 
 @Composable
-fun managerTextField(
+fun managerText(
     value: String
 ) {
     Text(
         modifier = Modifier,
         text = value,
-        color = androidx.compose.material.MaterialTheme.colors.onPrimary,
+        color = MaterialTheme.colorScheme.onPrimary,
         maxLines = 1,
         style = MaterialTheme.typography.bodyMedium
     )
@@ -25,18 +38,55 @@ fun managerTextField(
 
 @Composable
 fun managerOutlinedTextField(
-    value: String,
-    onValueChange: ((String) -> Unit)? = null,
+    text: MutableState<String>,
+    trueName: String,
+    onValueChange: ((String) -> Boolean),
     label: String
 ) {
+    val focusRequester = FocusRequester()
+
+    val hasFocus = mutableStateOf(false)
 
     OutlinedTextField(
         modifier = Modifier
             .width(IntrinsicSize.Min)
-            .widthIn(70.dp, 200.dp),
-        value = value,
+            .widthIn(70.dp, 200.dp)
+
+            .clickable { focusRequester.requestFocus() }
+            .focusRequester(focusRequester)
+            .onFocusChanged {
+                /*
+                println("onFocusChanged: " +
+                "isFocused = ${it.isFocused}, " +
+                "hasFocus = ${it.hasFocus}")
+                 */
+
+                if (hasFocus.value && !it.isFocused && !it.hasFocus) {
+                    if (onValueChange(text.value)) {
+
+                    } else {
+                        text.value = trueName
+                    }
+                    hasFocus.value = false
+                }
+
+                if (it.isFocused && it.hasFocus) {
+                    if (hasFocus.value) {
+                        if (onValueChange(text.value)) {
+
+                        } else {
+                            text.value = trueName
+                        }
+                        hasFocus.value = false
+                    } else {
+                        hasFocus.value = true
+                    }
+                }
+            }
+            .focusable(),
+        value = text.value,
         onValueChange = {
-            onValueChange?.invoke(it)
+            text.value = it
         },
         textStyle = MaterialTheme.typography.bodyMedium,
         colors = TextFieldDefaults.textFieldColors(
@@ -50,9 +100,77 @@ fun managerOutlinedTextField(
 
 
 @Composable
-fun managerListChoice(
+fun listChoice(
     sensorName: String?,
-    onChangeSensorClick: (() -> Unit)? = null
+    sensorList: SnapshotStateList<Sensor>,
+    onItemClick: (Sensor) -> Unit
+) {
+    val expanded = MutableStateFlow(mutableStateOf(false))
+
+
+
+    managerListChoice(
+        sensorName = sensorName,
+        expanded = expanded
+    ) {
+        sensorList.forEach {
+            DropdownMenuItem(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.primary),
+                onClick = {
+                    onItemClick(it)
+                    expanded.update {
+                        it.value = false
+                        it
+                    }
+                }
+            ) {
+                managerText(
+                    value = it.libName
+                )
+            }
+        }
+    }
+}
+
+@JvmName("listChoice1")
+@Composable
+fun listChoice(
+    sensorName: String?,
+    behaviorItemList: SnapshotStateList<BehaviorItem>,
+    onItemClick: (String) -> Unit
+) {
+    val expanded = MutableStateFlow(mutableStateOf(false))
+
+    managerListChoice(
+        sensorName = sensorName,
+        expanded = expanded
+    ) {
+        behaviorItemList.forEach {
+            DropdownMenuItem(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.primary),
+                onClick = {
+                    onItemClick(it.name)
+                    expanded.update {
+                        it.value = false
+                        it
+                    }
+                }
+            ) {
+                managerText(
+                    value = it.name
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun managerListChoice(
+    sensorName: String?,
+    expanded: MutableStateFlow<MutableState<Boolean>>,
+    content: @Composable ColumnScope.() -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -61,24 +179,52 @@ fun managerListChoice(
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (sensorName != null) {
-            managerTextField(
+            managerText(
                 value = sensorName,
             )
         } else {
-            managerTextField(
+            managerText(
                 value = "Pas de sensor",
             )
         }
 
+        val iconShouldTrigger = remember { mutableStateOf(true) }
         IconButton(
             onClick = {
-                onChangeSensorClick?.invoke()
+                if (!iconShouldTrigger.value) {
+                    iconShouldTrigger.value = true
+                    return@IconButton
+                }
+                expanded.update {
+                    it.value = true
+                    it
+                }
             }
         ) {
-            Icon(
-                painter = Resources.getIcon("expand_more"),
-                contentDescription = Resources.getString("changeSensorContentDescription")
-            )
+            if (expanded.value.value) {
+                Icon(
+                    painter = Resources.getIcon("expand_more"),
+                    contentDescription = Resources.getString("changeSensorContentDescription")
+                )
+            } else {
+                Icon(
+                    painter = Resources.getIcon("expand_less"),
+                    contentDescription = Resources.getString("changeSensorContentDescription")
+                )
+            }
+        }
+
+        DropdownMenu(
+            expanded = expanded.value.value,
+            onDismissRequest = {
+                expanded.update {
+                    it.value = false
+                    it
+                }
+                iconShouldTrigger.value = false
+            }
+        ) {
+            content()
         }
     }
 }
