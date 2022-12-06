@@ -3,7 +3,6 @@ package ui.component
 import Source
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
-import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun baseSensor(
@@ -14,9 +13,9 @@ fun baseSensor(
     name: String,
     label: String? = null,
     onNameChange: ((String) -> Unit)? = null,
-    editModeActivated: StateFlow<Boolean>? = null,
+    editModeActivated: Boolean? = null,
 
-    sensorName: String,
+    sensorName: String?,
     sensorValue: String,
     onChangeSensorClick: (() -> Unit)? = null
 ) {

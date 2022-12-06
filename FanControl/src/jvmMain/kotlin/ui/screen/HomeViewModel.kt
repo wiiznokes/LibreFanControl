@@ -1,25 +1,22 @@
 package ui.screen
 
 import State
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.MutableState
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class HomeViewModel {
+class HomeViewModel(
+    private val _editModeActivated: MutableStateFlow<MutableState<Boolean>> = State._editModeActivated,
+    @OptIn(ExperimentalMaterial3Api::class)
+    private val _drawerState: MutableStateFlow<DrawerState> = State._drawerState,
+    private val _addItemExpanded: MutableStateFlow<MutableState<Boolean>> = State._addItemExpanded,
+) {
 
-
-    val fanList = State._fanList.asStateFlow()
-    val tempList = State._tempList.asStateFlow()
-    val controlList = State._controlList.asStateFlow()
-    val behaviorList = State._behaviorList.asStateFlow()
-
-    val addFanList = State._addFanList.asStateFlow()
-    val addTempList = State._addTempList.asStateFlow()
-    val addControlList = State._addControlList.asStateFlow()
-    val addBehaviorList = State._addBehaviorList.asStateFlow()
+    val editModeActivated = _editModeActivated.asStateFlow()
 
     @OptIn(ExperimentalMaterial3Api::class)
-    val drawerState = State._drawerState.asStateFlow()
-    val addItemExpanded = State._addItemExpanded.asStateFlow()
-
-    val editModeActivated = State._editModeActivated.asStateFlow()
+    val drawerState = _drawerState.asStateFlow()
+    val addItemExpanded = _addItemExpanded.asStateFlow()
 }

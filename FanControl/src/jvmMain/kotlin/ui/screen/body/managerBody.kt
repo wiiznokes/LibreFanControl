@@ -1,36 +1,27 @@
 package ui.screen.body
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.flow.StateFlow
-import model.behavior.Behavior
-import model.hardware.control.Control
-import model.hardware.sensor.Fan
-import model.hardware.sensor.Temp
-import ui.screen.body.behaviorList.behavior
-import ui.screen.body.controlList.control
-import ui.screen.body.fanList.fan
-import ui.screen.body.tempList.temp
+import ui.component.itemsList
+import ui.screen.body.behaviorList.behaviorList
+import ui.screen.body.controlList.controlList
+import ui.screen.body.fanList.fanList
+import ui.screen.body.tempList.tempList
 import ui.utils.Resources
 
 @Composable
 fun body(
-    fans: StateFlow<SnapshotStateList<Fan>>,
-    temps: StateFlow<SnapshotStateList<Temp>>,
-    controls: StateFlow<SnapshotStateList<Control>>,
-    behaviors: StateFlow<SnapshotStateList<Behavior>>,
-    editModeActivated: StateFlow<Boolean>
+    editModeActivated: MutableState<Boolean>
 ) {
 
     val viewModel = BodyViewModel()
@@ -44,22 +35,25 @@ fun body(
                 ),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-
-            listOf(
-                Resources.getString("title_fan"),
-                Resources.getString("title_temp"),
-                Resources.getString("title_control"),
-                Resources.getString("title_behavior")
-            ).forEach {
-                managerBodyListItem(
-                    title = it,
-                    fans = fans,
-                    temps = temps,
-                    controls = controls,
-                    behaviors = behaviors,
-                    editModeActivated = editModeActivated
-
-                )
+            itemsList(
+                title = Resources.getString("title_fan")
+            ) {
+                fanList(editModeActivated.value)
+            }
+            itemsList(
+                title = Resources.getString("title_temp")
+            ) {
+                tempList(editModeActivated.value)
+            }
+            itemsList(
+                title = Resources.getString("title_control")
+            ) {
+                controlList(editModeActivated.value)
+            }
+            itemsList(
+                title = Resources.getString("title_behavior")
+            ) {
+                behaviorList(editModeActivated.value)
             }
         }
 
@@ -74,89 +68,5 @@ fun body(
                 text = "Add"
             )
         }
-    }
-
-}
-
-@Composable
-fun managerBodyListItem(
-    title: String,
-    fans: StateFlow<SnapshotStateList<Fan>>,
-    temps: StateFlow<SnapshotStateList<Temp>>,
-    controls: StateFlow<SnapshotStateList<Control>>,
-    behaviors: StateFlow<SnapshotStateList<Behavior>>,
-    editModeActivated: StateFlow<Boolean>
-) {
-
-    LazyColumn {
-        item {
-            Text(
-                text = title,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontSize = 40.sp
-            )
-            Spacer(
-                modifier = Modifier
-                    .height(20.dp)
-            )
-        }
-        when (title) {
-            Resources.getString("title_fan") -> {
-                itemsIndexed(fans.value) { index, item ->
-                    Spacer(
-                        modifier = Modifier
-                            .height(10.dp)
-                    )
-                    fan(
-                        fan = item,
-                        index = index,
-                        editModeActivated
-                    )
-                }
-            }
-
-            Resources.getString("title_temp") -> {
-                itemsIndexed(temps.value) { index, item ->
-                    Spacer(
-                        modifier = Modifier
-                            .height(5.dp)
-                    )
-                    temp(
-                        temp = item,
-                        index = index,
-                        editModeActivated = editModeActivated
-                    )
-                }
-            }
-
-            Resources.getString("title_control") -> {
-                itemsIndexed(controls.value) { index, item ->
-                    Spacer(
-                        modifier = Modifier
-                            .height(5.dp)
-                    )
-                    control(
-                        control = item,
-                        index = index,
-                        editModeActivated = editModeActivated
-                    )
-                }
-            }
-
-            Resources.getString("title_behavior") -> {
-                itemsIndexed(behaviors.value) { index, item ->
-                    Spacer(
-                        modifier = Modifier
-                            .height(5.dp)
-                    )
-                    behavior(
-                        behavior = item,
-                        index = index,
-                        editModeActivated = editModeActivated
-                    )
-                }
-            }
-        }
-
     }
 }

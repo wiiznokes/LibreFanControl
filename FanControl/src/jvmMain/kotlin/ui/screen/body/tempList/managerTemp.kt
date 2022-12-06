@@ -2,24 +2,44 @@ package ui.screen.body.tempList
 
 
 import Source
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import kotlinx.coroutines.flow.StateFlow
-import model.hardware.sensor.Temp
+import model.item.SensorItem
 import ui.component.baseSensor
 import ui.utils.Resources
 
+
+private val viewModel: TempViewModel = TempViewModel()
+
+fun LazyListScope.tempList(
+    editModeActivated: Boolean
+) {
+    itemsIndexed(viewModel.tempItemList.value) { index, temp ->
+        temp(
+            sensorItem = temp,
+            index = index,
+            editModeActivated = editModeActivated
+        )
+    }
+}
+
+
 @Composable
 fun temp(
-    temp: Temp,
+    sensorItem: SensorItem,
     index: Int,
-    editModeActivated: StateFlow<Boolean>
+    editModeActivated: Boolean
 ) {
-    val viewModel = TempViewModel()
+
+    val sensor = viewModel.tempList.value.filter {
+        it.libId == sensorItem.sensorId
+    }[0]
 
     baseSensor(
         iconPainter = Resources.getIcon("thermometer"),
         iconContentDescription = "",
-        name = temp.name,
+        name = sensorItem.name,
         label = "name",
         onNameChange = {
             viewModel.setName(it, index)
@@ -29,11 +49,11 @@ fun temp(
             viewModel.remove(index)
         },
         source = Source.BODY,
-        sensorName = temp.libName,
+        sensorName = sensorItem.sensorName,
         onChangeSensorClick = {
 
         },
-        sensorValue = "${temp.value} °C"
+        sensorValue = "${sensor.value} °C"
     )
 }
 

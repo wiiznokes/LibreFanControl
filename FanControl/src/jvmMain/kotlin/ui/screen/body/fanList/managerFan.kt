@@ -1,24 +1,45 @@
 package ui.screen.body.fanList
 
 import Source
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import kotlinx.coroutines.flow.StateFlow
-import model.hardware.sensor.Fan
+import model.item.SensorItem
 import ui.component.baseSensor
 import ui.utils.Resources
 
+
+private val viewModel: FanViewModel = FanViewModel()
+
+
+fun LazyListScope.fanList(
+    editModeActivated: Boolean
+) {
+    itemsIndexed(viewModel.fanItemList.value) { index, item ->
+        fan(
+            sensorItem = item,
+            index = index,
+            editModeActivated = editModeActivated
+        )
+    }
+}
+
+
 @Composable
 fun fan(
-    fan: Fan,
+    sensorItem: SensorItem,
     index: Int,
-    editModeActivated: StateFlow<Boolean>
+    editModeActivated: Boolean
 ) {
-    val viewModel = FanViewModel()
+
+    val sensor = viewModel.fanList.value.filter {
+        it.libId == sensorItem.sensorId
+    }[0]
 
     baseSensor(
         iconPainter = Resources.getIcon("toys_fan"),
         iconContentDescription = "",
-        name = fan.name,
+        name = sensorItem.name,
         label = "name",
         onNameChange = {
             viewModel.setName(it, index)
@@ -27,12 +48,12 @@ fun fan(
         onEditClick = {
             viewModel.remove(index)
         },
-        source = Source.BODY,
-        sensorName = fan.libName,
+        sensorName = sensorItem.sensorName,
         onChangeSensorClick = {
 
         },
-        sensorValue = "${fan.value} RPM"
+        source = Source.BODY,
+        sensorValue = "${sensor.value} RPM"
     )
 }
 

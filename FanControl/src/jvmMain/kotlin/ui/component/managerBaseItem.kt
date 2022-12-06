@@ -2,7 +2,6 @@ package ui.component
 
 import Source
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -14,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.StateFlow
 import ui.utils.Resources
 
 
@@ -27,16 +25,15 @@ fun baseItem(
     source: Source,
     label: String? = null,
     onNameChange: ((String) -> Unit)? = null,
-    editModeActivated: StateFlow<Boolean>? = null,
+    editModeActivated: Boolean? = null,
     content: @Composable (ColumnScope.() -> Unit)
 ) {
     Box(
         modifier = Modifier
-            .background(Color.Green)
     ) {
         Box(
             modifier = Modifier
-                .padding(10.dp)
+                .padding(8.dp)
         ) {
             Surface(
                 modifier = Modifier
@@ -84,7 +81,7 @@ fun baseItem(
                                     onValueChange = {
                                         onNameChange?.invoke(it)
                                     },
-                                    label = "name"
+                                    label = label!!
                                 )
                             }
                         }
@@ -102,7 +99,7 @@ fun baseItem(
         }
         when (source) {
             Source.BODY -> {
-                if (editModeActivated?.value == true) {
+                if (editModeActivated == true) {
                     IconButton(
                         modifier = Modifier
                             .align(Alignment.TopEnd),

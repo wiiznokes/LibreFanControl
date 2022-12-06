@@ -1,12 +1,8 @@
 package model.hardware
 
-import model.BaseItem
-
-interface BaseHardware : BaseItem {
-    var maxValue: Int
-    var minValue: Int
-
-    var libName: String
-
+interface BaseHardware {
     val libIndex: Int
+    val libId: String
+    val libName: String
+    var value: Int
 }

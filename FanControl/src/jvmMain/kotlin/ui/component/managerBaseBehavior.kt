@@ -7,7 +7,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
-import kotlinx.coroutines.flow.StateFlow
 import ui.utils.Resources
 
 
@@ -20,7 +19,7 @@ fun baseBehavior(
     source: Source,
     label: String? = null,
     onNameChange: ((String) -> Unit)? = null,
-    editModeActivated: StateFlow<Boolean>? = null,
+    editModeActivated: Boolean? = null,
 
 
     value: Int = 50,

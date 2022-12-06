@@ -1,18 +1,35 @@
 package ui.screen.body.behaviorList
 
 import Source
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import kotlinx.coroutines.flow.StateFlow
-import model.behavior.Behavior
+import model.item.BehaviorItem
 import ui.component.baseBehavior
 import ui.utils.Resources
 
 
+private val viewModel: BehaviorViewModel = BehaviorViewModel()
+
+
+fun LazyListScope.behaviorList(
+    editModeActivated: Boolean
+) {
+    itemsIndexed(viewModel.behaviorItemList.value) { index, behavior ->
+        behavior(
+            behaviorItem = behavior,
+            index = index,
+            editModeActivated = editModeActivated
+        )
+    }
+}
+
+
 @Composable
 fun behavior(
-    behavior: Behavior,
+    behaviorItem: BehaviorItem,
     index: Int,
-    editModeActivated: StateFlow<Boolean>
+    editModeActivated: Boolean
 ) {
 
     val viewModel = BehaviorViewModel()
@@ -20,7 +37,7 @@ fun behavior(
     baseBehavior(
         iconPainter = Resources.getIcon("horizontal_rule"),
         iconContentDescription = "",
-        name = behavior.name,
+        name = behaviorItem.name,
         label = "name",
         onNameChange = { viewModel.setName(it, index) },
         editModeActivated = editModeActivated,
@@ -33,7 +50,7 @@ fun behavior(
         onLessButtonClick = {
             viewModel.onLess(index)
         },
-        value = behavior.value,
+        value = behaviorItem.value,
         onSliderValueChange = {
             viewModel.onChange(index, it)
         }
