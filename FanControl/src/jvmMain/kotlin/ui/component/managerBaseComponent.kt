@@ -15,8 +15,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import model.hardware.Sensor
 import model.item.BehaviorItem
 import ui.utils.Resources
@@ -24,10 +22,11 @@ import ui.utils.Resources
 
 @Composable
 fun managerText(
-    value: String
+    value: String,
+    modifier: Modifier = Modifier
 ) {
     Text(
-        modifier = Modifier,
+        modifier = modifier,
         text = value,
         color = MaterialTheme.colorScheme.onPrimary,
         maxLines = 1,
@@ -166,15 +165,16 @@ private fun managerListChoice(
     expanded: MutableState<Boolean>,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    Row(
+    Box(
         modifier = Modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+            .fillMaxWidth()
     ) {
         if (sensorName != null) {
             managerText(
                 value = sensorName,
+                modifier = Modifier.align(
+                    Alignment.CenterStart
+                )
             )
         } else {
             managerText(
@@ -184,6 +184,9 @@ private fun managerListChoice(
 
         val iconShouldTrigger = remember { mutableStateOf(true) }
         IconButton(
+            modifier = Modifier.align(
+                Alignment.CenterEnd
+            ),
             onClick = {
                 if (!iconShouldTrigger.value) {
                     iconShouldTrigger.value = true

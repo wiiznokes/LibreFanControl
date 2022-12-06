@@ -39,7 +39,6 @@ fun baseSensor(
             sensorList = sensorList,
             onItemClick = onItemClick
         )
-
         managerText(
             value = sensorValue
         )

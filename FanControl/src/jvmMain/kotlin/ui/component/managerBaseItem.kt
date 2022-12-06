@@ -90,7 +90,9 @@ fun baseItem(
                             .height(10.dp)
                     )
 
+
                     content()
+
 
                 }
             }

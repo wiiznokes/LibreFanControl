@@ -23,7 +23,7 @@ fun baseBehavior(
 
 
     value: Int = 50,
-    onMoreButtonClick:() -> Unit,
+    onMoreButtonClick: () -> Unit,
     onLessButtonClick: () -> Unit,
     onSliderValueChange: (Int) -> Unit
 ) {

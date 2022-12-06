@@ -36,16 +36,16 @@ class Configuration(
                 )
             )
         }
-/*
-        _behaviorItemList.value.add(
-            BehaviorItem(
-                name = "behavior 1",
-                isExpanded = false,
-                type = ItemType.BEHAVIOR,
-            )
-        )
+        /*
+                _behaviorItemList.value.add(
+                    BehaviorItem(
+                        name = "behavior 1",
+                        isExpanded = false,
+                        type = ItemType.BEHAVIOR,
+                    )
+                )
 
- */
+         */
 
         _fanList.value.forEach {
             _fanItemList.value.add(
