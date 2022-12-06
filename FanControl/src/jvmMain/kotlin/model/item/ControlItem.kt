@@ -12,5 +12,5 @@ data class ControlItem(
 
     var visible: Boolean = true,
 
-    var behaviorName: String? = null
+    var behaviorName: String = ""
 ) : BaseItem

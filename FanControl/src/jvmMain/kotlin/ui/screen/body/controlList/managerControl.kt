@@ -25,7 +25,6 @@ fun LazyListScope.controlList(
         controlItem.visible
     }) { index, it ->
 
-        println("display index = $index, list index = ${previousIndexList[index]}")
         control(
             controlItem = it,
             index = previousIndexList[index],

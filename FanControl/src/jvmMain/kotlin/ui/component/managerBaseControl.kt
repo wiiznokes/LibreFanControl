@@ -16,15 +16,15 @@ fun baseControl(
     iconPainter: Painter,
     iconContentDescription: String,
     name: String,
-    label: String? = null,
+    label: String,
     onNameChange: (String) -> Boolean,
-    editModeActivated: Boolean? = null,
+    editModeActivated: Boolean,
 
     behaviorName: String,
-    isActive: Boolean = false,
-    onSwitchClick: ((Boolean) -> Unit)? = null,
-    value: String = "50 %",
-    fanValue: String = "2000 RPM",
+    isActive: Boolean,
+    onSwitchClick: (Boolean) -> Unit,
+    value: String,
+    fanValue: String,
     behaviorItemList: SnapshotStateList<BehaviorItem>,
     onItemClick: (String) -> Unit
 ) {
@@ -43,7 +43,7 @@ fun baseControl(
             Switch(
                 checked = isActive,
                 onCheckedChange = {
-                    onSwitchClick?.invoke(it)
+                    onSwitchClick(it)
                 }
             )
 

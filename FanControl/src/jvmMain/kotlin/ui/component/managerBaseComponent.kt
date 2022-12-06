@@ -42,11 +42,14 @@ fun managerOutlinedTextField(
     onValueChange: ((String) -> Boolean),
     label: String
 ) {
-    val focusRequester = FocusRequester()
+    val focusRequester = remember { FocusRequester() }
 
-    val hasFocus = mutableStateOf(false)
+    val hasFocus = remember { mutableStateOf(false) }
+
+    val enabled = remember { mutableStateOf(true) }
 
     OutlinedTextField(
+        enabled = enabled.value,
         modifier = Modifier
             .width(IntrinsicSize.Min)
             .widthIn(70.dp, 200.dp)
@@ -61,21 +64,27 @@ fun managerOutlinedTextField(
                  */
 
                 if (hasFocus.value && !it.isFocused && !it.hasFocus) {
+                    println("onValueChange")
+                    enabled.value = false
                     if (onValueChange(text.value)) {
 
                     } else {
                         text.value = trueName
                     }
+                    enabled.value = true
                     hasFocus.value = false
                 }
 
                 if (it.isFocused && it.hasFocus) {
                     if (hasFocus.value) {
+                        println("onValueChange")
+                        enabled.value = false
                         if (onValueChange(text.value)) {
 
                         } else {
                             text.value = trueName
                         }
+                        enabled.value = true
                         hasFocus.value = false
                     } else {
                         hasFocus.value = true
@@ -100,7 +109,7 @@ fun managerOutlinedTextField(
 
 @Composable
 fun listChoice(
-    sensorName: String?,
+    sensorName: String,
     sensorList: SnapshotStateList<Sensor>,
     onItemClick: (Sensor) -> Unit
 ) {

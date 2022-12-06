@@ -13,11 +13,11 @@ fun baseSensor(
     iconPainter: Painter,
     iconContentDescription: String,
     name: String,
-    label: String? = null,
+    label: String,
     onNameChange: (String) -> Boolean,
-    editModeActivated: Boolean? = null,
+    editModeActivated: Boolean,
 
-    sensorName: String?,
+    sensorName: String,
     sensorValue: String,
 
     sensorList: SnapshotStateList<Sensor>,
