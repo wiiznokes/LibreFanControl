@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.hardware.Sensor
-import model.item.LibItem
+import model.item.SensorItem
 
 class FanViewModel(
-    private val _fanItemList: MutableStateFlow<SnapshotStateList<LibItem>> = State._fanItemList,
+    private val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
     private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList
 ) {
     val fanList = State._fanList.asStateFlow()

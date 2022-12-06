@@ -2,10 +2,11 @@ package model.item
 
 import model.ItemType
 
-data class Behavior(
+data class SensorItem(
     override var name: String = "",
     override var isExpanded: Boolean = false,
     override val type: ItemType,
 
-    val value: Int = 0
+    var sensorName: String? = null,
+    var sensorId: String? = null
 ) : BaseItem

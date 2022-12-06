@@ -4,7 +4,7 @@ import Source
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import model.item.Behavior
+import model.item.BehaviorItem
 import ui.component.baseBehavior
 import ui.utils.Resources
 
@@ -17,7 +17,7 @@ fun LazyListScope.behaviorList(
 ) {
     itemsIndexed(viewModel.behaviorItemList.value) { index, behavior ->
         behavior(
-            behavior = behavior,
+            behaviorItem = behavior,
             index = index,
             editModeActivated = editModeActivated
         )
@@ -27,7 +27,7 @@ fun LazyListScope.behaviorList(
 
 @Composable
 fun behavior(
-    behavior: Behavior,
+    behaviorItem: BehaviorItem,
     index: Int,
     editModeActivated: Boolean
 ) {
@@ -37,7 +37,7 @@ fun behavior(
     baseBehavior(
         iconPainter = Resources.getIcon("horizontal_rule"),
         iconContentDescription = "",
-        name = behavior.name,
+        name = behaviorItem.name,
         label = "name",
         onNameChange = { viewModel.setName(it, index) },
         editModeActivated = editModeActivated,
@@ -50,7 +50,7 @@ fun behavior(
         onLessButtonClick = {
             viewModel.onLess(index)
         },
-        value = behavior.value,
+        value = behaviorItem.value,
         onSliderValueChange = {
             viewModel.onChange(index, it)
         }

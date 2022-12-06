@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.hardware.Sensor
-import model.item.LibItem
+import model.item.SensorItem
 
 class TempViewModel(
-    private val _tempItemList: MutableStateFlow<SnapshotStateList<LibItem>> = State._tempItemList,
+    private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList,
     private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList
 ) {
     val tempList = State._tempList.asStateFlow()

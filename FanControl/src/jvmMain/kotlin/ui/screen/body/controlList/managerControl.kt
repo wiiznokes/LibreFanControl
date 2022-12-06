@@ -4,21 +4,21 @@ import Source
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import model.hardware.Control
+import model.item.ControlItem
 import ui.component.baseControl
 import ui.utils.Resources
 
 
 private val viewModel: ControlViewModel = ControlViewModel()
+
+
 fun LazyListScope.controlList(
     editModeActivated: Boolean
 ) {
 
-    itemsIndexed(viewModel.controlList.value.filter {
-        it.isVisible
-    }) { index, control ->
+    itemsIndexed(viewModel.controlItemList.value) { index, control ->
         control(
-            control = control,
+            controlItem = control,
             index = index,
             editModeActivated = editModeActivated
         )
@@ -28,17 +28,20 @@ fun LazyListScope.controlList(
 
 @Composable
 fun control(
-    control: Control,
+    controlItem: ControlItem,
     index: Int,
     editModeActivated: Boolean
 ) {
 
+    val control = viewModel.controlList.value.filter {
+        it.libId == controlItem.sensorId
+    }[0]
+
+
     baseControl(
         iconPainter = Resources.getIcon("alternate_email"),
         iconContentDescription = "",
-        name = viewModel.controlItemList.value.filter {
-            it.sensorId == control.libId
-        }[0].name,
+        name = controlItem.name,
         label = "name",
         onNameChange = { viewModel.setName(it, index) },
         editModeActivated = editModeActivated,

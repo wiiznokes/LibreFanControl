@@ -5,10 +5,10 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import model.item.Behavior
+import model.item.BehaviorItem
 
 class BehaviorViewModel(
-    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<Behavior>> = State._behaviorItemList
+    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList
 ) {
 
     val behaviorItemList = State._behaviorItemList.asStateFlow()

@@ -6,8 +6,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import model.ItemType
 import model.hardware.Control
 import model.hardware.Sensor
-import model.item.Behavior
-import model.item.LibItem
+import model.item.BehaviorItem
+import model.item.ControlItem
+import model.item.SensorItem
 
 class Configuration(
     private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
@@ -15,19 +16,18 @@ class Configuration(
     private val _controlList: MutableStateFlow<SnapshotStateList<Control>> = State._controlList,
 
 
-    private val _fanItemList: MutableStateFlow<SnapshotStateList<LibItem>> = State._fanItemList,
-    private val _tempItemList: MutableStateFlow<SnapshotStateList<LibItem>> = State._tempItemList,
-    private val _controlItemList: MutableStateFlow<SnapshotStateList<LibItem>>  = State._controlItemList,
-    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<Behavior>> = State._behaviorItemList
+    private val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
+    private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList,
+    private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
+    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList
 ) {
 
 
+    fun run() {
 
-    fun run(){
-
-        _fanList.value.forEach{
+        _fanList.value.forEach {
             _fanItemList.value.add(
-                LibItem(
+                SensorItem(
                     name = it.libName,
                     isExpanded = false,
                     type = ItemType.FAN,
@@ -37,9 +37,9 @@ class Configuration(
             )
         }
 
-        _tempList.value.forEach{
+        _tempList.value.forEach {
             _tempItemList.value.add(
-                LibItem(
+                SensorItem(
                     name = it.libName,
                     isExpanded = false,
                     type = ItemType.FAN,
@@ -49,9 +49,9 @@ class Configuration(
             )
         }
 
-        _controlList.value.forEach{
+        _controlList.value.forEach {
             _controlItemList.value.add(
-                LibItem(
+                ControlItem(
                     name = it.libName,
                     isExpanded = false,
                     type = ItemType.FAN,

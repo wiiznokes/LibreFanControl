@@ -6,13 +6,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.hardware.Control
-import model.item.Behavior
-import model.item.LibItem
+import model.item.BehaviorItem
+import model.item.ControlItem
 
 class ControlViewModel(
-    private val _controlItemList: MutableStateFlow<SnapshotStateList<LibItem>> = State._controlItemList,
+    private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
     private val _controlList: MutableStateFlow<SnapshotStateList<Control>> = State._controlList,
-    private val _behaviorList: MutableStateFlow<SnapshotStateList<Behavior>> = State._behaviorItemList,
+    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
 ) {
     val controlList = State._controlList.asStateFlow()
     val controlItemList = State._controlItemList.asStateFlow()
@@ -42,7 +42,7 @@ class ControlViewModel(
     fun changeBehaviorId(index: Int, menuIndex: Int) {
         _controlItemList.update {
             _controlItemList.value[index] = _controlItemList.value[index].copy(
-                sensorName = _behaviorList.value[menuIndex].name
+                sensorName = _behaviorItemList.value[menuIndex].name
             )
             it
         }
