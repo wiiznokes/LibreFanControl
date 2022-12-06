@@ -20,6 +20,7 @@ class ControlViewModel(
 
 
     fun remove(index: Int) {
+        println("control remove index = $index")
         _controlItemList.update {
             _controlItemList.value[index] = _controlItemList.value[index].copy(
                 visible = false
