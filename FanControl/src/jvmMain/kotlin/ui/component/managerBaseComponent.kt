@@ -43,9 +43,9 @@ fun managerOutlinedTextField(
     onValueChange: ((String) -> Boolean),
     label: String
 ) {
-    val focusRequester = remember { FocusRequester() }
+    val focusRequester = FocusRequester()
 
-    val hasFocus = remember { mutableStateOf(false) }
+    val hasFocus = mutableStateOf(false)
 
     OutlinedTextField(
         modifier = Modifier

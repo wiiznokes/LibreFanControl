@@ -79,9 +79,7 @@ fun baseItem(
 
                             Source.BODY -> {
 
-                                val text = remember {
-                                    mutableStateOf(name)
-                                }
+                                val text = mutableStateOf(name)
 
                                 managerOutlinedTextField(
                                     text = text,
