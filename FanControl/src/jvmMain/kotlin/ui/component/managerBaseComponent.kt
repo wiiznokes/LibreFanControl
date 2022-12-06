@@ -146,13 +146,17 @@ private fun managerListChoice(
             )
         }
 
+        val iconShouldTrigger = remember { mutableStateOf(true) }
         IconButton(
             onClick = {
-                if (!expanded.value.value)
-                    expanded.update {
-                        it.value = true
-                        it
-                    }
+                if(!iconShouldTrigger.value) {
+                    iconShouldTrigger.value = true
+                    return@IconButton
+                }
+                expanded.update {
+                    it.value = true
+                    it
+                }
             }
         ) {
             if (expanded.value.value) {
@@ -175,6 +179,7 @@ private fun managerListChoice(
                     it.value = false
                     it
                 }
+                iconShouldTrigger.value = false
             }
         ) {
             content()

@@ -46,7 +46,7 @@ class ExternalManager(os: OS) {
         fans: MutableStateFlow<SnapshotStateList<Sensor>>
     ) {
         external.updateFan(fans)
-        println("updateFan : success")
+        //println("updateFan : success")
 
     }
 
@@ -54,14 +54,14 @@ class ExternalManager(os: OS) {
         temps: MutableStateFlow<SnapshotStateList<Sensor>>
     ) {
         external.updateTemp(temps)
-        println("updateTemp : success")
+        //println("updateTemp : success")
     }
 
     fun updateControl(
         controls: MutableStateFlow<SnapshotStateList<Control>>
     ) {
         external.updateControl(controls)
-        println("updateControl : success")
+        //println("updateControl : success")
     }
 
     fun setControl(index: Int, isAuto: Boolean, value: Int) {
