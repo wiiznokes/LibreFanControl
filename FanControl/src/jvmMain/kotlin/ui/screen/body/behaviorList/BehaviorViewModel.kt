@@ -11,7 +11,7 @@ class BehaviorViewModel(
     private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList
 ) {
 
-    val behaviorItemList = State._behaviorItemList.asStateFlow()
+    val behaviorItemList = _behaviorItemList.asStateFlow()
 
 
     fun remove(index: Int) {

@@ -12,8 +12,8 @@ class FanViewModel(
     private val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
     private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList
 ) {
-    val fanList = State._fanList.asStateFlow()
-    val fanItemList = State._fanItemList.asStateFlow()
+    val fanList = _fanList.asStateFlow()
+    val fanItemList = _fanItemList.asStateFlow()
 
     fun remove(index: Int) {
         _fanItemList.update {

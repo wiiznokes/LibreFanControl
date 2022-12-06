@@ -18,8 +18,7 @@ class State {
         val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = MutableStateFlow(mutableStateListOf())
         val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = MutableStateFlow(mutableStateListOf())
         val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = MutableStateFlow(mutableStateListOf())
-        val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> =
-            MutableStateFlow(mutableStateListOf())
+        val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = MutableStateFlow(mutableStateListOf())
 
         val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = MutableStateFlow(mutableStateListOf())
         val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = MutableStateFlow(mutableStateListOf())
@@ -34,33 +33,6 @@ class State {
     }
 }
 
-class FlagGlobalItemType {
-    companion object {
-        // behavior
-        const val FLAT_BEHAVIOR = "FLAT_BEHAVIOR"
-
-        // control
-        const val FAN_CONTROL = "FAN_CONTROL"
-
-        // sensor
-        const val FAN_SENSOR = "FAN_SENSOR"
-        const val TEMP_SENSOR = "TEMP_SENSOR"
-    }
-}
-
-class FlagSpecifyItemType {
-    companion object {
-        // behavior
-        const val FLAT_BEHAVIOR = "FLAT_BEHAVIOR"
-
-        // control
-        const val FAN_CONTROL = "FAN_CONTROL"
-
-        // sensor
-        const val FAN_SENSOR = "FAN_SENSOR"
-        const val TEMP_SENSOR = "TEMP_SENSOR"
-    }
-}
 
 enum class Source {
     ADD,

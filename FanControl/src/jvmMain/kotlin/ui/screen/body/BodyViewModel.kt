@@ -1,3 +1,5 @@
 package ui.screen.body
 
-class BodyViewModel
+class BodyViewModel() {
+
+}

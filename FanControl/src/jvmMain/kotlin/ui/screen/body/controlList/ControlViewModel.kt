@@ -14,8 +14,8 @@ class ControlViewModel(
     private val _controlList: MutableStateFlow<SnapshotStateList<Control>> = State._controlList,
     private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
 ) {
-    val controlList = State._controlList.asStateFlow()
-    val controlItemList = State._controlItemList.asStateFlow()
+    val controlList = _controlList.asStateFlow()
+    val controlItemList = _controlItemList.asStateFlow()
 
 
     fun remove(index: Int) {

@@ -12,8 +12,8 @@ class TempViewModel(
     private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList,
     private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList
 ) {
-    val tempList = State._tempList.asStateFlow()
-    val tempItemList = State._tempItemList.asStateFlow()
+    val tempList = _tempList.asStateFlow()
+    val tempItemList = _tempItemList.asStateFlow()
 
 
     fun remove(index: Int) {
