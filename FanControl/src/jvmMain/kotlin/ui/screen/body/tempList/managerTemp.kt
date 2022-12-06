@@ -5,22 +5,19 @@ import Source
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import model.hardware.sensor.Temp
+import model.item.LibItem
 import ui.component.baseSensor
 import ui.utils.Resources
 
 
-
 private val viewModel: TempViewModel = TempViewModel()
 
-fun LazyListScope.tempList (
+fun LazyListScope.tempList(
     editModeActivated: Boolean
 ) {
-    itemsIndexed(viewModel.tempList.value.filter {
-        it.visible
-    }) { index, temp ->
+    itemsIndexed(viewModel.tempItemList.value) { index, temp ->
         temp(
-            temp = temp,
+            item = temp,
             index = index,
             editModeActivated = editModeActivated
         )
@@ -30,7 +27,7 @@ fun LazyListScope.tempList (
 
 @Composable
 fun temp(
-    temp: Temp,
+    item: LibItem,
     index: Int,
     editModeActivated: Boolean
 ) {
@@ -39,7 +36,7 @@ fun temp(
     baseSensor(
         iconPainter = Resources.getIcon("thermometer"),
         iconContentDescription = "",
-        name = temp.name,
+        name = item.name,
         label = "name",
         onNameChange = {
             viewModel.setName(it, index)
@@ -49,11 +46,13 @@ fun temp(
             viewModel.remove(index)
         },
         source = Source.BODY,
-        sensorName = temp.libName,
+        sensorName = item.sensorName,
         onChangeSensorClick = {
 
         },
-        sensorValue = "${temp.value} °C"
+        sensorValue = viewModel.tempList.value.filter {
+            it.libId == item.sensorId
+        }[0].value.toString() + " °C"
     )
 }
 

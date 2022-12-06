@@ -1,3 +1,0 @@
-package configuration
-
-class ConfigurationModel

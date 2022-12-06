@@ -1,3 +1,4 @@
+import configuration.Configuration
 import external.ExternalManager
 import external.getOS
 import kotlinx.coroutines.*
@@ -6,6 +7,8 @@ import kotlinx.coroutines.*
 class Application {
 
     private var jobUpdate: Job? = null
+
+    private var configuration: Configuration? = null
 
     companion object {
         private val externalManager = ExternalManager(getOS())
@@ -35,6 +38,10 @@ class Application {
             State._tempList,
             State._controlList
         )
+
+        configuration = Configuration()
+
+        configuration!!.run()
 
         startUpdate()
     }

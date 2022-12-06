@@ -51,7 +51,7 @@ fun managerOutlinedTextField(
 
 @Composable
 fun managerListChoice(
-    sensorName: String,
+    sensorName: String?,
     onChangeSensorClick: (() -> Unit)? = null
 ) {
     Row(
@@ -60,9 +60,16 @@ fun managerListChoice(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        managerTextField(
-            value = sensorName,
-        )
+        if (sensorName != null) {
+            managerTextField(
+                value = sensorName,
+            )
+        } else {
+            managerTextField(
+                value = "Pas de sensor",
+            )
+        }
+
         IconButton(
             onClick = {
                 onChangeSensorClick?.invoke()

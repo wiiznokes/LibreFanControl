@@ -1,21 +1,19 @@
 package external
 
-import FlagGlobalItemType
-import FlagSpecifyItemType
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import model.hardware.control.Control
-import model.hardware.sensor.Fan
-import model.hardware.sensor.Temp
+import model.SensorType
+import model.hardware.Control
+import model.hardware.Sensor
 
 class ExternalWindows : External {
 
 
     private val values: IntArray = IntArray(25) { 0 }
     override fun start(
-        fans: MutableStateFlow<SnapshotStateList<Fan>>,
-        temps: MutableStateFlow<SnapshotStateList<Temp>>,
+        fans: MutableStateFlow<SnapshotStateList<Sensor>>,
+        temps: MutableStateFlow<SnapshotStateList<Sensor>>,
         controls: MutableStateFlow<SnapshotStateList<Control>>
     ) {
         try {
@@ -32,35 +30,31 @@ class ExternalWindows : External {
         externalStop()
     }
 
-    override fun getFan(fans: MutableStateFlow<SnapshotStateList<Fan>>) {
+    override fun getFan(fans: MutableStateFlow<SnapshotStateList<Sensor>>) {
         val result = externalGetFan()
 
         for (i in 0..(result.size - 1) / 3) {
             fans.value.add(
-                Fan(
+                Sensor(
                     libIndex = result[i * 3].toInt(),
-                    id = result[(i * 3) + 1],
+                    libId = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2],
-                    globalType = FlagGlobalItemType.FAN_SENSOR,
-                    specifyType = FlagSpecifyItemType.FAN_SENSOR,
-                    name = result[(i * 3) + 2],
+                    type = SensorType.FAN,
                 )
             )
         }
     }
 
-    override fun getTemp(temps: MutableStateFlow<SnapshotStateList<Temp>>) {
+    override fun getTemp(temps: MutableStateFlow<SnapshotStateList<Sensor>>) {
         val result = externalGetTemp()
 
         for (i in 0..(result.size - 1) / 3) {
             temps.value.add(
-                Temp(
+                Sensor(
                     libIndex = result[i * 3].toInt(),
-                    id = result[(i * 3) + 1],
+                    libId = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2],
-                    globalType = FlagGlobalItemType.TEMP_SENSOR,
-                    specifyType = FlagSpecifyItemType.TEMP_SENSOR,
-                    name = result[(i * 3) + 2],
+                    type = SensorType.FAN,
                 )
             )
         }
@@ -73,17 +67,14 @@ class ExternalWindows : External {
             controls.value.add(
                 Control(
                     libIndex = result[i * 3].toInt(),
-                    id = result[(i * 3) + 1],
+                    libId = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2],
-                    globalType = FlagGlobalItemType.FAN_CONTROL,
-                    specifyType = FlagSpecifyItemType.FAN_CONTROL,
-                    name = result[(i * 3) + 2],
                 )
             )
         }
     }
 
-    override fun updateFan(fans: MutableStateFlow<SnapshotStateList<Fan>>) {
+    override fun updateFan(fans: MutableStateFlow<SnapshotStateList<Sensor>>) {
         externalUpdateFan()
 
         for (i in fans.value.indices) {
@@ -96,7 +87,7 @@ class ExternalWindows : External {
         }
     }
 
-    override fun updateTemp(temps: MutableStateFlow<SnapshotStateList<Temp>>) {
+    override fun updateTemp(temps: MutableStateFlow<SnapshotStateList<Sensor>>) {
         externalUpdateTemp()
 
         for (i in temps.value.indices) {

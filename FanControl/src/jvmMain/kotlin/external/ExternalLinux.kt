@@ -1,13 +1,11 @@
 package external
 
-import FlagGlobalItemType
-import FlagSpecifyItemType
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import model.hardware.control.Control
-import model.hardware.sensor.Fan
-import model.hardware.sensor.Temp
+import model.SensorType
+import model.hardware.Control
+import model.hardware.Sensor
 import kotlin.random.Random
 
 class ExternalLinux : External {
@@ -15,62 +13,56 @@ class ExternalLinux : External {
     override fun stop() {
     }
 
-    override fun getFan(fans: MutableStateFlow<SnapshotStateList<Fan>>) {
+    override fun getFan(fans: MutableStateFlow<SnapshotStateList<Sensor>>) {
         fans.value.add(
-            Fan(
+            Sensor(
                 libIndex = 0,
-                id = "fan1",
+                libId = "fan1",
                 libName = "fan1",
-                globalType = FlagGlobalItemType.FAN_SENSOR,
-                specifyType = FlagSpecifyItemType.FAN_SENSOR
+                type = SensorType.FAN
             )
         )
         fans.value.add(
-            Fan(
+            Sensor(
                 libIndex = 1,
-                id = "fan2",
+                libId = "fan2",
                 libName = "fan2",
-                globalType = FlagGlobalItemType.FAN_SENSOR,
-                specifyType = FlagSpecifyItemType.FAN_SENSOR
+                type = SensorType.FAN
             )
         )
         fans.value.add(
-            Fan(
+            Sensor(
                 libIndex = 2,
-                id = "fan3",
+                libId = "fan3",
                 libName = "fan3",
-                globalType = FlagGlobalItemType.FAN_SENSOR,
-                specifyType = FlagSpecifyItemType.FAN_SENSOR
+                type = SensorType.FAN
             )
         )
     }
 
-    override fun getTemp(temps: MutableStateFlow<SnapshotStateList<Temp>>) {
+    override fun getTemp(temps: MutableStateFlow<SnapshotStateList<Sensor>>) {
         temps.value.add(
-            Temp(
+            Sensor(
                 libIndex = 0,
-                id = "fan1",
+                libId = "fan1",
                 libName = "fan1",
-                globalType = FlagGlobalItemType.TEMP_SENSOR,
-                specifyType = FlagSpecifyItemType.TEMP_SENSOR
+                type = SensorType.TEMP
             )
         )
         temps.value.add(
-            Temp(
+            Sensor(
                 libIndex = 1,
-                id = "fan2",
+                libId = "fan2",
                 libName = "fan2",
-                globalType = FlagGlobalItemType.TEMP_SENSOR,
-                specifyType = FlagSpecifyItemType.TEMP_SENSOR
+                type = SensorType.TEMP
             )
         )
         temps.value.add(
-            Temp(
+            Sensor(
                 libIndex = 2,
-                id = "fan3",
+                libId = "fan3",
                 libName = "fan3",
-                globalType = FlagGlobalItemType.TEMP_SENSOR,
-                specifyType = FlagSpecifyItemType.TEMP_SENSOR
+                type = SensorType.TEMP
             )
         )
     }
@@ -79,33 +71,27 @@ class ExternalLinux : External {
         controls.value.add(
             Control(
                 libIndex = 0,
-                id = "fan1",
-                libName = "fan1",
-                globalType = FlagGlobalItemType.FAN_CONTROL,
-                specifyType = FlagSpecifyItemType.FAN_CONTROL
+                libId = "fan1",
+                libName = "fan1"
             )
         )
         controls.value.add(
             Control(
                 libIndex = 1,
-                id = "fan2",
+                libId = "fan2",
                 libName = "fan2",
-                globalType = FlagGlobalItemType.FAN_CONTROL,
-                specifyType = FlagSpecifyItemType.FAN_CONTROL
             )
         )
         controls.value.add(
             Control(
                 libIndex = 2,
-                id = "fan3",
-                libName = "fan3",
-                globalType = FlagGlobalItemType.FAN_CONTROL,
-                specifyType = FlagSpecifyItemType.FAN_CONTROL
+                libId = "fan3",
+                libName = "fan3"
             )
         )
     }
 
-    override fun updateFan(fans: MutableStateFlow<SnapshotStateList<Fan>>) {
+    override fun updateFan(fans: MutableStateFlow<SnapshotStateList<Sensor>>) {
 
         for (i in fans.value.indices) {
             fans.update {
@@ -118,7 +104,7 @@ class ExternalLinux : External {
     }
 
 
-    override fun updateTemp(temps: MutableStateFlow<SnapshotStateList<Temp>>) {
+    override fun updateTemp(temps: MutableStateFlow<SnapshotStateList<Sensor>>) {
         for (i in temps.value.indices) {
             temps.update {
                 temps.value[i] = temps.value[i].copy(
