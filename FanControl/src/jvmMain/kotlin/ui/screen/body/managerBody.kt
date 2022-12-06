@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import kotlinx.coroutines.flow.StateFlow
 import ui.component.itemsList
 import ui.screen.body.behaviorList.behaviorList
 import ui.screen.body.controlList.controlList

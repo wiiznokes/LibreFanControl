@@ -18,7 +18,8 @@ class State {
         val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = MutableStateFlow(mutableStateListOf())
         val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = MutableStateFlow(mutableStateListOf())
         val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = MutableStateFlow(mutableStateListOf())
-        val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = MutableStateFlow(mutableStateListOf())
+        val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> =
+            MutableStateFlow(mutableStateListOf())
 
         val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = MutableStateFlow(mutableStateListOf())
         val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = MutableStateFlow(mutableStateListOf())
