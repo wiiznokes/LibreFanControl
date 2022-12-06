@@ -105,7 +105,7 @@ fun listChoice(
     sensorList: SnapshotStateList<Sensor>,
     onItemClick: (Sensor) -> Unit
 ) {
-    val expanded = MutableStateFlow(mutableStateOf(false))
+    val expanded = remember { mutableStateOf(false) }
 
 
 
@@ -119,10 +119,7 @@ fun listChoice(
                     .background(MaterialTheme.colorScheme.primary),
                 onClick = {
                     onItemClick(it)
-                    expanded.update {
-                        it.value = false
-                        it
-                    }
+                    expanded.value = false
                 }
             ) {
                 managerText(
@@ -140,7 +137,7 @@ fun listChoice(
     behaviorItemList: SnapshotStateList<BehaviorItem>,
     onItemClick: (String) -> Unit
 ) {
-    val expanded = MutableStateFlow(mutableStateOf(false))
+    val expanded = remember { mutableStateOf(false) }
 
     managerListChoice(
         sensorName = sensorName,
@@ -152,10 +149,7 @@ fun listChoice(
                     .background(MaterialTheme.colorScheme.primary),
                 onClick = {
                     onItemClick(it.name)
-                    expanded.update {
-                        it.value = false
-                        it
-                    }
+                    expanded.value = false
                 }
             ) {
                 managerText(
@@ -169,7 +163,7 @@ fun listChoice(
 @Composable
 private fun managerListChoice(
     sensorName: String?,
-    expanded: MutableStateFlow<MutableState<Boolean>>,
+    expanded: MutableState<Boolean>,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Row(
@@ -195,13 +189,10 @@ private fun managerListChoice(
                     iconShouldTrigger.value = true
                     return@IconButton
                 }
-                expanded.update {
-                    it.value = true
-                    it
-                }
+                expanded.value = true
             }
         ) {
-            if (expanded.value.value) {
+            if (expanded.value) {
                 Icon(
                     painter = Resources.getIcon("expand_more"),
                     contentDescription = Resources.getString("changeSensorContentDescription")
@@ -215,12 +206,9 @@ private fun managerListChoice(
         }
 
         DropdownMenu(
-            expanded = expanded.value.value,
+            expanded = expanded.value,
             onDismissRequest = {
-                expanded.update {
-                    it.value = false
-                    it
-                }
+                expanded.value = false
                 iconShouldTrigger.value = false
             }
         ) {
