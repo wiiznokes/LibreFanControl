@@ -24,13 +24,11 @@ fun body(
 
     val viewModel = BodyViewModel()
 
-    Box {
+
         Row(
             modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    color = MaterialTheme.colorScheme.background
-                ),
+                //.fillMaxSize()
+                    ,
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             itemsList(
@@ -54,18 +52,4 @@ fun body(
                 tempList(editModeActivated.value)
             }
         }
-
-        Button(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(20.dp),
-            onClick = {
-
-            }
-        ) {
-            Text(
-                text = "Add"
-            )
-        }
-    }
 }
