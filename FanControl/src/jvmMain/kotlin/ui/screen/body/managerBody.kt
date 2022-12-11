@@ -21,9 +21,7 @@ fun body(
 
 
     Row(
-        modifier = Modifier
-        //.fillMaxSize()
-        ,
+        modifier = Modifier,
         horizontalArrangement = Arrangement.SpaceAround
     ) {
         itemsList(

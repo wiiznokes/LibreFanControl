@@ -40,54 +40,54 @@ fun home() {
         Column {
             topBar()
 
+            // body + addItem
             Row(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                Box(
-                    modifier = Modifier
-                    //.fillMaxSize()
-                ) {
 
+
+                var modifier = if (addItemExpanded.value)
+                    Modifier.fillMaxHeight().fillMaxWidth(0.75f)
+                else
+                    Modifier.fillMaxSize()
+
+
+                Box(
+                    modifier = modifier
+                        .background(MaterialTheme.colorScheme.background)
+                ) {
+                    val stateHorizontal = rememberScrollState(0)
+
+                    val scrollBarShouldShow =
+                        stateHorizontal.value != stateHorizontal.maxValue || stateHorizontal.value != 0
+
+                    modifier = if (scrollBarShouldShow)
+                        Modifier.padding(bottom = 20.dp)
+                    else
+                        Modifier
 
                     Box(
-                        modifier = Modifier
-                            .background(MaterialTheme.colorScheme.background)
+                        modifier = modifier
+                            .horizontalScroll(stateHorizontal)
+
                     ) {
-                        val stateHorizontal = rememberScrollState(0)
+                        body(
+                            editModeActivated = viewModel.editModeActivated.value
+                        )
+                    }
 
-                        val scrollBarShouldShow =
-                            stateHorizontal.value != stateHorizontal.maxValue || stateHorizontal.value != 0
-
-                        val modifier = if (scrollBarShouldShow)
-                            Modifier.padding(bottom = 20.dp)
-                        else
-                            Modifier
-
-                        Box(
-                            modifier = modifier
-                                //.fillMaxSize()
-                                .horizontalScroll(stateHorizontal)
-
-                        ) {
-                            body(
-                                editModeActivated = viewModel.editModeActivated.value
-                            )
-                        }
-
-                        if (scrollBarShouldShow) {
-                            HorizontalScrollbar(
-                                modifier = Modifier.align(Alignment.BottomStart)
-                                    //.fillMaxWidth()
-                                    .height(20.dp)
-                                    .background(Color.Green),
-                                adapter = rememberScrollbarAdapter(stateHorizontal)
-                            )
-                        }
+                    if (scrollBarShouldShow) {
+                        HorizontalScrollbar(
+                            modifier = Modifier.align(Alignment.BottomStart)
+                                .height(20.dp)
+                                .background(Color.Green),
+                            adapter = rememberScrollbarAdapter(stateHorizontal)
+                        )
                     }
 
 
-
+                    // add button
                     if (!addItemExpanded.value) {
                         Button(
                             modifier = Modifier
@@ -104,13 +104,11 @@ fun home() {
                     }
                 }
 
-
-
+                // addItem
                 if (addItemExpanded.value) {
                     Box(
-                        Modifier.fillMaxSize().background(color = Color.Green)
+                        Modifier.fillMaxSize().background(color = Color.Red)
                     ) {
-                        println("hella")
                         addItem()
                     }
                 }
