@@ -8,17 +8,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import ui.component.managerText
-import ui.component.windows.windows
 import ui.screen.addItem.addItem
 import ui.screen.body.body
 import ui.screen.drawer.drawer
@@ -44,38 +37,58 @@ fun home() {
     ) {
         val addItemExpanded = viewModel.addItemExpanded.value
 
-        Row {
-            Column {
-                topBar()
+        Column {
+            topBar()
 
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
                 Box(
                     modifier = Modifier
-                        .background(MaterialTheme.colorScheme.background)
+                    //.fillMaxSize()
                 ) {
-                    val stateHorizontal = rememberScrollState(0)
 
-                    val scrollBarShouldShow =
-                        stateHorizontal.value != stateHorizontal.maxValue || stateHorizontal.value != 0
-
-                    val modifier = if (scrollBarShouldShow)
-                        Modifier.padding(bottom = 20.dp)
-                    else
-                        Modifier
 
                     Box(
-                        modifier = modifier
-                            //.fillMaxSize()
-                            .horizontalScroll(stateHorizontal)
-
+                        modifier = Modifier
+                            .background(MaterialTheme.colorScheme.background)
                     ) {
-                        body(
-                            editModeActivated = viewModel.editModeActivated.value
-                        )
+                        val stateHorizontal = rememberScrollState(0)
+
+                        val scrollBarShouldShow =
+                            stateHorizontal.value != stateHorizontal.maxValue || stateHorizontal.value != 0
+
+                        val modifier = if (scrollBarShouldShow)
+                            Modifier.padding(bottom = 20.dp)
+                        else
+                            Modifier
+
+                        Box(
+                            modifier = modifier
+                                //.fillMaxSize()
+                                .horizontalScroll(stateHorizontal)
+
+                        ) {
+                            body(
+                                editModeActivated = viewModel.editModeActivated.value
+                            )
+                        }
+
+                        if (scrollBarShouldShow) {
+                            HorizontalScrollbar(
+                                modifier = Modifier.align(Alignment.BottomStart)
+                                    //.fillMaxWidth()
+                                    .height(20.dp)
+                                    .background(Color.Green),
+                                adapter = rememberScrollbarAdapter(stateHorizontal)
+                            )
+                        }
                     }
 
 
 
-                    if(!addItemExpanded.value) {
+                    if (!addItemExpanded.value) {
                         Button(
                             modifier = Modifier
                                 .align(Alignment.BottomEnd)
@@ -89,35 +102,29 @@ fun home() {
                             )
                         }
                     }
+                }
 
 
-                    if (scrollBarShouldShow) {
-                        HorizontalScrollbar(
-                            modifier = Modifier.align(Alignment.BottomStart)
-                                //.fillMaxWidth()
-                                .height(20.dp)
-                                .background(Color.Green),
-                            adapter = rememberScrollbarAdapter(stateHorizontal)
-                        )
+
+                if (addItemExpanded.value) {
+                    Box(
+                        Modifier.fillMaxSize().background(color = Color.Green)
+                    ) {
+                        println("hella")
+                        addItem()
                     }
                 }
             }
-
-            if(addItemExpanded.value) {
-                Box(
-                    Modifier.fillMaxSize().background(color = Color.Green)
-                ) {
-                    addItem()
-                }
-            }
         }
-
-
-
-
-
     }
 }
+
+
+
+
+
+
+
 
 
 

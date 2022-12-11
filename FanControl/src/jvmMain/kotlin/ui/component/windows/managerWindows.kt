@@ -1,11 +1,11 @@
 package ui.component.windows
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
 @Composable
 fun windows(
@@ -13,9 +13,8 @@ fun windows(
 ) {
 
 
-
-        val stateVertical = rememberScrollState(0)
-        val stateHorizontal = rememberScrollState(0)
+    val stateVertical = rememberScrollState(0)
+    val stateHorizontal = rememberScrollState(0)
 
     Box {
 
@@ -28,7 +27,6 @@ fun windows(
         ) {
 
             content()
-
 
 
         }
