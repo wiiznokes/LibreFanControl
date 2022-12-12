@@ -1,7 +1,5 @@
 package ui.screen.body.tempList
 
-
-import Source
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
@@ -38,9 +36,8 @@ fun temp(
 
     baseSensor(
         iconPainter = Resources.getIcon("thermometer"),
-        iconContentDescription = "",
+        iconContentDescription = Resources.getString("temp_icon_content_description"),
         name = sensorItem.name,
-        label = "name",
         onNameChange = {
             viewModel.setName(it, index)
         },
@@ -48,9 +45,8 @@ fun temp(
         onEditClick = {
             viewModel.remove(index)
         },
-        source = Source.BODY,
         sensorName = sensorItem.sensorName,
-        sensorValue = "${sensor.value} °C",
+        sensorValue = "${sensor.value}  ${Resources.getString("degree")}",
         sensorList = viewModel.tempList.value,
         onItemClick = {
             viewModel.setTemp(index, it)

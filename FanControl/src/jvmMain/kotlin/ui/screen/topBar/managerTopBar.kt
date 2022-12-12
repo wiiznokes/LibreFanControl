@@ -1,17 +1,12 @@
 package ui.screen.topBar
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
 import androidx.compose.material.IconButton
-import androidx.compose.material.Text
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import ui.component.managerText
 import ui.utils.Resources
 
@@ -49,7 +44,7 @@ fun mainTopBar(
                 onClick = {
                     onNavigationIconClick()
                 }
-            ){
+            ) {
                 Icon(
                     painter = Resources.getIcon("menu"),
                     contentDescription = Resources.getString("open_drawer_button_content_description")
@@ -61,7 +56,7 @@ fun mainTopBar(
                 onClick = {
                     viewModel.edit()
                 }
-            ){
+            ) {
                 Icon(
                     painter = Resources.getIcon("edit_square"),
                     contentDescription = Resources.getString("edit_button_content_description")
@@ -101,7 +96,7 @@ fun addItemTopBar(
                 onClick = {
                     viewModel.unexpandAddItem()
                 }
-            ){
+            ) {
                 Icon(
                     painter = Resources.getIcon("arrow_forward"),
                     contentDescription = Resources.getString("add_item_back_button_content_description")

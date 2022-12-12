@@ -1,12 +1,11 @@
 package ui.screen.body.controlList
 
-import Source
+
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import model.item.ControlItem
 import ui.component.baseControl
-import ui.utils.Resources
 
 
 private val viewModel: ControlViewModel = ControlViewModel()
@@ -47,14 +46,10 @@ fun control(
 
 
     baseControl(
-        iconPainter = Resources.getIcon("alternate_email"),
-        iconContentDescription = "",
         name = controlItem.name,
-        label = "name",
         onNameChange = { viewModel.setName(it, index) },
         editModeActivated = editModeActivated,
         onEditClick = { viewModel.remove(index) },
-        source = Source.BODY,
 
         behaviorName = controlItem.behaviorName,
         isActive = !control.isAuto,

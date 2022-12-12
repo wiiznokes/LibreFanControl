@@ -2,9 +2,9 @@ package ui.screen.body
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
+import androidx.compose.material.IconButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -62,7 +62,8 @@ fun body(
 
         // add button
         if (!addItemExpanded.value) {
-            Button(
+
+            IconButton(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(20.dp),
@@ -70,8 +71,10 @@ fun body(
                     viewModel.expandAddItem()
                 }
             ) {
-                Text(
-                    text = "Add"
+                Icon(
+                    painter = Resources.getIcon("add"),
+                    contentDescription = Resources.getString("add_item_button_content_description"),
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
         }

@@ -1,6 +1,6 @@
 package ui.component
 
-import Source
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
@@ -28,8 +28,6 @@ fun baseItem(
     iconContentDescription: String,
     name: String,
     onEditClick: () -> Unit,
-    source: Source,
-    label: String,
     onNameChange: (String) -> Unit,
     editModeActivated: Boolean,
     content: @Composable ColumnScope.() -> Unit
@@ -78,26 +76,18 @@ fun baseItem(
                             modifier = Modifier
                                 .width(10.dp)
                         )
-                        when (source) {
-                            Source.ADD -> {
-                                managerText(
-                                    text = name
-                                )
-                            }
 
-                            Source.BODY -> {
+                        val text = mutableStateOf(name)
 
-                                val text = mutableStateOf(name)
+                        managerOutlinedTextField(
+                            text = text,
+                            onValueChange = {
+                                onNameChange(it)
+                            },
+                            label = Resources.getString("label_item_name")
+                        )
 
-                                managerOutlinedTextField(
-                                    text = text,
-                                    onValueChange = {
-                                        onNameChange(it)
-                                    },
-                                    label = label
-                                )
-                            }
-                        }
+
                     }
                     Spacer(
                         modifier = Modifier
@@ -114,41 +104,23 @@ fun baseItem(
             }
 
         }
-        when (source) {
-            Source.BODY -> {
-                if (editModeActivated) {
-                    IconButton(
-                        modifier = Modifier
-                            .align(Alignment.TopEnd),
-                        onClick = {
-                            onEditClick()
-                        }
-                    ) {
-                        Icon(
-                            painter = Resources.getIcon("cancel"),
-                            contentDescription = Resources.getString("editContentDescriptionRemove"),
-                            tint = Color.Red
-                        )
-                    }
-                }
-            }
 
-            Source.ADD -> {
-                IconButton(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd),
-                    onClick = {
-                        onEditClick()
-                    }
-                ) {
-                    Icon(
-                        painter = Resources.getIcon("add_circle"),
-                        contentDescription = Resources.getString("editContentDescriptionAdd"),
-                        tint = Color.Green
-                    )
+        if (editModeActivated) {
+            IconButton(
+                modifier = Modifier
+                    .align(Alignment.TopEnd),
+                onClick = {
+                    onEditClick()
                 }
+            ) {
+                Icon(
+                    painter = Resources.getIcon("cancel"),
+                    contentDescription = Resources.getString("edit_remove_button_content_description"),
+                    tint = Color.Red
+                )
             }
         }
+
     }
 }
 

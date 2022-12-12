@@ -1,6 +1,5 @@
 package ui.screen.body.fanList
 
-import Source
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
@@ -39,9 +38,8 @@ fun fan(
 
     baseSensor(
         iconPainter = Resources.getIcon("toys_fan"),
-        iconContentDescription = "",
+        iconContentDescription = Resources.getString("fan_icon_content_description"),
         name = sensorItem.name,
-        label = "name",
         onNameChange = {
             viewModel.setName(it, index)
         },
@@ -51,8 +49,7 @@ fun fan(
         },
         sensorName = sensorItem.sensorId,
 
-        source = Source.BODY,
-        sensorValue = "${sensor.value} RPM",
+        sensorValue = "${sensor.value} ${Resources.getString("rpm")}",
         sensorList = viewModel.fanList.value,
         onItemClick = {
             viewModel.setFan(index, it)

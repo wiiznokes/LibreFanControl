@@ -6,30 +6,39 @@
 
   "add_item_app_bar_title": "Add Item",
   "add_item_back_button_content_description": "close add item",
+  "add_item_button_content_description": "open add item",
 
-  "title_setting": "Setting",
-  "title_fan": "Fan",
-  "title_temp": "Temp",
+  "label_item_name": "name",
+
   "title_control": "Control",
+  "control_icon_content_description": "temp sensor info",
+  "change_behavior_button_content_description": "Choose behavior",
+
   "title_behavior": "Behavior",
-  "editContentDescriptionAdd": "Add",
-  "editContentDescriptionRemove": "Remove",
-  "fanContentDescription": "Fan",
-  "controlContentDescription": "Control",
-  "tempContentDescription": "Temp",
-  "behaviorContentDescription": "Behavior",
-  "changeSensorContentDescription": "Choose sensor",
-  "changeBehaviorContentDescription": "Choose behavior",
-  "undefined": "undefined",
-  "defaultName": "Name",
-  "defaultBehaviorName": "Behavior name",
-  "defaultSensorName": "Sensor name",
-  "degree": "°C",
+  "behavior_icon_content_description": "temp sensor info",
+  "behavior_fan_speed": "fan speed",
+  "decrease_button_content_description": "decrease",
+  "increase_button_content_description": "increase",
+
+  "change_sensor_button_content_description": "Choose sensor",
+  "title_fan": "Fan",
+  "fan_icon_content_description": "temp sensor info",
   "rpm": "RPM",
 
+  "title_temp": "Temperature",
+  "temp_icon_content_description": "temp sensor info",
+  "degree": "°C",
+
+
+  "edit_add_button_content_description": "Add item",
+  "edit_remove_button_content_description": "Remove item",
 
   "add_item_choice_behavior": "Behavior",
   "add_item_choice_sensor": "Sensor",
-  "add_item_choice_control": "Control"
+  "add_item_choice_control": "Control",
+
+
+
+  "title_setting": "Setting"
 }
 

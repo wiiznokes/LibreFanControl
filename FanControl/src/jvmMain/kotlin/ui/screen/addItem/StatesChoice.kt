@@ -9,11 +9,11 @@ interface IChoiceStates {
     val previous: ChoiceType
 }
 
- enum class ChoiceType {
-     BEHAVIOR,
-     SENSOR,
-     CONTROL
- }
+enum class ChoiceType {
+    BEHAVIOR,
+    SENSOR,
+    CONTROL
+}
 
 class ChoiceStates {
     private val behaviorChoice = BehaviorChoice()
@@ -29,6 +29,7 @@ class ChoiceStates {
             ChoiceType.SENSOR -> {
                 sensorChoice
             }
+
             ChoiceType.CONTROL -> {
                 controlChoice
             }
@@ -36,7 +37,7 @@ class ChoiceStates {
     }
 }
 
-class BehaviorChoice: IChoiceStates {
+class BehaviorChoice : IChoiceStates {
 
     override val title: String = Resources.getString("add_item_choice_behavior")
     override val next: ChoiceType = ChoiceType.SENSOR
@@ -44,12 +45,13 @@ class BehaviorChoice: IChoiceStates {
 }
 
 
-class SensorChoice: IChoiceStates {
+class SensorChoice : IChoiceStates {
     override val title: String = Resources.getString("add_item_choice_sensor")
     override val next: ChoiceType = ChoiceType.CONTROL
     override val previous: ChoiceType = ChoiceType.BEHAVIOR
 }
-class ControlChoice: IChoiceStates {
+
+class ControlChoice : IChoiceStates {
     override val title: String = Resources.getString("add_item_choice_control")
     override val next: ChoiceType = ChoiceType.BEHAVIOR
     override val previous: ChoiceType = ChoiceType.SENSOR

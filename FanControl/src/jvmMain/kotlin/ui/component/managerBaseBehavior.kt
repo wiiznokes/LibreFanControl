@@ -1,6 +1,6 @@
 package ui.component
 
-import Source
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,8 +19,6 @@ fun baseBehavior(
     iconContentDescription: String,
     name: String,
     onEditClick: () -> Unit,
-    source: Source,
-    label: String,
     onNameChange: (String) -> Unit,
     editModeActivated: Boolean,
 
@@ -34,11 +32,9 @@ fun baseBehavior(
         iconPainter = iconPainter,
         iconContentDescription = iconContentDescription,
         name = name,
-        label = label,
         onNameChange = onNameChange,
         editModeActivated = editModeActivated,
-        onEditClick = onEditClick,
-        source = source,
+        onEditClick = onEditClick
     ) {
         Row(
             modifier = Modifier
@@ -47,7 +43,7 @@ fun baseBehavior(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
-            managerText("Fan speed")
+            managerText(Resources.getString("behavior_fan_speed"))
 
             Box {
                 Row {
@@ -60,7 +56,7 @@ fun baseBehavior(
                     ) {
                         Icon(
                             painter = Resources.getIcon("remove"),
-                            contentDescription = Resources.getString("editContentDescriptionRemove")
+                            contentDescription = Resources.getString("decrease_button_content_description")
                         )
                     }
                     IconButton(
@@ -70,7 +66,7 @@ fun baseBehavior(
                     ) {
                         Icon(
                             painter = Resources.getIcon("add"),
-                            contentDescription = Resources.getString("editContentDescriptionAdd")
+                            contentDescription = Resources.getString("increase_button_content_description")
                         )
                     }
                 }

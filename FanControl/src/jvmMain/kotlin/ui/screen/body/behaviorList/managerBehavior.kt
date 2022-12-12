@@ -1,6 +1,6 @@
 package ui.screen.body.behaviorList
 
-import Source
+
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
@@ -33,13 +33,11 @@ fun behavior(
 ) {
     baseBehavior(
         iconPainter = Resources.getIcon("horizontal_rule"),
-        iconContentDescription = "",
+        iconContentDescription = Resources.getString("behavior_icon_content_description"),
         name = behaviorItem.name,
-        label = "name",
         onNameChange = { viewModel.setName(it, index) },
         editModeActivated = editModeActivated,
         onEditClick = { viewModel.remove(index) },
-        source = Source.BODY,
 
         onMoreButtonClick = {
             viewModel.onMore(index, it)

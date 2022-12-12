@@ -128,7 +128,7 @@ fun listChoice(
 
 @Composable
 private fun managerListChoice(
-    sensorName: String?,
+    sensorName: String,
     expanded: MutableState<Boolean>,
     content: @Composable ColumnScope.() -> Unit
 ) {
@@ -136,18 +136,14 @@ private fun managerListChoice(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        if (sensorName != null) {
-            managerText(
-                text = sensorName,
-                modifier = Modifier.align(
-                    Alignment.CenterStart
-                )
+
+        managerText(
+            text = sensorName,
+            modifier = Modifier.align(
+                Alignment.CenterStart
             )
-        } else {
-            managerText(
-                text = "Pas de sensor",
-            )
-        }
+        )
+
 
         val iconShouldTrigger = remember { mutableStateOf(true) }
         IconButton(
@@ -165,12 +161,12 @@ private fun managerListChoice(
             if (expanded.value) {
                 Icon(
                     painter = Resources.getIcon("expand_more"),
-                    contentDescription = Resources.getString("changeSensorContentDescription")
+                    contentDescription = Resources.getString("change_sensor_button_content_description")
                 )
             } else {
                 Icon(
                     painter = Resources.getIcon("expand_less"),
-                    contentDescription = Resources.getString("changeSensorContentDescription")
+                    contentDescription = Resources.getString("change_sensor_button_content_description")
                 )
             }
         }
