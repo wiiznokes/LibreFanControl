@@ -35,75 +35,73 @@ fun baseItem(
     Box(
         modifier = Modifier
     ) {
-        Box(
+
+        Surface(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(18.dp),
+            shape = MaterialTheme.shapes.medium,
+            color = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+            border = BorderStroke(
+                width = 2.dp,
+                color = MaterialTheme.colorScheme.onSurface
+            )
         ) {
-            Surface(
+
+            val density = LocalDensity.current
+
+            val finalWidth: MutableState<Dp> = remember { mutableStateOf(0.dp) }
+
+
+
+            Column(
                 modifier = Modifier
-                    .padding(10.dp),
-                shape = MaterialTheme.shapes.medium,
-                color = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.onSurface,
-                border = BorderStroke(
-                    width = 2.dp,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                    .padding(20.dp)
+
             ) {
+                Row(
+                    modifier = Modifier
+                        .onGloballyPositioned {
+                            finalWidth.value = density.run { it.size.width.toDp() }
+                        }
+                ) {
+                    Icon(
+                        painter = iconPainter,
+                        contentDescription = iconContentDescription
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .width(10.dp)
+                    )
 
-                val density = LocalDensity.current
+                    val text = mutableStateOf(name)
 
-                val finalWidth: MutableState<Dp> = remember { mutableStateOf(0.dp) }
+                    managerOutlinedTextField(
+                        text = text,
+                        onValueChange = {
+                            onNameChange(it)
+                        },
+                        label = Resources.getString("label_item_name")
+                    )
 
 
+                }
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
 
                 Column(
                     modifier = Modifier
-                        .padding(20.dp)
-
+                        .width(finalWidth.value)
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .onGloballyPositioned {
-                                finalWidth.value = density.run { it.size.width.toDp() }
-                            }
-                    ) {
-                        Icon(
-                            painter = iconPainter,
-                            contentDescription = iconContentDescription
-                        )
-                        Spacer(
-                            modifier = Modifier
-                                .width(10.dp)
-                        )
-
-                        val text = mutableStateOf(name)
-
-                        managerOutlinedTextField(
-                            text = text,
-                            onValueChange = {
-                                onNameChange(it)
-                            },
-                            label = Resources.getString("label_item_name")
-                        )
-
-
-                    }
-                    Spacer(
-                        modifier = Modifier
-                            .height(10.dp)
-                    )
-
-                    Column(
-                        modifier = Modifier
-                            .width(finalWidth.value)
-                    ) {
-                        content()
-                    }
+                    content()
                 }
             }
-
         }
+
+
+
 
         if (editModeActivated) {
             IconButton(
