@@ -12,7 +12,8 @@ import androidx.compose.ui.unit.LayoutDirection
 import ui.screen.addItem.addItem
 import ui.screen.body.body
 import ui.screen.drawer.drawer
-import ui.screen.topBar.topBar
+import ui.screen.topBar.addItemTopBar
+import ui.screen.topBar.mainTopBar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,20 +35,25 @@ fun home() {
     ) {
         val addItemExpanded = viewModel.addItemExpanded.value
 
-        Column {
-            topBar()
 
-            // body + addItem
-            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                        if (addItemExpanded.value) {
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+
+                    if (addItemExpanded.value) {
+                        Column {
+                            addItemTopBar(
+                                modifier = Modifier
+                            )
                             addItem()
                         }
+                    }
 
+                    Column {
+                        mainTopBar()
                         body(
                             editModeActivated = viewModel.editModeActivated.value,
                             addItemExpanded = addItemExpanded
@@ -56,6 +62,7 @@ fun home() {
                 }
             }
         }
+
     }
 }
 
