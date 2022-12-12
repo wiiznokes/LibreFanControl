@@ -40,7 +40,7 @@ fun baseSensor(
             onItemClick = onItemClick
         )
         managerText(
-            value = sensorValue
+            text = sensorValue
         )
 
     }

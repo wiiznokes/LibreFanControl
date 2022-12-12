@@ -1,4 +1,12 @@
 {
+  "app_name": "FanControl",
+
+  "open_drawer_button_content_description": "open setting",
+  "edit_button_content_description": "edit",
+
+  "add_item_app_bar_title": "Add Item",
+  "add_item_back_button_content_description": "close add item",
+
   "title_setting": "Setting",
   "title_fan": "Fan",
   "title_temp": "Temp",

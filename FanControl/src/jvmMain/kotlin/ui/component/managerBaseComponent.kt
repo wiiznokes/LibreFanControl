@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import model.hardware.Sensor
 import model.item.BehaviorItem
@@ -17,15 +18,16 @@ import ui.utils.Resources
 
 @Composable
 fun managerText(
-    value: String,
-    modifier: Modifier = Modifier
+    text: String,
+    modifier: Modifier = Modifier,
+    style: TextStyle = MaterialTheme.typography.bodyMedium
 ) {
     Text(
         modifier = modifier,
-        text = value,
+        text = text,
         color = MaterialTheme.colorScheme.onPrimary,
         maxLines = 1,
-        style = MaterialTheme.typography.bodyMedium
+        style = style
     )
 }
 
@@ -87,7 +89,7 @@ fun listChoice(
                 }
             ) {
                 managerText(
-                    value = it.libName
+                    text = it.libName
                 )
             }
         }
@@ -117,7 +119,7 @@ fun listChoice(
                 }
             ) {
                 managerText(
-                    value = it.name
+                    text = it.name
                 )
             }
         }
@@ -136,14 +138,14 @@ private fun managerListChoice(
     ) {
         if (sensorName != null) {
             managerText(
-                value = sensorName,
+                text = sensorName,
                 modifier = Modifier.align(
                     Alignment.CenterStart
                 )
             )
         } else {
             managerText(
-                value = "Pas de sensor",
+                text = "Pas de sensor",
             )
         }
 

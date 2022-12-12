@@ -103,7 +103,7 @@ fun baseBehavior(
                     .width(10.dp)
             )
             managerText(
-                value = "$value %"
+                text = "$value %"
             )
         }
     }

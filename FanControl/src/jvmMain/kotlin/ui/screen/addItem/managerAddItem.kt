@@ -57,7 +57,7 @@ fun addItemChoice(currentChoiceType: MutableState<ChoiceType>, choiceStates: Cho
         managerText(
             modifier = Modifier
                 .background(Color.Black),
-            value = choiceStates.getState(currentChoiceType.value)
+            text = choiceStates.getState(currentChoiceType.value)
                 .title
         )
 

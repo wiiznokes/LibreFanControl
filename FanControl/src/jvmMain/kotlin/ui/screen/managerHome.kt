@@ -2,15 +2,17 @@ package ui.screen
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import ui.screen.addItem.addItem
 import ui.screen.body.body
 import ui.screen.drawer.drawer
@@ -24,6 +26,9 @@ fun home() {
 
     val viewModel = HomeViewModel()
 
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+
+    val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
         modifier = Modifier,
@@ -32,7 +37,7 @@ fun home() {
 
             )
         },
-        drawerState = viewModel.drawerState.value,
+        drawerState = drawerState,
         gesturesEnabled = true
     ) {
         val addItemExpanded = viewModel.addItemExpanded.value
@@ -61,7 +66,11 @@ fun home() {
                     }
 
                     Column {
-                        mainTopBar()
+                        mainTopBar(
+                            onNavigationIconClick = {
+                                scope.launch { drawerState.open() }
+                            }
+                        )
                         body(
                             editModeActivated = viewModel.editModeActivated.value,
                             addItemExpanded = addItemExpanded

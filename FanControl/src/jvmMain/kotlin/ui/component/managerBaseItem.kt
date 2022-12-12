@@ -81,7 +81,7 @@ fun baseItem(
                         when (source) {
                             Source.ADD -> {
                                 managerText(
-                                    value = name
+                                    text = name
                                 )
                             }
 
