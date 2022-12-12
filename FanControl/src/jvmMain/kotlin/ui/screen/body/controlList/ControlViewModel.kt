@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.update
 import model.hardware.Control
 import model.item.BehaviorItem
 import model.item.ControlItem
+import ui.utils.Resources
 
 class ControlViewModel(
     private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
@@ -28,14 +29,23 @@ class ControlViewModel(
         }
     }
 
-    fun setBehavior(index: Int, behaviorName: String) {
-        println("set Behavior: $index, $behaviorName")
-        _controlItemList.update {
-            _controlItemList.value[index] = _controlItemList.value[index].copy(
-                behaviorName = behaviorName
-            )
-            it
+    fun setBehavior(index: Int, behaviorItem: BehaviorItem?) {
+        if (behaviorItem != null) {
+            _controlItemList.update {
+                _controlItemList.value[index] = _controlItemList.value[index].copy(
+                    behaviorName = behaviorItem.name
+                )
+                it
+            }
+        } else {
+            _controlItemList.update {
+                _controlItemList.value[index] = _controlItemList.value[index].copy(
+                    behaviorName = Resources.getString("none_item")
+                )
+                it
+            }
         }
+
     }
 
     fun setControl(index: Int, libIndex: Int, isAuto: Boolean, value: Int) {

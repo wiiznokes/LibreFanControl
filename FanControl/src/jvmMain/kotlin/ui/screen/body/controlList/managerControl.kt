@@ -39,7 +39,6 @@ fun control(
     index: Int,
     editModeActivated: Boolean
 ) {
-
     val control = viewModel.controlList.value.filter {
         it.libId == controlItem.sensorId
     }[0]

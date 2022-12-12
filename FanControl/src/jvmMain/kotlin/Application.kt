@@ -20,29 +20,25 @@ class Application {
     }
 
     fun onStart() {
-        //check si conf exist
-
-        // get conf
-
-        //load viewModelFactory
-
-        //load library
-
-        // applique conf if conf
-
-        // start update
-
-
+        // load library
         externalManager.start(
             State._fanList,
             State._tempList,
             State._controlList
         )
-
         configuration = Configuration()
 
-        configuration!!.run()
+        val res = configuration!!.checkConfiguration()
 
+        when (res) {
+            -1 -> {
+                configuration!!.init()
+            }
+
+            else -> {
+
+            }
+        }
         startUpdate()
     }
 

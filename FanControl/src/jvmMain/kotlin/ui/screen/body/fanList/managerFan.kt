@@ -31,10 +31,12 @@ fun fan(
     index: Int,
     editModeActivated: Boolean
 ) {
+    val sensorValue = if (sensorItem.sensorId != null) {
+        viewModel.fanList.value.filter {
+            it.libId == sensorItem.sensorId
+        }[0].value
+    } else 0
 
-    val sensor = viewModel.fanList.value.filter {
-        it.libId == sensorItem.sensorId
-    }[0]
 
     baseSensor(
         iconPainter = Resources.getIcon("toys_fan"),
@@ -47,9 +49,9 @@ fun fan(
         onEditClick = {
             viewModel.remove(index)
         },
-        sensorName = sensorItem.sensorId,
+        sensorName = sensorItem.sensorName,
 
-        sensorValue = "${sensor.value} ${Resources.getString("rpm")}",
+        sensorValue = "$sensorValue ${Resources.getString("rpm")}",
         sensorList = viewModel.fanList.value,
         onItemClick = {
             viewModel.setFan(index, it)

@@ -30,9 +30,11 @@ fun temp(
     editModeActivated: Boolean
 ) {
 
-    val sensor = viewModel.tempList.value.filter {
-        it.libId == sensorItem.sensorId
-    }[0]
+    val sensorValue = if (sensorItem.sensorId != null) {
+        viewModel.tempList.value.filter {
+            it.libId == sensorItem.sensorId
+        }[0].value
+    } else 0
 
     baseSensor(
         iconPainter = Resources.getIcon("thermometer"),
@@ -46,7 +48,7 @@ fun temp(
             viewModel.remove(index)
         },
         sensorName = sensorItem.sensorName,
-        sensorValue = "${sensor.value}  ${Resources.getString("degree")}",
+        sensorValue = "$sensorValue  ${Resources.getString("degree")}",
         sensorList = viewModel.tempList.value,
         onItemClick = {
             viewModel.setTemp(index, it)

@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.hardware.Sensor
 import model.item.SensorItem
+import ui.utils.Resources
 
 class TempViewModel(
     private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList,
@@ -23,13 +24,23 @@ class TempViewModel(
         }
     }
 
-    fun setTemp(index: Int, temp: Sensor) {
-        _tempItemList.update {
-            _tempItemList.value[index] = _tempItemList.value[index].copy(
-                sensorName = temp.libName,
-                sensorId = temp.libId
-            )
-            it
+    fun setTemp(index: Int, temp: Sensor?) {
+        if (temp != null) {
+            _tempItemList.update {
+                _tempItemList.value[index] = _tempItemList.value[index].copy(
+                    sensorName = temp.libName,
+                    sensorId = temp.libId
+                )
+                it
+            }
+        } else {
+            _tempItemList.update {
+                _tempItemList.value[index] = _tempItemList.value[index].copy(
+                    sensorName = Resources.getString("none_item"),
+                    sensorId = null
+                )
+                it
+            }
         }
     }
 

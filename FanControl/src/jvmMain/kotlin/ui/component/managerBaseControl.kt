@@ -1,6 +1,7 @@
 package ui.component
 
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
@@ -26,7 +27,7 @@ fun baseControl(
     value: String,
     fanValue: String,
     behaviorItemList: SnapshotStateList<BehaviorItem>,
-    onItemClick: (String) -> Unit
+    onItemClick: (BehaviorItem?) -> Unit
 ) {
     baseItem(
         iconPainter = Resources.getIcon("alternate_email"),
@@ -57,7 +58,9 @@ fun baseControl(
 
 
         }
-        Row {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             managerText(value)
             managerText(fanValue)
         }

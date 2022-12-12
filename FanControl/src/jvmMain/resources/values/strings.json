@@ -9,6 +9,7 @@
   "add_item_button_content_description": "open add item",
 
   "label_item_name": "name",
+  "none_item": "None",
 
   "title_control": "Control",
   "control_icon_content_description": "temp sensor info",

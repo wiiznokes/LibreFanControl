@@ -69,7 +69,7 @@ fun managerOutlinedTextField(
 fun listChoice(
     sensorName: String,
     sensorList: SnapshotStateList<Sensor>,
-    onItemClick: (Sensor) -> Unit
+    onItemClick: (Sensor?) -> Unit
 ) {
     val expanded = remember { mutableStateOf(false) }
 
@@ -79,6 +79,19 @@ fun listChoice(
         sensorName = sensorName,
         expanded = expanded
     ) {
+        DropdownMenuItem(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.primary),
+            onClick = {
+                onItemClick(null)
+                expanded.value = false
+            }
+        ) {
+            managerText(
+                text = Resources.getString("none_item")
+            )
+        }
+
         sensorList.forEach {
             DropdownMenuItem(
                 modifier = Modifier
@@ -89,7 +102,7 @@ fun listChoice(
                 }
             ) {
                 managerText(
-                    text = it.libName
+                    text = it.libId
                 )
             }
         }
@@ -101,7 +114,7 @@ fun listChoice(
 fun listChoice(
     sensorName: String,
     behaviorItemList: SnapshotStateList<BehaviorItem>,
-    onItemClick: (String) -> Unit
+    onItemClick: (BehaviorItem?) -> Unit
 ) {
     val expanded = remember { mutableStateOf(false) }
 
@@ -109,12 +122,25 @@ fun listChoice(
         sensorName = sensorName,
         expanded = expanded
     ) {
+        DropdownMenuItem(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.primary),
+            onClick = {
+                onItemClick(null)
+                expanded.value = false
+            }
+        ) {
+            managerText(
+                text = Resources.getString("none_item")
+            )
+        }
+
         behaviorItemList.forEach {
             DropdownMenuItem(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.primary),
                 onClick = {
-                    onItemClick(it.name)
+                    onItemClick(it)
                     expanded.value = false
                 }
             ) {

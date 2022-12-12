@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.hardware.Sensor
 import model.item.SensorItem
+import ui.utils.Resources
 
 class FanViewModel(
     private val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
@@ -22,13 +23,23 @@ class FanViewModel(
         }
     }
 
-    fun setFan(index: Int, fan: Sensor) {
-        _fanItemList.update {
-            _fanItemList.value[index] = _fanItemList.value[index].copy(
-                sensorName = fan.libName,
-                sensorId = fan.libId
-            )
-            it
+    fun setFan(index: Int, fan: Sensor?) {
+        if (fan != null) {
+            _fanItemList.update {
+                _fanItemList.value[index] = _fanItemList.value[index].copy(
+                    sensorName = fan.libName,
+                    sensorId = fan.libId
+                )
+                it
+            }
+        } else {
+            _fanItemList.update {
+                _fanItemList.value[index] = _fanItemList.value[index].copy(
+                    sensorName = Resources.getString("none_item"),
+                    sensorId = null
+                )
+                it
+            }
         }
     }
 

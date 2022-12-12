@@ -19,7 +19,7 @@ fun baseSensor(
     sensorValue: String,
 
     sensorList: SnapshotStateList<Sensor>,
-    onItemClick: (Sensor) -> Unit
+    onItemClick: (Sensor?) -> Unit
 ) {
     baseItem(
         iconPainter = iconPainter,

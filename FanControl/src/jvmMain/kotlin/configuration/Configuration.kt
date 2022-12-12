@@ -22,39 +22,32 @@ class Configuration(
     private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList
 ) {
 
+    // check if configuration exist, return index of conf if true, else -1
+    fun checkConfiguration(): Int {
+        return -1
+    }
 
-    fun run() {
+
+    fun init() {
 
         _controlList.value.forEach {
             _controlItemList.value.add(
                 ControlItem(
                     name = it.libName,
-                    isExpanded = false,
                     type = ItemType.FAN,
                     sensorName = it.libName,
-                    sensorId = it.libId
+                    sensorId = it.libId,
                 )
             )
         }
-
-        _behaviorItemList.value.add(
-            BehaviorItem(
-                name = "behavior 1",
-                isExpanded = false,
-                type = ItemType.BEHAVIOR,
-            )
-        )
-
-
 
         _fanList.value.forEach {
             _fanItemList.value.add(
                 SensorItem(
                     name = it.libName,
-                    isExpanded = false,
                     type = ItemType.FAN,
                     sensorName = it.libName,
-                    sensorId = it.libId
+                    sensorId = it.libId,
                 )
             )
         }
@@ -63,10 +56,9 @@ class Configuration(
             _tempItemList.value.add(
                 SensorItem(
                     name = it.libName,
-                    isExpanded = false,
                     type = ItemType.FAN,
                     sensorName = it.libName,
-                    sensorId = it.libId
+                    sensorId = it.libId,
                 )
             )
         }

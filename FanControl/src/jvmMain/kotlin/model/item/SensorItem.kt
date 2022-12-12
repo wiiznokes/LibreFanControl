@@ -1,12 +1,13 @@
 package model.item
 
 import model.ItemType
+import ui.utils.Resources
 
 data class SensorItem(
-    override var name: String = "",
-    override var isExpanded: Boolean = false,
+    override var name: String,
     override val type: ItemType,
 
-    var sensorName: String = "",
-    var sensorId: String = ""
+    override var isExpanded: Boolean = false,
+    var sensorName: String = Resources.getString("none_item"),
+    var sensorId: String?
 ) : BaseItem
