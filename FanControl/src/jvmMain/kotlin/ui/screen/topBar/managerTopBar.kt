@@ -14,10 +14,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
 
+
+private val viewModel = TopBarViewModel()
+
 @Composable
 fun mainTopBar() {
-
-    val viewModel = TopBarViewModel()
 
     CenterAlignedTopAppBar(
         modifier = Modifier
@@ -75,6 +76,7 @@ fun addItemTopBar(
         navigationIcon = {
             Button(
                 onClick = {
+                    viewModel.unexpandAddItem()
                 }
             ) {
                 Text(

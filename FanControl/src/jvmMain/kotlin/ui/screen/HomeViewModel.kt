@@ -20,14 +20,5 @@ class HomeViewModel(
     @OptIn(ExperimentalMaterial3Api::class)
     val drawerState = _drawerState.asStateFlow()
 
-
     val addItemExpanded = _addItemExpanded.asStateFlow()
-
-
-    fun expandAddItem() {
-        _addItemExpanded.update {
-            it.value = true
-            it
-        }
-    }
 }

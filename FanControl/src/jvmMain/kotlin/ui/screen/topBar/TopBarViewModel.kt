@@ -7,12 +7,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class TopBarViewModel(
-    private val _editModeActivated: MutableStateFlow<MutableState<Boolean>> = State._editModeActivated
+    private val _editModeActivated: MutableStateFlow<MutableState<Boolean>> = State._editModeActivated,
+    private val _addItemExpanded: MutableStateFlow<MutableState<Boolean>> = State._addItemExpanded
 ) {
-
-    val editModeActivated = _editModeActivated.asStateFlow()
-
-
     fun save() {
 
     }
@@ -27,4 +24,12 @@ class TopBarViewModel(
             it
         }
     }
+
+    fun unexpandAddItem() {
+        _addItemExpanded.update {
+            it.value = false
+            it
+        }
+    }
+
 }
