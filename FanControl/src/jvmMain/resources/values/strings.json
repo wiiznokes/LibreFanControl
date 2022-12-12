@@ -17,6 +17,11 @@
   "defaultBehaviorName": "Behavior name",
   "defaultSensorName": "Sensor name",
   "degree": "°C",
-  "rpm": "RPM"
+  "rpm": "RPM",
+
+
+  "add_item_choice_behavior": "Behavior",
+  "add_item_choice_sensor": "Sensor",
+  "add_item_choice_control": "Control"
 }
 

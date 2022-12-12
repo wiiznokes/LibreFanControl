@@ -1,10 +1,7 @@
 package ui.screen.topBar
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -55,27 +52,35 @@ fun mainTopBar() {
 fun addItemTopBar(
     modifier: Modifier
 ) {
-    Box(
+    CenterAlignedTopAppBar(
         modifier = modifier
-            .height(50.dp)
-            .width(200.dp)
-    ){
-        Button(
-            modifier = Modifier
-                .align(Alignment.CenterStart),
-            onClick = {
+            .height(50.dp),
+        title = {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.Center),
+                    text = "Add Item",
+                    style = MaterialTheme.typography.titleSmall
+                )
             }
-        ) {
-            Text(
-                text = "Return"
-            )
+        },
+        colors = TopAppBarDefaults.mediumTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary,
+            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+        ),
+        navigationIcon = {
+            Button(
+                onClick = {
+                }
+            ) {
+                Text(
+                    text = "return"
+                )
+            }
         }
-
-        managerText(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .background(Color.Black),
-            value = "addItem"
-        )
-    }
+    )
 }
