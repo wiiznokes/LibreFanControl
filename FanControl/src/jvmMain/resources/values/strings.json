@@ -38,6 +38,9 @@
   "add_item_choice_sensor": "Sensor",
   "add_item_choice_control": "Control",
 
+  "add_item_previous_button_content_description": "previous",
+  "add_item_next_button_content_description": "next",
+
 
 
   "title_setting": "Setting"

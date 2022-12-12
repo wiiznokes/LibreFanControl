@@ -29,8 +29,8 @@ fun body(
     // body + addItem button
     Box(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.background)
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
     ) {
         scrollableBox {
             Row(
