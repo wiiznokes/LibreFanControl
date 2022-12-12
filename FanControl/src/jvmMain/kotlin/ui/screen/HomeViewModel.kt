@@ -6,6 +6,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.MutableState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class HomeViewModel(
     private val _editModeActivated: MutableStateFlow<MutableState<Boolean>> = State._editModeActivated,
@@ -18,5 +19,15 @@ class HomeViewModel(
 
     @OptIn(ExperimentalMaterial3Api::class)
     val drawerState = _drawerState.asStateFlow()
+
+
     val addItemExpanded = _addItemExpanded.asStateFlow()
+
+
+    fun expandAddItem() {
+        _addItemExpanded.update {
+            it.value = true
+            it
+        }
+    }
 }
