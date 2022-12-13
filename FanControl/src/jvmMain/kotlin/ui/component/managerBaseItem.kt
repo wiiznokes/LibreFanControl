@@ -1,6 +1,7 @@
 package ui.component
 
 
+import Source
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
@@ -35,6 +36,7 @@ fun baseItemBody(
     val text = mutableStateOf(name)
 
     baseItem(
+        source = Source.BODY,
         iconPainter = iconPainter,
         iconContentDescription = iconContentDescription,
         contentEditIcon = {
@@ -71,6 +73,7 @@ fun baseItemAddItem(
 ) {
 
     baseItem(
+        source = Source.ADD,
         iconPainter = iconPainter,
         iconContentDescription = iconContentDescription,
         contentEditIcon = {
@@ -96,6 +99,7 @@ fun baseItemAddItem(
 
 @Composable
 private fun baseItem(
+    source: Source,
     iconPainter: Painter,
     iconContentDescription: String,
     contentEditIcon: @Composable () -> Unit,
@@ -104,6 +108,9 @@ private fun baseItem(
     contentName: @Composable RowScope.() -> Unit,
     content: @Composable ColumnScope.() -> Unit
 ) {
+
+    var modifier: Modifier
+
     Box(
         modifier = Modifier
     ) {
@@ -131,11 +138,15 @@ private fun baseItem(
                     .padding(20.dp)
 
             ) {
+                modifier = when (source) {
+                    Source.ADD -> Modifier
+
+                    Source.BODY -> Modifier.onGloballyPositioned {
+                        finalWidth.value = density.run { it.size.width.toDp() }
+                    }
+                }
                 Row(
-                    modifier = Modifier
-                        .onGloballyPositioned {
-                            finalWidth.value = density.run { it.size.width.toDp() }
-                        }
+                    modifier = modifier
                 ) {
                     Icon(
                         painter = iconPainter,
@@ -154,10 +165,15 @@ private fun baseItem(
                     modifier = Modifier
                         .height(10.dp)
                 )
+                modifier = when (source) {
+                    Source.ADD -> Modifier
+
+                    Source.BODY -> Modifier.width(finalWidth.value)
+
+                }
 
                 Column(
-                    modifier = Modifier
-                        .width(finalWidth.value)
+                    modifier = modifier
                 ) {
                     content()
                 }

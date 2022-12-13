@@ -2,7 +2,6 @@ package ui.component
 
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.painter.Painter
 import model.hardware.Sensor
@@ -57,10 +56,8 @@ fun baseSensorAddItem(
         name = name,
         onEditClick = onEditClick,
     ) {
-        managerListChoice(
-            name = sensorName,
-            expanded = mutableStateOf(false),
-            content = {}
+        listChoice(
+            name = sensorName
         )
         managerText(
             text = sensorValue

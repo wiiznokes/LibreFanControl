@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -40,6 +39,7 @@ fun baseControlBody(
     ) {
         baseControl(
             isActive = isActive,
+            switchEnabled = true,
             onSwitchClick = onSwitchClick,
             value = value,
             fanValue = fanValue,
@@ -70,14 +70,13 @@ fun baseControlAddItem(
     ) {
         baseControl(
             isActive = false,
+            switchEnabled = false,
             onSwitchClick = {},
             value = value,
             fanValue = fanValue
         ) {
-            managerListChoice(
-                name = behaviorName,
-                expanded = mutableStateOf(false),
-                content = {}
+            listChoice(
+                name = behaviorName
             )
         }
     }
@@ -88,6 +87,7 @@ fun baseControlAddItem(
 @Composable
 private fun baseControl(
     isActive: Boolean,
+    switchEnabled: Boolean,
     onSwitchClick: (Boolean) -> Unit,
     value: String,
     fanValue: String,
@@ -97,6 +97,7 @@ private fun baseControl(
     Row {
 
         Switch(
+            enabled = switchEnabled,
             checked = isActive,
             onCheckedChange = {
                 onSwitchClick(it)

@@ -18,6 +18,8 @@ import ui.component.managerText
 import ui.utils.Resources
 
 
+private val viewModel = AddItemViewModel()
+
 @Composable
 fun addItem(
     modifier: Modifier
@@ -39,45 +41,48 @@ fun addItem(
             color = MaterialTheme.colorScheme.onSurface
         )
 
-        Column {
+        when (currentChoiceType.value) {
+            ChoiceType.CONTROL -> {
+                baseControlListAddItem(
+                    controlItemList = viewModel.controlItemList.value,
+                    controlList = viewModel.controlList.value,
+                    addControl = {
+                        viewModel.addControl(it)
+                    }
+                )
+            }
 
+            ChoiceType.BEHAVIOR -> {
 
-            when (currentChoiceType.value) {
-                ChoiceType.CONTROL -> {
-                    controlList()
-                }
+            }
 
-                ChoiceType.BEHAVIOR -> {
+            ChoiceType.SENSOR -> {
+                // fan
+                baseSensorAddItem(
+                    iconPainter = Resources.getIcon("toys_fan"),
+                    iconContentDescription = Resources.getString("fan_icon_content_description"),
+                    name = Resources.getString("add_item_default_fan_name"),
+                    onEditClick = {
+                        viewModel.addFan()
+                    },
+                    sensorName = Resources.getString("add_item_default_fan_name"),
+                    sensorValue = "1000 ${Resources.getString("rpm")}"
+                )
 
-                }
-
-                ChoiceType.SENSOR -> {
-                    // fan
-                    baseSensorAddItem(
-                        iconPainter = Resources.getIcon("toys_fan"),
-                        iconContentDescription = Resources.getString("fan_icon_content_description"),
-                        name = Resources.getString("add_item_default_fan_name"),
-                        onEditClick = {
-
-                        },
-                        sensorName = Resources.getString("add_item_default_fan_name"),
-                        sensorValue = "1000 ${Resources.getString("rpm")}"
-                    )
-
-                    // temp
-                    baseSensorAddItem(
-                        iconPainter = Resources.getIcon("thermometer"),
-                        iconContentDescription = Resources.getString("temp_icon_content_description"),
-                        name = Resources.getString("add_item_default_temp_name"),
-                        onEditClick = {
-
-                        },
-                        sensorName = Resources.getString("add_item_default_temp_name"),
-                        sensorValue = "50 ${Resources.getString("degree")}"
-                    )
-                }
+                // temp
+                baseSensorAddItem(
+                    iconPainter = Resources.getIcon("thermometer"),
+                    iconContentDescription = Resources.getString("temp_icon_content_description"),
+                    name = Resources.getString("add_item_default_temp_name"),
+                    onEditClick = {
+                        viewModel.addTemp()
+                    },
+                    sensorName = Resources.getString("add_item_default_temp_name"),
+                    sensorValue = "50 ${Resources.getString("degree")}"
+                )
             }
         }
+
 
     }
 }

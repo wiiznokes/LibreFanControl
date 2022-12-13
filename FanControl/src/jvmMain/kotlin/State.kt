@@ -26,3 +26,9 @@ class State {
         val _editModeActivated: MutableStateFlow<MutableState<Boolean>> = MutableStateFlow(mutableStateOf(false))
     }
 }
+
+
+enum class Source {
+    ADD,
+    BODY
+}
