@@ -5,7 +5,7 @@ import ui.utils.Resources
 
 data class ControlItem(
     override var name: String,
-    override val type: ItemType,
+    override val type: ItemType.ControlType,
     val sensorName: String,
     val sensorId: String,
 

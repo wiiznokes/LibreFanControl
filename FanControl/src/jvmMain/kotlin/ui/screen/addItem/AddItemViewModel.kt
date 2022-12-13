@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.ItemType
 import model.hardware.Control
-import model.item.BehaviorItem
 import model.item.ControlItem
 import model.item.SensorItem
+import model.item.behavior.BehaviorItem
 import ui.utils.Resources
 
 class AddItemViewModel(
@@ -38,7 +38,7 @@ class AddItemViewModel(
             it.add(
                 BehaviorItem(
                     name = "Behavior",
-                    type = ItemType.BEHAVIOR
+                    type = ItemType.BehaviorType.FLAT
                 )
             )
             it
@@ -50,7 +50,7 @@ class AddItemViewModel(
             _fanItemList.value.add(
                 SensorItem(
                     name = "fan1",
-                    type = ItemType.FAN,
+                    type = ItemType.SensorType.FAN,
                     sensorName = Resources.getString("none_item"),
                     sensorId = null
                 )
@@ -64,7 +64,7 @@ class AddItemViewModel(
             _tempItemList.value.add(
                 SensorItem(
                     name = "temp1",
-                    type = ItemType.TEMP,
+                    type = ItemType.SensorType.TEMP,
                     sensorName = Resources.getString("none_item"),
                     sensorId = null
                 )

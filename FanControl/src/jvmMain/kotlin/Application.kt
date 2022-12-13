@@ -1,5 +1,6 @@
 import configuration.Configuration
 import external.ExternalManager
+import external.OS
 import external.getOS
 import kotlinx.coroutines.*
 
@@ -11,7 +12,10 @@ class Application {
     private var configuration: Configuration? = null
 
     companion object {
-        private val externalManager = ExternalManager(getOS())
+        private val externalManager = ExternalManager(
+            getOS()
+            //OS.LINUX
+        )
 
         fun setValue(index: Int, isAuto: Boolean, value: Int) {
             externalManager.setControl(index, isAuto, value)

@@ -3,7 +3,7 @@ package external
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import model.SensorType
+import model.ItemType
 import model.hardware.Control
 import model.hardware.Sensor
 import kotlin.random.Random
@@ -19,7 +19,7 @@ class ExternalLinux : External {
                 libIndex = 0,
                 libId = "fan1",
                 libName = "fan1",
-                type = SensorType.FAN
+                type = ItemType.SensorType.FAN,
             )
         )
         fans.value.add(
@@ -27,7 +27,7 @@ class ExternalLinux : External {
                 libIndex = 1,
                 libId = "fan2",
                 libName = "fan2",
-                type = SensorType.FAN
+                type = ItemType.SensorType.FAN,
             )
         )
         fans.value.add(
@@ -35,7 +35,7 @@ class ExternalLinux : External {
                 libIndex = 2,
                 libId = "fan3",
                 libName = "fan3",
-                type = SensorType.FAN
+                type = ItemType.SensorType.FAN,
             )
         )
     }
@@ -44,25 +44,25 @@ class ExternalLinux : External {
         temps.value.add(
             Sensor(
                 libIndex = 0,
-                libId = "fan1",
-                libName = "fan1",
-                type = SensorType.TEMP
+                libId = "temp1",
+                libName = "temp1",
+                type = ItemType.SensorType.TEMP,
             )
         )
         temps.value.add(
             Sensor(
                 libIndex = 1,
-                libId = "fan2",
-                libName = "fan2",
-                type = SensorType.TEMP
+                libId = "temp2",
+                libName = "temp2",
+                type = ItemType.SensorType.TEMP,
             )
         )
         temps.value.add(
             Sensor(
                 libIndex = 2,
-                libId = "fan3",
-                libName = "fan3",
-                type = SensorType.TEMP
+                libId = "temp3",
+                libName = "temp3",
+                type = ItemType.SensorType.TEMP,
             )
         )
     }

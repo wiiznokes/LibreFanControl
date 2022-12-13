@@ -5,9 +5,9 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import model.hardware.Control
 import model.hardware.Sensor
-import model.item.BehaviorItem
 import model.item.ControlItem
 import model.item.SensorItem
+import model.item.behavior.BehaviorItem
 
 class State {
 

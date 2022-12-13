@@ -3,7 +3,7 @@ package external
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import model.SensorType
+import model.ItemType
 import model.hardware.Control
 import model.hardware.Sensor
 
@@ -39,7 +39,7 @@ class ExternalWindows : External {
                     libIndex = result[i * 3].toInt(),
                     libId = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2],
-                    type = SensorType.FAN,
+                    type = ItemType.SensorType.FAN,
                 )
             )
         }
@@ -54,7 +54,7 @@ class ExternalWindows : External {
                     libIndex = result[i * 3].toInt(),
                     libId = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2],
-                    type = SensorType.FAN,
+                    type = ItemType.SensorType.TEMP,
                 )
             )
         }

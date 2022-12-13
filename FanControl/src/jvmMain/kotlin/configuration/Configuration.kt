@@ -6,9 +6,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import model.ItemType
 import model.hardware.Control
 import model.hardware.Sensor
-import model.item.BehaviorItem
 import model.item.ControlItem
 import model.item.SensorItem
+import model.item.behavior.BehaviorItem
+import model.item.behavior.FlatBehavior
+import model.item.behavior.LinearBehavior
 
 class Configuration(
     private val _controlList: MutableStateFlow<SnapshotStateList<Control>> = State._controlList,
@@ -34,18 +36,33 @@ class Configuration(
             _controlItemList.value.add(
                 ControlItem(
                     name = it.libName,
-                    type = ItemType.FAN,
+                    type = ItemType.ControlType.FAN,
                     sensorName = it.libName,
                     sensorId = it.libId,
                 )
             )
         }
 
+        _behaviorItemList.value.add(
+            BehaviorItem(
+                name = "behavior1",
+                type = ItemType.BehaviorType.FLAT,
+                flatBehavior = FlatBehavior()
+            )
+        )
+        _behaviorItemList.value.add(
+            BehaviorItem(
+                name = "behavior2",
+                type = ItemType.BehaviorType.LINEAR,
+                linearBehavior = LinearBehavior()
+            )
+        )
+
         _fanList.value.forEach {
             _fanItemList.value.add(
                 SensorItem(
                     name = it.libName,
-                    type = ItemType.FAN,
+                    type = ItemType.SensorType.FAN,
                     sensorName = it.libName,
                     sensorId = it.libId,
                 )
@@ -56,7 +73,7 @@ class Configuration(
             _tempItemList.value.add(
                 SensorItem(
                     name = it.libName,
-                    type = ItemType.FAN,
+                    type = ItemType.SensorType.TEMP,
                     sensorName = it.libName,
                     sensorId = it.libId,
                 )
