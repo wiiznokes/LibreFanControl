@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.ItemType
 import model.hardware.Control
-import model.item.behavior.BehaviorItem
 import model.item.ControlItem
 import model.item.SensorItem
+import model.item.behavior.BehaviorItem
 import ui.utils.Resources
 
 class AddItemViewModel(

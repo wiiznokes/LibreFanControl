@@ -4,6 +4,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import model.ItemType
 import ui.screen.body.behaviorList.flat.flatBehavior
+import ui.screen.body.behaviorList.linear.linearBihavior
 
 
 private val viewModel: BehaviorViewModel = BehaviorViewModel()
@@ -13,10 +14,10 @@ fun LazyListScope.behaviorList(
 ) {
     itemsIndexed(viewModel.behaviorItemList.value) { index, behavior ->
 
-        when(behavior.type) {
+        when (behavior.type) {
             ItemType.BehaviorType.FLAT -> {
                 flatBehavior(
-                    behaviorItem = behavior,
+                    behavior = behavior,
                     index = index,
                     editModeActivated = editModeActivated,
                     onNameChange = {
@@ -24,10 +25,24 @@ fun LazyListScope.behaviorList(
                     },
                     onEditClick = {
                         viewModel.remove(index)
-                    }
+                    },
                 )
             }
-            ItemType.BehaviorType.LINEAR -> TODO()
+
+            ItemType.BehaviorType.LINEAR -> {
+                linearBihavior(
+                    behavior = behavior,
+                    index = index,
+                    editModeActivated = editModeActivated,
+                    onNameChange = {
+                        viewModel.setName(it, index)
+                    },
+                    onEditClick = {
+                        viewModel.remove(index)
+                    },
+                )
+            }
+
             ItemType.BehaviorType.TARGET -> TODO()
         }
 

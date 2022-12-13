@@ -2,16 +2,19 @@ package ui.screen.body
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import ui.component.itemsList
+import androidx.compose.ui.unit.sp
 import ui.screen.body.behaviorList.behaviorList
 import ui.screen.body.controlList.controlList
 import ui.screen.body.fanList.fanList
@@ -78,6 +81,27 @@ fun body(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun itemsList(
+    title: String,
+    content: LazyListScope.() -> Unit,
+) {
+    LazyColumn {
+        item {
+            Text(
+                text = title,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontSize = 40.sp
+            )
+            Spacer(
+                modifier = Modifier
+                    .height(20.dp)
+            )
+        }
+        content()
     }
 }
 

@@ -1,5 +1,6 @@
 package ui.screen.body.behaviorList.flat
 
+import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update

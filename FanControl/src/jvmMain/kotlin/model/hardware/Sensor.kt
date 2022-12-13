@@ -8,5 +8,5 @@ data class Sensor(
     override val libId: String,
     override val libName: String,
     override var value: Int = 0,
-    val type: ItemType.SensorType
+    override val type: ItemType.SensorType,
 ) : BaseHardware
