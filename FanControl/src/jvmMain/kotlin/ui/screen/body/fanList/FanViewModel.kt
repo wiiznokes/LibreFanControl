@@ -35,7 +35,7 @@ class FanViewModel(
         } else {
             _fanItemList.update {
                 _fanItemList.value[index] = _fanItemList.value[index].copy(
-                    sensorName = Resources.getString("none_item"),
+                    sensorName = Resources.getString("none"),
                     sensorId = null
                 )
                 it

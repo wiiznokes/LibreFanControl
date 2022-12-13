@@ -60,25 +60,25 @@ fun addItem(
                 // fan
                 baseSensorAddItem(
                     iconPainter = Resources.getIcon("toys_fan"),
-                    iconContentDescription = Resources.getString("fan_icon_content_description"),
-                    name = Resources.getString("add_item_default_fan_name"),
+                    iconContentDescription = Resources.getString("ct/fan"),
+                    name = Resources.getString("default/fan_name"),
                     onEditClick = {
                         viewModel.addFan()
                     },
-                    sensorName = Resources.getString("add_item_default_fan_name"),
-                    sensorValue = "1000 ${Resources.getString("rpm")}"
+                    sensorName = Resources.getString("default/fan_name"),
+                    sensorValue = "1000 ${Resources.getString("unity/rpm")}"
                 )
 
                 // temp
                 baseSensorAddItem(
                     iconPainter = Resources.getIcon("thermometer"),
-                    iconContentDescription = Resources.getString("temp_icon_content_description"),
-                    name = Resources.getString("add_item_default_temp_name"),
+                    iconContentDescription = Resources.getString("ct/temp"),
+                    name = Resources.getString("default/temp_name"),
                     onEditClick = {
                         viewModel.addTemp()
                     },
-                    sensorName = Resources.getString("add_item_default_temp_name"),
-                    sensorValue = "50 ${Resources.getString("degree")}"
+                    sensorName = Resources.getString("default/temp_name"),
+                    sensorValue = "50 ${Resources.getString("unity/degree")}"
                 )
             }
         }
@@ -102,7 +102,7 @@ fun addItemChoice(currentChoiceType: MutableState<ChoiceType>, choiceStates: Cho
         ) {
             Icon(
                 painter = Resources.getIcon("arrow_back"),
-                contentDescription = Resources.getString("add_item_previous_button_content_description"),
+                contentDescription = Resources.getString("ct/previous"),
                 tint = MaterialTheme.colorScheme.onSurface
             )
         }
@@ -121,7 +121,7 @@ fun addItemChoice(currentChoiceType: MutableState<ChoiceType>, choiceStates: Cho
         ) {
             Icon(
                 painter = Resources.getIcon("arrow_forward"),
-                contentDescription = Resources.getString("add_item_next_button_content_description"),
+                contentDescription = Resources.getString("ct/next"),
                 tint = MaterialTheme.colorScheme.onSurface
             )
         }

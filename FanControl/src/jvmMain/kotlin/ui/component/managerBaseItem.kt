@@ -42,7 +42,7 @@ fun baseItemBody(
         contentEditIcon = {
             Icon(
                 painter = Resources.getIcon("cancel"),
-                contentDescription = Resources.getString("edit_remove_button_content_description"),
+                contentDescription = Resources.getString("ct/edit_remove"),
                 tint = Color.Red
             )
         },
@@ -54,7 +54,7 @@ fun baseItemBody(
                 onValueChange = {
                     onNameChange(it)
                 },
-                label = Resources.getString("label_item_name")
+                label = Resources.getString("label/name")
             )
         },
 
@@ -79,7 +79,7 @@ fun baseItemAddItem(
         contentEditIcon = {
             Icon(
                 painter = Resources.getIcon("add_circle"),
-                contentDescription = Resources.getString("edit_add_button_content_description"),
+                contentDescription = Resources.getString("ct/edit_add"),
                 tint = Color.Green
             )
         },
@@ -179,9 +179,6 @@ private fun baseItem(
                 }
             }
         }
-
-
-
 
         if (editModeActivated) {
             IconButton(

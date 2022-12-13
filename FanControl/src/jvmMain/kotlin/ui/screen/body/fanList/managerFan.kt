@@ -40,7 +40,7 @@ fun fan(
 
     baseSensorBody(
         iconPainter = Resources.getIcon("toys_fan"),
-        iconContentDescription = Resources.getString("fan_icon_content_description"),
+        iconContentDescription = Resources.getString("ct/fan"),
         name = sensorItem.name,
         onNameChange = {
             viewModel.setName(it, index)
@@ -51,7 +51,7 @@ fun fan(
         },
         sensorName = sensorItem.sensorName,
 
-        sensorValue = "$sensorValue ${Resources.getString("rpm")}",
+        sensorValue = "$sensorValue ${Resources.getString("unity/rpm")}",
         sensorList = viewModel.fanList.value,
         onItemClick = {
             viewModel.setFan(index, it)

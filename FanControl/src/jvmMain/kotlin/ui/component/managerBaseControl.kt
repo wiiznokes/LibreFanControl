@@ -31,7 +31,7 @@ fun baseControlBody(
 ) {
     baseItemBody(
         iconPainter = Resources.getIcon("alternate_email"),
-        iconContentDescription = Resources.getString("control_icon_content_description"),
+        iconContentDescription = Resources.getString("ct/control"),
         name = name,
         onNameChange = onNameChange,
         editModeActivated = editModeActivated,
@@ -64,7 +64,7 @@ fun baseControlAddItem(
 ) {
     baseItemAddItem(
         iconPainter = Resources.getIcon("alternate_email"),
-        iconContentDescription = Resources.getString("control_icon_content_description"),
+        iconContentDescription = Resources.getString("ct/control"),
         name = name,
         onEditClick = onEditClick
     ) {

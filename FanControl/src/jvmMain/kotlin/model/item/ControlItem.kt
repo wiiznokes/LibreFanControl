@@ -11,5 +11,5 @@ data class ControlItem(
 
     override var isExpanded: Boolean = false,
     var visible: Boolean = true,
-    var behaviorName: String = Resources.getString("none_item")
+    var behaviorName: String = Resources.getString("none")
 ) : BaseItem

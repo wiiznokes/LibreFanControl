@@ -43,7 +43,7 @@ fun listChoice(
                 Alignment.CenterEnd
             ),
             painter = Resources.getIcon("expand_more"),
-            contentDescription = Resources.getString("change_sensor_button_content_description")
+            contentDescription = Resources.getString("ct/choose_sensor")
         )
     }
 }
@@ -71,7 +71,7 @@ fun listChoice(
             }
         ) {
             managerText(
-                text = Resources.getString("none_item")
+                text = Resources.getString("none")
             )
         }
 
@@ -114,7 +114,7 @@ fun listChoice(
             }
         ) {
             managerText(
-                text = Resources.getString("none_item")
+                text = Resources.getString("none")
             )
         }
 
@@ -170,12 +170,12 @@ private fun managerListChoice(
             if (expanded.value) {
                 Icon(
                     painter = Resources.getIcon("expand_more"),
-                    contentDescription = Resources.getString("change_sensor_button_content_description")
+                    contentDescription = Resources.getString("ct/choose_sensor")
                 )
             } else {
                 Icon(
                     painter = Resources.getIcon("expand_less"),
-                    contentDescription = Resources.getString("change_sensor_button_content_description")
+                    contentDescription = Resources.getString("ct/choose_sensor")
                 )
             }
         }

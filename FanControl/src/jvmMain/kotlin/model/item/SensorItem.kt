@@ -8,6 +8,6 @@ data class SensorItem(
     override val type: ItemType.SensorType,
 
     override var isExpanded: Boolean = false,
-    var sensorName: String = Resources.getString("none_item"),
+    var sensorName: String = Resources.getString("none"),
     var sensorId: String? = null
 ) : BaseItem
