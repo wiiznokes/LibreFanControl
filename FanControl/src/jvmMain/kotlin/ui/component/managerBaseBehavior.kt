@@ -23,7 +23,7 @@ fun baseBehavior(
     editModeActivated: Boolean,
 
 
-    value: Int = 50,
+    value: Int,
     onMoreButtonClick: (Int) -> Unit,
     onLessButtonClick: (Int) -> Unit,
     onSliderValueChange: (Int) -> Unit

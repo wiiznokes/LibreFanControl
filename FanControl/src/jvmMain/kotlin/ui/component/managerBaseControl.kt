@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import model.item.BehaviorItem
+import model.item.behavior.BehaviorItem
 import ui.utils.Resources
 
 

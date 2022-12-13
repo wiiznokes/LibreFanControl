@@ -17,7 +17,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import model.hardware.Sensor
-import model.item.BehaviorItem
+import model.item.behavior.BehaviorItem
 import ui.utils.Resources
 
 

@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class HomeViewModel(
-    private val _editModeActivated: MutableStateFlow<MutableState<Boolean>> = State._editModeActivated,
-    private val _addItemExpanded: MutableStateFlow<MutableState<Boolean>> = State._addItemExpanded,
+    _editModeActivated: MutableStateFlow<MutableState<Boolean>> = State._editModeActivated,
+    _addItemExpanded: MutableStateFlow<MutableState<Boolean>> = State._addItemExpanded,
 ) {
 
     val editModeActivated = _editModeActivated.asStateFlow()
