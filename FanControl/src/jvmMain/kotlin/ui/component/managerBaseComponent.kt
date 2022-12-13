@@ -76,7 +76,7 @@ fun listChoice(
 
 
     managerListChoice(
-        sensorName = sensorName,
+        name = sensorName,
         expanded = expanded
     ) {
         DropdownMenuItem(
@@ -119,7 +119,7 @@ fun listChoice(
     val expanded = remember { mutableStateOf(false) }
 
     managerListChoice(
-        sensorName = sensorName,
+        name = sensorName,
         expanded = expanded
     ) {
         DropdownMenuItem(
@@ -153,8 +153,8 @@ fun listChoice(
 }
 
 @Composable
-private fun managerListChoice(
-    sensorName: String,
+fun managerListChoice(
+    name: String,
     expanded: MutableState<Boolean>,
     content: @Composable ColumnScope.() -> Unit
 ) {
@@ -164,7 +164,7 @@ private fun managerListChoice(
     ) {
 
         managerText(
-            text = sensorName,
+            text = name,
             modifier = Modifier.align(
                 Alignment.CenterStart
             )

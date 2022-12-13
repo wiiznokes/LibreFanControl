@@ -2,12 +2,14 @@ package ui.component
 
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.painter.Painter
 import model.hardware.Sensor
 
+
 @Composable
-fun baseSensor(
+fun baseSensorBody(
     onEditClick: () -> Unit,
     iconPainter: Painter,
     iconContentDescription: String,
@@ -21,7 +23,7 @@ fun baseSensor(
     sensorList: SnapshotStateList<Sensor>,
     onItemClick: (Sensor?) -> Unit
 ) {
-    baseItem(
+    baseItemBody(
         iconPainter = iconPainter,
         iconContentDescription = iconContentDescription,
         name = name,
@@ -29,7 +31,6 @@ fun baseSensor(
         editModeActivated = editModeActivated,
         onEditClick = onEditClick,
     ) {
-
         listChoice(
             sensorName = sensorName,
             sensorList = sensorList,
@@ -38,6 +39,31 @@ fun baseSensor(
         managerText(
             text = sensorValue
         )
+    }
+}
 
+@Composable
+fun baseSensorAddItem(
+    iconPainter: Painter,
+    iconContentDescription: String,
+    name: String,
+    onEditClick: () -> Unit,
+    sensorName: String,
+    sensorValue: String,
+) {
+    baseItemAddItem(
+        iconPainter = iconPainter,
+        iconContentDescription = iconContentDescription,
+        name = name,
+        onEditClick = onEditClick,
+    ) {
+        managerListChoice(
+            name = sensorName,
+            expanded = mutableStateOf(false),
+            content = {}
+        )
+        managerText(
+            text = sensorValue
+        )
     }
 }

@@ -5,7 +5,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import model.item.ControlItem
-import ui.component.baseControl
+import ui.component.baseControlBody
 
 
 private val viewModel: ControlViewModel = ControlViewModel()
@@ -44,7 +44,7 @@ fun control(
     }[0]
 
 
-    baseControl(
+    baseControlBody(
         name = controlItem.name,
         onNameChange = { viewModel.setName(it, index) },
         editModeActivated = editModeActivated,

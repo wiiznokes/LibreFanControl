@@ -28,7 +28,7 @@ fun baseBehavior(
     onLessButtonClick: (Int) -> Unit,
     onSliderValueChange: (Int) -> Unit
 ) {
-    baseItem(
+    baseItemBody(
         iconPainter = iconPainter,
         iconContentDescription = iconContentDescription,
         name = name,

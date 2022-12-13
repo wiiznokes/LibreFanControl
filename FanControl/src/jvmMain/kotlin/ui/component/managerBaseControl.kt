@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -15,9 +16,9 @@ import ui.utils.Resources
 
 
 @Composable
-fun baseControl(
-    onEditClick: () -> Unit,
+fun baseControlBody(
     name: String,
+    onEditClick: () -> Unit,
     onNameChange: (String) -> Unit,
     editModeActivated: Boolean,
 
@@ -29,7 +30,7 @@ fun baseControl(
     behaviorItemList: SnapshotStateList<BehaviorItem>,
     onItemClick: (BehaviorItem?) -> Unit
 ) {
-    baseItem(
+    baseItemBody(
         iconPainter = Resources.getIcon("alternate_email"),
         iconContentDescription = Resources.getString("control_icon_content_description"),
         name = name,
@@ -37,32 +38,84 @@ fun baseControl(
         editModeActivated = editModeActivated,
         onEditClick = onEditClick
     ) {
-        Row {
+        baseControl(
+            isActive = isActive,
+            onSwitchClick = onSwitchClick,
+            value = value,
+            fanValue = fanValue,
 
-            Switch(
-                checked = isActive,
-                onCheckedChange = {
-                    onSwitchClick(it)
-                }
-            )
-            Spacer(
-                modifier = Modifier
-                    .width(10.dp)
-            )
-
+            ) {
             listChoice(
                 sensorName = behaviorName,
                 behaviorItemList = behaviorItemList,
                 onItemClick = onItemClick
             )
-
-
-        }
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            managerText(value)
-            managerText(fanValue)
         }
     }
+}
+
+@Composable
+fun baseControlAddItem(
+    name: String,
+    onEditClick: () -> Unit,
+    behaviorName: String,
+    value: String,
+    fanValue: String,
+) {
+    baseItemAddItem(
+        iconPainter = Resources.getIcon("alternate_email"),
+        iconContentDescription = Resources.getString("control_icon_content_description"),
+        name = name,
+        onEditClick = onEditClick
+    ) {
+        baseControl(
+            isActive = false,
+            onSwitchClick = {},
+            value = value,
+            fanValue = fanValue
+        ) {
+            managerListChoice(
+                name = behaviorName,
+                expanded = mutableStateOf(false),
+                content = {}
+            )
+        }
+    }
+
+}
+
+
+@Composable
+private fun baseControl(
+    isActive: Boolean,
+    onSwitchClick: (Boolean) -> Unit,
+    value: String,
+    fanValue: String,
+    contentListChoice: @Composable () -> Unit
+) {
+
+    Row {
+
+        Switch(
+            checked = isActive,
+            onCheckedChange = {
+                onSwitchClick(it)
+            }
+        )
+        Spacer(
+            modifier = Modifier
+                .width(10.dp)
+        )
+
+        contentListChoice()
+
+
+    }
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        managerText(value)
+        managerText(fanValue)
+    }
+
 }

@@ -23,13 +23,85 @@ import ui.utils.Resources
 
 
 @Composable
-fun baseItem(
+fun baseItemBody(
     iconPainter: Painter,
     iconContentDescription: String,
     name: String,
     onEditClick: () -> Unit,
     onNameChange: (String) -> Unit,
     editModeActivated: Boolean,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    val text = mutableStateOf(name)
+
+    baseItem(
+        iconPainter = iconPainter,
+        iconContentDescription = iconContentDescription,
+        contentEditIcon = {
+            Icon(
+                painter = Resources.getIcon("cancel"),
+                contentDescription = Resources.getString("edit_remove_button_content_description"),
+                tint = Color.Red
+            )
+        },
+        editModeActivated = editModeActivated,
+        onEditClick = onEditClick,
+        contentName = {
+            managerOutlinedTextField(
+                text = text,
+                onValueChange = {
+                    onNameChange(it)
+                },
+                label = Resources.getString("label_item_name")
+            )
+        },
+
+        ) {
+        content()
+    }
+}
+
+@Composable
+fun baseItemAddItem(
+    iconPainter: Painter,
+    iconContentDescription: String,
+    name: String,
+    onEditClick: () -> Unit,
+    content: @Composable ColumnScope.() -> Unit
+) {
+
+    baseItem(
+        iconPainter = iconPainter,
+        iconContentDescription = iconContentDescription,
+        contentEditIcon = {
+            Icon(
+                painter = Resources.getIcon("add_circle"),
+                contentDescription = Resources.getString("edit_add_button_content_description"),
+                tint = Color.Green
+            )
+        },
+        editModeActivated = true,
+        onEditClick = onEditClick,
+        contentName = {
+            managerText(
+                text = name
+            )
+        },
+
+        ) {
+        content()
+    }
+
+}
+
+@Composable
+private fun baseItem(
+    iconPainter: Painter,
+    iconContentDescription: String,
+    contentEditIcon: @Composable () -> Unit,
+    onEditClick: () -> Unit,
+    editModeActivated: Boolean,
+    contentName: @Composable RowScope.() -> Unit,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Box(
@@ -74,15 +146,7 @@ fun baseItem(
                             .width(10.dp)
                     )
 
-                    val text = mutableStateOf(name)
-
-                    managerOutlinedTextField(
-                        text = text,
-                        onValueChange = {
-                            onNameChange(it)
-                        },
-                        label = Resources.getString("label_item_name")
-                    )
+                    contentName()
 
 
                 }
@@ -111,11 +175,7 @@ fun baseItem(
                     onEditClick()
                 }
             ) {
-                Icon(
-                    painter = Resources.getIcon("cancel"),
-                    contentDescription = Resources.getString("edit_remove_button_content_description"),
-                    tint = Color.Red
-                )
+                contentEditIcon()
             }
         }
 

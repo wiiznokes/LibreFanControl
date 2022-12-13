@@ -4,7 +4,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import model.item.SensorItem
-import ui.component.baseSensor
+import ui.component.baseSensorBody
 import ui.utils.Resources
 
 
@@ -36,7 +36,7 @@ fun temp(
         }[0].value
     } else 0
 
-    baseSensor(
+    baseSensorBody(
         iconPainter = Resources.getIcon("thermometer"),
         iconContentDescription = Resources.getString("temp_icon_content_description"),
         name = sensorItem.name,
