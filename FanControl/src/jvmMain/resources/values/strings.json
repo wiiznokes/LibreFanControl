@@ -1,38 +1,53 @@
 {
-  "app_name": "FanControl",
-  "open_drawer_button_content_description": "open setting",
-  "edit_button_content_description": "edit",
-  "add_item_app_bar_title": "Add Item",
-  "add_item_back_button_content_description": "close add item",
-  "add_item_button_content_description": "open add item",
-  "label_item_name": "name",
-  "none_item": "None",
-  "title_control": "Control",
-  "control_icon_content_description": "temp sensor info",
-  "change_behavior_button_content_description": "Choose behavior",
-  "title_behavior": "Behavior",
-  "behavior_icon_content_description": "temp sensor info",
-  "behavior_fan_speed": "fan speed",
-  "decrease_button_content_description": "decrease",
-  "increase_button_content_description": "increase",
-  "change_sensor_button_content_description": "Choose sensor",
-  "title_fan": "Fan",
-  "fan_icon_content_description": "temp sensor info",
-  "rpm": "RPM",
-  "title_temp": "Temperature",
-  "temp_icon_content_description": "temp sensor info",
-  "degree": "°C",
-  "edit_add_button_content_description": "Add item",
-  "edit_remove_button_content_description": "Remove item",
-  "add_item_choice_behavior": "Behavior",
-  "add_item_choice_sensor": "Sensor",
-  "add_item_choice_control": "Control",
-  "add_item_previous_button_content_description": "previous",
-  "add_item_next_button_content_description": "next",
-  "add_item_default_control_name": "Control name",
-  "add_item_default_behavior_name": "Behavior name",
-  "add_item_default_fan_name": "Fan name",
-  "add_item_default_temp_name": "Temperature name",
-  "title_setting": "Setting"
+  "title": {
+    "app_name": "FanControl",
+    "add_item": "Add Item",
+    "setting": "Setting",
+    "control": "Control",
+    "behavior": "Behavior",
+    "sensor": "Sensor",
+    "fan": "Fan",
+    "temp": "Temperature"
+  },
+  "icon_content_description": {
+    "open_drawer": "open setting",
+    "edit": "edit",
+    "close_add_item": "close add item",
+    "open_add_item": "open add item",
+    "choose_behavior": "Choose behavior",
+    "choose_sensor": "Choose sensor",
+    "decrease": "decrease",
+    "increase": "increase",
+    "control": "control info",
+    "flat": "flat behavior info",
+    "linear": "linear behavior info",
+    "fan": "fan sensor info",
+    "temp": "temp sensor info",
+    "edit_add": "Add item",
+    "edit_remove": "Remove item",
+    "previous": "previous",
+    "next": "next"
+  },
+  "unity": {
+    "rpm": "RPM",
+    "degree": "°C"
+  },
+  "label": {
+    "name": "name"
+  },
+  "default_value": {
+    "control_name": "Control name",
+    "behavior_name": "Behavior name",
+    "fan_name": "Fan name",
+    "temp_name": "Temperature name"
+  },
+  "linear": {
+    "min_temp": "min temp : ",
+    "max_temp": "min temp : ",
+    "min_fan_speed": "min fan speed : ",
+    "max_fan_speed": "max fan speed : "
+  },
+  "none": "None",
+  "fan_speed": "fan speed"
 }
 

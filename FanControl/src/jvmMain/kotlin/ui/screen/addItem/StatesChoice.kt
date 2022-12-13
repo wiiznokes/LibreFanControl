@@ -39,20 +39,20 @@ class ChoiceStates {
 
 class BehaviorChoice : IChoiceStates {
 
-    override val title: String = Resources.getString("add_item_choice_behavior")
+    override val title: String = Resources.getString("title/behavior")
     override val previous: ChoiceType = ChoiceType.CONTROL
     override val next: ChoiceType = ChoiceType.SENSOR
 }
 
 
 class SensorChoice : IChoiceStates {
-    override val title: String = Resources.getString("add_item_choice_sensor")
+    override val title: String = Resources.getString("title/sensor")
     override val previous: ChoiceType = ChoiceType.BEHAVIOR
     override val next: ChoiceType = ChoiceType.CONTROL
 }
 
 class ControlChoice : IChoiceStates {
-    override val title: String = Resources.getString("add_item_choice_control")
+    override val title: String = Resources.getString("title/control")
     override val previous: ChoiceType = ChoiceType.SENSOR
     override val next: ChoiceType = ChoiceType.BEHAVIOR
 }

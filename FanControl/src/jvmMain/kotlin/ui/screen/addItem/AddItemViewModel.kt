@@ -51,7 +51,7 @@ class AddItemViewModel(
                 SensorItem(
                     name = "fan1",
                     type = ItemType.SensorType.FAN,
-                    sensorName = Resources.getString("none_item"),
+                    sensorName = Resources.getString("none"),
                     sensorId = null
                 )
             )
@@ -65,7 +65,7 @@ class AddItemViewModel(
                 SensorItem(
                     name = "temp1",
                     type = ItemType.SensorType.TEMP,
-                    sensorName = Resources.getString("none_item"),
+                    sensorName = Resources.getString("none"),
                     sensorId = null
                 )
             )

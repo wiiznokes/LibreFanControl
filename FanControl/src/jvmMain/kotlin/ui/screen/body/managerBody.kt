@@ -41,22 +41,22 @@ fun body(
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 itemsList(
-                    title = Resources.getString("title_control")
+                    title = Resources.getString("title/control")
                 ) {
                     controlList(editModeActivated.value)
                 }
                 itemsList(
-                    title = Resources.getString("title_behavior")
+                    title = Resources.getString("title/behavior")
                 ) {
                     behaviorList(editModeActivated.value)
                 }
                 itemsList(
-                    title = Resources.getString("title_fan")
+                    title = Resources.getString("title/fan")
                 ) {
                     fanList(editModeActivated.value)
                 }
                 itemsList(
-                    title = Resources.getString("title_temp")
+                    title = Resources.getString("title/temp")
                 ) {
                     tempList(editModeActivated.value)
                 }
@@ -76,7 +76,7 @@ fun body(
             ) {
                 Icon(
                     painter = Resources.getIcon("add"),
-                    contentDescription = Resources.getString("add_item_button_content_description"),
+                    contentDescription = Resources.getString("ct/open_add_item"),
                     tint = MaterialTheme.colorScheme.onBackground
                 )
             }

@@ -36,7 +36,7 @@ class TempViewModel(
         } else {
             _tempItemList.update {
                 _tempItemList.value[index] = _tempItemList.value[index].copy(
-                    sensorName = Resources.getString("none_item"),
+                    sensorName = Resources.getString("none"),
                     sensorId = null
                 )
                 it

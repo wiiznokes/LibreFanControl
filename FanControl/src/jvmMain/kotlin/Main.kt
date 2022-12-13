@@ -15,7 +15,7 @@ fun main() {
         exitProcessOnExit = true
     ) {
         Window(
-            title = Resources.getString("app_name"),
+            title = Resources.getString("title/app_name"),
             icon = Resources.getIcon("toys_fan"),
             onCloseRequest = {
                 application.onStop()

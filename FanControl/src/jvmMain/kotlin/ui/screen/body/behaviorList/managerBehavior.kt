@@ -4,7 +4,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import model.ItemType
 import ui.screen.body.behaviorList.flat.flatBehavior
-import ui.screen.body.behaviorList.linear.linearBihavior
+import ui.screen.body.behaviorList.linear.linearBehavior
 
 
 private val viewModel: BehaviorViewModel = BehaviorViewModel()
@@ -30,7 +30,7 @@ fun LazyListScope.behaviorList(
             }
 
             ItemType.BehaviorType.LINEAR -> {
-                linearBihavior(
+                linearBehavior(
                     behavior = behavior,
                     index = index,
                     editModeActivated = editModeActivated,

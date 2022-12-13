@@ -27,7 +27,7 @@ fun flatBehavior(
 ) {
     baseItemBody(
         iconPainter = Resources.getIcon("horizontal_rule"),
-        iconContentDescription = Resources.getString("behavior_icon_content_description"),
+        iconContentDescription = Resources.getString("ct/flat"),
         name = behavior.name,
         onNameChange = onNameChange,
         editModeActivated = editModeActivated,
@@ -40,7 +40,7 @@ fun flatBehavior(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
-            managerText(Resources.getString("behavior_fan_speed"))
+            managerText(Resources.getString("fan_speed"))
 
             Box {
                 Row {
@@ -56,7 +56,7 @@ fun flatBehavior(
                     ) {
                         Icon(
                             painter = Resources.getIcon("remove"),
-                            contentDescription = Resources.getString("decrease_button_content_description")
+                            contentDescription = Resources.getString("ct/decrease")
                         )
                     }
                     IconButton(
@@ -69,7 +69,7 @@ fun flatBehavior(
                     ) {
                         Icon(
                             painter = Resources.getIcon("add"),
-                            contentDescription = Resources.getString("increase_button_content_description")
+                            contentDescription = Resources.getString("ct/increase")
                         )
                     }
                 }

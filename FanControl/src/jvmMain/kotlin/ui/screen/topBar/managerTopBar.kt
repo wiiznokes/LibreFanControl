@@ -33,7 +33,7 @@ fun mainTopBar(
             ) {
                 Icon(
                     painter = Resources.getIcon("toys_fan"),
-                    contentDescription = Resources.getString("app_name")
+                    contentDescription = Resources.getString("title/app_name")
                 )
                 Spacer(
                     modifier = Modifier
@@ -41,7 +41,7 @@ fun mainTopBar(
                 )
                 managerText(
                     modifier = Modifier,
-                    text = Resources.getString("app_name"),
+                    text = Resources.getString("title/app_name"),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -59,7 +59,7 @@ fun mainTopBar(
             ) {
                 Icon(
                     painter = Resources.getIcon("menu"),
-                    contentDescription = Resources.getString("open_drawer_button_content_description")
+                    contentDescription = Resources.getString("ct/open_drawer")
                 )
             }
         },
@@ -71,7 +71,7 @@ fun mainTopBar(
             ) {
                 Icon(
                     painter = Resources.getIcon("edit_square"),
-                    contentDescription = Resources.getString("edit_button_content_description")
+                    contentDescription = Resources.getString("ct/edit")
                 )
             }
         }
@@ -93,7 +93,7 @@ fun addItemTopBar(
                 managerText(
                     modifier = Modifier
                         .align(Alignment.Center),
-                    text = Resources.getString("add_item_app_bar_title"),
+                    text = Resources.getString("title/add_item"),
                     style = MaterialTheme.typography.titleSmall
                 )
             }
@@ -111,7 +111,7 @@ fun addItemTopBar(
             ) {
                 Icon(
                     painter = Resources.getIcon("arrow_forward"),
-                    contentDescription = Resources.getString("add_item_back_button_content_description")
+                    contentDescription = Resources.getString("ct/close_add_item")
                 )
             }
         }
