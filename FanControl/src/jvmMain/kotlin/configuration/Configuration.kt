@@ -41,6 +41,13 @@ class Configuration(
             )
         }
 
+        _behaviorItemList.value.add(
+            BehaviorItem(
+                name = "behavior1",
+                type = ItemType.BEHAVIOR
+            )
+        )
+
         _fanList.value.forEach {
             _fanItemList.value.add(
                 SensorItem(

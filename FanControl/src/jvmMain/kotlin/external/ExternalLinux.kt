@@ -44,24 +44,24 @@ class ExternalLinux : External {
         temps.value.add(
             Sensor(
                 libIndex = 0,
-                libId = "fan1",
-                libName = "fan1",
+                libId = "temp1",
+                libName = "temp1",
                 type = SensorType.TEMP
             )
         )
         temps.value.add(
             Sensor(
                 libIndex = 1,
-                libId = "fan2",
-                libName = "fan2",
+                libId = "temp2",
+                libName = "temp2",
                 type = SensorType.TEMP
             )
         )
         temps.value.add(
             Sensor(
                 libIndex = 2,
-                libId = "fan3",
-                libName = "fan3",
+                libId = "temp3",
+                libName = "temp3",
                 type = SensorType.TEMP
             )
         )
