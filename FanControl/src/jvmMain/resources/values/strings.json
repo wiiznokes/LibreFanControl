@@ -42,6 +42,10 @@
   "add_item_next_button_content_description": "next",
 
 
+  "add_item_default_control_name": "Control name",
+  "add_item_default_behavior_name": "Behavior name",
+  "add_item_default_fan_name": "Fan name",
+  "add_item_default_temp_name": "Temperature name",
 
   "title_setting": "Setting"
 }
