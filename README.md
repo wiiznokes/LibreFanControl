@@ -50,5 +50,3 @@ Next steps
 
 </details>
 
-[aimed design](https://www.figma.com/community/file/1173080950914294355)
-
