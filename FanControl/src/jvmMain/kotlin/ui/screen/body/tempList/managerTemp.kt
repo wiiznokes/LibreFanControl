@@ -1,12 +1,10 @@
 package ui.screen.body.tempList
 
-
-import Source
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import model.item.SensorItem
-import ui.component.baseSensor
+import ui.component.baseSensorBody
 import ui.utils.Resources
 
 
@@ -32,15 +30,16 @@ fun temp(
     editModeActivated: Boolean
 ) {
 
-    val sensor = viewModel.tempList.value.filter {
-        it.libId == sensorItem.sensorId
-    }[0]
+    val sensorValue = if (sensorItem.sensorId != null) {
+        viewModel.tempList.value.filter {
+            it.libId == sensorItem.sensorId
+        }[0].value
+    } else 0
 
-    baseSensor(
+    baseSensorBody(
         iconPainter = Resources.getIcon("thermometer"),
-        iconContentDescription = "",
+        iconContentDescription = Resources.getString("temp_icon_content_description"),
         name = sensorItem.name,
-        label = "name",
         onNameChange = {
             viewModel.setName(it, index)
         },
@@ -48,9 +47,8 @@ fun temp(
         onEditClick = {
             viewModel.remove(index)
         },
-        source = Source.BODY,
         sensorName = sensorItem.sensorName,
-        sensorValue = "${sensor.value} °C",
+        sensorValue = "$sensorValue  ${Resources.getString("degree")}",
         sensorList = viewModel.tempList.value,
         onItemClick = {
             viewModel.setTemp(index, it)

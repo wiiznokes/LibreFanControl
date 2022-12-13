@@ -1,82 +1,80 @@
 package ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import model.hardware.Sensor
 import model.item.BehaviorItem
 import ui.utils.Resources
 
 
 @Composable
-fun managerText(
-    value: String,
-    modifier: Modifier = Modifier
+fun listChoice(
+    name: String
 ) {
-    Text(
-        modifier = modifier,
-        text = value,
-        color = MaterialTheme.colorScheme.onPrimary,
-        maxLines = 1,
-        style = MaterialTheme.typography.bodyMedium
-    )
-}
 
-
-@Composable
-fun managerOutlinedTextField(
-    text: MutableState<String>,
-    onValueChange: (String) -> Unit,
-    label: String
-) {
-    val isError = remember { mutableStateOf(false) }
-    OutlinedTextField(
-        isError = isError.value,
+    Box(
         modifier = Modifier
-            .width(IntrinsicSize.Min)
-            .widthIn(70.dp, 200.dp),
-        value = text.value,
-        onValueChange = {
-            try {
-                onValueChange(it)
-                isError.value = false
-            } catch (e: IllegalArgumentException) {
-                text.value = it
-                isError.value = true
-            }
-        },
-        textStyle = MaterialTheme.typography.bodyMedium,
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = MaterialTheme.colorScheme.onPrimary,
-            containerColor = MaterialTheme.colorScheme.primary
-        ),
-        singleLine = true,
-        label = { Text(label) }
-    )
-}
+            .fillMaxWidth()
+    ) {
 
+        managerText(
+            text = name,
+            modifier = Modifier.align(
+                Alignment.CenterStart
+            )
+        )
+
+        Icon(
+            modifier = Modifier.align(
+                Alignment.CenterEnd
+            ),
+            painter = Resources.getIcon("expand_more"),
+            contentDescription = Resources.getString("change_sensor_button_content_description")
+        )
+    }
+}
 
 @Composable
 fun listChoice(
     sensorName: String,
     sensorList: SnapshotStateList<Sensor>,
-    onItemClick: (Sensor) -> Unit
+    onItemClick: (Sensor?) -> Unit
 ) {
     val expanded = remember { mutableStateOf(false) }
 
 
 
     managerListChoice(
-        sensorName = sensorName,
+        name = sensorName,
         expanded = expanded
     ) {
+        DropdownMenuItem(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.primary),
+            onClick = {
+                onItemClick(null)
+                expanded.value = false
+            }
+        ) {
+            managerText(
+                text = Resources.getString("none_item")
+            )
+        }
+
         sensorList.forEach {
             DropdownMenuItem(
                 modifier = Modifier
@@ -87,7 +85,7 @@ fun listChoice(
                 }
             ) {
                 managerText(
-                    value = it.libName
+                    text = it.libId
                 )
             }
         }
@@ -99,25 +97,38 @@ fun listChoice(
 fun listChoice(
     sensorName: String,
     behaviorItemList: SnapshotStateList<BehaviorItem>,
-    onItemClick: (String) -> Unit
+    onItemClick: (BehaviorItem?) -> Unit
 ) {
     val expanded = remember { mutableStateOf(false) }
 
     managerListChoice(
-        sensorName = sensorName,
+        name = sensorName,
         expanded = expanded
     ) {
+        DropdownMenuItem(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.primary),
+            onClick = {
+                onItemClick(null)
+                expanded.value = false
+            }
+        ) {
+            managerText(
+                text = Resources.getString("none_item")
+            )
+        }
+
         behaviorItemList.forEach {
             DropdownMenuItem(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.primary),
                 onClick = {
-                    onItemClick(it.name)
+                    onItemClick(it)
                     expanded.value = false
                 }
             ) {
                 managerText(
-                    value = it.name
+                    text = it.name
                 )
             }
         }
@@ -126,7 +137,7 @@ fun listChoice(
 
 @Composable
 private fun managerListChoice(
-    sensorName: String?,
+    name: String,
     expanded: MutableState<Boolean>,
     content: @Composable ColumnScope.() -> Unit
 ) {
@@ -134,18 +145,14 @@ private fun managerListChoice(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        if (sensorName != null) {
-            managerText(
-                value = sensorName,
-                modifier = Modifier.align(
-                    Alignment.CenterStart
-                )
+
+        managerText(
+            text = name,
+            modifier = Modifier.align(
+                Alignment.CenterStart
             )
-        } else {
-            managerText(
-                value = "Pas de sensor",
-            )
-        }
+        )
+
 
         val iconShouldTrigger = remember { mutableStateOf(true) }
         IconButton(
@@ -163,12 +170,12 @@ private fun managerListChoice(
             if (expanded.value) {
                 Icon(
                     painter = Resources.getIcon("expand_more"),
-                    contentDescription = Resources.getString("changeSensorContentDescription")
+                    contentDescription = Resources.getString("change_sensor_button_content_description")
                 )
             } else {
                 Icon(
                     painter = Resources.getIcon("expand_less"),
-                    contentDescription = Resources.getString("changeSensorContentDescription")
+                    contentDescription = Resources.getString("change_sensor_button_content_description")
                 )
             }
         }

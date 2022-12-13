@@ -1,5 +1,6 @@
 package ui.component
 
+
 import Source
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -23,132 +24,177 @@ import ui.utils.Resources
 
 
 @Composable
-fun baseItem(
+fun baseItemBody(
     iconPainter: Painter,
     iconContentDescription: String,
     name: String,
     onEditClick: () -> Unit,
-    source: Source,
-    label: String,
     onNameChange: (String) -> Unit,
     editModeActivated: Boolean,
     content: @Composable ColumnScope.() -> Unit
 ) {
+    val text = mutableStateOf(name)
+
+    baseItem(
+        source = Source.BODY,
+        iconPainter = iconPainter,
+        iconContentDescription = iconContentDescription,
+        contentEditIcon = {
+            Icon(
+                painter = Resources.getIcon("cancel"),
+                contentDescription = Resources.getString("edit_remove_button_content_description"),
+                tint = Color.Red
+            )
+        },
+        editModeActivated = editModeActivated,
+        onEditClick = onEditClick,
+        contentName = {
+            managerOutlinedTextField(
+                text = text,
+                onValueChange = {
+                    onNameChange(it)
+                },
+                label = Resources.getString("label_item_name")
+            )
+        },
+
+        ) {
+        content()
+    }
+}
+
+@Composable
+fun baseItemAddItem(
+    iconPainter: Painter,
+    iconContentDescription: String,
+    name: String,
+    onEditClick: () -> Unit,
+    content: @Composable ColumnScope.() -> Unit
+) {
+
+    baseItem(
+        source = Source.ADD,
+        iconPainter = iconPainter,
+        iconContentDescription = iconContentDescription,
+        contentEditIcon = {
+            Icon(
+                painter = Resources.getIcon("add_circle"),
+                contentDescription = Resources.getString("edit_add_button_content_description"),
+                tint = Color.Green
+            )
+        },
+        editModeActivated = true,
+        onEditClick = onEditClick,
+        contentName = {
+            managerText(
+                text = name
+            )
+        },
+
+        ) {
+        content()
+    }
+
+}
+
+@Composable
+private fun baseItem(
+    source: Source,
+    iconPainter: Painter,
+    iconContentDescription: String,
+    contentEditIcon: @Composable () -> Unit,
+    onEditClick: () -> Unit,
+    editModeActivated: Boolean,
+    contentName: @Composable RowScope.() -> Unit,
+    content: @Composable ColumnScope.() -> Unit
+) {
+
+    var modifier: Modifier
+
     Box(
         modifier = Modifier
     ) {
-        Box(
+
+        Surface(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(18.dp),
+            shape = MaterialTheme.shapes.medium,
+            color = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+            border = BorderStroke(
+                width = 2.dp,
+                color = MaterialTheme.colorScheme.onSurface
+            )
         ) {
-            Surface(
+
+            val density = LocalDensity.current
+
+            val finalWidth: MutableState<Dp> = remember { mutableStateOf(0.dp) }
+
+
+
+            Column(
                 modifier = Modifier
-                    .padding(10.dp),
-                shape = MaterialTheme.shapes.medium,
-                color = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.onSurface,
-                border = BorderStroke(
-                    width = 2.dp,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                    .padding(20.dp)
+
             ) {
+                modifier = when (source) {
+                    Source.ADD -> Modifier
 
-                val density = LocalDensity.current
-
-                val finalWidth: MutableState<Dp> = remember { mutableStateOf(0.dp) }
-
-
-
-                Column(
-                    modifier = Modifier
-                        .padding(20.dp)
-
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .onGloballyPositioned {
-                                finalWidth.value = density.run { it.size.width.toDp() }
-                            }
-                    ) {
-                        Icon(
-                            painter = iconPainter,
-                            contentDescription = iconContentDescription
-                        )
-                        Spacer(
-                            modifier = Modifier
-                                .width(10.dp)
-                        )
-                        when (source) {
-                            Source.ADD -> {
-                                managerText(
-                                    value = name
-                                )
-                            }
-
-                            Source.BODY -> {
-
-                                val text = mutableStateOf(name)
-
-                                managerOutlinedTextField(
-                                    text = text,
-                                    onValueChange = {
-                                        onNameChange(it)
-                                    },
-                                    label = label
-                                )
-                            }
-                        }
-                    }
-                    Spacer(
-                        modifier = Modifier
-                            .height(10.dp)
-                    )
-
-                    Column(
-                        modifier = Modifier
-                            .width(finalWidth.value)
-                    ) {
-                        content()
+                    Source.BODY -> Modifier.onGloballyPositioned {
+                        finalWidth.value = density.run { it.size.width.toDp() }
                     }
                 }
-            }
-
-        }
-        when (source) {
-            Source.BODY -> {
-                if (editModeActivated) {
-                    IconButton(
-                        modifier = Modifier
-                            .align(Alignment.TopEnd),
-                        onClick = {
-                            onEditClick()
-                        }
-                    ) {
-                        Icon(
-                            painter = Resources.getIcon("cancel"),
-                            contentDescription = Resources.getString("editContentDescriptionRemove"),
-                            tint = Color.Red
-                        )
-                    }
-                }
-            }
-
-            Source.ADD -> {
-                IconButton(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd),
-                    onClick = {
-                        onEditClick()
-                    }
+                Row(
+                    modifier = modifier
                 ) {
                     Icon(
-                        painter = Resources.getIcon("add_circle"),
-                        contentDescription = Resources.getString("editContentDescriptionAdd"),
-                        tint = Color.Green
+                        painter = iconPainter,
+                        contentDescription = iconContentDescription
                     )
+                    Spacer(
+                        modifier = Modifier
+                            .width(10.dp)
+                    )
+
+                    contentName()
+
+
+                }
+                Spacer(
+                    modifier = Modifier
+                        .height(10.dp)
+                )
+                modifier = when (source) {
+                    Source.ADD -> Modifier
+
+                    Source.BODY -> Modifier.width(finalWidth.value)
+
+                }
+
+                Column(
+                    modifier = modifier
+                ) {
+                    content()
                 }
             }
         }
+
+
+
+
+        if (editModeActivated) {
+            IconButton(
+                modifier = Modifier
+                    .align(Alignment.TopEnd),
+                onClick = {
+                    onEditClick()
+                }
+            ) {
+                contentEditIcon()
+            }
+        }
+
     }
 }
 

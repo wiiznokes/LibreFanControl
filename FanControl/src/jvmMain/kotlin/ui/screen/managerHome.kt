@@ -2,17 +2,21 @@ package ui.screen
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import ui.screen.addItem.addItem
 import ui.screen.body.body
 import ui.screen.drawer.drawer
-import ui.screen.topBar.topBar
+import ui.screen.topBar.addItemTopBar
+import ui.screen.topBar.mainTopBar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,6 +25,9 @@ fun home() {
 
     val viewModel = HomeViewModel()
 
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+
+    val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
         modifier = Modifier,
@@ -29,25 +36,40 @@ fun home() {
 
             )
         },
-        drawerState = viewModel.drawerState.value,
+        drawerState = drawerState,
         gesturesEnabled = true
     ) {
         val addItemExpanded = viewModel.addItemExpanded.value
 
-        Column {
-            topBar()
 
-            // body + addItem
-            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                        if (addItemExpanded.value) {
-                            addItem()
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+
+                    if (addItemExpanded.value) {
+                        Column {
+                            val modifier = Modifier
+                                .widthIn(min = 200.dp, max = Dp.Infinity)
+                                .fillMaxWidth(0.2f)
+
+                            addItemTopBar(
+                                modifier = modifier
+                            )
+                            addItem(
+                                modifier = modifier
+                            )
                         }
+                    }
 
+                    Column {
+                        mainTopBar(
+                            onNavigationIconClick = {
+                                scope.launch { drawerState.open() }
+                            }
+                        )
                         body(
                             editModeActivated = viewModel.editModeActivated.value,
                             addItemExpanded = addItemExpanded
@@ -56,6 +78,7 @@ fun home() {
                 }
             }
         }
+
     }
 }
 

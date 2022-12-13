@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.theme
+package ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -6,7 +6,9 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import ui.theme.Typography
+import com.example.myapplication.ui.theme.DarkGrey
+import com.example.myapplication.ui.theme.Purple500
+import com.example.myapplication.ui.theme.Teal200
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple500,

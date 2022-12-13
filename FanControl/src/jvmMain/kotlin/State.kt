@@ -1,6 +1,3 @@
-import androidx.compose.material3.DrawerState
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -25,9 +22,6 @@ class State {
         val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = MutableStateFlow(mutableStateListOf())
         val _controlList: MutableStateFlow<SnapshotStateList<Control>> = MutableStateFlow(mutableStateListOf())
 
-
-        @OptIn(ExperimentalMaterial3Api::class)
-        val _drawerState: MutableStateFlow<DrawerState> = MutableStateFlow(DrawerState(DrawerValue.Closed))
         val _addItemExpanded: MutableStateFlow<MutableState<Boolean>> = MutableStateFlow(mutableStateOf(false))
         val _editModeActivated: MutableStateFlow<MutableState<Boolean>> = MutableStateFlow(mutableStateOf(false))
     }
