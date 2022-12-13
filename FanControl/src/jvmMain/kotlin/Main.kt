@@ -3,6 +3,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import ui.screen.home
 import ui.theme.FanControlTheme
+import ui.utils.Resources
 
 
 fun main() {
@@ -14,7 +15,8 @@ fun main() {
         exitProcessOnExit = true
     ) {
         Window(
-            title = "FanControl",
+            title = Resources.getString("app_name"),
+            icon = Resources.getIcon("toys_fan"),
             onCloseRequest = {
                 application.onStop()
                 (::exitApplication)()

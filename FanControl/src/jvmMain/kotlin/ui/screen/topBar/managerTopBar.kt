@@ -13,7 +13,6 @@ import ui.utils.Resources
 
 private val viewModel = TopBarViewModel()
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun mainTopBar(
     onNavigationIconClick: () -> Unit,
@@ -23,12 +22,22 @@ fun mainTopBar(
         modifier = Modifier
             .height(50.dp),
         title = {
-            Box(
-                modifier = Modifier.fillMaxSize()
+            Row(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
-                managerText(
+                Icon(
+                    painter = Resources.getIcon("toys_fan"),
+                    contentDescription = Resources.getString("app_name")
+                )
+                Spacer(
                     modifier = Modifier
-                        .align(Alignment.Center),
+                        .width(10.dp)
+                )
+                managerText(
+                    modifier = Modifier,
                     text = Resources.getString("app_name"),
                     style = MaterialTheme.typography.titleMedium
                 )
