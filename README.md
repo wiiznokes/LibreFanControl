@@ -13,12 +13,14 @@ To run the project, just use `.\gradlew run` in FanControl folder.
 
 Next steps
 - finish implementing flat and linear behavior
+- finalize architecture to handle configuration
 - add ico logo
 - finalize UI color and size
 - publish
 - add configuration
 - support Linux
 - support Nvidia GPU
+- add behaviors(graph, ...)
 
 
 <details>
