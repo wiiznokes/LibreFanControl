@@ -6,11 +6,20 @@ Windows is currently the only supported OS.
 
 To build the project, you first need to compile the Windows library :
 - /!\ C# build output must be in the lib folder of the JDK
-- Cpp build output will be in "lib" folder of the Kotlin App
-- I'm using the [JDK 19](https://jdk.java.net/19/) but other can work to
+- I'm using the [JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) but other can work too [JDK 19](https://jdk.java.net/19/)
 
 
 To run the project, just use `.\gradlew run` in FanControl folder.
+
+Next steps
+- finish implementing flat and linear bihavior
+- add ico logo
+- finalize UI color and size
+- publish
+- add configuration
+- support Linux
+- support Nvidia GPU
+
 
 <details>
   <summary>Library</summary>
