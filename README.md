@@ -12,7 +12,7 @@ To build the project, you first need to compile the Windows library :
 To run the project, just use `.\gradlew run` in FanControl folder.
 
 Next steps
-- finish implementing flat and linear bihavior
+- finish implementing flat and linear behavior
 - add ico logo
 - finalize UI color and size
 - publish
