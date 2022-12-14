@@ -11,12 +11,12 @@ To build the project, you first need to compile the Windows library :
 
 To run the project, just use `.\gradlew run` in FanControl folder.
 
-Next steps
-- finish implementing flat and linear behavior
-- finalize architecture to handle configuration
+Next steps :
+- coherent item name
+- set control if needeed
 - add ico logo
 - finalize UI color and size
-- publish
+- publish (add lib folder to executable ?)
 - add configuration
 - support Linux
 - support Nvidia GPU
