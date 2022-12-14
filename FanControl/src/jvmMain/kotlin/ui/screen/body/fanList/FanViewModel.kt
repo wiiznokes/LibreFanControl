@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.update
 import model.hardware.Sensor
 import model.item.SensorItem
 import ui.utils.Resources
+import ui.utils.isNameTaken
 
 class FanViewModel(
     private val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
@@ -44,11 +45,8 @@ class FanViewModel(
     }
 
     fun setName(name: String, index: Int) {
-
-        if (_fanItemList.value.count {
-                it.name == name
-            } != 0
-        ) throw IllegalArgumentException()
+        if (isNameTaken(_fanItemList.value, name))
+            throw IllegalArgumentException()
 
         _fanItemList.update {
             _fanItemList.value[index] = _fanItemList.value[index].copy(

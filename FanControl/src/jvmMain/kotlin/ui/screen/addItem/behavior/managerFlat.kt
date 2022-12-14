@@ -19,7 +19,7 @@ fun managerAddFlat(
     baseItemAddItem(
         iconPainter = Resources.getIcon("horizontal_rule"),
         iconContentDescription = Resources.getString("ct/flat"),
-        name = "behavior flat",
+        name = Resources.getString("add_item/flat_name"),
         onEditClick = onEditClick
     ) {
         Row(

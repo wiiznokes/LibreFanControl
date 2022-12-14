@@ -84,10 +84,11 @@ fun flatBehavior(
         ) {
 
             Slider(
-                value = behavior.flatBehavior!!.value.toFloat() / 100,
+                value = behavior.flatBehavior!!.value.toFloat(),
                 steps = 100,
+                valueRange = 0f..100f,
                 onValueChange = {
-                    viewModel.onChange(index, (it * 100).toInt())
+                    viewModel.onChange(index, it.toInt())
                 },
                 modifier = Modifier
                     .fillMaxWidth(0.75f)

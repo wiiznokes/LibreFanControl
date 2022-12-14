@@ -17,7 +17,7 @@ fun managerAddLinear(
     baseItemAddItem(
         iconPainter = Resources.getIcon("linear"),
         iconContentDescription = Resources.getString("ct/linear"),
-        name = "behavior linear",
+        name = Resources.getString("add_item/linear_name"),
         onEditClick = onEditClick
     ) {
         setting(

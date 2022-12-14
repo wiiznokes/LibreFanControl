@@ -36,11 +36,19 @@
   "label": {
     "name": "name"
   },
+  "add_item": {
+    "flat_name": "Flat",
+    "linear_name": "Linear",
+    "fan_name": "Fan",
+    "temp_name": "Temperature",
+    "choose_sensor": "Sensor name"
+  },
   "default_value": {
-    "control_name": "Control name",
-    "behavior_name": "Behavior name",
-    "fan_name": "Fan name",
-    "temp_name": "Temperature name"
+    "control_name": "Control #",
+    "flat_name": "Flat #",
+    "linear_name": "Linear #",
+    "fan_name": "Fan #",
+    "temp_name": "Temp #"
   },
   "linear": {
     "min_temp": "min temp : ",
