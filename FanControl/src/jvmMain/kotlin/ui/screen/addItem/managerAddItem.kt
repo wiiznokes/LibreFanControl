@@ -23,11 +23,9 @@ import ui.utils.Resources
 
 @Composable
 fun addItem(
-    modifier: Modifier
+    modifier: Modifier,
+    currentChoiceType: MutableState<ChoiceType>
 ) {
-    val currentChoiceType: MutableState<ChoiceType> = remember {
-        mutableStateOf(ChoiceType.BEHAVIOR)
-    }
     val choiceStates = ChoiceStates()
 
     Column(
