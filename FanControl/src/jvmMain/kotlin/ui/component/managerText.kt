@@ -3,6 +3,7 @@ package ui.component
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -10,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ui.utils.IndexHaveNameException
 import ui.utils.NameIsTakenException
@@ -71,23 +73,27 @@ fun managerOutlinedTextField(
 @Composable
 fun managerTextField(
     text: MutableState<String>,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Int
 ) {
-    val isError = remember { mutableStateOf(false) }
+
+
     TextField(
-        isError = isError.value,
         modifier = Modifier
             .width(80.dp),
         value = text.value,
         onValueChange = {
             try {
-                onValueChange(it)
-                isError.value = false
-            } catch (e: IllegalArgumentException) {
-                text.value = it
-                isError.value = true
+                val finalValue = onValueChange(it)
+                text.value = finalValue.toString()
             }
+            catch (e:NumberFormatException) {
+                text.value = ""
+            }
+
         },
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Number
+        ),
         textStyle = MaterialTheme.typography.bodyMedium,
         colors = TextFieldDefaults.textFieldColors(
             textColor = MaterialTheme.colorScheme.onPrimary,

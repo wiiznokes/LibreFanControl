@@ -5,6 +5,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import model.item.behavior.BehaviorItem
+import java.lang.Exception
 
 
 enum class LinearParams {
@@ -14,37 +15,49 @@ enum class LinearParams {
     MAX_FAN_SPEED
 }
 
+private fun getFinalValue(value: Int): Int =
+    if(value < 0)
+        0
+    else {
+        if(value > 100)
+            100
+        else
+            value
+    }
+
+
 class LinearBehaviorViewModel(
     private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList
 ) {
 
-    fun increase(index: Int, value: Int, type: LinearParams) {
-        if (value >= 100) return
+    fun increase(index: Int, value: Int, type: LinearParams): Int {
+        val finalValue = getFinalValue(value)
+
         _behaviorItemList.update {
             _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(
                 linearBehavior = with(_behaviorItemList.value[index].linearBehavior!!) {
                     when (type) {
                         LinearParams.MIN_TEMP -> {
                             copy(
-                                minTemp = value + 1
+                                minTemp = finalValue + 1
                             )
                         }
 
                         LinearParams.MAX_TEMP -> {
                             copy(
-                                maxTemp = value + 1
+                                maxTemp = finalValue + 1
                             )
                         }
 
                         LinearParams.MIN_FAN_SPEED -> {
                             copy(
-                                minFanSpeed = value + 1
+                                minFanSpeed = finalValue + 1
                             )
                         }
 
                         LinearParams.MAX_FAN_SPEED -> {
                             copy(
-                                maxFanSpeed = value + 1
+                                maxFanSpeed = finalValue + 1
                             )
                         }
                     }
@@ -52,35 +65,37 @@ class LinearBehaviorViewModel(
             )
             it
         }
+        return finalValue
     }
 
-    fun decrease(index: Int, value: Int, type: LinearParams) {
-        if (value <= 0) return
+    fun decrease(index: Int, value: Int, type: LinearParams): Int {
+        val finalValue = getFinalValue(value)
+
         _behaviorItemList.update {
             _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(
                 linearBehavior = with(_behaviorItemList.value[index].linearBehavior!!) {
                     when (type) {
                         LinearParams.MIN_TEMP -> {
                             copy(
-                                minTemp = value - 1
+                                minTemp = finalValue - 1
                             )
                         }
 
                         LinearParams.MAX_TEMP -> {
                             copy(
-                                maxTemp = value - 1
+                                maxTemp = finalValue - 1
                             )
                         }
 
                         LinearParams.MIN_FAN_SPEED -> {
                             copy(
-                                minFanSpeed = value - 1
+                                minFanSpeed = finalValue - 1
                             )
                         }
 
                         LinearParams.MAX_FAN_SPEED -> {
                             copy(
-                                maxFanSpeed = value - 1
+                                maxFanSpeed = finalValue - 1
                             )
                         }
                     }
@@ -88,36 +103,37 @@ class LinearBehaviorViewModel(
             )
             it
         }
+        return finalValue
     }
 
-    fun onChange(index: Int, text: String, type: LinearParams) {
-        val value = text.toInt()
-        if (value <= 0) return
+    fun onChange(index: Int, value: Int, type: LinearParams): Int {
+        val finalValue = getFinalValue(value)
+
         _behaviorItemList.update {
             _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(
                 linearBehavior = with(_behaviorItemList.value[index].linearBehavior!!) {
                     when (type) {
                         LinearParams.MIN_TEMP -> {
                             copy(
-                                minTemp = value
+                                minTemp = finalValue
                             )
                         }
 
                         LinearParams.MAX_TEMP -> {
                             copy(
-                                maxTemp = value
+                                maxTemp = finalValue
                             )
                         }
 
                         LinearParams.MIN_FAN_SPEED -> {
                             copy(
-                                minFanSpeed = value
+                                minFanSpeed = finalValue
                             )
                         }
 
                         LinearParams.MAX_FAN_SPEED -> {
                             copy(
-                                maxFanSpeed = value
+                                maxFanSpeed = finalValue
                             )
                         }
                     }
@@ -125,5 +141,6 @@ class LinearBehaviorViewModel(
             )
             it
         }
+        return finalValue
     }
 }

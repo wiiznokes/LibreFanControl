@@ -6,6 +6,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -40,7 +41,7 @@ fun linearBehavior(
             onValueChange = {
                 viewModel.onChange(
                     index = index,
-                    text = it,
+                    value = it.toInt(),
                     type = LinearParams.MIN_TEMP
                 )
             },
@@ -66,7 +67,7 @@ fun linearBehavior(
             onValueChange = {
                 viewModel.onChange(
                     index = index,
-                    text = it,
+                    value = it.toInt(),
                     type = LinearParams.MAX_TEMP
                 )
             },
@@ -92,7 +93,7 @@ fun linearBehavior(
             onValueChange = {
                 viewModel.onChange(
                     index = index,
-                    text = it,
+                    value = it.toInt(),
                     type = LinearParams.MIN_FAN_SPEED
                 )
             },
@@ -118,7 +119,7 @@ fun linearBehavior(
             onValueChange = {
                 viewModel.onChange(
                     index = index,
-                    text = it,
+                    value = it.toInt(),
                     type = LinearParams.MAX_FAN_SPEED
                 )
             },
@@ -147,11 +148,13 @@ private fun setting(
     prefix: String,
     suffix: String,
 
-    onValueChange: (String) -> Unit,
-    increase: () -> Unit,
-    decrease: () -> Unit,
+    onValueChange: (String) -> Int,
+    increase: () -> Int,
+    decrease: () -> Int,
 ) {
-    val text: MutableState<String> = mutableStateOf(value.toString())
+
+    val text: MutableState<String> = remember { mutableStateOf(value.toString()) }
+
 
     Row(
         modifier = Modifier
@@ -186,7 +189,8 @@ private fun setting(
         Column {
             IconButton(
                 onClick = {
-                    increase()
+                    val finalValue = increase()
+                    text.value = finalValue.toString()
                 }
             ) {
                 Icon(
@@ -196,7 +200,8 @@ private fun setting(
             }
             IconButton(
                 onClick = {
-                    decrease()
+                    val finalValue = decrease()
+                    text.value = finalValue.toString()
                 }
             ) {
                 Icon(
