@@ -1,8 +1,6 @@
 package ui.screen.body.behaviorList.linear
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -89,7 +87,7 @@ fun linearBehavior(
         setting(
             value = behavior.linearBehavior.minFanSpeed,
             prefix = Resources.getString("linear/min_fan_speed"),
-            suffix = Resources.getString("unity/rpm"),
+            suffix = "%",
             onValueChange = {
                 viewModel.onChange(
                     index = index,
@@ -115,7 +113,7 @@ fun linearBehavior(
         setting(
             value = behavior.linearBehavior.maxFanSpeed,
             prefix = Resources.getString("linear/max_fan_speed"),
-            suffix = Resources.getString("unity/rpm"),
+            suffix = "%",
             onValueChange = {
                 viewModel.onChange(
                     index = index,
@@ -157,18 +155,27 @@ private fun setting(
     Row(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        managerText(
-            text = prefix
-        )
-        managerTextField(
-            text = text,
-            onValueChange = onValueChange
-        )
-        managerText(
-            text = suffix
-        )
+        Box {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+
+
+                managerText(
+                    text = prefix
+                )
+                managerTextField(
+                    text = text,
+                    onValueChange = onValueChange
+                )
+                managerText(
+                    text = suffix
+                )
+            }
+        }
         Column {
             IconButton(
                 onClick = {

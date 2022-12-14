@@ -1,4 +1,4 @@
-package ui.screen.addItem
+package ui.screen.addItem.control
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -9,17 +9,16 @@ import model.item.ControlItem
 import ui.component.baseControlAddItem
 
 
+val viewModel = AddControlViewModel()
+
+
 @Composable
-fun baseControlListAddItem(
-    controlItemList: SnapshotStateList<ControlItem>,
-    controlList: SnapshotStateList<Control>,
-    addControl: (Int) -> Unit
-) {
+fun managerAddControl() {
     LazyColumn {
 
         val previousIndexList = mutableListOf<Int>()
 
-        itemsIndexed(controlItemList.filterIndexed { index, controlItem ->
+        itemsIndexed(viewModel.controlItemList.value.filterIndexed { index, controlItem ->
             if (!controlItem.visible)
                 previousIndexList.add(index)
             !controlItem.visible
@@ -28,8 +27,10 @@ fun baseControlListAddItem(
             controlAddItem(
                 controlItem = it,
                 index = previousIndexList[index],
-                controlList = controlList,
-                addControl = addControl
+                controlList = viewModel.controlList.value,
+                addControl = {
+                    viewModel.addControl(it)
+                }
             )
 
         }

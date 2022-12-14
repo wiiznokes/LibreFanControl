@@ -44,8 +44,8 @@
   "linear": {
     "min_temp": "min temp : ",
     "max_temp": "min temp : ",
-    "min_fan_speed": "min fan speed : ",
-    "max_fan_speed": "max fan speed : "
+    "min_fan_speed": "min speed : ",
+    "max_fan_speed": "max speed : "
   },
   "none": "None",
   "fan_speed": "fan speed"
