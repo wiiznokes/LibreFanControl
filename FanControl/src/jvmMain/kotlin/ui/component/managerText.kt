@@ -11,6 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import ui.utils.IndexHaveNameException
+import ui.utils.NameIsTakenException
 
 
 @Composable
@@ -31,11 +33,13 @@ fun managerText(
 
 @Composable
 fun managerOutlinedTextField(
-    text: MutableState<String>,
+    value: String,
     onValueChange: (String) -> Unit,
     label: String
 ) {
     val isError = remember { mutableStateOf(false) }
+    val text = remember { mutableStateOf(value) }
+
     OutlinedTextField(
         isError = isError.value,
         modifier = Modifier
@@ -43,12 +47,14 @@ fun managerOutlinedTextField(
             .widthIn(70.dp, 200.dp),
         value = text.value,
         onValueChange = {
+            text.value = it
             try {
                 onValueChange(it)
                 isError.value = false
-            } catch (e: IllegalArgumentException) {
-                text.value = it
+            } catch (e: NameIsTakenException) {
                 isError.value = true
+            } catch (e: IndexHaveNameException) {
+                isError.value = false
             }
         },
         textStyle = MaterialTheme.typography.bodyMedium,

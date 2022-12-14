@@ -33,8 +33,6 @@ fun baseItemBody(
     editModeActivated: Boolean,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val text = mutableStateOf(name)
-
     baseItem(
         source = Source.BODY,
         iconPainter = iconPainter,
@@ -50,7 +48,7 @@ fun baseItemBody(
         onEditClick = onEditClick,
         contentName = {
             managerOutlinedTextField(
-                text = text,
+                value = name,
                 onValueChange = {
                     onNameChange(it)
                 },

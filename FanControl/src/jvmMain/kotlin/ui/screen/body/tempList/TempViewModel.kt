@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.update
 import model.hardware.Sensor
 import model.item.SensorItem
 import ui.utils.Resources
-import ui.utils.isNameTaken
+import ui.utils.checkNameTaken
 
 class TempViewModel(
     private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList,
@@ -48,8 +48,7 @@ class TempViewModel(
 
     fun setName(name: String, index: Int) {
 
-        if (isNameTaken(_tempItemList.value, name))
-            throw IllegalArgumentException()
+        checkNameTaken(_tempItemList.value, name, index)
 
         _tempItemList.update {
             _tempItemList.value[index] = _tempItemList.value[index].copy(

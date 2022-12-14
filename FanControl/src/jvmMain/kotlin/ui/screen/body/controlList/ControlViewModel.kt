@@ -9,7 +9,7 @@ import model.hardware.Control
 import model.item.ControlItem
 import model.item.behavior.BehaviorItem
 import ui.utils.Resources
-import ui.utils.isNameTaken
+import ui.utils.checkNameTaken
 
 class ControlViewModel(
     private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
@@ -61,8 +61,7 @@ class ControlViewModel(
 
     fun setName(name: String, index: Int) {
 
-        if (isNameTaken(_controlItemList.value, name))
-            throw IllegalArgumentException()
+        checkNameTaken(_controlItemList.value, name, index)
 
         _controlItemList.update {
             _controlItemList.value[index] = _controlItemList.value[index].copy(
