@@ -1,8 +1,6 @@
 package ui.screen.body.behaviorList.linear
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -10,6 +8,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import model.item.behavior.BehaviorItem
 import ui.component.baseItemBody
 import ui.component.managerText
@@ -89,7 +88,7 @@ fun linearBehavior(
         setting(
             value = behavior.linearBehavior.minFanSpeed,
             prefix = Resources.getString("linear/min_fan_speed"),
-            suffix = Resources.getString("unity/rpm"),
+            suffix = Resources.getString("unity/percent"),
             onValueChange = {
                 viewModel.onChange(
                     index = index,
@@ -115,7 +114,7 @@ fun linearBehavior(
         setting(
             value = behavior.linearBehavior.maxFanSpeed,
             prefix = Resources.getString("linear/max_fan_speed"),
-            suffix = Resources.getString("unity/rpm"),
+            suffix = Resources.getString("unity/percent"),
             onValueChange = {
                 viewModel.onChange(
                     index = index,
@@ -157,18 +156,33 @@ private fun setting(
     Row(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        managerText(
-            text = prefix
-        )
-        managerTextField(
-            text = text,
-            onValueChange = onValueChange
-        )
-        managerText(
-            text = suffix
-        )
+        Box {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+
+
+                managerText(
+                    modifier = Modifier
+                        .width(120.dp),
+                    text = prefix
+                )
+                managerTextField(
+                    text = text,
+                    onValueChange = onValueChange
+                )
+                Spacer(
+                    modifier = Modifier
+                        .width(5.dp)
+                )
+                managerText(
+                    text = suffix
+                )
+            }
+        }
         Column {
             IconButton(
                 onClick = {

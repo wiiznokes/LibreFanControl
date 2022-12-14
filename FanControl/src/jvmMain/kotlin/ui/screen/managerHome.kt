@@ -3,15 +3,14 @@ package ui.screen
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import ui.screen.addItem.ChoiceType
 import ui.screen.addItem.addItem
 import ui.screen.body.body
 import ui.screen.drawer.drawer
@@ -28,6 +27,8 @@ fun home() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
 
     val scope = rememberCoroutineScope()
+
+
 
     ModalNavigationDrawer(
         modifier = Modifier,
@@ -49,6 +50,10 @@ fun home() {
             ) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
 
+                    val currentChoiceType: MutableState<ChoiceType> = remember {
+                        mutableStateOf(ChoiceType.BEHAVIOR)
+                    }
+
                     if (addItemExpanded.value) {
                         Column {
                             val modifier = Modifier
@@ -58,8 +63,10 @@ fun home() {
                             addItemTopBar(
                                 modifier = modifier
                             )
+
                             addItem(
-                                modifier = modifier
+                                modifier = modifier,
+                                currentChoiceType = currentChoiceType
                             )
                         }
                     }

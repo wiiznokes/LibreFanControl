@@ -8,25 +8,21 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ui.component.baseSensorAddItem
 import ui.component.managerText
+import ui.screen.addItem.behavior.managerAddBehavior
+import ui.screen.addItem.control.managerAddControl
+import ui.screen.addItem.sensor.managerAddSensor
 import ui.utils.Resources
 
 
-private val viewModel = AddItemViewModel()
-
 @Composable
 fun addItem(
-    modifier: Modifier
+    modifier: Modifier,
+    currentChoiceType: MutableState<ChoiceType>
 ) {
-    val currentChoiceType: MutableState<ChoiceType> = remember {
-        mutableStateOf(ChoiceType.BEHAVIOR)
-    }
     val choiceStates = ChoiceStates()
 
     Column(
@@ -42,45 +38,9 @@ fun addItem(
         )
 
         when (currentChoiceType.value) {
-            ChoiceType.CONTROL -> {
-                baseControlListAddItem(
-                    controlItemList = viewModel.controlItemList.value,
-                    controlList = viewModel.controlList.value,
-                    addControl = {
-                        viewModel.addControl(it)
-                    }
-                )
-            }
-
-            ChoiceType.BEHAVIOR -> {
-
-            }
-
-            ChoiceType.SENSOR -> {
-                // fan
-                baseSensorAddItem(
-                    iconPainter = Resources.getIcon("toys_fan"),
-                    iconContentDescription = Resources.getString("ct/fan"),
-                    name = Resources.getString("default/fan_name"),
-                    onEditClick = {
-                        viewModel.addFan()
-                    },
-                    sensorName = Resources.getString("default/fan_name"),
-                    sensorValue = "1000 ${Resources.getString("unity/rpm")}"
-                )
-
-                // temp
-                baseSensorAddItem(
-                    iconPainter = Resources.getIcon("thermometer"),
-                    iconContentDescription = Resources.getString("ct/temp"),
-                    name = Resources.getString("default/temp_name"),
-                    onEditClick = {
-                        viewModel.addTemp()
-                    },
-                    sensorName = Resources.getString("default/temp_name"),
-                    sensorValue = "50 ${Resources.getString("unity/degree")}"
-                )
-            }
+            ChoiceType.CONTROL -> managerAddControl()
+            ChoiceType.BEHAVIOR -> managerAddBehavior()
+            ChoiceType.SENSOR -> managerAddSensor()
         }
     }
 }

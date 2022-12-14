@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import model.item.ControlItem
 import ui.component.baseControlBody
+import ui.utils.Resources
 
 
 private val viewModel: ControlViewModel = ControlViewModel()
@@ -60,7 +61,7 @@ fun control(
                 value = control.value
             )
         },
-        value = "${control.value} %",
+        value = "${control.value} ${Resources.getString("unity/percent")}",
         fanValue = "",
         behaviorItemList = viewModel.behaviorItemList.value,
         onItemClick = {
