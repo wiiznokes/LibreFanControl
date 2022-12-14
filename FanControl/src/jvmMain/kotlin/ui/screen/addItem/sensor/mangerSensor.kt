@@ -3,10 +3,10 @@ package ui.screen.addItem.sensor
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import ui.component.baseSensorAddItem
-import ui.screen.addItem.control.AddControlViewModel
 import ui.utils.Resources
 
 val viewModel = AddSensorViewModel()
+
 @Composable
 fun managerAddSensor() {
     LazyColumn {

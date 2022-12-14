@@ -2,15 +2,12 @@ package ui.screen.addItem.behavior
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import ui.component.baseItemAddItem
 import ui.component.managerText
-import ui.component.managerTextField
 import ui.utils.Resources
 
 @Composable
@@ -36,12 +33,12 @@ fun managerAddLinear(
         setting(
             value = "50",
             prefix = Resources.getString("linear/min_fan_speed"),
-            suffix = "%",
+            suffix = Resources.getString("unity/percent"),
         )
         setting(
             value = "100",
             prefix = Resources.getString("linear/max_fan_speed"),
-            suffix = "%",
+            suffix = Resources.getString("unity/percent"),
         )
     }
 }
@@ -64,10 +61,16 @@ private fun setting(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 managerText(
+                    modifier = Modifier
+                        .width(120.dp),
                     text = prefix
                 )
                 managerText(
                     text = value
+                )
+                Spacer(
+                    modifier = Modifier
+                        .width(5.dp)
                 )
                 managerText(
                     text = suffix

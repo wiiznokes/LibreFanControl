@@ -30,7 +30,8 @@
   },
   "unity": {
     "rpm": "RPM",
-    "degree": "°C"
+    "degree": "°C",
+    "percent": "%"
   },
   "label": {
     "name": "name"

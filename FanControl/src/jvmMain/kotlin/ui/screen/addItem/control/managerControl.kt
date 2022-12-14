@@ -7,6 +7,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.Control
 import model.item.ControlItem
 import ui.component.baseControlAddItem
+import ui.utils.Resources
 
 
 val viewModel = AddControlViewModel()
@@ -57,7 +58,7 @@ private fun controlAddItem(
             addControl(index)
         },
         behaviorName = controlItem.behaviorName,
-        value = "${control.value} %",
+        value = "${control.value} ${Resources.getString("unity/percent")}",
         fanValue = ""
     )
 }

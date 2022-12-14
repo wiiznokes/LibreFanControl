@@ -100,7 +100,7 @@ fun flatBehavior(
                     .width(10.dp)
             )
             managerText(
-                text = "${behavior.flatBehavior!!.value} %"
+                text = "${behavior.flatBehavior!!.value} ${Resources.getString("unity/percent")}"
             )
         }
     }

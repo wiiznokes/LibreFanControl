@@ -8,6 +8,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import model.item.behavior.BehaviorItem
 import ui.component.baseItemBody
 import ui.component.managerText
@@ -87,7 +88,7 @@ fun linearBehavior(
         setting(
             value = behavior.linearBehavior.minFanSpeed,
             prefix = Resources.getString("linear/min_fan_speed"),
-            suffix = "%",
+            suffix = Resources.getString("unity/percent"),
             onValueChange = {
                 viewModel.onChange(
                     index = index,
@@ -113,7 +114,7 @@ fun linearBehavior(
         setting(
             value = behavior.linearBehavior.maxFanSpeed,
             prefix = Resources.getString("linear/max_fan_speed"),
-            suffix = "%",
+            suffix = Resources.getString("unity/percent"),
             onValueChange = {
                 viewModel.onChange(
                     index = index,
@@ -165,11 +166,17 @@ private fun setting(
 
 
                 managerText(
+                    modifier = Modifier
+                        .width(120.dp),
                     text = prefix
                 )
                 managerTextField(
                     text = text,
                     onValueChange = onValueChange
+                )
+                Spacer(
+                    modifier = Modifier
+                        .width(5.dp)
                 )
                 managerText(
                     text = suffix

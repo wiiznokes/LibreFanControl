@@ -2,7 +2,6 @@ package ui.screen.addItem.behavior
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -68,7 +67,7 @@ fun managerAddFlat(
                     .width(10.dp)
             )
             managerText(
-                text = "50 %"
+                text = "50 ${Resources.getString("unity/percent")}"
             )
         }
     }

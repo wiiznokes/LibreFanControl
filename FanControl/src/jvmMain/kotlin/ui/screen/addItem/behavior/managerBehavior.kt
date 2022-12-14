@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 
 
 val viewModel = AddBehaviorViewModel()
+
 @Composable
 fun managerAddBehavior() {
     LazyColumn {

@@ -8,8 +8,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -18,7 +16,6 @@ import ui.screen.addItem.behavior.managerAddBehavior
 import ui.screen.addItem.control.managerAddControl
 import ui.screen.addItem.sensor.managerAddSensor
 import ui.utils.Resources
-
 
 
 @Composable
