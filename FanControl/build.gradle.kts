@@ -46,6 +46,11 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "FanControl"
             packageVersion = "1.0.0"
+
+
+            windows {
+                iconFile.set(project.file("./src/jvmMain/resources/drawable/app_icon.ico"))
+            }
         }
 
 
