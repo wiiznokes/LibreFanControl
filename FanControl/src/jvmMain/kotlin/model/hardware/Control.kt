@@ -8,6 +8,4 @@ data class Control(
     override val libName: String,
     override var value: Int = 0,
     override val type: ItemType.ControlType = ItemType.ControlType.FAN,
-
-    var isAuto: Boolean = true,
 ) : BaseHardware

@@ -67,8 +67,7 @@ fun control(
         onItemClick = {
             viewModel.setBehavior(index, it)
         },
-        control = controlItem,
-        isActive = control.isAuto
+        control = controlItem
     )
 }
 

@@ -8,6 +8,7 @@ data class ControlItem(
     override val type: ItemType.ControlType,
     val sensorName: String,
     val sensorId: String,
+    val isActive: Boolean = false,
 
     override var isExpanded: Boolean = false,
     var visible: Boolean = true,

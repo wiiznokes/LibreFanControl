@@ -21,7 +21,6 @@ fun baseControlBody(
     onNameChange: (String) -> Unit,
     editModeActivated: Boolean,
 
-    isActive: Boolean,
     onSwitchClick: (Boolean) -> Unit,
     value: String,
     fanValue: String,
@@ -38,7 +37,7 @@ fun baseControlBody(
         item = control
     ) {
         baseControl(
-            isActive = isActive,
+            isActive = control.isActive,
             switchEnabled = true,
             onSwitchClick = onSwitchClick,
             value = value,

@@ -50,9 +50,9 @@ class ControlViewModel(
     }
 
     fun setControl(index: Int, libIndex: Int, isAuto: Boolean, value: Int) {
-        _controlList.update {
-            _controlList.value[index] = _controlList.value[index].copy(
-                isAuto = isAuto
+        _controlItemList.update {
+            _controlItemList.value[index] = _controlItemList.value[index].copy(
+                isActive = isAuto
             )
             it
         }
