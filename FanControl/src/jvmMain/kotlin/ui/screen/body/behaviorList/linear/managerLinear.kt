@@ -34,110 +34,60 @@ fun linearBehavior(
         editModeActivated = editModeActivated,
         onEditClick = onEditClick
     ) {
-        setting(
-            value = behavior.linearBehavior!!.minTemp,
-            prefix = Resources.getString("linear/min_temp"),
-            suffix = Resources.getString("unity/degree"),
-            onValueChange = {
-                viewModel.onChange(
-                    index = index,
-                    value = it.toInt(),
-                    type = LinearParams.MIN_TEMP
-                )
-            },
-            increase = {
-                viewModel.increase(
-                    index = index,
-                    value = behavior.linearBehavior.minTemp,
-                    type = LinearParams.MIN_TEMP
-                )
-            },
-            decrease = {
-                viewModel.decrease(
-                    index = index,
-                    value = behavior.linearBehavior.minTemp,
-                    type = LinearParams.MIN_TEMP
-                )
-            },
+
+
+        val values = listOf(
+            behavior.linearBehavior!!.minTemp,
+            behavior.linearBehavior.maxTemp,
+            behavior.linearBehavior.minFanSpeed,
+            behavior.linearBehavior.maxFanSpeed
         )
-        setting(
-            value = behavior.linearBehavior.maxTemp,
-            prefix = Resources.getString("linear/max_temp"),
-            suffix = Resources.getString("unity/degree"),
-            onValueChange = {
-                viewModel.onChange(
-                    index = index,
-                    value = it.toInt(),
-                    type = LinearParams.MAX_TEMP
-                )
-            },
-            increase = {
-                viewModel.increase(
-                    index = index,
-                    value = behavior.linearBehavior.maxTemp,
-                    type = LinearParams.MAX_TEMP
-                )
-            },
-            decrease = {
-                viewModel.decrease(
-                    index = index,
-                    value = behavior.linearBehavior.maxTemp,
-                    type = LinearParams.MAX_TEMP
-                )
-            },
+
+        val prefixes = listOf(
+            Resources.getString("linear/min_temp"),
+            Resources.getString("linear/max_temp"),
+            Resources.getString("linear/min_fan_speed"),
+            Resources.getString("linear/max_fan_speed")
         )
-        setting(
-            value = behavior.linearBehavior.minFanSpeed,
-            prefix = Resources.getString("linear/min_fan_speed"),
-            suffix = Resources.getString("unity/percent"),
-            onValueChange = {
-                viewModel.onChange(
-                    index = index,
-                    value = it.toInt(),
-                    type = LinearParams.MIN_FAN_SPEED
-                )
-            },
-            increase = {
-                viewModel.increase(
-                    index = index,
-                    value = behavior.linearBehavior.minFanSpeed,
-                    type = LinearParams.MIN_FAN_SPEED
-                )
-            },
-            decrease = {
-                viewModel.decrease(
-                    index = index,
-                    value = behavior.linearBehavior.minFanSpeed,
-                    type = LinearParams.MIN_FAN_SPEED
-                )
-            },
+        val suffixes = listOf(
+            Resources.getString("unity/degree"),
+            Resources.getString("unity/degree"),
+            Resources.getString("unity/percent"),
+            Resources.getString("unity/percent")
         )
-        setting(
-            value = behavior.linearBehavior.maxFanSpeed,
-            prefix = Resources.getString("linear/max_fan_speed"),
-            suffix = Resources.getString("unity/percent"),
-            onValueChange = {
-                viewModel.onChange(
-                    index = index,
-                    value = it.toInt(),
-                    type = LinearParams.MAX_FAN_SPEED
-                )
-            },
-            increase = {
-                viewModel.increase(
-                    index = index,
-                    value = behavior.linearBehavior.maxFanSpeed,
-                    type = LinearParams.MAX_FAN_SPEED
-                )
-            },
-            decrease = {
-                viewModel.decrease(
-                    index = index,
-                    value = behavior.linearBehavior.maxFanSpeed,
-                    type = LinearParams.MAX_FAN_SPEED
-                )
-            },
+        val types = listOf(
+            LinearParams.MIN_TEMP,
+            LinearParams.MAX_TEMP,
+            LinearParams.MIN_FAN_SPEED,
+            LinearParams.MAX_FAN_SPEED
         )
+
+        for(i in 0 .. 3) {
+            setting(
+                value = values[i],
+                prefix = prefixes[i],
+                suffix = suffixes[i],
+                onValueChange = {
+                    viewModel.onChange(
+                        index = index,
+                        value = it,
+                        type = types[i]
+                    )
+                },
+                increase = {
+                    viewModel.increase(
+                        index = index,
+                        type = types[i]
+                    )
+                },
+                decrease = {
+                    viewModel.decrease(
+                        index = index,
+                        type = types[i]
+                    )
+                },
+            )
+        }
     }
 }
 
@@ -148,13 +98,13 @@ private fun setting(
     prefix: String,
     suffix: String,
 
-    onValueChange: (String) -> Int,
-    increase: () -> Int,
-    decrease: () -> Int,
+    onValueChange: (Int) -> String,
+    increase: () -> String,
+    decrease: () -> String,
 ) {
 
     val text: MutableState<String> = remember { mutableStateOf(value.toString()) }
-
+    val isError = remember { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
@@ -175,7 +125,8 @@ private fun setting(
                 )
                 managerTextField(
                     text = text,
-                    onValueChange = onValueChange
+                    onValueChange = onValueChange,
+                    isError = isError
                 )
                 Spacer(
                     modifier = Modifier
@@ -190,7 +141,8 @@ private fun setting(
             IconButton(
                 onClick = {
                     val finalValue = increase()
-                    text.value = finalValue.toString()
+                    text.value = finalValue
+                    isError.value = false
                 }
             ) {
                 Icon(
@@ -201,7 +153,8 @@ private fun setting(
             IconButton(
                 onClick = {
                     val finalValue = decrease()
-                    text.value = finalValue.toString()
+                    text.value = finalValue
+                    isError.value = false
                 }
             ) {
                 Icon(

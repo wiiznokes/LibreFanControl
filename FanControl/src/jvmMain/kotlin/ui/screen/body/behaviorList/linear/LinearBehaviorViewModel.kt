@@ -26,38 +26,44 @@ private fun getFinalValue(value: Int): Int =
     }
 
 
+
+
 class LinearBehaviorViewModel(
     private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList
 ) {
 
-    fun increase(index: Int, value: Int, type: LinearParams): Int {
-        val finalValue = getFinalValue(value)
+    fun increase(index: Int, type: LinearParams): String {
+        var finalValue = 0
 
         _behaviorItemList.update {
             _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(
                 linearBehavior = with(_behaviorItemList.value[index].linearBehavior!!) {
                     when (type) {
                         LinearParams.MIN_TEMP -> {
+                            finalValue = getFinalValue(minTemp + 1)
                             copy(
-                                minTemp = finalValue + 1
+                                minTemp = finalValue
                             )
                         }
 
                         LinearParams.MAX_TEMP -> {
+                            finalValue = getFinalValue(maxTemp + 1)
                             copy(
-                                maxTemp = finalValue + 1
+                                maxTemp = finalValue
                             )
                         }
 
                         LinearParams.MIN_FAN_SPEED -> {
+                            finalValue = getFinalValue(minFanSpeed + 1)
                             copy(
-                                minFanSpeed = finalValue + 1
+                                minFanSpeed = finalValue
                             )
                         }
 
                         LinearParams.MAX_FAN_SPEED -> {
+                            finalValue = getFinalValue(maxFanSpeed + 1)
                             copy(
-                                maxFanSpeed = finalValue + 1
+                                maxFanSpeed = finalValue
                             )
                         }
                     }
@@ -65,37 +71,41 @@ class LinearBehaviorViewModel(
             )
             it
         }
-        return finalValue
+        return finalValue.toString()
     }
 
-    fun decrease(index: Int, value: Int, type: LinearParams): Int {
-        val finalValue = getFinalValue(value)
+    fun decrease(index: Int, type: LinearParams): String {
+        var finalValue = 0
 
         _behaviorItemList.update {
             _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(
                 linearBehavior = with(_behaviorItemList.value[index].linearBehavior!!) {
                     when (type) {
                         LinearParams.MIN_TEMP -> {
+                            finalValue = getFinalValue(minTemp - 1)
                             copy(
-                                minTemp = finalValue - 1
+                                minTemp = finalValue
                             )
                         }
 
                         LinearParams.MAX_TEMP -> {
+                            finalValue = getFinalValue(maxTemp - 1)
                             copy(
-                                maxTemp = finalValue - 1
+                                maxTemp = finalValue
                             )
                         }
 
                         LinearParams.MIN_FAN_SPEED -> {
+                            finalValue = getFinalValue(minFanSpeed - 1)
                             copy(
-                                minFanSpeed = finalValue - 1
+                                minFanSpeed = finalValue
                             )
                         }
 
                         LinearParams.MAX_FAN_SPEED -> {
+                            finalValue = getFinalValue(maxFanSpeed - 1)
                             copy(
-                                maxFanSpeed = finalValue - 1
+                                maxFanSpeed = finalValue
                             )
                         }
                     }
@@ -103,10 +113,10 @@ class LinearBehaviorViewModel(
             )
             it
         }
-        return finalValue
+        return finalValue.toString()
     }
 
-    fun onChange(index: Int, value: Int, type: LinearParams): Int {
+    fun onChange(index: Int, value: Int, type: LinearParams): String {
         val finalValue = getFinalValue(value)
 
         _behaviorItemList.update {
@@ -141,6 +151,6 @@ class LinearBehaviorViewModel(
             )
             it
         }
-        return finalValue
+        return finalValue.toString()
     }
 }

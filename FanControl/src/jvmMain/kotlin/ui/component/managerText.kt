@@ -73,21 +73,25 @@ fun managerOutlinedTextField(
 @Composable
 fun managerTextField(
     text: MutableState<String>,
-    onValueChange: (String) -> Int
+    onValueChange: (Int) -> String,
+    isError: MutableState<Boolean>
 ) {
-
 
     TextField(
         modifier = Modifier
             .width(80.dp),
+        isError = isError.value,
         value = text.value,
         onValueChange = {
             try {
-                val finalValue = onValueChange(it)
-                text.value = finalValue.toString()
+
+                val finalValue = onValueChange(it.toInt())
+                text.value = finalValue
+                isError.value = false
             }
             catch (e:NumberFormatException) {
                 text.value = ""
+                isError.value = true
             }
 
         },
