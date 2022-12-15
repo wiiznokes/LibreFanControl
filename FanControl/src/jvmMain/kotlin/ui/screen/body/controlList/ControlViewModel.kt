@@ -41,7 +41,7 @@ class ControlViewModel(
         } else {
             _controlItemList.update {
                 _controlItemList.value[index] = _controlItemList.value[index].copy(
-                    behaviorName = Resources.getString("none_item")
+                    behaviorName = Resources.getString("none")
                 )
                 it
             }

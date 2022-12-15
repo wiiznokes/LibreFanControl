@@ -2,11 +2,13 @@ package logicControl
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
+import model.ItemType
 import model.hardware.Control
 import model.hardware.Sensor
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
+import ui.utils.Resources
 
 class Logic(
     private val _controlList: MutableStateFlow<SnapshotStateList<Control>> = State._controlList,
@@ -22,7 +24,25 @@ class Logic(
 
     fun update() {
         _controlItemList.value.filter {
-            it.visible
+            it.visible && it.isActive && it.behaviorName != Resources.getString("none")
+        }.forEach { control ->
+            val behavior = _behaviorItemList.value.find { behavior ->
+                behavior.name == control.behaviorName
+            }
+            when(behavior!!.type) {
+                ItemType.BehaviorType.FLAT -> {
+                    behavior.flatBehavior!!.value
+                }
+                ItemType.BehaviorType.LINEAR -> {
+
+                }
+                ItemType.BehaviorType.TARGET -> TODO()
+            }
         }
+    }
+
+
+    fun findBehavior(behaviorName: String) {
+
     }
 }
