@@ -28,10 +28,10 @@ fun flatBehavior(
     baseItemBody(
         iconPainter = Resources.getIcon("horizontal_rule"),
         iconContentDescription = Resources.getString("ct/flat"),
-        name = behavior.name,
         onNameChange = onNameChange,
         editModeActivated = editModeActivated,
-        onEditClick = onEditClick
+        onEditClick = onEditClick,
+        item = behavior
     ) {
         Row(
             modifier = Modifier

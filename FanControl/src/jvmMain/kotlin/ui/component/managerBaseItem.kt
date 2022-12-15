@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import model.item.BaseItem
 import ui.utils.Resources
 
 
@@ -27,7 +28,7 @@ import ui.utils.Resources
 fun baseItemBody(
     iconPainter: Painter,
     iconContentDescription: String,
-    name: String,
+    item: BaseItem,
     onEditClick: () -> Unit,
     onNameChange: (String) -> Unit,
     editModeActivated: Boolean,
@@ -48,11 +49,12 @@ fun baseItemBody(
         onEditClick = onEditClick,
         contentName = {
             managerOutlinedTextField(
-                value = name,
+                value = item.name,
                 onValueChange = {
                     onNameChange(it)
                 },
-                label = Resources.getString("label/name")
+                label = Resources.getString("label/name"),
+                id = item.id
             )
         },
 

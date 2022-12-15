@@ -1,7 +1,6 @@
 import configuration.Configuration
 import external.ExternalManager
 import external.OS
-import external.getOS
 import kotlinx.coroutines.*
 
 

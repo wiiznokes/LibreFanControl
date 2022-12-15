@@ -10,32 +10,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import model.item.ControlItem
 import model.item.behavior.BehaviorItem
 import ui.utils.Resources
 
 
 @Composable
 fun baseControlBody(
-    name: String,
     onEditClick: () -> Unit,
     onNameChange: (String) -> Unit,
     editModeActivated: Boolean,
 
-    behaviorName: String,
     isActive: Boolean,
     onSwitchClick: (Boolean) -> Unit,
     value: String,
     fanValue: String,
     behaviorItemList: SnapshotStateList<BehaviorItem>,
-    onItemClick: (BehaviorItem?) -> Unit
+    onItemClick: (BehaviorItem?) -> Unit,
+    control: ControlItem
 ) {
     baseItemBody(
         iconPainter = Resources.getIcon("alternate_email"),
         iconContentDescription = Resources.getString("ct/control"),
-        name = name,
         onNameChange = onNameChange,
         editModeActivated = editModeActivated,
-        onEditClick = onEditClick
+        onEditClick = onEditClick,
+        item = control
     ) {
         baseControl(
             isActive = isActive,
@@ -46,7 +46,7 @@ fun baseControlBody(
 
             ) {
             listChoice(
-                sensorName = behaviorName,
+                sensorName = control.behaviorName,
                 behaviorItemList = behaviorItemList,
                 onItemClick = onItemClick
             )

@@ -8,7 +8,6 @@ data class BehaviorItem(
     override val type: ItemType.BehaviorType,
 
     override var isExpanded: Boolean = false,
-
     var flatBehavior: FlatBehavior? = null,
-    val linearBehavior: LinearBehavior? = null
+    val linearBehavior: LinearBehavior? = null, override val id: Int
 ) : BaseItem

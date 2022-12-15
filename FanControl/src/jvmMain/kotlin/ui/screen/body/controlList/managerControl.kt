@@ -46,13 +46,13 @@ fun control(
 
 
     baseControlBody(
-        name = controlItem.name,
         onNameChange = { viewModel.setName(it, index) },
         editModeActivated = editModeActivated,
-        onEditClick = { viewModel.remove(index) },
+        onEditClick = {
+            println("index = $index")
+            viewModel.remove(index)
+        },
 
-        behaviorName = controlItem.behaviorName,
-        isActive = !control.isAuto,
         onSwitchClick = {
             viewModel.setControl(
                 index = index,
@@ -66,7 +66,9 @@ fun control(
         behaviorItemList = viewModel.behaviorItemList.value,
         onItemClick = {
             viewModel.setBehavior(index, it)
-        }
+        },
+        control = controlItem,
+        isActive = control.isAuto
     )
 }
 

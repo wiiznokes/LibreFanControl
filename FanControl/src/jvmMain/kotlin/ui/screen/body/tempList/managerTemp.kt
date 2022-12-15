@@ -39,12 +39,12 @@ fun temp(
     baseSensorBody(
         iconPainter = Resources.getIcon("thermometer"),
         iconContentDescription = Resources.getString("ct/temp"),
-        name = sensorItem.name,
         onNameChange = {
             viewModel.setName(it, index)
         },
         editModeActivated = editModeActivated,
         onEditClick = {
+            println("index = $index")
             viewModel.remove(index)
         },
         sensorName = sensorItem.sensorName,
@@ -52,7 +52,8 @@ fun temp(
         sensorList = viewModel.tempList.value,
         onItemClick = {
             viewModel.setTemp(index, it)
-        }
+        },
+        sensor = sensorItem
     )
 }
 

@@ -9,6 +9,7 @@ import model.item.behavior.BehaviorItem
 import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
 import ui.utils.Resources
+import ui.utils.getAvailableId
 import ui.utils.getAvailableName
 
 class AddBehaviorViewModel(
@@ -16,16 +17,18 @@ class AddBehaviorViewModel(
 ) {
 
     fun addFlat() {
-        val name = getAvailableName(
-            list = _behaviorItemList.value,
-            prefix = Resources.getString("default/flat_name")
-        )
         _behaviorItemList.update {
             _behaviorItemList.value.add(
                 BehaviorItem(
-                    name = name,
+                    name = getAvailableName(
+                        list = _behaviorItemList.value,
+                        prefix = Resources.getString("default/flat_name")
+                    ),
                     type = ItemType.BehaviorType.FLAT,
-                    flatBehavior = FlatBehavior()
+                    flatBehavior = FlatBehavior(),
+                    id = getAvailableId(
+                        list = _behaviorItemList.value
+                    )
                 )
             )
             it
@@ -43,7 +46,10 @@ class AddBehaviorViewModel(
                 BehaviorItem(
                     name = name,
                     type = ItemType.BehaviorType.LINEAR,
-                    linearBehavior = LinearBehavior()
+                    linearBehavior = LinearBehavior(),
+                    id = getAvailableId(
+                        list = _behaviorItemList.value
+                    )
                 )
             )
             it

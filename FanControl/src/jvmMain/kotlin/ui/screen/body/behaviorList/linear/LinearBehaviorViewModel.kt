@@ -5,7 +5,6 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import model.item.behavior.BehaviorItem
-import java.lang.Exception
 
 
 enum class LinearParams {
@@ -16,16 +15,14 @@ enum class LinearParams {
 }
 
 private fun getFinalValue(value: Int): Int =
-    if(value < 0)
+    if (value < 0)
         0
     else {
-        if(value > 100)
+        if (value > 100)
             100
         else
             value
     }
-
-
 
 
 class LinearBehaviorViewModel(

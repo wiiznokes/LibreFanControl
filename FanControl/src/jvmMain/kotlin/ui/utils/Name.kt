@@ -14,7 +14,7 @@ fun checkNameTaken(list: List<BaseItem>, name: String, index: Int) {
         throw NameIsTakenException()
 }
 
-fun isNameTaken(list: List<BaseItem>, name: String): Boolean {
+private fun isNameTaken(list: List<BaseItem>, name: String): Boolean {
     return list.count { it.name == name } != 0
 }
 
@@ -27,4 +27,17 @@ fun getAvailableName(list: List<BaseItem>, prefix: String): String {
         name = "$prefix$i"
     }
     return name
+}
+
+
+private fun isIdTaken(list: List<BaseItem>, id: Int): Boolean {
+    return list.count { it.id == id } != 0
+}
+
+fun getAvailableId(list: List<BaseItem>): Int {
+    var id = 0
+    while (isIdTaken(list, id)) {
+        id++
+    }
+    return id
 }

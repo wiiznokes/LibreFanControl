@@ -29,10 +29,10 @@ fun linearBehavior(
     baseItemBody(
         iconPainter = Resources.getIcon("linear"),
         iconContentDescription = Resources.getString("ct/linear"),
-        name = behavior.name,
         onNameChange = onNameChange,
         editModeActivated = editModeActivated,
-        onEditClick = onEditClick
+        onEditClick = onEditClick,
+        item = behavior
     ) {
 
 
@@ -62,7 +62,7 @@ fun linearBehavior(
             LinearParams.MAX_FAN_SPEED
         )
 
-        for(i in 0 .. 3) {
+        for (i in 0..3) {
             setting(
                 value = values[i],
                 prefix = prefixes[i],
@@ -86,6 +86,7 @@ fun linearBehavior(
                         type = types[i]
                     )
                 },
+                id = behavior.id
             )
         }
     }
@@ -101,10 +102,17 @@ private fun setting(
     onValueChange: (Int) -> String,
     increase: () -> String,
     decrease: () -> String,
+    id: Int
 ) {
-
-    val text: MutableState<String> = remember { mutableStateOf(value.toString()) }
-    val isError = remember { mutableStateOf(false) }
+    // if id had change, remember have to update
+    // this avoid bug when name of an item
+    // get reuse with another item
+    val text: MutableState<String> = remember(
+        id
+    ) { mutableStateOf(value.toString()) }
+    val isError = remember(
+        id
+    ) { mutableStateOf(false) }
 
     Row(
         modifier = Modifier

@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.update
 import model.ItemType
 import model.item.SensorItem
 import ui.utils.Resources
+import ui.utils.getAvailableId
 import ui.utils.getAvailableName
 
 class AddSensorViewModel(
@@ -25,7 +26,10 @@ class AddSensorViewModel(
                     name = name,
                     type = ItemType.SensorType.FAN,
                     sensorName = Resources.getString("none"),
-                    sensorId = null
+                    sensorId = null,
+                    id = getAvailableId(
+                        list = _fanItemList.value
+                    )
                 )
             )
             it
@@ -44,7 +48,10 @@ class AddSensorViewModel(
                     name = name,
                     type = ItemType.SensorType.TEMP,
                     sensorName = Resources.getString("none"),
-                    sensorId = null
+                    sensorId = null,
+                    id = getAvailableId(
+                        list = _tempItemList.value
+                    )
                 )
             )
             it

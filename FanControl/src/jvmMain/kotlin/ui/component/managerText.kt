@@ -37,10 +37,19 @@ fun managerText(
 fun managerOutlinedTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    label: String
+    label: String,
+    id: Int
 ) {
-    val isError = remember { mutableStateOf(false) }
-    val text = remember { mutableStateOf(value) }
+
+    // if id had change, remember have to update
+    // this avoid bug when name of an item
+    // get reuse with another item
+    val isError = remember(
+        id
+    ) { mutableStateOf(false) }
+    val text = remember(
+        id
+    ) { mutableStateOf(value) }
 
     OutlinedTextField(
         isError = isError.value,
@@ -88,8 +97,7 @@ fun managerTextField(
                 val finalValue = onValueChange(it.toInt())
                 text.value = finalValue
                 isError.value = false
-            }
-            catch (e:NumberFormatException) {
+            } catch (e: NumberFormatException) {
                 text.value = ""
                 isError.value = true
             }

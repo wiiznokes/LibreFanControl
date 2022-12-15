@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.painter.Painter
 import model.hardware.Sensor
+import model.item.SensorItem
 
 
 @Composable
@@ -12,7 +13,6 @@ fun baseSensorBody(
     onEditClick: () -> Unit,
     iconPainter: Painter,
     iconContentDescription: String,
-    name: String,
     onNameChange: (String) -> Unit,
     editModeActivated: Boolean,
 
@@ -20,15 +20,16 @@ fun baseSensorBody(
     sensorValue: String,
 
     sensorList: SnapshotStateList<Sensor>,
-    onItemClick: (Sensor?) -> Unit
+    onItemClick: (Sensor?) -> Unit,
+    sensor: SensorItem
 ) {
     baseItemBody(
         iconPainter = iconPainter,
         iconContentDescription = iconContentDescription,
-        name = name,
         onNameChange = onNameChange,
         editModeActivated = editModeActivated,
         onEditClick = onEditClick,
+        item = sensor
     ) {
         listChoice(
             sensorName = sensorName,

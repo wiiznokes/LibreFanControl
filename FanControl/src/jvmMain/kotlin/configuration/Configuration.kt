@@ -11,6 +11,7 @@ import model.item.SensorItem
 import model.item.behavior.BehaviorItem
 import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
+import ui.utils.getAvailableId
 
 class Configuration(
     private val _controlList: MutableStateFlow<SnapshotStateList<Control>> = State._controlList,
@@ -39,6 +40,9 @@ class Configuration(
                     type = ItemType.ControlType.FAN,
                     sensorName = it.libName,
                     sensorId = it.libId,
+                    id = getAvailableId(
+                        list = _controlItemList.value
+                    )
                 )
             )
         }
@@ -47,14 +51,20 @@ class Configuration(
             BehaviorItem(
                 name = "behavior1",
                 type = ItemType.BehaviorType.FLAT,
-                flatBehavior = FlatBehavior()
+                flatBehavior = FlatBehavior(),
+                id = getAvailableId(
+                    list = _behaviorItemList.value
+                )
             )
         )
         _behaviorItemList.value.add(
             BehaviorItem(
                 name = "behavior2",
                 type = ItemType.BehaviorType.LINEAR,
-                linearBehavior = LinearBehavior()
+                linearBehavior = LinearBehavior(),
+                id = getAvailableId(
+                    list = _behaviorItemList.value
+                )
             )
         )
 
@@ -65,6 +75,9 @@ class Configuration(
                     type = ItemType.SensorType.FAN,
                     sensorName = it.libName,
                     sensorId = it.libId,
+                    id = getAvailableId(
+                        list = _fanItemList.value
+                    )
                 )
             )
         }
@@ -76,6 +89,9 @@ class Configuration(
                     type = ItemType.SensorType.TEMP,
                     sensorName = it.libName,
                     sensorId = it.libId,
+                    id = getAvailableId(
+                        list = _tempItemList.value
+                    )
                 )
             )
         }
