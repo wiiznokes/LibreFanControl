@@ -1,5 +1,6 @@
 package logicControl
 
+import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import model.ItemType
@@ -29,13 +30,15 @@ class Logic(
             val behavior = _behaviorItemList.value.find { behavior ->
                 behavior.name == control.behaviorName
             }
-            when(behavior!!.type) {
+            when (behavior!!.type) {
                 ItemType.BehaviorType.FLAT -> {
                     behavior.flatBehavior!!.value
                 }
+
                 ItemType.BehaviorType.LINEAR -> {
 
                 }
+
                 ItemType.BehaviorType.TARGET -> TODO()
             }
         }

@@ -52,7 +52,7 @@
   },
   "linear": {
     "min_temp": "min temp : ",
-    "max_temp": "min temp : ",
+    "max_temp": "max temp : ",
     "min_fan_speed": "min speed : ",
     "max_fan_speed": "max speed : "
   },

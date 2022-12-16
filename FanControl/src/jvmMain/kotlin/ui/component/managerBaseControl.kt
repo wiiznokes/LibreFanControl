@@ -45,7 +45,7 @@ fun baseControlBody(
 
             ) {
             listChoice(
-                sensorName = control.behaviorName,
+                behaviorName = control.behaviorName,
                 behaviorItemList = behaviorItemList,
                 onItemClick = onItemClick
             )

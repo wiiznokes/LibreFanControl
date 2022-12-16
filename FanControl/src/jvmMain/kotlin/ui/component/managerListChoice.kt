@@ -95,14 +95,14 @@ fun listChoice(
 @JvmName("listChoice1")
 @Composable
 fun listChoice(
-    sensorName: String,
+    behaviorName: String,
     behaviorItemList: SnapshotStateList<BehaviorItem>,
     onItemClick: (BehaviorItem?) -> Unit
 ) {
     val expanded = remember { mutableStateOf(false) }
 
     managerListChoice(
-        name = sensorName,
+        name = behaviorName,
         expanded = expanded
     ) {
         DropdownMenuItem(

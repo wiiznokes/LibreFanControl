@@ -44,7 +44,6 @@ fun temp(
         },
         editModeActivated = editModeActivated,
         onEditClick = {
-            println("index = $index")
             viewModel.remove(index)
         },
         sensorName = sensorItem.sensorName,
