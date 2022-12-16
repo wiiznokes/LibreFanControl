@@ -29,6 +29,9 @@ class Logic(
         _controlItemList.value.filter {
             it.visible && it.isActive && it.behaviorName != Resources.getString("none")
         }.forEach label@ { control ->
+
+            println("control behavior name: ${control.behaviorName}")
+
             val behavior = _behaviorItemList.value.find { behavior ->
                 behavior.name == control.behaviorName
             }
