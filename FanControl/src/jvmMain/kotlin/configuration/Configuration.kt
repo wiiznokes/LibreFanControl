@@ -30,7 +30,6 @@ class Configuration(
         return -1
     }
 
-
     fun init() {
 
         _controlList.value.forEach {
@@ -46,27 +45,6 @@ class Configuration(
                 )
             )
         }
-
-        _behaviorItemList.value.add(
-            BehaviorItem(
-                name = "behavior1",
-                type = ItemType.BehaviorType.FLAT,
-                flatBehavior = FlatBehavior(),
-                id = getAvailableId(
-                    list = _behaviorItemList.value
-                )
-            )
-        )
-        _behaviorItemList.value.add(
-            BehaviorItem(
-                name = "behavior2",
-                type = ItemType.BehaviorType.LINEAR,
-                linearBehavior = LinearBehavior(),
-                id = getAvailableId(
-                    list = _behaviorItemList.value
-                )
-            )
-        )
 
         _fanList.value.forEach {
             _fanItemList.value.add(

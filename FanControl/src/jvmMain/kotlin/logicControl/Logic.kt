@@ -1,5 +1,6 @@
 package logicControl
 
+import Application
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,10 +25,7 @@ class Logic(
     private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList
 ) {
 
-    fun update(
-        // libIndex, isAuto, value
-        onSetControl: (Int, Boolean, Int) -> Unit
-    ) {
+    fun update() {
         _controlItemList.value.filter {
             it.visible && it.isActive && it.behaviorName != Resources.getString("none")
         }.forEach { control ->
@@ -57,13 +55,12 @@ class Logic(
 
                 ItemType.BehaviorType.TARGET -> TODO()
             }
-
-            onSetControl(
-                _controlList.value.find {
+            Application.setControl(
+                libIndex = _controlList.value.find {
                     it.libId == control.sensorId
-                }!!.libIndex,
-                true,
-                value
+                    }!!.libIndex,
+                isAuto = true,
+                value = value
             )
         }
     }

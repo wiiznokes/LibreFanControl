@@ -1,6 +1,5 @@
 import configuration.Configuration
 import external.ExternalManager
-import external.getOS
 import kotlinx.coroutines.*
 import logicControl.Logic
 
@@ -10,19 +9,19 @@ class Application {
     private var jobUpdate: Job? = null
     private var jobControlUpdate: Job? = null
 
-
     private var configuration: Configuration? = null
 
+
+
     companion object {
-        private val externalManager = ExternalManager(
-            getOS()
-            //OS.LINUX
-        )
-
-        fun setValue(index: Int, isAuto: Boolean, value: Int) {
-            externalManager.setControl(index, isAuto, value)
+        private val externalManager = ExternalManager()
+        fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null) {
+            externalManager.setControl(
+                libIndex = libIndex,
+                isAuto = isAuto,
+                value = value
+            )
         }
-
     }
 
     fun onStart() {
@@ -60,9 +59,6 @@ class Application {
             jobUpdate = null
             jobControlUpdate = null
             externalManager.stop()
-
-
-
         }
     }
 
@@ -79,21 +75,13 @@ class Application {
         }
     }
 
-    val logic = Logic()
+    private val logic = Logic()
 
     private fun startControlUpdate() {
         jobControlUpdate = CoroutineScope(Dispatchers.Default).launch {
             while (!updateControlShouldStop) {
+                logic.update()
 
-                logic.update(
-                    onSetControl = { libIndex, isAuto, value ->
-                        externalManager.setControl(
-                            libIndex = libIndex,
-                            isAuto = isAuto,
-                            value = value
-                        )
-                    }
-                )
                 delay(2000L)
             }
         }

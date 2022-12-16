@@ -49,16 +49,14 @@ fun control(
         onNameChange = { viewModel.setName(it, index) },
         editModeActivated = editModeActivated,
         onEditClick = {
-            println("index = $index")
             viewModel.remove(index)
         },
 
         onSwitchClick = {
+
             viewModel.setControl(
-                index = index,
                 libIndex = control!!.libIndex,
-                isAuto = it,
-                value = control.value
+                isAuto = it
             )
         },
         value = "${control!!.value} ${Resources.getString("unity/percent")}",

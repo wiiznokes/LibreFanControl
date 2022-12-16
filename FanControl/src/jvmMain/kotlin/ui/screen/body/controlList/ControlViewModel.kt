@@ -2,6 +2,7 @@ package ui.screen.body.controlList
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import external.ExternalManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -24,7 +25,8 @@ class ControlViewModel(
     fun remove(index: Int) {
         _controlItemList.update {
             _controlItemList.value[index] = _controlItemList.value[index].copy(
-                visible = false
+                visible = false,
+                isActive = false
             )
             it
         }
@@ -49,9 +51,18 @@ class ControlViewModel(
 
     }
 
-    fun setControl(index: Int, libIndex: Int, isAuto: Boolean, value: Int) {
+    fun setControl(libIndex: Int, isAuto: Boolean) {
+        // we set control only if is Auto is false because
+        // another class is in charge to know if control should be set
+        if(!isAuto) {
+            Application.setControl(
+                libIndex = libIndex,
+                isAuto = false
+            )
+        }
+
         _controlItemList.update {
-            _controlItemList.value[index] = _controlItemList.value[index].copy(
+            _controlItemList.value[libIndex] = _controlItemList.value[libIndex].copy(
                 isActive = isAuto
             )
             it
@@ -60,21 +71,10 @@ class ControlViewModel(
 
 
     fun setName(name: String, index: Int) {
-
         checkNameTaken(_controlItemList.value, name, index)
-
         _controlItemList.update {
             _controlItemList.value[index] = _controlItemList.value[index].copy(
                 name = name
-            )
-            it
-        }
-    }
-
-    fun changeBehaviorId(index: Int, menuIndex: Int) {
-        _controlItemList.update {
-            _controlItemList.value[index] = _controlItemList.value[index].copy(
-                sensorName = _behaviorItemList.value[menuIndex].name
             )
             it
         }
