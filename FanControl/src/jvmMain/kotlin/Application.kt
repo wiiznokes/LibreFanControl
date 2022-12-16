@@ -2,11 +2,14 @@ import configuration.Configuration
 import external.ExternalManager
 import external.getOS
 import kotlinx.coroutines.*
+import logicControl.Logic
 
 
 class Application {
 
     private var jobUpdate: Job? = null
+    private var jobControlUpdate: Job? = null
+
 
     private var configuration: Configuration? = null
 
@@ -46,12 +49,20 @@ class Application {
     }
 
 
+    private var updateShouldStop = false
+    private var updateControlShouldStop = false
     fun onStop() {
         runBlocking {
             updateShouldStop = true
+            updateControlShouldStop = true
             jobUpdate?.cancel()
+            jobControlUpdate?.cancel()
             jobUpdate = null
+            jobControlUpdate = null
             externalManager.stop()
+
+
+
         }
     }
 
@@ -68,5 +79,18 @@ class Application {
         }
     }
 
-    private var updateShouldStop = false
+    val logic = Logic()
+
+    private fun startControlUpdate() {
+        jobControlUpdate = CoroutineScope(Dispatchers.Default).launch {
+            while (!updateControlShouldStop) {
+
+
+
+                logic.update(externalManager.setControl())
+
+                delay(2000L)
+            }
+        }
+    }
 }
