@@ -16,11 +16,14 @@ class Application {
     companion object {
         private val externalManager = ExternalManager()
         fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null) {
+            println("try to set control: index: $libIndex, isAuto: $isAuto, value: $value")
+            /*
             externalManager.setControl(
                 libIndex = libIndex,
                 isAuto = isAuto,
                 value = value
             )
+            */
         }
     }
 
@@ -45,6 +48,7 @@ class Application {
             }
         }
         startUpdate()
+        startControlUpdate()
     }
 
 

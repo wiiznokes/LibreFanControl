@@ -22,7 +22,12 @@ class ControlViewModel(
     val behaviorItemList = _behaviorItemList.asStateFlow()
 
 
-    fun remove(index: Int) {
+    fun remove(index: Int, libIndex: Int) {
+        Application.setControl(
+            libIndex = libIndex,
+            isAuto = false
+        )
+
         _controlItemList.update {
             _controlItemList.value[index] = _controlItemList.value[index].copy(
                 visible = false,

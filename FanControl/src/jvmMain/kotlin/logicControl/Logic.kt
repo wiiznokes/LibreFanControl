@@ -28,7 +28,7 @@ class Logic(
     fun update() {
         _controlItemList.value.filter {
             it.visible && it.isActive && it.behaviorName != Resources.getString("none")
-        }.forEach { control ->
+        }.forEach label@ { control ->
             val behavior = _behaviorItemList.value.find { behavior ->
                 behavior.name == control.behaviorName
             }
@@ -38,11 +38,16 @@ class Logic(
                 }
 
                 ItemType.BehaviorType.LINEAR -> {
+                    if(behavior.linearBehavior!!.sensorId == null) {
+                        // continue keyword of forEach loop
+                        // we only return from the lambda expression
+                        // (control here)
+                        return@label
+                    }
+
+
                     val f = getAffine(
-                        minTemp = behavior.linearBehavior!!.minTemp,
-                        maxTemp = behavior.linearBehavior.minTemp,
-                        minSpeed = behavior.linearBehavior.minTemp,
-                        maxSpeed = behavior.linearBehavior.minTemp,
+                        linearBehavior = behavior.linearBehavior,
                     )
                     getSpeed(
                         f = f,
@@ -78,14 +83,20 @@ class Logic(
     }
 
 
-    private fun getAffine(minTemp: Int, maxTemp: Int, minSpeed: Int, maxSpeed: Int): Pair<Int, Int> {
+    private fun getAffine(linearBehavior: LinearBehavior): Pair<Int, Int> {
         /*
             y = ax + b
             x -> temp
             y -> speed
         */
-        val a = (maxSpeed - minSpeed) / (maxTemp - minTemp)
-        val b = minSpeed - a * minTemp
+
+        val xa =  linearBehavior.minTemp
+        val xb = linearBehavior.maxTemp
+        val ya = linearBehavior.minFanSpeed
+        val yb = linearBehavior.maxFanSpeed
+
+        val a = (yb - ya) / (xb - xa)
+        val b = ya - a * xa
         return Pair(a, b)
     }
 }

@@ -49,7 +49,10 @@ fun control(
         onNameChange = { viewModel.setName(it, index) },
         editModeActivated = editModeActivated,
         onEditClick = {
-            viewModel.remove(index)
+            viewModel.remove(
+                index = index,
+                libIndex = control!!.libIndex,
+            )
         },
 
         onSwitchClick = {
