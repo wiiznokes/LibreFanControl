@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ui.component.baseItemAddItem
+import ui.component.listChoice
 import ui.component.managerText
 import ui.utils.Resources
 
@@ -20,6 +21,10 @@ fun managerAddLinear(
         name = Resources.getString("add_item/linear_name"),
         onEditClick = onEditClick
     ) {
+        listChoice(
+            name = Resources.getString("add_item/temp_name")
+        )
+
         setting(
             value = "20",
             prefix = Resources.getString("linear/min_temp"),

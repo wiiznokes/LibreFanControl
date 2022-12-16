@@ -26,7 +26,7 @@ class Logic(
 
     fun update(
         // libIndex, isAuto, value
-        setControl: (Int, Boolean, Int) -> Unit
+        onSetControl: (Int, Boolean, Int) -> Unit
     ) {
         _controlItemList.value.filter {
             it.visible && it.isActive && it.behaviorName != Resources.getString("none")
@@ -58,7 +58,7 @@ class Logic(
                 ItemType.BehaviorType.TARGET -> TODO()
             }
 
-            setControl(
+            onSetControl(
                 _controlList.value.find {
                     it.libId == control.sensorId
                 }!!.libIndex,

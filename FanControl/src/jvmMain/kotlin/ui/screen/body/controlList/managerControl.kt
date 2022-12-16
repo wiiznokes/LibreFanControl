@@ -40,9 +40,9 @@ fun control(
     index: Int,
     editModeActivated: Boolean
 ) {
-    val control = viewModel.controlList.value.filter {
+    val control = viewModel.controlList.value.find {
         it.libId == controlItem.sensorId
-    }[0]
+    }
 
 
     baseControlBody(
@@ -56,12 +56,12 @@ fun control(
         onSwitchClick = {
             viewModel.setControl(
                 index = index,
-                libIndex = control.libIndex,
+                libIndex = control!!.libIndex,
                 isAuto = it,
                 value = control.value
             )
         },
-        value = "${control.value} ${Resources.getString("unity/percent")}",
+        value = "${control!!.value} ${Resources.getString("unity/percent")}",
         fanValue = "",
         behaviorItemList = viewModel.behaviorItemList.value,
         onItemClick = {

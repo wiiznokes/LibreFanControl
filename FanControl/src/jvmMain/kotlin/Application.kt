@@ -85,10 +85,15 @@ class Application {
         jobControlUpdate = CoroutineScope(Dispatchers.Default).launch {
             while (!updateControlShouldStop) {
 
-
-
-                logic.update(externalManager.setControl())
-
+                logic.update(
+                    onSetControl = { libIndex, isAuto, value ->
+                        externalManager.setControl(
+                            libIndex = libIndex,
+                            isAuto = isAuto,
+                            value = value
+                        )
+                    }
+                )
                 delay(2000L)
             }
         }
