@@ -7,7 +7,7 @@ import model.hardware.Sensor
 
 class ExternalManager {
 
-    private val external: External = when (getOS()) {
+    private val external: External = when (OS.LINUX) {
         OS.WINDOWS -> ExternalWindows()
         OS.LINUX -> ExternalLinux()
         OS.UNSUPPORTED -> throw Exception("unsupported OS")
