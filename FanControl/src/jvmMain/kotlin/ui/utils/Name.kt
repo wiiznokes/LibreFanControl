@@ -10,7 +10,7 @@ class BlankException : Exception()
 
 
 fun checkNameTaken(list: List<BaseItem>, name: String, index: Int) {
-    if(name.isBlank())
+    if (name.isBlank())
         throw BlankException()
     if (list[index].name == name)
         throw IndexHaveNameException()

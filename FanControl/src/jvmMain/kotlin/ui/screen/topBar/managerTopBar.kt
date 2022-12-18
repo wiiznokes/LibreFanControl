@@ -47,9 +47,9 @@ fun mainTopBar(
             }
         },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            titleContentColor = MaterialTheme.colorScheme.onPrimary,
-            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+            containerColor = MaterialTheme.colorScheme.tertiary,
+            titleContentColor = MaterialTheme.colorScheme.onTertiary,
+            navigationIconContentColor = MaterialTheme.colorScheme.onTertiary
         ),
         navigationIcon = {
             IconButton(
@@ -99,9 +99,9 @@ fun addItemTopBar(
             }
         },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            titleContentColor = MaterialTheme.colorScheme.onPrimary,
-            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+            containerColor = MaterialTheme.colorScheme.tertiary,
+            titleContentColor = MaterialTheme.colorScheme.onTertiary,
+            navigationIconContentColor = MaterialTheme.colorScheme.onTertiary
         ),
         navigationIcon = {
             IconButton(

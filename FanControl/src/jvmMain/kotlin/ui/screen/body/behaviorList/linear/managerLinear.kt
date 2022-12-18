@@ -101,15 +101,15 @@ fun linearBehavior(
                 id = behavior.itemId,
                 type = types[i],
                 opposedValue =
-                    when(i) {
-                        0 -> values[1]
-                        1 -> values[0]
-                        2 -> values[3]
-                        3 -> values[2]
-                        else -> {
-                            throw Exception("impossible index")
-                        }
+                when (i) {
+                    0 -> values[1]
+                    1 -> values[0]
+                    2 -> values[3]
+                    3 -> values[2]
+                    else -> {
+                        throw Exception("impossible index")
                     }
+                }
 
             )
         }

@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ui.screen.body.behaviorList.behaviorList
@@ -132,7 +131,7 @@ fun BoxScope.scrollableBox(
         HorizontalScrollbar(
             modifier = Modifier.align(Alignment.BottomStart)
                 .height(20.dp)
-                .background(Color.Green),
+                .background(MaterialTheme.colorScheme.secondary),
             adapter = rememberScrollbarAdapter(stateHorizontal)
         )
     }

@@ -28,7 +28,7 @@ fun addItem(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         addItemChoice(currentChoiceType, choiceStates)
 

@@ -91,7 +91,7 @@ fun managerTextField(
     onValueChange: (Int) -> String
 ) {
     val isError = try {
-        when(type) {
+        when (type) {
             LinearParams.MIN_TEMP -> text.value.toInt() >= opposedValue
             LinearParams.MAX_TEMP -> text.value.toInt() <= opposedValue
             LinearParams.MIN_FAN_SPEED -> text.value.toInt() >= opposedValue
