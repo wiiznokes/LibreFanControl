@@ -26,9 +26,6 @@ class Logic(
         _controlItemList.value.filter {
             it.visible && it.isActive && it.behaviorId != null
         }.forEach label@{ control ->
-
-            println("control behavior name: ${control.behaviorId}")
-
             val behavior = _behaviorItemList.value.find { behavior ->
                 behavior.itemId == control.behaviorId
             }
@@ -44,7 +41,6 @@ class Logic(
                         // (control here)
                         return@label
                     }
-
 
                     val f = getAffine(
                         linearBehavior = behavior.linearBehavior,
