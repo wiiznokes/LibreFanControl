@@ -3,11 +3,13 @@ package configuration
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import model.ItemType
 import model.hardware.Sensor
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
+import model.item.behavior.LinearBehavior
 import ui.utils.getAvailableId
 
 class Configuration(
@@ -28,6 +30,20 @@ class Configuration(
     }
 
     fun init() {
+
+        _behaviorItemList.update {
+            _behaviorItemList.value.add(
+                BehaviorItem(
+                    name = "linear",
+                    type = ItemType.BehaviorType.LINEAR,
+                    linearBehavior = LinearBehavior(),
+                    itemId = getAvailableId(
+                        list = _behaviorItemList.value
+                    )
+                )
+            )
+            it
+        }
 
         _fanList.value.forEach {
             _fanItemList.value.add(

@@ -98,7 +98,19 @@ fun linearBehavior(
                         type = types[i]
                     )
                 },
-                id = behavior.itemId
+                id = behavior.itemId,
+                type = types[i],
+                opposedValue =
+                    when(i) {
+                        0 -> values[1]
+                        1 -> values[0]
+                        2 -> values[3]
+                        3 -> values[2]
+                        else -> {
+                            throw Exception("impossible index")
+                        }
+                    }
+
             )
         }
     }
@@ -108,6 +120,8 @@ fun linearBehavior(
 @Composable
 private fun setting(
     value: Int,
+    opposedValue: Int,
+    type: LinearParams,
     prefix: String,
     suffix: String,
 
@@ -122,9 +136,6 @@ private fun setting(
     val text: MutableState<String> = remember(
         id
     ) { mutableStateOf(value.toString()) }
-    val isError = remember(
-        id
-    ) { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
@@ -145,8 +156,9 @@ private fun setting(
                 )
                 managerTextField(
                     text = text,
+                    opposedValue = opposedValue,
                     onValueChange = onValueChange,
-                    isError = isError
+                    type = type
                 )
                 Spacer(
                     modifier = Modifier
@@ -162,7 +174,6 @@ private fun setting(
                 onClick = {
                     val finalValue = increase()
                     text.value = finalValue
-                    isError.value = false
                 }
             ) {
                 Icon(
@@ -174,7 +185,6 @@ private fun setting(
                 onClick = {
                     val finalValue = decrease()
                     text.value = finalValue
-                    isError.value = false
                 }
             ) {
                 Icon(
