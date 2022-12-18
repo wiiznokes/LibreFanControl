@@ -41,7 +41,8 @@
     "linear_name": "Linear",
     "fan_name": "Fan",
     "temp_name": "Temperature",
-    "choose_sensor": "Sensor name"
+    "choose_sensor": "Sensor name",
+    "choose_behavior": "Behavior name"
   },
   "default_value": {
     "control_name": "Control #",

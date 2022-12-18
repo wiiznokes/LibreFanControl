@@ -5,16 +5,13 @@ import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import model.ItemType
-import model.hardware.Control
 import model.hardware.Sensor
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
 import model.item.behavior.LinearBehavior
-import ui.utils.Resources
 
 class Logic(
-    private val _controlList: MutableStateFlow<SnapshotStateList<Control>> = State._controlList,
     private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
     private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList,
 
@@ -27,13 +24,13 @@ class Logic(
 
     fun update() {
         _controlItemList.value.filter {
-            it.visible && it.isActive && it.behaviorName != Resources.getString("none")
-        }.forEach label@ { control ->
+            it.visible && it.isActive && it.behaviorId != null
+        }.forEach label@{ control ->
 
-            println("control behavior name: ${control.behaviorName}")
+            println("control behavior name: ${control.behaviorId}")
 
             val behavior = _behaviorItemList.value.find { behavior ->
-                behavior.name == control.behaviorName
+                behavior.itemId == control.behaviorId
             }
             val value = when (behavior!!.type) {
                 ItemType.BehaviorType.FLAT -> {
@@ -41,7 +38,7 @@ class Logic(
                 }
 
                 ItemType.BehaviorType.LINEAR -> {
-                    if(behavior.linearBehavior!!.sensorId == null) {
+                    if (behavior.linearBehavior!!.sensorId == null) {
                         // continue keyword of forEach loop
                         // we only return from the lambda expression
                         // (control here)
@@ -64,15 +61,12 @@ class Logic(
                 ItemType.BehaviorType.TARGET -> TODO()
             }
             Application.setControl(
-                libIndex = _controlList.value.find {
-                    it.libId == control.sensorId
-                    }!!.libIndex,
+                libIndex = control.libIndex,
                 isAuto = true,
                 value = value
             )
         }
     }
-
 
 
     private fun getSpeed(f: Pair<Int, Int>, linearBehavior: LinearBehavior, tempValue: Int): Int {
@@ -93,7 +87,7 @@ class Logic(
             y -> speed
         */
 
-        val xa =  linearBehavior.minTemp
+        val xa = linearBehavior.minTemp
         val xb = linearBehavior.maxTemp
         val ya = linearBehavior.minFanSpeed
         val yb = linearBehavior.maxFanSpeed

@@ -26,7 +26,7 @@ fun LazyListScope.controlList(
     }) { index, it ->
 
         control(
-            controlItem = it,
+            control = it,
             index = previousIndexList[index],
             editModeActivated = editModeActivated
         )
@@ -36,39 +36,33 @@ fun LazyListScope.controlList(
 
 @Composable
 fun control(
-    controlItem: ControlItem,
+    control: ControlItem,
     index: Int,
     editModeActivated: Boolean
 ) {
-    val control = viewModel.controlList.value.find {
-        it.libId == controlItem.sensorId
-    }
-
-
     baseControlBody(
         onNameChange = { viewModel.setName(it, index) },
         editModeActivated = editModeActivated,
         onEditClick = {
             viewModel.remove(
                 index = index,
-                libIndex = control!!.libIndex,
+                libIndex = control.libIndex,
             )
         },
 
         onSwitchClick = {
-
             viewModel.setControl(
-                libIndex = control!!.libIndex,
+                libIndex = control.libIndex,
                 isAuto = it
             )
         },
-        value = "${control!!.value} ${Resources.getString("unity/percent")}",
+        value = "${control.value} ${Resources.getString("unity/percent")}",
         fanValue = "",
         behaviorItemList = viewModel.behaviorItemList.value,
-        onItemClick = {
+        onBehaviorChange = {
             viewModel.setBehavior(index, it)
         },
-        control = controlItem
+        control = control
     )
 }
 

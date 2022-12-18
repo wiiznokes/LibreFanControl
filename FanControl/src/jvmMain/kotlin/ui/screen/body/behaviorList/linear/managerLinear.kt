@@ -98,7 +98,7 @@ fun linearBehavior(
                         type = types[i]
                     )
                 },
-                id = behavior.id
+                id = behavior.itemId
             )
         }
     }
@@ -114,7 +114,7 @@ private fun setting(
     onValueChange: (Int) -> String,
     increase: () -> String,
     decrease: () -> String,
-    id: Int
+    id: Long
 ) {
     // if id had change, remember have to update
     // this avoid bug when name of an item

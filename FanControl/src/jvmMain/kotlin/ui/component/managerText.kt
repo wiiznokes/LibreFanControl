@@ -38,7 +38,7 @@ fun managerOutlinedTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
-    id: Int
+    id: Long
 ) {
 
     // if id had change, remember have to update

@@ -2,8 +2,8 @@ package external
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
-import model.hardware.Control
 import model.hardware.Sensor
+import model.item.ControlItem
 
 class ExternalManager {
 
@@ -16,7 +16,7 @@ class ExternalManager {
     fun start(
         fans: MutableStateFlow<SnapshotStateList<Sensor>>,
         temps: MutableStateFlow<SnapshotStateList<Sensor>>,
-        controls: MutableStateFlow<SnapshotStateList<Control>>
+        controls: MutableStateFlow<SnapshotStateList<ControlItem>>
     ) {
         external.start(fans, temps, controls)
         println("start lib : success")
@@ -37,7 +37,7 @@ class ExternalManager {
         println("getTemp : success")
     }
 
-    fun getControl(controls: MutableStateFlow<SnapshotStateList<Control>>) {
+    fun getControl(controls: MutableStateFlow<SnapshotStateList<ControlItem>>) {
         external.getControl(controls)
         println("getControl : success")
     }
@@ -58,7 +58,7 @@ class ExternalManager {
     }
 
     fun updateControl(
-        controls: MutableStateFlow<SnapshotStateList<Control>>
+        controls: MutableStateFlow<SnapshotStateList<ControlItem>>
     ) {
         external.updateControl(controls)
         //println("updateControl : success")

@@ -4,8 +4,9 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import model.ItemType
-import model.hardware.Control
 import model.hardware.Sensor
+import model.item.ControlItem
+import ui.utils.getAvailableId
 import kotlin.random.Random
 
 class ExternalLinux : External {
@@ -67,26 +68,32 @@ class ExternalLinux : External {
         )
     }
 
-    override fun getControl(controls: MutableStateFlow<SnapshotStateList<Control>>) {
+    override fun getControl(controls: MutableStateFlow<SnapshotStateList<ControlItem>>) {
         controls.value.add(
-            Control(
+            ControlItem(
                 libIndex = 0,
                 libId = "fan1",
-                libName = "fan1"
+                libName = "fan1",
+                name = "fan1",
+                itemId = getAvailableId(controls.value)
             )
         )
         controls.value.add(
-            Control(
+            ControlItem(
                 libIndex = 1,
                 libId = "fan2",
                 libName = "fan2",
+                name = "fan2",
+                itemId = getAvailableId(controls.value)
             )
         )
         controls.value.add(
-            Control(
+            ControlItem(
                 libIndex = 2,
                 libId = "fan3",
-                libName = "fan3"
+                libName = "fan3",
+                name = "fan3",
+                itemId = getAvailableId(controls.value)
             )
         )
     }
@@ -115,7 +122,7 @@ class ExternalLinux : External {
         }
     }
 
-    override fun updateControl(controls: MutableStateFlow<SnapshotStateList<Control>>) {
+    override fun updateControl(controls: MutableStateFlow<SnapshotStateList<ControlItem>>) {
         for (i in controls.value.indices) {
             controls.update {
                 controls.value[i] = controls.value[i].copy(

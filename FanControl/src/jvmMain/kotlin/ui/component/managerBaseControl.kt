@@ -25,7 +25,7 @@ fun baseControlBody(
     value: String,
     fanValue: String,
     behaviorItemList: SnapshotStateList<BehaviorItem>,
-    onItemClick: (BehaviorItem?) -> Unit,
+    onBehaviorChange: (Long?) -> Unit,
     control: ControlItem
 ) {
     baseItemBody(
@@ -45,9 +45,9 @@ fun baseControlBody(
 
             ) {
             listChoice(
-                behaviorName = control.behaviorName,
+                behaviorId = control.behaviorId,
                 behaviorItemList = behaviorItemList,
-                onItemClick = onItemClick
+                onItemClick = onBehaviorChange
             )
         }
     }

@@ -12,7 +12,6 @@ class Application {
     private var configuration: Configuration? = null
 
 
-
     companion object {
         private val externalManager = ExternalManager()
         fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null) {
@@ -32,7 +31,7 @@ class Application {
         externalManager.start(
             State._fanList,
             State._tempList,
-            State._controlList
+            State._controlItemList
         )
         configuration = Configuration()
 
@@ -72,7 +71,7 @@ class Application {
             while (!updateShouldStop) {
                 externalManager.updateFan(State._fanList)
                 externalManager.updateTemp(State._tempList)
-                externalManager.updateControl(State._controlList)
+                externalManager.updateControl(State._controlItemList)
 
                 delay(2000L)
             }
