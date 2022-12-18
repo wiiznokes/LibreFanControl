@@ -54,7 +54,7 @@ fun baseItemBody(
                     onNameChange(it)
                 },
                 label = Resources.getString("label/name"),
-                id = item.id
+                id = item.itemId
             )
         },
 

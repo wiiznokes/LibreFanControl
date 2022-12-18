@@ -3,18 +3,17 @@ package configuration
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import model.ItemType
-import model.hardware.Control
 import model.hardware.Sensor
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
-import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
 import ui.utils.getAvailableId
 
 class Configuration(
-    private val _controlList: MutableStateFlow<SnapshotStateList<Control>> = State._controlList,
+    private val _controlList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
     private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
     private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList,
 
@@ -32,18 +31,18 @@ class Configuration(
 
     fun init() {
 
-        _controlList.value.forEach {
-            _controlItemList.value.add(
-                ControlItem(
-                    name = it.libName,
-                    type = ItemType.ControlType.FAN,
-                    sensorName = it.libName,
-                    sensorId = it.libId,
-                    id = getAvailableId(
-                        list = _controlItemList.value
+        _behaviorItemList.update {
+            _behaviorItemList.value.add(
+                BehaviorItem(
+                    name = "linear",
+                    type = ItemType.BehaviorType.LINEAR,
+                    linearBehavior = LinearBehavior(),
+                    itemId = getAvailableId(
+                        list = _behaviorItemList.value
                     )
                 )
             )
+            it
         }
 
         _fanList.value.forEach {
@@ -53,7 +52,7 @@ class Configuration(
                     type = ItemType.SensorType.FAN,
                     sensorName = it.libName,
                     sensorId = it.libId,
-                    id = getAvailableId(
+                    itemId = getAvailableId(
                         list = _fanItemList.value
                     )
                 )
@@ -67,7 +66,7 @@ class Configuration(
                     type = ItemType.SensorType.TEMP,
                     sensorName = it.libName,
                     sensorId = it.libId,
-                    id = getAvailableId(
+                    itemId = getAvailableId(
                         list = _tempItemList.value
                     )
                 )

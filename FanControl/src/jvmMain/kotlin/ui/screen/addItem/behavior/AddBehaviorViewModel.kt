@@ -26,7 +26,7 @@ class AddBehaviorViewModel(
                     ),
                     type = ItemType.BehaviorType.FLAT,
                     flatBehavior = FlatBehavior(),
-                    id = getAvailableId(
+                    itemId = getAvailableId(
                         list = _behaviorItemList.value
                     )
                 )
@@ -47,7 +47,7 @@ class AddBehaviorViewModel(
                     name = name,
                     type = ItemType.BehaviorType.LINEAR,
                     linearBehavior = LinearBehavior(),
-                    id = getAvailableId(
+                    itemId = getAvailableId(
                         list = _behaviorItemList.value
                     )
                 )

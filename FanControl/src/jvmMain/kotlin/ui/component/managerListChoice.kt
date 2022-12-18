@@ -95,14 +95,18 @@ fun listChoice(
 @JvmName("listChoice1")
 @Composable
 fun listChoice(
-    behaviorName: String,
+    behaviorId: Long?,
     behaviorItemList: SnapshotStateList<BehaviorItem>,
-    onItemClick: (BehaviorItem?) -> Unit
+    onItemClick: (Long?) -> Unit
 ) {
     val expanded = remember { mutableStateOf(false) }
 
     managerListChoice(
-        name = behaviorName,
+        name = behaviorItemList.find {
+            it.itemId == behaviorId
+        }.let {
+            it?.name ?: Resources.getString("none")
+        },
         expanded = expanded
     ) {
         DropdownMenuItem(
@@ -123,7 +127,7 @@ fun listChoice(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.primary),
                 onClick = {
-                    onItemClick(it)
+                    onItemClick(it.itemId)
                     expanded.value = false
                 }
             ) {

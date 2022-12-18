@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import ui.screen.body.behaviorList.linear.LinearParams
+import ui.utils.BlankException
 import ui.utils.IndexHaveNameException
 import ui.utils.NameIsTakenException
 
@@ -38,7 +40,7 @@ fun managerOutlinedTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
-    id: Int
+    id: Long
 ) {
 
     // if id had change, remember have to update
@@ -66,6 +68,8 @@ fun managerOutlinedTextField(
                 isError.value = true
             } catch (e: IndexHaveNameException) {
                 isError.value = false
+            } catch (e: BlankException) {
+                isError.value = true
             }
         },
         textStyle = MaterialTheme.typography.bodyMedium,
@@ -82,26 +86,33 @@ fun managerOutlinedTextField(
 @Composable
 fun managerTextField(
     text: MutableState<String>,
-    onValueChange: (Int) -> String,
-    isError: MutableState<Boolean>
+    opposedValue: Int,
+    type: LinearParams,
+    onValueChange: (Int) -> String
 ) {
+    val isError = try {
+        when(type) {
+            LinearParams.MIN_TEMP -> text.value.toInt() >= opposedValue
+            LinearParams.MAX_TEMP -> text.value.toInt() <= opposedValue
+            LinearParams.MIN_FAN_SPEED -> text.value.toInt() >= opposedValue
+            LinearParams.MAX_FAN_SPEED -> text.value.toInt() <= opposedValue
+        }
+    } catch (e: NumberFormatException) {
+        true
+    }
 
     TextField(
         modifier = Modifier
             .width(80.dp),
-        isError = isError.value,
+        isError = isError,
         value = text.value,
         onValueChange = {
             try {
-
                 val finalValue = onValueChange(it.toInt())
                 text.value = finalValue
-                isError.value = false
             } catch (e: NumberFormatException) {
                 text.value = ""
-                isError.value = true
             }
-
         },
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number

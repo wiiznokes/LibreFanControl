@@ -6,5 +6,5 @@ interface BaseItem {
     var name: String
     var isExpanded: Boolean
     val type: ItemType
-    val id: Int
+    val itemId: Long
 }

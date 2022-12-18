@@ -4,8 +4,9 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import model.ItemType
-import model.hardware.Control
 import model.hardware.Sensor
+import model.item.ControlItem
+import ui.utils.getAvailableId
 
 class ExternalWindows : External {
 
@@ -14,7 +15,7 @@ class ExternalWindows : External {
     override fun start(
         fans: MutableStateFlow<SnapshotStateList<Sensor>>,
         temps: MutableStateFlow<SnapshotStateList<Sensor>>,
-        controls: MutableStateFlow<SnapshotStateList<Control>>
+        controls: MutableStateFlow<SnapshotStateList<ControlItem>>
     ) {
         try {
             System.loadLibrary("CppProxy")
@@ -60,16 +61,21 @@ class ExternalWindows : External {
         }
     }
 
-    override fun getControl(controls: MutableStateFlow<SnapshotStateList<Control>>) {
+    override fun getControl(controls: MutableStateFlow<SnapshotStateList<ControlItem>>) {
         val result = externalGetControl()
 
         for (i in 0..(result.size - 1) / 3) {
             controls.value.add(
-                Control(
+                ControlItem(
                     libIndex = result[i * 3].toInt(),
                     libId = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2],
-                )
+                    name = result[(i * 3) + 2],
+
+                    itemId = getAvailableId(controls.value),
+
+
+                    )
             )
         }
     }
@@ -100,7 +106,7 @@ class ExternalWindows : External {
         }
     }
 
-    override fun updateControl(controls: MutableStateFlow<SnapshotStateList<Control>>) {
+    override fun updateControl(controls: MutableStateFlow<SnapshotStateList<ControlItem>>) {
         externalUpdateControl()
 
 
@@ -117,7 +123,7 @@ class ExternalWindows : External {
 
     override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {
         // case is auto == true
-        if(value == null)
+        if (value == null)
             externalSetControl(libIndex, isAuto, 100)
         else
             externalSetControl(libIndex, isAuto, value)

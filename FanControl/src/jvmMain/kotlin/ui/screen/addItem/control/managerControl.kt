@@ -3,8 +3,6 @@ package ui.screen.addItem.control
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.hardware.Control
 import model.item.ControlItem
 import ui.component.baseControlAddItem
 import ui.utils.Resources
@@ -26,12 +24,8 @@ fun managerAddControl() {
         }) { index, it ->
 
             controlAddItem(
-                controlItem = it,
-                index = previousIndexList[index],
-                controlList = viewModel.controlList.value,
-                addControl = {
-                    viewModel.addControl(it)
-                }
+                control = it,
+                index = previousIndexList[index]
             )
 
         }
@@ -41,24 +35,18 @@ fun managerAddControl() {
 
 @Composable
 private fun controlAddItem(
-    controlItem: ControlItem,
-    index: Int,
-    controlList: SnapshotStateList<Control>,
-    addControl: (Int) -> Unit
+    control: ControlItem,
+    index: Int
 ) {
-
-    val control = controlList.find {
-        it.libId == controlItem.sensorId
-    }
 
 
     baseControlAddItem(
-        name = controlItem.name,
+        name = control.name,
         onEditClick = {
-            addControl(index)
+            viewModel.addControl(index)
         },
-        behaviorName = controlItem.behaviorName,
-        value = "${control!!.value} ${Resources.getString("unity/percent")}",
+        behaviorName = Resources.getString("add_item/choose_behavior"),
+        value = "${control.value} ${Resources.getString("unity/percent")}",
         fanValue = ""
     )
 }

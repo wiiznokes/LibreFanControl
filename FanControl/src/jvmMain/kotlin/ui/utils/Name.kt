@@ -1,12 +1,17 @@
 package ui.utils
 
 import model.item.BaseItem
+import kotlin.random.Random
 
 class NameIsTakenException : Exception()
 class IndexHaveNameException : Exception()
 
+class BlankException : Exception()
+
 
 fun checkNameTaken(list: List<BaseItem>, name: String, index: Int) {
+    if(name.isBlank())
+        throw BlankException()
     if (list[index].name == name)
         throw IndexHaveNameException()
 
@@ -30,14 +35,15 @@ fun getAvailableName(list: List<BaseItem>, prefix: String): String {
 }
 
 
-private fun isIdTaken(list: List<BaseItem>, id: Int): Boolean {
-    return list.count { it.id == id } != 0
+private fun isIdTaken(list: List<BaseItem>, id: Long): Boolean {
+    return list.count { it.itemId == id } != 0
 }
 
-fun getAvailableId(list: List<BaseItem>): Int {
-    var id = 0
+fun getAvailableId(list: List<BaseItem>): Long {
+    val rand = Random(5)
+    var id = rand.nextLong()
     while (isIdTaken(list, id)) {
-        id++
+        id = rand.nextLong()
     }
     return id
 }
