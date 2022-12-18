@@ -40,35 +40,35 @@ fun control(
     index: Int,
     editModeActivated: Boolean
 ) {
-    val control = viewModel.controlList.value.filter {
+    val control = viewModel.controlList.value.find {
         it.libId == controlItem.sensorId
-    }[0]
+    }
 
 
     baseControlBody(
         onNameChange = { viewModel.setName(it, index) },
         editModeActivated = editModeActivated,
         onEditClick = {
-            println("index = $index")
-            viewModel.remove(index)
+            viewModel.remove(
+                index = index,
+                libIndex = control!!.libIndex,
+            )
         },
 
         onSwitchClick = {
+
             viewModel.setControl(
-                index = index,
-                libIndex = control.libIndex,
-                isAuto = it,
-                value = control.value
+                libIndex = control!!.libIndex,
+                isAuto = it
             )
         },
-        value = "${control.value} ${Resources.getString("unity/percent")}",
+        value = "${control!!.value} ${Resources.getString("unity/percent")}",
         fanValue = "",
         behaviorItemList = viewModel.behaviorItemList.value,
         onItemClick = {
             viewModel.setBehavior(index, it)
         },
-        control = controlItem,
-        isActive = control.isAuto
+        control = controlItem
     )
 }
 

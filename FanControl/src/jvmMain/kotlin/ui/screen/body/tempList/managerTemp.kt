@@ -31,9 +31,9 @@ fun temp(
 ) {
 
     val sensorValue = if (sensorItem.sensorId != null) {
-        viewModel.tempList.value.filter {
+        viewModel.tempList.value.find {
             it.libId == sensorItem.sensorId
-        }[0].value
+        }!!.value
     } else 0
 
     baseSensorBody(
@@ -44,7 +44,6 @@ fun temp(
         },
         editModeActivated = editModeActivated,
         onEditClick = {
-            println("index = $index")
             viewModel.remove(index)
         },
         sensorName = sensorItem.sensorName,

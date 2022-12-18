@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import model.hardware.Control
 import model.hardware.Sensor
 
-class ExternalManager(os: OS) {
+class ExternalManager {
 
-    private val external: External = when (os) {
+    private val external: External = when (OS.LINUX) {
         OS.WINDOWS -> ExternalWindows()
         OS.LINUX -> ExternalLinux()
         OS.UNSUPPORTED -> throw Exception("unsupported OS")
@@ -64,8 +64,9 @@ class ExternalManager(os: OS) {
         //println("updateControl : success")
     }
 
-    fun setControl(index: Int, isAuto: Boolean, value: Int) {
-        external.setControl(index, isAuto, value)
+    fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null) {
+        external.setControl(libIndex, isAuto, value)
         println("setControl : success")
     }
+
 }

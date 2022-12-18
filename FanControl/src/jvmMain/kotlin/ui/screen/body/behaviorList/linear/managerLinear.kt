@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.item.behavior.BehaviorItem
 import ui.component.baseItemBody
+import ui.component.listChoice
 import ui.component.managerText
 import ui.component.managerTextField
 import ui.utils.Resources
@@ -35,9 +36,20 @@ fun linearBehavior(
         item = behavior
     ) {
 
+        listChoice(
+            sensorName = behavior.linearBehavior!!.tempName,
+            sensorList = viewModel.tempList.value,
+            onItemClick = {
+                viewModel.setTemp(
+                    index = index,
+                    temp = it
+                )
+            }
+        )
+
 
         val values = listOf(
-            behavior.linearBehavior!!.minTemp,
+            behavior.linearBehavior.minTemp,
             behavior.linearBehavior.maxTemp,
             behavior.linearBehavior.minFanSpeed,
             behavior.linearBehavior.maxFanSpeed

@@ -126,7 +126,7 @@ class ExternalLinux : External {
         }
     }
 
-    override fun setControl(libIndex: Int, isAuto: Boolean, value: Int) {
+    override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {
 
     }
 }

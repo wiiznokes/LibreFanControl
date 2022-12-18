@@ -47,9 +47,9 @@ private fun controlAddItem(
     addControl: (Int) -> Unit
 ) {
 
-    val control = controlList.filter {
+    val control = controlList.find {
         it.libId == controlItem.sensorId
-    }[0]
+    }
 
 
     baseControlAddItem(
@@ -58,7 +58,7 @@ private fun controlAddItem(
             addControl(index)
         },
         behaviorName = controlItem.behaviorName,
-        value = "${control.value} ${Resources.getString("unity/percent")}",
+        value = "${control!!.value} ${Resources.getString("unity/percent")}",
         fanValue = ""
     )
 }

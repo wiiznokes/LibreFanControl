@@ -3,8 +3,11 @@ package ui.screen.body.behaviorList.linear
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import model.hardware.Sensor
 import model.item.behavior.BehaviorItem
+import ui.utils.Resources
 
 
 enum class LinearParams {
@@ -26,8 +29,33 @@ private fun getFinalValue(value: Int): Int =
 
 
 class LinearBehaviorViewModel(
-    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList
+    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
+    private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList
 ) {
+
+    val tempList = _tempList.asStateFlow()
+
+
+    fun setTemp(index: Int, temp: Sensor?) {
+        _behaviorItemList.update {
+            _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(
+                linearBehavior = with(_behaviorItemList.value[index].linearBehavior!!) {
+                    when (temp) {
+                        null -> copy(
+                            tempName = Resources.getString("none"),
+                            sensorId = null
+                        )
+
+                        else -> copy(
+                            tempName = temp.libName,
+                            sensorId = temp.libId
+                        )
+                    }
+                }
+            )
+            it
+        }
+    }
 
     fun increase(index: Int, type: LinearParams): String {
         var finalValue = 0

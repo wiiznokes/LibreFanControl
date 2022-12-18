@@ -32,9 +32,9 @@ fun fan(
     editModeActivated: Boolean
 ) {
     val sensorValue = if (sensorItem.sensorId != null) {
-        viewModel.fanList.value.filter {
+        viewModel.fanList.value.find {
             it.libId == sensorItem.sensorId
-        }[0].value
+        }!!.value
     } else 0
 
 

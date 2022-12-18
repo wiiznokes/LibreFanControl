@@ -23,7 +23,9 @@ fun main() {
             }
 
         ) {
-            FanControlTheme {
+            FanControlTheme(
+                darkTheme = true
+            ) {
                 home()
             }
         }
