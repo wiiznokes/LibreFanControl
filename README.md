@@ -13,7 +13,6 @@ To run the project, just use `.\gradlew run` in FanControl folder.
 
 Next steps :
 - fixes bugs
-- set control if needeed
 - finalize UI color and size
 - publish (add lib folder to executable ?)
 - add configuration
