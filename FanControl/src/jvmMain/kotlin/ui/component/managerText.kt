@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import ui.utils.BlankException
 import ui.utils.IndexHaveNameException
 import ui.utils.NameIsTakenException
 
@@ -66,6 +67,8 @@ fun managerOutlinedTextField(
                 isError.value = true
             } catch (e: IndexHaveNameException) {
                 isError.value = false
+            } catch (e: BlankException) {
+                isError.value = true
             }
         },
         textStyle = MaterialTheme.typography.bodyMedium,
@@ -93,7 +96,6 @@ fun managerTextField(
         value = text.value,
         onValueChange = {
             try {
-
                 val finalValue = onValueChange(it.toInt())
                 text.value = finalValue
                 isError.value = false

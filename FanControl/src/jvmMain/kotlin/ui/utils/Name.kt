@@ -6,8 +6,12 @@ import kotlin.random.Random
 class NameIsTakenException : Exception()
 class IndexHaveNameException : Exception()
 
+class BlankException : Exception()
+
 
 fun checkNameTaken(list: List<BaseItem>, name: String, index: Int) {
+    if(name.isBlank())
+        throw BlankException()
     if (list[index].name == name)
         throw IndexHaveNameException()
 
