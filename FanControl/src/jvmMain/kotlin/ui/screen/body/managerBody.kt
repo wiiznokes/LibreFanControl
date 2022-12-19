@@ -99,15 +99,12 @@ fun itemsList(
     content: LazyListScope.() -> Unit
 ) {
     val density = LocalDensity.current
-
     val width = 350.dp
     var height by remember {
         mutableStateOf(0.dp)
     }
     val scale = 0.7f
-
     val errorFactor = 1.4f
-
 
     val hasMeasured = remember(
         windowState.size.height
@@ -133,7 +130,8 @@ fun itemsList(
     }
 
     LazyColumn(
-        modifier = modifier
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
             Text(
