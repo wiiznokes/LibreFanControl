@@ -8,12 +8,15 @@ import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.WindowState
 import ui.screen.body.behaviorList.behaviorList
 import ui.screen.body.controlList.controlList
 import ui.screen.body.fanList.fanList
@@ -23,7 +26,8 @@ import ui.utils.Resources
 @Composable
 fun body(
     editModeActivated: MutableState<Boolean>,
-    addItemExpanded: MutableState<Boolean>
+    addItemExpanded: MutableState<Boolean>,
+    windowState: WindowState
 ) {
 
     val viewModel = BodyViewModel()
@@ -37,25 +41,30 @@ fun body(
         scrollableBox {
             Row(
                 modifier = Modifier,
-                horizontalArrangement = Arrangement.SpaceAround
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.Top
             ) {
                 itemsList(
-                    title = Resources.getString("title/control")
+                    title = Resources.getString("title/control"),
+                    windowState = windowState
                 ) {
                     controlList(editModeActivated.value)
                 }
                 itemsList(
-                    title = Resources.getString("title/behavior")
+                    title = Resources.getString("title/behavior"),
+                    windowState = windowState
                 ) {
                     behaviorList(editModeActivated.value)
                 }
                 itemsList(
-                    title = Resources.getString("title/fan")
+                    title = Resources.getString("title/fan"),
+                    windowState = windowState
                 ) {
                     fanList(editModeActivated.value)
                 }
                 itemsList(
-                    title = Resources.getString("title/temp")
+                    title = Resources.getString("title/temp"),
+                    windowState = windowState
                 ) {
                     tempList(editModeActivated.value)
                 }
@@ -86,9 +95,46 @@ fun body(
 @Composable
 fun itemsList(
     title: String,
-    content: LazyListScope.() -> Unit,
+    windowState: WindowState,
+    content: LazyListScope.() -> Unit
 ) {
-    LazyColumn {
+    val density = LocalDensity.current
+
+    val width = 350.dp
+    var height by remember {
+        mutableStateOf(0.dp)
+    }
+    val scale = 0.7f
+
+    val errorFactor = 1.4f
+
+
+    val hasMeasured = remember(
+        windowState.size.height
+    ) {
+        mutableStateOf(false)
+    }
+
+    val modifier = when (hasMeasured.value) {
+        false -> {
+            Modifier
+                .onGloballyPositioned { coordinates ->
+                    height = with(density) { coordinates.size.height.toDp() } * errorFactor
+                    hasMeasured.value = true
+                }
+        }
+
+        true -> {
+            Modifier
+                .size(width = width * scale, height = height * scale)
+                .requiredSize(width = width, height = height)
+                .scale(scale)
+        }
+    }
+
+    LazyColumn(
+        modifier = modifier
+    ) {
         item {
             Text(
                 text = title,
@@ -98,6 +144,7 @@ fun itemsList(
             Spacer(
                 modifier = Modifier
                     .height(20.dp)
+                    .scale(0.7f)
             )
         }
         content()

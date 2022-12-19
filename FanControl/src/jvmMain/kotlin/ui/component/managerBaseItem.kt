@@ -128,10 +128,7 @@ private fun baseItem(
         ) {
 
             val density = LocalDensity.current
-
             val finalWidth: MutableState<Dp> = remember { mutableStateOf(0.dp) }
-
-
 
             Column(
                 modifier = Modifier
@@ -158,8 +155,6 @@ private fun baseItem(
                     )
 
                     contentName()
-
-
                 }
                 Spacer(
                     modifier = Modifier

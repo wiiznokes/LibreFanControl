@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.WindowState
 import kotlinx.coroutines.launch
 import ui.screen.addItem.ChoiceType
 import ui.screen.addItem.addItem
@@ -20,7 +21,9 @@ import ui.screen.topBar.mainTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun home() {
+fun home(
+    windowState: WindowState
+) {
 
     val viewModel = HomeViewModel()
 
@@ -79,7 +82,8 @@ fun home() {
                         )
                         body(
                             editModeActivated = viewModel.editModeActivated.value,
-                            addItemExpanded = addItemExpanded
+                            addItemExpanded = addItemExpanded,
+                            windowState = windowState
                         )
                     }
                 }
