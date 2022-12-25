@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
+import ui.screen.topBar.configuration.managerConfiguration
 import ui.utils.Resources
 
 
@@ -64,6 +65,9 @@ fun mainTopBar(
             }
         },
         actions = {
+            managerConfiguration(
+            )
+
             IconButton(
                 onClick = {
                     viewModel.edit()

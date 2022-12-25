@@ -35,11 +35,12 @@ fun getAvailableName(list: List<BaseItem>, prefix: String): String {
 }
 
 
-private fun isIdTaken(list: List<BaseItem>, id: Long): Boolean {
-    return list.count { it.itemId == id } != 0
+private fun isIdTaken(list: List<Long>, id: Long): Boolean {
+    return list.count { it == id } != 0
 }
 
-fun getAvailableId(list: List<BaseItem>): Long {
+
+fun getAvailableId(list: List<Long>): Long {
     val rand = Random(5)
     var id = rand.nextLong()
     while (isIdTaken(list, id)) {

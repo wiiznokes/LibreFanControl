@@ -26,6 +26,15 @@ class Configuration(
 
     // check if configuration exist, return index of conf if true, else -1
     fun checkConfiguration(): Int {
+
+        val json = JsonConfiguration()
+
+        val str = json.getString("hello")
+
+        json.createAndWrite()
+
+        println(str)
+
         return -1
     }
 
@@ -38,7 +47,9 @@ class Configuration(
                     type = ItemType.BehaviorType.LINEAR,
                     linearBehavior = LinearBehavior(),
                     itemId = getAvailableId(
-                        list = _behaviorItemList.value
+                        list = _behaviorItemList.value.map { behaviorItem ->
+                            behaviorItem.itemId
+                        }
                     )
                 )
             )
@@ -53,7 +64,9 @@ class Configuration(
                     sensorName = it.libName,
                     sensorId = it.libId,
                     itemId = getAvailableId(
-                        list = _fanItemList.value
+                        list = _fanItemList.value.map { behaviorItem ->
+                            behaviorItem.itemId
+                        }
                     )
                 )
             )
@@ -67,7 +80,9 @@ class Configuration(
                     sensorName = it.libName,
                     sensorId = it.libId,
                     itemId = getAvailableId(
-                        list = _tempItemList.value
+                        list = _tempItemList.value.map { behaviorItem ->
+                            behaviorItem.itemId
+                        }
                     )
                 )
             )

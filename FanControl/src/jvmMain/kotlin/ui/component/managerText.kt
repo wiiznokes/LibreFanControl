@@ -34,6 +34,50 @@ fun managerText(
     )
 }
 
+@Composable
+fun managerOutlinedTextField(
+    text: MutableState<String>,
+    onValueChange: (String) -> Unit,
+    label: String,
+    id: Long
+) {
+
+    // if id had change, remember have to update
+    // this avoid bug when name of an item
+    // get reuse with another item
+    val isError = remember(
+        id
+    ) { mutableStateOf(false) }
+
+    OutlinedTextField(
+        isError = isError.value,
+        modifier = Modifier
+            .width(IntrinsicSize.Min)
+            .widthIn(70.dp, 200.dp),
+        value = text.value,
+        onValueChange = {
+            text.value = it
+            try {
+                onValueChange(it)
+                isError.value = false
+            } catch (e: NameIsTakenException) {
+                isError.value = true
+            } catch (e: IndexHaveNameException) {
+                isError.value = false
+            } catch (e: BlankException) {
+                isError.value = true
+            }
+        },
+        textStyle = MaterialTheme.typography.bodyMedium,
+        colors = TextFieldDefaults.textFieldColors(
+            textColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.primary
+        ),
+        singleLine = true,
+        label = { Text(label) }
+    )
+}
+
 
 @Composable
 fun managerOutlinedTextField(

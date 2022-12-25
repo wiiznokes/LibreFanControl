@@ -28,7 +28,9 @@ class AddSensorViewModel(
                     sensorName = Resources.getString("none"),
                     sensorId = null,
                     itemId = getAvailableId(
-                        list = _fanItemList.value
+                        list = _fanItemList.value.map { behaviorItem ->
+                            behaviorItem.itemId
+                        }
                     )
                 )
             )
@@ -50,7 +52,9 @@ class AddSensorViewModel(
                     sensorName = Resources.getString("none"),
                     sensorId = null,
                     itemId = getAvailableId(
-                        list = _tempItemList.value
+                        list = _tempItemList.value.map { behaviorItem ->
+                            behaviorItem.itemId
+                        }
                     )
                 )
             )

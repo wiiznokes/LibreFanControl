@@ -2,6 +2,7 @@ package ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.DropdownMenu
@@ -145,17 +146,33 @@ private fun managerListChoice(
     expanded: MutableState<Boolean>,
     content: @Composable ColumnScope.() -> Unit
 ) {
+    managerListChoice(
+        textContent = {
+            managerText(
+                text = name,
+                modifier = Modifier.align(
+                    Alignment.CenterStart
+                )
+            )
+        },
+        expanded = expanded
+    ) {
+        content()
+    }
+}
+
+@Composable
+fun managerListChoice(
+    textContent: @Composable BoxScope.() -> Unit,
+    expanded: MutableState<Boolean>,
+    content: @Composable ColumnScope.() -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
     ) {
 
-        managerText(
-            text = name,
-            modifier = Modifier.align(
-                Alignment.CenterStart
-            )
-        )
+        textContent()
 
 
         val iconShouldTrigger = remember { mutableStateOf(true) }

@@ -4,6 +4,7 @@ import Application
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import model.ItemType
 import model.hardware.Sensor
 import model.item.ControlItem
@@ -22,8 +23,10 @@ class Logic(
     private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList
 ) {
 
+    val controlItemList = _controlItemList.asStateFlow()
+
     fun update() {
-        _controlItemList.value.filter {
+        controlItemList.value.filter {
             it.visible && it.isActive && it.behaviorId != null
         }.forEach label@{ control ->
             val behavior = _behaviorItemList.value.find { behavior ->
