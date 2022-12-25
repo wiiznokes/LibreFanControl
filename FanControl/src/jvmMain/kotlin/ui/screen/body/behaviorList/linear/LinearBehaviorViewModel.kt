@@ -38,8 +38,8 @@ class LinearBehaviorViewModel(
 
     fun setTemp(index: Int, temp: Sensor?) {
         _behaviorItemList.update {
-            _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(
-                linearBehavior = with(_behaviorItemList.value[index].linearBehavior!!) {
+            it[index] = it[index].copy(
+                linearBehavior = with(it[index].linearBehavior!!) {
                     when (temp) {
                         null -> copy(
                             tempName = Resources.getString("none"),
@@ -61,8 +61,8 @@ class LinearBehaviorViewModel(
         var finalValue = 0
 
         _behaviorItemList.update {
-            _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(
-                linearBehavior = with(_behaviorItemList.value[index].linearBehavior!!) {
+            it[index] = it[index].copy(
+                linearBehavior = with(it[index].linearBehavior!!) {
                     when (type) {
                         LinearParams.MIN_TEMP -> {
                             finalValue = getFinalValue(minTemp + 1)
@@ -103,8 +103,8 @@ class LinearBehaviorViewModel(
         var finalValue = 0
 
         _behaviorItemList.update {
-            _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(
-                linearBehavior = with(_behaviorItemList.value[index].linearBehavior!!) {
+            it[index] = it[index].copy(
+                linearBehavior = with(it[index].linearBehavior!!) {
                     when (type) {
                         LinearParams.MIN_TEMP -> {
                             finalValue = getFinalValue(minTemp - 1)
@@ -145,8 +145,8 @@ class LinearBehaviorViewModel(
         val finalValue = getFinalValue(value)
 
         _behaviorItemList.update {
-            _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(
-                linearBehavior = with(_behaviorItemList.value[index].linearBehavior!!) {
+            it[index] = it[index].copy(
+                linearBehavior = with(it[index].linearBehavior!!) {
                     when (type) {
                         LinearParams.MIN_TEMP -> {
                             copy(

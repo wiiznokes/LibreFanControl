@@ -33,7 +33,7 @@ class BehaviorViewModel(
         )
 
         _behaviorItemList.update {
-            _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(
+            it[index] = it[index].copy(
                 name = name
             )
             it

@@ -23,7 +23,7 @@ class AddSensorViewModel(
         )
 
         _fanItemList.update {
-            _fanItemList.value.add(
+            it.add(
                 SensorItem(
                     name = name,
                     type = ItemType.SensorType.FAN,
@@ -49,7 +49,7 @@ class AddSensorViewModel(
         )
 
         _tempItemList.update {
-            _tempItemList.value.add(
+            it.add(
                 SensorItem(
                     name = name,
                     type = ItemType.SensorType.TEMP,

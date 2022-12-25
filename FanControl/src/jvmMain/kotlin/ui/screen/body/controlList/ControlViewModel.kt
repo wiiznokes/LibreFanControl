@@ -25,7 +25,7 @@ class ControlViewModel(
         )
 
         _controlItemList.update {
-            _controlItemList.value[index] = _controlItemList.value[index].copy(
+            it[index] = it[index].copy(
                 visible = false,
                 isActive = false
             )
@@ -35,7 +35,7 @@ class ControlViewModel(
 
     fun setBehavior(index: Int, behaviorId: Long?) {
         _controlItemList.update {
-            _controlItemList.value[index] = _controlItemList.value[index].copy(
+            it[index] = it[index].copy(
                 behaviorId = behaviorId
             )
             it
@@ -53,7 +53,7 @@ class ControlViewModel(
         }
 
         _controlItemList.update {
-            _controlItemList.value[libIndex] = _controlItemList.value[libIndex].copy(
+            it[libIndex] = it[libIndex].copy(
                 isActive = isAuto
             )
             it
@@ -70,7 +70,7 @@ class ControlViewModel(
             index = index
         )
         _controlItemList.update {
-            _controlItemList.value[index] = _controlItemList.value[index].copy(
+            it[index] = it[index].copy(
                 name = name
             )
             it

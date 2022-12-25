@@ -18,7 +18,7 @@ class AddBehaviorViewModel(
 
     fun addFlat() {
         _behaviorItemList.update {
-            _behaviorItemList.value.add(
+            it.add(
                 BehaviorItem(
                     name = getAvailableName(
                         names = _behaviorItemList.value.map { item ->
@@ -48,7 +48,7 @@ class AddBehaviorViewModel(
         )
 
         _behaviorItemList.update {
-            _behaviorItemList.value.add(
+            it.add(
                 BehaviorItem(
                     name = name,
                     type = ItemType.BehaviorType.LINEAR,

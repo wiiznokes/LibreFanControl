@@ -33,7 +33,7 @@ class ConfigurationViewModel(
 
 
         _configList.update {
-            configList.value[indexConfig.value] = configList.value[indexConfig.value].copy(
+            it[indexConfig.value] = it[indexConfig.value].copy(
                 name = name
             )
             it
