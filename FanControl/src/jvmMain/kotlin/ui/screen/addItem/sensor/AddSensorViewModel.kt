@@ -16,7 +16,9 @@ class AddSensorViewModel(
 ) {
     fun addFan() {
         val name = getAvailableName(
-            list = _fanItemList.value,
+            names = _fanItemList.value.map { item ->
+                item.name
+            },
             prefix = Resources.getString("default/fan_name")
         )
 
@@ -28,8 +30,8 @@ class AddSensorViewModel(
                     sensorName = Resources.getString("none"),
                     sensorId = null,
                     itemId = getAvailableId(
-                        list = _fanItemList.value.map { behaviorItem ->
-                            behaviorItem.itemId
+                        ids = _fanItemList.value.map { item ->
+                            item.itemId
                         }
                     )
                 )
@@ -40,7 +42,9 @@ class AddSensorViewModel(
 
     fun addTemp() {
         val name = getAvailableName(
-            list = _tempItemList.value,
+            names = _tempItemList.value.map { item ->
+                item.name
+            },
             prefix = Resources.getString("default/temp_name")
         )
 
@@ -52,8 +56,8 @@ class AddSensorViewModel(
                     sensorName = Resources.getString("none"),
                     sensorId = null,
                     itemId = getAvailableId(
-                        list = _tempItemList.value.map { behaviorItem ->
-                            behaviorItem.itemId
+                        ids = _tempItemList.value.map { item ->
+                            item.itemId
                         }
                     )
                 )

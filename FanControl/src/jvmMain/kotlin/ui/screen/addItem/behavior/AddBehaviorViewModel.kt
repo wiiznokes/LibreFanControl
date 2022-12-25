@@ -21,14 +21,16 @@ class AddBehaviorViewModel(
             _behaviorItemList.value.add(
                 BehaviorItem(
                     name = getAvailableName(
-                        list = _behaviorItemList.value,
+                        names = _behaviorItemList.value.map { item ->
+                            item.name
+                        },
                         prefix = Resources.getString("default/flat_name")
                     ),
                     type = ItemType.BehaviorType.FLAT,
                     flatBehavior = FlatBehavior(),
                     itemId = getAvailableId(
-                        list = _behaviorItemList.value.map { behaviorItem ->
-                            behaviorItem.itemId
+                        ids = _behaviorItemList.value.map { item ->
+                            item.itemId
                         }
                     )
                 )
@@ -39,7 +41,9 @@ class AddBehaviorViewModel(
 
     fun addLinear() {
         val name = getAvailableName(
-            list = _behaviorItemList.value,
+            names = _behaviorItemList.value.map { item ->
+                item.name
+            },
             prefix = Resources.getString("default/linear_name")
         )
 
@@ -50,8 +54,8 @@ class AddBehaviorViewModel(
                     type = ItemType.BehaviorType.LINEAR,
                     linearBehavior = LinearBehavior(),
                     itemId = getAvailableId(
-                        list = _behaviorItemList.value.map { behaviorItem ->
-                            behaviorItem.itemId
+                        ids = _behaviorItemList.value.map { item ->
+                            item.itemId
                         }
                     )
                 )

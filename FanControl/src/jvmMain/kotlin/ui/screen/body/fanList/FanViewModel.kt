@@ -45,7 +45,13 @@ class FanViewModel(
     }
 
     fun setName(name: String, index: Int) {
-        checkNameTaken(_fanItemList.value, name, index)
+        checkNameTaken(
+            names = _fanItemList.value.map { item ->
+                item.name
+            },
+            name = name,
+            index = index
+        )
 
         _fanItemList.update {
             _fanItemList.value[index] = _fanItemList.value[index].copy(

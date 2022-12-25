@@ -73,8 +73,8 @@ class ExternalWindows : External {
                     name = result[(i * 3) + 2],
 
                     itemId = getAvailableId(
-                        controls.value.map { behaviorItem ->
-                            behaviorItem.itemId
+                        controls.value.map { item ->
+                            item.itemId
                         }
                     ),
                 )

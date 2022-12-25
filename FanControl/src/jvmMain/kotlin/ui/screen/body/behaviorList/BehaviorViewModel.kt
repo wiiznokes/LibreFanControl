@@ -24,7 +24,13 @@ class BehaviorViewModel(
 
 
     fun setName(name: String, index: Int) {
-        checkNameTaken(behaviorItemList.value, name, index)
+        checkNameTaken(
+            names = behaviorItemList.value.map { item ->
+                item.name
+            },
+            name = name,
+            index = index
+        )
 
         _behaviorItemList.update {
             _behaviorItemList.value[index] = _behaviorItemList.value[index].copy(

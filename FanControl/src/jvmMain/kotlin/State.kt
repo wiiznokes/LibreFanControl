@@ -25,8 +25,7 @@ class State {
         val _editModeActivated: MutableStateFlow<MutableState<Boolean>> = MutableStateFlow(mutableStateOf(false))
 
         val _configList: MutableStateFlow<SnapshotStateList<Configuration>> = MutableStateFlow(mutableStateListOf())
-
-        val _config: MutableStateFlow<MutableState<Configuration?>> = MutableStateFlow(mutableStateOf(null))
+        val _indexConfig: MutableStateFlow<MutableState<Int>> = MutableStateFlow(mutableStateOf(-1))
     }
 }
 

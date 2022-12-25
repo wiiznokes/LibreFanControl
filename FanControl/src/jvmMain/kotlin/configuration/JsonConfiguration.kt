@@ -3,9 +3,7 @@ package configuration
 import org.json.JSONObject
 import org.json.JSONTokener
 import org.json.JSONWriter
-import ui.utils.Resources
 import java.io.File
-import java.lang.StringBuilder
 
 
 enum class JsonObjectType {

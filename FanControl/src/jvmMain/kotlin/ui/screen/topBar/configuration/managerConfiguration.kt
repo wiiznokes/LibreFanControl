@@ -19,23 +19,21 @@ import model.Configuration
 import ui.component.managerListChoice
 import ui.component.managerOutlinedTextField
 import ui.component.managerText
-import ui.component.managerTextField
-import ui.screen.topBar.TopBarViewModel
 import ui.utils.Resources
 import ui.utils.getAvailableId
+import ui.utils.checkNameTaken
 
 val viewModel = ConfigurationViewModel()
 
 @Composable
 fun managerConfiguration() {
 
-    val currentConfig = viewModel.currentConfig.value
+    val index = viewModel.indexConfig.value
 
-    if(currentConfig.value != null) {
+    if (index != -1) {
         managerConfiguration(
-            configId = currentConfig.value!!.id,
+            index = index,
             configList = viewModel.configList.value,
-            configName = currentConfig.value!!.name
         )
     }
 
@@ -61,85 +59,89 @@ fun managerConfiguration() {
 
 @Composable
 private fun managerConfiguration(
-    configId: Long,
-    configList: SnapshotStateList<Configuration>,
-    configName: String
+    index: Int,
+    configList: SnapshotStateList<Configuration>
 ) {
     val expanded = remember { mutableStateOf(false) }
 
+    val text: MutableState<String> = remember(
+        configList[index].id
+    ) {
+        mutableStateOf(configList[index].name)
+    }
 
-        IconButton(
-            onClick = {
-                viewModel.saveConfiguration(
-                    configId,
-                    configName
-                )
-            }
-        ) {
-            Icon(
-                painter = Resources.getIcon("save_as"),
-                contentDescription = Resources.getString("ct/save_conf")
-            )
+
+    IconButton(
+        onClick = {
+            viewModel.saveConfiguration(text.value)
         }
+    ) {
+        Icon(
+            painter = Resources.getIcon("save_as"),
+            contentDescription = Resources.getString("ct/save_conf")
+        )
+    }
 
-
-        managerListChoice(
-            textContent = {
-                managerOutlinedTextField(
-                    configName,
-                    onValueChange = {
-                        viewModel.onChangeName(
-                            id = configId,
-                            name = it
-                        )
-                    },
-                    label = Resources.getString("label/conf_name"),
-                    id = configId
+    managerListChoice(
+        textContent = {
+            managerOutlinedTextField(
+                value = text.value,
+                onValueChange = {
+                    checkNameTaken(
+                        names = configList.map { config ->
+                            config.name
+                        },
+                        name = it
+                    )
+                },
+                label = Resources.getString("label/conf_name"),
+                id = configList[index].id,
+                text = text
+            )
+        },
+        expanded = expanded
+    ) {
+        configList.forEachIndexed { index, _ ->
+            DropdownMenuItem(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.primary),
+                onClick = {
+                    viewModel.onChangeConfiguration(
+                        index = index
+                    )
+                    expanded.value = false
+                }
+            ) {
+                managerText(
+                    text = Resources.getString("none")
                 )
-            },
-            expanded = expanded
-        ) {
-            configList.forEach {
-                DropdownMenuItem(
-                    modifier = Modifier
-                        .background(MaterialTheme.colorScheme.primary),
+                IconButton(
                     onClick = {
-                        viewModel.onChangeConfiguration(
-                            id = it.id
+                        viewModel.removeConfiguration(
+                            index = index
                         )
-                        expanded.value = false
                     }
                 ) {
-                    managerText(
-                        text = Resources.getString("none")
+                    Icon(
+                        painter = Resources.getIcon("delete_forever"),
+                        contentDescription = Resources.getString("ct/remove_conf")
                     )
-                    IconButton(
-                        onClick = {
-                            viewModel.removeConfiguration(
-                                it.id
-                            )
-                        }
-                    ) {
-                        Icon(
-                            painter = Resources.getIcon("delete_forever"),
-                            contentDescription = Resources.getString("ct/remove_conf")
-                        )
-                    }
                 }
             }
         }
+    }
 
 }
 
 @Composable
 private fun managerDialogAddConfiguration(
     visible: MutableState<Boolean>,
-    ) {
+) {
 
-
+    val configList = viewModel.configList.value
 
     val id = getAvailableId(
-        list = viewModel.configList.value.map {
+        ids = configList.map {
             it.id
         }
     )
@@ -158,17 +160,26 @@ private fun managerDialogAddConfiguration(
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val text = mutableStateOf("")
+
+            val text = remember(
+                id
+            ) {
+                mutableStateOf("")
+            }
 
             managerOutlinedTextField(
-                text = text,
+                value = "",
                 onValueChange = {
-                    viewModel.onChangeName(
+                    checkNameTaken(
+                        names = configList.map { config ->
+                            config.name
+                        },
                         name = it
                     )
                 },
                 label = Resources.getString("label/conf_name"),
-                id = id
+                id = id,
+                text = text
             )
 
             Row(
@@ -180,9 +191,9 @@ private fun managerDialogAddConfiguration(
 
                 Button(
                     onClick = {
-
+                        visible.value = false
                     }
-                ){
+                ) {
                     managerText(
                         text = Resources.getString("cancel")
                     )
@@ -190,9 +201,16 @@ private fun managerDialogAddConfiguration(
 
                 Button(
                     onClick = {
+                        if(viewModel.addConfiguration(
+                            name = text.value,
+                            id = id
+                        )) {
+                            visible.value = false
+                        }
 
+                        println("index = ${viewModel.indexConfig.value}")
                     }
-                ){
+                ) {
                     managerText(
                         text = Resources.getString("add")
                     )

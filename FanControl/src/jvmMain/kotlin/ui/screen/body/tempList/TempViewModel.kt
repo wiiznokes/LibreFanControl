@@ -48,7 +48,13 @@ class TempViewModel(
 
     fun setName(name: String, index: Int) {
 
-        checkNameTaken(_tempItemList.value, name, index)
+        checkNameTaken(
+            names = _tempItemList.value.map { item ->
+                item.name
+            },
+            name = name,
+            index = index,
+        )
 
         _tempItemList.update {
             _tempItemList.value[index] = _tempItemList.value[index].copy(

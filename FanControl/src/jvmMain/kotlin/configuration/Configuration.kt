@@ -13,7 +13,6 @@ import model.item.behavior.LinearBehavior
 import ui.utils.getAvailableId
 
 class Configuration(
-    private val _controlList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
     private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
     private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList,
 
@@ -47,8 +46,8 @@ class Configuration(
                     type = ItemType.BehaviorType.LINEAR,
                     linearBehavior = LinearBehavior(),
                     itemId = getAvailableId(
-                        list = _behaviorItemList.value.map { behaviorItem ->
-                            behaviorItem.itemId
+                        ids = _behaviorItemList.value.map { item ->
+                            item.itemId
                         }
                     )
                 )
@@ -64,8 +63,8 @@ class Configuration(
                     sensorName = it.libName,
                     sensorId = it.libId,
                     itemId = getAvailableId(
-                        list = _fanItemList.value.map { behaviorItem ->
-                            behaviorItem.itemId
+                        ids = _fanItemList.value.map { item ->
+                            item.itemId
                         }
                     )
                 )
@@ -80,8 +79,8 @@ class Configuration(
                     sensorName = it.libName,
                     sensorId = it.libId,
                     itemId = getAvailableId(
-                        list = _tempItemList.value.map { behaviorItem ->
-                            behaviorItem.itemId
+                        ids = _tempItemList.value.map { item ->
+                            item.itemId
                         }
                     )
                 )

@@ -76,8 +76,8 @@ class ExternalLinux : External {
                 libName = "fan1",
                 name = "fan1",
                 itemId = getAvailableId(
-                    controls.value.map { behaviorItem ->
-                        behaviorItem.itemId
+                    controls.value.map { item ->
+                        item.itemId
                     }
                 )
             )
@@ -89,8 +89,8 @@ class ExternalLinux : External {
                 libName = "fan2",
                 name = "fan2",
                 itemId = getAvailableId(
-                    controls.value.map { behaviorItem ->
-                        behaviorItem.itemId
+                    controls.value.map { item ->
+                        item.itemId
                     }
                 )
             )
@@ -102,8 +102,8 @@ class ExternalLinux : External {
                 libName = "fan3",
                 name = "fan3",
                 itemId = getAvailableId(
-                    controls.value.map { behaviorItem ->
-                        behaviorItem.itemId
+                    controls.value.map { item ->
+                        item.itemId
                     }
                 )
             )

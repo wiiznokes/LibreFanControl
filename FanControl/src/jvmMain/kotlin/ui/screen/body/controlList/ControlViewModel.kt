@@ -62,7 +62,13 @@ class ControlViewModel(
 
 
     fun setName(name: String, index: Int) {
-        checkNameTaken(_controlItemList.value, name, index)
+        checkNameTaken(
+            names = _controlItemList.value.map { item ->
+                item.name
+            },
+            name = name,
+            index = index
+        )
         _controlItemList.update {
             _controlItemList.value[index] = _controlItemList.value[index].copy(
                 name = name
