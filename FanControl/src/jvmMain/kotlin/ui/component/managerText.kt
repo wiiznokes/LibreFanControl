@@ -7,15 +7,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.selection.LocalTextSelectionColors
-import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.*
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
+import androidx.compose.material3.tokens.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
@@ -44,58 +42,7 @@ fun managerText(
 
 
 @Composable
-fun managerOutlinedTextField(
-    modifier: Modifier = Modifier,
-    value: String,
-    onValueChange: (String) -> Unit,
-    label: String,
-    id: Long,
-    text: MutableState<String> = remember(
-        id
-    ) {
-        mutableStateOf(value)
-    }
-) {
-
-    // if id had change, remember have to update
-    // this avoid bug when name of an item
-    // get reuse with another item
-    val isError = remember(
-        id
-    ) { mutableStateOf(false) }
-
-    OutlinedTextField(
-        isError = isError.value,
-        modifier = modifier
-            .width(IntrinsicSize.Min)
-            .widthIn(70.dp, 200.dp),
-        value = text.value,
-        onValueChange = {
-            text.value = it
-            try {
-                onValueChange(it)
-                isError.value = false
-            } catch (e: NameIsTakenException) {
-                isError.value = true
-            } catch (e: IndexHaveNameException) {
-                isError.value = false
-            } catch (e: BlankException) {
-                isError.value = true
-            }
-        },
-        textStyle = MaterialTheme.typography.bodyMedium,
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = MaterialTheme.colorScheme.onPrimary,
-            containerColor = MaterialTheme.colorScheme.primary
-        ),
-        singleLine = true,
-        label = { Text(label) }
-    )
-}
-
-
-@Composable
-fun managerTextField(
+fun managerNumberTextField(
     text: MutableState<String>,
     opposedValue: Int,
     type: LinearParams,
@@ -137,159 +84,178 @@ fun managerTextField(
     )
 }
 
-/*
 
 @Composable
-fun SearchTextField(
+fun managerNameOutlinedTextField(
     value: String,
+    id: Long,
+    text: MutableState<String> = remember(
+        id
+    ) {
+        mutableStateOf(value)
+    },
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    readOnly: Boolean = false,
     textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
-    label: @Composable (() -> Unit)? = null,
-    placeholder: @Composable (() -> Unit)? = null,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
-    supportingText: @Composable (() -> Unit)? = null,
-    isError: Boolean = false,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    singleLine: Boolean = true,
-    maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
-    minLines: Int = 1,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    shape: Shape = RectangleShape,
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors(
+    label: String,
+    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(
         textColor = MaterialTheme.colorScheme.onPrimary,
-        containerColor = MaterialTheme.colorScheme.primary
-    )
+        containerColor = MaterialTheme.colorScheme.primary,
+        focusedBorderColor = MaterialTheme.colorScheme.onPrimary,
+        focusedLabelColor = MaterialTheme.colorScheme.onPrimary,
+    ),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
+    // if id had change, remember have to update
+    // this avoid bug when name of an item
+    // get reuse with another item
+    val isError = remember(
+        id
+    ) { mutableStateOf(false) }
 
-    val textColor = colors.textColor(true)
+    val mergedTextStyle = textStyle.merge(TextStyle(color = colors.textColor(true).value))
 
-    val customTextSelectionColors = TextSelectionColors(
-        handleColor = MaterialTheme.colorScheme.primary,
-        backgroundColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.4f)
-    )
-
-    CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
-        @OptIn(ExperimentalMaterial3Api::class)
-        (BasicTextField(
-            value = value,
-            modifier = modifier.height(40.dp),
-            onValueChange = onValueChange,
-            enabled = enabled,
-            readOnly = readOnly,
-            cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-            visualTransformation = visualTransformation,
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
-            interactionSource = interactionSource,
-            singleLine = singleLine,
-            maxLines = maxLines,
-            minLines = minLines,
-            decorationBox = @Composable { innerTextField: () -> Unit ->
-                // places leading icon, text field with label and placeholder, trailing icon
-                TextFieldDefaults.TextFieldDecorationBox(
-                    value = value,
-                    visualTransformation = visualTransformation,
-                    innerTextField = innerTextField,
-                    placeholder = placeholder,
-                    label = label,
-                    leadingIcon = leadingIcon,
-                    trailingIcon = trailingIcon,
-                    singleLine = singleLine,
-                    enabled = enabled,
-                    isError = isError,
-                    interactionSource = interactionSource,
-                    colors = colors,
-                    contentPadding = PaddingValues(0.dp)
-                )
+    @OptIn(ExperimentalMaterial3Api::class)
+    BasicTextField(
+        value = text.value,
+        modifier = modifier
+            .padding(top = 8.dp)
+            .background(colors.containerColor(true).value)
+            .defaultMinSize(
+                minWidth = TextFieldDefaults.MinWidth,
+                minHeight = TextFieldDefaults.MinHeight
+            )
+            .width(IntrinsicSize.Min)
+            .widthIn(70.dp, 200.dp),
+        onValueChange = {
+            text.value = it
+            try {
+                onValueChange(it)
+                isError.value = false
+            } catch (e: NameIsTakenException) {
+                isError.value = true
+            } catch (e: IndexHaveNameException) {
+                isError.value = false
+            } catch (e: BlankException) {
+                isError.value = true
             }
-        ))
-    }
+        },
+        textStyle = mergedTextStyle,
+        cursorBrush = SolidColor(colors.cursorColor(isError.value).value),
+        singleLine = true,
+        decorationBox = @Composable { innerTextField ->
+            TextFieldDefaults.OutlinedTextFieldDecorationBox(
+                value = value,
+                visualTransformation = VisualTransformation.None,
+                innerTextField = innerTextField,
+                label = {
+                    Text(label)
+                },
+                singleLine = true,
+                isError = isError.value,
+                interactionSource = interactionSource,
+                colors = colors,
+                border = {
+                    TextFieldDefaults.BorderBox(
+                        enabled = true,
+                        isError = isError.value,
+                        interactionSource = interactionSource,
+                        colors = colors
+                    )
+                },
+                contentPadding = PaddingValues(0.dp),
+                enabled = true
+            )
+        }
+    )
 }
 
 
- */
-
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun testTextField(
+fun managerConfigNameRoundedTextField(
     value: String,
+    id: Long,
+    text: MutableState<String> = remember(
+        id
+    ) {
+        mutableStateOf(value)
+    },
+    placeholder: String? = null,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    readOnly: Boolean = false,
     textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
-    label: @Composable (() -> Unit)? = null,
-    placeholder: @Composable (() -> Unit)? = null,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
-    supportingText: @Composable (() -> Unit)? = null,
-    isError: Boolean = false,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    singleLine: Boolean = true,
-    maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
-    minLines: Int = 1,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    shape: Shape = RectangleShape,
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors(
+    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(
         textColor = MaterialTheme.colorScheme.onSecondary,
-        containerColor = MaterialTheme.colorScheme.secondary
+        containerColor = MaterialTheme.colorScheme.secondary,
+        focusedBorderColor = MaterialTheme.colorScheme.onSecondary,
+        focusedLabelColor = MaterialTheme.colorScheme.onSecondary,
     )
 ) {
+    // if id had change, remember have to update
+    // this avoid bug when name of an item
+    // get reuse with another item
+    val isError = remember(
+        id
+    ) { mutableStateOf(false) }
 
+
+    val mergedTextStyle = textStyle.merge(TextStyle(color = colors.textColor(true).value))
+
+    @OptIn(ExperimentalMaterial3Api::class)
     BasicTextField(
         value = value,
-        onValueChange = {
-            onValueChange(it)
-        },
-        textStyle = TextStyle(fontSize = 20.sp),
-        modifier = Modifier
+        modifier = modifier
             .background(
-                color = colors.containerColor(enabled).value,
-                shape = RoundedCornerShape(22.dp) //rounded corners
+                colors.containerColor(true).value,
+                shape = RoundedCornerShape(22.dp), //rounded corners
             )
+            .padding(horizontal = 10.dp)
             .indicatorLine(
-                enabled = enabled,
+                enabled = true,
                 isError = false,
                 interactionSource = interactionSource,
                 colors = colors,
                 focusedIndicatorLineThickness = 0.dp,  //to hide the indicator line
                 unfocusedIndicatorLineThickness = 0.dp //to hide the indicator line
             )
-            .height(45.dp),
-
-        interactionSource = interactionSource,
-        enabled = enabled,
-        singleLine = singleLine
-    ) {
-        TextFieldDefaults.TextFieldDecorationBox(
-            value = value,
-            innerTextField = it,
-            singleLine = singleLine,
-            enabled = enabled,
-            visualTransformation = VisualTransformation.None,
-            trailingIcon = { /* ... */ },
-            placeholder = {
-                Text(
-                    text = "Search",
-                    fontSize = 20.sp,
-                )
-            },
-            interactionSource = interactionSource,
-            // keep horizontal paddings but change the vertical
-            contentPadding = TextFieldDefaults.textFieldWithoutLabelPadding(
-                top = 0.dp, bottom = 0.dp
+            .widthIn(200.dp, 250.dp),
+        onValueChange = {
+            text.value = it
+            try {
+                onValueChange(it)
+                isError.value = false
+            } catch (e: NameIsTakenException) {
+                isError.value = true
+            } catch (e: IndexHaveNameException) {
+                isError.value = false
+            } catch (e: BlankException) {
+                isError.value = true
+            }
+        },
+        textStyle = mergedTextStyle,
+        cursorBrush = SolidColor(colors.cursorColor(isError.value).value),
+        singleLine = true,
+        decorationBox = @Composable { innerTextField ->
+            TextFieldDefaults.TextFieldDecorationBox(
+                value = value,
+                visualTransformation = VisualTransformation.None,
+                innerTextField = innerTextField,
+                placeholder = {
+                    if (placeholder != null) {
+                        Text(
+                            text = placeholder,
+                            fontSize = 20.sp,
+                        )
+                    }
+                },
+                singleLine = true,
+                enabled = true,
+                isError = isError.value,
+                interactionSource = interactionSource,
+                colors = colors,
+                contentPadding = PaddingValues(0.dp)
             )
-        )
-    }
+        }
+    )
 }
-
-

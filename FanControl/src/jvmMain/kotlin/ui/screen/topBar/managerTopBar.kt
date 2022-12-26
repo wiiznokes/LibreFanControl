@@ -3,12 +3,10 @@ package ui.screen.topBar
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.IconButton
 import androidx.compose.material3.*
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.WindowState
 import ui.component.managerText
 import ui.screen.topBar.configuration.managerConfiguration
 import ui.utils.Resources
@@ -18,10 +16,8 @@ private val viewModel = TopBarViewModel()
 
 @Composable
 fun mainTopBar(
-    onNavigationIconClick: () -> Unit,
-    windowState: WindowState
+    onNavigationIconClick: () -> Unit
 ) {
-
 
 
     MediumTopAppBar(
@@ -67,15 +63,13 @@ fun mainTopBar(
         },
         actions = {
 
-            Row (
+            Row(
                 modifier = Modifier
                     .fillMaxHeight(),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
-            ){
-                managerConfiguration(
-                    windowState = windowState
-                )
+            ) {
+                managerConfiguration()
 
                 Divider(
                     modifier = Modifier

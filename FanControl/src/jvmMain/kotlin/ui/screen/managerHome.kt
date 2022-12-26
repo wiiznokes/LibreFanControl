@@ -24,14 +24,9 @@ import ui.screen.topBar.mainTopBar
 fun home(
     windowState: WindowState
 ) {
-
     val viewModel = HomeViewModel()
-
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-
     val scope = rememberCoroutineScope()
-
-
 
     ModalNavigationDrawer(
         modifier = Modifier,
@@ -78,8 +73,7 @@ fun home(
                         mainTopBar(
                             onNavigationIconClick = {
                                 scope.launch { drawerState.open() }
-                            },
-                            windowState = windowState
+                            }
                         )
                         body(
                             editModeActivated = viewModel.editModeActivated.value,

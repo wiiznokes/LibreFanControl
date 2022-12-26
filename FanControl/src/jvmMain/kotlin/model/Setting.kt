@@ -1,6 +1,3 @@
 package model
 
-class Setting {
-
-
-}
+class Setting

@@ -48,13 +48,13 @@ fun baseItemBody(
         editModeActivated = editModeActivated,
         onEditClick = onEditClick,
         contentName = {
-            managerOutlinedTextField(
+            managerNameOutlinedTextField(
                 value = item.name,
+                id = item.itemId,
                 onValueChange = {
                     onNameChange(it)
                 },
-                label = Resources.getString("label/name"),
-                id = item.itemId
+                label = Resources.getString("label/name")
             )
         },
 

@@ -2,7 +2,10 @@ package ui.utils
 
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -44,10 +47,10 @@ class Scale(
             false -> {
                 Modifier
                     .onGloballyPositioned { coordinates ->
-                        if(measureX)
+                        if (measureX)
                             width!!.value = with(density) { coordinates.size.width.toDp() } * errorFactor
 
-                        if(measureY)
+                        if (measureY)
                             height!!.value = with(density) { coordinates.size.height.toDp() } * errorFactor
 
                         hasMeasured.value = true
