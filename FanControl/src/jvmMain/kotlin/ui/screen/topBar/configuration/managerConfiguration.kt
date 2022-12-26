@@ -190,7 +190,6 @@ private fun managerDialogAddConfiguration(
             managerNameOutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(0.7f),
-                value = "",
                 onValueChange = {
                     checkNameTaken(
                         names = configList.map { config ->

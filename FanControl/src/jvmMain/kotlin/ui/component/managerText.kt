@@ -90,13 +90,8 @@ fun managerNumberTextField(
 
 @Composable
 fun managerNameOutlinedTextField(
-    value: String,
     id: Long,
-    text: MutableState<String> = remember(
-        id
-    ) {
-        mutableStateOf(value)
-    },
+    text: MutableState<String>,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
@@ -153,7 +148,7 @@ fun managerNameOutlinedTextField(
         interactionSource = interactionSource,
         decorationBox = @Composable { innerTextField ->
             TextFieldDefaults.OutlinedTextFieldDecorationBox(
-                value = value,
+                value = text.value,
                 visualTransformation = VisualTransformation.None,
                 innerTextField = innerTextField,
                 label = {

@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import model.ItemType
 import ui.component.baseItemAddItem
 import ui.component.listChoice
 import ui.component.managerText
@@ -19,7 +20,8 @@ fun managerAddLinear(
         iconPainter = Resources.getIcon("linear"),
         iconContentDescription = Resources.getString("ct/linear"),
         name = Resources.getString("add_item/linear_name"),
-        onEditClick = onEditClick
+        onEditClick = onEditClick,
+        type = ItemType.BehaviorType.LINEAR
     ) {
         listChoice(
             name = Resources.getString("add_item/temp_name")

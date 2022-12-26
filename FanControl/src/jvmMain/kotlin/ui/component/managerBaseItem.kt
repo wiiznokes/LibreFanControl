@@ -20,6 +20,9 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
+import androidx.compose.ui.unit.min
+import model.ItemType
 import model.item.BaseItem
 import ui.utils.Resources
 
@@ -34,8 +37,15 @@ fun baseItemBody(
     editModeActivated: Boolean,
     content: @Composable ColumnScope.() -> Unit
 ) {
+    val text = remember(
+        item.itemId
+    ) {
+        mutableStateOf(item.name)
+    }
+
     baseItem(
         source = Source.BODY,
+        type = item.type,
         iconPainter = iconPainter,
         iconContentDescription = iconContentDescription,
         contentEditIcon = {
@@ -50,10 +60,10 @@ fun baseItemBody(
         contentName = {
             managerNameOutlinedTextField(
                 modifier = Modifier
-                    .widthIn(min = 90.dp, max = 100.dp)
+                    .widthIn(min = 90.dp, max = Dp.Unspecified)
                     .width(IntrinsicSize.Min)
                     .height(50.dp),
-                value = item.name,
+                text = text,
                 id = item.itemId,
                 onValueChange = {
                     onNameChange(it)
@@ -73,11 +83,13 @@ fun baseItemAddItem(
     iconContentDescription: String,
     name: String,
     onEditClick: () -> Unit,
+    type: ItemType,
     content: @Composable ColumnScope.() -> Unit
 ) {
 
     baseItem(
         source = Source.ADD,
+        type = type,
         iconPainter = iconPainter,
         iconContentDescription = iconContentDescription,
         contentEditIcon = {
@@ -104,6 +116,7 @@ fun baseItemAddItem(
 @Composable
 private fun baseItem(
     source: Source,
+    type: ItemType,
     iconPainter: Painter,
     iconContentDescription: String,
     contentEditIcon: @Composable () -> Unit,
@@ -133,19 +146,35 @@ private fun baseItem(
 
             val density = LocalDensity.current
             val finalWidth: MutableState<Dp> = remember { mutableStateOf(0.dp) }
+            val minDp = when (type) {
+                is ItemType.ControlType -> 250.dp
+                else -> 100.dp
+            }
+            val maxDp = 250.dp
+
+            val hasMeasured: MutableState<Boolean> = remember {
+                mutableStateOf(false)
+            }
+
+            modifier = when(hasMeasured.value) {
+                false -> {
+                    when (source) {
+                        Source.ADD -> Modifier
+
+                        Source.BODY -> Modifier.onGloballyPositioned {
+                            val temp = max(minDp, density.run { it.size.width.toDp() })
+                            finalWidth.value = min(maxDp, temp)
+                            hasMeasured.value = true
+                        }
+                    }
+                }
+                true -> Modifier.width(finalWidth.value)
+            }
 
             Column(
                 modifier = Modifier
                     .padding(20.dp)
-
             ) {
-                modifier = when (source) {
-                    Source.ADD -> Modifier
-
-                    Source.BODY -> Modifier.onGloballyPositioned {
-                        finalWidth.value = density.run { it.size.width.toDp() }
-                    }
-                }
                 Row(
                     modifier = modifier
                 ) {
@@ -167,8 +196,12 @@ private fun baseItem(
                 modifier = when (source) {
                     Source.ADD -> Modifier
 
-                    Source.BODY -> Modifier.width(finalWidth.value)
-
+                    Source.BODY -> {
+                        when(hasMeasured.value) {
+                            false -> Modifier
+                            true -> Modifier.width(finalWidth.value)
+                        }
+                    }
                 }
 
                 Column(

@@ -2,6 +2,7 @@ package ui.screen.addItem.sensor
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import model.ItemType
 import ui.component.baseSensorAddItem
 import ui.utils.Resources
 
@@ -20,7 +21,8 @@ fun managerAddSensor() {
                     viewModel.addFan()
                 },
                 sensorName = Resources.getString("add_item/choose_sensor"),
-                sensorValue = "1000 ${Resources.getString("unity/rpm")}"
+                sensorValue = "1000 ${Resources.getString("unity/rpm")}",
+                type = ItemType.SensorType.FAN
             )
         }
 
@@ -34,7 +36,8 @@ fun managerAddSensor() {
                     viewModel.addTemp()
                 },
                 sensorName = Resources.getString("add_item/choose_sensor"),
-                sensorValue = "50 ${Resources.getString("unity/degree")}"
+                sensorValue = "50 ${Resources.getString("unity/degree")}",
+                type = ItemType.SensorType.TEMP
             )
         }
     }
