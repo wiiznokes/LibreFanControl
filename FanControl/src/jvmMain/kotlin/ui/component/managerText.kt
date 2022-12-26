@@ -211,6 +211,11 @@ fun managerConfigNameRoundedTextField(
 
     val mergedTextStyle = textStyle.merge(TextStyle(color = colors.textColor(true).value))
 
+    val errorColor = if(isError.value)
+            MaterialTheme.colorScheme.onError
+        else
+            colors.containerColor(true).value
+
     @OptIn(ExperimentalMaterial3Api::class)
     BasicTextField(
         value = value,
@@ -219,13 +224,11 @@ fun managerConfigNameRoundedTextField(
                 colors.containerColor(true).value,
                 shape = RoundedCornerShape(22.dp), //rounded corners
             )
-            .conditional(isError.value) {
-                border(
-                    width = 1.dp,
-                    shape = RoundedCornerShape(22.dp),
-                    color = MaterialTheme.colorScheme.onError
-                )
-            }
+            .border(
+                width = 2.dp,
+                shape = RoundedCornerShape(22.dp),
+                color = errorColor
+            )
             .padding(horizontal = 10.dp)
             .indicatorLine(
                 enabled = true,
@@ -236,7 +239,7 @@ fun managerConfigNameRoundedTextField(
                 unfocusedIndicatorLineThickness = 0.dp //to hide the indicator line
             )
             .widthIn(200.dp, 250.dp)
-            .height(45.dp),
+            .height(35.dp),
         onValueChange = {
             text.value = it
             try {
