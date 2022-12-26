@@ -1,10 +1,7 @@
 package ui.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -151,10 +148,7 @@ private fun managerListChoice(
             .fillMaxWidth(),
         textContent = {
             managerText(
-                text = name,
-                modifier = Modifier.align(
-                    Alignment.CenterStart
-                )
+                text = name
             )
         },
         expanded = expanded
@@ -166,43 +160,43 @@ private fun managerListChoice(
 @Composable
 fun managerListChoice(
     modifier: Modifier = Modifier,
-    textContent: @Composable BoxScope.() -> Unit,
+    textContent: @Composable () -> Unit,
     expanded: MutableState<Boolean>,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    Box(
-        modifier = modifier
-    ) {
 
-        textContent()
-
+    Box {
 
         val iconShouldTrigger = remember { mutableStateOf(true) }
-        IconButton(
-            modifier = Modifier.align(
-                Alignment.CenterEnd
-            ),
-            onClick = {
-                if (!iconShouldTrigger.value) {
-                    iconShouldTrigger.value = true
-                    return@IconButton
-                }
-                expanded.value = true
-            }
+
+        Row(
+            modifier = modifier,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            if (expanded.value) {
+
+            textContent()
+
+            IconButton(
+                onClick = {
+                    if (!iconShouldTrigger.value) {
+                        iconShouldTrigger.value = true
+                        return@IconButton
+                    }
+                    expanded.value = true
+                }
+            ) {
+                val painter = when (expanded.value) {
+                    true -> Resources.getIcon("expand_less")
+                    false -> Resources.getIcon("expand_more")
+                }
+
                 Icon(
-                    painter = Resources.getIcon("expand_more"),
-                    contentDescription = Resources.getString("ct/choose_sensor")
-                )
-            } else {
-                Icon(
-                    painter = Resources.getIcon("expand_less"),
+                    painter = painter,
                     contentDescription = Resources.getString("ct/choose_sensor")
                 )
             }
         }
-
         DropdownMenu(
             expanded = expanded.value,
             onDismissRequest = {
