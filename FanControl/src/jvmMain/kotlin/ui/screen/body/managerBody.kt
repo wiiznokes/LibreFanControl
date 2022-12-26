@@ -22,6 +22,7 @@ import ui.screen.body.controlList.controlList
 import ui.screen.body.fanList.fanList
 import ui.screen.body.tempList.tempList
 import ui.utils.Resources
+import ui.utils.Scale
 
 @Composable
 fun body(
@@ -98,13 +99,16 @@ fun itemsList(
     windowState: WindowState,
     content: LazyListScope.() -> Unit
 ) {
-    val density = LocalDensity.current
-    val width = 350.dp
-    var height by remember {
-        mutableStateOf(0.dp)
+
+    val scale = Scale(
+        _width = 350.dp,
+        _height = 0.dp,
+        scale = 0.7f,
+        errorFactor = 1.4f,
+        measureY = true
+    ).apply {
+        init()
     }
-    val scale = 0.7f
-    val errorFactor = 1.4f
 
     val hasMeasured = remember(
         windowState.size.height
@@ -112,25 +116,8 @@ fun itemsList(
         mutableStateOf(false)
     }
 
-    val modifier = when (hasMeasured.value) {
-        false -> {
-            Modifier
-                .onGloballyPositioned { coordinates ->
-                    height = with(density) { coordinates.size.height.toDp() } * errorFactor
-                    hasMeasured.value = true
-                }
-        }
-
-        true -> {
-            Modifier
-                .size(width = width * scale, height = height * scale)
-                .requiredSize(width = width, height = height)
-                .scale(scale)
-        }
-    }
-
     LazyColumn(
-        modifier = modifier,
+        modifier = scale.getModifier(hasMeasured),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {

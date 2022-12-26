@@ -13,31 +13,40 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.WindowState
 import model.Configuration
 import ui.component.managerListChoice
 import ui.component.managerOutlinedTextField
 import ui.component.managerText
+import ui.component.testTextField
 import ui.utils.Resources
-import ui.utils.getAvailableId
+import ui.utils.Scale
 import ui.utils.checkNameTaken
+import ui.utils.getAvailableId
 
 val viewModel = ConfigurationViewModel()
 
 @Composable
-fun managerConfiguration() {
+fun managerConfiguration(
+    windowState: WindowState
+) {
 
     val index = viewModel.indexConfig.value
+    val dialogExpanded = remember { mutableStateOf(false) }
 
     if (index != -1) {
         managerConfiguration(
             index = index,
             configList = viewModel.configList.value,
+            windowState = windowState
         )
     }
-
-    val dialogExpanded = remember { mutableStateOf(false) }
 
     // add configuration
     IconButton(
@@ -51,8 +60,9 @@ fun managerConfiguration() {
         )
     }
 
+
     managerDialogAddConfiguration(
-        visible = dialogExpanded
+        enabled = dialogExpanded
     )
 }
 
@@ -60,7 +70,8 @@ fun managerConfiguration() {
 @Composable
 private fun managerConfiguration(
     index: Int,
-    configList: SnapshotStateList<Configuration>
+    configList: SnapshotStateList<Configuration>,
+    windowState: WindowState
 ) {
     val expanded = remember { mutableStateOf(false) }
 
@@ -82,9 +93,26 @@ private fun managerConfiguration(
         )
     }
 
+    val scale = Scale(
+        _width = 350.dp,
+        _height = 0.dp,
+        scale = 0.7f,
+        errorFactor = 1.4f,
+        measureY = true
+    ).apply {
+        init()
+    }
+
+    val hasMeasured = remember(
+        windowState.size.height
+    ) {
+        mutableStateOf(false)
+    }
+
     managerListChoice(
         textContent = {
-            managerOutlinedTextField(
+            testTextField(
+                modifier = Modifier.height(50.dp),
                 value = text.value,
                 onValueChange = {
                     checkNameTaken(
@@ -94,9 +122,9 @@ private fun managerConfiguration(
                         name = it
                     )
                 },
-                label = Resources.getString("label/conf_name"),
-                id = configList[index].id,
-                text = text
+                //label = Resources.getString("label/conf_name"),
+                //id = configList[index].id,
+                //text = text
             )
         },
         expanded = expanded
@@ -133,9 +161,10 @@ private fun managerConfiguration(
 
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun managerDialogAddConfiguration(
-    visible: MutableState<Boolean>,
+    enabled: MutableState<Boolean>,
 ) {
 
     val configList = viewModel.configList.value
@@ -147,16 +176,31 @@ private fun managerDialogAddConfiguration(
     )
 
     Dialog(
-        visible = visible.value,
+        visible = enabled.value,
         onCloseRequest = {
-            visible.value = false
+            enabled.value = false
         },
-        title = Resources.getString("title/add_config")
+        title = Resources.getString("title/add_config"),
+        focusable = enabled.value,
+        onPreviewKeyEvent = {
+            when(it.key) {
+                Key.Escape -> {
+                    enabled.value = false
+                    return@Dialog true
+                }
+                else -> {
+                    return@Dialog false
+                }
+            }
+        }
     ) {
 
         Column(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(
+                    color = MaterialTheme.colorScheme.surface
+                ),
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -191,7 +235,7 @@ private fun managerDialogAddConfiguration(
 
                 Button(
                     onClick = {
-                        visible.value = false
+                        enabled.value = false
                     }
                 ) {
                     managerText(
@@ -201,11 +245,12 @@ private fun managerDialogAddConfiguration(
 
                 Button(
                     onClick = {
-                        if(viewModel.addConfiguration(
-                            name = text.value,
-                            id = id
-                        )) {
-                            visible.value = false
+                        if (viewModel.addConfiguration(
+                                name = text.value,
+                                id = id
+                            )
+                        ) {
+                            enabled.value = false
                         }
 
                         println("index = ${viewModel.indexConfig.value}")

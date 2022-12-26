@@ -78,7 +78,8 @@ fun home(
                         mainTopBar(
                             onNavigationIconClick = {
                                 scope.launch { drawerState.open() }
-                            }
+                            },
+                            windowState = windowState
                         )
                         body(
                             editModeActivated = viewModel.editModeActivated.value,

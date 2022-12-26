@@ -11,7 +11,7 @@ class BlankException : Exception()
 fun checkNameTaken(names: List<String>, name: String, index: Int? = null) {
     if (name.isBlank())
         throw BlankException()
-    if(index != null) {
+    if (index != null) {
         if (names[index] == name)
             throw IndexHaveNameException()
     }

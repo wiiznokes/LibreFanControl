@@ -147,6 +147,8 @@ private fun managerListChoice(
     content: @Composable ColumnScope.() -> Unit
 ) {
     managerListChoice(
+        modifier = Modifier
+            .fillMaxWidth(),
         textContent = {
             managerText(
                 text = name,
@@ -163,13 +165,13 @@ private fun managerListChoice(
 
 @Composable
 fun managerListChoice(
+    modifier: Modifier = Modifier,
     textContent: @Composable BoxScope.() -> Unit,
     expanded: MutableState<Boolean>,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
     ) {
 
         textContent()
