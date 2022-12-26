@@ -1,11 +1,12 @@
 package ui.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
@@ -13,7 +14,6 @@ import androidx.compose.material3.tokens.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
@@ -23,6 +23,7 @@ import ui.screen.body.behaviorList.linear.LinearParams
 import ui.utils.BlankException
 import ui.utils.IndexHaveNameException
 import ui.utils.NameIsTakenException
+import ui.utils.conditional
 
 
 @Composable
@@ -103,6 +104,8 @@ fun managerNameOutlinedTextField(
         containerColor = MaterialTheme.colorScheme.primary,
         focusedBorderColor = MaterialTheme.colorScheme.onPrimary,
         focusedLabelColor = MaterialTheme.colorScheme.onPrimary,
+        cursorColor = Color.Black
+
     ),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
@@ -122,7 +125,7 @@ fun managerNameOutlinedTextField(
             .padding(top = 8.dp)
             .indicatorLine(
                 enabled = true,
-                isError = false,
+                isError = isError.value,
                 interactionSource = interactionSource,
                 colors = colors,
                 focusedIndicatorLineThickness = 0.dp,  //to hide the indicator line
@@ -165,10 +168,10 @@ fun managerNameOutlinedTextField(
                         enabled = true,
                         isError = isError.value,
                         interactionSource = interactionSource,
-                        colors = colors
+                        colors = colors,
                     )
                 },
-                contentPadding = PaddingValues(0.dp),
+                contentPadding = PaddingValues(horizontal = 10.dp),
                 enabled = true
             )
         }
@@ -190,11 +193,12 @@ fun managerConfigNameRoundedTextField(
     modifier: Modifier = Modifier,
     textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(
+    colors: TextFieldColors = TextFieldDefaults.textFieldColors(
         textColor = MaterialTheme.colorScheme.onSecondary,
         containerColor = MaterialTheme.colorScheme.secondary,
-        focusedBorderColor = MaterialTheme.colorScheme.onSecondary,
         focusedLabelColor = MaterialTheme.colorScheme.onSecondary,
+        errorIndicatorColor = MaterialTheme.colorScheme.onError,
+        errorCursorColor = MaterialTheme.colorScheme.onError
     )
 ) {
     // if id had change, remember have to update
@@ -215,16 +219,24 @@ fun managerConfigNameRoundedTextField(
                 colors.containerColor(true).value,
                 shape = RoundedCornerShape(22.dp), //rounded corners
             )
+            .conditional(isError.value) {
+                border(
+                    width = 1.dp,
+                    shape = RoundedCornerShape(22.dp),
+                    color = MaterialTheme.colorScheme.onError
+                )
+            }
             .padding(horizontal = 10.dp)
             .indicatorLine(
                 enabled = true,
-                isError = false,
+                isError = isError.value,
                 interactionSource = interactionSource,
                 colors = colors,
                 focusedIndicatorLineThickness = 0.dp,  //to hide the indicator line
                 unfocusedIndicatorLineThickness = 0.dp //to hide the indicator line
             )
-            .widthIn(200.dp, 250.dp),
+            .widthIn(200.dp, 250.dp)
+            .height(45.dp),
         onValueChange = {
             text.value = it
             try {

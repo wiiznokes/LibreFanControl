@@ -9,7 +9,6 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.WindowState
 import kotlinx.coroutines.launch
 import ui.screen.addItem.ChoiceType
 import ui.screen.addItem.addItem

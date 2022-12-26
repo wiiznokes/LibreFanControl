@@ -87,7 +87,7 @@ private fun managerConfiguration(
     managerListChoice(
         textContent = {
             managerConfigNameRoundedTextField(
-                modifier = Modifier.height(50.dp),
+                modifier = Modifier,
                 value = text.value,
                 onValueChange = {
                     checkNameTaken(
