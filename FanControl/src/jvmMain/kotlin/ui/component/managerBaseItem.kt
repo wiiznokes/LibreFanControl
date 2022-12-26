@@ -60,7 +60,7 @@ fun baseItemBody(
         contentName = {
             managerNameOutlinedTextField(
                 modifier = Modifier
-                    .widthIn(min = 90.dp, max = Dp.Unspecified)
+                    .widthIn(min = 90.dp, max = 150.dp)
                     .width(IntrinsicSize.Min)
                     .height(50.dp),
                 text = text,
@@ -147,34 +147,22 @@ private fun baseItem(
             val density = LocalDensity.current
             val finalWidth: MutableState<Dp> = remember { mutableStateOf(0.dp) }
             val minDp = when (type) {
-                is ItemType.ControlType -> 250.dp
+                is ItemType.ControlType -> 200.dp
                 else -> 100.dp
-            }
-            val maxDp = 250.dp
-
-            val hasMeasured: MutableState<Boolean> = remember {
-                mutableStateOf(false)
-            }
-
-            modifier = when(hasMeasured.value) {
-                false -> {
-                    when (source) {
-                        Source.ADD -> Modifier
-
-                        Source.BODY -> Modifier.onGloballyPositioned {
-                            val temp = max(minDp, density.run { it.size.width.toDp() })
-                            finalWidth.value = min(maxDp, temp)
-                            hasMeasured.value = true
-                        }
-                    }
-                }
-                true -> Modifier.width(finalWidth.value)
             }
 
             Column(
                 modifier = Modifier
                     .padding(20.dp)
             ) {
+                modifier = when (source) {
+                    Source.ADD -> Modifier
+
+                    Source.BODY -> Modifier.onGloballyPositioned {
+                        finalWidth.value = max(minDp, density.run { it.size.width.toDp() })
+                    }
+
+                }
                 Row(
                     modifier = modifier
                 ) {
@@ -196,12 +184,7 @@ private fun baseItem(
                 modifier = when (source) {
                     Source.ADD -> Modifier
 
-                    Source.BODY -> {
-                        when(hasMeasured.value) {
-                            false -> Modifier
-                            true -> Modifier.width(finalWidth.value)
-                        }
-                    }
+                    Source.BODY -> Modifier.width(finalWidth.value)
                 }
 
                 Column(
