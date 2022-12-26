@@ -120,13 +120,18 @@ fun managerNameOutlinedTextField(
         value = text.value,
         modifier = modifier
             .padding(top = 8.dp)
-            .background(colors.containerColor(true).value)
-            .defaultMinSize(
-                minWidth = TextFieldDefaults.MinWidth,
-                minHeight = TextFieldDefaults.MinHeight
+            .indicatorLine(
+                enabled = true,
+                isError = false,
+                interactionSource = interactionSource,
+                colors = colors,
+                focusedIndicatorLineThickness = 0.dp,  //to hide the indicator line
+                unfocusedIndicatorLineThickness = 0.dp //to hide the indicator line
             )
+            .background(colors.containerColor(true).value)
+            .widthIn(min = 90.dp, max = 100.dp)
             .width(IntrinsicSize.Min)
-            .widthIn(70.dp, 200.dp),
+            .height(40.dp),
         onValueChange = {
             text.value = it
             try {

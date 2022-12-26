@@ -21,9 +21,7 @@ import ui.screen.topBar.mainTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun home(
-    windowState: WindowState
-) {
+fun home() {
     val viewModel = HomeViewModel()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -77,8 +75,7 @@ fun home(
                         )
                         body(
                             editModeActivated = viewModel.editModeActivated.value,
-                            addItemExpanded = addItemExpanded,
-                            windowState = windowState
+                            addItemExpanded = addItemExpanded
                         )
                     }
                 }

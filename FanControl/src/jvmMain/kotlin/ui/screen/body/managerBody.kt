@@ -28,8 +28,7 @@ import ui.utils.Scale
 @Composable
 fun body(
     editModeActivated: MutableState<Boolean>,
-    addItemExpanded: MutableState<Boolean>,
-    windowState: WindowState
+    addItemExpanded: MutableState<Boolean>
 ) {
 
     val viewModel = BodyViewModel()
@@ -47,26 +46,22 @@ fun body(
                 verticalAlignment = Alignment.Top
             ) {
                 itemsList(
-                    title = Resources.getString("title/control"),
-                    windowState = windowState
+                    title = Resources.getString("title/control")
                 ) {
                     controlList(editModeActivated.value)
                 }
                 itemsList(
-                    title = Resources.getString("title/behavior"),
-                    windowState = windowState
+                    title = Resources.getString("title/behavior")
                 ) {
                     behaviorList(editModeActivated.value)
                 }
                 itemsList(
-                    title = Resources.getString("title/fan"),
-                    windowState = windowState
+                    title = Resources.getString("title/fan")
                 ) {
                     fanList(editModeActivated.value)
                 }
                 itemsList(
-                    title = Resources.getString("title/temp"),
-                    windowState = windowState
+                    title = Resources.getString("title/temp")
                 ) {
                     tempList(editModeActivated.value)
                 }
@@ -97,28 +92,11 @@ fun body(
 @Composable
 fun itemsList(
     title: String,
-    windowState: WindowState,
     content: LazyListScope.() -> Unit
 ) {
 
-    val scale = Scale(
-        _width = 350.dp,
-        _height = 0.dp,
-        scale = 0.7f,
-        errorFactor = 1.4f,
-        measureY = true
-    ).apply {
-        init()
-    }
-
-    val hasMeasured = remember(
-        windowState.size.height
-    ) {
-        mutableStateOf(false)
-    }
 
     LazyColumn(
-        modifier = scale.getModifier(hasMeasured),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
@@ -130,7 +108,6 @@ fun itemsList(
             Spacer(
                 modifier = Modifier
                     .height(20.dp)
-                    .scale(0.7f)
             )
         }
         content()

@@ -15,14 +15,10 @@ fun main() {
     application(
         exitProcessOnExit = true
     ) {
-
-
-        val windowState = rememberWindowState()
-
         Window(
             title = Resources.getString("title/app_name"),
             icon = Resources.getIcon("toys_fan"),
-            state = windowState,
+            state = rememberWindowState(),
             onCloseRequest = {
                 application.onStop()
                 (::exitApplication)()
@@ -32,9 +28,7 @@ fun main() {
             FanControlTheme(
                 darkTheme = true
             ) {
-                home(
-                    windowState = windowState
-                )
+                home()
             }
         }
     }
