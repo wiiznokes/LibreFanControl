@@ -98,7 +98,8 @@ private fun managerConfiguration(
                     )
                 },
                 id = configList[index].id,
-                text = text
+                text = text,
+                placeholder = Resources.getString("label/conf_name")
             )
         },
         expanded = expanded
@@ -187,6 +188,8 @@ private fun managerDialogAddConfiguration(
             }
 
             managerNameOutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth(0.7f),
                 value = "",
                 onValueChange = {
                     checkNameTaken(

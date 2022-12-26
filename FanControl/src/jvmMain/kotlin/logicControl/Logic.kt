@@ -24,12 +24,13 @@ class Logic(
 ) {
 
     val controlItemList = _controlItemList.asStateFlow()
+    val behaviorItemList = _behaviorItemList.asStateFlow()
 
     fun update() {
         controlItemList.value.filter {
             it.visible && it.isActive && it.behaviorId != null
         }.forEach label@{ control ->
-            val behavior = _behaviorItemList.value.find { behavior ->
+            val behavior = behaviorItemList.value.find { behavior ->
                 behavior.itemId == control.behaviorId
             }
             val value = when (behavior!!.type) {

@@ -49,6 +49,10 @@ fun baseItemBody(
         onEditClick = onEditClick,
         contentName = {
             managerNameOutlinedTextField(
+                modifier = Modifier
+                    .widthIn(min = 90.dp, max = 100.dp)
+                    .width(IntrinsicSize.Min)
+                    .height(50.dp),
                 value = item.name,
                 id = item.itemId,
                 onValueChange = {

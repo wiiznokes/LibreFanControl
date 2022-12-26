@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ui.screen.body.behaviorList.linear.LinearParams
@@ -37,7 +38,8 @@ fun managerText(
         text = text,
         color = MaterialTheme.colorScheme.onPrimary,
         maxLines = 1,
-        style = style
+        style = style,
+        overflow = TextOverflow.Ellipsis
     )
 }
 
@@ -131,10 +133,7 @@ fun managerNameOutlinedTextField(
                 focusedIndicatorLineThickness = 0.dp,  //to hide the indicator line
                 unfocusedIndicatorLineThickness = 0.dp //to hide the indicator line
             )
-            .background(colors.containerColor(true).value)
-            .widthIn(min = 90.dp, max = 100.dp)
-            .width(IntrinsicSize.Min)
-            .height(40.dp),
+            .background(colors.containerColor(true).value),
         onValueChange = {
             text.value = it
             try {
@@ -151,6 +150,7 @@ fun managerNameOutlinedTextField(
         textStyle = mergedTextStyle,
         cursorBrush = SolidColor(colors.cursorColor(isError.value).value),
         singleLine = true,
+        interactionSource = interactionSource,
         decorationBox = @Composable { innerTextField ->
             TextFieldDefaults.OutlinedTextFieldDecorationBox(
                 value = value,
@@ -171,7 +171,7 @@ fun managerNameOutlinedTextField(
                         colors = colors,
                     )
                 },
-                contentPadding = PaddingValues(horizontal = 10.dp),
+                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp),
                 enabled = true
             )
         }

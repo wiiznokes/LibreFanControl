@@ -7,13 +7,12 @@ import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import model.hardware.Sensor
 import model.item.behavior.BehaviorItem
 import ui.utils.Resources
@@ -169,32 +168,37 @@ fun managerListChoice(
 
         val iconShouldTrigger = remember { mutableStateOf(true) }
 
-        Row(
-            modifier = modifier,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            textContent()
-
-            IconButton(
-                onClick = {
-                    if (!iconShouldTrigger.value) {
-                        iconShouldTrigger.value = true
-                        return@IconButton
-                    }
-                    expanded.value = true
-                }
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+            Row(
+                modifier = modifier,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                val painter = when (expanded.value) {
-                    true -> Resources.getIcon("expand_less")
-                    false -> Resources.getIcon("expand_more")
-                }
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
 
-                Icon(
-                    painter = painter,
-                    contentDescription = Resources.getString("ct/choose_sensor")
-                )
+
+                    IconButton(
+                        onClick = {
+                            if (!iconShouldTrigger.value) {
+                                iconShouldTrigger.value = true
+                                return@IconButton
+                            }
+                            expanded.value = true
+                        }
+                    ) {
+                        val painter = when (expanded.value) {
+                            true -> Resources.getIcon("expand_less")
+                            false -> Resources.getIcon("expand_more")
+                        }
+
+                        Icon(
+                            painter = painter,
+                            contentDescription = Resources.getString("ct/choose_sensor")
+                        )
+                    }
+
+                    textContent()
+                }
             }
         }
         DropdownMenu(
