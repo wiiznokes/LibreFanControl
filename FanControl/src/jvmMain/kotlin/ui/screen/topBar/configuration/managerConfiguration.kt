@@ -7,18 +7,18 @@ import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import kotlinx.coroutines.delay
 import model.Configuration
 import ui.component.*
 import ui.utils.Resources
@@ -151,6 +151,11 @@ private fun managerDialogAddConfiguration(
             it.id
         }
     )
+    val text = remember(
+        id
+    ) {
+        mutableStateOf("")
+    }
 
     Dialog(
         visible = enabled.value,
@@ -163,6 +168,17 @@ private fun managerDialogAddConfiguration(
             when (it.key) {
                 Key.Escape -> {
                     enabled.value = false
+                    return@Dialog true
+                }
+
+                Key.Enter -> {
+                    if (viewModel.addConfiguration(
+                            name = text.value,
+                            id = id
+                        )
+                    ) {
+                        enabled.value = false
+                    }
                     return@Dialog true
                 }
 
@@ -182,16 +198,12 @@ private fun managerDialogAddConfiguration(
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            val text = remember(
-                id
-            ) {
-                mutableStateOf("")
-            }
+            val focusRequester = remember { FocusRequester() }
 
             managerNameOutlinedTextField(
                 modifier = Modifier
-                    .fillMaxWidth(0.7f),
+                    .fillMaxWidth(0.7f)
+                    .focusRequester(focusRequester),
                 onValueChange = {
                     checkNameTaken(
                         names = configList.map { config ->
@@ -204,6 +216,13 @@ private fun managerDialogAddConfiguration(
                 id = id,
                 text = text
             )
+            LaunchedEffect(
+                id
+            ) {
+                // delay to avoid loosing focus with miss click
+                delay(200L)
+                focusRequester.requestFocus()
+            }
 
             Row(
                 modifier = Modifier

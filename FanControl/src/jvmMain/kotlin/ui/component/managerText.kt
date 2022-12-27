@@ -1,14 +1,11 @@
 package ui.component
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
@@ -26,7 +23,6 @@ import ui.screen.body.behaviorList.linear.LinearParams
 import ui.utils.BlankException
 import ui.utils.IndexHaveNameException
 import ui.utils.NameIsTakenException
-import ui.utils.conditional
 
 
 @Composable
@@ -251,10 +247,10 @@ fun managerConfigNameRoundedTextField(
 
     val mergedTextStyle = textStyle.merge(TextStyle(color = colors.textColor(true).value))
 
-    val errorColor = if(isError.value)
-            MaterialTheme.colorScheme.onError
-        else
-            colors.containerColor(true).value
+    val errorColor = if (isError.value)
+        MaterialTheme.colorScheme.onError
+    else
+        colors.containerColor(true).value
 
     @OptIn(ExperimentalMaterial3Api::class)
     BasicTextField(
