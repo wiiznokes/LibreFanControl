@@ -24,7 +24,8 @@ class State {
         val _addItemExpanded: MutableStateFlow<MutableState<Boolean>> = MutableStateFlow(mutableStateOf(false))
         val _editModeActivated: MutableStateFlow<MutableState<Boolean>> = MutableStateFlow(mutableStateOf(false))
 
-        val _configList: MutableStateFlow<SnapshotStateList<ConfigurationModel>> = MutableStateFlow(mutableStateListOf())
+        val _configList: MutableStateFlow<SnapshotStateList<ConfigurationModel>> =
+            MutableStateFlow(mutableStateListOf())
         val _idConfig: MutableStateFlow<MutableState<Long?>> = MutableStateFlow(mutableStateOf(null))
     }
 }

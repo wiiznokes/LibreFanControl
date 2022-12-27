@@ -54,7 +54,7 @@ fun managerModifyConfig() {
     }
     IconButton(
         onClick = {
-            if(keyEnterPressed.value)
+            if (keyEnterPressed.value)
                 keyEnterPressed.value = false
             else
                 dialogExpanded.value = true
@@ -66,7 +66,7 @@ fun managerModifyConfig() {
         )
     }
 
-    if(dialogExpanded.value) {
+    if (dialogExpanded.value) {
         managerDialogAddConfiguration(
             enabled = dialogExpanded,
             keyEnterPressed = keyEnterPressed

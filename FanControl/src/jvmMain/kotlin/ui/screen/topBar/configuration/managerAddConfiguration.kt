@@ -103,7 +103,7 @@ fun managerDialogAddConfiguration(
             LaunchedEffect(
                 Unit
             ) {
-                if(enabled.value) {
+                if (enabled.value) {
                     delay(400L)
                     focusRequester.requestFocus()
                 }
