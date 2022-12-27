@@ -6,11 +6,11 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import model.Configuration
+import model.ConfigurationModel
 import utils.checkNameTaken
 
 class ConfigurationViewModel(
-    private val _configList: MutableStateFlow<SnapshotStateList<Configuration>> = State._configList,
+    private val _configList: MutableStateFlow<SnapshotStateList<ConfigurationModel>> = State._configList,
     private val _idConfig: MutableStateFlow<MutableState<Long?>> = State._idConfig
 ) {
 
@@ -68,7 +68,7 @@ class ConfigurationViewModel(
 
         _configList.update {
             it.add(
-                Configuration(
+                ConfigurationModel(
                     id = id,
                     name = name
                 )

@@ -11,6 +11,7 @@ import model.item.SensorItem
 import model.item.behavior.BehaviorItem
 import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
+import settings.Settings
 import utils.getAvailableId
 
 class Configuration(
@@ -23,14 +24,21 @@ class Configuration(
     private val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
     private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList
 ) {
+    // returns configId if it exists, otherwise null
+    fun checkConfiguration(): Long? {
+        val configId = Settings.getSetting("config")
 
-    // check if configuration exist, return index of conf if true, else -1
-    fun checkConfiguration(): Int {
-        return -1
+        return if(configId == "none") {
+            null
+        } else
+            configId.toLong()
+    }
+
+    fun loadConfig(configId: Long) {
+
     }
 
     fun init() {
-
         _behaviorItemList.update {
             _behaviorItemList.value.add(
                 BehaviorItem(

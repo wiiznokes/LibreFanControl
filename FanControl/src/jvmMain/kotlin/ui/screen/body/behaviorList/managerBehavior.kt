@@ -44,6 +44,8 @@ fun LazyListScope.behaviorList(
             }
 
             ItemType.BehaviorType.TARGET -> TODO()
+
+            else -> throw Exception("unspecified item type")
         }
 
     }

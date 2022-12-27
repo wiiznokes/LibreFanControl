@@ -1,5 +1,12 @@
 package configuration
 
+
+import model.ConfigurationModel
+import model.ItemType
+import model.item.BaseItem
+import model.item.ControlItem
+import model.item.SensorItem
+import model.item.behavior.BehaviorItem
 import org.json.JSONObject
 import org.json.JSONTokener
 import org.json.JSONWriter
@@ -16,38 +23,60 @@ class JsonConfiguration {
     companion object {
 
         private var _currentJsonObject: JSONObject? = null
+        private var _currentFile: File? = null
 
+        fun loadConfig(id: Long) {
+            _currentFile = File(DIR_CONF + PREFIX_NEW_CONF + id + SUFFIX_NEW_CONF)
 
-
-        fun createAndWrite() {
-            val f = File(DIR_CONF + "file1.json")
-
-            val str = StringBuilder()
-
-            val writer = JSONWriter(str)
-
-            writer.`object`()
-            writer.key("key")
-            writer.value("hello")
-            writer.key("keyyyyy")
-            writer.value(_currentJsonObject)
-            writer.endObject()
-
-
-
-            println(str.toString())
-
-            f.writeText(
-                str.toString()
-            )
-
+            val string = _currentFile!!.bufferedReader().readText()
+            _currentJsonObject = JSONTokener(string).nextValue() as JSONObject
         }
 
-        fun write() {
-
+        fun saveConfig(
+            configuration: ConfigurationModel,
+            controlItemList: List<ControlItem>,
+            behaviorItemList: List<BehaviorItem>,
+            fanItemList: List<SensorItem>,
+            tempItemList: List<SensorItem>
+        ) {
             val str = StringBuilder()
-
             val writer = JSONWriter(str)
+
+            writer.key("name")
+            writer.value(configuration.name)
+            writer.key("id")
+            writer.value(configuration.id)
+
+            setItems(
+                itemList = controlItemList,
+                writer = writer,
+                type = ItemType.ControlType.FAN
+            )
+            setItems(
+                itemList = behaviorItemList,
+                writer = writer,
+                type = ItemType.BehaviorType.UNSPECIFIED
+            )
+            setItems(
+                itemList = fanItemList,
+                writer = writer,
+                type = ItemType.SensorType.FAN
+            )
+            setItems(
+                itemList = tempItemList,
+                writer = writer,
+                type = ItemType.SensorType.TEMP
+            )
+
+            val file = getFile(configuration.id)
+
+            file.writeText(
+                str.toString()
+            )
+        }
+
+        private fun getFile(id: Long): File {
+            return File(DIR_CONF + PREFIX_NEW_CONF + id + SUFFIX_NEW_CONF)
         }
     }
 }

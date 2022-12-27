@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import model.Configuration
+import model.ConfigurationModel
 import ui.component.managerConfigNameRoundedTextField
 import ui.component.managerListChoice
 import ui.component.managerText
@@ -78,7 +78,7 @@ fun managerModifyConfig() {
 @Composable
 private fun managerModifyConfig(
     index: Int,
-    configList: SnapshotStateList<Configuration>
+    configList: SnapshotStateList<ConfigurationModel>
 ) {
     val expanded = remember { mutableStateOf(false) }
 
@@ -134,7 +134,7 @@ private fun managerModifyConfig(
 
 @Composable
 private fun managerModifyConfig(
-    configList: SnapshotStateList<Configuration>
+    configList: SnapshotStateList<ConfigurationModel>
 ) {
     val expanded = remember { mutableStateOf(false) }
 
@@ -159,7 +159,7 @@ private fun managerModifyConfig(
 @Composable
 private fun dropdownMenuItemContent(
     expanded: MutableState<Boolean>,
-    configList: SnapshotStateList<Configuration>
+    configList: SnapshotStateList<ConfigurationModel>
 ) {
     DropdownMenuItem(
         modifier = Modifier

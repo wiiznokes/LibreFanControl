@@ -1,17 +1,16 @@
-package params
+package settings
 
 import org.json.JSONObject
 import org.json.JSONTokener
-import org.json.JSONWriter
 import utils.getString
 import java.io.File
 
 
 
 private const val DIR_CONF = "./conf/"
-private const val INIT_FILE_NAME = "params.json"
+private const val INIT_FILE_NAME = "settings.json"
 
-class Params {
+class Settings {
     companion object {
 
         private val _paramsJsonObject: JSONObject
@@ -23,7 +22,7 @@ class Params {
             _paramsJsonObject = JSONTokener(string).nextValue() as JSONObject
         }
 
-        fun getParam(path: String): String {
+        fun getSetting(path: String): String {
             return getString(
                 path = path,
                 rootJsonObject = _paramsJsonObject

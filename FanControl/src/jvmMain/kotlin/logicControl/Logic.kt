@@ -59,6 +59,8 @@ class Logic(
                 }
 
                 ItemType.BehaviorType.TARGET -> TODO()
+
+                else -> throw Exception("unspecified item type")
             }
             Application.setControl(
                 libIndex = control.libIndex,

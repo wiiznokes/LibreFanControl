@@ -35,10 +35,8 @@ class Application {
         )
         configuration = Configuration()
 
-        val res = configuration!!.checkConfiguration()
-
-        when (res) {
-            -1 -> {
+        when (configuration!!.checkConfiguration()) {
+            null -> {
                 configuration!!.init()
             }
 
