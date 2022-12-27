@@ -20,6 +20,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
+import model.ItemType
 import model.item.BaseItem
 import ui.utils.Resources
 
@@ -34,8 +36,15 @@ fun baseItemBody(
     editModeActivated: Boolean,
     content: @Composable ColumnScope.() -> Unit
 ) {
+    val text = remember(
+        item.itemId
+    ) {
+        mutableStateOf(item.name)
+    }
+
     baseItem(
         source = Source.BODY,
+        type = item.type,
         iconPainter = iconPainter,
         iconContentDescription = iconContentDescription,
         contentEditIcon = {
@@ -48,13 +57,17 @@ fun baseItemBody(
         editModeActivated = editModeActivated,
         onEditClick = onEditClick,
         contentName = {
-            managerOutlinedTextField(
-                value = item.name,
+            managerNameOutlinedTextField(
+                modifier = Modifier
+                    .widthIn(min = 90.dp, max = 180.dp)
+                    .width(IntrinsicSize.Min)
+                    .height(50.dp),
+                text = text,
+                id = item.itemId,
                 onValueChange = {
                     onNameChange(it)
                 },
-                label = Resources.getString("label/name"),
-                id = item.itemId
+                label = Resources.getString("label/name")
             )
         },
 
@@ -69,11 +82,13 @@ fun baseItemAddItem(
     iconContentDescription: String,
     name: String,
     onEditClick: () -> Unit,
+    type: ItemType,
     content: @Composable ColumnScope.() -> Unit
 ) {
 
     baseItem(
         source = Source.ADD,
+        type = type,
         iconPainter = iconPainter,
         iconContentDescription = iconContentDescription,
         contentEditIcon = {
@@ -100,6 +115,7 @@ fun baseItemAddItem(
 @Composable
 private fun baseItem(
     source: Source,
+    type: ItemType,
     iconPainter: Painter,
     iconContentDescription: String,
     contentEditIcon: @Composable () -> Unit,
@@ -129,18 +145,23 @@ private fun baseItem(
 
             val density = LocalDensity.current
             val finalWidth: MutableState<Dp> = remember { mutableStateOf(0.dp) }
+            val minDp = when (type) {
+                is ItemType.ControlType -> 200.dp
+                is ItemType.BehaviorType -> 220.dp
+                else -> 100.dp
+            }
 
             Column(
                 modifier = Modifier
                     .padding(20.dp)
-
             ) {
                 modifier = when (source) {
                     Source.ADD -> Modifier
 
                     Source.BODY -> Modifier.onGloballyPositioned {
-                        finalWidth.value = density.run { it.size.width.toDp() }
+                        finalWidth.value = max(minDp, density.run { it.size.width.toDp() })
                     }
+
                 }
                 Row(
                     modifier = modifier
@@ -164,7 +185,6 @@ private fun baseItem(
                     Source.ADD -> Modifier
 
                     Source.BODY -> Modifier.width(finalWidth.value)
-
                 }
 
                 Column(

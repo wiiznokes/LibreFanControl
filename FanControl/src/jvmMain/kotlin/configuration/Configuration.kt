@@ -9,11 +9,11 @@ import model.hardware.Sensor
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
+import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
 import ui.utils.getAvailableId
 
 class Configuration(
-    private val _controlList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
     private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
     private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList,
 
@@ -26,6 +26,15 @@ class Configuration(
 
     // check if configuration exist, return index of conf if true, else -1
     fun checkConfiguration(): Int {
+
+        val json = JsonConfiguration()
+
+        val str = json.getString("hello")
+
+        json.createAndWrite()
+
+        println(str)
+
         return -1
     }
 
@@ -34,11 +43,26 @@ class Configuration(
         _behaviorItemList.update {
             _behaviorItemList.value.add(
                 BehaviorItem(
+                    name = "flat",
+                    type = ItemType.BehaviorType.FLAT,
+                    flatBehavior = FlatBehavior(),
+                    itemId = getAvailableId(
+                        ids = _behaviorItemList.value.map { item ->
+                            item.itemId
+                        }
+                    )
+                )
+            )
+
+            _behaviorItemList.value.add(
+                BehaviorItem(
                     name = "linear",
                     type = ItemType.BehaviorType.LINEAR,
                     linearBehavior = LinearBehavior(),
                     itemId = getAvailableId(
-                        list = _behaviorItemList.value
+                        ids = _behaviorItemList.value.map { item ->
+                            item.itemId
+                        }
                     )
                 )
             )
@@ -53,7 +77,9 @@ class Configuration(
                     sensorName = it.libName,
                     sensorId = it.libId,
                     itemId = getAvailableId(
-                        list = _fanItemList.value
+                        ids = _fanItemList.value.map { item ->
+                            item.itemId
+                        }
                     )
                 )
             )
@@ -67,7 +93,9 @@ class Configuration(
                     sensorName = it.libName,
                     sensorId = it.libId,
                     itemId = getAvailableId(
-                        list = _tempItemList.value
+                        ids = _tempItemList.value.map { item ->
+                            item.itemId
+                        }
                     )
                 )
             )

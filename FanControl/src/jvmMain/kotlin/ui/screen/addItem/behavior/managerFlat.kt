@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import model.ItemType
 import ui.component.baseItemAddItem
 import ui.component.managerText
 import ui.utils.Resources
@@ -20,7 +21,8 @@ fun managerAddFlat(
         iconPainter = Resources.getIcon("horizontal_rule"),
         iconContentDescription = Resources.getString("ct/flat"),
         name = Resources.getString("add_item/flat_name"),
-        onEditClick = onEditClick
+        onEditClick = onEditClick,
+        type = ItemType.BehaviorType.FLAT
     ) {
         Row(
             modifier = Modifier

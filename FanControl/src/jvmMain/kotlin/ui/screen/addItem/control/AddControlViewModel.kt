@@ -14,7 +14,7 @@ class AddControlViewModel(
 
     fun addControl(index: Int) {
         _controlItemList.update {
-            _controlItemList.value[index] = _controlItemList.value[index].copy(
+            it[index] = it[index].copy(
                 visible = true
             )
             it

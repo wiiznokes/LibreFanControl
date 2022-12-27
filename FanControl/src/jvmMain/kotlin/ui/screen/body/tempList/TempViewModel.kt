@@ -20,7 +20,7 @@ class TempViewModel(
 
     fun remove(index: Int) {
         _tempItemList.update {
-            _tempItemList.value.removeAt(index)
+            it.removeAt(index)
             it
         }
     }
@@ -28,7 +28,7 @@ class TempViewModel(
     fun setTemp(index: Int, temp: Sensor?) {
         if (temp != null) {
             _tempItemList.update {
-                _tempItemList.value[index] = _tempItemList.value[index].copy(
+                it[index] = it[index].copy(
                     sensorName = temp.libName,
                     sensorId = temp.libId
                 )
@@ -36,7 +36,7 @@ class TempViewModel(
             }
         } else {
             _tempItemList.update {
-                _tempItemList.value[index] = _tempItemList.value[index].copy(
+                it[index] = it[index].copy(
                     sensorName = Resources.getString("none"),
                     sensorId = null
                 )
@@ -48,10 +48,16 @@ class TempViewModel(
 
     fun setName(name: String, index: Int) {
 
-        checkNameTaken(_tempItemList.value, name, index)
+        checkNameTaken(
+            names = _tempItemList.value.map { item ->
+                item.name
+            },
+            name = name,
+            index = index,
+        )
 
         _tempItemList.update {
-            _tempItemList.value[index] = _tempItemList.value[index].copy(
+            it[index] = it[index].copy(
                 name = name
             )
             it

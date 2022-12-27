@@ -9,7 +9,6 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.WindowState
 import kotlinx.coroutines.launch
 import ui.screen.addItem.ChoiceType
 import ui.screen.addItem.addItem
@@ -21,17 +20,10 @@ import ui.screen.topBar.mainTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun home(
-    windowState: WindowState
-) {
-
+fun home() {
     val viewModel = HomeViewModel()
-
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-
     val scope = rememberCoroutineScope()
-
-
 
     ModalNavigationDrawer(
         modifier = Modifier,
@@ -82,8 +74,7 @@ fun home(
                         )
                         body(
                             editModeActivated = viewModel.editModeActivated.value,
-                            addItemExpanded = addItemExpanded,
-                            windowState = windowState
+                            addItemExpanded = addItemExpanded
                         )
                     }
                 }

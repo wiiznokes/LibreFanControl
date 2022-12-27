@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import model.item.behavior.BehaviorItem
 import ui.component.baseItemBody
 import ui.component.listChoice
+import ui.component.managerNumberTextField
 import ui.component.managerText
-import ui.component.managerTextField
 import ui.utils.Resources
 
 private val viewModel: LinearBehaviorViewModel = LinearBehaviorViewModel()
@@ -151,10 +151,10 @@ private fun setting(
 
                 managerText(
                     modifier = Modifier
-                        .width(120.dp),
+                        .width(110.dp),
                     text = prefix
                 )
-                managerTextField(
+                managerNumberTextField(
                     text = text,
                     opposedValue = opposedValue,
                     onValueChange = onValueChange,

@@ -81,6 +81,7 @@ fun flatBehavior(
                 .fillMaxWidth(),
 
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
             Slider(
@@ -91,10 +92,8 @@ fun flatBehavior(
                     viewModel.onChange(index, it.toInt())
                 },
                 modifier = Modifier
-                    .fillMaxWidth(0.75f)
+                    .fillMaxWidth(0.7f)
             )
-
-
 
             Spacer(
                 modifier = Modifier

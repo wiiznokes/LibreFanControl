@@ -72,10 +72,12 @@ class ExternalWindows : External {
                     libName = result[(i * 3) + 2],
                     name = result[(i * 3) + 2],
 
-                    itemId = getAvailableId(controls.value),
-
-
-                    )
+                    itemId = getAvailableId(
+                        controls.value.map { item ->
+                            item.itemId
+                        }
+                    ),
+                )
             )
         }
     }

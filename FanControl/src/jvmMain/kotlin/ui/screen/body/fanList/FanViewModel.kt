@@ -19,7 +19,7 @@ class FanViewModel(
 
     fun remove(index: Int) {
         _fanItemList.update {
-            _fanItemList.value.removeAt(index)
+            it.removeAt(index)
             it
         }
     }
@@ -27,7 +27,7 @@ class FanViewModel(
     fun setFan(index: Int, fan: Sensor?) {
         if (fan != null) {
             _fanItemList.update {
-                _fanItemList.value[index] = _fanItemList.value[index].copy(
+                it[index] = it[index].copy(
                     sensorName = fan.libName,
                     sensorId = fan.libId
                 )
@@ -35,7 +35,7 @@ class FanViewModel(
             }
         } else {
             _fanItemList.update {
-                _fanItemList.value[index] = _fanItemList.value[index].copy(
+                it[index] = it[index].copy(
                     sensorName = Resources.getString("none"),
                     sensorId = null
                 )
@@ -45,10 +45,16 @@ class FanViewModel(
     }
 
     fun setName(name: String, index: Int) {
-        checkNameTaken(_fanItemList.value, name, index)
+        checkNameTaken(
+            names = _fanItemList.value.map { item ->
+                item.name
+            },
+            name = name,
+            index = index
+        )
 
         _fanItemList.update {
-            _fanItemList.value[index] = _fanItemList.value[index].copy(
+            it[index] = it[index].copy(
                 name = name
             )
             it

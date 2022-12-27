@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import model.ItemType
 import model.item.ControlItem
 import model.item.behavior.BehaviorItem
 import ui.utils.Resources
@@ -59,13 +60,14 @@ fun baseControlAddItem(
     onEditClick: () -> Unit,
     behaviorName: String,
     value: String,
-    fanValue: String,
+    fanValue: String
 ) {
     baseItemAddItem(
         iconPainter = Resources.getIcon("alternate_email"),
         iconContentDescription = Resources.getString("ct/control"),
         name = name,
-        onEditClick = onEditClick
+        onEditClick = onEditClick,
+        type = ItemType.ControlType.FAN
     ) {
         baseControl(
             isActive = false,

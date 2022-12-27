@@ -2,15 +2,13 @@ package ui.screen.topBar
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.IconButton
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
+import ui.screen.topBar.configuration.managerModifyConfig
 import ui.utils.Resources
 
 
@@ -18,18 +16,18 @@ private val viewModel = TopBarViewModel()
 
 @Composable
 fun mainTopBar(
-    onNavigationIconClick: () -> Unit,
+    onNavigationIconClick: () -> Unit
 ) {
 
-    CenterAlignedTopAppBar(
+
+    MediumTopAppBar(
         modifier = Modifier
             .height(50.dp),
         title = {
             Row(
                 modifier = Modifier
-                    .fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                    .fillMaxHeight(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
                     painter = Resources.getIcon("toys_fan"),
@@ -64,15 +62,33 @@ fun mainTopBar(
             }
         },
         actions = {
-            IconButton(
-                onClick = {
-                    viewModel.edit()
-                }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxHeight(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    painter = Resources.getIcon("edit_square"),
-                    contentDescription = Resources.getString("ct/edit")
+                managerModifyConfig()
+
+                Divider(
+                    modifier = Modifier
+                        .fillMaxHeight(0.9f)
+                        .padding(horizontal = 10.dp)
+                        .width(2.dp),
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
+
+                IconButton(
+                    onClick = {
+                        viewModel.edit()
+                    }
+                ) {
+                    Icon(
+                        painter = Resources.getIcon("edit_square"),
+                        contentDescription = Resources.getString("ct/edit")
+                    )
+                }
             }
         }
     )

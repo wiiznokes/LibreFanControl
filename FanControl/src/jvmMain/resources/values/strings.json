@@ -7,7 +7,8 @@
     "behavior": "Behavior",
     "sensor": "Sensor",
     "fan": "Fan",
-    "temp": "Temperature"
+    "temp": "Temperature",
+    "add_config": "Add configuration"
   },
   "icon_content_description": {
     "open_drawer": "open setting",
@@ -26,7 +27,10 @@
     "edit_add": "Add item",
     "edit_remove": "Remove item",
     "previous": "previous",
-    "next": "next"
+    "next": "next",
+    "save_conf": "save configuration",
+    "remove_conf": "remove configuration",
+    "add_conf": "add configuration"
   },
   "unity": {
     "rpm": "RPM",
@@ -34,7 +38,8 @@
     "percent": "%"
   },
   "label": {
-    "name": "name"
+    "name": "name",
+    "conf_name": "configuration name"
   },
   "add_item": {
     "flat_name": "Flat",
@@ -58,6 +63,8 @@
     "max_fan_speed": "max speed : "
   },
   "none": "None",
-  "fan_speed": "fan speed"
+  "fan_speed": "fan speed",
+  "add": "Add",
+  "cancel": "Cancel"
 }
 
