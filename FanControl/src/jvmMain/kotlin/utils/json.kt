@@ -29,3 +29,69 @@ private fun getRealPath(input: String): String {
         else -> input
     }
 }
+
+
+fun setString(path: String, key: String, value: String, rootJsonObject: JSONObject): JSONObject {
+
+    val pathList = path.split("/")
+    var realPath: String
+    val jsonObjectsHistory = mutableListOf(rootJsonObject)
+
+    // if "i" is not the last index, we need to find another JSONObject
+    for (i in pathList.indices - 1) {
+        realPath = getRealPath(pathList[i])
+        jsonObjectsHistory.add(
+            jsonObjectsHistory[jsonObjectsHistory.lastIndex].getJSONObject(realPath)
+        )
+    }
+    realPath = getRealPath(pathList.last())
+
+    jsonObjectsHistory[jsonObjectsHistory.lastIndex].put(key, value)
+
+    // assemble the final JSONObject with the history
+    val finalJSONObject = rootJsonObject
+
+    for (i in 1 until jsonObjectsHistory.size) {
+
+    }
+
+    return rootJsonObject
+}
+
+
+
+
+fun setStringRec(path: List<String>, index: Int, obj: JSONObject, value: String): JSONObject {
+    val realPath = getRealPath(path[index])
+
+    return obj.put(
+        realPath,
+        when (index) {
+            path.lastIndex -> { obj.put(realPath, value) }
+
+            else -> setStringRec(
+                path = path,
+                index = index + 1,
+                obj = obj.getJSONObject(realPath),
+                value = value
+            )
+        }
+    )
+}
+
+fun removeStringRec(path: List<String>, index: Int, obj: JSONObject): JSONObject {
+    val realPath = getRealPath(path[index])
+
+    return obj.put(
+        realPath,
+        when (index) {
+            path.lastIndex -> { obj.remove(realPath) }
+
+            else -> removeStringRec(
+                path = path,
+                index = index + 1,
+                obj = obj.getJSONObject(realPath)
+            )
+        }
+    )
+}

@@ -20,14 +20,9 @@ private const val SUFFIX_NEW_CONF = ".json"
 class JsonConfiguration {
     companion object {
 
-        private var _currentJsonObject: JSONObject? = null
-        private var _currentFile: File? = null
 
         fun loadConfig(id: Long) {
-            _currentFile = File(DIR_CONF + PREFIX_NEW_CONF + id + SUFFIX_NEW_CONF)
 
-            val string = _currentFile!!.bufferedReader().readText()
-            _currentJsonObject = JSONTokener(string).nextValue() as JSONObject
         }
 
         fun saveConfig(
@@ -68,9 +63,8 @@ class JsonConfiguration {
             )
             writer.endObject()
 
-            val file = getFile(configuration.id)
 
-            file.writeText(
+            getFile(configuration.id).writeText(
                 str.toString()
             )
         }

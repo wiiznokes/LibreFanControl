@@ -11,6 +11,7 @@ import model.ConfigurationModel
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
+import settings.Settings
 import utils.checkNameTaken
 
 class ConfigurationViewModel(
@@ -56,9 +57,23 @@ class ConfigurationViewModel(
             )
             it
         }
+
+        JsonConfiguration.saveConfig(
+            configuration = configList.value[index],
+            controlItemList = controlItemList.value,
+            behaviorItemList = behaviorItemList.value,
+            fanItemList = fanItemList.value,
+            tempItemList = tempItemList.value
+        )
     }
 
     fun onChangeConfiguration(index: Int?) {
+
+        when(index) {
+            null -> Settings.setSetting("config", "none")
+            else -> Settings.setSetting("config", configList.value[index].id.toString())
+        }
+
         _idConfig.update {
             it.value = when (index) {
                 null -> null
@@ -103,11 +118,29 @@ class ConfigurationViewModel(
             tempItemList = tempItemList.value
         )
 
+        Settings.setSetting(
+            path = "config",
+            value = id.toString()
+        )
+        Settings.setSetting(
+            path = "configList/$id",
+            value = name
+        )
+
         return true
     }
 
     fun removeConfiguration(index: Int) {
-        if (configList.value[index].id == idConfig.value) {
+
+        val removeCurrent = configList.value[index].id == idConfig.value
+
+        if (removeCurrent) {
+            Settings.setSetting("config", "none")
+            Settings.removeConfig(idConfig.value!!)
+        }
+
+
+        if (removeCurrent) {
             _idConfig.update {
                 it.value = null
                 it
