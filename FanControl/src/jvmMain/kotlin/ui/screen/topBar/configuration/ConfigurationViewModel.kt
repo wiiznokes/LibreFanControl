@@ -3,16 +3,30 @@ package ui.screen.topBar.configuration
 import State
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import configuration.JsonConfiguration
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.ConfigurationModel
+import model.item.ControlItem
+import model.item.SensorItem
+import model.item.behavior.BehaviorItem
 import utils.checkNameTaken
 
 class ConfigurationViewModel(
     private val _configList: MutableStateFlow<SnapshotStateList<ConfigurationModel>> = State._configList,
-    private val _idConfig: MutableStateFlow<MutableState<Long?>> = State._idConfig
+    private val _idConfig: MutableStateFlow<MutableState<Long?>> = State._idConfig,
+
+    private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
+    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
+    private val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
+    private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList
 ) {
+
+    val controlItemList = _controlItemList.asStateFlow()
+    val behaviorItemList = _behaviorItemList.asStateFlow()
+    val fanItemList = _fanItemList.asStateFlow()
+    val tempItemList = _tempItemList.asStateFlow()
 
     val configList = _configList.asStateFlow()
     val idConfig = _idConfig.asStateFlow().value
@@ -66,13 +80,13 @@ class ConfigurationViewModel(
             return false
         }
 
+        val newConfig = ConfigurationModel(
+            id = id,
+            name = name
+        )
+
         _configList.update {
-            it.add(
-                ConfigurationModel(
-                    id = id,
-                    name = name
-                )
-            )
+            it.add(newConfig)
             it
         }
 
@@ -80,6 +94,14 @@ class ConfigurationViewModel(
             it.value = id
             it
         }
+
+        JsonConfiguration.saveConfig(
+            configuration = newConfig,
+            controlItemList = controlItemList.value,
+            behaviorItemList = behaviorItemList.value,
+            fanItemList = fanItemList.value,
+            tempItemList = tempItemList.value
+        )
 
         return true
     }

@@ -15,7 +15,7 @@ fun LazyListScope.behaviorList(
     itemsIndexed(viewModel.behaviorItemList.value) { index, behavior ->
 
         when (behavior.type) {
-            ItemType.BehaviorType.FLAT -> {
+            ItemType.BehaviorType.B_FLAT -> {
                 flatBehavior(
                     behavior = behavior,
                     index = index,
@@ -29,7 +29,7 @@ fun LazyListScope.behaviorList(
                 )
             }
 
-            ItemType.BehaviorType.LINEAR -> {
+            ItemType.BehaviorType.B_LINEAR -> {
                 linearBehavior(
                     behavior = behavior,
                     index = index,
@@ -43,7 +43,7 @@ fun LazyListScope.behaviorList(
                 )
             }
 
-            ItemType.BehaviorType.TARGET -> TODO()
+            ItemType.BehaviorType.B_TARGET -> TODO()
 
             else -> throw Exception("unspecified item type")
         }

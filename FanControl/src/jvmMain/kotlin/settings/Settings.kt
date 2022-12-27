@@ -6,7 +6,6 @@ import utils.getString
 import java.io.File
 
 
-
 private const val DIR_CONF = "./conf/"
 private const val INIT_FILE_NAME = "settings.json"
 

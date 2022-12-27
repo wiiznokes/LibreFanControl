@@ -22,7 +22,7 @@ fun managerAddFlat(
         iconContentDescription = Resources.getString("ct/flat"),
         name = Resources.getString("add_item/flat_name"),
         onEditClick = onEditClick,
-        type = ItemType.BehaviorType.FLAT
+        type = ItemType.BehaviorType.B_FLAT
     ) {
         Row(
             modifier = Modifier

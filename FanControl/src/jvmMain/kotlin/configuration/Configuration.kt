@@ -28,7 +28,7 @@ class Configuration(
     fun checkConfiguration(): Long? {
         val configId = Settings.getSetting("config")
 
-        return if(configId == "none") {
+        return if (configId == "none") {
             null
         } else
             configId.toLong()
@@ -43,7 +43,7 @@ class Configuration(
             _behaviorItemList.value.add(
                 BehaviorItem(
                     name = "flat",
-                    type = ItemType.BehaviorType.FLAT,
+                    type = ItemType.BehaviorType.B_FLAT,
                     flatBehavior = FlatBehavior(),
                     itemId = getAvailableId(
                         ids = _behaviorItemList.value.map { item ->
@@ -56,7 +56,7 @@ class Configuration(
             _behaviorItemList.value.add(
                 BehaviorItem(
                     name = "linear",
-                    type = ItemType.BehaviorType.LINEAR,
+                    type = ItemType.BehaviorType.B_LINEAR,
                     linearBehavior = LinearBehavior(),
                     itemId = getAvailableId(
                         ids = _behaviorItemList.value.map { item ->
@@ -72,7 +72,7 @@ class Configuration(
             _fanItemList.value.add(
                 SensorItem(
                     name = it.libName,
-                    type = ItemType.SensorType.FAN,
+                    type = ItemType.SensorType.S_FAN,
                     sensorName = it.libName,
                     sensorId = it.libId,
                     itemId = getAvailableId(
@@ -88,7 +88,7 @@ class Configuration(
             _tempItemList.value.add(
                 SensorItem(
                     name = it.libName,
-                    type = ItemType.SensorType.TEMP,
+                    type = ItemType.SensorType.S_TEMP,
                     sensorName = it.libName,
                     sensorId = it.libId,
                     itemId = getAvailableId(

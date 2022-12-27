@@ -21,7 +21,7 @@ fun managerAddLinear(
         iconContentDescription = Resources.getString("ct/linear"),
         name = Resources.getString("add_item/linear_name"),
         onEditClick = onEditClick,
-        type = ItemType.BehaviorType.LINEAR
+        type = ItemType.BehaviorType.B_LINEAR
     ) {
         listChoice(
             name = Resources.getString("add_item/temp_name")

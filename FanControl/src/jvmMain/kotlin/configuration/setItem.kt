@@ -15,7 +15,7 @@ fun setItems(itemList: List<BaseItem>, writer: JSONWriter, type: ItemType) {
     writer.array()
     itemList.forEach {
         writer.`object`()
-        when(type) {
+        when (type) {
             is ItemType.ControlType -> setControl(it as ControlItem, writer)
             is ItemType.BehaviorType -> setBehavior(it as BehaviorItem, writer)
             is ItemType.SensorType -> setSensor(it as SensorItem, writer)
@@ -26,12 +26,8 @@ fun setItems(itemList: List<BaseItem>, writer: JSONWriter, type: ItemType) {
 }
 
 fun setControl(controlItem: ControlItem, writer: JSONWriter) {
-    writer.key("name")
-    writer.value(controlItem.name)
-    writer.key("itemId")
-    writer.value(controlItem.itemId)
-    writer.key("type")
-    writer.value(controlItem.type)
+    setItem(controlItem, writer)
+
     writer.key("visible")
     writer.value(controlItem.visible)
     writer.key("behaviorId")
@@ -43,30 +39,30 @@ fun setControl(controlItem: ControlItem, writer: JSONWriter) {
 }
 
 fun setSensor(sensorItem: SensorItem, writer: JSONWriter) {
-    writer.key("name")
-    writer.value(sensorItem.name)
-    writer.key("itemId")
-    writer.value(sensorItem.itemId)
-    writer.key("type")
-    writer.value(sensorItem.type)
+    setItem(sensorItem, writer)
+
     writer.key("sensorId")
     writer.value(sensorItem.sensorId)
 }
 
 fun setBehavior(behaviorItem: BehaviorItem, writer: JSONWriter) {
-    writer.key("name")
-    writer.value(behaviorItem.name)
-    writer.key("itemId")
-    writer.value(behaviorItem.itemId)
-    writer.key("type")
-    writer.value(behaviorItem.type)
+    setItem(behaviorItem, writer)
 
-    when(behaviorItem.type) {
-        ItemType.BehaviorType.FLAT -> setFlatBehavior(behaviorItem.flatBehavior!!, writer)
-        ItemType.BehaviorType.LINEAR -> setLinearBehavior(behaviorItem.linearBehavior!!, writer)
-        ItemType.BehaviorType.TARGET -> TODO()
+    when (behaviorItem.type) {
+        ItemType.BehaviorType.B_FLAT -> setFlatBehavior(behaviorItem.flatBehavior!!, writer)
+        ItemType.BehaviorType.B_LINEAR -> setLinearBehavior(behaviorItem.linearBehavior!!, writer)
+        ItemType.BehaviorType.B_TARGET -> TODO()
         else -> throw Exception("unspecified item type")
     }
+}
+
+private fun setItem(item: BaseItem, writer: JSONWriter) {
+    writer.key("name")
+    writer.value(item.name)
+    writer.key("itemId")
+    writer.value(item.itemId)
+    writer.key("type")
+    writer.value(item.type)
 }
 
 private fun setFlatBehavior(flatBehavior: FlatBehavior, writer: JSONWriter) {

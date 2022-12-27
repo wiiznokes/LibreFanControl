@@ -20,7 +20,7 @@ class ExternalLinux : External {
                 libIndex = 0,
                 libId = "fan1",
                 libName = "fan1",
-                type = ItemType.SensorType.FAN,
+                type = ItemType.SensorType.S_FAN,
             )
         )
         fans.value.add(
@@ -28,7 +28,7 @@ class ExternalLinux : External {
                 libIndex = 1,
                 libId = "fan2",
                 libName = "fan2",
-                type = ItemType.SensorType.FAN,
+                type = ItemType.SensorType.S_FAN,
             )
         )
         fans.value.add(
@@ -36,7 +36,7 @@ class ExternalLinux : External {
                 libIndex = 2,
                 libId = "fan3",
                 libName = "fan3",
-                type = ItemType.SensorType.FAN,
+                type = ItemType.SensorType.S_FAN,
             )
         )
     }
@@ -47,7 +47,7 @@ class ExternalLinux : External {
                 libIndex = 0,
                 libId = "temp1",
                 libName = "temp1",
-                type = ItemType.SensorType.TEMP,
+                type = ItemType.SensorType.S_TEMP,
             )
         )
         temps.value.add(
@@ -55,7 +55,7 @@ class ExternalLinux : External {
                 libIndex = 1,
                 libId = "temp2",
                 libName = "temp2",
-                type = ItemType.SensorType.TEMP,
+                type = ItemType.SensorType.S_TEMP,
             )
         )
         temps.value.add(
@@ -63,7 +63,7 @@ class ExternalLinux : External {
                 libIndex = 2,
                 libId = "temp3",
                 libName = "temp3",
-                type = ItemType.SensorType.TEMP,
+                type = ItemType.SensorType.S_TEMP,
             )
         )
     }

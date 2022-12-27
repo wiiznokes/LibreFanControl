@@ -34,11 +34,11 @@ class Logic(
                 behavior.itemId == control.behaviorId
             }
             val value = when (behavior!!.type) {
-                ItemType.BehaviorType.FLAT -> {
+                ItemType.BehaviorType.B_FLAT -> {
                     behavior.flatBehavior!!.value
                 }
 
-                ItemType.BehaviorType.LINEAR -> {
+                ItemType.BehaviorType.B_LINEAR -> {
                     if (behavior.linearBehavior!!.sensorId == null) {
                         // continue keyword of forEach loop
                         // we only return from the lambda expression
@@ -58,7 +58,7 @@ class Logic(
                     )
                 }
 
-                ItemType.BehaviorType.TARGET -> TODO()
+                ItemType.BehaviorType.B_TARGET -> TODO()
 
                 else -> throw Exception("unspecified item type")
             }

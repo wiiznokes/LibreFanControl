@@ -3,20 +3,20 @@ package model
 
 interface ItemType {
     enum class ControlType : ItemType {
-        FAN,
-        UNSPECIFIED
+        C_FAN,
+        C_UNSPECIFIED
     }
 
     enum class BehaviorType : ItemType {
-        FLAT,
-        LINEAR,
-        TARGET,
-        UNSPECIFIED
+        B_FLAT,
+        B_LINEAR,
+        B_TARGET,
+        B_UNSPECIFIED
     }
 
     enum class SensorType : ItemType {
-        FAN,
-        TEMP,
-        UNSPECIFIED
+        S_FAN,
+        S_TEMP,
+        S_UNSPECIFIED
     }
 }

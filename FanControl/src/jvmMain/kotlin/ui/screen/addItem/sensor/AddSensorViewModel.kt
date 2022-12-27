@@ -26,7 +26,7 @@ class AddSensorViewModel(
             it.add(
                 SensorItem(
                     name = name,
-                    type = ItemType.SensorType.FAN,
+                    type = ItemType.SensorType.S_FAN,
                     sensorName = Resources.getString("none"),
                     sensorId = null,
                     itemId = getAvailableId(
@@ -52,7 +52,7 @@ class AddSensorViewModel(
             it.add(
                 SensorItem(
                     name = name,
-                    type = ItemType.SensorType.TEMP,
+                    type = ItemType.SensorType.S_TEMP,
                     sensorName = Resources.getString("none"),
                     sensorId = null,
                     itemId = getAvailableId(

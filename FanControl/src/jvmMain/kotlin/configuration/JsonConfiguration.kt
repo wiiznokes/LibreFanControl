@@ -3,7 +3,6 @@ package configuration
 
 import model.ConfigurationModel
 import model.ItemType
-import model.item.BaseItem
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
@@ -11,7 +10,6 @@ import org.json.JSONObject
 import org.json.JSONTokener
 import org.json.JSONWriter
 import java.io.File
-
 
 
 private const val DIR_CONF = "./conf/"
@@ -41,6 +39,7 @@ class JsonConfiguration {
         ) {
             val str = StringBuilder()
             val writer = JSONWriter(str)
+            writer.`object`()
 
             writer.key("name")
             writer.value(configuration.name)
@@ -50,23 +49,24 @@ class JsonConfiguration {
             setItems(
                 itemList = controlItemList,
                 writer = writer,
-                type = ItemType.ControlType.FAN
+                type = ItemType.ControlType.C_FAN
             )
             setItems(
                 itemList = behaviorItemList,
                 writer = writer,
-                type = ItemType.BehaviorType.UNSPECIFIED
+                type = ItemType.BehaviorType.B_UNSPECIFIED
             )
             setItems(
                 itemList = fanItemList,
                 writer = writer,
-                type = ItemType.SensorType.FAN
+                type = ItemType.SensorType.S_FAN
             )
             setItems(
                 itemList = tempItemList,
                 writer = writer,
-                type = ItemType.SensorType.TEMP
+                type = ItemType.SensorType.S_TEMP
             )
+            writer.endObject()
 
             val file = getFile(configuration.id)
 
