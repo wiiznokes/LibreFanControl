@@ -9,6 +9,7 @@ import model.hardware.Sensor
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
+import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
 import ui.utils.getAvailableId
 
@@ -40,6 +41,19 @@ class Configuration(
     fun init() {
 
         _behaviorItemList.update {
+            _behaviorItemList.value.add(
+                BehaviorItem(
+                    name = "flat",
+                    type = ItemType.BehaviorType.FLAT,
+                    flatBehavior = FlatBehavior(),
+                    itemId = getAvailableId(
+                        ids = _behaviorItemList.value.map { item ->
+                            item.itemId
+                        }
+                    )
+                )
+            )
+
             _behaviorItemList.value.add(
                 BehaviorItem(
                     name = "linear",

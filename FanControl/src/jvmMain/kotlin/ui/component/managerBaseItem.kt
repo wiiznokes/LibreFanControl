@@ -147,7 +147,7 @@ private fun baseItem(
             val finalWidth: MutableState<Dp> = remember { mutableStateOf(0.dp) }
             val minDp = when (type) {
                 is ItemType.ControlType -> 200.dp
-                ItemType.BehaviorType.LINEAR -> 220.dp
+                is ItemType.BehaviorType -> 220.dp
                 else -> 100.dp
             }
 
