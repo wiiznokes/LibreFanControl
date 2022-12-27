@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.Configuration
-import ui.utils.checkNameTaken
+import utils.checkNameTaken
 
 class ConfigurationViewModel(
     private val _configList: MutableStateFlow<SnapshotStateList<Configuration>> = State._configList,

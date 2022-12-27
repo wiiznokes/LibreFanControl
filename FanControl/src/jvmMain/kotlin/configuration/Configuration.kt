@@ -11,7 +11,7 @@ import model.item.SensorItem
 import model.item.behavior.BehaviorItem
 import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
-import ui.utils.getAvailableId
+import utils.getAvailableId
 
 class Configuration(
     private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
@@ -26,15 +26,6 @@ class Configuration(
 
     // check if configuration exist, return index of conf if true, else -1
     fun checkConfiguration(): Int {
-
-        val json = JsonConfiguration()
-
-        val str = json.getString("hello")
-
-        json.createAndWrite()
-
-        println(str)
-
         return -1
     }
 

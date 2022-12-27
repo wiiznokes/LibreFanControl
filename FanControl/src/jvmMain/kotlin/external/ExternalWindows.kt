@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.update
 import model.ItemType
 import model.hardware.Sensor
 import model.item.ControlItem
-import ui.utils.getAvailableId
+import utils.getAvailableId
 
 class ExternalWindows : External {
 

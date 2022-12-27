@@ -20,9 +20,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ui.screen.body.behaviorList.linear.LinearParams
-import ui.utils.BlankException
-import ui.utils.IndexHaveNameException
-import ui.utils.NameIsTakenException
+import utils.BlankException
+import utils.IndexHaveNameException
+import utils.NameIsTakenException
 
 
 @Composable

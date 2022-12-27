@@ -17,8 +17,8 @@ import kotlinx.coroutines.delay
 import ui.component.managerNameOutlinedTextField
 import ui.component.managerText
 import ui.utils.Resources
-import ui.utils.checkNameTaken
-import ui.utils.getAvailableId
+import utils.checkNameTaken
+import utils.getAvailableId
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

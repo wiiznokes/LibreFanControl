@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.update
 import model.ItemType
 import model.item.SensorItem
 import ui.utils.Resources
-import ui.utils.getAvailableId
-import ui.utils.getAvailableName
+import utils.getAvailableId
+import utils.getAvailableName
 
 class AddSensorViewModel(
     private val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,

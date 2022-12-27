@@ -18,7 +18,7 @@ import ui.component.managerConfigNameRoundedTextField
 import ui.component.managerListChoice
 import ui.component.managerText
 import ui.utils.Resources
-import ui.utils.checkNameTaken
+import utils.checkNameTaken
 
 val viewModel = ConfigurationViewModel()
 

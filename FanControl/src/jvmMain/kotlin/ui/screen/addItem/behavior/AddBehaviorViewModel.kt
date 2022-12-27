@@ -9,8 +9,8 @@ import model.item.behavior.BehaviorItem
 import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
 import ui.utils.Resources
-import ui.utils.getAvailableId
-import ui.utils.getAvailableName
+import utils.getAvailableId
+import utils.getAvailableName
 
 class AddBehaviorViewModel(
     private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList
