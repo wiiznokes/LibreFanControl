@@ -313,3 +313,24 @@ fun managerConfigNameRoundedTextField(
         }
     )
 }
+
+@Composable
+fun managerConfigNameRoundedTextField(
+    text: String,
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = MaterialTheme.typography.bodyMedium
+) {
+
+    Text(
+        text = text,
+        modifier = modifier
+            .background(
+                color = MaterialTheme.colorScheme.secondary,
+                shape = RoundedCornerShape(22.dp), //rounded corners
+            )
+            .padding(horizontal = 10.dp, vertical = 5.dp),
+        color = MaterialTheme.colorScheme.onSecondary,
+        style = textStyle,
+        maxLines = 1,
+    )
+}

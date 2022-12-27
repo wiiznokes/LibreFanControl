@@ -2,7 +2,6 @@ package ui.screen.topBar.configuration
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
@@ -10,35 +9,39 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.key
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import kotlinx.coroutines.delay
 import model.Configuration
-import ui.component.*
+import ui.component.managerConfigNameRoundedTextField
+import ui.component.managerListChoice
+import ui.component.managerText
 import ui.utils.Resources
 import ui.utils.checkNameTaken
-import ui.utils.getAvailableId
 
 val viewModel = ConfigurationViewModel()
 
 @Composable
-fun managerConfiguration() {
+fun managerModifyConfig() {
 
-    val index = viewModel.indexConfig.value
     val dialogExpanded = remember { mutableStateOf(false) }
 
-    if (index != -1) {
-        managerConfiguration(
-            index = index,
-            configList = viewModel.configList.value
-        )
+    if (viewModel.configList.value.isNotEmpty()) {
+        if (viewModel.idConfig.value != null) {
+            managerModifyConfig(
+                index = viewModel.configList.value.indexOfFirst {
+                    it.id == viewModel.idConfig.value
+                },
+                configList = viewModel.configList.value
+            )
+        } else {
+            managerModifyConfig(
+                configList = viewModel.configList.value
+            )
+        }
     }
+
 
     // add configuration
     IconButton(
@@ -60,7 +63,7 @@ fun managerConfiguration() {
 
 
 @Composable
-private fun managerConfiguration(
+private fun managerModifyConfig(
     index: Int,
     configList: SnapshotStateList<Configuration>
 ) {
@@ -84,6 +87,8 @@ private fun managerConfiguration(
         )
     }
 
+    Spacer(Modifier.width(5.dp))
+
     managerListChoice(
         textContent = {
             managerConfigNameRoundedTextField(
@@ -106,154 +111,91 @@ private fun managerConfiguration(
         },
         expanded = expanded
     ) {
-        configList.forEachIndexed { index, _ ->
-            DropdownMenuItem(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.primary),
-                onClick = {
-                    viewModel.onChangeConfiguration(
-                        index = index
-                    )
-                    expanded.value = false
-                }
-            ) {
-                managerText(
-                    text = Resources.getString("none")
-                )
-                IconButton(
-                    onClick = {
-                        viewModel.removeConfiguration(
-                            index = index
-                        )
-                    }
-                ) {
-                    Icon(
-                        painter = Resources.getIcon("delete_forever"),
-                        contentDescription = Resources.getString("ct/remove_conf")
-                    )
-                }
-            }
-        }
+        dropdownMenuItemContent(
+            expanded = expanded,
+            configList = configList
+        )
     }
-
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
+
 @Composable
-private fun managerDialogAddConfiguration(
-    enabled: MutableState<Boolean>,
+private fun managerModifyConfig(
+    configList: SnapshotStateList<Configuration>
 ) {
+    val expanded = remember { mutableStateOf(false) }
 
-    val configList = viewModel.configList.value
-
-    val id = getAvailableId(
-        ids = configList.map {
-            it.id
-        }
-    )
-    val text = remember(
-        id
+    managerListChoice(
+        textContent = {
+            managerConfigNameRoundedTextField(
+                text = Resources.getString("none"),
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(35.dp),
+            )
+        },
+        expanded = expanded
     ) {
-        mutableStateOf("")
+        dropdownMenuItemContent(
+            expanded = expanded,
+            configList = configList
+        )
+    }
+}
+
+@Composable
+private fun dropdownMenuItemContent(
+    expanded: MutableState<Boolean>,
+    configList: SnapshotStateList<Configuration>
+) {
+    DropdownMenuItem(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.primary),
+        onClick = {
+            viewModel.onChangeConfiguration(null)
+            expanded.value = false
+        }
+    ) {
+        managerText(
+            text = Resources.getString("none")
+        )
     }
 
-    Dialog(
-        visible = enabled.value,
-        onCloseRequest = {
-            enabled.value = false
-        },
-        title = Resources.getString("title/add_config"),
-        focusable = enabled.value,
-        onPreviewKeyEvent = {
-            when (it.key) {
-                Key.Escape -> {
-                    enabled.value = false
-                    return@Dialog true
-                }
-
-                Key.Enter -> {
-                    if (viewModel.addConfiguration(
-                            name = text.value,
-                            id = id
-                        )
-                    ) {
-                        enabled.value = false
-                    }
-                    return@Dialog true
-                }
-
-                else -> {
-                    return@Dialog false
-                }
-            }
-        }
-    ) {
-
-        Column(
+    configList.forEachIndexed { index, config ->
+        DropdownMenuItem(
             modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    color = MaterialTheme.colorScheme.surface
-                ),
-            verticalArrangement = Arrangement.SpaceAround,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            val focusRequester = remember { FocusRequester() }
-
-            managerNameOutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth(0.7f)
-                    .focusRequester(focusRequester),
-                onValueChange = {
-                    checkNameTaken(
-                        names = configList.map { config ->
-                            config.name
-                        },
-                        name = it
-                    )
-                },
-                label = Resources.getString("label/conf_name"),
-                id = id,
-                text = text
-            )
-            LaunchedEffect(
-                id
-            ) {
-                // delay to avoid loosing focus with miss click
-                delay(200L)
-                focusRequester.requestFocus()
+                .background(MaterialTheme.colorScheme.primary),
+            onClick = {
+                viewModel.onChangeConfiguration(
+                    index = index
+                )
+                expanded.value = false
             }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-
-                Button(
-                    onClick = {
-                        enabled.value = false
-                    }
+        ) {
+            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .widthIn(min = 150.dp, 300.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    managerText(
-                        text = Resources.getString("cancel")
-                    )
-                }
-
-                Button(
-                    onClick = {
-                        if (viewModel.addConfiguration(
-                                name = text.value,
-                                id = id
-                            )
+                    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                        IconButton(
+                            onClick = {
+                                viewModel.removeConfiguration(
+                                    index = index
+                                )
+                            }
                         ) {
-                            enabled.value = false
+                            Icon(
+                                painter = Resources.getIcon("delete_forever"),
+                                contentDescription = Resources.getString("ct/remove_conf")
+                            )
                         }
                     }
-                ) {
                     managerText(
-                        text = Resources.getString("add")
+                        text = config.name
                     )
                 }
             }

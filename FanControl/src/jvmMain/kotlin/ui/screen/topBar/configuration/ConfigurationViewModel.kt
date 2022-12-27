@@ -11,13 +11,17 @@ import ui.utils.checkNameTaken
 
 class ConfigurationViewModel(
     private val _configList: MutableStateFlow<SnapshotStateList<Configuration>> = State._configList,
-    private val _indexConfig: MutableStateFlow<MutableState<Int>> = State._indexConfig
+    private val _idConfig: MutableStateFlow<MutableState<Long?>> = State._idConfig
 ) {
 
     val configList = _configList.asStateFlow()
-    val indexConfig = _indexConfig.asStateFlow().value
+    val idConfig = _idConfig.asStateFlow().value
 
+    // save conf is only visible when idConfig != null
     fun saveConfiguration(name: String) {
+        val index = configList.value.indexOfFirst {
+            it.id == idConfig.value
+        }
 
         try {
             checkNameTaken(
@@ -25,24 +29,27 @@ class ConfigurationViewModel(
                     item.name
                 },
                 name = name,
-                index = indexConfig.value
+                index = index
+
             )
         } catch (e: Exception) {
             return
         }
 
-
         _configList.update {
-            it[indexConfig.value] = it[indexConfig.value].copy(
+            it[index] = it[index].copy(
                 name = name
             )
             it
         }
     }
 
-    fun onChangeConfiguration(index: Int) {
-        _indexConfig.update {
-            it.value = index
+    fun onChangeConfiguration(index: Int?) {
+        _idConfig.update {
+            it.value = when (index) {
+                null -> null
+                else -> configList.value[index].id
+            }
             it
         }
     }
@@ -69,8 +76,8 @@ class ConfigurationViewModel(
             it
         }
 
-        _indexConfig.update {
-            it.value = configList.value.lastIndex
+        _idConfig.update {
+            it.value = id
             it
         }
 
@@ -78,6 +85,12 @@ class ConfigurationViewModel(
     }
 
     fun removeConfiguration(index: Int) {
+        if (configList.value[index].id == idConfig.value) {
+            _idConfig.update {
+                it.value = null
+                it
+            }
+        }
         _configList.update {
             it.removeAt(index)
             it

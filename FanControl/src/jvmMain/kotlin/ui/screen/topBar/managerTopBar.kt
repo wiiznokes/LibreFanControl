@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
-import ui.screen.topBar.configuration.managerConfiguration
+import ui.screen.topBar.configuration.managerModifyConfig
 import ui.utils.Resources
 
 
@@ -69,14 +69,14 @@ fun mainTopBar(
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                managerConfiguration()
+                managerModifyConfig()
 
                 Divider(
                     modifier = Modifier
-                        .width(2.dp)
-                        .padding(
-                            horizontal = 10.dp
-                        )
+                        .fillMaxHeight(0.9f)
+                        .padding(horizontal = 10.dp)
+                        .width(2.dp),
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
 
                 IconButton(
