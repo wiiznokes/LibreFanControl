@@ -151,7 +151,7 @@ private fun setting(
 
                 managerText(
                     modifier = Modifier
-                        .width(120.dp),
+                        .width(110.dp),
                     text = prefix
                 )
                 managerNumberTextField(

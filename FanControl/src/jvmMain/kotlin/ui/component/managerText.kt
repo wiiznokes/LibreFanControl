@@ -3,10 +3,12 @@ package ui.component
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
@@ -43,13 +45,31 @@ fun managerText(
     )
 }
 
-
 @Composable
 fun managerNumberTextField(
     text: MutableState<String>,
     opposedValue: Int,
     type: LinearParams,
-    onValueChange: (Int) -> String
+    onValueChange: (Int) -> String,
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
+    label: @Composable (() -> Unit)? = null,
+    placeholder: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default.copy(
+        keyboardType = KeyboardType.Number
+    ),
+    singleLine: Boolean = true,
+    maxLines: Int = Int.MAX_VALUE,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    colors: TextFieldColors = TextFieldDefaults.textFieldColors(
+        textColor = MaterialTheme.colorScheme.onPrimary,
+        containerColor = MaterialTheme.colorScheme.primary,
+        focusedLabelColor = MaterialTheme.colorScheme.onPrimary,
+        cursorColor = Color.Black
+    )
 ) {
     val isError = try {
         when (type) {
@@ -62,11 +82,19 @@ fun managerNumberTextField(
         true
     }
 
-    TextField(
-        modifier = Modifier
-            .width(80.dp),
-        isError = isError,
+    val mergedTextStyle = textStyle.merge(TextStyle(color = colors.textColor(true).value))
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    BasicTextField(
         value = text.value,
+        modifier = modifier
+            .background(
+                color = colors.containerColor(true).value,
+                shape = RoundedCornerShape(20.dp)
+            )
+            .indicatorLine(true, isError, interactionSource, colors)
+            .height(50.dp)
+            .width(50.dp),
         onValueChange = {
             try {
                 val finalValue = onValueChange(it.toInt())
@@ -75,15 +103,33 @@ fun managerNumberTextField(
                 text.value = ""
             }
         },
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Number
-        ),
-        textStyle = MaterialTheme.typography.bodyMedium,
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = MaterialTheme.colorScheme.onPrimary,
-            containerColor = MaterialTheme.colorScheme.primary
-        ),
-        singleLine = true
+        enabled = true,
+        readOnly = false,
+        textStyle = mergedTextStyle,
+        cursorBrush = SolidColor(colors.cursorColor(isError).value),
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions,
+        interactionSource = interactionSource,
+        singleLine = singleLine,
+        maxLines = maxLines,
+        decorationBox = @Composable { innerTextField ->
+            // places leading icon, text field with label and placeholder, trailing icon
+            TextFieldDefaults.TextFieldDecorationBox(
+                value = text.value,
+                visualTransformation = visualTransformation,
+                innerTextField = innerTextField,
+                placeholder = placeholder,
+                label = label,
+                leadingIcon = leadingIcon,
+                trailingIcon = trailingIcon,
+                singleLine = singleLine,
+                enabled = true,
+                isError = isError,
+                interactionSource = interactionSource,
+                colors = colors,
+                contentPadding = PaddingValues(6.dp)
+            )
+        }
     )
 }
 
@@ -102,7 +148,6 @@ fun managerNameOutlinedTextField(
         focusedBorderColor = MaterialTheme.colorScheme.onPrimary,
         focusedLabelColor = MaterialTheme.colorScheme.onPrimary,
         cursorColor = Color.Black
-
     ),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
@@ -216,7 +261,7 @@ fun managerConfigNameRoundedTextField(
         value = value,
         modifier = modifier
             .background(
-                colors.containerColor(true).value,
+                color = colors.containerColor(true).value,
                 shape = RoundedCornerShape(22.dp), //rounded corners
             )
             .border(
@@ -232,9 +277,7 @@ fun managerConfigNameRoundedTextField(
                 colors = colors,
                 focusedIndicatorLineThickness = 0.dp,  //to hide the indicator line
                 unfocusedIndicatorLineThickness = 0.dp //to hide the indicator line
-            )
-            .widthIn(200.dp, 250.dp)
-            .height(35.dp),
+            ),
         onValueChange = {
             text.value = it
             try {

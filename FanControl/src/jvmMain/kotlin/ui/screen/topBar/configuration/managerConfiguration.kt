@@ -87,7 +87,9 @@ private fun managerConfiguration(
     managerListChoice(
         textContent = {
             managerConfigNameRoundedTextField(
-                modifier = Modifier,
+                modifier = Modifier
+                    .widthIn(200.dp, 250.dp)
+                    .height(35.dp),
                 value = text.value,
                 onValueChange = {
                     checkNameTaken(
@@ -229,8 +231,6 @@ private fun managerDialogAddConfiguration(
                         ) {
                             enabled.value = false
                         }
-
-                        println("index = ${viewModel.indexConfig.value}")
                     }
                 ) {
                     managerText(

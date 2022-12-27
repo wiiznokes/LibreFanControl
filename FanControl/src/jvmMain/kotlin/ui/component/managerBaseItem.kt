@@ -60,7 +60,7 @@ fun baseItemBody(
         contentName = {
             managerNameOutlinedTextField(
                 modifier = Modifier
-                    .widthIn(min = 90.dp, max = 150.dp)
+                    .widthIn(min = 90.dp, max = 180.dp)
                     .width(IntrinsicSize.Min)
                     .height(50.dp),
                 text = text,
@@ -148,6 +148,7 @@ private fun baseItem(
             val finalWidth: MutableState<Dp> = remember { mutableStateOf(0.dp) }
             val minDp = when (type) {
                 is ItemType.ControlType -> 200.dp
+                ItemType.BehaviorType.LINEAR -> 220.dp
                 else -> 100.dp
             }
 

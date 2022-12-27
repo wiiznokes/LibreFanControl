@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import model.hardware.Sensor
 import model.item.behavior.BehaviorItem
 import ui.utils.Resources
@@ -22,26 +23,25 @@ import ui.utils.Resources
 fun listChoice(
     name: String
 ) {
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
+                Icon(
+                    painter = Resources.getIcon("expand_more"),
+                    contentDescription = Resources.getString("ct/choose_sensor")
+                )
 
-        managerText(
-            text = name,
-            modifier = Modifier.align(
-                Alignment.CenterStart
-            )
-        )
-
-        Icon(
-            modifier = Modifier.align(
-                Alignment.CenterEnd
-            ),
-            painter = Resources.getIcon("expand_more"),
-            contentDescription = Resources.getString("ct/choose_sensor")
-        )
+                managerText(
+                    text = name
+                )
+            }
+        }
     }
 }
 
@@ -163,9 +163,7 @@ fun managerListChoice(
     expanded: MutableState<Boolean>,
     content: @Composable ColumnScope.() -> Unit
 ) {
-
     Box {
-
         val iconShouldTrigger = remember { mutableStateOf(true) }
 
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
@@ -175,8 +173,6 @@ fun managerListChoice(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-
-
                     IconButton(
                         onClick = {
                             if (!iconShouldTrigger.value) {
