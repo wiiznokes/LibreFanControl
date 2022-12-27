@@ -24,6 +24,7 @@ import ui.utils.getAvailableId
 @Composable
 fun managerDialogAddConfiguration(
     enabled: MutableState<Boolean>,
+    keyEnterPressed: MutableState<Boolean>
 ) {
 
     val configList = viewModel.configList.value
@@ -46,7 +47,7 @@ fun managerDialogAddConfiguration(
         },
         title = Resources.getString("title/add_config"),
         focusable = enabled.value,
-        onPreviewKeyEvent = {
+        onKeyEvent = {
             when (it.key) {
                 Key.Escape -> {
                     enabled.value = false
@@ -59,6 +60,7 @@ fun managerDialogAddConfiguration(
                             id = id
                         )
                     ) {
+                        keyEnterPressed.value = true
                         enabled.value = false
                     }
                     return@Dialog true
@@ -99,11 +101,12 @@ fun managerDialogAddConfiguration(
                 text = text
             )
             LaunchedEffect(
-                id
+                Unit
             ) {
-                // delay to avoid loosing focus with miss click
-                delay(200L)
-                focusRequester.requestFocus()
+                if(enabled.value) {
+                    delay(400L)
+                    focusRequester.requestFocus()
+                }
             }
 
             Row(

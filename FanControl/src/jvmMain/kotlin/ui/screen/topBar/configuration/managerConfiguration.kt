@@ -42,11 +42,22 @@ fun managerModifyConfig() {
         }
     }
 
-
     // add configuration
+
+    /*
+        used to know if add conf button should trigger
+        because when the dialog appears, this button is
+        still focused, and will trigger if Enter is pressed
+    */
+    val keyEnterPressed = remember {
+        mutableStateOf(false)
+    }
     IconButton(
         onClick = {
-            dialogExpanded.value = true
+            if(keyEnterPressed.value)
+                keyEnterPressed.value = false
+            else
+                dialogExpanded.value = true
         }
     ) {
         Icon(
@@ -55,10 +66,12 @@ fun managerModifyConfig() {
         )
     }
 
-
-    managerDialogAddConfiguration(
-        enabled = dialogExpanded
-    )
+    if(dialogExpanded.value) {
+        managerDialogAddConfiguration(
+            enabled = dialogExpanded,
+            keyEnterPressed = keyEnterPressed
+        )
+    }
 }
 
 
@@ -182,11 +195,7 @@ private fun dropdownMenuItemContent(
                 ) {
                     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                         IconButton(
-                            onClick = {
-                                viewModel.removeConfiguration(
-                                    index = index
-                                )
-                            }
+                            onClick = { viewModel.removeConfiguration(index) }
                         ) {
                             Icon(
                                 painter = Resources.getIcon("delete_forever"),
