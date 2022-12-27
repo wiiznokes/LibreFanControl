@@ -73,7 +73,7 @@ fun mainTopBar(
 
                 Divider(
                     modifier = Modifier
-                        .fillMaxHeight(0.9f)
+                        .fillMaxHeight(0.8f)
                         .padding(horizontal = 10.dp)
                         .width(2.dp),
                     color = MaterialTheme.colorScheme.onPrimary
@@ -86,7 +86,9 @@ fun mainTopBar(
                 ) {
                     Icon(
                         painter = Resources.getIcon("edit_square"),
-                        contentDescription = Resources.getString("ct/edit")
+                        contentDescription = Resources.getString("ct/edit"),
+                        modifier = Modifier
+                            .padding(bottom = 5.dp, top = 1.dp)
                     )
                 }
             }
