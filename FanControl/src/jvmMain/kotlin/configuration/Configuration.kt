@@ -35,39 +35,10 @@ class Configuration(
     }
 
     fun loadConfig(configId: Long) {
-
+        JsonConfiguration
     }
 
     fun init() {
-        _behaviorItemList.update {
-            _behaviorItemList.value.add(
-                BehaviorItem(
-                    name = "flat",
-                    type = ItemType.BehaviorType.B_FLAT,
-                    flatBehavior = FlatBehavior(),
-                    itemId = getAvailableId(
-                        ids = _behaviorItemList.value.map { item ->
-                            item.itemId
-                        }
-                    )
-                )
-            )
-
-            _behaviorItemList.value.add(
-                BehaviorItem(
-                    name = "linear",
-                    type = ItemType.BehaviorType.B_LINEAR,
-                    linearBehavior = LinearBehavior(),
-                    itemId = getAvailableId(
-                        ids = _behaviorItemList.value.map { item ->
-                            item.itemId
-                        }
-                    )
-                )
-            )
-            it
-        }
-
         _fanList.value.forEach {
             _fanItemList.value.add(
                 SensorItem(

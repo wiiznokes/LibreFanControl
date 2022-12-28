@@ -1,12 +1,16 @@
 package configuration
 
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.ConfigurationModel
 import model.ItemType
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
+import org.json.JSONObject
+import org.json.JSONTokener
 import org.json.JSONWriter
+import settings.Settings
 import java.io.File
 
 
@@ -19,8 +23,18 @@ class JsonConfiguration {
     companion object {
 
 
-        fun loadConfig(id: Long) {
+        fun loadConfig(
+            configId: Long,
+            controlItemList: SnapshotStateList<ControlItem>,
+            behaviorItemList: List<BehaviorItem>,
+            fanItemList: List<SensorItem>,
+            tempItemList: List<SensorItem>
+        ) {
+            val file = getFile(configId)
+            val string = file.bufferedReader().readText()
+            val obj = JSONTokener(string).nextValue() as JSONObject
 
+            getItems()
         }
 
         fun saveConfig(

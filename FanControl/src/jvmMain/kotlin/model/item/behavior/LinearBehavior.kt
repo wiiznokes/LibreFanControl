@@ -9,4 +9,4 @@ data class LinearBehavior(
     val maxFanSpeed: Int = 100,
     var tempName: String = Resources.getString("none"),
     var sensorId: String? = null,
-)
+): BehaviorExtension

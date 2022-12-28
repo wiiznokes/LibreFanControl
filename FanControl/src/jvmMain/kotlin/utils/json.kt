@@ -2,7 +2,7 @@ package utils
 
 import org.json.JSONObject
 
-fun getString(path: String, rootJsonObject: JSONObject): String {
+fun getJsonValue(path: String, rootJsonObject: JSONObject): Any? {
     val list = path.split("/")
 
 
@@ -18,7 +18,7 @@ fun getString(path: String, rootJsonObject: JSONObject): String {
     }
     realPath = getRealPath(list[i])
 
-    return tempJSONObject.getString(realPath)
+    return tempJSONObject.get(realPath)
 }
 
 
@@ -29,7 +29,6 @@ private fun getRealPath(input: String): String {
         else -> input
     }
 }
-
 
 fun setStringRec(path: List<String>, index: Int, obj: JSONObject, value: String): JSONObject {
     val realPath = getRealPath(path[index])
@@ -55,21 +54,15 @@ fun removeStringRec(path: List<String>, index: Int, obj: JSONObject): JSONObject
     val realPath = getRealPath(path[index])
 
     return when (index) {
-        path.lastIndex -> {
-            obj.apply {
-                remove(realPath)
-            }
-        }
+        path.lastIndex -> obj.apply { remove(realPath) }
 
-        else -> {
-            obj.put(
-                realPath,
-                removeStringRec(
-                    path = path,
-                    index = index + 1,
-                    obj = obj.getJSONObject(realPath)
-                )
+        else -> obj.put(
+            realPath,
+            removeStringRec(
+                path = path,
+                index = index + 1,
+                obj = obj.getJSONObject(realPath)
             )
-        }
+        )
     }
 }

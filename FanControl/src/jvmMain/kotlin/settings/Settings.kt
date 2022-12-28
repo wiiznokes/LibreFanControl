@@ -2,7 +2,7 @@ package settings
 
 import org.json.JSONObject
 import org.json.JSONTokener
-import utils.getString
+import utils.getJsonValue
 import utils.removeStringRec
 import utils.setStringRec
 import java.io.File
@@ -24,7 +24,7 @@ class Settings {
         }
 
         fun getSetting(path: String): String {
-            return getString(
+            return getJsonValue(
                 path = path,
                 rootJsonObject = _paramsJsonObject
             )
