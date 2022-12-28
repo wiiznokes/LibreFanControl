@@ -6,8 +6,6 @@ import model.ItemType
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
-import org.json.JSONObject
-import org.json.JSONTokener
 import org.json.JSONWriter
 import java.io.File
 
