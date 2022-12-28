@@ -10,10 +10,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ui.component.managerText
 import ui.screen.body.behaviorList.behaviorList
 import ui.screen.body.controlList.controlList
 import ui.screen.body.fanList.fanList
@@ -85,33 +88,38 @@ fun body(
 }
 
 @Composable
-fun itemsList(
+private fun itemsList(
     title: String,
     content: LazyListScope.() -> Unit
 ) {
 
+    val columnVisible = remember {
+        mutableStateOf(true)
+    }
 
-    LazyColumn(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        item {
-            Text(
-                text = title,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontSize = 40.sp
-            )
-            Spacer(
-                modifier = Modifier
-                    .height(20.dp)
-            )
+    if (!columnVisible.value) {
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            item {
+                managerText(
+                    text = title,
+                    modifier = Modifier,
+                    style = MaterialTheme.typography.titleLarge
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(20.dp)
+                )
+            }
+            content()
         }
-        content()
     }
 }
 
 
 @Composable
-fun BoxScope.scrollableBox(
+private fun BoxScope.scrollableBox(
     content: @Composable () -> Unit
 ) {
     val stateHorizontal = rememberScrollState(0)

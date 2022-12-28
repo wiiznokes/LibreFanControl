@@ -1,7 +1,7 @@
 import configuration.Configuration
 import external.ExternalManager
-import helper.initConfig
-import helper.initSensor
+import utils.initConfig
+import utils.initSensor
 import kotlinx.coroutines.*
 import logicControl.Logic
 
