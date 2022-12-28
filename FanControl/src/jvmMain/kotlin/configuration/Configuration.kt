@@ -47,6 +47,7 @@ class Configuration {
             }
             getBehaviors(
                 behaviorItemList = behaviorItemList,
+                tempList = tempList,
                 array = obj.getJSONArray(ItemType.BehaviorType.B_UNSPECIFIED.toString())
             )
 

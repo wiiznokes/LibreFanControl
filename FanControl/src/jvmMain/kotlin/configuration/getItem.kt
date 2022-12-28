@@ -38,7 +38,7 @@ fun getControls(controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>
     }
 }
 
-fun getBehaviors(behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>>, array: JSONArray) {
+fun getBehaviors(behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>>, tempList: List<Sensor>, array: JSONArray) {
     for (i in 0 until array.length()) {
         val obj = array[i] as JSONObject
 
@@ -52,7 +52,7 @@ fun getBehaviors(behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorIt
                     type = type,
                     extension = when (type) {
                         ItemType.BehaviorType.B_FLAT -> getFlatBehavior(obj)
-                        ItemType.BehaviorType.B_LINEAR -> getLinearBehavior(obj)
+                        ItemType.BehaviorType.B_LINEAR -> getLinearBehavior(obj, tempList)
                         ItemType.BehaviorType.B_TARGET -> TODO()
                         ItemType.BehaviorType.B_UNSPECIFIED -> throw UnspecifiedTypeException()
                     }
@@ -110,11 +110,26 @@ private fun getFlatBehavior(obj: JSONObject): FlatBehavior {
     )
 }
 
-private fun getLinearBehavior(obj: JSONObject): LinearBehavior {
-    return LinearBehavior(
+private fun getLinearBehavior(obj: JSONObject, tempList: List<Sensor>): LinearBehavior {
+
+    val sensorId = getJsonValue<String?>("sensorId", obj)
+
+    val linearBehavior = LinearBehavior(
         minTemp = getJsonValue("minTemp", obj)!!,
         maxTemp = getJsonValue("maxTemp", obj)!!,
         minFanSpeed = getJsonValue("minFanSpeed", obj)!!,
         maxFanSpeed = getJsonValue("maxFanSpeed", obj)!!,
+        sensorId = sensorId
     )
+
+    return when (sensorId) {
+        null -> linearBehavior
+        else -> {
+            linearBehavior.copy(
+                tempName = tempList.first {
+                    it.libId == sensorId
+                }.libName
+            )
+        }
+    }
 }
