@@ -2,8 +2,11 @@ package configuration
 
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import model.ConfigurationModel
 import model.ItemType
+import model.hardware.Sensor
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
@@ -21,18 +24,57 @@ private const val SUFFIX_NEW_CONF = ".json"
 class Configuration {
     companion object {
 
-
         fun loadConfig(
             configId: Long,
-            controlItemList: SnapshotStateList<ControlItem>,
-            behaviorItemList: List<BehaviorItem>,
-            fanItemList: List<SensorItem>,
-            tempItemList: List<SensorItem>
+            controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>>,
+            behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>>,
+            fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>>,
+            tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>>,
+
+            fanList: List<Sensor>,
+            tempList: List<Sensor>
         ) {
             val file = getFile(configId)
             val string = file.bufferedReader().readText()
             val obj = JSONTokener(string).nextValue() as JSONObject
 
+            getControls(
+                controlItemList = controlItemList,
+                array = obj.getJSONArray(ItemType.ControlType.C_FAN.toString())
+            )
+
+            behaviorItemList.update {
+                it.clear()
+                it
+            }
+            getBehaviors(
+                behaviorItemList = behaviorItemList,
+                array = obj.getJSONArray(ItemType.BehaviorType.B_UNSPECIFIED.toString())
+            )
+
+            fanItemList.update {
+                it.clear()
+                it
+            }
+            getSensors(
+                sensorItemList = fanItemList,
+                sensorList = fanList,
+                array = obj.getJSONArray(ItemType.SensorType.S_FAN.toString())
+            )
+
+            tempItemList.update {
+                it.clear()
+                it
+            }
+            getSensors(
+                sensorItemList = tempItemList,
+                sensorList = tempList,
+                array = obj.getJSONArray(ItemType.SensorType.S_TEMP.toString())
+            )
+        }
+
+
+        fun removeConfig(configId: Long) {
 
         }
 

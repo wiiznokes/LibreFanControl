@@ -3,7 +3,6 @@ import helper.checkConfig
 import helper.initSensor
 import kotlinx.coroutines.*
 import logicControl.Logic
-import settings.Settings
 
 
 class Application {

@@ -38,31 +38,34 @@ fun getControls(controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>
     }
 }
 
-fun getBehaviors(behaviorItemList: SnapshotStateList<BehaviorItem>, array: JSONArray) {
+fun getBehaviors(behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>>, array: JSONArray) {
     for (i in 0 until array.length()) {
         val obj = array[i] as JSONObject
 
         val type = getType(getJsonValue("type", obj)!!) as ItemType.BehaviorType
 
-        behaviorItemList.add(
-            BehaviorItem(
-                name = getJsonValue("name", obj)!!,
-                itemId = getJsonValue("itemId", obj)!!,
-                type = type,
-                extension = when (type) {
-                    ItemType.BehaviorType.B_FLAT -> getFlatBehavior(obj)
-                    ItemType.BehaviorType.B_LINEAR -> getLinearBehavior(obj)
-                    ItemType.BehaviorType.B_TARGET -> TODO()
-                    ItemType.BehaviorType.B_UNSPECIFIED -> throw UnspecifiedTypeException()
-                }
+        behaviorItemList.update {
+            it.add(
+                BehaviorItem(
+                    name = getJsonValue("name", obj)!!,
+                    itemId = getJsonValue("itemId", obj)!!,
+                    type = type,
+                    extension = when (type) {
+                        ItemType.BehaviorType.B_FLAT -> getFlatBehavior(obj)
+                        ItemType.BehaviorType.B_LINEAR -> getLinearBehavior(obj)
+                        ItemType.BehaviorType.B_TARGET -> TODO()
+                        ItemType.BehaviorType.B_UNSPECIFIED -> throw UnspecifiedTypeException()
+                    }
+                )
             )
-        )
+            it
+        }
     }
 }
 
 
 fun getSensors(
-    sensorItemList: SnapshotStateList<SensorItem>,
+    sensorItemList: MutableStateFlow<SnapshotStateList<SensorItem>>,
     sensorList: List<Sensor>,
     array: JSONArray
 ) {
@@ -86,14 +89,17 @@ fun getSensors(
             libId = libId,
         )
 
-        sensorItemList.add(
-            if (sensor != null) {
-                sensorItem.copy(
-                    sensorName = sensor.libName
-                )
-            } else
-                sensorItem
-        )
+        sensorItemList.update {
+            it.add(
+                if (sensor != null) {
+                    sensorItem.copy(
+                        sensorName = sensor.libName
+                    )
+                } else
+                    sensorItem
+            )
+            it
+        }
     }
 }
 
