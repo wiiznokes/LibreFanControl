@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.update
 import model.ItemType
 import model.item.SensorItem
 import ui.utils.Resources
-import ui.utils.getAvailableId
-import ui.utils.getAvailableName
+import utils.getAvailableId
+import utils.getAvailableName
 
 class AddSensorViewModel(
     private val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
@@ -26,9 +26,9 @@ class AddSensorViewModel(
             it.add(
                 SensorItem(
                     name = name,
-                    type = ItemType.SensorType.FAN,
+                    type = ItemType.SensorType.S_FAN,
                     sensorName = Resources.getString("none"),
-                    sensorId = null,
+                    libId = null,
                     itemId = getAvailableId(
                         ids = _fanItemList.value.map { item ->
                             item.itemId
@@ -52,9 +52,9 @@ class AddSensorViewModel(
             it.add(
                 SensorItem(
                     name = name,
-                    type = ItemType.SensorType.TEMP,
+                    type = ItemType.SensorType.S_TEMP,
                     sensorName = Resources.getString("none"),
-                    sensorId = null,
+                    libId = null,
                     itemId = getAvailableId(
                         ids = _tempItemList.value.map { item ->
                             item.itemId

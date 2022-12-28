@@ -30,9 +30,9 @@ fun temp(
     editModeActivated: Boolean
 ) {
 
-    val sensorValue = if (sensorItem.sensorId != null) {
+    val sensorValue = if (sensorItem.libId != null) {
         viewModel.tempList.value.find {
-            it.libId == sensorItem.sensorId
+            it.libId == sensorItem.libId
         }!!.value
     } else 0
 

@@ -3,25 +3,39 @@ package ui.screen.topBar.configuration
 import State
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import configuration.Configuration
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import model.Configuration
-import ui.utils.checkNameTaken
+import model.ConfigurationModel
+import model.item.ControlItem
+import model.item.SensorItem
+import model.item.behavior.BehaviorItem
+import org.json.JSONObject
+import settings.Settings
+import utils.NameException
+import utils.checkNameTaken
 
 class ConfigurationViewModel(
-    private val _configList: MutableStateFlow<SnapshotStateList<Configuration>> = State._configList,
-    private val _idConfig: MutableStateFlow<MutableState<Long?>> = State._idConfig
+    private val _configList: MutableStateFlow<SnapshotStateList<ConfigurationModel>> = State._configList,
+    private val _idConfig: MutableStateFlow<MutableState<Long?>> = State._idConfig,
+
+    private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
+    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
+    private val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
+    private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList
 ) {
+
+    val controlItemList = _controlItemList.asStateFlow()
+    val behaviorItemList = _behaviorItemList.asStateFlow()
+    val fanItemList = _fanItemList.asStateFlow()
+    val tempItemList = _tempItemList.asStateFlow()
 
     val configList = _configList.asStateFlow()
     val idConfig = _idConfig.asStateFlow().value
 
     // save conf is only visible when idConfig != null
-    fun saveConfiguration(name: String) {
-        val index = configList.value.indexOfFirst {
-            it.id == idConfig.value
-        }
+    fun saveConfiguration(name: String, index: Int) {
 
         try {
             checkNameTaken(
@@ -30,9 +44,8 @@ class ConfigurationViewModel(
                 },
                 name = name,
                 index = index
-
             )
-        } catch (e: Exception) {
+        } catch (e: NameException) {
             return
         }
 
@@ -42,13 +55,39 @@ class ConfigurationViewModel(
             )
             it
         }
+
+        Configuration.saveConfig(
+            configuration = configList.value[index],
+            controlItemList = controlItemList.value,
+            behaviorItemList = behaviorItemList.value,
+            fanItemList = fanItemList.value,
+            tempItemList = tempItemList.value
+        )
     }
 
-    fun onChangeConfiguration(index: Int?) {
+    fun onChangeConfiguration(id: Long?) {
+
+        when (id) {
+            null -> Settings.setSetting("config", JSONObject.NULL)
+            else -> {
+                Settings.setSetting("config", id)
+                Configuration.loadConfig(
+                    configId = id,
+                    controlItemList = State._controlItemList,
+                    behaviorItemList = State._behaviorItemList,
+                    fanItemList = State._fanItemList,
+                    tempItemList = State._tempItemList,
+
+                    fanList = State._fanList.value,
+                    tempList = State._tempList.value
+                )
+            }
+        }
+
         _idConfig.update {
-            it.value = when (index) {
+            it.value = when (id) {
                 null -> null
-                else -> configList.value[index].id
+                else -> id
             }
             it
         }
@@ -66,13 +105,13 @@ class ConfigurationViewModel(
             return false
         }
 
+        val newConfig = ConfigurationModel(
+            id = id,
+            name = name
+        )
+
         _configList.update {
-            it.add(
-                Configuration(
-                    id = id,
-                    name = name
-                )
-            )
+            it.add(newConfig)
             it
         }
 
@@ -81,11 +120,37 @@ class ConfigurationViewModel(
             it
         }
 
+        Configuration.saveConfig(
+            configuration = newConfig,
+            controlItemList = controlItemList.value,
+            behaviorItemList = behaviorItemList.value,
+            fanItemList = fanItemList.value,
+            tempItemList = tempItemList.value
+        )
+
+        Settings.setSetting(
+            path = "config",
+            value = id
+        )
+        Settings.setSetting(
+            path = "configList/$id",
+            value = name
+        )
+
         return true
     }
 
-    fun removeConfiguration(index: Int) {
-        if (configList.value[index].id == idConfig.value) {
+    fun removeConfiguration(id: Long, index: Int) {
+
+        val removeCurrent = id == idConfig.value
+
+        if (removeCurrent)
+            Settings.setSetting("config", JSONObject.NULL)
+
+        Settings.removeConfig(id)
+
+
+        if (removeCurrent) {
             _idConfig.update {
                 it.value = null
                 it
@@ -95,5 +160,6 @@ class ConfigurationViewModel(
             it.removeAt(index)
             it
         }
+        Configuration.deleteConfig(id)
     }
 }

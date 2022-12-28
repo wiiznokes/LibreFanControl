@@ -67,7 +67,7 @@ fun baseControlAddItem(
         iconContentDescription = Resources.getString("ct/control"),
         name = name,
         onEditClick = onEditClick,
-        type = ItemType.ControlType.FAN
+        type = ItemType.ControlType.C_FAN
     ) {
         baseControl(
             isActive = false,

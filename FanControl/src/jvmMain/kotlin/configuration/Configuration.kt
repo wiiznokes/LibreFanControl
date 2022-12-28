@@ -1,104 +1,128 @@
 package configuration
 
-import State
+
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import model.ConfigurationModel
 import model.ItemType
 import model.hardware.Sensor
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
-import model.item.behavior.FlatBehavior
-import model.item.behavior.LinearBehavior
-import ui.utils.getAvailableId
-
-class Configuration(
-    private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
-    private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList,
+import org.json.JSONObject
+import org.json.JSONTokener
+import org.json.JSONWriter
+import utils.DIR_CONF
+import java.io.File
 
 
-    private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
-    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
-    private val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
-    private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList
-) {
+private const val PREFIX_NEW_CONF = "config"
+private const val SUFFIX_NEW_CONF = ".json"
 
-    // check if configuration exist, return index of conf if true, else -1
-    fun checkConfiguration(): Int {
+class Configuration {
+    companion object {
+        fun loadConfig(
+            configId: Long,
+            controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>>,
+            behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>>,
+            fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>>,
+            tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>>,
 
-        val json = JsonConfiguration()
+            fanList: List<Sensor>,
+            tempList: List<Sensor>
+        ) {
+            val file = getFile(configId)
+            val string = file.bufferedReader().readText()
+            val obj = JSONTokener(string).nextValue() as JSONObject
 
-        val str = json.getString("hello")
-
-        json.createAndWrite()
-
-        println(str)
-
-        return -1
-    }
-
-    fun init() {
-
-        _behaviorItemList.update {
-            _behaviorItemList.value.add(
-                BehaviorItem(
-                    name = "flat",
-                    type = ItemType.BehaviorType.FLAT,
-                    flatBehavior = FlatBehavior(),
-                    itemId = getAvailableId(
-                        ids = _behaviorItemList.value.map { item ->
-                            item.itemId
-                        }
-                    )
-                )
+            getControls(
+                controlItemList = controlItemList,
+                array = obj.getJSONArray(ItemType.ControlType.C_FAN.toString())
             )
 
-            _behaviorItemList.value.add(
-                BehaviorItem(
-                    name = "linear",
-                    type = ItemType.BehaviorType.LINEAR,
-                    linearBehavior = LinearBehavior(),
-                    itemId = getAvailableId(
-                        ids = _behaviorItemList.value.map { item ->
-                            item.itemId
-                        }
-                    )
-                )
+            behaviorItemList.update {
+                it.clear()
+                it
+            }
+            getBehaviors(
+                behaviorItemList = behaviorItemList,
+                array = obj.getJSONArray(ItemType.BehaviorType.B_UNSPECIFIED.toString())
             )
-            it
-        }
 
-        _fanList.value.forEach {
-            _fanItemList.value.add(
-                SensorItem(
-                    name = it.libName,
-                    type = ItemType.SensorType.FAN,
-                    sensorName = it.libName,
-                    sensorId = it.libId,
-                    itemId = getAvailableId(
-                        ids = _fanItemList.value.map { item ->
-                            item.itemId
-                        }
-                    )
-                )
+            fanItemList.update {
+                it.clear()
+                it
+            }
+            getSensors(
+                sensorItemList = fanItemList,
+                sensorList = fanList,
+                array = obj.getJSONArray(ItemType.SensorType.S_FAN.toString())
+            )
+
+            tempItemList.update {
+                it.clear()
+                it
+            }
+            getSensors(
+                sensorItemList = tempItemList,
+                sensorList = tempList,
+                array = obj.getJSONArray(ItemType.SensorType.S_TEMP.toString())
             )
         }
 
-        _tempList.value.forEach {
-            _tempItemList.value.add(
-                SensorItem(
-                    name = it.libName,
-                    type = ItemType.SensorType.TEMP,
-                    sensorName = it.libName,
-                    sensorId = it.libId,
-                    itemId = getAvailableId(
-                        ids = _tempItemList.value.map { item ->
-                            item.itemId
-                        }
-                    )
-                )
+
+        fun deleteConfig(configId: Long) {
+            val file = getFile(configId)
+            file.delete()
+        }
+
+        fun saveConfig(
+            configuration: ConfigurationModel,
+            controlItemList: List<ControlItem>,
+            behaviorItemList: List<BehaviorItem>,
+            fanItemList: List<SensorItem>,
+            tempItemList: List<SensorItem>
+        ) {
+            val str = StringBuilder()
+            val writer = JSONWriter(str)
+            writer.`object`()
+
+            writer.key("name")
+            writer.value(configuration.name)
+            writer.key("id")
+            writer.value(configuration.id)
+
+            setItems(
+                itemList = controlItemList,
+                writer = writer,
+                type = ItemType.ControlType.C_FAN
             )
+            setItems(
+                itemList = behaviorItemList,
+                writer = writer,
+                type = ItemType.BehaviorType.B_UNSPECIFIED
+            )
+            setItems(
+                itemList = fanItemList,
+                writer = writer,
+                type = ItemType.SensorType.S_FAN
+            )
+            setItems(
+                itemList = tempItemList,
+                writer = writer,
+                type = ItemType.SensorType.S_TEMP
+            )
+            writer.endObject()
+
+
+            getFile(configuration.id).writeText(
+                str.toString()
+            )
+        }
+
+        private fun getFile(id: Long): File {
+            return File(DIR_CONF + PREFIX_NEW_CONF + id + SUFFIX_NEW_CONF)
         }
     }
 }

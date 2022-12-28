@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.item.behavior.BehaviorItem
+import model.item.behavior.LinearBehavior
 import ui.component.baseItemBody
 import ui.component.listChoice
 import ui.component.managerNumberTextField
@@ -36,8 +37,10 @@ fun linearBehavior(
         item = behavior
     ) {
 
+        val linearBehavior = behavior.extension as LinearBehavior
+
         listChoice(
-            sensorName = behavior.linearBehavior!!.tempName,
+            sensorName = linearBehavior.tempName,
             sensorList = viewModel.tempList.value,
             onItemClick = {
                 viewModel.setTemp(
@@ -49,10 +52,10 @@ fun linearBehavior(
 
 
         val values = listOf(
-            behavior.linearBehavior.minTemp,
-            behavior.linearBehavior.maxTemp,
-            behavior.linearBehavior.minFanSpeed,
-            behavior.linearBehavior.maxFanSpeed
+            linearBehavior.minTemp,
+            linearBehavior.maxTemp,
+            linearBehavior.minFanSpeed,
+            linearBehavior.maxFanSpeed
         )
 
         val prefixes = listOf(

@@ -9,8 +9,8 @@ import model.item.behavior.BehaviorItem
 import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
 import ui.utils.Resources
-import ui.utils.getAvailableId
-import ui.utils.getAvailableName
+import utils.getAvailableId
+import utils.getAvailableName
 
 class AddBehaviorViewModel(
     private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList
@@ -26,8 +26,8 @@ class AddBehaviorViewModel(
                         },
                         prefix = Resources.getString("default/flat_name")
                     ),
-                    type = ItemType.BehaviorType.FLAT,
-                    flatBehavior = FlatBehavior(),
+                    type = ItemType.BehaviorType.B_FLAT,
+                    extension = FlatBehavior(),
                     itemId = getAvailableId(
                         ids = _behaviorItemList.value.map { item ->
                             item.itemId
@@ -51,8 +51,8 @@ class AddBehaviorViewModel(
             it.add(
                 BehaviorItem(
                     name = name,
-                    type = ItemType.BehaviorType.LINEAR,
-                    linearBehavior = LinearBehavior(),
+                    type = ItemType.BehaviorType.B_LINEAR,
+                    extension = LinearBehavior(),
                     itemId = getAvailableId(
                         ids = _behaviorItemList.value.map { item ->
                             item.itemId

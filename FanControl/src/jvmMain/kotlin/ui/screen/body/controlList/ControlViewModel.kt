@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.item.ControlItem
 import model.item.behavior.BehaviorItem
-import ui.utils.checkNameTaken
+import utils.checkNameTaken
 
 class ControlViewModel(
     private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,

@@ -13,12 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import model.Configuration
+import model.ConfigurationModel
 import ui.component.managerConfigNameRoundedTextField
 import ui.component.managerListChoice
 import ui.component.managerText
 import ui.utils.Resources
-import ui.utils.checkNameTaken
+import utils.checkNameTaken
 
 val viewModel = ConfigurationViewModel()
 
@@ -42,11 +42,22 @@ fun managerModifyConfig() {
         }
     }
 
-
     // add configuration
+
+    /*
+        used to know if add conf button should trigger
+        because when the dialog appears, this button is
+        still focused, and will trigger if Enter is pressed
+    */
+    val keyEnterPressed = remember {
+        mutableStateOf(false)
+    }
     IconButton(
         onClick = {
-            dialogExpanded.value = true
+            if (keyEnterPressed.value)
+                keyEnterPressed.value = false
+            else
+                dialogExpanded.value = true
         }
     ) {
         Icon(
@@ -55,17 +66,19 @@ fun managerModifyConfig() {
         )
     }
 
-
-    managerDialogAddConfiguration(
-        enabled = dialogExpanded
-    )
+    if (dialogExpanded.value) {
+        managerDialogAddConfiguration(
+            enabled = dialogExpanded,
+            keyEnterPressed = keyEnterPressed
+        )
+    }
 }
 
 
 @Composable
 private fun managerModifyConfig(
     index: Int,
-    configList: SnapshotStateList<Configuration>
+    configList: SnapshotStateList<ConfigurationModel>
 ) {
     val expanded = remember { mutableStateOf(false) }
 
@@ -78,7 +91,7 @@ private fun managerModifyConfig(
 
     IconButton(
         onClick = {
-            viewModel.saveConfiguration(text.value)
+            viewModel.saveConfiguration(text.value, index)
         }
     ) {
         Icon(
@@ -121,7 +134,7 @@ private fun managerModifyConfig(
 
 @Composable
 private fun managerModifyConfig(
-    configList: SnapshotStateList<Configuration>
+    configList: SnapshotStateList<ConfigurationModel>
 ) {
     val expanded = remember { mutableStateOf(false) }
 
@@ -146,7 +159,7 @@ private fun managerModifyConfig(
 @Composable
 private fun dropdownMenuItemContent(
     expanded: MutableState<Boolean>,
-    configList: SnapshotStateList<Configuration>
+    configList: SnapshotStateList<ConfigurationModel>
 ) {
     DropdownMenuItem(
         modifier = Modifier
@@ -166,9 +179,7 @@ private fun dropdownMenuItemContent(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.primary),
             onClick = {
-                viewModel.onChangeConfiguration(
-                    index = index
-                )
+                viewModel.onChangeConfiguration(config.id)
                 expanded.value = false
             }
         ) {
@@ -182,11 +193,7 @@ private fun dropdownMenuItemContent(
                 ) {
                     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                         IconButton(
-                            onClick = {
-                                viewModel.removeConfiguration(
-                                    index = index
-                                )
-                            }
+                            onClick = { viewModel.removeConfiguration(config.id, index) }
                         ) {
                             Icon(
                                 painter = Resources.getIcon("delete_forever"),

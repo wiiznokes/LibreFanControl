@@ -22,7 +22,7 @@ fun managerAddSensor() {
                 },
                 sensorName = Resources.getString("add_item/choose_sensor"),
                 sensorValue = "1000 ${Resources.getString("unity/rpm")}",
-                type = ItemType.SensorType.FAN
+                type = ItemType.SensorType.S_FAN
             )
         }
 
@@ -37,7 +37,7 @@ fun managerAddSensor() {
                 },
                 sensorName = Resources.getString("add_item/choose_sensor"),
                 sensorValue = "50 ${Resources.getString("unity/degree")}",
-                type = ItemType.SensorType.TEMP
+                type = ItemType.SensorType.S_TEMP
             )
         }
     }

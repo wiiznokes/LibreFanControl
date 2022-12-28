@@ -20,9 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ui.screen.body.behaviorList.linear.LinearParams
-import ui.utils.BlankException
-import ui.utils.IndexHaveNameException
-import ui.utils.NameIsTakenException
+import utils.NameException
 
 
 @Composable
@@ -175,11 +173,7 @@ fun managerNameOutlinedTextField(
             try {
                 onValueChange(it)
                 isError.value = false
-            } catch (e: NameIsTakenException) {
-                isError.value = true
-            } catch (e: IndexHaveNameException) {
-                isError.value = false
-            } catch (e: BlankException) {
+            } catch (e: NameException) {
                 isError.value = true
             }
         },
@@ -279,11 +273,7 @@ fun managerConfigNameRoundedTextField(
             try {
                 onValueChange(it)
                 isError.value = false
-            } catch (e: NameIsTakenException) {
-                isError.value = true
-            } catch (e: IndexHaveNameException) {
-                isError.value = false
-            } catch (e: BlankException) {
+            } catch (e: NameException) {
                 isError.value = true
             }
         },

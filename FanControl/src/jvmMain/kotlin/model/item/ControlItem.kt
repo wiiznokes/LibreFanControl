@@ -5,7 +5,7 @@ import model.ItemType
 data class ControlItem(
     override var name: String,
     override val itemId: Long,
-    override val type: ItemType.ControlType = ItemType.ControlType.FAN,
+    override val type: ItemType.ControlType = ItemType.ControlType.C_FAN,
 
     override var isExpanded: Boolean = false,
     var visible: Boolean = true,

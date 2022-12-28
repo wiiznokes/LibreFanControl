@@ -1,5 +1,7 @@
 import configuration.Configuration
 import external.ExternalManager
+import helper.initConfig
+import helper.initSensor
 import kotlinx.coroutines.*
 import logicControl.Logic
 
@@ -8,8 +10,6 @@ class Application {
 
     private var jobUpdate: Job? = null
     private var jobControlUpdate: Job? = null
-
-    private var configuration: Configuration? = null
 
 
     companion object {
@@ -33,17 +33,33 @@ class Application {
             State._tempList,
             State._controlItemList
         )
-        configuration = Configuration()
+        val configId = initConfig(
+            configList = State._configList,
+            idConfig = State._idConfig
+        )
 
-        val res = configuration!!.checkConfiguration()
+        when (configId) {
+            null -> {
+                initSensor(
+                    fanList = State._fanList,
+                    tempList = State._tempList,
 
-        when (res) {
-            -1 -> {
-                configuration!!.init()
+                    fanItemList = State._fanItemList,
+                    tempItemList = State._tempItemList
+                )
             }
 
             else -> {
+                Configuration.loadConfig(
+                    configId = configId,
+                    controlItemList = State._controlItemList,
+                    behaviorItemList = State._behaviorItemList,
+                    fanItemList = State._fanItemList,
+                    tempItemList = State._tempItemList,
 
+                    fanList = State._fanList.value,
+                    tempList = State._tempList.value
+                )
             }
         }
         startUpdate()

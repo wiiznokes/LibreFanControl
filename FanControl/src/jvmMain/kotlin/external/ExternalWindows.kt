@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.update
 import model.ItemType
 import model.hardware.Sensor
 import model.item.ControlItem
-import ui.utils.getAvailableId
+import utils.getAvailableId
 
 class ExternalWindows : External {
 
@@ -40,7 +40,7 @@ class ExternalWindows : External {
                     libIndex = result[i * 3].toInt(),
                     libId = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2],
-                    type = ItemType.SensorType.FAN,
+                    type = ItemType.SensorType.S_FAN,
                 )
             )
         }
@@ -55,7 +55,7 @@ class ExternalWindows : External {
                     libIndex = result[i * 3].toInt(),
                     libId = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2],
-                    type = ItemType.SensorType.TEMP,
+                    type = ItemType.SensorType.S_TEMP,
                 )
             )
         }

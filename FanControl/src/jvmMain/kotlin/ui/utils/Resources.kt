@@ -11,18 +11,11 @@ import org.json.JSONTokener
 
 
 private const val STRING_FILE_NAME = "strings.json"
-
-private const val DEFAULT_LANGUAGE = "en"
-
 private const val SUFFIX_DRAWABLE = "_FILL0_wght400_GRAD0_opsz48"
-
 
 class Resources {
 
     companion object {
-
-        var langue: String = DEFAULT_LANGUAGE
-
         private val _rootJsonObject: JSONObject
 
         init {
@@ -33,22 +26,10 @@ class Resources {
         }
 
         fun getString(path: String): String {
-            val list = path.split("/")
-
-
-            var tempJSONObject: JSONObject = _rootJsonObject
-            var i = 0
-            var realPath: String
-
-            // if i is not the last index, we need to find another JSONObject
-            while (i < list.size - 1) {
-                realPath = getRealPath(list[i])
-                tempJSONObject = tempJSONObject.getJSONObject(realPath)
-                i++
-            }
-            realPath = getRealPath(list[i])
-
-            return tempJSONObject.getString(realPath)
+            return utils.getJsonValue(
+                path = path,
+                obj = _rootJsonObject
+            )!!
         }
 
         @Composable
@@ -60,15 +41,5 @@ class Resources {
                 }
             }
         }
-
-        private fun getRealPath(input: String): String {
-            return when (input) {
-                "ct" -> "icon_content_description"
-                "default" -> "default_value"
-                else -> input
-            }
-        }
     }
-
-
 }

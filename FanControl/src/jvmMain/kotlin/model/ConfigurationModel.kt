@@ -1,6 +1,6 @@
 package model
 
-data class Configuration(
+data class ConfigurationModel(
     val id: Long,
     var name: String
 )
