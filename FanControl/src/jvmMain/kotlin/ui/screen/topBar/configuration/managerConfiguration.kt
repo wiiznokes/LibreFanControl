@@ -179,9 +179,7 @@ private fun dropdownMenuItemContent(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.primary),
             onClick = {
-                viewModel.onChangeConfiguration(
-                    index = index
-                )
+                viewModel.onChangeConfiguration(config.id)
                 expanded.value = false
             }
         ) {
@@ -195,7 +193,7 @@ private fun dropdownMenuItemContent(
                 ) {
                     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                         IconButton(
-                            onClick = { viewModel.removeConfiguration(index) }
+                            onClick = { viewModel.removeConfiguration(config.id, index) }
                         ) {
                             Icon(
                                 painter = Resources.getIcon("delete_forever"),

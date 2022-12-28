@@ -67,17 +67,17 @@ class ConfigurationViewModel(
         )
     }
 
-    fun onChangeConfiguration(index: Int?) {
+    fun onChangeConfiguration(id: Long?) {
 
-        when (index) {
+        when (id) {
             null -> Settings.setSetting("config", "none")
-            else -> Settings.setSetting("config", configList.value[index].id.toString())
+            else -> Settings.setSetting("config", id.toString())
         }
 
         _idConfig.update {
-            it.value = when (index) {
+            it.value = when (id) {
                 null -> null
-                else -> configList.value[index].id
+                else -> id
             }
             it
         }
@@ -130,14 +130,14 @@ class ConfigurationViewModel(
         return true
     }
 
-    fun removeConfiguration(index: Int) {
+    fun removeConfiguration(id: Long, index: Int) {
 
-        val removeCurrent = configList.value[index].id == idConfig.value
+        val removeCurrent = id == idConfig.value
 
         if (removeCurrent)
             Settings.setSetting("config", "none")
 
-        Settings.removeConfig(idConfig.value!!)
+        Settings.removeConfig(id)
 
 
         if (removeCurrent) {
