@@ -69,7 +69,7 @@ class ConfigurationViewModel(
 
     fun onChangeConfiguration(index: Int?) {
 
-        when(index) {
+        when (index) {
             null -> Settings.setSetting("config", "none")
             else -> Settings.setSetting("config", configList.value[index].id.toString())
         }

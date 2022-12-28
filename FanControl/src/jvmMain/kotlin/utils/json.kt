@@ -59,22 +59,22 @@ fun setString(path: String, key: String, value: String, rootJsonObject: JSONObje
 }
 
 
-
-
 fun setStringRec(path: List<String>, index: Int, obj: JSONObject, value: String): JSONObject {
     val realPath = getRealPath(path[index])
 
     return obj.put(
         realPath,
         when (index) {
-            path.lastIndex -> { obj.put(realPath, value) }
+            path.lastIndex -> value
 
-            else -> setStringRec(
-                path = path,
-                index = index + 1,
-                obj = obj.getJSONObject(realPath),
-                value = value
-            )
+            else ->
+                setStringRec(
+                    path = path,
+                    index = index + 1,
+                    obj = obj.getJSONObject(realPath),
+                    value = value
+                )
+
         }
     )
 }
@@ -85,7 +85,9 @@ fun removeStringRec(path: List<String>, index: Int, obj: JSONObject): JSONObject
     return obj.put(
         realPath,
         when (index) {
-            path.lastIndex -> { obj.remove(realPath) }
+            path.lastIndex -> {
+                obj.remove(realPath)
+            }
 
             else -> removeStringRec(
                 path = path,
@@ -94,4 +96,9 @@ fun removeStringRec(path: List<String>, index: Int, obj: JSONObject): JSONObject
             )
         }
     )
+}
+
+fun setString(key: String, value: String, obj: JSONObject): JSONObject {
+    val realPath = getRealPath(key)
+    return obj.put(realPath, value)
 }

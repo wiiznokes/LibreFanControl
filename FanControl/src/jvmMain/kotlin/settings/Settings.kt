@@ -2,7 +2,6 @@ package settings
 
 import org.json.JSONObject
 import org.json.JSONTokener
-import org.json.JSONWriter
 import utils.getString
 import utils.removeStringRec
 import utils.setStringRec
@@ -33,14 +32,14 @@ class Settings {
 
 
         fun setSetting(path: String, value: String) {
-            val newObj = setStringRec(
-                path = path.split("/"),
-                index = 0,
-                obj = _paramsJsonObject,
-                value = value
+            updateVariable(
+                setStringRec(
+                    path = path.split("/"),
+                    index = 0,
+                    obj = _paramsJsonObject,
+                    value = value
+                )
             )
-
-            updateVariable(newObj)
         }
 
         fun removeConfig(id: Long) {
@@ -57,13 +56,8 @@ class Settings {
 
         private fun updateVariable(newObj: JSONObject) {
 
-            val str = StringBuilder()
-            val writer = JSONWriter(str)
-
-            writer.value(newObj)
-
             file.writeText(
-                str.toString()
+                newObj.toString()
             )
             _paramsJsonObject = newObj
         }
