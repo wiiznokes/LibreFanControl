@@ -13,17 +13,15 @@ import model.item.behavior.BehaviorItem
 import org.json.JSONObject
 import org.json.JSONTokener
 import org.json.JSONWriter
+import utils.DIR_CONF
 import java.io.File
 
-
-private const val DIR_CONF = "./conf/"
 
 private const val PREFIX_NEW_CONF = "config"
 private const val SUFFIX_NEW_CONF = ".json"
 
 class Configuration {
     companion object {
-
         fun loadConfig(
             configId: Long,
             controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>>,
@@ -74,7 +72,7 @@ class Configuration {
         }
 
 
-        fun deleteConfig (configId: Long) {
+        fun deleteConfig(configId: Long) {
             val file = getFile(configId)
             file.delete()
         }

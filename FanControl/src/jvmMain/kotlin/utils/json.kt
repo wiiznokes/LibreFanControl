@@ -2,6 +2,9 @@ package utils
 
 import org.json.JSONObject
 
+const val DIR_CONF = "./conf/"
+
+
 fun <T> getJsonValue(path: String, obj: JSONObject): T? {
     val res = getJsonValueRec(
         path = path.split("/"),

@@ -6,12 +6,12 @@ import kotlinx.coroutines.flow.update
 import model.ConfigurationModel
 import org.json.JSONObject
 import org.json.JSONTokener
+import utils.DIR_CONF
 import utils.getJsonValue
 import utils.setJsonValue
 import java.io.File
 
 
-private const val DIR_CONF = "./conf/"
 private const val INIT_FILE_NAME = "settings.json"
 
 class Settings {

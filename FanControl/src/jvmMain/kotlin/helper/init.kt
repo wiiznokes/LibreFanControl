@@ -58,7 +58,8 @@ fun initSensor(
 // initialize config, returns configId if it exists, otherwise null
 fun initConfig(
     configList: MutableStateFlow<SnapshotStateList<ConfigurationModel>>,
-    idConfig: MutableStateFlow<MutableState<Long?>>): Long? {
+    idConfig: MutableStateFlow<MutableState<Long?>>
+): Long? {
 
     val configId = checkConfig()
     idConfig.update {
