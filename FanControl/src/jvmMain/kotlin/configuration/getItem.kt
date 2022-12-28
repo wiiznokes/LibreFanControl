@@ -24,12 +24,12 @@ fun getControls(controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>
 
         controlItemList.update {
             it[index] = it[index].copy(
-                name = getJsonValue("name", obj) as String,
-                itemId = getJsonValue("itemId", obj) as Long,
-                type = getType(getJsonValue("type", obj) as String) as ItemType.ControlType,
-                visible = getJsonValue("visible", obj) as Boolean,
-                behaviorId = getJsonValue("behaviorId", obj) as Long?,
-                isActive = getJsonValue("isActive", obj) as Boolean,
+                name = getJsonValue("name", obj)!!,
+                itemId = getJsonValue("itemId", obj)!!,
+                type = getType(getJsonValue("type", obj)!!) as ItemType.ControlType,
+                visible = getJsonValue("visible", obj)!!,
+                behaviorId = getJsonValue("behaviorId", obj),
+                isActive = getJsonValue("isActive", obj)!!,
             )
             it
         }
@@ -40,12 +40,12 @@ fun getBehavior(behaviorItemList: SnapshotStateList<BehaviorItem>, array: JSONAr
     for (i in 0 until array.length()) {
         val obj = array[i] as JSONObject
 
-        val type = getType(getJsonValue("type", obj) as String) as ItemType.BehaviorType
+        val type = getType(getJsonValue("type", obj)!!) as ItemType.BehaviorType
 
         behaviorItemList.add(
             BehaviorItem(
-                name = getJsonValue("name", obj) as String,
-                itemId = getJsonValue("itemId", obj) as Long,
+                name = getJsonValue("name", obj)!!,
+                itemId = getJsonValue("itemId", obj)!!,
                 type = type,
                 extension = when (type) {
                     ItemType.BehaviorType.B_FLAT -> getFlatBehavior(obj)
@@ -61,15 +61,15 @@ fun getBehavior(behaviorItemList: SnapshotStateList<BehaviorItem>, array: JSONAr
 
 private fun getFlatBehavior(obj: JSONObject): FlatBehavior {
     return FlatBehavior(
-        value = getJsonValue("value", obj) as Int
+        value = getJsonValue("value", obj)!!
     )
 }
 
 private fun getLinearBehavior(obj: JSONObject): LinearBehavior {
     return LinearBehavior(
-        minTemp = getJsonValue("minTemp", obj) as Int,
-        maxTemp = getJsonValue("maxTemp", obj) as Int,
-        minFanSpeed = getJsonValue("minFanSpeed", obj) as Int,
-        maxFanSpeed = getJsonValue("maxFanSpeed", obj) as Int,
+        minTemp = getJsonValue("minTemp", obj)!!,
+        maxTemp = getJsonValue("maxTemp", obj)!!,
+        minFanSpeed = getJsonValue("minFanSpeed", obj)!!,
+        maxFanSpeed = getJsonValue("maxFanSpeed", obj)!!,
     )
 }

@@ -3,8 +3,7 @@ package settings
 import org.json.JSONObject
 import org.json.JSONTokener
 import utils.getJsonValue
-import utils.removeStringRec
-import utils.setStringRec
+import utils.setJsonValue
 import java.io.File
 
 
@@ -23,35 +22,33 @@ class Settings {
             _paramsJsonObject = JSONTokener(string).nextValue() as JSONObject
         }
 
-        fun getSetting(path: String): Any? {
+        fun <T> getSetting(path: String): T? {
             return getJsonValue(
                 path = path,
-                rootJsonObject = _paramsJsonObject
+                obj = _paramsJsonObject
             )
         }
 
 
         fun setSetting(path: String, value: Any?) {
             updateVariable(
-                setStringRec(
-                    path = path.split("/"),
-                    index = 0,
-                    obj = _paramsJsonObject,
-                    value = value
+                setJsonValue(
+                    path = path,
+                    value = value,
+                    obj = _paramsJsonObject
                 )
             )
         }
 
         fun removeConfig(id: Long) {
             val path = "configList/$id"
-
-            val newObj = removeStringRec(
-                path = path.split("/"),
-                index = 0,
-                obj = _paramsJsonObject
+            updateVariable(
+                setJsonValue(
+                    path = path,
+                    value = null,
+                    obj = _paramsJsonObject
+                )
             )
-
-            updateVariable(newObj)
         }
 
         private fun updateVariable(newObj: JSONObject) {

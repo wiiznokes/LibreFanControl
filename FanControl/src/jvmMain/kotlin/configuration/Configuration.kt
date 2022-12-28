@@ -24,13 +24,7 @@ class Configuration(
     // returns configId if it exists, otherwise null
     fun checkConfiguration(): Long? {
 
-        return with(Settings.getSetting("config")) {
-            try {
-                this as Long
-            } catch (e: ClassCastException) {
-                null
-            }
-        }
+        return Settings.getSetting("config")
     }
 
     fun loadConfig(configId: Long) {

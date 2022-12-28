@@ -11,6 +11,7 @@ import model.ConfigurationModel
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
+import org.json.JSONObject
 import settings.Settings
 import utils.checkNameTaken
 
@@ -45,7 +46,6 @@ class ConfigurationViewModel(
                 },
                 name = name,
                 index = index
-
             )
         } catch (e: Exception) {
             return
@@ -120,7 +120,7 @@ class ConfigurationViewModel(
 
         Settings.setSetting(
             path = "config",
-            value = id.toString()
+            value = id
         )
         Settings.setSetting(
             path = "configList/$id",
@@ -135,7 +135,7 @@ class ConfigurationViewModel(
         val removeCurrent = id == idConfig.value
 
         if (removeCurrent)
-            Settings.setSetting("config", "none")
+            Settings.setSetting("config", JSONObject.NULL)
 
         Settings.removeConfig(id)
 

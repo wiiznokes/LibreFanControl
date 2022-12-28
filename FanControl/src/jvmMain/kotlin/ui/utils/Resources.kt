@@ -28,8 +28,8 @@ class Resources {
         fun getString(path: String): String {
             return utils.getJsonValue(
                 path = path,
-                rootJsonObject = _rootJsonObject
-            ) as String
+                obj = _rootJsonObject
+            )!!
         }
 
         @Composable
