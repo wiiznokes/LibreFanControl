@@ -8,7 +8,7 @@ fun <T> getJsonValue(path: String, obj: JSONObject): T? {
         obj = obj,
         index = 0
     )
-    return if(res == JSONObject.NULL)
+    return if (res == JSONObject.NULL)
         null
     else
         @Suppress("UNCHECKED_CAST")

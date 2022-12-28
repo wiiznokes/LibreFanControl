@@ -10,5 +10,5 @@ data class SensorItem(
 
     override var isExpanded: Boolean = false,
     var sensorName: String = Resources.getString("none"),
-    var sensorId: String? = null
+    var libId: String? = null
 ) : BaseItem

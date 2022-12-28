@@ -1,67 +1,87 @@
 package configuration
 
-import State
+
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.flow.MutableStateFlow
+import model.ConfigurationModel
 import model.ItemType
-import model.hardware.Sensor
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
-import settings.Settings
-import utils.getAvailableId
-
-class Configuration(
-    private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
-    private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList,
+import org.json.JSONObject
+import org.json.JSONTokener
+import org.json.JSONWriter
+import java.io.File
 
 
-    private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
-    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
-    private val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
-    private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList
-) {
-    // returns configId if it exists, otherwise null
-    fun checkConfiguration(): Long? {
+private const val DIR_CONF = "./conf/"
 
-        return Settings.getSetting("config")
-    }
+private const val PREFIX_NEW_CONF = "config"
+private const val SUFFIX_NEW_CONF = ".json"
 
-    fun loadConfig(configId: Long) {
+class Configuration {
+    companion object {
 
-    }
 
-    fun init() {
-        _fanList.value.forEach {
-            _fanItemList.value.add(
-                SensorItem(
-                    name = it.libName,
-                    type = ItemType.SensorType.S_FAN,
-                    sensorName = it.libName,
-                    sensorId = it.libId,
-                    itemId = getAvailableId(
-                        ids = _fanItemList.value.map { item ->
-                            item.itemId
-                        }
-                    )
-                )
+        fun loadConfig(
+            configId: Long,
+            controlItemList: SnapshotStateList<ControlItem>,
+            behaviorItemList: List<BehaviorItem>,
+            fanItemList: List<SensorItem>,
+            tempItemList: List<SensorItem>
+        ) {
+            val file = getFile(configId)
+            val string = file.bufferedReader().readText()
+            val obj = JSONTokener(string).nextValue() as JSONObject
+
+
+        }
+
+        fun saveConfig(
+            configuration: ConfigurationModel,
+            controlItemList: List<ControlItem>,
+            behaviorItemList: List<BehaviorItem>,
+            fanItemList: List<SensorItem>,
+            tempItemList: List<SensorItem>
+        ) {
+            val str = StringBuilder()
+            val writer = JSONWriter(str)
+            writer.`object`()
+
+            writer.key("name")
+            writer.value(configuration.name)
+            writer.key("id")
+            writer.value(configuration.id)
+
+            setItems(
+                itemList = controlItemList,
+                writer = writer,
+                type = ItemType.ControlType.C_FAN
+            )
+            setItems(
+                itemList = behaviorItemList,
+                writer = writer,
+                type = ItemType.BehaviorType.B_UNSPECIFIED
+            )
+            setItems(
+                itemList = fanItemList,
+                writer = writer,
+                type = ItemType.SensorType.S_FAN
+            )
+            setItems(
+                itemList = tempItemList,
+                writer = writer,
+                type = ItemType.SensorType.S_TEMP
+            )
+            writer.endObject()
+
+
+            getFile(configuration.id).writeText(
+                str.toString()
             )
         }
 
-        _tempList.value.forEach {
-            _tempItemList.value.add(
-                SensorItem(
-                    name = it.libName,
-                    type = ItemType.SensorType.S_TEMP,
-                    sensorName = it.libName,
-                    sensorId = it.libId,
-                    itemId = getAvailableId(
-                        ids = _tempItemList.value.map { item ->
-                            item.itemId
-                        }
-                    )
-                )
-            )
+        private fun getFile(id: Long): File {
+            return File(DIR_CONF + PREFIX_NEW_CONF + id + SUFFIX_NEW_CONF)
         }
     }
 }

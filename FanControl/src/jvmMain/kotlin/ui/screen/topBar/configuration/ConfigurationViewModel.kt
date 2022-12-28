@@ -3,7 +3,7 @@ package ui.screen.topBar.configuration
 import State
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import configuration.JsonConfiguration
+import configuration.Configuration
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -58,7 +58,7 @@ class ConfigurationViewModel(
             it
         }
 
-        JsonConfiguration.saveConfig(
+        Configuration.saveConfig(
             configuration = configList.value[index],
             controlItemList = controlItemList.value,
             behaviorItemList = behaviorItemList.value,
@@ -110,7 +110,7 @@ class ConfigurationViewModel(
             it
         }
 
-        JsonConfiguration.saveConfig(
+        Configuration.saveConfig(
             configuration = newConfig,
             controlItemList = controlItemList.value,
             behaviorItemList = behaviorItemList.value,

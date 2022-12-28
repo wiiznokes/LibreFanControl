@@ -61,8 +61,8 @@ fun setBehavior(behaviorItem: BehaviorItem, writer: JSONWriter) {
 fun setSensor(sensorItem: SensorItem, writer: JSONWriter) {
     setItem(sensorItem, writer)
 
-    writer.key("sensorId")
-    writer.value(sensorItem.sensorId)
+    writer.key("libId")
+    writer.value(sensorItem.libId)
 }
 
 

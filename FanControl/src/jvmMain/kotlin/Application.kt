@@ -1,15 +1,15 @@
-import configuration.Configuration
 import external.ExternalManager
+import helper.checkConfig
+import helper.initSensor
 import kotlinx.coroutines.*
 import logicControl.Logic
+import settings.Settings
 
 
 class Application {
 
     private var jobUpdate: Job? = null
     private var jobControlUpdate: Job? = null
-
-    private var configuration: Configuration? = null
 
 
     companion object {
@@ -33,11 +33,16 @@ class Application {
             State._tempList,
             State._controlItemList
         )
-        configuration = Configuration()
 
-        when (configuration!!.checkConfiguration()) {
+        when (checkConfig()) {
             null -> {
-                configuration!!.init()
+                initSensor(
+                    fanList = State._fanList,
+                    tempList = State._tempList,
+
+                    fanItemList = State._fanItemList,
+                    tempItemList = State._tempItemList
+                )
             }
 
             else -> {

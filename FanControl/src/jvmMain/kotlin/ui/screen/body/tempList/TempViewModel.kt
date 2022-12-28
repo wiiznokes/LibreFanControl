@@ -30,7 +30,7 @@ class TempViewModel(
             _tempItemList.update {
                 it[index] = it[index].copy(
                     sensorName = temp.libName,
-                    sensorId = temp.libId
+                    libId = temp.libId
                 )
                 it
             }
@@ -38,7 +38,7 @@ class TempViewModel(
             _tempItemList.update {
                 it[index] = it[index].copy(
                     sensorName = Resources.getString("none"),
-                    sensorId = null
+                    libId = null
                 )
                 it
             }

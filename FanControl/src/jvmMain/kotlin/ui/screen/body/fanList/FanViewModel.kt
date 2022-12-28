@@ -29,7 +29,7 @@ class FanViewModel(
             _fanItemList.update {
                 it[index] = it[index].copy(
                     sensorName = fan.libName,
-                    sensorId = fan.libId
+                    libId = fan.libId
                 )
                 it
             }
@@ -37,7 +37,7 @@ class FanViewModel(
             _fanItemList.update {
                 it[index] = it[index].copy(
                     sensorName = Resources.getString("none"),
-                    sensorId = null
+                    libId = null
                 )
                 it
             }

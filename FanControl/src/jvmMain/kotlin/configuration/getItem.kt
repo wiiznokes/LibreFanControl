@@ -6,7 +6,9 @@ import kotlinx.coroutines.flow.update
 import model.ItemType
 import model.UnspecifiedTypeException
 import model.getType
+import model.hardware.Sensor
 import model.item.ControlItem
+import model.item.SensorItem
 import model.item.behavior.BehaviorItem
 import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
@@ -36,7 +38,7 @@ fun getControls(controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>
     }
 }
 
-fun getBehavior(behaviorItemList: SnapshotStateList<BehaviorItem>, array: JSONArray) {
+fun getBehaviors(behaviorItemList: SnapshotStateList<BehaviorItem>, array: JSONArray) {
     for (i in 0 until array.length()) {
         val obj = array[i] as JSONObject
 
@@ -54,6 +56,43 @@ fun getBehavior(behaviorItemList: SnapshotStateList<BehaviorItem>, array: JSONAr
                     ItemType.BehaviorType.B_UNSPECIFIED -> throw UnspecifiedTypeException()
                 }
             )
+        )
+    }
+}
+
+
+fun getSensors(
+    sensorItemList: SnapshotStateList<SensorItem>,
+    sensorList: List<Sensor>,
+    array: JSONArray
+) {
+
+    for (i in 0 until array.length()) {
+        val obj = array[i] as JSONObject
+
+        val libId = getJsonValue<String>("libId", obj)
+
+        val sensor = when (libId) {
+            null -> null
+            else -> sensorList.find {
+                it.libId == libId
+            }
+        }
+
+        val sensorItem = SensorItem(
+            name = getJsonValue("name", obj)!!,
+            itemId = getJsonValue("itemId", obj)!!,
+            type = getType(getJsonValue("type", obj)!!) as ItemType.SensorType,
+            libId = libId,
+        )
+
+        sensorItemList.add(
+            if (sensor != null) {
+                sensorItem.copy(
+                    sensorName = sensor.libName
+                )
+            } else
+                sensorItem
         )
     }
 }
