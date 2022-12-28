@@ -26,7 +26,7 @@ class Resources {
         }
 
         fun getString(path: String): String {
-            return utils.getString(
+            return utils.getJsonValue(
                 path = path,
                 rootJsonObject = _rootJsonObject
             )
