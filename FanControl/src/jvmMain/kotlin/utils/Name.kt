@@ -2,22 +2,20 @@ package utils
 
 import kotlin.random.Random
 
-class NameIsTakenException : Exception()
-class IndexHaveNameException : Exception()
-
-class BlankException : Exception()
-
+class NameException : Exception()
 
 fun checkNameTaken(names: List<String>, name: String, index: Int? = null) {
     if (name.isBlank())
-        throw BlankException()
-    if (index != null) {
-        if (names[index] == name)
-            throw IndexHaveNameException()
-    }
+        throw NameException()
 
-    if (isNameTaken(names, name))
-        throw NameIsTakenException()
+    if (isNameTaken(names, name)) {
+        // check if it's not the index witch have the name
+        if (index != null) {
+            if (names[index] == name)
+                return
+        }
+        throw NameException()
+    }
 }
 
 private fun isNameTaken(names: List<String>, name: String): Boolean {

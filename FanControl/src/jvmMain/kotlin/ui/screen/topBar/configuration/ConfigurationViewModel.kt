@@ -13,6 +13,7 @@ import model.item.SensorItem
 import model.item.behavior.BehaviorItem
 import org.json.JSONObject
 import settings.Settings
+import utils.NameException
 import utils.checkNameTaken
 
 class ConfigurationViewModel(
@@ -34,10 +35,7 @@ class ConfigurationViewModel(
     val idConfig = _idConfig.asStateFlow().value
 
     // save conf is only visible when idConfig != null
-    fun saveConfiguration(name: String) {
-        val index = configList.value.indexOfFirst {
-            it.id == idConfig.value
-        }
+    fun saveConfiguration(name: String, index: Int) {
 
         try {
             checkNameTaken(
@@ -47,7 +45,7 @@ class ConfigurationViewModel(
                 name = name,
                 index = index
             )
-        } catch (e: Exception) {
+        } catch (e: NameException) {
             return
         }
 

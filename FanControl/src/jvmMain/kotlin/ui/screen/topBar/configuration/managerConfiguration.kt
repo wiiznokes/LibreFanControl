@@ -91,7 +91,7 @@ private fun managerModifyConfig(
 
     IconButton(
         onClick = {
-            viewModel.saveConfiguration(text.value)
+            viewModel.saveConfiguration(text.value, index)
         }
     ) {
         Icon(
