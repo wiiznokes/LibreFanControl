@@ -92,28 +92,22 @@ private fun itemsList(
     title: String,
     content: LazyListScope.() -> Unit
 ) {
-
-    val columnVisible = remember {
-        mutableStateOf(true)
-    }
-
-    if (!columnVisible.value) {
-        LazyColumn(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            item {
-                managerText(
-                    text = title,
-                    modifier = Modifier,
-                    style = MaterialTheme.typography.titleLarge
-                )
-                Spacer(
-                    modifier = Modifier
-                        .height(20.dp)
-                )
-            }
-            content()
+    LazyColumn(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        item {
+            managerText(
+                text = title,
+                modifier = Modifier
+                    .padding(10.dp),
+                style = MaterialTheme.typography.titleLarge
+            )
+            Spacer(
+                modifier = Modifier
+                    .height(20.dp)
+            )
         }
+        content()
     }
 }
 
