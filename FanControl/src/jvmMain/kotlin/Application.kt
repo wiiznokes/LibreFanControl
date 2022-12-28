@@ -1,6 +1,6 @@
 import configuration.Configuration
 import external.ExternalManager
-import helper.checkConfig
+import helper.initConfig
 import helper.initSensor
 import kotlinx.coroutines.*
 import logicControl.Logic
@@ -33,7 +33,12 @@ class Application {
             State._tempList,
             State._controlItemList
         )
-        when (val configId = checkConfig()) {
+        val configId = initConfig(
+            configList = State._configList,
+            idConfig = State._idConfig
+        )
+
+        when (configId) {
             null -> {
                 initSensor(
                     fanList = State._fanList,
