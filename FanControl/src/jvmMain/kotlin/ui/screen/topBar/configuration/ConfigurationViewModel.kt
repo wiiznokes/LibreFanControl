@@ -70,8 +70,20 @@ class ConfigurationViewModel(
     fun onChangeConfiguration(id: Long?) {
 
         when (id) {
-            null -> Settings.setSetting("config", "none")
-            else -> Settings.setSetting("config", id.toString())
+            null -> Settings.setSetting("config", JSONObject.NULL)
+            else -> {
+                Settings.setSetting("config", id)
+                Configuration.loadConfig(
+                    configId = id,
+                    controlItemList = State._controlItemList,
+                    behaviorItemList = State._behaviorItemList,
+                    fanItemList = State._fanItemList,
+                    tempItemList = State._tempItemList,
+
+                    fanList = State._fanList.value,
+                    tempList = State._tempList.value
+                )
+            }
         }
 
         _idConfig.update {
@@ -150,5 +162,6 @@ class ConfigurationViewModel(
             it.removeAt(index)
             it
         }
+        Configuration.deleteConfig(id)
     }
 }

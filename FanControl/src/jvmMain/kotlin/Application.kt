@@ -1,3 +1,4 @@
+import configuration.Configuration
 import external.ExternalManager
 import helper.checkConfig
 import helper.initSensor
@@ -32,8 +33,7 @@ class Application {
             State._tempList,
             State._controlItemList
         )
-
-        when (checkConfig()) {
+        when (val configId = checkConfig()) {
             null -> {
                 initSensor(
                     fanList = State._fanList,
@@ -45,7 +45,16 @@ class Application {
             }
 
             else -> {
+                Configuration.loadConfig(
+                    configId = configId,
+                    controlItemList = State._controlItemList,
+                    behaviorItemList = State._behaviorItemList,
+                    fanItemList = State._fanItemList,
+                    tempItemList = State._tempItemList,
 
+                    fanList = State._fanList.value,
+                    tempList = State._tempList.value
+                )
             }
         }
         startUpdate()

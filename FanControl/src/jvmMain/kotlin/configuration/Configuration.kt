@@ -74,8 +74,9 @@ class Configuration {
         }
 
 
-        fun removeConfig(configId: Long) {
-
+        fun deleteConfig (configId: Long) {
+            val file = getFile(configId)
+            file.delete()
         }
 
         fun saveConfig(
