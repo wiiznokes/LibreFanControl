@@ -134,10 +134,10 @@ class ConfigurationViewModel(
 
         val removeCurrent = configList.value[index].id == idConfig.value
 
-        if (removeCurrent) {
+        if (removeCurrent)
             Settings.setSetting("config", "none")
-            Settings.removeConfig(idConfig.value!!)
-        }
+
+        Settings.removeConfig(idConfig.value!!)
 
 
         if (removeCurrent) {
