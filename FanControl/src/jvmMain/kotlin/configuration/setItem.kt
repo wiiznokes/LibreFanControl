@@ -1,6 +1,7 @@
 package configuration
 
 import model.ItemType
+import model.UnspecifiedTypeException
 import model.item.BaseItem
 import model.item.ControlItem
 import model.item.SensorItem
@@ -38,6 +39,25 @@ fun setControl(controlItem: ControlItem, writer: JSONWriter) {
     writer.value(controlItem.libId)
 }
 
+fun setBehavior(behaviorItem: BehaviorItem, writer: JSONWriter) {
+    setItem(behaviorItem, writer)
+
+    when (behaviorItem.type) {
+        ItemType.BehaviorType.B_FLAT -> setFlatBehavior(
+            flatBehavior = behaviorItem.extension as FlatBehavior,
+            writer = writer
+        )
+
+        ItemType.BehaviorType.B_LINEAR -> setLinearBehavior(
+            linearBehavior = behaviorItem.extension as LinearBehavior,
+            writer = writer
+        )
+
+        ItemType.BehaviorType.B_TARGET -> TODO()
+        else -> throw UnspecifiedTypeException()
+    }
+}
+
 fun setSensor(sensorItem: SensorItem, writer: JSONWriter) {
     setItem(sensorItem, writer)
 
@@ -45,16 +65,6 @@ fun setSensor(sensorItem: SensorItem, writer: JSONWriter) {
     writer.value(sensorItem.sensorId)
 }
 
-fun setBehavior(behaviorItem: BehaviorItem, writer: JSONWriter) {
-    setItem(behaviorItem, writer)
-
-    when (behaviorItem.type) {
-        ItemType.BehaviorType.B_FLAT -> setFlatBehavior(behaviorItem.flatBehavior!!, writer)
-        ItemType.BehaviorType.B_LINEAR -> setLinearBehavior(behaviorItem.linearBehavior!!, writer)
-        ItemType.BehaviorType.B_TARGET -> TODO()
-        else -> throw Exception("unspecified item type")
-    }
-}
 
 private fun setItem(item: BaseItem, writer: JSONWriter) {
     writer.key("name")

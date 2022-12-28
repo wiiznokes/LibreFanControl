@@ -23,7 +23,7 @@ class Settings {
             _paramsJsonObject = JSONTokener(string).nextValue() as JSONObject
         }
 
-        fun getSetting(path: String): String {
+        fun getSetting(path: String): Any? {
             return getJsonValue(
                 path = path,
                 rootJsonObject = _paramsJsonObject
@@ -31,7 +31,7 @@ class Settings {
         }
 
 
-        fun setSetting(path: String, value: String) {
+        fun setSetting(path: String, value: Any?) {
             updateVariable(
                 setStringRec(
                     path = path.split("/"),

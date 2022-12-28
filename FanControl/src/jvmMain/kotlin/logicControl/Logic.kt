@@ -10,6 +10,7 @@ import model.hardware.Sensor
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
+import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
 
 class Logic(
@@ -35,25 +36,25 @@ class Logic(
             }
             val value = when (behavior!!.type) {
                 ItemType.BehaviorType.B_FLAT -> {
-                    behavior.flatBehavior!!.value
+                    (behavior.extension as FlatBehavior).value
                 }
 
                 ItemType.BehaviorType.B_LINEAR -> {
-                    if (behavior.linearBehavior!!.sensorId == null) {
+                    val linearBehavior = behavior.extension as LinearBehavior
+                    if (linearBehavior.sensorId == null) {
                         // continue keyword of forEach loop
                         // we only return from the lambda expression
                         // (control here)
                         return@label
                     }
 
-                    val f = getAffine(
-                        linearBehavior = behavior.linearBehavior,
-                    )
+                    val f = getAffine(linearBehavior)
+
                     getSpeed(
                         f = f,
-                        linearBehavior = behavior.linearBehavior,
+                        linearBehavior = linearBehavior,
                         tempValue = _tempList.value.find {
-                            it.libId == behavior.linearBehavior.sensorId
+                            it.libId == linearBehavior.sensorId
                         }!!.value
                     )
                 }

@@ -1,6 +1,8 @@
 package model
 
 
+class UnspecifiedTypeException : Exception()
+
 interface ItemType {
     enum class ControlType : ItemType {
         C_FAN,
@@ -34,6 +36,6 @@ fun getType(str: String): ItemType {
         ItemType.SensorType.S_FAN.toString() -> ItemType.SensorType.S_FAN
         ItemType.SensorType.S_TEMP.toString() -> ItemType.SensorType.S_TEMP
         ItemType.SensorType.S_UNSPECIFIED.toString() -> ItemType.SensorType.S_UNSPECIFIED
-        else -> throw Exception("unknown type")
+        else -> throw UnspecifiedTypeException()
     }
 }

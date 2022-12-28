@@ -4,8 +4,9 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import model.ItemType
+import model.UnspecifiedTypeException
+import model.getType
 import model.item.ControlItem
-import model.item.behavior.BehaviorExtension
 import model.item.behavior.BehaviorItem
 import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
@@ -25,28 +26,13 @@ fun getControls(controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>
             it[index] = it[index].copy(
                 name = getJsonValue("name", obj) as String,
                 itemId = getJsonValue("itemId", obj) as Long,
-                type = when (getJsonValue("type", obj)) {
-                    ItemType.ControlType.C_FAN.toString() -> ItemType.ControlType.C_FAN
-                    else -> throw Exception("unknown type")
-                },
+                type = getType(getJsonValue("type", obj) as String) as ItemType.ControlType,
                 visible = getJsonValue("visible", obj) as Boolean,
-                behaviorId = when (getJsonValue("behaviorId", obj)) {
-                    "null" -> null
-                    else -> getJsonValue("behaviorId", obj) as Long?
-                }
+                behaviorId = getJsonValue("behaviorId", obj) as Long?,
+                isActive = getJsonValue("isActive", obj) as Boolean,
             )
-
             it
         }
-
-
-        controlItemList.add(
-            ControlItem(
-                name = getJsonValue("name", obj),
-                itemId = getJsonValue("itemId", obj).toLong(),
-                libId = getJsonValue("libId", obj)
-            )
-        )
     }
 }
 
@@ -54,46 +40,36 @@ fun getBehavior(behaviorItemList: SnapshotStateList<BehaviorItem>, array: JSONAr
     for (i in 0 until array.length()) {
         val obj = array[i] as JSONObject
 
+        val type = getType(getJsonValue("type", obj) as String) as ItemType.BehaviorType
 
-        var behaviorExtension: BehaviorExtension? = null
-
-        val behavior = BehaviorItem(
-            name = getJsonValue("name", obj),
-            itemId = getJsonValue("itemId", obj).toLong(),
-            type = when (getJsonValue("type", obj)) {
-                ItemType.BehaviorType.B_FLAT.toString() -> {
-                    behaviorExtension = getFlatBehavior(obj)
-                    ItemType.BehaviorType.B_FLAT
+        behaviorItemList.add(
+            BehaviorItem(
+                name = getJsonValue("name", obj) as String,
+                itemId = getJsonValue("itemId", obj) as Long,
+                type = type,
+                extension = when (type) {
+                    ItemType.BehaviorType.B_FLAT -> getFlatBehavior(obj)
+                    ItemType.BehaviorType.B_LINEAR -> getLinearBehavior(obj)
+                    ItemType.BehaviorType.B_TARGET -> TODO()
+                    ItemType.BehaviorType.B_UNSPECIFIED -> throw UnspecifiedTypeException()
                 }
-                ItemType.BehaviorType.B_FLAT.toString() -> ItemType.BehaviorType.B_FLAT
-                ItemType.BehaviorType.B_FLAT.toString() -> ItemType.BehaviorType.B_FLAT
-                else -> throw Exception("type not found")
-            }
+            )
         )
-
-        when (behavior.type) {
-            ItemType.BehaviorType.B_FLAT -> behavior.flatBehavior = behaviorExtension as FlatBehavior
-            ItemType.BehaviorType.B_LINEAR -> behavior.linearBehavior = behaviorExtension as LinearBehavior
-            ItemType.BehaviorType.B_TARGET -> TODO()
-            ItemType.BehaviorType.B_UNSPECIFIED -> throw Exception("unspecified type")
-        }
-
-        behaviorItemList.add(behavior)
     }
 }
 
 
 private fun getFlatBehavior(obj: JSONObject): FlatBehavior {
     return FlatBehavior(
-        value = getJsonValue("value", obj).toInt()
+        value = getJsonValue("value", obj) as Int
     )
 }
 
 private fun getLinearBehavior(obj: JSONObject): LinearBehavior {
     return LinearBehavior(
-        minTemp = getJsonValue("minTemp", obj).toInt(),
-        maxTemp = getJsonValue("maxTemp", obj).toInt(),
-        minFanSpeed = getJsonValue("minFanSpeed", obj).toInt(),
-        maxFanSpeed = getJsonValue("maxFanSpeed", obj).toInt(),
+        minTemp = getJsonValue("minTemp", obj) as Int,
+        maxTemp = getJsonValue("maxTemp", obj) as Int,
+        minFanSpeed = getJsonValue("minFanSpeed", obj) as Int,
+        maxFanSpeed = getJsonValue("maxFanSpeed", obj) as Int,
     )
 }

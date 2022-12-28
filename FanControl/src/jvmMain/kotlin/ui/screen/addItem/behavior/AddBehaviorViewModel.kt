@@ -27,7 +27,7 @@ class AddBehaviorViewModel(
                         prefix = Resources.getString("default/flat_name")
                     ),
                     type = ItemType.BehaviorType.B_FLAT,
-                    flatBehavior = FlatBehavior(),
+                    extension = FlatBehavior(),
                     itemId = getAvailableId(
                         ids = _behaviorItemList.value.map { item ->
                             item.itemId
@@ -52,7 +52,7 @@ class AddBehaviorViewModel(
                 BehaviorItem(
                     name = name,
                     type = ItemType.BehaviorType.B_LINEAR,
-                    linearBehavior = LinearBehavior(),
+                    extension = LinearBehavior(),
                     itemId = getAvailableId(
                         ids = _behaviorItemList.value.map { item ->
                             item.itemId

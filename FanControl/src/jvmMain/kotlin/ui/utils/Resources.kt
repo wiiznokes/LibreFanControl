@@ -29,7 +29,7 @@ class Resources {
             return utils.getJsonValue(
                 path = path,
                 rootJsonObject = _rootJsonObject
-            )
+            ) as String
         }
 
         @Composable

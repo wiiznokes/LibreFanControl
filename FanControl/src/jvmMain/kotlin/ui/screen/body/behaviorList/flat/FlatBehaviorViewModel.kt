@@ -5,6 +5,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import model.item.behavior.BehaviorItem
+import model.item.behavior.FlatBehavior
 
 class FlatBehaviorViewModel(
     private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList
@@ -13,9 +14,11 @@ class FlatBehaviorViewModel(
         if (value >= 100) return
         _behaviorItemList.update {
             it[index] = it[index].copy(
-                flatBehavior = it[index].flatBehavior?.copy(
-                    value = value + 1
-                )
+                extension = with(it[index].extension as FlatBehavior) {
+                    copy(
+                        value = value + 1
+                    )
+                }
             )
             it
         }
@@ -25,9 +28,11 @@ class FlatBehaviorViewModel(
         if (value <= 0) return
         _behaviorItemList.update {
             it[index] = it[index].copy(
-                flatBehavior = it[index].flatBehavior?.copy(
-                    value = value - 1
-                )
+                extension = with(it[index].extension as FlatBehavior) {
+                    copy(
+                        value = value - 1
+                    )
+                }
             )
             it
         }
@@ -36,9 +41,11 @@ class FlatBehaviorViewModel(
     fun onChange(index: Int, value: Int) {
         _behaviorItemList.update {
             it[index] = it[index].copy(
-                flatBehavior = it[index].flatBehavior?.copy(
-                    value = value
-                )
+                extension = with(it[index].extension as FlatBehavior) {
+                    copy(
+                        value = value
+                    )
+                }
             )
             it
         }

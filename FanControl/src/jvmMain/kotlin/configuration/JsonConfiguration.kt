@@ -10,7 +10,6 @@ import model.item.behavior.BehaviorItem
 import org.json.JSONObject
 import org.json.JSONTokener
 import org.json.JSONWriter
-import settings.Settings
 import java.io.File
 
 
@@ -34,7 +33,7 @@ class JsonConfiguration {
             val string = file.bufferedReader().readText()
             val obj = JSONTokener(string).nextValue() as JSONObject
 
-            getItems()
+
         }
 
         fun saveConfig(

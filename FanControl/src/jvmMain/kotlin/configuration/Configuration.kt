@@ -3,14 +3,11 @@ package configuration
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import model.ItemType
 import model.hardware.Sensor
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
-import model.item.behavior.FlatBehavior
-import model.item.behavior.LinearBehavior
 import settings.Settings
 import utils.getAvailableId
 
@@ -26,16 +23,18 @@ class Configuration(
 ) {
     // returns configId if it exists, otherwise null
     fun checkConfiguration(): Long? {
-        val configId = Settings.getSetting("config")
 
-        return if (configId == "none") {
-            null
-        } else
-            configId.toLong()
+        return with(Settings.getSetting("config")) {
+            try {
+                this as Long
+            } catch (e: ClassCastException) {
+                null
+            }
+        }
     }
 
     fun loadConfig(configId: Long) {
-        JsonConfiguration
+
     }
 
     fun init() {

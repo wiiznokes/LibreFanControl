@@ -30,7 +30,7 @@ private fun getRealPath(input: String): String {
     }
 }
 
-fun setStringRec(path: List<String>, index: Int, obj: JSONObject, value: String): JSONObject {
+fun setStringRec(path: List<String>, index: Int, obj: JSONObject, value: Any?): JSONObject {
     val realPath = getRealPath(path[index])
 
     return obj.put(

@@ -9,8 +9,8 @@ data class BehaviorItem(
     override val type: ItemType.BehaviorType,
 
     override var isExpanded: Boolean = false,
-    var flatBehavior: FlatBehavior? = null,
-    var linearBehavior: LinearBehavior? = null
+
+    val extension: BehaviorExtension,
 ) : BaseItem
 
 

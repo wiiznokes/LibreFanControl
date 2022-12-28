@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.hardware.Sensor
 import model.item.behavior.BehaviorItem
+import model.item.behavior.LinearBehavior
 import ui.utils.Resources
 
 
@@ -39,7 +40,7 @@ class LinearBehaviorViewModel(
     fun setTemp(index: Int, temp: Sensor?) {
         _behaviorItemList.update {
             it[index] = it[index].copy(
-                linearBehavior = with(it[index].linearBehavior!!) {
+                extension = with(it[index].extension as LinearBehavior) {
                     when (temp) {
                         null -> copy(
                             tempName = Resources.getString("none"),
@@ -62,7 +63,7 @@ class LinearBehaviorViewModel(
 
         _behaviorItemList.update {
             it[index] = it[index].copy(
-                linearBehavior = with(it[index].linearBehavior!!) {
+                extension = with(it[index].extension as LinearBehavior) {
                     when (type) {
                         LinearParams.MIN_TEMP -> {
                             finalValue = getFinalValue(minTemp + 1)
@@ -104,7 +105,7 @@ class LinearBehaviorViewModel(
 
         _behaviorItemList.update {
             it[index] = it[index].copy(
-                linearBehavior = with(it[index].linearBehavior!!) {
+                extension = with(it[index].extension as LinearBehavior) {
                     when (type) {
                         LinearParams.MIN_TEMP -> {
                             finalValue = getFinalValue(minTemp - 1)
@@ -146,7 +147,7 @@ class LinearBehaviorViewModel(
 
         _behaviorItemList.update {
             it[index] = it[index].copy(
-                linearBehavior = with(it[index].linearBehavior!!) {
+                extension = with(it[index].extension as LinearBehavior) {
                     when (type) {
                         LinearParams.MIN_TEMP -> {
                             copy(

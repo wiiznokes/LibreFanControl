@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.item.behavior.BehaviorItem
+import model.item.behavior.FlatBehavior
 import ui.component.baseItemBody
 import ui.component.managerText
 import ui.utils.Resources
@@ -25,6 +26,9 @@ fun flatBehavior(
     onNameChange: (String) -> Unit,
     editModeActivated: Boolean,
 ) {
+
+    val flatBehavior = behavior.extension as FlatBehavior
+
     baseItemBody(
         iconPainter = Resources.getIcon("horizontal_rule"),
         iconContentDescription = Resources.getString("ct/flat"),
@@ -50,7 +54,7 @@ fun flatBehavior(
                         onClick = {
                             viewModel.onLess(
                                 index = index,
-                                value = behavior.flatBehavior!!.value
+                                value = flatBehavior.value
                             )
                         }
                     ) {
@@ -63,7 +67,7 @@ fun flatBehavior(
                         onClick = {
                             viewModel.onMore(
                                 index = index,
-                                value = behavior.flatBehavior!!.value
+                                value = flatBehavior.value
                             )
                         }
                     ) {
@@ -85,7 +89,7 @@ fun flatBehavior(
         ) {
 
             Slider(
-                value = behavior.flatBehavior!!.value.toFloat(),
+                value = flatBehavior.value.toFloat(),
                 steps = 100,
                 valueRange = 0f..100f,
                 onValueChange = {
@@ -100,7 +104,7 @@ fun flatBehavior(
                     .width(10.dp)
             )
             managerText(
-                text = "${behavior.flatBehavior!!.value} ${Resources.getString("unity/percent")}"
+                text = "${flatBehavior.value} ${Resources.getString("unity/percent")}"
             )
         }
     }
