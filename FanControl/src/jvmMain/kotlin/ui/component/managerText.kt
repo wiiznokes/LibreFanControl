@@ -18,7 +18,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ui.screen.body.behaviorList.linear.LinearParams
 import utils.NameException
 
@@ -27,12 +26,13 @@ import utils.NameException
 fun managerText(
     text: String,
     modifier: Modifier = Modifier,
-    style: TextStyle = MaterialTheme.typography.bodyMedium
+    style: TextStyle = MaterialTheme.typography.bodyMedium,
+    color: Color = MaterialTheme.colorScheme.onPrimary
 ) {
     Text(
         modifier = modifier,
         text = text,
-        color = MaterialTheme.colorScheme.onPrimary,
+        color = color,
         maxLines = 1,
         style = style,
         overflow = TextOverflow.Ellipsis

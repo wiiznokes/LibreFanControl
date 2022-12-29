@@ -38,7 +38,11 @@ fun getControls(controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>
     }
 }
 
-fun getBehaviors(behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>>, tempList: List<Sensor>, array: JSONArray) {
+fun getBehaviors(
+    behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>>,
+    tempList: List<Sensor>,
+    array: JSONArray
+) {
     for (i in 0 until array.length()) {
         val obj = array[i] as JSONObject
 

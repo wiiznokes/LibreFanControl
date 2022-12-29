@@ -152,7 +152,7 @@ class ConfigurationViewModel(
         }
 
         // check if current config has been removed
-        if(id == idConfig.value) {
+        if (id == idConfig.value) {
             _idConfig.update {
                 it.value = null
                 it

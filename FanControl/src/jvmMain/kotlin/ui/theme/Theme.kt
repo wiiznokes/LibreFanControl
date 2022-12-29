@@ -7,7 +7,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-private val DarkColorScheme = darkColorScheme(
+private val darkColorScheme = darkColorScheme(
     primary = Brown,
     onPrimary = Color.White,
 
@@ -26,7 +26,7 @@ private val DarkColorScheme = darkColorScheme(
     onError = Beige
 )
 
-private val LightColorScheme = lightColorScheme(
+private val lightColorScheme = lightColorScheme(
     primary = LightGrey,
     onPrimary = Color.Black,
 
@@ -46,14 +46,13 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun FanControlTheme(
+fun fanControlTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> darkColorScheme
+        else -> lightColorScheme
     }
 
     MaterialTheme(
