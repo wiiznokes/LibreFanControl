@@ -47,7 +47,8 @@ bin/
 lib/
 
 ### Configuration folder ###
-conf/config*.json
+conf/*
+#!/conf/settings.json
 
 ### generated log files ###
 *.log
