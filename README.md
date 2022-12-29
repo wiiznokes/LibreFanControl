@@ -6,20 +6,21 @@ Windows is currently the only supported OS.
 
 To build the project, you first need to compile the Windows library :
 - /!\ C# build output must be in the lib folder of the JDK
-- I'm using the [JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) but other can work too [JDK 19](https://jdk.java.net/19/)
+- I'm using the [JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) but other can work too. [JDK 19](https://jdk.java.net/19/)
 
 
 To run the project, just use `.\gradlew run` in FanControl folder.
 
 Next steps :
 - fixes bugs
-- finalize UI color and size
-- publish (add lib folder to executable ?)
-- add configuration
-- add some tests
+- fixe Windows Lib (the current way of fetching String may cause memory leaks)
+- publish (add lib folder to executable and conf folder)
+- implement settings (language, time between update, theme, support the project, ...)
+- finalize UI (colors, size, fan speed visible on behaviors, ...)
 - support Linux
 - support Nvidia GPU
 - add behaviors(graph, ...)
+- add some tests
 
 
 <details>
