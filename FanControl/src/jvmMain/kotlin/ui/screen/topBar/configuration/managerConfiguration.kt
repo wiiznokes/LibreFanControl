@@ -14,9 +14,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import model.ConfigurationModel
-import ui.component.managerConfigNameRoundedTextField
-import ui.component.managerListChoice
-import ui.component.managerText
+import ui.component.*
 import ui.utils.Resources
 import utils.checkNameTaken
 
@@ -24,7 +22,6 @@ val viewModel = ConfigurationViewModel()
 
 @Composable
 fun managerModifyConfig() {
-
     val dialogExpanded = remember { mutableStateOf(false) }
 
     if (viewModel.configList.value.isNotEmpty()) {
@@ -137,12 +134,24 @@ private fun managerModifyConfig(
 private fun managerModifyConfig(
     configList: SnapshotStateList<ConfigurationModel>
 ) {
+    val text: MutableState<String> = remember(
+        configList[index].id
+    ) {
+        mutableStateOf(configList[index].name)
+    }
+
+    managerlistChoice(
+        text = text,
+        
+    )
+
     val expanded = remember { mutableStateOf(false) }
 
-    managerListChoice(
+    managerBaseDropdownMenu(
+        text = Resources.getString("none"),
         textContent = {
             managerConfigNameRoundedTextField(
-                text = Resources.getString("none"),
+                text = it,
                 modifier = Modifier
                     .width(200.dp)
                     .height(35.dp),
@@ -150,59 +159,27 @@ private fun managerModifyConfig(
         },
         expanded = expanded
     ) {
-        dropdownMenuItemContent(
+        managerDropDownContent(
             expanded = expanded,
-            configList = configList
-        )
-    }
-}
-
-@Composable
-private fun dropdownMenuItemContent(
-    expanded: MutableState<Boolean>,
-    configList: SnapshotStateList<ConfigurationModel>
-) {
-    DropdownMenuItem(
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.primary),
-        onClick = {
-            viewModel.onChangeConfiguration(null)
-            expanded.value = false
-        }
-    ) {
-        managerText(
-            text = Resources.getString("none")
-        )
-    }
-
-    configList.forEachIndexed { index, config ->
-        DropdownMenuItem(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primary),
-            onClick = {
-                viewModel.onChangeConfiguration(config.id)
-                expanded.value = false
+            text = Resources.getString("none"),
+            onItemClick = {
+                viewModel.onChangeConfiguration(null)
             }
-        ) {
-            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-                Row(
-                    modifier = Modifier
-                        .width(180.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+        )
+        configList.forEachIndexed { index, config ->
+            managerDropDownContent(
+                expanded = expanded,
+                text = config,
+                onItemClick = {
+                    viewModel.onChangeConfiguration(config.id)
+                }
+            ) {
+                IconButton(
+                    onClick = { viewModel.removeConfiguration(config.id, index) }
                 ) {
-                    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                        IconButton(
-                            onClick = { viewModel.removeConfiguration(config.id, index) }
-                        ) {
-                            Icon(
-                                painter = Resources.getIcon("delete_forever"),
-                                contentDescription = Resources.getString("ct/remove_conf")
-                            )
-                        }
-                    }
-                    managerText(
-                        text = config.name
+                    Icon(
+                        painter = Resources.getIcon("delete_forever"),
+                        contentDescription = Resources.getString("ct/remove_conf")
                     )
                 }
             }
