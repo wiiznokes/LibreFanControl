@@ -47,13 +47,9 @@ bin/
 lib/
 
 ### Configuration folder ###
-<<<<<<< Updated upstream
-conf/config*.json
-=======
 conf/*
 !/conf/settings.json
 !/conf/settings.sot.json
->>>>>>> Stashed changes
 
 ### generated log files ###
 *.log
