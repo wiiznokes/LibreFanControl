@@ -187,7 +187,10 @@ fun managerNameOutlinedTextField(
                 visualTransformation = VisualTransformation.None,
                 innerTextField = innerTextField,
                 label = {
-                    Text(label)
+                    managerText(
+                        text = label,
+                        style = MaterialTheme.typography.labelSmall
+                    )
                 },
                 singleLine = true,
                 isError = isError.value,
@@ -218,7 +221,7 @@ fun managerConfigNameRoundedTextField(
     ) {
         mutableStateOf(value)
     },
-    placeholder: String? = null,
+    placeholder: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
@@ -286,12 +289,10 @@ fun managerConfigNameRoundedTextField(
                 visualTransformation = VisualTransformation.None,
                 innerTextField = innerTextField,
                 placeholder = {
-                    if (placeholder != null) {
-                        Text(
-                            text = placeholder,
-                            fontSize = 20.sp,
-                        )
-                    }
+                    managerText(
+                        text = placeholder,
+                        style = MaterialTheme.typography.labelMedium
+                    )
                 },
                 singleLine = true,
                 enabled = true,

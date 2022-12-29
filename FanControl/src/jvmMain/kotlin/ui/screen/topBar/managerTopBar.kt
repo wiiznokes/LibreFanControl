@@ -18,8 +18,6 @@ private val viewModel = TopBarViewModel()
 fun mainTopBar(
     onNavigationIconClick: () -> Unit
 ) {
-
-
     MediumTopAppBar(
         modifier = Modifier
             .height(50.dp),

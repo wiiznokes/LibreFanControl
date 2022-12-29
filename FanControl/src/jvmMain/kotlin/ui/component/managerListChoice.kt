@@ -1,7 +1,9 @@
 package ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -11,8 +13,10 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import model.hardware.Sensor
 import model.item.behavior.BehaviorItem
 import ui.utils.Resources
@@ -201,7 +205,16 @@ fun managerListChoice(
             onDismissRequest = {
                 expanded.value = false
                 iconShouldTrigger.value = false
-            }
+            },
+            modifier = Modifier
+                .widthIn(min = 100.dp, max = 250.dp)
+                .background(
+                    color = MaterialTheme.colorScheme.primary
+                )
+                .border(
+                    width = 2.dp,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
         ) {
             content()
         }
