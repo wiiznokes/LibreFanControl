@@ -48,7 +48,6 @@ lib/
 
 ### Configuration folder ###
 conf/*
-!/conf/settings.json
 !/conf/settings.sot.json
 
 ### generated log files ###

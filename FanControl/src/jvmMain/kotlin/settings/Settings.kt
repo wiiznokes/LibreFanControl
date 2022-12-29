@@ -12,13 +12,13 @@ import utils.setJsonValue
 import java.io.File
 
 
-private const val INIT_FILE_NAME = "settings.json"
+const val SETTINGS_FILE_NAME = "settings.json"
 
 class Settings {
     companion object {
 
         private var rootObj: JSONObject
-        private val file: File = File(DIR_CONF + INIT_FILE_NAME)
+        private val file: File = File(DIR_CONF + SETTINGS_FILE_NAME)
 
         init {
             val string = file.bufferedReader().readText()

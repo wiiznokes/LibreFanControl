@@ -9,9 +9,10 @@ import model.ConfigurationModel
 import model.ItemType
 import model.hardware.Sensor
 import model.item.SensorItem
+import settings.SETTINGS_FILE_NAME
 import settings.Settings
 import settings.Settings.Companion.getConfigList
-
+import java.io.File
 
 // init sensor list, used when there is no config at start
 fun initSensor(
@@ -53,6 +54,25 @@ fun initSensor(
         )
     }
 }
+
+
+/*
+    initialize the settings.json file using the settings.sot.json file
+    which serves as a source of truth, to avoid committing a modified settings.json file.
+
+    This avoids using "smudge", the git tool, because it is really not practical.
+*/
+
+private const val SETTINGS_SOT_FILE_NAME = "settings.sot.json"
+fun initSettings() {
+    val localSettingFile = File(DIR_CONF + SETTINGS_FILE_NAME)
+
+    if(!localSettingFile.exists()) {
+        val settingsSotFile = File(DIR_CONF + SETTINGS_SOT_FILE_NAME)
+        localSettingFile.writeText(settingsSotFile.readText())
+    }
+}
+
 
 // initialize config, returns configId if it exists, otherwise null
 fun initConfig(

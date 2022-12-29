@@ -4,6 +4,7 @@ import kotlinx.coroutines.*
 import logicControl.Logic
 import utils.initConfig
 import utils.initSensor
+import utils.initSettings
 
 
 class Application {
@@ -33,6 +34,8 @@ class Application {
             State._tempList,
             State._controlItemList
         )
+        initSettings()
+
         val configId = initConfig(
             configList = State._configList,
             idConfig = State._idConfig
