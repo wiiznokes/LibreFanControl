@@ -18,7 +18,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import ui.screen.body.behaviorList.linear.LinearParams
 import utils.NameException
 
@@ -27,12 +26,13 @@ import utils.NameException
 fun managerText(
     text: String,
     modifier: Modifier = Modifier,
-    style: TextStyle = MaterialTheme.typography.bodyMedium
+    style: TextStyle = MaterialTheme.typography.bodyMedium,
+    color: Color = MaterialTheme.colorScheme.onPrimary
 ) {
     Text(
         modifier = modifier,
         text = text,
-        color = MaterialTheme.colorScheme.onPrimary,
+        color = color,
         maxLines = 1,
         style = style,
         overflow = TextOverflow.Ellipsis
@@ -187,7 +187,10 @@ fun managerNameOutlinedTextField(
                 visualTransformation = VisualTransformation.None,
                 innerTextField = innerTextField,
                 label = {
-                    Text(label)
+                    managerText(
+                        text = label,
+                        style = MaterialTheme.typography.labelSmall
+                    )
                 },
                 singleLine = true,
                 isError = isError.value,
@@ -218,7 +221,7 @@ fun managerConfigNameRoundedTextField(
     ) {
         mutableStateOf(value)
     },
-    placeholder: String? = null,
+    placeholder: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
@@ -286,12 +289,10 @@ fun managerConfigNameRoundedTextField(
                 visualTransformation = VisualTransformation.None,
                 innerTextField = innerTextField,
                 placeholder = {
-                    if (placeholder != null) {
-                        Text(
-                            text = placeholder,
-                            fontSize = 20.sp,
-                        )
-                    }
+                    managerText(
+                        text = placeholder,
+                        style = MaterialTheme.typography.labelMedium
+                    )
                 },
                 singleLine = true,
                 enabled = true,

@@ -7,7 +7,7 @@ import model.item.ControlItem
 
 class ExternalManager {
 
-    private val external: External = when (OS.LINUX) {
+    private val external: External = when (getOS()) {
         OS.WINDOWS -> ExternalWindows()
         OS.LINUX -> ExternalLinux()
         OS.UNSUPPORTED -> throw Exception("unsupported OS")

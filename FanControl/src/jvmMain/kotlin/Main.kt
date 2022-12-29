@@ -2,7 +2,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import ui.screen.home
-import ui.theme.FanControlTheme
+import ui.theme.fanControlTheme
 import ui.utils.Resources
 
 
@@ -24,9 +24,7 @@ fun main() {
             }
 
         ) {
-            FanControlTheme(
-                darkTheme = true
-            ) {
+            fanControlTheme{
                 home()
             }
         }

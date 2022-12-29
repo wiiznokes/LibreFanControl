@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.ConfigurationModel
+import model.hardware.Sensor
 import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
@@ -23,19 +24,22 @@ class ConfigurationViewModel(
     private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
     private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
     private val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
-    private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList
+    private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList,
+
+    private val fanList: List<Sensor> = State._fanList.asStateFlow().value,
+    private val tempList: List<Sensor> = State._tempList.asStateFlow().value
 ) {
 
-    val controlItemList = _controlItemList.asStateFlow()
-    val behaviorItemList = _behaviorItemList.asStateFlow()
-    val fanItemList = _fanItemList.asStateFlow()
-    val tempItemList = _tempItemList.asStateFlow()
+    private val controlItemList = _controlItemList.asStateFlow()
+    private val behaviorItemList = _behaviorItemList.asStateFlow()
+    private val fanItemList = _fanItemList.asStateFlow()
+    private val tempItemList = _tempItemList.asStateFlow()
 
     val configList = _configList.asStateFlow()
     val idConfig = _idConfig.asStateFlow().value
 
     // save conf is only visible when idConfig != null
-    fun saveConfiguration(name: String, index: Int) {
+    fun saveConfiguration(name: String, index: Int, id: Long) {
 
         try {
             checkNameTaken(
@@ -63,33 +67,34 @@ class ConfigurationViewModel(
             fanItemList = fanItemList.value,
             tempItemList = tempItemList.value
         )
+        Settings.setSetting(
+            path = "configList/$id",
+            value = name
+        )
     }
 
     fun onChangeConfiguration(id: Long?) {
 
+        _idConfig.update {
+            it.value = id
+            it
+        }
+
         when (id) {
             null -> Settings.setSetting("config", JSONObject.NULL)
             else -> {
-                Settings.setSetting("config", id)
                 Configuration.loadConfig(
                     configId = id,
-                    controlItemList = State._controlItemList,
-                    behaviorItemList = State._behaviorItemList,
-                    fanItemList = State._fanItemList,
-                    tempItemList = State._tempItemList,
+                    controlItemList = _controlItemList,
+                    behaviorItemList = _behaviorItemList,
+                    fanItemList = _fanItemList,
+                    tempItemList = _tempItemList,
 
-                    fanList = State._fanList.value,
-                    tempList = State._tempList.value
+                    fanList = fanList,
+                    tempList = tempList
                 )
+                Settings.setSetting("config", id)
             }
-        }
-
-        _idConfig.update {
-            it.value = when (id) {
-                null -> null
-                else -> id
-            }
-            it
         }
     }
 
@@ -136,30 +141,26 @@ class ConfigurationViewModel(
             path = "configList/$id",
             value = name
         )
-
         return true
     }
 
     fun removeConfiguration(id: Long, index: Int) {
 
-        val removeCurrent = id == idConfig.value
-
-        if (removeCurrent)
-            Settings.setSetting("config", JSONObject.NULL)
-
-        Settings.removeConfig(id)
-
-
-        if (removeCurrent) {
-            _idConfig.update {
-                it.value = null
-                it
-            }
-        }
         _configList.update {
             it.removeAt(index)
             it
         }
+
+        // check if current config has been removed
+        if (id == idConfig.value) {
+            _idConfig.update {
+                it.value = null
+                it
+            }
+            Settings.setSetting("config", JSONObject.NULL)
+        }
+
         Configuration.deleteConfig(id)
+        Settings.removeConfig(id)
     }
 }

@@ -1,4 +1,4 @@
-package helper
+package utils
 
 import State
 import androidx.compose.runtime.MutableState
@@ -11,7 +11,6 @@ import model.hardware.Sensor
 import model.item.SensorItem
 import settings.Settings
 import settings.Settings.Companion.getConfigList
-import utils.getAvailableId
 
 
 // init sensor list, used when there is no config at start

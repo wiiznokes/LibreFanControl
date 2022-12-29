@@ -91,7 +91,7 @@ private fun managerModifyConfig(
 
     IconButton(
         onClick = {
-            viewModel.saveConfiguration(text.value, index)
+            viewModel.saveConfiguration(text.value, index, configList[index].id)
         }
     ) {
         Icon(
@@ -114,7 +114,8 @@ private fun managerModifyConfig(
                         names = configList.map { config ->
                             config.name
                         },
-                        name = it
+                        name = it,
+                        index = index
                     )
                 },
                 id = configList[index].id,
@@ -186,8 +187,7 @@ private fun dropdownMenuItemContent(
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .widthIn(min = 150.dp, 300.dp),
+                        .width(180.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {

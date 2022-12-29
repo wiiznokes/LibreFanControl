@@ -14,6 +14,7 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.delay
+import ui.component.managerButton
 import ui.component.managerNameOutlinedTextField
 import ui.component.managerText
 import ui.utils.Resources
@@ -115,18 +116,13 @@ fun managerDialogAddConfiguration(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-
-                Button(
+                managerButton(
                     onClick = {
                         enabled.value = false
-                    }
-                ) {
-                    managerText(
-                        text = Resources.getString("cancel")
-                    )
-                }
-
-                Button(
+                    },
+                    text = Resources.getString("cancel")
+                )
+                managerButton(
                     onClick = {
                         if (viewModel.addConfiguration(
                                 name = text.value,
@@ -135,12 +131,9 @@ fun managerDialogAddConfiguration(
                         ) {
                             enabled.value = false
                         }
-                    }
-                ) {
-                    managerText(
-                        text = Resources.getString("add")
-                    )
-                }
+                    },
+                    text = Resources.getString("add")
+                )
             }
         }
     }
