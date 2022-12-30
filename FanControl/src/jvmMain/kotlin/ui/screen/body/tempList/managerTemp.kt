@@ -33,7 +33,7 @@ fun temp(
 
     val sensor = if (sensorItem.sensorId != null) {
         viewModel.tempList.value.find {
-            it.id == sensorItem.itemId
+            it.id == sensorItem.sensorId
         }
     } else null
 
