@@ -1,11 +1,11 @@
 package ui.screen.topBar.configuration
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import model.ConfigurationModel
 import ui.component.managerConfigNameRoundedTextField
 import ui.component.managerListChoice
+import ui.component.managerText
 import ui.utils.Resources
 import utils.checkNameTaken
 
@@ -33,11 +34,18 @@ fun managerConfig() {
         } else {
             managerConfigListChoice(
                 textContent = {
-                    managerConfigNameRoundedTextField(
+                    managerText(
                         text = it,
                         modifier = Modifier
                             .width(200.dp)
-                            .height(35.dp),
+                            .height(35.dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.secondary,
+                                shape = RoundedCornerShape(22.dp), //rounded corners
+                            )
+                            .padding(horizontal = 10.dp, vertical = 5.dp),
+                        color = MaterialTheme.colorScheme.onSecondary,
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 },
                 configList = viewModel.configList.value

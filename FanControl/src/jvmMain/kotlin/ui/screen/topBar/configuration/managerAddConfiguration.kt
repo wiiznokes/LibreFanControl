@@ -133,7 +133,7 @@ fun managerDialogAddConfig(
                     )
                 },
                 label = Resources.getString("label/conf_name"),
-                id = id,
+                ids = Pair(id, null),
                 text = text
             )
             LaunchedEffect(

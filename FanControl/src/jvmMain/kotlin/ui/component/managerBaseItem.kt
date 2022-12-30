@@ -2,6 +2,7 @@ package ui.component
 
 
 import Source
+import State
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
@@ -21,6 +22,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
+import kotlinx.coroutines.flow.asStateFlow
 import model.ItemType
 import model.item.BaseItem
 import ui.utils.Resources
@@ -36,8 +38,11 @@ fun baseItemBody(
     editModeActivated: Boolean,
     content: @Composable ColumnScope.() -> Unit
 ) {
+    // id use to update value witch use remember
+    val idConfig = State._idConfig.asStateFlow().value.value
+
     val text = remember(
-        item.itemId
+        item.itemId, idConfig
     ) {
         mutableStateOf(item.name)
     }
@@ -63,7 +68,7 @@ fun baseItemBody(
                     .width(IntrinsicSize.Min)
                     .height(50.dp),
                 text = text,
-                id = item.itemId,
+                ids = Pair(item.itemId, idConfig),
                 onValueChange = {
                     onNameChange(it)
                 },
