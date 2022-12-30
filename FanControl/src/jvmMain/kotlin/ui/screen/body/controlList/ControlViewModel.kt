@@ -17,7 +17,6 @@ class ControlViewModel(
     val controlItemList = _controlItemList.asStateFlow()
     val behaviorItemList = _behaviorItemList.asStateFlow()
 
-
     fun remove(index: Int, libIndex: Int) {
         Application.setControl(
             libIndex = libIndex,

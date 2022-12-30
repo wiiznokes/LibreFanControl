@@ -1,10 +1,10 @@
 import configuration.Configuration
 import external.ExternalManager
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.asStateFlow
 import logicControl.Logic
-import utils.initConfig
+import settings.Settings
 import utils.initSensor
-import utils.initSettings
 
 
 class Application {
@@ -28,20 +28,17 @@ class Application {
     }
 
     fun onStart() {
+        // initialize setting state, and settings.json
+        Settings()
+
         // load library
         externalManager.start(
             State._fanList,
             State._tempList,
             State._controlItemList
         )
-        initSettings()
 
-        val configId = initConfig(
-            configList = State._configList,
-            idConfig = State._idConfig
-        )
-
-        when (configId) {
+        when (val configId = State._settings.asStateFlow().value.configId.value) {
             null -> {
                 initSensor(
                     fanList = State._fanList,

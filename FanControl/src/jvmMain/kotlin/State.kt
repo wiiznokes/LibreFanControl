@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import model.ConfigurationModel
+import model.SettingsModel
 import model.hardware.Sensor
 import model.item.ControlItem
 import model.item.SensorItem
@@ -24,9 +25,7 @@ class State {
         val _addItemExpanded: MutableStateFlow<MutableState<Boolean>> = MutableStateFlow(mutableStateOf(false))
         val _editModeActivated: MutableStateFlow<MutableState<Boolean>> = MutableStateFlow(mutableStateOf(false))
 
-        val _configList: MutableStateFlow<SnapshotStateList<ConfigurationModel>> =
-            MutableStateFlow(mutableStateListOf())
-        val _idConfig: MutableStateFlow<MutableState<Long?>> = MutableStateFlow(mutableStateOf(null))
+        val _settings: MutableStateFlow<SettingsModel> = MutableStateFlow(SettingsModel())
     }
 }
 
