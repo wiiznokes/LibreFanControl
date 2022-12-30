@@ -24,7 +24,7 @@ fun main() {
             }
 
         ) {
-            fanControlTheme{
+            fanControlTheme(true) {
                 home()
             }
         }

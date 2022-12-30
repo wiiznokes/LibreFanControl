@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.update
 import model.hardware.Sensor
 import model.item.behavior.BehaviorItem
 import model.item.behavior.LinearBehavior
-import ui.utils.Resources
 
 
 enum class LinearParams {
@@ -37,22 +36,12 @@ class LinearBehaviorViewModel(
     val tempList = _tempList.asStateFlow()
 
 
-    fun setTemp(index: Int, temp: Sensor?) {
+    fun setTemp(index: Int, tempSensorId: Long?) {
         _behaviorItemList.update {
             it[index] = it[index].copy(
-                extension = with(it[index].extension as LinearBehavior) {
-                    when (temp) {
-                        null -> copy(
-                            tempName = Resources.getString("none"),
-                            sensorId = null
-                        )
-
-                        else -> copy(
-                            tempName = temp.libName,
-                            sensorId = temp.libId
-                        )
-                    }
-                }
+                extension = (it[index].extension as LinearBehavior).copy(
+                    tempSensorId = tempSensorId
+                )
             )
             it
         }

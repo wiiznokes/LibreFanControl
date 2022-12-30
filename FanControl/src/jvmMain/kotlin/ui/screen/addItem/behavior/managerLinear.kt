@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.ItemType
 import ui.component.baseItemAddItem
-import ui.component.listChoice
+import ui.component.managerAddItemListChoice
 import ui.component.managerText
 import ui.utils.Resources
 
@@ -21,9 +21,9 @@ fun managerAddLinear(
         iconContentDescription = Resources.getString("ct/linear"),
         name = Resources.getString("add_item/linear_name"),
         onEditClick = onEditClick,
-        type = ItemType.BehaviorType.B_LINEAR
+        type = ItemType.BehaviorType.I_B_LINEAR
     ) {
-        listChoice(
+        managerAddItemListChoice(
             name = Resources.getString("add_item/temp_name")
         )
 

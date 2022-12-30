@@ -5,23 +5,19 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import model.hardware.Sensor
-import model.item.behavior.BehaviorItem
 import ui.utils.Resources
 
-
 @Composable
-fun listChoice(
+fun managerAddItemListChoice(
     name: String
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
@@ -46,123 +42,59 @@ fun listChoice(
     }
 }
 
-@Composable
-fun listChoice(
-    sensorName: String,
-    sensorList: SnapshotStateList<Sensor>,
-    onItemClick: (Sensor?) -> Unit
-) {
-    val expanded = remember { mutableStateOf(false) }
-
-
-
-    managerListChoice(
-        name = sensorName,
-        expanded = expanded
-    ) {
-        DropdownMenuItem(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primary),
-            onClick = {
-                onItemClick(null)
-                expanded.value = false
-            }
-        ) {
-            managerText(
-                text = Resources.getString("none")
-            )
-        }
-
-        sensorList.forEach {
-            DropdownMenuItem(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.primary),
-                onClick = {
-                    onItemClick(it)
-                    expanded.value = false
-                }
-            ) {
-                managerText(
-                    text = it.libId
-                )
-            }
-        }
-    }
-}
-
-@JvmName("listChoice1")
-@Composable
-fun listChoice(
-    behaviorId: Long?,
-    behaviorItemList: SnapshotStateList<BehaviorItem>,
-    onItemClick: (Long?) -> Unit
-) {
-    val expanded = remember { mutableStateOf(false) }
-
-    managerListChoice(
-        name = behaviorItemList.find {
-            it.itemId == behaviorId
-        }.let {
-            it?.name ?: Resources.getString("none")
-        },
-        expanded = expanded
-    ) {
-        DropdownMenuItem(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primary),
-            onClick = {
-                onItemClick(null)
-                expanded.value = false
-            }
-        ) {
-            managerText(
-                text = Resources.getString("none")
-            )
-        }
-
-        behaviorItemList.forEach {
-            DropdownMenuItem(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.primary),
-                onClick = {
-                    onItemClick(it.itemId)
-                    expanded.value = false
-                }
-            ) {
-                managerText(
-                    text = it.name
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun managerListChoice(
-    name: String,
-    expanded: MutableState<Boolean>,
-    content: @Composable ColumnScope.() -> Unit
-) {
-    managerListChoice(
-        modifier = Modifier
-            .fillMaxWidth(),
-        textContent = {
-            managerText(
-                text = name
-            )
-        },
-        expanded = expanded
-    ) {
-        content()
-    }
-}
 
 @Composable
 fun managerListChoice(
-    modifier: Modifier = Modifier,
-    textContent: @Composable () -> Unit,
+    text: String?,
+    textContent: @Composable (String) -> Unit = {
+        managerText(
+            text = it
+        )
+    },
+    baseModifier: Modifier = Modifier
+        .fillMaxWidth()
+        .widthIn(min = 100.dp, max = 250.dp),
+    dropDownModifier: Modifier = Modifier,
+    onItemClick: (Long?) -> Unit,
+    iconContent: @Composable ((Long, Int) -> Unit)? = null,
+    ids: List<Long>,
+    names: List<String>
+) {
+    val expanded = remember { mutableStateOf(false) }
+
+    managerBaseDropdownMenu(
+        text = text ?: Resources.getString("none"),
+        textContent = textContent,
+        expanded = expanded,
+        modifier = baseModifier
+    ) {
+        managerDropDownContent(
+            expanded = expanded,
+            text = Resources.getString("none"),
+            onItemClick = onItemClick,
+        )
+        for (i in ids.indices) {
+            managerDropDownContent(
+                modifier = dropDownModifier,
+                expanded = expanded,
+                text = names[i],
+                onItemClick = onItemClick,
+                iconContent = iconContent,
+                id = ids[i],
+                index = i
+            )
+        }
+    }
+}
+
+
+@Composable
+private fun managerBaseDropdownMenu(
+    modifier: Modifier,
+    text: String,
+    textContent: @Composable (String) -> Unit,
     expanded: MutableState<Boolean>,
-    content: @Composable ColumnScope.() -> Unit
+    dropDownContent: @Composable ColumnScope.() -> Unit
 ) {
     Box {
         val iconShouldTrigger = remember { mutableStateOf(true) }
@@ -194,7 +126,7 @@ fun managerListChoice(
                         )
                     }
 
-                    textContent()
+                    textContent(text)
                 }
             }
         }
@@ -205,7 +137,6 @@ fun managerListChoice(
                 iconShouldTrigger.value = false
             },
             modifier = Modifier
-                .widthIn(min = 100.dp, max = 250.dp)
                 .background(
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -214,7 +145,46 @@ fun managerListChoice(
                     color = MaterialTheme.colorScheme.onPrimary
                 )
         ) {
-            content()
+            dropDownContent()
+        }
+    }
+}
+
+
+@Composable
+private fun managerDropDownContent(
+    modifier: Modifier = Modifier,
+    expanded: MutableState<Boolean>,
+    text: String,
+    onItemClick: (Long?) -> Unit,
+    iconContent: @Composable ((Long, Int) -> Unit)? = null,
+    id: Long? = null,
+    index: Int? = null
+) {
+    DropdownMenuItem(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.primary),
+        onClick = {
+            onItemClick(id)
+            expanded.value = false
+        }
+    ) {
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+            Row(
+                modifier = modifier,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                    if (iconContent != null) {
+                        iconContent(id!!, index!!)
+                    }
+
+                    managerText(
+                        text = text
+                    )
+                }
+            }
         }
     }
 }

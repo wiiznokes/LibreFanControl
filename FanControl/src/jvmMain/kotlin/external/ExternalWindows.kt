@@ -3,7 +3,7 @@ package external
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import model.ItemType
+import model.HardwareType
 import model.hardware.Sensor
 import model.item.ControlItem
 import utils.getAvailableId
@@ -35,14 +35,18 @@ class ExternalWindows : External {
         val result = externalGetFan()
 
         for (i in 0..(result.size - 1) / 3) {
-            fans.value.add(
-                Sensor(
-                    libIndex = result[i * 3].toInt(),
-                    libId = result[(i * 3) + 1],
-                    libName = result[(i * 3) + 2],
-                    type = ItemType.SensorType.S_FAN,
+            fans.update {
+                it.add(
+                    Sensor(
+                        libIndex = result[i * 3].toInt(),
+                        libId = result[(i * 3) + 1],
+                        libName = result[(i * 3) + 2],
+                        type = HardwareType.SensorType.H_S_FAN,
+                        id = getAvailableId(it.map { sensor -> sensor.id })
+                    )
                 )
-            )
+                it
+            }
         }
     }
 
@@ -50,14 +54,18 @@ class ExternalWindows : External {
         val result = externalGetTemp()
 
         for (i in 0..(result.size - 1) / 3) {
-            temps.value.add(
-                Sensor(
-                    libIndex = result[i * 3].toInt(),
-                    libId = result[(i * 3) + 1],
-                    libName = result[(i * 3) + 2],
-                    type = ItemType.SensorType.S_TEMP,
+            temps.update {
+                it.add(
+                    Sensor(
+                        libIndex = result[i * 3].toInt(),
+                        libId = result[(i * 3) + 1],
+                        libName = result[(i * 3) + 2],
+                        type = HardwareType.SensorType.H_S_TEMP,
+                        id = getAvailableId(it.map { sensor -> sensor.id })
+                    )
                 )
-            )
+                it
+            }
         }
     }
 
@@ -65,20 +73,20 @@ class ExternalWindows : External {
         val result = externalGetControl()
 
         for (i in 0..(result.size - 1) / 3) {
-            controls.value.add(
-                ControlItem(
-                    libIndex = result[i * 3].toInt(),
-                    libId = result[(i * 3) + 1],
-                    libName = result[(i * 3) + 2],
-                    name = result[(i * 3) + 2],
-
-                    itemId = getAvailableId(
-                        controls.value.map { item ->
-                            item.itemId
-                        }
-                    ),
+            controls.update {
+                it.add(
+                    ControlItem(
+                        libIndex = result[i * 3].toInt(),
+                        libId = result[(i * 3) + 1],
+                        libName = result[(i * 3) + 2],
+                        name = result[(i * 3) + 2],
+                        itemId = getAvailableId(
+                            it.map { control -> control.itemId }
+                        )
+                    )
                 )
-            )
+                it
+            }
         }
     }
 
@@ -87,8 +95,8 @@ class ExternalWindows : External {
 
         for (i in fans.value.indices) {
             fans.update {
-                fans.value[i] = fans.value[i].copy(
-                    value = values[fans.value[i].libIndex]
+                it[i] = it[i].copy(
+                    value = values[it[i].libIndex]
                 )
                 it
             }
@@ -100,8 +108,8 @@ class ExternalWindows : External {
 
         for (i in temps.value.indices) {
             temps.update {
-                temps.value[i] = temps.value[i].copy(
-                    value = values[temps.value[i].libIndex]
+                it[i] = it[i].copy(
+                    value = values[it[i].libIndex]
                 )
                 it
             }
@@ -111,24 +119,18 @@ class ExternalWindows : External {
     override fun updateControl(controls: MutableStateFlow<SnapshotStateList<ControlItem>>) {
         externalUpdateControl()
 
-
         for (i in controls.value.indices) {
             controls.update {
-                controls.value[i] = controls.value[i].copy(
-                    value = values[controls.value[i].libIndex]
+                it[i] = it[i].copy(
+                    value = values[it[i].libIndex]
                 )
                 it
             }
         }
     }
 
-
     override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {
-        // case is auto == true
-        if (value == null)
-            externalSetControl(libIndex, isAuto, 100)
-        else
-            externalSetControl(libIndex, isAuto, value)
+        externalSetControl(libIndex, isAuto, value ?: 100)
     }
 
     private external fun externalStart(values: IntArray)

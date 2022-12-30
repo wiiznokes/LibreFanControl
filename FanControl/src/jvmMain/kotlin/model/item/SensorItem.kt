@@ -1,7 +1,6 @@
 package model.item
 
 import model.ItemType
-import ui.utils.Resources
 
 data class SensorItem(
     override var name: String,
@@ -9,6 +8,5 @@ data class SensorItem(
     override val itemId: Long,
 
     override var isExpanded: Boolean = false,
-    var sensorName: String = Resources.getString("none"),
-    var libId: String? = null
+    var sensorId: Long? = null
 ) : BaseItem

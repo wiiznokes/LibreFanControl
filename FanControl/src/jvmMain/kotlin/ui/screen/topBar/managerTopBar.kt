@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
-import ui.screen.topBar.configuration.managerModifyConfig
+import ui.screen.topBar.configuration.managerConfig
 import ui.utils.Resources
 
 
@@ -67,7 +67,7 @@ fun mainTopBar(
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                managerModifyConfig()
+                managerConfig()
 
                 Divider(
                     modifier = Modifier

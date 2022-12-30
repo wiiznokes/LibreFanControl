@@ -29,19 +29,19 @@ class Logic(
 
     fun update() {
         controlItemList.value.filter {
-            it.visible && it.isActive && it.behaviorId != null
+            it.visible && !it.isAuto && it.behaviorId != null
         }.forEach label@{ control ->
             val behavior = behaviorItemList.value.find { behavior ->
                 behavior.itemId == control.behaviorId
             }
             val value = when (behavior!!.type) {
-                ItemType.BehaviorType.B_FLAT -> {
+                ItemType.BehaviorType.I_B_FLAT -> {
                     (behavior.extension as FlatBehavior).value
                 }
 
-                ItemType.BehaviorType.B_LINEAR -> {
+                ItemType.BehaviorType.I_B_LINEAR -> {
                     val linearBehavior = behavior.extension as LinearBehavior
-                    if (linearBehavior.sensorId == null) {
+                    if (linearBehavior.tempSensorId == null) {
                         // continue keyword of forEach loop
                         // we only return from the lambda expression
                         // (control here)
@@ -54,18 +54,18 @@ class Logic(
                         f = f,
                         linearBehavior = linearBehavior,
                         tempValue = _tempList.value.find {
-                            it.libId == linearBehavior.sensorId
+                            it.id == linearBehavior.tempSensorId
                         }!!.value
                     )
                 }
 
-                ItemType.BehaviorType.B_TARGET -> TODO()
+                ItemType.BehaviorType.I_B_TARGET -> TODO()
 
                 else -> throw Exception("unspecified item type")
             }
             Application.setControl(
                 libIndex = control.libIndex,
-                isAuto = true,
+                isAuto = false,
                 value = value
             )
         }

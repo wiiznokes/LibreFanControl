@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import model.item.behavior.BehaviorItem
 import model.item.behavior.LinearBehavior
 import ui.component.baseItemBody
-import ui.component.listChoice
+import ui.component.managerListChoice
 import ui.component.managerNumberTextField
 import ui.component.managerText
 import ui.utils.Resources
@@ -39,17 +39,21 @@ fun linearBehavior(
 
         val linearBehavior = behavior.extension as LinearBehavior
 
-        listChoice(
-            sensorName = linearBehavior.tempName,
-            sensorList = viewModel.tempList.value,
+        managerListChoice(
+            text = if (linearBehavior.tempSensorId != null) {
+                viewModel.tempList.value.find {
+                    it.id == linearBehavior.tempSensorId
+                }!!.libName
+            } else null,
             onItemClick = {
                 viewModel.setTemp(
                     index = index,
-                    temp = it
+                    tempSensorId = it
                 )
-            }
+            },
+            ids = viewModel.tempList.value.map { it.id },
+            names = viewModel.tempList.value.map { it.libName }
         )
-
 
         val values = listOf(
             linearBehavior.minTemp,
