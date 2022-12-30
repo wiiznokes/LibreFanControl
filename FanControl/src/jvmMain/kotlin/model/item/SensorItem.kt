@@ -9,6 +9,5 @@ data class SensorItem(
     override val itemId: Long,
 
     override var isExpanded: Boolean = false,
-    var sensorName: String = Resources.getString("none"),
-    var libId: String? = null
+    var sensorId: Long? = null
 ) : BaseItem

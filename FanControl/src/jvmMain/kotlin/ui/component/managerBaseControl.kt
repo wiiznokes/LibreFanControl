@@ -38,17 +38,20 @@ fun baseControlBody(
         item = control
     ) {
         baseControl(
-            isActive = control.isActive,
+            isAuto = control.isAuto,
             switchEnabled = true,
             onSwitchClick = onSwitchClick,
             value = value,
             fanValue = fanValue,
 
             ) {
-            listChoice(
-                behaviorId = control.behaviorId,
-                behaviorItemList = behaviorItemList,
-                onItemClick = onBehaviorChange
+            managerListChoice(
+                text = behaviorItemList.firstOrNull {
+                    it.itemId == control.behaviorId
+                }?.name,
+                onItemClick = onBehaviorChange,
+                ids = behaviorItemList.map { it.itemId },
+                names = behaviorItemList.map { it.name }
             )
         }
     }
@@ -67,16 +70,16 @@ fun baseControlAddItem(
         iconContentDescription = Resources.getString("ct/control"),
         name = name,
         onEditClick = onEditClick,
-        type = ItemType.ControlType.C_FAN
+        type = ItemType.ControlType.I_C_FAN
     ) {
         baseControl(
-            isActive = false,
+            isAuto = true,
             switchEnabled = false,
             onSwitchClick = {},
             value = value,
             fanValue = fanValue
         ) {
-            listChoice(
+            managerAddItemListChoice(
                 name = behaviorName
             )
         }
@@ -87,7 +90,7 @@ fun baseControlAddItem(
 
 @Composable
 private fun baseControl(
-    isActive: Boolean,
+    isAuto: Boolean,
     switchEnabled: Boolean,
     onSwitchClick: (Boolean) -> Unit,
     value: String,
@@ -99,7 +102,7 @@ private fun baseControl(
 
         Switch(
             enabled = switchEnabled,
-            checked = isActive,
+            checked = !isAuto,
             onCheckedChange = {
                 onSwitchClick(it)
             }

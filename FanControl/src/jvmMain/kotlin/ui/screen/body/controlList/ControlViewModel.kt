@@ -21,13 +21,13 @@ class ControlViewModel(
     fun remove(index: Int, libIndex: Int) {
         Application.setControl(
             libIndex = libIndex,
-            isAuto = false
+            isAuto = true
         )
 
         _controlItemList.update {
             it[index] = it[index].copy(
                 visible = false,
-                isActive = false
+                isAuto = true
             )
             it
         }
@@ -43,18 +43,18 @@ class ControlViewModel(
     }
 
     fun setControl(libIndex: Int, isAuto: Boolean) {
-        // we set control only if is Auto is false because
+        // we set control only if is Auto is true because
         // another class is in charge to know if control should be set
-        if (!isAuto) {
+        if (isAuto) {
             Application.setControl(
                 libIndex = libIndex,
-                isAuto = false
+                isAuto = true
             )
         }
 
         _controlItemList.update {
             it[libIndex] = it[libIndex].copy(
-                isActive = isAuto
+                isAuto = isAuto
             )
             it
         }

@@ -2,10 +2,16 @@ package configuration
 
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import configuration.read.ReadHardware
+import configuration.read.ReadItem
+import configuration.write.WriteHardware
+import configuration.write.WriteItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import model.ConfigurationModel
+import model.HardwareType
 import model.ItemType
+import model.hardware.BaseHardware
 import model.hardware.Sensor
 import model.item.ControlItem
 import model.item.SensorItem
@@ -22,6 +28,11 @@ private const val SUFFIX_NEW_CONF = ".json"
 
 class Configuration {
     companion object {
+        private val readHardware = ReadHardware()
+        private val readItem = ReadItem()
+        private val writeHardware = WriteHardware()
+        private val writeItem = WriteItem()
+
         fun loadConfig(
             configId: Long,
             controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>>,
@@ -29,46 +40,52 @@ class Configuration {
             fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>>,
             tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>>,
 
-            fanList: List<Sensor>,
-            tempList: List<Sensor>
+            fanList: MutableStateFlow<SnapshotStateList<Sensor>>,
+            tempList: MutableStateFlow<SnapshotStateList<Sensor>>
         ) {
             val file = getFile(configId)
             val string = file.bufferedReader().readText()
             val obj = JSONTokener(string).nextValue() as JSONObject
 
-            getControls(
+            readHardware.getSensors(
+                sensorList = fanList,
+                array = obj.getJSONArray(HardwareType.SensorType.H_S_FAN.toString())
+            )
+            readHardware.getSensors(
+                sensorList = tempList,
+                array = obj.getJSONArray(HardwareType.SensorType.H_S_TEMP.toString())
+            )
+
+            readItem.getControls(
                 controlItemList = controlItemList,
-                array = obj.getJSONArray(ItemType.ControlType.C_FAN.toString())
+                array = obj.getJSONArray(ItemType.ControlType.I_C_FAN.toString())
             )
 
             behaviorItemList.update {
                 it.clear()
                 it
             }
-            getBehaviors(
+            readItem.getBehaviors(
                 behaviorItemList = behaviorItemList,
-                tempList = tempList,
-                array = obj.getJSONArray(ItemType.BehaviorType.B_UNSPECIFIED.toString())
+                array = obj.getJSONArray(ItemType.BehaviorType.I_B_UNSPECIFIED.toString())
             )
 
             fanItemList.update {
                 it.clear()
                 it
             }
-            getSensors(
+            readItem.getSensors(
                 sensorItemList = fanItemList,
-                sensorList = fanList,
-                array = obj.getJSONArray(ItemType.SensorType.S_FAN.toString())
+                array = obj.getJSONArray(ItemType.SensorType.I_S_FAN.toString())
             )
 
             tempItemList.update {
                 it.clear()
                 it
             }
-            getSensors(
+            readItem.getSensors(
                 sensorItemList = tempItemList,
-                sensorList = tempList,
-                array = obj.getJSONArray(ItemType.SensorType.S_TEMP.toString())
+                array = obj.getJSONArray(ItemType.SensorType.I_S_TEMP.toString())
             )
         }
 
@@ -83,7 +100,10 @@ class Configuration {
             controlItemList: List<ControlItem>,
             behaviorItemList: List<BehaviorItem>,
             fanItemList: List<SensorItem>,
-            tempItemList: List<SensorItem>
+            tempItemList: List<SensorItem>,
+
+            fanList: List<BaseHardware>,
+            tempList: List<BaseHardware>
         ) {
             val str = StringBuilder()
             val writer = JSONWriter(str)
@@ -94,25 +114,36 @@ class Configuration {
             writer.key("id")
             writer.value(configuration.id)
 
-            setItems(
+            writeHardware.setHardware(
+                itemList = fanList,
+                writer = writer,
+                type = HardwareType.SensorType.H_S_FAN
+            )
+            writeHardware.setHardware(
+                itemList = tempList,
+                writer = writer,
+                type = HardwareType.SensorType.H_S_TEMP
+            )
+
+            writeItem.setItems(
                 itemList = controlItemList,
                 writer = writer,
-                type = ItemType.ControlType.C_FAN
+                type = ItemType.ControlType.I_C_FAN
             )
-            setItems(
+            writeItem.setItems(
                 itemList = behaviorItemList,
                 writer = writer,
-                type = ItemType.BehaviorType.B_UNSPECIFIED
+                type = ItemType.BehaviorType.I_B_UNSPECIFIED
             )
-            setItems(
+            writeItem.setItems(
                 itemList = fanItemList,
                 writer = writer,
-                type = ItemType.SensorType.S_FAN
+                type = ItemType.SensorType.I_S_FAN
             )
-            setItems(
+            writeItem.setItems(
                 itemList = tempItemList,
                 writer = writer,
-                type = ItemType.SensorType.S_TEMP
+                type = ItemType.SensorType.I_S_TEMP
             )
             writer.endObject()
 

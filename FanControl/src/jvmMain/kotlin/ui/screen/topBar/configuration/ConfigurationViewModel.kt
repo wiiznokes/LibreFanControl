@@ -26,17 +26,20 @@ class ConfigurationViewModel(
     private val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
     private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList,
 
-    private val fanList: List<Sensor> = State._fanList.asStateFlow().value,
-    private val tempList: List<Sensor> = State._tempList.asStateFlow().value
+    private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
+    private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList
 ) {
+    val configList = _configList.asStateFlow()
+    val idConfig = _idConfig.asStateFlow().value
 
     private val controlItemList = _controlItemList.asStateFlow()
     private val behaviorItemList = _behaviorItemList.asStateFlow()
     private val fanItemList = _fanItemList.asStateFlow()
     private val tempItemList = _tempItemList.asStateFlow()
 
-    val configList = _configList.asStateFlow()
-    val idConfig = _idConfig.asStateFlow().value
+    private val fanList = _fanList.asStateFlow()
+    private val tempList = _tempList.asStateFlow()
+
 
     // save conf is only visible when idConfig != null
     fun saveConfiguration(name: String, index: Int, id: Long) {
@@ -65,7 +68,9 @@ class ConfigurationViewModel(
             controlItemList = controlItemList.value,
             behaviorItemList = behaviorItemList.value,
             fanItemList = fanItemList.value,
-            tempItemList = tempItemList.value
+            tempItemList = tempItemList.value,
+            fanList = fanList.value,
+            tempList = tempList.value
         )
         Settings.setSetting(
             path = "configList/$id",
@@ -90,8 +95,8 @@ class ConfigurationViewModel(
                     fanItemList = _fanItemList,
                     tempItemList = _tempItemList,
 
-                    fanList = fanList,
-                    tempList = tempList
+                    fanList = _fanList,
+                    tempList = _tempList
                 )
                 Settings.setSetting("config", id)
             }
@@ -130,7 +135,9 @@ class ConfigurationViewModel(
             controlItemList = controlItemList.value,
             behaviorItemList = behaviorItemList.value,
             fanItemList = fanItemList.value,
-            tempItemList = tempItemList.value
+            tempItemList = tempItemList.value,
+            fanList = fanList.value,
+            tempList = tempList.value
         )
 
         Settings.setSetting(

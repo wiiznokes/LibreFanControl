@@ -1,6 +1,6 @@
 package model.hardware
 
-import model.ItemType
+import model.HardwareType
 
 
 data class Sensor(
@@ -8,5 +8,7 @@ data class Sensor(
     override val libId: String,
     override val libName: String,
     override var value: Int = 0,
-    override val type: ItemType.SensorType,
+    override val type: HardwareType.SensorType,
+    // id is var because it can be overridden if there is a configuration
+    override var id: Long,
 ) : BaseHardware

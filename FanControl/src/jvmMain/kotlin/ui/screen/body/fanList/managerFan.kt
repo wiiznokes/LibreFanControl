@@ -31,31 +31,24 @@ fun fan(
     index: Int,
     editModeActivated: Boolean
 ) {
-    val sensorValue = if (sensorItem.libId != null) {
+    val sensor = if (sensorItem.sensorId != null) {
         viewModel.fanList.value.find {
-            it.libId == sensorItem.libId
-        }!!.value
-    } else 0
+            it.id == sensorItem.itemId
+        }
+    } else null
 
 
     baseSensorBody(
         iconPainter = Resources.getIcon("toys_fan"),
         iconContentDescription = Resources.getString("ct/fan"),
-        onNameChange = {
-            viewModel.setName(it, index)
-        },
+        onNameChange = { viewModel.setName(it, index) },
         editModeActivated = editModeActivated,
-        onEditClick = {
-            viewModel.remove(index)
-        },
-        sensorName = sensorItem.sensorName,
-
-        sensorValue = "$sensorValue ${Resources.getString("unity/rpm")}",
+        onEditClick = { viewModel.remove(index) },
+        sensorName = sensor?.libName,
+        sensorValue = "${sensor?.value ?: 0} ${Resources.getString("unity/rpm")}",
         sensorList = viewModel.fanList.value,
-        onItemClick = {
-            viewModel.setFan(index, it)
-        },
-        sensor = sensorItem
+        onItemClick = { viewModel.setFan(index, it) },
+        sensorItem = sensorItem
     )
 }
 

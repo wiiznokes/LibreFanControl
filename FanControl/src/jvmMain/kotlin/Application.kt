@@ -60,8 +60,8 @@ class Application {
                     fanItemList = State._fanItemList,
                     tempItemList = State._tempItemList,
 
-                    fanList = State._fanList.value,
-                    tempList = State._tempList.value
+                    fanList = State._fanList,
+                    tempList = State._tempList
                 )
             }
         }

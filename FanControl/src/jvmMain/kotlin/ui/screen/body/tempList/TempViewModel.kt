@@ -25,23 +25,12 @@ class TempViewModel(
         }
     }
 
-    fun setTemp(index: Int, temp: Sensor?) {
-        if (temp != null) {
-            _tempItemList.update {
-                it[index] = it[index].copy(
-                    sensorName = temp.libName,
-                    libId = temp.libId
-                )
-                it
-            }
-        } else {
-            _tempItemList.update {
-                it[index] = it[index].copy(
-                    sensorName = Resources.getString("none"),
-                    libId = null
-                )
-                it
-            }
+    fun setTemp(index: Int, sensorId: Long?) {
+        _tempItemList.update {
+            it[index] = it[index].copy(
+                sensorId = sensorId,
+            )
+            it
         }
     }
 

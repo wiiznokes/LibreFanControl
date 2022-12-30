@@ -50,10 +50,10 @@ fun control(
             )
         },
 
-        onSwitchClick = {
+        onSwitchClick = { checked ->
             viewModel.setControl(
                 libIndex = control.libIndex,
-                isAuto = it
+                isAuto = !checked
             )
         },
         value = "${control.value} ${Resources.getString("unity/percent")}",

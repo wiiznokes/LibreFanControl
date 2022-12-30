@@ -22,36 +22,34 @@ fun initSensor(
     fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
     tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList
 ) {
-    fanList.value.forEach {
-        fanItemList.value.add(
-            SensorItem(
-                name = it.libName,
-                type = ItemType.SensorType.S_FAN,
-                sensorName = it.libName,
-                libId = it.libId,
-                itemId = getAvailableId(
-                    ids = fanItemList.value.map { item ->
-                        item.itemId
-                    }
+    fanList.value.forEach { fanSensor ->
+        fanItemList.update {
+            it.add(
+                SensorItem(
+                    name = fanSensor.libName,
+                    type = ItemType.SensorType.I_S_FAN,
+                    itemId = getAvailableId(
+                        ids = it.map { item -> item.itemId }
+                    )
                 )
             )
-        )
+            it
+        }
     }
 
-    tempList.value.forEach {
-        tempItemList.value.add(
-            SensorItem(
-                name = it.libName,
-                type = ItemType.SensorType.S_TEMP,
-                sensorName = it.libName,
-                libId = it.libId,
-                itemId = getAvailableId(
-                    ids = tempItemList.value.map { item ->
-                        item.itemId
-                    }
+    tempList.value.forEach { tempSensor ->
+        tempItemList.update {
+            it.add(
+                SensorItem(
+                    name = tempSensor.libName,
+                    type = ItemType.SensorType.I_S_FAN,
+                    itemId = getAvailableId(
+                        ids = it.map { item -> item.itemId }
+                    )
                 )
             )
-        )
+            it
+        }
     }
 }
 

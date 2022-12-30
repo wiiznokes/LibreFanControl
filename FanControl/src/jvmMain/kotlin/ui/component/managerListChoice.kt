@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import ui.utils.Resources
 
 @Composable
-fun addItemListChoice(
+fun managerAddItemListChoice(
     name: String
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
@@ -43,41 +43,40 @@ fun addItemListChoice(
 }
 
 
-
-fun managerlistChoice(
-    text: String,
+@Composable
+fun managerListChoice(
+    text: String?,
     textContent: @Composable (String) -> Unit = {
         managerText(
             text = it
         )
     },
     onItemClick: (Long?) -> Unit,
-    iconContent: @Composable (()-> Unit)? = null,
+    iconContent: @Composable ((Long, Int)-> Unit)? = null,
     ids: List<Long>,
     names: List<String>
 ) {
     val expanded = remember { mutableStateOf(false) }
 
     managerBaseDropdownMenu(
-        text = text,
+        text = text ?: Resources.getString("none"),
         textContent = textContent,
         expanded = expanded
     ) {
         managerDropDownContent(
             expanded = expanded,
             text = Resources.getString("none"),
-            onItemClick = {
-                onItemClick(null)
-            }
+            onItemClick = onItemClick,
+            iconContent = iconContent,
         )
         for (i in ids.indices) {
             managerDropDownContent(
                 expanded = expanded,
                 text = names[i],
-                onItemClick = {
-                    onItemClick(ids[i])
-                },
-                iconContent = iconContent
+                onItemClick = onItemClick,
+                iconContent = iconContent,
+                id = ids[i],
+                index = i
             )
         }
     }
@@ -154,14 +153,16 @@ private fun managerDropDownContent (
     modifier: Modifier = Modifier,
     expanded: MutableState<Boolean>,
     text: String,
-    onItemClick: () -> Unit,
-    iconContent: @Composable (()-> Unit)? = null
+    onItemClick: (Long?) -> Unit,
+    iconContent: @Composable ((Long, Int)-> Unit)? = null,
+    id: Long? = null,
+    index: Int? = null
 ) {
     DropdownMenuItem(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary),
         onClick = {
-            onItemClick()
+            onItemClick(id)
             expanded.value = false
         }
     ) {
@@ -173,7 +174,7 @@ private fun managerDropDownContent (
             ) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                     if(iconContent != null)
-                        iconContent()
+                        iconContent(id!!, index!!)
                     managerText(
                         text = text
                     )

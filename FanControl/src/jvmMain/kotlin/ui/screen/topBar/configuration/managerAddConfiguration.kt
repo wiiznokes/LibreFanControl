@@ -2,7 +2,8 @@ package ui.screen.topBar.configuration
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
+import androidx.compose.material.IconButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,14 +17,50 @@ import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.delay
 import ui.component.managerButton
 import ui.component.managerNameOutlinedTextField
-import ui.component.managerText
 import ui.utils.Resources
 import utils.checkNameTaken
 import utils.getAvailableId
 
+
+
+
+@Composable
+fun managerAddConfig() {
+    val dialogExpanded = remember { mutableStateOf(false) }
+
+    /*
+        used to know if add conf button should trigger
+        because when the dialog appears, this button is
+        still focused, and will trigger if Enter is pressed
+    */
+    val keyEnterPressed = remember { mutableStateOf(false) }
+
+    IconButton(
+        onClick = {
+            if (keyEnterPressed.value)
+                keyEnterPressed.value = false
+            else
+                dialogExpanded.value = true
+        }
+    ) {
+        Icon(
+            painter = Resources.getIcon("add"),
+            contentDescription = Resources.getString("ct/add_conf")
+        )
+    }
+
+    if (dialogExpanded.value) {
+        managerDialogAddConfig(
+            enabled = dialogExpanded,
+            keyEnterPressed = keyEnterPressed
+        )
+    }
+}
+
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun managerDialogAddConfiguration(
+fun managerDialogAddConfig(
     enabled: MutableState<Boolean>,
     keyEnterPressed: MutableState<Boolean>
 ) {

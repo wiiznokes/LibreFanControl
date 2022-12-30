@@ -17,12 +17,12 @@ fun baseSensorBody(
     onNameChange: (String) -> Unit,
     editModeActivated: Boolean,
 
-    sensorName: String,
+    sensorName: String?,
     sensorValue: String,
 
     sensorList: SnapshotStateList<Sensor>,
-    onItemClick: (Sensor?) -> Unit,
-    sensor: SensorItem
+    onItemClick: (Long?) -> Unit,
+    sensorItem: SensorItem
 ) {
     baseItemBody(
         iconPainter = iconPainter,
@@ -30,12 +30,13 @@ fun baseSensorBody(
         onNameChange = onNameChange,
         editModeActivated = editModeActivated,
         onEditClick = onEditClick,
-        item = sensor
+        item = sensorItem
     ) {
-        listChoice(
-            sensorName = sensorName,
-            sensorList = sensorList,
-            onItemClick = onItemClick
+        managerListChoice(
+            text = sensorName,
+            onItemClick = onItemClick,
+            ids = sensorList.map { it.id },
+            names = sensorList.map { it.libName }
         )
         managerText(
             text = sensorValue
@@ -60,7 +61,7 @@ fun baseSensorAddItem(
         onEditClick = onEditClick,
         type = type
     ) {
-        listChoice(
+        managerAddItemListChoice(
             name = sensorName
         )
         managerText(

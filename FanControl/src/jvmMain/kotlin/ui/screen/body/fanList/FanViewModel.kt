@@ -24,23 +24,12 @@ class FanViewModel(
         }
     }
 
-    fun setFan(index: Int, fan: Sensor?) {
-        if (fan != null) {
-            _fanItemList.update {
-                it[index] = it[index].copy(
-                    sensorName = fan.libName,
-                    libId = fan.libId
-                )
-                it
-            }
-        } else {
-            _fanItemList.update {
-                it[index] = it[index].copy(
-                    sensorName = Resources.getString("none"),
-                    libId = null
-                )
-                it
-            }
+    fun setFan(index: Int, sensorId: Long?) {
+        _fanItemList.update {
+            it[index] = it[index].copy(
+                sensorId = sensorId,
+            )
+            it
         }
     }
 

@@ -1,5 +1,6 @@
 package model.hardware
 
+import model.HardwareType
 import model.ItemType
 
 interface BaseHardware {
@@ -7,5 +8,6 @@ interface BaseHardware {
     val libId: String
     val libName: String
     var value: Int
-    val type: ItemType
+    val type: HardwareType
+    var id: Long
 }
