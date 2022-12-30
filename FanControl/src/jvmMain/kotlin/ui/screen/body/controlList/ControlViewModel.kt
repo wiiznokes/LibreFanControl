@@ -53,7 +53,6 @@ class ControlViewModel(
             isAuto = controlItemList.value[index].isAuto,
             behaviorId = behaviorId
         )
-
     }
 
     fun onSwitchClick(checked: Boolean, index: Int) {

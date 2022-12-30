@@ -1,7 +1,10 @@
 package logicControl
 
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import model.ItemType
 import model.UnspecifiedTypeException
 import model.hardware.Sensor
@@ -12,7 +15,7 @@ import model.item.behavior.LinearBehavior
 
 
 data class SetControlModel(
-    val libIndex: Int?,
+    val libIndex: Int,
     val isAuto: Boolean,
     val value: Int? = null,
     val index: Int,
@@ -20,7 +23,7 @@ data class SetControlModel(
 )
 
 fun getSetControlList(
-    controlItemList: List<ControlItem>,
+    controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>>,
     behaviorItemList: List<BehaviorItem>,
     tempList: List<Sensor>
 ): List<SetControlModel> {
@@ -35,7 +38,7 @@ fun getSetControlList(
 
     handleControlShouldBeSet(
         setControlList = finalSetControlList,
-        controlItemList = controlItemList,
+        controlItemList = controlItemList.asStateFlow().value,
         behaviorItemList = behaviorItemList,
         tempList = tempList
     )
@@ -48,15 +51,20 @@ fun getSetControlList(
 */
 private fun handleHasNotVerify(
     setControlList: MutableList<SetControlModel>,
-    controlItemList: List<ControlItem>
+    controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>>
 ) {
     baseHandle(
-        controlItemList = controlItemList,
+        controlItemList = controlItemList.asStateFlow().value,
         predicate = { !it.logicHasVerify }
     ) { index, control ->
 
         // case if control have to change to auto
         if (control.isAuto || control.behaviorId == null) {
+            controlItemList.update {
+                it[index].controlShouldBeSet = false
+                it
+            }
+
             setControlList.add(
                 SetControlModel(
                     libIndex = control.libIndex,
@@ -66,12 +74,10 @@ private fun handleHasNotVerify(
                 )
             )
         } else {
-            SetControlModel(
-                libIndex = null,
-                isAuto = true,
-                index = index,
-                controlShouldBeSet = true
-            )
+            controlItemList.update {
+                it[index].controlShouldBeSet = true
+                it
+            }
         }
     }
 }
@@ -85,18 +91,14 @@ private fun handleControlShouldBeSet(
 
     baseHandle(
         controlItemList = controlItemList,
-        predicate = { !it.logicHasVerify && it.controlShouldBeSet }
+        predicate = { it.controlShouldBeSet }
     ) label@{ index, control ->
         val behavior = behaviorItemList.find { behavior ->
             behavior.itemId == control.behaviorId
         }
-        println(behavior)
-
-        var controlShouldBeSet = true
 
         val value = when (behavior!!.type) {
             ItemType.BehaviorType.I_B_FLAT -> {
-                controlShouldBeSet = false
                 (behavior.extension as FlatBehavior).value
             }
 
@@ -118,10 +120,10 @@ private fun handleControlShouldBeSet(
         setControlList.add(
             SetControlModel(
                 libIndex = control.libIndex,
-                isAuto = true,
+                isAuto = false,
                 value = value,
                 index = index,
-                controlShouldBeSet = controlShouldBeSet
+                controlShouldBeSet = true
             )
         )
     }
@@ -134,17 +136,13 @@ private fun baseHandle(
     forEachFiltered: (Int, ControlItem) -> Unit
 ) {
     val previousIndexList = mutableListOf<Int>()
-
-    val list = controlItemList.filterIndexed { index, control ->
+    
+    controlItemList.filterIndexed { index, control ->
         if (predicate(control)) {
             previousIndexList.add(index)
             true
         } else false
-    }
-
-    //println("between")
-
-    list.forEachIndexed { index, control ->
+    }.forEachIndexed { index, control ->
         forEachFiltered(previousIndexList[index], control)
     }
 }

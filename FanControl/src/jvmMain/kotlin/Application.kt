@@ -25,7 +25,6 @@ class Application(
     private val settings: StateFlow<SettingsModel> = State._settings.asStateFlow()
 ) {
     private val tempList = _tempList.asStateFlow()
-    private val controlItemList = _controlItemList.asStateFlow()
 
     private var jobUpdate: Job? = null
 
@@ -75,7 +74,7 @@ class Application(
                     */
                     try {
                         getSetControlList(
-                            controlItemList = controlItemList.value,
+                            controlItemList = _controlItemList,
                             behaviorItemList = behaviorItemList.value,
                             tempList = tempList.value
                         )
@@ -106,8 +105,7 @@ class Application(
                             )
                         it
                     }
-                    if (model.libIndex != null)
-                        externalManager.setControl(model.libIndex, model.isAuto, model.value)
+                    externalManager.setControl(model.libIndex, model.isAuto, model.value)
                 }
                 delay(updateDelay.toDuration(DurationUnit.SECONDS))
             }
