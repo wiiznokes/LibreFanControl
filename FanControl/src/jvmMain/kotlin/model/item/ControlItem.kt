@@ -12,15 +12,20 @@ data class ControlItem(
     var behaviorId: Long? = null,
 
     var value: Int = 0,
-    val isAuto: Boolean = true,
+    var isAuto: Boolean = true,
 
     /*
-        use when we click on the switch, because only the logic
-        class should update controls
+        variable for blocking control viewModel of
+        updating state when none logic update occur since
+        the last state update
     */
-    var controlShouldStop: Boolean = false,
-    var controlShouldBeSet: Boolean = false,
+    var logicHasVerify: Boolean = false,
 
+    /*
+        this variable is only used by
+        the logic update class
+    */
+    var controlShouldBeSet: Boolean = false,
 
     val libIndex: Int,
     val libName: String,

@@ -16,42 +16,47 @@ class ControlViewModel(
 ) {
     val controlItemList = _controlItemList.asStateFlow()
 
-    fun remove(index: Int, control: ControlItem) {
+    private fun changeLogic(index: Int, isAuto: Boolean, behaviorId: Long?): Boolean {
+        if (!controlItemList.value[index].logicHasVerify)
+            return false
+
         _controlItemList.update {
-            if (!control.isAuto) {
-                it[index].controlShouldStop = true
-                it[index].controlShouldBeSet = false
-            }
+            it[index].logicHasVerify = false
+            it[index].isAuto = isAuto
+            it[index].behaviorId = behaviorId
+            it
+        }
+        return true
+    }
+
+    fun remove(index: Int) {
+        if (!changeLogic(
+            index = index,
+            isAuto = true,
+            behaviorId = controlItemList.value[index].behaviorId
+        )) return
+
+        _controlItemList.update {
             it[index].visible = false
             it
         }
     }
 
-    fun setBehavior(index: Int, behaviorId: Long?, control: ControlItem) {
-        _controlItemList.update {
-            // we change only if needed
-            if (control.behaviorId != behaviorId) {
-                it[index].behaviorId = behaviorId
+    fun setBehavior(index: Int, behaviorId: Long?) {
+        changeLogic(
+            index = index,
+            isAuto = false,
+            behaviorId = behaviorId
+        )
 
-                if (behaviorId == null) {
-                    it[index].controlShouldStop = true
-                    it[index].controlShouldBeSet = false
-                }
-                else {
-                    it[index].controlShouldStop = false
-                    it[index].controlShouldBeSet = true
-                }
-            }
-            it
-        }
     }
 
     fun onSwitchClick(checked: Boolean, index: Int) {
-        _controlItemList.update {
-            it[index].controlShouldStop = !checked
-            it[index].controlShouldBeSet = checked
-            it
-        }
+        changeLogic(
+            index = index,
+            isAuto = !checked,
+            behaviorId = controlItemList.value[index].behaviorId
+        )
     }
 
 

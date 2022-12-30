@@ -45,8 +45,7 @@ fun control(
         editModeActivated = editModeActivated,
         onEditClick = {
             viewModel.remove(
-                index = index,
-                control = control
+                index = index
             )
         },
 
@@ -60,7 +59,7 @@ fun control(
         fanValue = "",
         behaviorItemList = viewModel.behaviorItemList.value,
         onBehaviorChange = {
-            viewModel.setBehavior(index, it, control)
+            viewModel.setBehavior(index, it)
         },
         control = control
     )

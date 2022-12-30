@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import logicControl.getSetControlList
 import settings.Settings
-import ui.screen.body.fanList.fan
 import utils.initSensor
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -66,7 +65,7 @@ class Application {
                     */
                     try {
                         getSetControlList(
-                            controlItemList = State._controlItemList.asStateFlow().value,
+                            controlItemList = State._controlItemList,
                             behaviorItemList = State._behaviorItemList.asStateFlow().value,
                             tempList = State._tempList.asStateFlow().value
                         )
@@ -80,15 +79,17 @@ class Application {
                 externalManager.updateTemp(State._tempList)
                 externalManager.updateControl(State._controlItemList)
 
-                setControlList.await()?.forEach {
+                setControlList.await()?.forEach { model ->
                     // we update controlList here because
                     // this part of the coroutine is thread safe
-                    State._controlItemList.update { controlList ->
-                        if (controlList[it.index].controlShouldBeSet != it.controlShouldBeSet)
-                            controlList[it.index].controlShouldBeSet = it.controlShouldBeSet
-                        controlList
+                    State._controlItemList.update {
+                        if (!it[model.index].logicHasVerify)
+                            it[model.index].logicHasVerify = true
+
+                        it[model.index].controlShouldBeSet = model.controlShouldBeSet
+                        it
                     }
-                    externalManager.setControl(it.libIndex, it.isAuto, it.value)
+                    externalManager.setControl(model.libIndex, model.isAuto, model.value)
                 }
 
                 delay(updateDelay.toDuration(DurationUnit.SECONDS))
