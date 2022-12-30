@@ -31,6 +31,28 @@ class Settings {
             if(existed)
                 initSettingsState(State._settings)
         }
+        fun setSetting(path: String, value: Any?) {
+            updateVariable(
+                setJsonValue(
+                    path = path,
+                    value = value,
+                    obj = rootObj
+                )
+            )
+        }
+
+        // remove config from configList
+        fun removeConfig(id: Long) {
+            val path = "configList/$id"
+            updateVariable(
+                setJsonValue(
+                    path = path,
+                    value = null,
+                    obj = rootObj
+                )
+            )
+        }
+
 
         /*
             initialize the settings.json file using the settings.sot.json file
@@ -79,34 +101,13 @@ class Settings {
             }
         }
 
-        fun <T> getSetting(path: String): T? {
+        private fun <T> getSetting(path: String): T? {
             return getJsonValue(
                 path = path,
                 obj = rootObj
             )
         }
 
-
-        fun setSetting(path: String, value: Any?) {
-            updateVariable(
-                setJsonValue(
-                    path = path,
-                    value = value,
-                    obj = rootObj
-                )
-            )
-        }
-
-        fun removeConfig(id: Long) {
-            val path = "configList/$id"
-            updateVariable(
-                setJsonValue(
-                    path = path,
-                    value = null,
-                    obj = rootObj
-                )
-            )
-        }
 
         private fun updateVariable(newObj: JSONObject) {
 

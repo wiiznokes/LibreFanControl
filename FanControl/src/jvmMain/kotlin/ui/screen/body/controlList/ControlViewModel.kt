@@ -3,7 +3,9 @@ package ui.screen.body.controlList
 import Application
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.item.ControlItem
@@ -12,12 +14,12 @@ import utils.checkNameTaken
 
 class ControlViewModel(
     private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
-    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
+    private val behaviorItemList: StateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList.asStateFlow()
 ) {
     val controlItemList = _controlItemList.asStateFlow()
-    val behaviorItemList = _behaviorItemList.asStateFlow()
 
     fun remove(index: Int, libIndex: Int) {
+
         Application.setControl(
             libIndex = libIndex,
             isAuto = true

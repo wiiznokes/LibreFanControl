@@ -3,7 +3,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
-import model.ConfigurationModel
 import model.SettingsModel
 import model.hardware.Sensor
 import model.item.ControlItem
