@@ -80,10 +80,10 @@ class Settings {
             settings: MutableStateFlow<SettingsModel>
         ) {
             settings.update {
-                it.language.value = getSetting("language")!!
-                it.configId.value = getSetting("configId")
+                it.language = getSetting("language")!!
+                it.configId = getSetting("configId")
                 getConfigList(it.configList)
-                it.updateDelay.value = getSetting("updateDelay")!!
+                it.updateDelay = getSetting("updateDelay")!!
                 it
             }
         }

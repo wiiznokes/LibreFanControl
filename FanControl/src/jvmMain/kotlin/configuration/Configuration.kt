@@ -35,13 +35,13 @@ class Configuration {
 
         fun loadConfig(
             configId: Long,
-            controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>>,
-            behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>>,
-            fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>>,
-            tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>>,
+            controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
+            behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
+            fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
+            tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList,
 
-            fanList: MutableStateFlow<SnapshotStateList<Sensor>>,
-            tempList: MutableStateFlow<SnapshotStateList<Sensor>>
+            fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
+            tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList
         ) {
             val file = getFile(configId)
             val string = file.bufferedReader().readText()

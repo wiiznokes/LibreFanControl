@@ -25,7 +25,7 @@ val viewModel = ConfigurationViewModel()
 @Composable
 fun managerConfig() {
     if (viewModel.configList.isNotEmpty()) {
-        val id = viewModel.configId.value
+        val id = viewModel.configId
         if (id != null) {
             managerConfigWithId(
                 id = id,
@@ -63,7 +63,7 @@ private fun managerConfigWithId(
     configList: SnapshotStateList<ConfigurationModel>
 ) {
     val index = viewModel.configList.indexOfFirst {
-        it.id == viewModel.configId.value
+        it.id == viewModel.configId
     }
 
     val text: MutableState<String> = remember(

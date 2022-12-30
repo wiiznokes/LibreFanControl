@@ -2,107 +2,98 @@ import configuration.Configuration
 import external.ExternalManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.asStateFlow
-import logicControl.Logic
+import kotlinx.coroutines.flow.update
+import logicControl.getSetControlList
 import settings.Settings
+import ui.screen.body.fanList.fan
 import utils.initSensor
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 
 class Application {
 
     private var jobUpdate: Job? = null
-    private var jobControlUpdate: Job? = null
-
-
-    companion object {
-        private val externalManager = ExternalManager()
-        fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null) {
-            println("try to set control: index: $libIndex, isAuto: $isAuto, value: $value")
-            /*
-            externalManager.setControl(
-                libIndex = libIndex,
-                isAuto = isAuto,
-                value = value
-            )
-            */
-        }
-    }
 
     fun onStart() {
         // initialize setting state, and settings.json
         Settings()
 
-        // load library
-        externalManager.start(
-            State._fanList,
-            State._tempList,
-            State._controlItemList
-        )
+        val settings = State._settings.asStateFlow()
 
-        when (val configId = State._settings.asStateFlow().value.configId.value) {
-            null -> {
-                initSensor(
-                    fanList = State._fanList,
-                    tempList = State._tempList,
-
-                    fanItemList = State._fanItemList,
-                    tempItemList = State._tempItemList
-                )
-            }
-
-            else -> {
-                Configuration.loadConfig(
-                    configId = configId,
-                    controlItemList = State._controlItemList,
-                    behaviorItemList = State._behaviorItemList,
-                    fanItemList = State._fanItemList,
-                    tempItemList = State._tempItemList,
-
-                    fanList = State._fanList,
-                    tempList = State._tempList
-                )
-            }
+        jobUpdate = CoroutineScope(Dispatchers.Default).launch {
+            startUpdate(
+                configId = settings.value.configId,
+                updateDelay = settings.value.updateDelay
+            )
         }
-        startUpdate()
-        startControlUpdate()
     }
 
 
     private var updateShouldStop = false
-    private var updateControlShouldStop = false
     fun onStop() {
         runBlocking {
             updateShouldStop = true
-            updateControlShouldStop = true
             jobUpdate?.cancel()
-            jobControlUpdate?.cancel()
             jobUpdate = null
-            jobControlUpdate = null
-            externalManager.stop()
         }
     }
 
 
-    private fun startUpdate() {
-        jobUpdate = CoroutineScope(Dispatchers.Default).launch {
+    private suspend fun startUpdate(configId: Long?, updateDelay: Int) {
+        coroutineScope {
+            val externalManager = ExternalManager().apply {
+                // load library
+                start(
+                    fans = State._fanList,
+                    temps = State._tempList,
+                    controls = State._controlItemList
+                )
+            }
+            when (configId) {
+                null -> initSensor()
+                else -> Configuration.loadConfig(configId)
+            }
+
             while (!updateShouldStop) {
+                val setControlList = async {
+                    /*
+                        we catch exception because another thread can modify
+                        state value, for example, if we remove an item
+                        that can lead to null pointer exception.
+                        This is not a problem because we can recalculate
+                        an updateDelay later
+                    */
+                    try {
+                        getSetControlList(
+                            controlItemList = State._controlItemList.asStateFlow().value,
+                            behaviorItemList = State._behaviorItemList.asStateFlow().value,
+                            tempList = State._tempList.asStateFlow().value
+                        )
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        null
+                    }
+                }
+
                 externalManager.updateFan(State._fanList)
                 externalManager.updateTemp(State._tempList)
                 externalManager.updateControl(State._controlItemList)
 
-                delay(2000L)
+                setControlList.await()?.forEach {
+                    // we update controlList here because
+                    // this part of the coroutine is thread safe
+                    State._controlItemList.update { controlList ->
+                        if (controlList[it.index].controlShouldBeSet != it.controlShouldBeSet)
+                            controlList[it.index].controlShouldBeSet = it.controlShouldBeSet
+                        controlList
+                    }
+                    externalManager.setControl(it.libIndex, it.isAuto, it.value)
+                }
+
+                delay(updateDelay.toDuration(DurationUnit.SECONDS))
             }
-        }
-    }
-
-    private val logic = Logic()
-
-    private fun startControlUpdate() {
-        jobControlUpdate = CoroutineScope(Dispatchers.Default).launch {
-            while (!updateControlShouldStop) {
-                logic.update()
-
-                delay(2000L)
-            }
+            externalManager.stop()
         }
     }
 }

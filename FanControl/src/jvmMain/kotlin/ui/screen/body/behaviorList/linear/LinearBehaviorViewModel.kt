@@ -3,9 +3,11 @@ package ui.screen.body.behaviorList.linear
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.hardware.Sensor
+import model.item.ControlItem
 import model.item.behavior.BehaviorItem
 import model.item.behavior.LinearBehavior
 
@@ -30,10 +32,8 @@ private fun getFinalValue(value: Int): Int =
 
 class LinearBehaviorViewModel(
     private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
-    private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList
+    val tempList: StateFlow<SnapshotStateList<Sensor>> = State._tempList.asStateFlow()
 ) {
-
-    val tempList = _tempList.asStateFlow()
 
 
     fun setTemp(index: Int, tempSensorId: Long?) {

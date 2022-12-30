@@ -37,5 +37,14 @@ interface External {
         controls: MutableStateFlow<SnapshotStateList<ControlItem>>
     )
 
-    fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null)
+    fun setControl(libIndex: Int, isAuto: Boolean, value: Int?)
 }
+
+data class SetControlModel (
+    val isAuto: Boolean,
+    val value: Int? = null,
+    val index: Int,
+
+    val libIndex: Int,
+    val controlShouldBeSet: Boolean,
+)

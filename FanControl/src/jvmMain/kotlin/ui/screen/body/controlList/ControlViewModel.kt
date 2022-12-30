@@ -1,9 +1,7 @@
 package ui.screen.body.controlList
 
-import Application
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,49 +12,44 @@ import utils.checkNameTaken
 
 class ControlViewModel(
     private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
-    private val behaviorItemList: StateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList.asStateFlow()
+    val behaviorItemList: StateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList.asStateFlow()
 ) {
     val controlItemList = _controlItemList.asStateFlow()
 
-    fun remove(index: Int, libIndex: Int) {
-
-        Application.setControl(
-            libIndex = libIndex,
-            isAuto = true
-        )
-
+    fun remove(index: Int, control: ControlItem) {
         _controlItemList.update {
-            it[index] = it[index].copy(
-                visible = false,
-                isAuto = true
-            )
+            if (!control.isAuto) {
+                it[index].controlShouldStop = true
+                it[index].controlShouldBeSet = false
+            }
+            it[index].visible = false
             it
         }
     }
 
-    fun setBehavior(index: Int, behaviorId: Long?) {
+    fun setBehavior(index: Int, behaviorId: Long?, control: ControlItem) {
         _controlItemList.update {
-            it[index] = it[index].copy(
-                behaviorId = behaviorId
-            )
+            // we change only if needed
+            if (control.behaviorId != behaviorId) {
+                it[index].behaviorId = behaviorId
+
+                if (behaviorId == null) {
+                    it[index].controlShouldStop = true
+                    it[index].controlShouldBeSet = false
+                }
+                else {
+                    it[index].controlShouldStop = false
+                    it[index].controlShouldBeSet = true
+                }
+            }
             it
         }
     }
 
-    fun setControl(libIndex: Int, isAuto: Boolean) {
-        // we set control only if is Auto is true because
-        // another class is in charge to know if control should be set
-        if (isAuto) {
-            Application.setControl(
-                libIndex = libIndex,
-                isAuto = true
-            )
-        }
-
+    fun onSwitchClick(checked: Boolean, index: Int) {
         _controlItemList.update {
-            it[libIndex] = it[libIndex].copy(
-                isAuto = isAuto
-            )
+            it[index].controlShouldStop = !checked
+            it[index].controlShouldBeSet = checked
             it
         }
     }

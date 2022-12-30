@@ -46,21 +46,21 @@ fun control(
         onEditClick = {
             viewModel.remove(
                 index = index,
-                libIndex = control.libIndex,
+                control = control
             )
         },
 
         onSwitchClick = { checked ->
-            viewModel.setControl(
-                libIndex = control.libIndex,
-                isAuto = !checked
+            viewModel.onSwitchClick(
+                checked = checked,
+                index = index
             )
         },
         value = "${control.value} ${Resources.getString("unity/percent")}",
         fanValue = "",
         behaviorItemList = viewModel.behaviorItemList.value,
         onBehaviorChange = {
-            viewModel.setBehavior(index, it)
+            viewModel.setBehavior(index, it, control)
         },
         control = control
     )

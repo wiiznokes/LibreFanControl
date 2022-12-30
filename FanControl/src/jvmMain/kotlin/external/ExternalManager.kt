@@ -64,7 +64,7 @@ class ExternalManager {
         //println("updateControl : success")
     }
 
-    fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null) {
+    fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {
         external.setControl(libIndex, isAuto, value)
         println("setControl : success")
     }

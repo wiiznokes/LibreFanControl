@@ -79,7 +79,7 @@ class ConfigurationViewModel(
     fun onChangeConfiguration(id: Long?) {
 
         _settings.update {
-            it.configId.value = id
+            it.configId = id
             it
         }
 
@@ -120,7 +120,7 @@ class ConfigurationViewModel(
 
         _settings.update {
             it.configList.add(newConfig)
-            it.configId.value = id
+            it.configId = id
             it
         }
 
@@ -153,9 +153,9 @@ class ConfigurationViewModel(
         }
 
         // check if current config has been removed
-        if (id == configId.value) {
+        if (id == configId) {
             _settings.update {
-                it.configId.value = null
+                it.configId = null
                 it
             }
             Settings.setSetting("configId", JSONObject.NULL)

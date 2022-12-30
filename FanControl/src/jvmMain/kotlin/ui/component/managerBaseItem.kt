@@ -39,7 +39,7 @@ fun baseItemBody(
     content: @Composable ColumnScope.() -> Unit
 ) {
     // id use to update value witch use remember
-    val idConfig = State._settings.asStateFlow().value.configId.value
+    val idConfig = State._settings.asStateFlow().value.configId
 
     val text = remember(
         item.itemId, idConfig

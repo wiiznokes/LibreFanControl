@@ -14,6 +14,14 @@ data class ControlItem(
     var value: Int = 0,
     val isAuto: Boolean = true,
 
+    /*
+        use when we click on the switch, because only the logic
+        class should update controls
+    */
+    var controlShouldStop: Boolean = false,
+    var controlShouldBeSet: Boolean = false,
+
+
     val libIndex: Int,
     val libName: String,
     val libId: String,
