@@ -1,7 +1,6 @@
 package settings
 
 import State
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -28,9 +27,10 @@ class Settings {
             val string = file.bufferedReader().readText()
             rootObj = JSONTokener(string).nextValue() as JSONObject
 
-            if(existed)
+            if (existed)
                 initSettingsState(State._settings)
         }
+
         fun setSetting(path: String, value: Any?) {
             updateVariable(
                 setJsonValue(
@@ -72,11 +72,12 @@ class Settings {
                     localSettingFile.writeText(settingsSotFile.readText())
                     false
                 }
+
                 true -> true
             }
         }
 
-        private fun initSettingsState (
+        private fun initSettingsState(
             settings: MutableStateFlow<SettingsModel>
         ) {
             settings.update {

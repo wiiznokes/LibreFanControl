@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.hardware.Sensor
-import model.item.ControlItem
 import model.item.behavior.BehaviorItem
 import model.item.behavior.LinearBehavior
 

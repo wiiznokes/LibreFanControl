@@ -31,10 +31,11 @@ class ControlViewModel(
 
     fun remove(index: Int) {
         if (!changeLogic(
-            index = index,
-            isAuto = true,
-            behaviorId = controlItemList.value[index].behaviorId
-        )) return
+                index = index,
+                isAuto = true,
+                behaviorId = controlItemList.value[index].behaviorId
+            )
+        ) return
 
         _controlItemList.update {
             it[index].visible = false

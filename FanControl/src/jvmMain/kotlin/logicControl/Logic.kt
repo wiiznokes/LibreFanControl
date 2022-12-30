@@ -14,7 +14,7 @@ import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
 
 
-data class SetControlModel (
+data class SetControlModel(
     val libIndex: Int,
     val isAuto: Boolean,
     val value: Int? = null,
@@ -61,7 +61,7 @@ private fun handleHasNotVerify(
     ) { index, control ->
 
         // case if control have to change to auto
-        if(control.isAuto || control.behaviorId != null) {
+        if (control.isAuto || control.behaviorId != null) {
             controlItemList.update {
                 it[index].controlShouldBeSet = false
                 it
@@ -74,8 +74,7 @@ private fun handleHasNotVerify(
                     controlShouldBeSet = false
                 )
             )
-        }
-        else {
+        } else {
             controlItemList.update {
                 it[index].controlShouldBeSet = true
                 it
@@ -91,7 +90,10 @@ private fun handleControlShouldBeSet(
     tempList: List<Sensor>
 ) {
 
-    baseHandle(controlItemList, {it.controlShouldBeSet})label@ { index, control ->
+    baseHandle(
+        controlItemList = controlItemList,
+        predicate = { it.controlShouldBeSet }
+    ) label@{ index, control ->
         val behavior = behaviorItemList.find { behavior ->
             behavior.itemId == control.behaviorId
         }
@@ -144,8 +146,7 @@ private fun baseHandle(
         if (predicate(control)) {
             previousIndexList.add(index)
             true
-        }
-        else false
+        } else false
     }.forEachIndexed { index, control ->
         forEachFiltered(previousIndexList[index], control)
     }

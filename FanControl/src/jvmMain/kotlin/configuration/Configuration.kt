@@ -1,6 +1,7 @@
 package configuration
 
 
+import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import configuration.read.ReadHardware
 import configuration.read.ReadItem

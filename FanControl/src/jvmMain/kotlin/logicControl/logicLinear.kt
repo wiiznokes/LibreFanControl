@@ -3,7 +3,7 @@ package logicControl
 import model.hardware.Sensor
 import model.item.behavior.LinearBehavior
 
-fun valueLinear (linearBehavior: LinearBehavior, tempList: List<Sensor>): Int? {
+fun valueLinear(linearBehavior: LinearBehavior, tempList: List<Sensor>): Int? {
     if (linearBehavior.tempSensorId == null)
         return null
 

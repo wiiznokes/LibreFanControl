@@ -1,3 +1,3 @@
 package utils
 
-fun setAuto () {}
+fun setAuto() {}
