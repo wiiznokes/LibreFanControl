@@ -39,7 +39,7 @@ fun baseControlBody(
     ) {
         baseControl(
             isAuto = control.isAuto,
-            switchEnabled = true,
+            switchEnabled = control.logicHasVerify,
             onSwitchClick = onSwitchClick,
             value = value,
             fanValue = fanValue,

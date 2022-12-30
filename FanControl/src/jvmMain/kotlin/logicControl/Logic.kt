@@ -136,7 +136,7 @@ private fun baseHandle(
     forEachFiltered: (Int, ControlItem) -> Unit
 ) {
     val previousIndexList = mutableListOf<Int>()
-    
+
     controlItemList.filterIndexed { index, control ->
         if (predicate(control)) {
             previousIndexList.add(index)
