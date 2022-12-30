@@ -1,5 +1,6 @@
 package ui.screen.body.behaviorList.linear
 
+import State
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -10,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.asStateFlow
 import model.item.behavior.BehaviorItem
 import model.item.behavior.LinearBehavior
 import ui.component.baseItemBody
@@ -137,11 +139,14 @@ private fun setting(
     decrease: () -> String,
     id: Long
 ) {
+    // id use to update value witch use remember
+    val idConfig = State._idConfig.asStateFlow().value.value
+
     // if id had change, remember have to update
     // this avoid bug when name of an item
     // get reuse with another item
     val text: MutableState<String> = remember(
-        id
+        id, idConfig
     ) { mutableStateOf(value.toString()) }
 
     Row(

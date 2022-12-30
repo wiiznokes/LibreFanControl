@@ -130,7 +130,7 @@ fun managerNumberTextField(
 
 @Composable
 fun managerNameOutlinedTextField(
-    id: Long,
+    ids: Pair<Long, Long?>,
     text: MutableState<String>,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -149,7 +149,7 @@ fun managerNameOutlinedTextField(
     // this avoid bug when name of an item
     // get reuse with another item
     val isError = remember(
-        id
+        ids.first, ids.second
     ) { mutableStateOf(false) }
 
     val mergedTextStyle = textStyle.merge(TextStyle(color = colors.textColor(true).value))
@@ -302,26 +302,5 @@ fun managerConfigNameRoundedTextField(
                 contentPadding = PaddingValues(0.dp)
             )
         }
-    )
-}
-
-@Composable
-fun managerConfigNameRoundedTextField(
-    text: String,
-    modifier: Modifier = Modifier,
-    textStyle: TextStyle = MaterialTheme.typography.bodyMedium
-) {
-
-    Text(
-        text = text,
-        modifier = modifier
-            .background(
-                color = MaterialTheme.colorScheme.secondary,
-                shape = RoundedCornerShape(22.dp), //rounded corners
-            )
-            .padding(horizontal = 10.dp, vertical = 5.dp),
-        color = MaterialTheme.colorScheme.onSecondary,
-        style = textStyle,
-        maxLines = 1,
     )
 }
