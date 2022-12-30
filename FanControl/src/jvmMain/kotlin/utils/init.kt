@@ -30,7 +30,8 @@ fun initSensor(
                     type = ItemType.SensorType.I_S_FAN,
                     itemId = getAvailableId(
                         ids = it.map { item -> item.itemId }
-                    )
+                    ),
+                    sensorId = fanSensor.id
                 )
             )
             it
@@ -45,7 +46,8 @@ fun initSensor(
                     type = ItemType.SensorType.I_S_FAN,
                     itemId = getAvailableId(
                         ids = it.map { item -> item.itemId }
-                    )
+                    ),
+                    sensorId = tempSensor.id
                 )
             )
             it
@@ -65,7 +67,7 @@ private const val SETTINGS_SOT_FILE_NAME = "settings.sot.json"
 fun initSettings() {
     val localSettingFile = File(DIR_CONF + SETTINGS_FILE_NAME)
 
-    if(!localSettingFile.exists()) {
+    if (!localSettingFile.exists()) {
         val settingsSotFile = File(DIR_CONF + SETTINGS_SOT_FILE_NAME)
         localSettingFile.writeText(settingsSotFile.readText())
     }

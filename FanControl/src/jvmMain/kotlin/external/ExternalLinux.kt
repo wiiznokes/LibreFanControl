@@ -4,7 +4,6 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import model.HardwareType
-import model.ItemType
 import model.hardware.Sensor
 import model.item.ControlItem
 import utils.getAvailableId

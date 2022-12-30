@@ -1,7 +1,6 @@
 package model.hardware
 
 import model.HardwareType
-import model.ItemType
 
 interface BaseHardware {
     val libIndex: Int

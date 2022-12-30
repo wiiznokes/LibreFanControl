@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.update
 import model.hardware.Sensor
 import model.item.behavior.BehaviorItem
 import model.item.behavior.LinearBehavior
-import ui.utils.Resources
 
 
 enum class LinearParams {

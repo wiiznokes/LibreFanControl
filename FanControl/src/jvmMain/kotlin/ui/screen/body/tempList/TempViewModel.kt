@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.hardware.Sensor
 import model.item.SensorItem
-import ui.utils.Resources
 import utils.checkNameTaken
 
 class TempViewModel(

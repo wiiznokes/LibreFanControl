@@ -22,8 +22,6 @@ import utils.checkNameTaken
 import utils.getAvailableId
 
 
-
-
 @Composable
 fun managerAddConfig() {
     val dialogExpanded = remember { mutableStateOf(false) }

@@ -1,7 +1,6 @@
 package model.item
 
 import model.ItemType
-import ui.utils.Resources
 
 data class SensorItem(
     override var name: String,

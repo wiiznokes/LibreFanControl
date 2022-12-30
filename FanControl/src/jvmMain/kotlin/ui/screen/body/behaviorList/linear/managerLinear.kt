@@ -12,7 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.item.behavior.BehaviorItem
 import model.item.behavior.LinearBehavior
-import ui.component.*
+import ui.component.baseItemBody
+import ui.component.managerListChoice
+import ui.component.managerNumberTextField
+import ui.component.managerText
 import ui.utils.Resources
 
 private val viewModel: LinearBehaviorViewModel = LinearBehaviorViewModel()

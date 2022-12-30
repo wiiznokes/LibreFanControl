@@ -4,7 +4,6 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import model.HardwareType
-import model.ItemType
 import model.hardware.Sensor
 import model.item.ControlItem
 import utils.getAvailableId
@@ -43,7 +42,7 @@ class ExternalWindows : External {
                         libId = result[(i * 3) + 1],
                         libName = result[(i * 3) + 2],
                         type = HardwareType.SensorType.H_S_FAN,
-                        id = getAvailableId(it.map { sensor ->  sensor.id })
+                        id = getAvailableId(it.map { sensor -> sensor.id })
                     )
                 )
                 it

@@ -51,8 +51,12 @@ fun managerListChoice(
             text = it
         )
     },
+    baseModifier: Modifier = Modifier
+        .fillMaxWidth()
+        .widthIn(min = 100.dp, max = 250.dp),
+    dropDownModifier: Modifier = Modifier,
     onItemClick: (Long?) -> Unit,
-    iconContent: @Composable ((Long, Int)-> Unit)? = null,
+    iconContent: @Composable ((Long, Int) -> Unit)? = null,
     ids: List<Long>,
     names: List<String>
 ) {
@@ -61,16 +65,17 @@ fun managerListChoice(
     managerBaseDropdownMenu(
         text = text ?: Resources.getString("none"),
         textContent = textContent,
-        expanded = expanded
+        expanded = expanded,
+        modifier = baseModifier
     ) {
         managerDropDownContent(
             expanded = expanded,
             text = Resources.getString("none"),
             onItemClick = onItemClick,
-            iconContent = iconContent,
         )
         for (i in ids.indices) {
             managerDropDownContent(
+                modifier = dropDownModifier,
                 expanded = expanded,
                 text = names[i],
                 onItemClick = onItemClick,
@@ -85,7 +90,7 @@ fun managerListChoice(
 
 @Composable
 private fun managerBaseDropdownMenu(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     text: String,
     textContent: @Composable (String) -> Unit,
     expanded: MutableState<Boolean>,
@@ -132,7 +137,6 @@ private fun managerBaseDropdownMenu(
                 iconShouldTrigger.value = false
             },
             modifier = Modifier
-                .widthIn(min = 100.dp, max = 250.dp)
                 .background(
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -147,14 +151,13 @@ private fun managerBaseDropdownMenu(
 }
 
 
-
 @Composable
-private fun managerDropDownContent (
+private fun managerDropDownContent(
     modifier: Modifier = Modifier,
     expanded: MutableState<Boolean>,
     text: String,
     onItemClick: (Long?) -> Unit,
-    iconContent: @Composable ((Long, Int)-> Unit)? = null,
+    iconContent: @Composable ((Long, Int) -> Unit)? = null,
     id: Long? = null,
     index: Int? = null
 ) {
@@ -173,8 +176,10 @@ private fun managerDropDownContent (
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                    if(iconContent != null)
+                    if (iconContent != null) {
                         iconContent(id!!, index!!)
+                    }
+
                     managerText(
                         text = text
                     )
