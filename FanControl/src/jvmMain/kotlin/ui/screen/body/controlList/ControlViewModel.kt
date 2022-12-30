@@ -21,9 +21,11 @@ class ControlViewModel(
             return false
 
         _controlItemList.update {
-            it[index].logicHasVerify = false
-            it[index].isAuto = isAuto
-            it[index].behaviorId = behaviorId
+            it[index] = it[index].copy(
+                logicHasVerify = false,
+                isAuto = isAuto,
+                behaviorId = behaviorId
+            )
             it
         }
         return true
@@ -38,7 +40,9 @@ class ControlViewModel(
         ) return
 
         _controlItemList.update {
-            it[index].visible = false
+            it[index] = it[index].copy(
+                visible = false
+            )
             it
         }
     }
@@ -46,7 +50,7 @@ class ControlViewModel(
     fun setBehavior(index: Int, behaviorId: Long?) {
         changeLogic(
             index = index,
-            isAuto = false,
+            isAuto = controlItemList.value[index].isAuto,
             behaviorId = behaviorId
         )
 

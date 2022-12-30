@@ -1,10 +1,7 @@
 package logicControl
 
 
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import model.ItemType
 import model.UnspecifiedTypeException
 import model.hardware.Sensor
@@ -15,7 +12,7 @@ import model.item.behavior.LinearBehavior
 
 
 data class SetControlModel(
-    val libIndex: Int,
+    val libIndex: Int?,
     val isAuto: Boolean,
     val value: Int? = null,
     val index: Int,
@@ -23,7 +20,7 @@ data class SetControlModel(
 )
 
 fun getSetControlList(
-    controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>>,
+    controlItemList: List<ControlItem>,
     behaviorItemList: List<BehaviorItem>,
     tempList: List<Sensor>
 ): List<SetControlModel> {
@@ -38,7 +35,7 @@ fun getSetControlList(
 
     handleControlShouldBeSet(
         setControlList = finalSetControlList,
-        controlItemList = controlItemList.asStateFlow().value,
+        controlItemList = controlItemList,
         behaviorItemList = behaviorItemList,
         tempList = tempList
     )
@@ -51,19 +48,15 @@ fun getSetControlList(
 */
 private fun handleHasNotVerify(
     setControlList: MutableList<SetControlModel>,
-    controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>>
+    controlItemList: List<ControlItem>
 ) {
     baseHandle(
-        controlItemList = controlItemList.asStateFlow().value,
+        controlItemList = controlItemList,
         predicate = { !it.logicHasVerify }
     ) { index, control ->
 
         // case if control have to change to auto
         if (control.isAuto || control.behaviorId == null) {
-            controlItemList.update {
-                it[index].controlShouldBeSet = false
-                it
-            }
             setControlList.add(
                 SetControlModel(
                     libIndex = control.libIndex,
@@ -73,10 +66,12 @@ private fun handleHasNotVerify(
                 )
             )
         } else {
-            controlItemList.update {
-                it[index].controlShouldBeSet = true
-                it
-            }
+            SetControlModel(
+                libIndex = null,
+                isAuto = true,
+                index = index,
+                controlShouldBeSet = true
+            )
         }
     }
 }
@@ -90,7 +85,7 @@ private fun handleControlShouldBeSet(
 
     baseHandle(
         controlItemList = controlItemList,
-        predicate = { it.controlShouldBeSet }
+        predicate = { !it.logicHasVerify && it.controlShouldBeSet }
     ) label@{ index, control ->
         val behavior = behaviorItemList.find { behavior ->
             behavior.itemId == control.behaviorId

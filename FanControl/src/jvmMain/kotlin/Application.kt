@@ -1,25 +1,35 @@
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import configuration.Configuration
 import external.ExternalManager
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import logicControl.getSetControlList
-import settings.Settings
+import model.SettingsModel
+import model.hardware.Sensor
+import model.item.ControlItem
+import model.item.behavior.BehaviorItem
 import utils.initSensor
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 
-class Application {
+class Application(
+    private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
+    private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList,
+    private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
+    private val behaviorItemList: StateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList.asStateFlow(),
+
+    private val settings: StateFlow<SettingsModel> = State._settings.asStateFlow()
+) {
+    private val tempList = _tempList.asStateFlow()
+    private val controlItemList = _controlItemList.asStateFlow()
 
     private var jobUpdate: Job? = null
 
     fun onStart() {
-        // initialize setting state, and settings.json
-        Settings()
-
-        val settings = State._settings.asStateFlow()
-
         jobUpdate = CoroutineScope(Dispatchers.Default).launch {
             startUpdate(
                 configId = settings.value.configId,
@@ -44,9 +54,9 @@ class Application {
             val externalManager = ExternalManager().apply {
                 // load library
                 start(
-                    fans = State._fanList,
-                    temps = State._tempList,
-                    controls = State._controlItemList
+                    fans = _fanList,
+                    temps = _tempList,
+                    controls = _controlItemList
                 )
             }
             when (configId) {
@@ -65,9 +75,9 @@ class Application {
                     */
                     try {
                         getSetControlList(
-                            controlItemList = State._controlItemList,
-                            behaviorItemList = State._behaviorItemList.asStateFlow().value,
-                            tempList = State._tempList.asStateFlow().value
+                            controlItemList = controlItemList.value,
+                            behaviorItemList = behaviorItemList.value,
+                            tempList = tempList.value
                         )
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -75,25 +85,29 @@ class Application {
                     }
                 }
 
+                externalManager.updateFan(_fanList)
+                externalManager.updateTemp(_tempList)
+                externalManager.updateControl(_controlItemList)
 
-                externalManager.updateFan(State._fanList)
-                externalManager.updateTemp(State._tempList)
-                externalManager.updateControl(State._controlItemList)
 
 
-                val l = setControlList.await()
 
-                l?.forEach { model ->
+                setControlList.await()?.forEach { model ->
                     // we update controlList here because
                     // this part of the coroutine is thread safe
                     State._controlItemList.update {
-                        it[model.index].controlShouldBeSet = model.controlShouldBeSet
 
+                        it[model.index] = it[model.index].copy(
+                            controlShouldBeSet = model.controlShouldBeSet
+                        )
                         if (!it[model.index].logicHasVerify)
-                            it[model.index].logicHasVerify = true
+                            it[model.index] = it[model.index].copy(
+                                logicHasVerify = true
+                            )
                         it
                     }
-                    externalManager.setControl(model.libIndex, model.isAuto, model.value)
+                    if (model.libIndex != null)
+                        externalManager.setControl(model.libIndex, model.isAuto, model.value)
                 }
                 delay(updateDelay.toDuration(DurationUnit.SECONDS))
             }

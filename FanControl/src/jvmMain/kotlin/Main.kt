@@ -1,15 +1,19 @@
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import settings.Settings
 import ui.screen.home
 import ui.theme.fanControlTheme
 import ui.utils.Resources
 
 
 fun main() {
+    // initialize setting state, and settings.json
+    Settings()
 
-    val application = Application()
-    application.onStart()
+    val application = Application().apply {
+        onStart()
+    }
 
     application(
         exitProcessOnExit = true
