@@ -47,9 +47,7 @@ fun getSetControlList(
 }
 
 /*
-    change logicHasVerify value if
-    isAuto == false && behaviorId != null
-    and SetControl if necessary
+
 */
 private fun handleHasNotVerify(
     setControlList: MutableList<SetControlModel>,
@@ -61,7 +59,7 @@ private fun handleHasNotVerify(
     ) { index, control ->
 
         // case if control have to change to auto
-        if (control.isAuto || control.behaviorId != null) {
+        if (control.isAuto || control.behaviorId == null) {
             controlItemList.update {
                 it[index].controlShouldBeSet = false
                 it
@@ -142,12 +140,16 @@ private fun baseHandle(
 ) {
     val previousIndexList = mutableListOf<Int>()
 
-    controlItemList.filterIndexed { index, control ->
+    val list = controlItemList.filterIndexed { index, control ->
         if (predicate(control)) {
             previousIndexList.add(index)
             true
         } else false
-    }.forEachIndexed { index, control ->
+    }
+
+    //println("between")
+
+    list.forEachIndexed { index, control ->
         forEachFiltered(previousIndexList[index], control)
     }
 }

@@ -75,23 +75,26 @@ class Application {
                     }
                 }
 
+
                 externalManager.updateFan(State._fanList)
                 externalManager.updateTemp(State._tempList)
                 externalManager.updateControl(State._controlItemList)
 
-                setControlList.await()?.forEach { model ->
+
+                val l = setControlList.await()
+
+                l?.forEach { model ->
                     // we update controlList here because
                     // this part of the coroutine is thread safe
                     State._controlItemList.update {
+                        it[model.index].controlShouldBeSet = model.controlShouldBeSet
+
                         if (!it[model.index].logicHasVerify)
                             it[model.index].logicHasVerify = true
-
-                        it[model.index].controlShouldBeSet = model.controlShouldBeSet
                         it
                     }
                     externalManager.setControl(model.libIndex, model.isAuto, model.value)
                 }
-
                 delay(updateDelay.toDuration(DurationUnit.SECONDS))
             }
             externalManager.stop()
