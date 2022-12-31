@@ -64,7 +64,6 @@ class Application(
             }
 
             while (!updateShouldStop) {
-                val setControlList = async {
                     /*
                         we catch exception because another thread can modify
                         state value, for example, if we remove an item
@@ -72,7 +71,7 @@ class Application(
                         This is not a problem because we can recalculate
                         an updateDelay later
                     */
-                    try {
+                    val setControlList = try {
                         getSetControlList(
                             controlItemList = _controlItemList,
                             behaviorItemList = behaviorItemList.value,
@@ -82,7 +81,7 @@ class Application(
                         e.printStackTrace()
                         null
                     }
-                }
+
 
                 externalManager.updateFan(_fanList)
                 externalManager.updateTemp(_tempList)
@@ -91,7 +90,7 @@ class Application(
 
 
 
-                setControlList.await()?.forEach { model ->
+                setControlList?.forEach { model ->
                     // we update controlList here because
                     // this part of the coroutine is thread safe
                     State._controlItemList.update {

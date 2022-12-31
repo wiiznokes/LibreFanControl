@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import jdk.jfr.Enabled
 import ui.utils.Resources
 
 @Composable
@@ -46,9 +47,11 @@ fun managerAddItemListChoice(
 @Composable
 fun managerListChoice(
     text: String?,
+    enabled: Boolean = true,
     textContent: @Composable (String) -> Unit = {
         managerText(
-            text = it
+            text = it,
+            enabled = enabled
         )
     },
     baseModifier: Modifier = Modifier
@@ -58,7 +61,7 @@ fun managerListChoice(
     onItemClick: (Long?) -> Unit,
     iconContent: @Composable ((Long, Int) -> Unit)? = null,
     ids: List<Long>,
-    names: List<String>
+    names: List<String>,
 ) {
     val expanded = remember { mutableStateOf(false) }
 
@@ -72,6 +75,7 @@ fun managerListChoice(
             expanded = expanded,
             text = Resources.getString("none"),
             onItemClick = onItemClick,
+            enabled = enabled
         )
         for (i in ids.indices) {
             managerDropDownContent(
@@ -81,7 +85,8 @@ fun managerListChoice(
                 onItemClick = onItemClick,
                 iconContent = iconContent,
                 id = ids[i],
-                index = i
+                index = i,
+                enabled = enabled
             )
         }
     }
@@ -159,14 +164,17 @@ private fun managerDropDownContent(
     onItemClick: (Long?) -> Unit,
     iconContent: @Composable ((Long, Int) -> Unit)? = null,
     id: Long? = null,
-    index: Int? = null
+    index: Int? = null,
+    enabled: Boolean
 ) {
     DropdownMenuItem(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary),
         onClick = {
-            onItemClick(id)
-            expanded.value = false
+            if (enabled) {
+                onItemClick(id)
+                expanded.value = false
+            }
         }
     ) {
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
@@ -181,7 +189,8 @@ private fun managerDropDownContent(
                     }
 
                     managerText(
-                        text = text
+                        text = text,
+                        enabled = enabled
                     )
                 }
             }

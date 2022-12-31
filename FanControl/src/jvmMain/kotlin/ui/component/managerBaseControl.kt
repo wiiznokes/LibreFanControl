@@ -51,7 +51,8 @@ fun baseControlBody(
                 }?.name,
                 onItemClick = onBehaviorChange,
                 ids = behaviorItemList.map { it.itemId },
-                names = behaviorItemList.map { it.name }
+                names = behaviorItemList.map { it.name },
+                enabled = control.logicHasVerify
             )
         }
     }

@@ -27,12 +27,17 @@ fun managerText(
     text: String,
     modifier: Modifier = Modifier,
     style: TextStyle = MaterialTheme.typography.bodyMedium,
-    color: Color = MaterialTheme.colorScheme.onPrimary
+    color: Color = MaterialTheme.colorScheme.onPrimary,
+    enabled: Boolean = true
 ) {
     Text(
         modifier = modifier,
         text = text,
-        color = color,
+        color = if (enabled)
+            color
+        else color.copy(
+            alpha = 0.8f
+        ),
         maxLines = 1,
         style = style,
         overflow = TextOverflow.Ellipsis
