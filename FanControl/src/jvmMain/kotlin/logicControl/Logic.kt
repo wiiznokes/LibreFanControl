@@ -12,6 +12,7 @@ import model.item.ControlItem
 import model.item.behavior.BehaviorItem
 import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
+import utils.filterWithPreviousIndex
 
 
 data class SetControlModel(
@@ -114,23 +115,5 @@ class Logic(
             ItemType.BehaviorType.I_B_TARGET -> TODO()
             else -> throw UnspecifiedTypeException()
         }
-    }
-}
-
-
-private fun <T> filterWithPreviousIndex(
-    list: List<T>,
-    predicate: (T) -> Boolean,
-    forEachFiltered: (Int, T) -> Unit
-) {
-    val previousIndexList = mutableListOf<Int>()
-
-    list.filterIndexed { index, control ->
-        if (predicate(control)) {
-            previousIndexList.add(index)
-            true
-        } else false
-    }.forEachIndexed { index, control ->
-        forEachFiltered(previousIndexList[index], control)
     }
 }
