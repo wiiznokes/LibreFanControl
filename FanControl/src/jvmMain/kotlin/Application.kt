@@ -1,3 +1,4 @@
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import configuration.Configuration
 import external.ExternalManager
@@ -5,8 +6,8 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import logicControl.Logic
+import logicControl.SetControlModel
 import model.SettingsModel
 import model.hardware.Sensor
 import model.item.ControlItem
@@ -63,12 +64,12 @@ class Application(
                 else -> Configuration.loadConfig(configId)
             }
 
-            var controlsHasChangeMarker = false
+            val controlsHasChangeMarker = mutableStateOf(configId != null)
             var shouldDelay: Boolean
 
             val logic = Logic()
+
             while (!updateShouldStop) {
-                shouldDelay = true
                 /*
                     we catch exception because another thread can modify
                     state value, for example, if we remove an item
@@ -76,13 +77,13 @@ class Application(
                     This is not a problem because we can recalculate
                 */
 
-                val setControlList = try {
-                    logic.getSetControlList(controlsHasChangeMarker)
-                } catch (e: NullPointerException) {
-                    e.printStackTrace()
+                val setControlList: List<SetControlModel>? = try {
+                    logic.getSetControlList(controlsHasChangeMarker.value)
+                } catch (e: Exception) {
+                    if (e !is NullPointerException) e.printStackTrace()
+                    else println("null pointer exception in logic")
                     null
                 }
-
 
                 externalManager.updateFan(_fanList)
                 externalManager.updateTemp(_tempList)
@@ -108,38 +109,21 @@ class Application(
                     because it has a lighter implementation, and it is supposed to be use
                     for this.
                 */
-
                 if (setControlList == null) {
                     if (controlsChange.value) {
-                        controlsHasChangeMarker = true
+                        controlsHasChangeMarker.value = true
                     }
                     shouldDelay = false
                 } else {
-                    State._controlItemList.update {
-                        if (controlsChange.value) {
-                            if (!controlsHasChangeMarker) {
-                                println("control has change, marker not enable")
-                                controlsHasChangeMarker = true
-                                shouldDelay = false
-                            } else {
-                                println("control has change, marker enable")
-                                setControlList.forEach { model ->
-                                    it[model.index].controlShouldBeSet = model.controlShouldBeSet
-                                    externalManager.setControl(model.libIndex, model.isAuto, model.value)
-                                }
-                                controlsHasChangeMarker = false
-                                println("_controlsChange set to false in App")
-                                _controlsChange.value = false
-                            }
-                        } else {
-                            setControlList.forEach { model ->
-                                it[model.index].controlShouldBeSet = model.controlShouldBeSet
-                                externalManager.setControl(model.libIndex, model.isAuto, model.value)
-                            }
+                    shouldDelay = logic.update(
+                        setControlList = setControlList,
+                        controlsHasChangeMarker = controlsHasChangeMarker,
+                        setControl = { libIndex, isAuto, value ->
+                            externalManager.setControl(libIndex, isAuto, value)
                         }
-                        it
-                    }
+                    )
                 }
+
                 if (shouldDelay)
                     delay(updateDelay.toDuration(DurationUnit.SECONDS))
             }

@@ -1,5 +1,11 @@
 package utils
 
+
+/**
+ * filter the list with the given predicate
+ * and create a foreach loop with the previous
+ * index and the corresponding value
+ */
 fun <T> filterWithPreviousIndex(
     list: List<T>,
     predicate: (T) -> Boolean,
@@ -12,7 +18,7 @@ fun <T> filterWithPreviousIndex(
             previousIndexList.add(index)
             true
         } else false
-    }.forEachIndexed { index, control ->
-        forEachFiltered(previousIndexList[index], control)
+    }.forEachIndexed { index, value ->
+        forEachFiltered(previousIndexList[index], value)
     }
 }

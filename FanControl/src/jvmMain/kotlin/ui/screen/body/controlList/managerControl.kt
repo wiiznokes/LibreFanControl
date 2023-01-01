@@ -4,6 +4,7 @@ package ui.screen.body.controlList
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import model.item.ControlItem
 import ui.component.baseControlBody
 import ui.utils.Resources
@@ -62,7 +63,7 @@ fun control(
             viewModel.setBehavior(index, it)
         },
         control = control,
-        enabled = !viewModel.controlChange.value
+        enabled = !viewModel.controlChange.collectAsState().value
     )
 }
 

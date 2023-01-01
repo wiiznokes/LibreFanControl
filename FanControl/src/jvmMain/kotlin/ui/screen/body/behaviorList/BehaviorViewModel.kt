@@ -20,42 +20,25 @@ class BehaviorViewModel(
 
     val behaviorItemList = _behaviorItemList.asStateFlow()
 
-
     fun remove(index: Int) {
+        if (controlChange.value)
+            return
 
         val idRemoved = behaviorItemList.value[index].itemId
 
         // update control if it was linked with this behavior
-        var controlChangeHasBeenChecked = false
-        var shouldStop = false
-
-        _controlItemList.update {
-            filterWithPreviousIndex(
-                list = controlItemList.value,
-                predicate = {
-                    it.behaviorId == idRemoved
-                }
-            ) { controlIndex, control ->
-                if (!shouldStop) {
-                    if (!controlChangeHasBeenChecked) {
-                        if (controlChange.value)
-                            shouldStop = true
-                        else {
-                            println("controlChange = true, behavior ViewModel, remove")
-                            _controlsChange.value = true
-                            controlChangeHasBeenChecked = true
-                            it[controlIndex].behaviorId = null
-                        }
-                    }
-                    else {
-                        it[controlIndex].behaviorId = null
-                    }
-                }
+        filterWithPreviousIndex(
+            list = controlItemList.value,
+            predicate = {
+                it.behaviorId == idRemoved
             }
-            it
+        ) { controlIndex, _ ->
+            _controlItemList.update {
+                it[controlIndex].behaviorId = null
+                it
+            }
         }
-        if (shouldStop)
-            return
+        _controlsChange.value = true
 
         _behaviorItemList.update {
             it.removeAt(index)

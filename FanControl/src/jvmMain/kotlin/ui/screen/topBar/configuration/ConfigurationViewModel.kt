@@ -28,7 +28,8 @@ class ConfigurationViewModel(
     private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList,
 
     private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
-    private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList
+    private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList,
+    private val _controlsChange: MutableStateFlow<Boolean> = State._controlsChange
 ) {
     val settings = _settings.asStateFlow()
 
@@ -84,6 +85,9 @@ class ConfigurationViewModel(
         when (id) {
             null -> Settings.setSetting("configId", JSONObject.NULL)
             else -> {
+                if (controlChange.value)
+                    return
+                _controlsChange.value = true
                 Configuration.loadConfig(
                     configId = id,
                     controlItemList = _controlItemList,
