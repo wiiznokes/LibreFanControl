@@ -130,7 +130,11 @@ class ExternalWindows : External {
     }
 
     override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {
-        externalSetControl(libIndex, isAuto, value ?: 100)
+        externalSetControl(
+            libIndex = libIndex,
+            isAuto = isAuto,
+            value = value ?: 100
+        )
     }
 
     private external fun externalStart(values: IntArray)

@@ -37,5 +37,5 @@ interface External {
         controls: MutableStateFlow<SnapshotStateList<ControlItem>>
     )
 
-    fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null)
+    fun setControl(libIndex: Int, isAuto: Boolean, value: Int?)
 }

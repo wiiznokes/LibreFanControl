@@ -168,6 +168,6 @@ class ExternalLinux : External {
     }
 
     override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {
-        println("set control linux: index = $libIndex, isAuto = $isAuto, value = $value")
+
     }
 }

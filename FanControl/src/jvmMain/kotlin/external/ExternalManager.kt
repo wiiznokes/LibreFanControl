@@ -64,9 +64,10 @@ class ExternalManager {
         //println("updateControl : success")
     }
 
-    fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null) {
-        external.setControl(libIndex, isAuto, value)
-        println("setControl : success")
+    fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {
+        //external.setControl(libIndex, isAuto, value)
+        //println("setControl : success")
+        println("set control linux: index = $libIndex, isAuto = $isAuto, value = $value")
     }
 
 }

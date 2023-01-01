@@ -63,7 +63,7 @@ fun managerDialogAddConfig(
     keyEnterPressed: MutableState<Boolean>
 ) {
 
-    val configList = viewModel.configList.value
+    val configList = viewModel.settings.value.configList
 
     val id = getAvailableId(
         ids = configList.map {

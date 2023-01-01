@@ -1,102 +1,136 @@
 package logicControl
 
-import Application
+
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import model.ItemType
+import model.UnspecifiedTypeException
 import model.hardware.Sensor
 import model.item.ControlItem
-import model.item.SensorItem
 import model.item.behavior.BehaviorItem
 import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
 
+
+data class SetControlModel(
+    val libIndex: Int,
+    val isAuto: Boolean,
+    val value: Int? = null,
+    val index: Int,
+    val controlShouldBeSet: Boolean
+)
+
 class Logic(
-    private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
-    private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList,
-
-
-    private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
-    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
-    private val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
-    private val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList
+    private val tempList: StateFlow<SnapshotStateList<Sensor>> = State._tempList.asStateFlow(),
+    private val controlItemList: StateFlow<SnapshotStateList<ControlItem>> = State._controlItemList.asStateFlow(),
+    private val behaviorItemList: StateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList.asStateFlow(),
 ) {
 
-    val controlItemList = _controlItemList.asStateFlow()
-    val behaviorItemList = _behaviorItemList.asStateFlow()
 
-    fun update() {
-        controlItemList.value.filter {
-            it.visible && !it.isAuto && it.behaviorId != null
-        }.forEach label@{ control ->
-            val behavior = behaviorItemList.value.find { behavior ->
-                behavior.itemId == control.behaviorId
-            }
-            val value = when (behavior!!.type) {
-                ItemType.BehaviorType.I_B_FLAT -> {
-                    (behavior.extension as FlatBehavior).value
+    fun getSetControlList(
+        controlsChange: Boolean
+    ): List<SetControlModel> {
+
+        val finalSetControlList = mutableListOf<SetControlModel>()
+
+        if (controlsChange) {
+            handleControlChange(finalSetControlList)
+        } else {
+            handleControlShouldBeSet(finalSetControlList)
+        }
+
+        return finalSetControlList
+    }
+
+    /*
+
+*/
+    private fun handleControlChange(setControlList: MutableList<SetControlModel>) {
+
+        controlItemList.value.forEachIndexed { index, control ->
+
+            setControlList.add(
+                if (control.isAuto || control.behaviorId == null) {
+                    SetControlModel(
+                        libIndex = control.libIndex,
+                        isAuto = true,
+                        index = index,
+                        controlShouldBeSet = false
+                    ).apply { println(this) }
+                } else {
+                    val value = findValue(control)
+                    SetControlModel(
+                        libIndex = control.libIndex,
+                        isAuto = value == null,
+                        value = value,
+                        index = index,
+                        controlShouldBeSet = true
+                    ).apply { println(this) }
                 }
+            )
+        }
+    }
 
-                ItemType.BehaviorType.I_B_LINEAR -> {
-                    val linearBehavior = behavior.extension as LinearBehavior
-                    if (linearBehavior.tempSensorId == null) {
-                        // continue keyword of forEach loop
-                        // we only return from the lambda expression
-                        // (control here)
-                        return@label
-                    }
+    private fun handleControlShouldBeSet(setControlList: MutableList<SetControlModel>) {
 
-                    val f = getAffine(linearBehavior)
+        filterWithPreviousIndex(
+            list = controlItemList.value,
+            predicate = { it.controlShouldBeSet }
+        ) label@{ index, control ->
+            /*
+            continue keyword of forEach loop
+            we only return from the lambda expression
+            (control here)
+            */
+            val value = findValue(control) ?: return@label
 
-                    getSpeed(
-                        f = f,
-                        linearBehavior = linearBehavior,
-                        tempValue = _tempList.value.find {
-                            it.id == linearBehavior.tempSensorId
-                        }!!.value
-                    )
-                }
-
-                ItemType.BehaviorType.I_B_TARGET -> TODO()
-
-                else -> throw Exception("unspecified item type")
-            }
-            Application.setControl(
-                libIndex = control.libIndex,
-                isAuto = false,
-                value = value
+            setControlList.add(
+                SetControlModel(
+                    libIndex = control.libIndex,
+                    isAuto = false,
+                    value = value,
+                    index = index,
+                    controlShouldBeSet = true
+                )
             )
         }
     }
 
 
-    private fun getSpeed(f: Pair<Int, Int>, linearBehavior: LinearBehavior, tempValue: Int): Int {
-        return when {
-            tempValue <= linearBehavior.minTemp -> linearBehavior.minFanSpeed
-            tempValue >= linearBehavior.maxTemp -> linearBehavior.maxFanSpeed
-            else -> {
-                f.first * tempValue + f.second
+    private fun findValue(control: ControlItem): Int? {
+        val behavior = behaviorItemList.value.find { behavior ->
+            behavior.itemId == control.behaviorId
+        }!!
+
+        return when (behavior.type) {
+            ItemType.BehaviorType.I_B_FLAT -> {
+                (behavior.extension as FlatBehavior).value
             }
+
+            ItemType.BehaviorType.I_B_LINEAR -> valueLinear(behavior.extension as LinearBehavior, tempList.value)
+
+            ItemType.BehaviorType.I_B_TARGET -> TODO()
+            else -> throw UnspecifiedTypeException()
         }
     }
+}
 
 
-    private fun getAffine(linearBehavior: LinearBehavior): Pair<Int, Int> {
-        /*
-            y = ax + b
-            x -> temp
-            y -> speed
-        */
+private fun <T> filterWithPreviousIndex(
+    list: List<T>,
+    predicate: (T) -> Boolean,
+    forEachFiltered: (Int, T) -> Unit
+) {
+    val previousIndexList = mutableListOf<Int>()
 
-        val xa = linearBehavior.minTemp
-        val xb = linearBehavior.maxTemp
-        val ya = linearBehavior.minFanSpeed
-        val yb = linearBehavior.maxFanSpeed
-
-        val a = (yb - ya) / (xb - xa)
-        val b = ya - a * xa
-        return Pair(a, b)
+    list.filterIndexed { index, control ->
+        if (predicate(control)) {
+            previousIndexList.add(index)
+            true
+        } else false
+    }.forEachIndexed { index, control ->
+        forEachFiltered(previousIndexList[index], control)
     }
 }

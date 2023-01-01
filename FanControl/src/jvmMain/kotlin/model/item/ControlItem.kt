@@ -12,7 +12,13 @@ data class ControlItem(
     var behaviorId: Long? = null,
 
     var value: Int = 0,
-    val isAuto: Boolean = true,
+    var isAuto: Boolean = true,
+
+    /*
+        this variable is only used by
+        the logic update class
+    */
+    var controlShouldBeSet: Boolean = false,
 
     val libIndex: Int,
     val libName: String,

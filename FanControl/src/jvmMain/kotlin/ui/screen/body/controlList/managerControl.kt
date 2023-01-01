@@ -45,15 +45,14 @@ fun control(
         editModeActivated = editModeActivated,
         onEditClick = {
             viewModel.remove(
-                index = index,
-                libIndex = control.libIndex,
+                index = index
             )
         },
 
         onSwitchClick = { checked ->
-            viewModel.setControl(
-                libIndex = control.libIndex,
-                isAuto = !checked
+            viewModel.onSwitchClick(
+                checked = checked,
+                index = index
             )
         },
         value = "${control.value} ${Resources.getString("unity/percent")}",
@@ -62,7 +61,8 @@ fun control(
         onBehaviorChange = {
             viewModel.setBehavior(index, it)
         },
-        control = control
+        control = control,
+        enabled = !viewModel.controlChange.value
     )
 }
 

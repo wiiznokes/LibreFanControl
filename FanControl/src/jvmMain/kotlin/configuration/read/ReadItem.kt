@@ -1,5 +1,6 @@
 package configuration.read
 
+import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -17,24 +18,29 @@ import utils.getJsonValue
 
 class ReadItem {
     fun getControls(controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>>, array: JSONArray) {
-        for (i in 0 until array.length()) {
-            val obj = array[i] as JSONObject
+        controlItemList.update {
+            println("controlChange = true, in read Item")
+            State._controlsChange.value = true
 
-            val index = controlItemList.value.indexOfFirst {
-                it.libId == getJsonValue("libId", obj)
-            }
+            for (i in 0 until array.length()) {
+                val obj = array[i] as JSONObject
 
-            controlItemList.update {
+                val index = controlItemList.value.indexOfFirst { control ->
+                    control.libId == getJsonValue("libId", obj)
+                }
+
+                val isAuto: Boolean = getJsonValue("isAuto", obj)!!
+
                 it[index] = it[index].copy(
                     name = getJsonValue("name", obj)!!,
                     itemId = getJsonValue("itemId", obj)!!,
                     type = getItemType(getJsonValue("type", obj)!!) as ItemType.ControlType,
                     visible = getJsonValue("visible", obj)!!,
                     behaviorId = getJsonValue("behaviorId", obj),
-                    isAuto = getJsonValue("isAuto", obj)!!,
+                    isAuto = isAuto
                 )
-                it
             }
+            it
         }
     }
 

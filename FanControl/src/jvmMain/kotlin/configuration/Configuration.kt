@@ -1,6 +1,7 @@
 package configuration
 
 
+import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import configuration.read.ReadHardware
 import configuration.read.ReadItem
@@ -35,17 +36,22 @@ class Configuration {
 
         fun loadConfig(
             configId: Long,
-            controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>>,
-            behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>>,
-            fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>>,
-            tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>>,
+            controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
+            behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
+            fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
+            tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList,
 
-            fanList: MutableStateFlow<SnapshotStateList<Sensor>>,
-            tempList: MutableStateFlow<SnapshotStateList<Sensor>>
+            fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
+            tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList
         ) {
             val file = getFile(configId)
             val string = file.bufferedReader().readText()
             val obj = JSONTokener(string).nextValue() as JSONObject
+
+            readItem.getControls(
+                controlItemList = controlItemList,
+                array = obj.getJSONArray(ItemType.ControlType.I_C_FAN.toString())
+            )
 
             readHardware.getSensors(
                 sensorList = fanList,
@@ -54,11 +60,6 @@ class Configuration {
             readHardware.getSensors(
                 sensorList = tempList,
                 array = obj.getJSONArray(HardwareType.SensorType.H_S_TEMP.toString())
-            )
-
-            readItem.getControls(
-                controlItemList = controlItemList,
-                array = obj.getJSONArray(ItemType.ControlType.I_C_FAN.toString())
             )
 
             behaviorItemList.update {

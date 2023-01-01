@@ -6,10 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -24,12 +21,12 @@ val viewModel = ConfigurationViewModel()
 
 @Composable
 fun managerConfig() {
-    if (viewModel.configList.value.isNotEmpty()) {
-        val id = viewModel.idConfig.value
-        if (id != null) {
+    if (viewModel.settings.value.configList.isNotEmpty()) {
+        val id = viewModel.settings.value.configId
+        if (id.value != null) {
             managerConfigWithId(
-                id = id,
-                configList = viewModel.configList.value
+                id = id.value!!,
+                configList = viewModel.settings.value.configList
             )
         } else {
             managerConfigListChoice(
@@ -48,7 +45,8 @@ fun managerConfig() {
                         style = MaterialTheme.typography.bodyMedium
                     )
                 },
-                configList = viewModel.configList.value
+                configList = viewModel.settings.value.configList,
+                enabled = !viewModel.controlChange.collectAsState().value
             )
         }
     }
@@ -62,8 +60,8 @@ private fun managerConfigWithId(
     id: Long,
     configList: SnapshotStateList<ConfigurationModel>
 ) {
-    val index = viewModel.configList.value.indexOfFirst {
-        it.id == viewModel.idConfig.value
+    val index = viewModel.settings.value.configList.indexOfFirst {
+        it.id == viewModel.settings.value.configId.value
     }
 
     val text: MutableState<String> = remember(
@@ -87,6 +85,7 @@ private fun managerConfigWithId(
 
     managerConfigListChoice(
         text = text.value,
+        enabled = !viewModel.controlChange.collectAsState().value,
         textContent = {
             managerConfigNameRoundedTextField(
                 modifier = Modifier
@@ -107,19 +106,21 @@ private fun managerConfigWithId(
                 placeholder = Resources.getString("label/conf_name")
             )
         },
-        configList = viewModel.configList.value
+        configList = viewModel.settings.value.configList
     )
 }
 
 @Composable
 private fun managerConfigListChoice(
     text: String? = null,
+    enabled: Boolean = true,
     textContent: @Composable (String) -> Unit,
     configList: SnapshotStateList<ConfigurationModel>
 ) {
     managerListChoice(
         text = text,
         textContent = textContent,
+        enabled = enabled,
         baseModifier = Modifier,
         dropDownModifier = Modifier
             .width(180.dp),

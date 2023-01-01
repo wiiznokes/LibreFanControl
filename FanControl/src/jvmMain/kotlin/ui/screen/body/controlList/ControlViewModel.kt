@@ -1,9 +1,9 @@
 package ui.screen.body.controlList
 
-import Application
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.item.ControlItem
@@ -12,52 +12,50 @@ import utils.checkNameTaken
 
 class ControlViewModel(
     private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
-    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
+    val behaviorItemList: StateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList.asStateFlow(),
+    private val _controlsChange: MutableStateFlow<Boolean> = State._controlsChange
 ) {
     val controlItemList = _controlItemList.asStateFlow()
-    val behaviorItemList = _behaviorItemList.asStateFlow()
+    val controlChange = _controlsChange.asStateFlow()
 
-
-    fun remove(index: Int, libIndex: Int) {
-        Application.setControl(
-            libIndex = libIndex,
-            isAuto = true
-        )
+    private fun updateSafely(index: Int, isAuto: Boolean, behaviorId: Long?, visible: Boolean? = null) {
+        if (controlChange.value)
+            return
 
         _controlItemList.update {
-            it[index] = it[index].copy(
-                visible = false,
-                isAuto = true
-            )
+            println("controlsChange = true, in control View Model")
+            _controlsChange.value = true
+            it[index].isAuto = isAuto
+            it[index].behaviorId = behaviorId
+            if (visible != null)
+                it[index].visible = visible
             it
         }
+    }
+
+    fun remove(index: Int) {
+        updateSafely(
+            index = index,
+            isAuto = true,
+            behaviorId = controlItemList.value[index].behaviorId,
+            visible = false
+        )
     }
 
     fun setBehavior(index: Int, behaviorId: Long?) {
-        _controlItemList.update {
-            it[index] = it[index].copy(
-                behaviorId = behaviorId
-            )
-            it
-        }
+        updateSafely(
+            index = index,
+            isAuto = controlItemList.value[index].isAuto,
+            behaviorId = behaviorId
+        )
     }
 
-    fun setControl(libIndex: Int, isAuto: Boolean) {
-        // we set control only if is Auto is true because
-        // another class is in charge to know if control should be set
-        if (isAuto) {
-            Application.setControl(
-                libIndex = libIndex,
-                isAuto = true
-            )
-        }
-
-        _controlItemList.update {
-            it[libIndex] = it[libIndex].copy(
-                isAuto = isAuto
-            )
-            it
-        }
+    fun onSwitchClick(checked: Boolean, index: Int) {
+        updateSafely(
+            index = index,
+            isAuto = !checked,
+            behaviorId = controlItemList.value[index].behaviorId
+        )
     }
 
 

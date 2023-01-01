@@ -140,7 +140,7 @@ private fun setting(
     id: Long
 ) {
     // id use to update value witch use remember
-    val idConfig = State._idConfig.asStateFlow().value.value
+    val idConfig = State._settings.asStateFlow().value.configId
 
     // if id had change, remember have to update
     // this avoid bug when name of an item
