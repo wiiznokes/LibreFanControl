@@ -18,28 +18,33 @@ class ControlViewModel(
     val controlItemList = _controlItemList.asStateFlow()
     val controlChange = _controlsChange.asStateFlow()
 
-    private fun updateSafely(index: Int, isAuto: Boolean, behaviorId: Long?, visible: Boolean? = null) {
+    private fun updateSafely(index: Int, isAuto: Boolean, behaviorId: Long?): Boolean {
         if (controlChange.value)
-            return
+            return false
 
         _controlItemList.update {
-            println("controlsChange = true, in control View Model")
-            _controlsChange.value = true
             it[index].isAuto = isAuto
             it[index].behaviorId = behaviorId
-            if (visible != null)
-                it[index].visible = visible
             it
         }
+        _controlsChange.value = true
+        println("controlsChange = true, in control View Model")
+
+        return true
     }
 
     fun remove(index: Int) {
-        updateSafely(
-            index = index,
-            isAuto = true,
-            behaviorId = controlItemList.value[index].behaviorId,
-            visible = false
-        )
+        if (updateSafely(
+                index = index,
+                isAuto = true,
+                behaviorId = controlItemList.value[index].behaviorId
+            )
+        ) {
+            _controlItemList.update {
+                it[index].visible = false
+                it
+            }
+        }
     }
 
     fun setBehavior(index: Int, behaviorId: Long?) {

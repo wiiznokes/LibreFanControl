@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.update
 import model.item.ControlItem
 import model.item.behavior.BehaviorItem
 import utils.checkNameTaken
+import utils.filterWithPreviousIndex
 
 class BehaviorViewModel(
     private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
@@ -19,25 +20,25 @@ class BehaviorViewModel(
 
     val behaviorItemList = _behaviorItemList.asStateFlow()
 
-
     fun remove(index: Int) {
+        if (controlChange.value)
+            return
+
         val idRemoved = behaviorItemList.value[index].itemId
 
         // update control if it was linked with this behavior
-        controlItemList.value.indexOfFirst { control ->
-            control.behaviorId == idRemoved
-        }.let { controlIndex ->
-            if (controlIndex != -1) {
-                if (controlChange.value)
-                    return
-                _controlItemList.update {
-                    println("controlChange = true, behavior ViewModel, remove")
-                    _controlsChange.value = true
-                    it[controlIndex].behaviorId = null
-                    it
-                }
+        filterWithPreviousIndex(
+            list = controlItemList.value,
+            predicate = {
+                it.behaviorId == idRemoved
+            }
+        ) { controlIndex, _ ->
+            _controlItemList.update {
+                it[controlIndex].behaviorId = null
+                it
             }
         }
+        _controlsChange.value = true
 
         _behaviorItemList.update {
             it.removeAt(index)
