@@ -68,7 +68,7 @@ fun baseItemBody(
                     .width(IntrinsicSize.Min)
                     .height(50.dp),
                 text = text,
-                ids = Pair(item.itemId, idConfig),
+                ids = Pair(item.itemId, idConfig.value),
                 onValueChange = {
                     onNameChange(it)
                 },

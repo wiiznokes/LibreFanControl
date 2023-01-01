@@ -27,7 +27,8 @@ fun baseControlBody(
     fanValue: String,
     behaviorItemList: SnapshotStateList<BehaviorItem>,
     onBehaviorChange: (Long?) -> Unit,
-    control: ControlItem
+    control: ControlItem,
+    enabled: Boolean
 ) {
     baseItemBody(
         iconPainter = Resources.getIcon("alternate_email"),
@@ -39,7 +40,7 @@ fun baseControlBody(
     ) {
         baseControl(
             isAuto = control.isAuto,
-            switchEnabled = control.logicHasVerify,
+            switchEnabled = enabled,
             onSwitchClick = onSwitchClick,
             value = value,
             fanValue = fanValue,
@@ -52,7 +53,7 @@ fun baseControlBody(
                 onItemClick = onBehaviorChange,
                 ids = behaviorItemList.map { it.itemId },
                 names = behaviorItemList.map { it.name },
-                enabled = control.logicHasVerify
+                enabled = enabled
             )
         }
     }

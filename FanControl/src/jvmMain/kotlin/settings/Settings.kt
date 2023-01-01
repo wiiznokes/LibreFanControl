@@ -82,7 +82,7 @@ class Settings {
         ) {
             settings.update {
                 it.language = getSetting("language")!!
-                it.configId = getSetting("configId")
+                it.configId.value = getSetting("configId")
                 getConfigList(it.configList)
                 it.updateDelay = getSetting("updateDelay")!!
                 it

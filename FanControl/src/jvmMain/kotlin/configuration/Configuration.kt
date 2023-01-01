@@ -48,6 +48,11 @@ class Configuration {
             val string = file.bufferedReader().readText()
             val obj = JSONTokener(string).nextValue() as JSONObject
 
+            readItem.getControls(
+                controlItemList = controlItemList,
+                array = obj.getJSONArray(ItemType.ControlType.I_C_FAN.toString())
+            )
+
             readHardware.getSensors(
                 sensorList = fanList,
                 array = obj.getJSONArray(HardwareType.SensorType.H_S_FAN.toString())
@@ -55,11 +60,6 @@ class Configuration {
             readHardware.getSensors(
                 sensorList = tempList,
                 array = obj.getJSONArray(HardwareType.SensorType.H_S_TEMP.toString())
-            )
-
-            readItem.getControls(
-                controlItemList = controlItemList,
-                array = obj.getJSONArray(ItemType.ControlType.I_C_FAN.toString())
             )
 
             behaviorItemList.update {

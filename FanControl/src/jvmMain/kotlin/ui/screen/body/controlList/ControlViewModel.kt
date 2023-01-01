@@ -12,43 +12,38 @@ import utils.checkNameTaken
 
 class ControlViewModel(
     private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
-    val behaviorItemList: StateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList.asStateFlow()
+    val behaviorItemList: StateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList.asStateFlow(),
+    private val _controlsChange: MutableStateFlow<Boolean> = State._controlsChange
 ) {
     val controlItemList = _controlItemList.asStateFlow()
+    val controlChange = _controlsChange.asStateFlow()
 
-    private fun changeLogic(index: Int, isAuto: Boolean, behaviorId: Long?): Boolean {
-        if (!controlItemList.value[index].logicHasVerify)
-            return false
+    private fun updateSafely(index: Int, isAuto: Boolean, behaviorId: Long?, visible: Boolean? = null) {
+        if (controlChange.value)
+            return
 
         _controlItemList.update {
-            it[index] = it[index].copy(
-                logicHasVerify = false,
-                isAuto = isAuto,
-                behaviorId = behaviorId
-            )
+            println("controlsChange = true, in control View Model")
+            _controlsChange.value = true
+            it[index].isAuto = isAuto
+            it[index].behaviorId = behaviorId
+            if (visible != null)
+                it[index].visible = visible
             it
         }
-        return true
     }
 
     fun remove(index: Int) {
-        if (!changeLogic(
-                index = index,
-                isAuto = true,
-                behaviorId = controlItemList.value[index].behaviorId
-            )
-        ) return
-
-        _controlItemList.update {
-            it[index] = it[index].copy(
-                visible = false
-            )
-            it
-        }
+        updateSafely(
+            index = index,
+            isAuto = true,
+            behaviorId = controlItemList.value[index].behaviorId,
+            visible = false
+        )
     }
 
     fun setBehavior(index: Int, behaviorId: Long?) {
-        changeLogic(
+        updateSafely(
             index = index,
             isAuto = controlItemList.value[index].isAuto,
             behaviorId = behaviorId
@@ -56,7 +51,7 @@ class ControlViewModel(
     }
 
     fun onSwitchClick(checked: Boolean, index: Int) {
-        changeLogic(
+        updateSafely(
             index = index,
             isAuto = !checked,
             behaviorId = controlItemList.value[index].behaviorId

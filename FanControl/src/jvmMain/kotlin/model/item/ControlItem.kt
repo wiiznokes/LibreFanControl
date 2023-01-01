@@ -15,13 +15,6 @@ data class ControlItem(
     var isAuto: Boolean = true,
 
     /*
-        variable for blocking control viewModel of
-        updating state when none logic update occur since
-        the last state update
-    */
-    var logicHasVerify: Boolean = false,
-
-    /*
         this variable is only used by
         the logic update class
     */

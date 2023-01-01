@@ -4,6 +4,7 @@ import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import configuration.Configuration
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import model.ConfigurationModel
@@ -19,6 +20,7 @@ import utils.checkNameTaken
 
 class ConfigurationViewModel(
     private val _settings: MutableStateFlow<SettingsModel> = State._settings,
+    val controlChange: StateFlow<Boolean> = State._controlsChange.asStateFlow(),
 
     private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
     private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
@@ -28,9 +30,7 @@ class ConfigurationViewModel(
     private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
     private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList
 ) {
-    private val settings = _settings.asStateFlow()
-    val configList = settings.value.configList
-    val configId = settings.value.configId
+    val settings = _settings.asStateFlow()
 
     private val controlItemList = _controlItemList.asStateFlow()
     private val behaviorItemList = _behaviorItemList.asStateFlow()
@@ -40,13 +40,11 @@ class ConfigurationViewModel(
     private val fanList = _fanList.asStateFlow()
     private val tempList = _tempList.asStateFlow()
 
-
     // save conf is only visible when idConfig != null
     fun saveConfiguration(name: String, index: Int, id: Long) {
-
         try {
             checkNameTaken(
-                names = configList.map { item ->
+                names = settings.value.configList.map { item ->
                     item.name
                 },
                 name = name,
@@ -62,7 +60,7 @@ class ConfigurationViewModel(
         }
 
         Configuration.saveConfig(
-            configuration = configList[index],
+            configuration = settings.value.configList[index],
             controlItemList = controlItemList.value,
             behaviorItemList = behaviorItemList.value,
             fanItemList = fanItemList.value,
@@ -79,7 +77,7 @@ class ConfigurationViewModel(
     fun onChangeConfiguration(id: Long?) {
 
         _settings.update {
-            it.configId = id
+            it.configId.value = id
             it
         }
 
@@ -104,7 +102,7 @@ class ConfigurationViewModel(
     fun addConfiguration(name: String, id: Long): Boolean {
         try {
             checkNameTaken(
-                names = configList.map { item ->
+                names = settings.value.configList.map { item ->
                     item.name
                 },
                 name = name
@@ -120,7 +118,7 @@ class ConfigurationViewModel(
 
         _settings.update {
             it.configList.add(newConfig)
-            it.configId = id
+            it.configId.value = id
             it
         }
 
@@ -153,9 +151,9 @@ class ConfigurationViewModel(
         }
 
         // check if current config has been removed
-        if (id == configId) {
+        if (id == settings.value.configId.value) {
             _settings.update {
-                it.configId = null
+                it.configId.value = null
                 it
             }
             Settings.setSetting("configId", JSONObject.NULL)

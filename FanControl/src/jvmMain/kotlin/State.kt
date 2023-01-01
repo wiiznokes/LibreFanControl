@@ -24,6 +24,9 @@ class State {
         val _addItemExpanded: MutableStateFlow<MutableState<Boolean>> = MutableStateFlow(mutableStateOf(false))
         val _editModeActivated: MutableStateFlow<MutableState<Boolean>> = MutableStateFlow(mutableStateOf(false))
 
+        val _controlsChange: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
+
         val _settings: MutableStateFlow<SettingsModel> = MutableStateFlow(SettingsModel())
     }
 }

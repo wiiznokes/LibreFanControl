@@ -61,7 +61,8 @@ fun control(
         onBehaviorChange = {
             viewModel.setBehavior(index, it)
         },
-        control = control
+        control = control,
+        enabled = !viewModel.controlChange.value
     )
 }
 

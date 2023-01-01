@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import jdk.jfr.Enabled
 import ui.utils.Resources
 
 @Composable
@@ -102,7 +101,7 @@ private fun managerBaseDropdownMenu(
     dropDownContent: @Composable ColumnScope.() -> Unit
 ) {
     Box {
-        val iconShouldTrigger = remember { mutableStateOf(true) }
+
 
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             Row(
@@ -112,13 +111,7 @@ private fun managerBaseDropdownMenu(
             ) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                     IconButton(
-                        onClick = {
-                            if (!iconShouldTrigger.value) {
-                                iconShouldTrigger.value = true
-                                return@IconButton
-                            }
-                            expanded.value = true
-                        }
+                        onClick = { expanded.value = true }
                     ) {
                         val painter = when (expanded.value) {
                             true -> Resources.getIcon("expand_less")
@@ -137,10 +130,7 @@ private fun managerBaseDropdownMenu(
         }
         DropdownMenu(
             expanded = expanded.value,
-            onDismissRequest = {
-                expanded.value = false
-                iconShouldTrigger.value = false
-            },
+            onDismissRequest = { expanded.value = false },
             modifier = Modifier
                 .background(
                     color = MaterialTheme.colorScheme.primary
