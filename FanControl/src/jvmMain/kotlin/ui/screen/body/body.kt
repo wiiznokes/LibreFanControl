@@ -5,10 +5,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.IconButton
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -18,6 +21,8 @@ import ui.screen.itemsList.controlList.controlBody
 import ui.screen.itemsList.controlList.controlList
 import ui.screen.itemsList.sensor.body.fanList.fanBodyList
 import ui.screen.itemsList.sensor.body.tempList.tempBodyList
+import ui.theme.floatingActionButtonPadding
+import ui.theme.scrollBarHeight
 import ui.utils.Resources
 
 @Composable
@@ -31,7 +36,10 @@ fun body() {
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        scrollableBox {
+        val scrollBarShouldShow = mutableStateOf(false)
+        scrollableBox(
+            scrollBarShouldShow = scrollBarShouldShow
+        ) {
             Row(
                 modifier = Modifier,
                 horizontalArrangement = Arrangement.SpaceAround,
@@ -70,13 +78,15 @@ fun body() {
         // add button
         if (!addItemExpanded.value) {
 
-            IconButton(
+            FloatingActionButton(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(20.dp),
-                onClick = {
-                    viewModel.expandAddItem()
-                }
+                    .padding(
+                        end = floatingActionButtonPadding,
+                        bottom = if (scrollBarShouldShow.value) scrollBarHeight + floatingActionButtonPadding
+                        else floatingActionButtonPadding),
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                onClick = { viewModel.expandAddItem() }
             ) {
                 Icon(
                     painter = Resources.getIcon("add"),
@@ -103,27 +113,27 @@ private fun itemsList(
                     .padding(10.dp),
                 style = MaterialTheme.typography.titleLarge
             )
-            Spacer(
-                modifier = Modifier
-                    .height(20.dp)
-            )
+            Spacer(Modifier.height(20.dp))
         }
         content()
+        item {
+            Spacer(Modifier.height(80.dp))
+        }
     }
 }
 
 
 @Composable
 private fun BoxScope.scrollableBox(
+    scrollBarShouldShow: MutableState<Boolean>,
     content: @Composable () -> Unit
 ) {
     val stateHorizontal = rememberScrollState(0)
 
-    val scrollBarShouldShow =
-        stateHorizontal.value != stateHorizontal.maxValue || stateHorizontal.value != 0
+    scrollBarShouldShow.value = stateHorizontal.value != stateHorizontal.maxValue || stateHorizontal.value != 0
 
-    val modifier = if (scrollBarShouldShow)
-        Modifier.padding(bottom = 20.dp)
+    val modifier = if (scrollBarShouldShow.value)
+        Modifier.padding(bottom = scrollBarHeight)
     else
         Modifier
 
@@ -135,10 +145,10 @@ private fun BoxScope.scrollableBox(
         content()
     }
 
-    if (scrollBarShouldShow) {
+    if (scrollBarShouldShow.value) {
         HorizontalScrollbar(
             modifier = Modifier.align(Alignment.BottomStart)
-                .height(20.dp)
+                .height(scrollBarHeight)
                 .background(MaterialTheme.colorScheme.secondary),
             adapter = rememberScrollbarAdapter(stateHorizontal)
         )
