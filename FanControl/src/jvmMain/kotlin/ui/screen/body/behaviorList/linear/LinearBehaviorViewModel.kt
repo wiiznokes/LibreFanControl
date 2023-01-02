@@ -4,6 +4,7 @@ import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.Sensor
 import model.item.behavior.BehaviorItem
+import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
 
 
@@ -32,7 +33,11 @@ class LinearBehaviorViewModel(
 
 
     fun setTemp(index: Int, tempSensorId: Long?) {
-        (behaviorItemList[index].extension as LinearBehavior).tempSensorId = tempSensorId
+        behaviorItemList[index] = behaviorItemList[index].copy(
+            extension = (behaviorItemList[index].extension as LinearBehavior).copy(
+                tempSensorId = tempSensorId
+            )
+        )
     }
 
     fun increase(index: Int, type: LinearParams): String {
