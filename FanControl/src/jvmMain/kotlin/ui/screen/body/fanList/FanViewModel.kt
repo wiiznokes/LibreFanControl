@@ -16,7 +16,9 @@ class FanViewModel(
     }
 
     fun setFan(index: Int, sensorId: Long?) {
-        fanItemList[index].sensorId = sensorId
+        fanItemList[index] = fanItemList[index].copy(
+            sensorId = sensorId
+        )
     }
 
     fun setName(name: String, index: Int) {
@@ -27,6 +29,8 @@ class FanViewModel(
             name = name,
             index = index
         )
-        fanItemList[index].name = name
+        fanItemList[index] = fanItemList[index].copy(
+            name = name
+        )
     }
 }

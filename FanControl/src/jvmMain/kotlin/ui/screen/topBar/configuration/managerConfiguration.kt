@@ -61,7 +61,7 @@ private fun managerConfigWithId(
     configList: SnapshotStateList<ConfigurationModel>
 ) {
     val index = viewModel.settings.value.configList.indexOfFirst {
-        it.id == viewModel.settings.value.configId
+        it.id == id
     }
 
     val text: MutableState<String> = remember(

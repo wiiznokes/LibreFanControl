@@ -75,24 +75,14 @@ class Application(
                 externalManager.updateControl()
 
                 /*
-                    controlsChange state is updated only in _controlItemList.update function.
-                    controlsChange is updated here, in ControlViewModel, in ReadItem  and
+                    controlsChange is updated here, in ControlViewModel, in ConfigurationViewModel  and
                     in BehaviorViewModel.
 
-                    ControlViewModel, ReadItem and BehaviorViewModel are in the same coroutine,
+                    ControlViewModel, ConfigurationViewModel and BehaviorViewModel are in the same coroutine,
                     but here, we are in another coroutine.
-                    So we have to each time is controlsChange = true. We use a marker because
-                    control may change after we calculate values to set. So we recalculate
-                    one time before setting the values
+                    We use a marker because control may change after we calculate values to set.
 
-                    The problem is we can't simply set controlsChange = false
-                    because between the time we check the value of controlsChange here,
-                    another coroutine may set controlsChange = true, but it may be
-                    reassigned directly = false here.
-
-                    This solution is not perfect (it can be slow), we should use a lock instead,
-                    because it has a lighter implementation, and it is supposed to be use
-                    for this.
+                    So we recalculate one time before setting the values
                 */
                 if (setControlList == null) {
                     if (controlsChange.value) {

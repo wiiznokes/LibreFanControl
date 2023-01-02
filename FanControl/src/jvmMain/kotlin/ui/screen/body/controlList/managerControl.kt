@@ -2,12 +2,12 @@ package ui.screen.body.controlList
 
 
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import model.item.ControlItem
 import ui.component.baseControlBody
 import ui.utils.Resources
+import utils.filterWithPreviousIndexComposable
 
 
 private val viewModel: ControlViewModel = ControlViewModel()
@@ -15,18 +15,13 @@ private val viewModel: ControlViewModel = ControlViewModel()
 
 fun LazyListScope.controlList() {
 
-
-    val previousIndexList = mutableListOf<Int>()
-
-    itemsIndexed(viewModel.controlItemList.filterIndexed { index, controlItem ->
-        if (controlItem.visible)
-            previousIndexList.add(index)
-        controlItem.visible
-    }) { index, it ->
-
+    filterWithPreviousIndexComposable(
+        list = viewModel.controlItemList,
+        predicate = { it.visible }
+    ) { index, control ->
         control(
-            control = it,
-            index = previousIndexList[index]
+            control = control,
+            index = index
         )
     }
 }

@@ -27,11 +27,12 @@ class BehaviorViewModel(
                 it.behaviorId == idRemoved
             }
         ) { controlIndex, _ ->
-            controlItemList[controlIndex].behaviorId = null
 
+            controlItemList[controlIndex] = controlItemList[controlIndex].copy(
+                behaviorId = null
+            )
         }
         controlsChange.value = true
-
         behaviorItemList.removeAt(index)
     }
 
@@ -44,6 +45,8 @@ class BehaviorViewModel(
             name = name,
             index = index
         )
-        behaviorItemList[index].name = name
+        behaviorItemList[index] = behaviorItemList[index].copy(
+            name = name
+        )
     }
 }

@@ -1,5 +1,9 @@
 package utils
 
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.runtime.Composable
+
 
 /**
  * filter the list with the given predicate
@@ -20,5 +24,25 @@ fun <T> filterWithPreviousIndex(
         } else false
     }.forEachIndexed { index, value ->
         forEachFiltered(previousIndexList[index], value)
+    }
+}
+
+
+fun <T> LazyListScope.filterWithPreviousIndexComposable(
+    list: List<T>,
+    predicate: (T) -> Boolean,
+    content: @Composable (Int, T) -> Unit
+) {
+    val previousIndexList = mutableListOf<Int>()
+
+    list.filterIndexed { index, control ->
+        if (predicate(control)) {
+            previousIndexList.add(index)
+            true
+        } else false
+    }.let {
+        itemsIndexed(it) { index, value ->
+            content(previousIndexList[index], value)
+        }
     }
 }

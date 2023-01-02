@@ -70,7 +70,6 @@ class ReadItem {
         for (i in 0 until array.length()) {
             val obj = array[i] as JSONObject
 
-
             sensorItemList.add(
                 SensorItem(
                     name = getJsonValue("name", obj)!!,

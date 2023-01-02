@@ -17,7 +17,9 @@ class ReadHardware {
             val index = sensorList.indexOfFirst {
                 it.libId == getJsonValue("libId", obj)!!
             }
-            sensorList[index].id = getJsonValue("id", obj)!!
+            sensorList[index] = sensorList[index].copy(
+                id = getJsonValue("id", obj)!!
+            )
         }
     }
 }

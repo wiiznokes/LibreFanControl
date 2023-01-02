@@ -84,23 +84,30 @@ class ExternalWindows : External {
     override fun updateFan(fans: SnapshotStateList<Sensor>) {
         externalUpdateFan()
 
-        for (i in fans.indices)
-            fans[i].value = values[fans[i].libIndex]
+        for (i in fans.indices) {
+            fans[i] = fans[i].copy(
+                value = values[fans[i].libIndex]
+            )
+        }
     }
 
     override fun updateTemp(temps: SnapshotStateList<Sensor>) {
         externalUpdateTemp()
-        for (i in temps.indices)
-            temps[i].value = values[temps[i].libIndex]
-
+        for (i in temps.indices) {
+            temps[i] = temps[i].copy(
+                value = values[temps[i].libIndex]
+            )
+        }
     }
 
     override fun updateControl(controls: SnapshotStateList<ControlItem>) {
         externalUpdateControl()
 
-        for (i in controls.indices)
-            controls[i].value = values[controls[i].libIndex]
-
+        for (i in controls.indices) {
+            controls[i] = controls[i].copy(
+                value = values[controls[i].libIndex]
+            )
+        }
     }
 
     override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {

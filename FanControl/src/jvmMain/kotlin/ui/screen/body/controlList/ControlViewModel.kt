@@ -12,45 +12,40 @@ class ControlViewModel(
     val behaviorItemList: SnapshotStateList<BehaviorItem> = State.behaviorItemList,
     val controlsChange: MutableStateFlow<Boolean> = State.controlsChange
 ) {
-    private fun updateSafely(index: Int, isAuto: Boolean, behaviorId: Long?): Boolean {
+    private fun updateSafely(operation: () -> Unit): Boolean {
         if (controlsChange.value)
             return false
 
-        controlItemList[index].isAuto = isAuto
-        controlItemList[index].behaviorId = behaviorId
+        operation()
 
         controlsChange.value = true
         println("controlsChange = true, in control View Model")
-
         return true
     }
 
     fun remove(index: Int) {
-        if (updateSafely(
-                index = index,
+        updateSafely {
+            controlItemList[index] = controlItemList[index].copy(
                 isAuto = true,
-                behaviorId = controlItemList[index].behaviorId
+                visible = false
             )
-        ) {
-            controlItemList[index].visible = false
-
         }
     }
 
     fun setBehavior(index: Int, behaviorId: Long?) {
-        updateSafely(
-            index = index,
-            isAuto = controlItemList[index].isAuto,
-            behaviorId = behaviorId
-        )
+        updateSafely {
+            controlItemList[index] = controlItemList[index].copy(
+                behaviorId = behaviorId
+            )
+        }
     }
 
     fun onSwitchClick(checked: Boolean, index: Int) {
-        updateSafely(
-            index = index,
-            isAuto = !checked,
-            behaviorId = controlItemList[index].behaviorId
-        )
+        updateSafely {
+            controlItemList[index] = controlItemList[index].copy(
+                isAuto = !checked
+            )
+        }
     }
 
 

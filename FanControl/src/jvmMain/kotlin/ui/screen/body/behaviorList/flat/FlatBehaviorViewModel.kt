@@ -11,20 +11,28 @@ class FlatBehaviorViewModel(
     fun onMore(index: Int, value: Int) {
         if (value >= 100) return
 
-        with(behaviorItemList[index].extension as FlatBehavior) {
-            this.value = this.value + 1
-        }
+        behaviorItemList[index] = behaviorItemList[index].copy(
+            extension = (behaviorItemList[index].extension as FlatBehavior).copy(
+                value = value + 1
+            )
+        )
     }
 
     fun onLess(index: Int, value: Int) {
         if (value <= 0) return
 
-        with(behaviorItemList[index].extension as FlatBehavior) {
-            this.value = this.value - 1
-        }
+        behaviorItemList[index] = behaviorItemList[index].copy(
+            extension = (behaviorItemList[index].extension as FlatBehavior).copy(
+                value = value - 1
+            )
+        )
     }
 
     fun onChange(index: Int, value: Int) {
-        (behaviorItemList[index].extension as FlatBehavior).value = value
+        behaviorItemList[index] = behaviorItemList[index].copy(
+            extension = (behaviorItemList[index].extension as FlatBehavior).copy(
+                value = value
+            )
+        )
     }
 }

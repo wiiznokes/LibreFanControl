@@ -58,13 +58,33 @@ class LinearBehaviorViewModel(
      * @param value used to make operation on the previous value before calculation of the final value
      */
     private fun updateValue(index: Int, type: LinearParams, value: (Int) -> Int): String {
-        return with(behaviorItemList[index].extension as LinearBehavior) {
+        val finalValue: Int
+        val extension = with(behaviorItemList[index].extension as LinearBehavior) {
             when (type) {
-                LinearParams.MIN_TEMP -> getFinalValue(value(minTemp)).apply { minTemp = this }
-                LinearParams.MAX_TEMP -> getFinalValue(value(maxTemp)).apply { maxTemp = this }
-                LinearParams.MIN_FAN_SPEED -> getFinalValue(value(minFanSpeed)).apply { minFanSpeed = this }
-                LinearParams.MAX_FAN_SPEED -> getFinalValue(value(maxFanSpeed)).apply { maxFanSpeed = this }
+                LinearParams.MIN_TEMP -> {
+                    finalValue = getFinalValue(value(minTemp))
+                    copy(minTemp = finalValue)
+                }
+
+                LinearParams.MAX_TEMP -> {
+                    finalValue = getFinalValue(value(maxTemp))
+                    copy(maxTemp = finalValue)
+                }
+
+                LinearParams.MIN_FAN_SPEED -> {
+                    finalValue = getFinalValue(value(minFanSpeed))
+                    copy(minFanSpeed = finalValue)
+                }
+
+                LinearParams.MAX_FAN_SPEED -> {
+                    finalValue = getFinalValue(value(maxFanSpeed))
+                    copy(maxFanSpeed = finalValue)
+                }
             }
-        }.toString()
+        }
+        behaviorItemList[index] = behaviorItemList[index].copy(
+            extension = extension
+        )
+        return finalValue.toString()
     }
 }

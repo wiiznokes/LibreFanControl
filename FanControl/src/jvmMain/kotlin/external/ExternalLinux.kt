@@ -57,20 +57,26 @@ class ExternalLinux : External {
 
     override fun updateFan(fans: SnapshotStateList<Sensor>) {
         for (i in fans.indices) {
-            fans[i].value = Random.nextInt(0, 4000)
+            fans[i] = fans[i].copy(
+                value = Random.nextInt(0, 4000)
+            )
         }
     }
 
 
     override fun updateTemp(temps: SnapshotStateList<Sensor>) {
         for (i in temps.indices) {
-            temps[i].value = Random.nextInt(0, 100)
+            temps[i] = temps[i].copy(
+                value = Random.nextInt(0, 100)
+            )
         }
     }
 
     override fun updateControl(controls: SnapshotStateList<ControlItem>) {
         for (i in controls.indices) {
-            controls[i].value = Random.nextInt(0, 100)
+            controls[i] = controls[i].copy(
+                value = Random.nextInt(0, 100)
+            )
         }
     }
 

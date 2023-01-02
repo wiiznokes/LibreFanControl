@@ -17,7 +17,9 @@ class TempViewModel(
     }
 
     fun setTemp(index: Int, sensorId: Long?) {
-        tempItemList[index].sensorId = sensorId
+        tempItemList[index] = tempItemList[index].copy(
+            sensorId = sensorId
+        )
     }
 
 
@@ -29,6 +31,8 @@ class TempViewModel(
             name = name,
             index = index
         )
-        tempItemList[index].name = name
+        tempItemList[index] = tempItemList[index].copy(
+            name = name
+        )
     }
 }

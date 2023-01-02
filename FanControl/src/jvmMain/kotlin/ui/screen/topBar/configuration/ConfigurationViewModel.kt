@@ -15,7 +15,6 @@ class ConfigurationViewModel(
     val controlChange: MutableStateFlow<Boolean> = State.controlsChange,
 ) {
 
-
     // save conf is only visible when idConfig != null
     fun saveConfiguration(name: String, index: Int, id: Long) {
         try {
@@ -29,7 +28,11 @@ class ConfigurationViewModel(
         } catch (e: NameException) {
             return
         }
-        settings.value.configList[index].name = name
+        settings.value = settings.value.copy(
+            configList = settings.value.configList.apply {
+                this[index].name = name
+            }
+        )
 
         Configuration.saveConfig(
             configuration = settings.value.configList[index]
@@ -51,7 +54,9 @@ class ConfigurationViewModel(
                 Settings.setSetting("configId", id)
             }
         }
-        settings.value.configId = id
+        settings.value = settings.value.copy(
+            configId = id
+        )
     }
 
     fun addConfiguration(name: String, id: Long): Boolean {
@@ -68,9 +73,10 @@ class ConfigurationViewModel(
 
         val newConfig = ConfigurationModel(id, name)
 
-
         settings.value.configList.add(newConfig)
-        settings.value.configId = id
+        settings.value = settings.value.copy(
+            configId = id
+        )
 
 
         Configuration.saveConfig(newConfig)
@@ -87,13 +93,13 @@ class ConfigurationViewModel(
     }
 
     fun removeConfiguration(id: Long, index: Int) {
-
         settings.value.configList.removeAt(index)
 
         // check if current config has been removed
         if (id == settings.value.configId) {
-            settings.value.configId = null
-
+            settings.value = settings.value.copy(
+                configId = null
+            )
             Settings.setSetting("configId", JSONObject.NULL)
         }
 

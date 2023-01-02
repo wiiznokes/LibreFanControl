@@ -3,8 +3,6 @@ package ui.screen.body.fanList
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.toMutableStateList
-import kotlinx.coroutines.flow.asFlow
 import model.item.SensorItem
 import ui.component.baseSensorBody
 import ui.utils.Resources
