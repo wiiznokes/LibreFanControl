@@ -33,11 +33,10 @@ fun baseItemBody(
     onNameChange: (String) -> Unit,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    // id use to update value witch use remember
-    val idConfig = State.settings.collectAsState()
+    val configId = State.settings.collectAsState().value.configId
 
     val text = remember(
-        item.itemId, idConfig.value.configId
+        item.itemId, configId
     ) {
         mutableStateOf(item.name)
     }
@@ -63,10 +62,8 @@ fun baseItemBody(
                     .width(IntrinsicSize.Min)
                     .height(50.dp),
                 text = text,
-                ids = Pair(item.itemId, idConfig.value.configId),
-                onValueChange = {
-                    onNameChange(it)
-                },
+                ids = Pair(item.itemId, configId),
+                onValueChange = { onNameChange(it) },
                 label = Resources.getString("label/name")
             )
         },
