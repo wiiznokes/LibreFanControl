@@ -1,0 +1,36 @@
+package ui.screen.itemsList.sensor.body.fanList
+
+import State
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import model.hardware.Sensor
+import model.item.SensorItem
+import utils.checkNameTaken
+
+class FanVM(
+    val fanItemList: SnapshotStateList<SensorItem> = State.fanItemList,
+    val fanList: SnapshotStateList<Sensor> = State.sensorLists.fanList
+) {
+
+    fun remove(index: Int) {
+        fanItemList.removeAt(index)
+    }
+
+    fun setFan(index: Int, sensorId: Long?) {
+        fanItemList[index] = fanItemList[index].copy(
+            sensorId = sensorId
+        )
+    }
+
+    fun setName(name: String, index: Int) {
+        checkNameTaken(
+            names = fanItemList.map { item ->
+                item.name
+            },
+            name = name,
+            index = index
+        )
+        fanItemList[index] = fanItemList[index].copy(
+            name = name
+        )
+    }
+}
