@@ -18,7 +18,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import ui.screen.body.behaviorList.linear.LinearParams
+import ui.screen.itemsList.behaviorList.linear.LinearParams
 import utils.NameException
 
 

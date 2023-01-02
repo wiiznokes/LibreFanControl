@@ -26,6 +26,10 @@ class State {
         val addItemExpanded: MutableStateFlow<Boolean> = MutableStateFlow(false)
         val editModeActivated: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
+        /**
+         * used to know if controls has change recently, so logic class will recalculate
+         * each controls, to know if we need to calculate each updateDelay
+         */
         val controlsChange: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
         val settings: MutableStateFlow<SettingsModel> = MutableStateFlow(SettingsModel())

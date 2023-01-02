@@ -8,7 +8,6 @@ import ui.utils.Resources
 
 
 fun main() {
-    // initialize setting state, and settings.json
     Settings()
 
     val application = Application().apply {
@@ -28,7 +27,7 @@ fun main() {
             }
 
         ) {
-            fanControlTheme(true) {
+            fanControlTheme {
                 home()
             }
         }

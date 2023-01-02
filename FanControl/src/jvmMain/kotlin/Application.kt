@@ -9,6 +9,9 @@ import model.SettingsModel
 import utils.initSensor
 
 
+/**
+ * main logic of the app
+ */
 class Application(
     private val settings: StateFlow<SettingsModel> = State.settings.asStateFlow(),
     private val controlsChange: MutableStateFlow<Boolean> = State.controlsChange
@@ -17,6 +20,12 @@ class Application(
     private var jobUpdate: Job? = null
     private val externalManager = ExternalManager()
 
+    /**
+     * - init sensor lib
+     * - check if configId exist in setting, if yes, load the configuration
+     * if not, create one sensor item for each sensor
+     * - launch a coroutine to update control with the last sensor value, and state
+     */
     fun onStart() {
         val configId = settings.value.configId
         externalManager.start()
@@ -42,7 +51,6 @@ class Application(
 
 
     private suspend fun startUpdate() {
-
         val logic = Logic(
             externalManager = externalManager
         )
@@ -50,6 +58,7 @@ class Application(
         while (!updateShouldStop) {
             logic.update()
         }
+        logic.finish()
         externalManager.stop()
     }
 }

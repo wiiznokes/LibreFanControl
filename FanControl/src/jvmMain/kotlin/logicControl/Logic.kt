@@ -42,16 +42,39 @@ class Logic(
 ) {
 
     private var shouldDelay: Boolean = true
-    private val controlsHasChangeMarker = mutableStateOf(controlsChange.value)
-    private val provideSetControlList = ProvideSetControlList()
-    suspend fun update() {
-        /*
-            we catch exception because another thread can modify
-            state value, for example, if we remove an item
-            that can lead to null pointer exception.
-            This is not a problem because we can recalculate
-        */
 
+    /**
+     * controlsChange is updated here, in ControlViewModel, in ConfigurationViewModel  and
+     * in BehaviorViewModel.
+     *
+     * ControlViewModel, ConfigurationViewModel and BehaviorViewModel are in the same coroutine,
+     * but here, we are in another coroutine.
+     * We use a marker because control may change after we calculate values to set.
+     *
+     * So we recalculate one time before setting the values
+     */
+    private val controlsHasChangeMarker = mutableStateOf(controlsChange.value)
+
+    private val provideSetControlList = ProvideSetControlList()
+
+
+    /**
+     * - update last values
+     * - get a list of controls we need to set, in function of control change variable
+     * - set controls
+     * - delay if no error or if controls hasn't change
+     */
+    suspend fun update() {
+        externalManager.updateFan()
+        externalManager.updateTemp()
+        externalManager.updateControl()
+
+        /**
+         * we catch exception because another thread can modify
+         * state value, for example, if we remove an item
+         * that can lead to null pointer exception.
+         * This is not a problem because we can recalculate
+         */
         val setControlList: List<SetControlModel>? = try {
             provideSetControlList.getSetControlList(controlsHasChangeMarker)
         } catch (e: Exception) {
@@ -60,20 +83,6 @@ class Logic(
             null
         }
 
-        externalManager.updateFan()
-        externalManager.updateTemp()
-        externalManager.updateControl()
-
-        /*
-            controlsChange is updated here, in ControlViewModel, in ConfigurationViewModel  and
-            in BehaviorViewModel.
-
-            ControlViewModel, ConfigurationViewModel and BehaviorViewModel are in the same coroutine,
-            but here, we are in another coroutine.
-            We use a marker because control may change after we calculate values to set.
-
-            So we recalculate one time before setting the values
-        */
         if (setControlList == null) {
             if (controlsChange.value) {
                 controlsHasChangeMarker.value = true
@@ -87,6 +96,15 @@ class Logic(
 
         if (shouldDelay)
             delay(settings.value.updateDelay.toDuration(DurationUnit.SECONDS))
+    }
+
+    /**
+     * set all controls to auto
+     */
+    fun finish() {
+        controlItemList.forEach {
+            externalManager.setControl(it.libIndex, true)
+        }
     }
 
 

@@ -5,6 +5,12 @@ import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.item.ControlItem
 
+
+/**
+ * This class is used to fetch sensor value, and set fan speed.
+ * It provides an abstraction for handling Linux and Windows
+ * with the External interface
+ */
 class ExternalManager(
     private val controlItemList: SnapshotStateList<ControlItem> = State.controlItemList,
     private val sensorLists: SensorLists = State.sensorLists
@@ -45,7 +51,7 @@ class ExternalManager(
         //println("updateControl : success")
     }
 
-    fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {
+    fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null) {
         //external.setControl(libIndex, isAuto, value)
         //println("setControl : success")
         println("set control: index = $libIndex, isAuto = $isAuto, value = $value")

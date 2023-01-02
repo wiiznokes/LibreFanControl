@@ -16,6 +16,16 @@ import java.io.File
 
 const val SETTINGS_FILE_NAME = "settings.json"
 
+private const val SETTINGS_SOT_FILE_NAME = "settings.sot.json"
+
+
+/**
+ * write and retrieve setting via settings.json file
+ *
+ * the first instance will check if settings.json exist
+ * if not, it will create it with settings.sot.json
+ * else, setting state will be set with it
+ */
 class Settings {
     companion object {
 
@@ -41,7 +51,9 @@ class Settings {
             )
         }
 
-        // remove config from configList
+        /**
+         * remove config from configList
+         */
         fun removeConfig(id: Long) {
             val path = "configList/$id"
             updateVariable(
@@ -54,15 +66,12 @@ class Settings {
         }
 
 
-        /*
-            initialize the settings.json file using the settings.sot.json file
-            which serves as a source of truth, to avoid committing a modified settings.json file.
-
-            This avoids using "smudge", the git tool, because it is really not practical.
-
-            the function return true if the file existed, false otherwise
+        /**
+         * initialize the settings.json file using the settings.sot.json file
+         * which serves as a source of truth, to avoid committing a modified settings.json file.
+         * This avoids using "smudge", the git tool, because it is really not practical.
+         * @return true if the file existed, false otherwise
         */
-        private const val SETTINGS_SOT_FILE_NAME = "settings.sot.json"
         private fun initSettingsFile(): Boolean {
             val localSettingFile = File(DIR_CONF + SETTINGS_FILE_NAME)
 
@@ -111,7 +120,6 @@ class Settings {
 
 
         private fun updateVariable(newObj: JSONObject) {
-
             file.writeText(
                 newObj.toString()
             )
