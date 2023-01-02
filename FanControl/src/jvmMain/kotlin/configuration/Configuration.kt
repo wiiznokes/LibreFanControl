@@ -30,6 +30,9 @@ class Configuration {
         private val writeHardware = WriteHardware()
         private val writeItem = WriteItem()
 
+        /**
+         * load configuration
+         */
         fun loadConfig(
             configId: Long,
         ) {

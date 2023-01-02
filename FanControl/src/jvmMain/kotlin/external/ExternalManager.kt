@@ -16,6 +16,9 @@ class ExternalManager(
         OS.UNSUPPORTED -> throw Exception("unsupported OS")
     }
 
+    /**
+     * load library and fetch sensors
+     */
     fun start() {
         external.start(sensorLists.fanList, sensorLists.tempList, controlItemList)
         println("start lib : success")

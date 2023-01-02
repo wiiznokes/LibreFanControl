@@ -19,7 +19,6 @@ class ControlViewModel(
         operation()
 
         controlsChange.value = true
-        println("controlsChange = true, in control View Model")
         return true
     }
 

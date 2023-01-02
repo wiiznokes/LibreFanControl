@@ -4,7 +4,6 @@ import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.Sensor
 import model.item.behavior.BehaviorItem
-import model.item.behavior.FlatBehavior
 import model.item.behavior.LinearBehavior
 
 

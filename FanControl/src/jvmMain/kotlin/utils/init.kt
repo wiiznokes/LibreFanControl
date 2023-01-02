@@ -6,7 +6,11 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.ItemType
 import model.item.SensorItem
 
-// init sensor list, used when there is no config at start
+//
+/**
+ * init fan and temperature item list, used when there is no config at start.
+ * Each sensor will be represented by one sensor item.
+ */
 fun initSensor(
     sensorLists: SensorLists = State.sensorLists,
 
