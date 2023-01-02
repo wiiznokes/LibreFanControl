@@ -18,11 +18,6 @@ fun checkNameTaken(names: List<String>, name: String, index: Int? = null) {
     }
 }
 
-private fun isNameTaken(names: List<String>, name: String): Boolean {
-    return names.count { it == name } != 0
-}
-
-
 fun getAvailableName(names: List<String>, prefix: String): String {
     var i = 1
     var name = "$prefix$i"
@@ -33,12 +28,6 @@ fun getAvailableName(names: List<String>, prefix: String): String {
     return name
 }
 
-
-private fun isIdTaken(ids: List<Long>, id: Long): Boolean {
-    return ids.count { it == id } != 0
-}
-
-
 fun getAvailableId(ids: List<Long>): Long {
     val rand = Random(5)
     var id = rand.nextLong()
@@ -47,3 +36,10 @@ fun getAvailableId(ids: List<Long>): Long {
     }
     return id
 }
+
+
+
+private fun isNameTaken(names: List<String>, name: String): Boolean =
+    names.count { it == name } != 0
+private fun isIdTaken(ids: List<Long>, id: Long): Boolean =
+    ids.count { it == id } != 0
