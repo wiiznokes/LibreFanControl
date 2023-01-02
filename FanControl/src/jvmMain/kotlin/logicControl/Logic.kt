@@ -5,9 +5,6 @@ import State
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import model.ItemType
 import model.UnspecifiedTypeException
 import model.hardware.Sensor
@@ -27,14 +24,11 @@ data class SetControlModel(
 )
 
 class Logic(
-    private val tempList: StateFlow<SnapshotStateList<Sensor>> = State._tempList.asStateFlow(),
-    private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
-    private val behaviorItemList: StateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList.asStateFlow(),
-    private val _controlsChange: MutableStateFlow<Boolean> = State._controlsChange
+    private val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList,
+    private val controlItemList: SnapshotStateList<ControlItem> = State.controlItemList,
+    private val behaviorItemList: SnapshotStateList<BehaviorItem> = State.behaviorItemList,
+    private val controlsChange: MutableStateFlow<Boolean> = State.controlsChange
 ) {
-    private val controlsChange = _controlsChange.asStateFlow()
-    private val controlItemList = _controlItemList.asStateFlow()
-
 
     fun getSetControlList(
         controlsChange: Boolean
@@ -56,7 +50,7 @@ class Logic(
 */
     private fun handleControlChange(setControlList: MutableList<SetControlModel>) {
 
-        controlItemList.value.forEachIndexed { index, control ->
+        controlItemList.forEachIndexed { index, control ->
 
             setControlList.add(
                 if (control.isAuto || control.behaviorId == null) {
@@ -83,7 +77,7 @@ class Logic(
     private fun handleControlShouldBeSet(setControlList: MutableList<SetControlModel>) {
 
         filterWithPreviousIndex(
-            list = controlItemList.value,
+            list = controlItemList,
             predicate = { it.controlShouldBeSet }
         ) label@{ index, control ->
             /*
@@ -107,7 +101,7 @@ class Logic(
 
 
     private fun findValue(control: ControlItem): Int? {
-        val behavior = behaviorItemList.value.find { behavior ->
+        val behavior = behaviorItemList.find { behavior ->
             behavior.itemId == control.behaviorId
         }!!
 
@@ -116,7 +110,7 @@ class Logic(
                 (behavior.extension as FlatBehavior).value
             }
 
-            ItemType.BehaviorType.I_B_LINEAR -> valueLinear(behavior.extension as LinearBehavior, tempList.value)
+            ItemType.BehaviorType.I_B_LINEAR -> valueLinear(behavior.extension as LinearBehavior, tempList)
 
             ItemType.BehaviorType.I_B_TARGET -> TODO()
             else -> throw UnspecifiedTypeException()
@@ -144,14 +138,13 @@ class Logic(
                     // control change in the previous iteration
                     true -> {
                         println("control has change, marker enable")
-                        _controlsChange.value = false
+                        controlsChange.value = false
                         println("_controlsChange set to false in App")
                         controlsHasChangeMarker.value = false
                         setControlList.forEach { model ->
-                            _controlItemList.update {
-                                it[model.index].controlShouldBeSet = model.controlShouldBeSet
-                                it
-                            }
+
+                            controlItemList[model.index].controlShouldBeSet = model.controlShouldBeSet
+
                             setControl(model.libIndex, model.isAuto, model.value)
                         }
                     }
@@ -161,10 +154,8 @@ class Logic(
             // normal case of update
             false -> {
                 setControlList.forEach { model ->
-                    _controlItemList.update {
-                        it[model.index].controlShouldBeSet = model.controlShouldBeSet
-                        it
-                    }
+                    controlItemList[model.index].controlShouldBeSet = model.controlShouldBeSet
+
                     setControl(model.libIndex, model.isAuto, model.value)
                 }
             }

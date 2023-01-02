@@ -35,7 +35,7 @@ fun home() {
         drawerState = drawerState,
         gesturesEnabled = true
     ) {
-        val addItemExpanded = viewModel.addItemExpanded.value
+        val addItemExpanded = viewModel.addItemExpanded.collectAsState()
 
 
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
@@ -72,10 +72,7 @@ fun home() {
                                 scope.launch { drawerState.open() }
                             }
                         )
-                        body(
-                            editModeActivated = viewModel.editModeActivated.value,
-                            addItemExpanded = addItemExpanded
-                        )
+                        body()
                     }
                 }
             }

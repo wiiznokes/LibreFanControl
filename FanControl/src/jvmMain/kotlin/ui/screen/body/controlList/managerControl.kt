@@ -13,14 +13,12 @@ import ui.utils.Resources
 private val viewModel: ControlViewModel = ControlViewModel()
 
 
-fun LazyListScope.controlList(
-    editModeActivated: Boolean
-) {
+fun LazyListScope.controlList() {
 
 
     val previousIndexList = mutableListOf<Int>()
 
-    itemsIndexed(viewModel.controlItemList.value.filterIndexed { index, controlItem ->
+    itemsIndexed(viewModel.controlItemList.filterIndexed { index, controlItem ->
         if (controlItem.visible)
             previousIndexList.add(index)
         controlItem.visible
@@ -28,8 +26,7 @@ fun LazyListScope.controlList(
 
         control(
             control = it,
-            index = previousIndexList[index],
-            editModeActivated = editModeActivated
+            index = previousIndexList[index]
         )
     }
 }
@@ -38,12 +35,10 @@ fun LazyListScope.controlList(
 @Composable
 fun control(
     control: ControlItem,
-    index: Int,
-    editModeActivated: Boolean
+    index: Int
 ) {
     baseControlBody(
         onNameChange = { viewModel.setName(it, index) },
-        editModeActivated = editModeActivated,
         onEditClick = {
             viewModel.remove(
                 index = index
@@ -58,12 +53,12 @@ fun control(
         },
         value = "${control.value} ${Resources.getString("unity/percent")}",
         fanValue = "",
-        behaviorItemList = viewModel.behaviorItemList.value,
+        behaviorItemList = viewModel.behaviorItemList,
         onBehaviorChange = {
             viewModel.setBehavior(index, it)
         },
         control = control,
-        enabled = !viewModel.controlChange.collectAsState().value
+        enabled = !viewModel.controlsChange.collectAsState().value
     )
 }
 

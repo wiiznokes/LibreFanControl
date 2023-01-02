@@ -24,7 +24,6 @@ fun flatBehavior(
     index: Int,
     onEditClick: () -> Unit,
     onNameChange: (String) -> Unit,
-    editModeActivated: Boolean,
 ) {
 
     val flatBehavior = behavior.extension as FlatBehavior
@@ -33,7 +32,6 @@ fun flatBehavior(
         iconPainter = Resources.getIcon("horizontal_rule"),
         iconContentDescription = Resources.getString("ct/flat"),
         onNameChange = onNameChange,
-        editModeActivated = editModeActivated,
         onEditClick = onEditClick,
         item = behavior
     ) {

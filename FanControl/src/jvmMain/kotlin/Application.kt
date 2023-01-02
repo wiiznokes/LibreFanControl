@@ -1,40 +1,27 @@
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import configuration.Configuration
 import external.ExternalManager
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import logicControl.Logic
 import logicControl.SetControlModel
 import model.SettingsModel
-import model.hardware.Sensor
-import model.item.ControlItem
 import utils.initSensor
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 
 class Application(
-    private val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
-    private val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList,
-    private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
-
-    private val settings: StateFlow<SettingsModel> = State._settings.asStateFlow(),
-    private val _controlsChange: MutableStateFlow<Boolean> = State._controlsChange
+    private val settings: StateFlow<SettingsModel> = State.settings.asStateFlow(),
+    private val controlsChange: StateFlow<Boolean> = State.controlsChange.asStateFlow()
 ) {
-
-    private val controlsChange = _controlsChange.asStateFlow()
 
     private var jobUpdate: Job? = null
 
     fun onStart() {
         jobUpdate = CoroutineScope(Dispatchers.IO).launch {
-            startUpdate(
-                configId = settings.value.configId.value,
-                updateDelay = settings.value.updateDelay
-            )
+            startUpdate()
         }
     }
 
@@ -49,15 +36,13 @@ class Application(
     }
 
 
-    private suspend fun startUpdate(configId: Long?, updateDelay: Int) {
+    private suspend fun startUpdate() {
+        val configId = settings.value.configId
+
         coroutineScope {
             val externalManager = ExternalManager().apply {
                 // load library
-                start(
-                    fans = _fanList,
-                    temps = _tempList,
-                    controls = _controlItemList
-                )
+                start()
             }
             when (configId) {
                 null -> initSensor()
@@ -85,9 +70,9 @@ class Application(
                     null
                 }
 
-                externalManager.updateFan(_fanList)
-                externalManager.updateTemp(_tempList)
-                externalManager.updateControl(_controlItemList)
+                externalManager.updateFan()
+                externalManager.updateTemp()
+                externalManager.updateControl()
 
                 /*
                     controlsChange state is updated only in _controlItemList.update function.
@@ -125,7 +110,7 @@ class Application(
                 }
 
                 if (shouldDelay)
-                    delay(updateDelay.toDuration(DurationUnit.SECONDS))
+                    delay(settings.value.updateDelay.toDuration(DurationUnit.SECONDS))
             }
             externalManager.stop()
         }

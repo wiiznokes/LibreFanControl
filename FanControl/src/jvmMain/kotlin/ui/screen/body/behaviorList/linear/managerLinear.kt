@@ -4,14 +4,10 @@ import State
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.asStateFlow
 import model.item.behavior.BehaviorItem
 import model.item.behavior.LinearBehavior
 import ui.component.baseItemBody
@@ -27,14 +23,12 @@ fun linearBehavior(
     behavior: BehaviorItem,
     index: Int,
     onEditClick: () -> Unit,
-    onNameChange: (String) -> Unit,
-    editModeActivated: Boolean,
+    onNameChange: (String) -> Unit
 ) {
     baseItemBody(
         iconPainter = Resources.getIcon("linear"),
         iconContentDescription = Resources.getString("ct/linear"),
         onNameChange = onNameChange,
-        editModeActivated = editModeActivated,
         onEditClick = onEditClick,
         item = behavior
     ) {
@@ -43,7 +37,7 @@ fun linearBehavior(
 
         managerListChoice(
             text = if (linearBehavior.tempSensorId != null) {
-                viewModel.tempList.value.find {
+                viewModel.tempList.find {
                     it.id == linearBehavior.tempSensorId
                 }!!.libName
             } else null,
@@ -53,8 +47,8 @@ fun linearBehavior(
                     tempSensorId = it
                 )
             },
-            ids = viewModel.tempList.value.map { it.id },
-            names = viewModel.tempList.value.map { it.libName }
+            ids = viewModel.tempList.map { it.id },
+            names = viewModel.tempList.map { it.libName }
         )
 
         val values = listOf(
@@ -140,13 +134,13 @@ private fun setting(
     id: Long
 ) {
     // id use to update value witch use remember
-    val idConfig = State._settings.asStateFlow().value.configId
+    val configId = State.settings.collectAsState().value.configId
 
     // if id had change, remember have to update
     // this avoid bug when name of an item
     // get reuse with another item
     val text: MutableState<String> = remember(
-        id, idConfig
+        id, configId
     ) { mutableStateOf(value.toString()) }
 
     Row(

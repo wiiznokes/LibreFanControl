@@ -28,7 +28,7 @@ class Settings {
             rootObj = JSONTokener(string).nextValue() as JSONObject
 
             if (existed)
-                initSettingsState(State._settings)
+                initSettingsState(State.settings)
         }
 
         fun setSetting(path: String, value: Any?) {
@@ -82,7 +82,7 @@ class Settings {
         ) {
             settings.update {
                 it.language = getSetting("language")!!
-                it.configId.value = getSetting("configId")
+                it.configId = getSetting("configId")
                 getConfigList(it.configList)
                 it.updateDelay = getSetting("updateDelay")!!
                 it

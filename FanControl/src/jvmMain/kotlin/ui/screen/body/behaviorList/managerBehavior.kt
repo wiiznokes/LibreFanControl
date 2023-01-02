@@ -9,17 +9,14 @@ import ui.screen.body.behaviorList.linear.linearBehavior
 
 private val viewModel: BehaviorViewModel = BehaviorViewModel()
 
-fun LazyListScope.behaviorList(
-    editModeActivated: Boolean
-) {
-    itemsIndexed(viewModel.behaviorItemList.value) { index, behavior ->
+fun LazyListScope.behaviorList() {
+    itemsIndexed(viewModel.behaviorItemList) { index, behavior ->
 
         when (behavior.type) {
             ItemType.BehaviorType.I_B_FLAT -> {
                 flatBehavior(
                     behavior = behavior,
                     index = index,
-                    editModeActivated = editModeActivated,
                     onNameChange = {
                         viewModel.setName(it, index)
                     },
@@ -33,7 +30,6 @@ fun LazyListScope.behaviorList(
                 linearBehavior(
                     behavior = behavior,
                     index = index,
-                    editModeActivated = editModeActivated,
                     onNameChange = {
                         viewModel.setName(it, index)
                     },

@@ -1,9 +1,9 @@
 package model.item.behavior
 
 data class LinearBehavior(
-    val minTemp: Int = 0,
-    val maxTemp: Int = 100,
-    val minFanSpeed: Int = 50,
-    val maxFanSpeed: Int = 100,
+    var minTemp: Int = 0,
+    var maxTemp: Int = 100,
+    var minFanSpeed: Int = 50,
+    var maxFanSpeed: Int = 100,
     var tempSensorId: Long? = null,
 ) : BehaviorExtension

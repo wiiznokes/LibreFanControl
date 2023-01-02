@@ -122,7 +122,7 @@ fun addItemTopBar(
         navigationIcon = {
             IconButton(
                 onClick = {
-                    viewModel.unexpandAddItem()
+                    viewModel.closeAddItem()
                 }
             ) {
                 Icon(

@@ -1,8 +1,6 @@
 package external
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import model.HardwareType
 import model.hardware.Sensor
 import model.item.ControlItem
@@ -13,9 +11,9 @@ class ExternalWindows : External {
 
     private val values: IntArray = IntArray(25) { 0 }
     override fun start(
-        fans: MutableStateFlow<SnapshotStateList<Sensor>>,
-        temps: MutableStateFlow<SnapshotStateList<Sensor>>,
-        controls: MutableStateFlow<SnapshotStateList<ControlItem>>
+        fans: SnapshotStateList<Sensor>,
+        temps: SnapshotStateList<Sensor>,
+        controls: SnapshotStateList<ControlItem>
     ) {
         try {
             System.loadLibrary("CppProxy")
@@ -31,102 +29,78 @@ class ExternalWindows : External {
         externalStop()
     }
 
-    override fun getFan(fans: MutableStateFlow<SnapshotStateList<Sensor>>) {
+    override fun getFan(fans: SnapshotStateList<Sensor>) {
         val result = externalGetFan()
 
         for (i in 0..(result.size - 1) / 3) {
-            fans.update {
-                it.add(
-                    Sensor(
-                        libIndex = result[i * 3].toInt(),
-                        libId = result[(i * 3) + 1],
-                        libName = result[(i * 3) + 2],
-                        type = HardwareType.SensorType.H_S_FAN,
-                        id = getAvailableId(it.map { sensor -> sensor.id })
-                    )
+            fans.add(
+                Sensor(
+                    libIndex = result[i * 3].toInt(),
+                    libId = result[(i * 3) + 1],
+                    libName = result[(i * 3) + 2],
+                    type = HardwareType.SensorType.H_S_FAN,
+                    id = getAvailableId(fans.map { it.id })
                 )
-                it
-            }
+            )
         }
     }
 
-    override fun getTemp(temps: MutableStateFlow<SnapshotStateList<Sensor>>) {
+    override fun getTemp(temps: SnapshotStateList<Sensor>) {
         val result = externalGetTemp()
 
         for (i in 0..(result.size - 1) / 3) {
-            temps.update {
-                it.add(
-                    Sensor(
-                        libIndex = result[i * 3].toInt(),
-                        libId = result[(i * 3) + 1],
-                        libName = result[(i * 3) + 2],
-                        type = HardwareType.SensorType.H_S_TEMP,
-                        id = getAvailableId(it.map { sensor -> sensor.id })
-                    )
+            temps.add(
+                Sensor(
+                    libIndex = result[i * 3].toInt(),
+                    libId = result[(i * 3) + 1],
+                    libName = result[(i * 3) + 2],
+                    type = HardwareType.SensorType.H_S_TEMP,
+                    id = getAvailableId(temps.map { it.id })
                 )
-                it
-            }
+            )
         }
     }
 
-    override fun getControl(controls: MutableStateFlow<SnapshotStateList<ControlItem>>) {
+    override fun getControl(controls: SnapshotStateList<ControlItem>) {
         val result = externalGetControl()
 
         for (i in 0..(result.size - 1) / 3) {
-            controls.update {
-                it.add(
-                    ControlItem(
-                        libIndex = result[i * 3].toInt(),
-                        libId = result[(i * 3) + 1],
-                        libName = result[(i * 3) + 2],
-                        name = result[(i * 3) + 2],
-                        itemId = getAvailableId(
-                            it.map { control -> control.itemId }
-                        )
+
+            controls.add(
+                ControlItem(
+                    libIndex = result[i * 3].toInt(),
+                    libId = result[(i * 3) + 1],
+                    libName = result[(i * 3) + 2],
+                    name = result[(i * 3) + 2],
+                    itemId = getAvailableId(
+                        controls.map { it.itemId }
                     )
                 )
-                it
-            }
+            )
+
         }
     }
 
-    override fun updateFan(fans: MutableStateFlow<SnapshotStateList<Sensor>>) {
+    override fun updateFan(fans: SnapshotStateList<Sensor>) {
         externalUpdateFan()
 
-        for (i in fans.value.indices) {
-            fans.update {
-                it[i] = it[i].copy(
-                    value = values[it[i].libIndex]
-                )
-                it
-            }
-        }
+        for (i in fans.indices)
+            fans[i].value = values[fans[i].libIndex]
     }
 
-    override fun updateTemp(temps: MutableStateFlow<SnapshotStateList<Sensor>>) {
+    override fun updateTemp(temps: SnapshotStateList<Sensor>) {
         externalUpdateTemp()
+        for (i in temps.indices)
+            temps[i].value = values[temps[i].libIndex]
 
-        for (i in temps.value.indices) {
-            temps.update {
-                it[i] = it[i].copy(
-                    value = values[it[i].libIndex]
-                )
-                it
-            }
-        }
     }
 
-    override fun updateControl(controls: MutableStateFlow<SnapshotStateList<ControlItem>>) {
+    override fun updateControl(controls: SnapshotStateList<ControlItem>) {
         externalUpdateControl()
 
-        for (i in controls.value.indices) {
-            controls.update {
-                it[i] = it[i].copy(
-                    value = values[it[i].libIndex]
-                )
-                it
-            }
-        }
+        for (i in controls.indices)
+            controls[i].value = values[controls[i].libIndex]
+
     }
 
     override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {

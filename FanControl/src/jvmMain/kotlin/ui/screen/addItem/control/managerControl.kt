@@ -17,7 +17,7 @@ fun managerAddControl() {
 
         val previousIndexList = mutableListOf<Int>()
 
-        itemsIndexed(viewModel.controlItemList.value.filterIndexed { index, controlItem ->
+        itemsIndexed(viewModel.controlItemList.filterIndexed { index, controlItem ->
             if (!controlItem.visible)
                 previousIndexList.add(index)
             !controlItem.visible

@@ -1,6 +1,4 @@
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import model.SettingsModel
@@ -9,25 +7,28 @@ import model.item.ControlItem
 import model.item.SensorItem
 import model.item.behavior.BehaviorItem
 
+
+data class SensorLists(
+    val fanList: SnapshotStateList<Sensor> = mutableStateListOf(),
+    val tempList: SnapshotStateList<Sensor> = mutableStateListOf()
+)
+
 class State {
 
     companion object {
-        val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = MutableStateFlow(mutableStateListOf())
-        val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> =
-            MutableStateFlow(mutableStateListOf())
-        val _fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = MutableStateFlow(mutableStateListOf())
-        val _tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = MutableStateFlow(mutableStateListOf())
+        val controlItemList: SnapshotStateList<ControlItem> = mutableStateListOf()
+        val behaviorItemList: SnapshotStateList<BehaviorItem> = mutableStateListOf()
+        val fanItemList: SnapshotStateList<SensorItem> = mutableStateListOf()
+        val tempItemList: SnapshotStateList<SensorItem> = mutableStateListOf()
 
-        val _fanList: MutableStateFlow<SnapshotStateList<Sensor>> = MutableStateFlow(mutableStateListOf())
-        val _tempList: MutableStateFlow<SnapshotStateList<Sensor>> = MutableStateFlow(mutableStateListOf())
+        val sensorLists: SensorLists = SensorLists()
 
-        val _addItemExpanded: MutableStateFlow<MutableState<Boolean>> = MutableStateFlow(mutableStateOf(false))
-        val _editModeActivated: MutableStateFlow<MutableState<Boolean>> = MutableStateFlow(mutableStateOf(false))
+        val addItemExpanded: MutableStateFlow<Boolean> = MutableStateFlow(false)
+        val editModeActivated: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-        val _controlsChange: MutableStateFlow<Boolean> = MutableStateFlow(false)
+        val controlsChange: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-
-        val _settings: MutableStateFlow<SettingsModel> = MutableStateFlow(SettingsModel())
+        val settings: MutableStateFlow<SettingsModel> = MutableStateFlow(SettingsModel())
     }
 }
 
