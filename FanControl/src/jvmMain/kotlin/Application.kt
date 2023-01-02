@@ -15,11 +15,19 @@ class Application(
 ) {
 
     private var jobUpdate: Job? = null
+    private val externalManager = ExternalManager()
 
     fun onStart() {
-        jobUpdate = CoroutineScope(Dispatchers.IO).launch {
-            startUpdate()
+        val configId = settings.value.configId
+        externalManager.start()
+        when (configId) {
+            null -> initSensor()
+            else -> {
+                controlsChange.value = true
+                Configuration.loadConfig(configId)
+            }
         }
+        jobUpdate = CoroutineScope(Dispatchers.IO).launch { startUpdate() }
     }
 
 
@@ -34,28 +42,14 @@ class Application(
 
 
     private suspend fun startUpdate() {
-        val configId = settings.value.configId
 
-        coroutineScope {
-            val externalManager = ExternalManager().apply {
-                start()
-            }
-            when (configId) {
-                null -> initSensor()
-                else -> {
-                    controlsChange.value = true
-                    Configuration.loadConfig(configId)
-                }
-            }
+        val logic = Logic(
+            externalManager = externalManager
+        )
 
-            val logic = Logic(
-                externalManager = externalManager
-            )
-
-            while (!updateShouldStop) {
-                logic.update()
-            }
-            externalManager.stop()
+        while (!updateShouldStop) {
+            logic.update()
         }
+        externalManager.stop()
     }
 }

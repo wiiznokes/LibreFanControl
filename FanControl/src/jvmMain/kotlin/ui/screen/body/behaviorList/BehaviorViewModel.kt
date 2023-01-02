@@ -20,6 +20,7 @@ class BehaviorViewModel(
 
         val idRemoved = behaviorItemList[index].itemId
 
+        var controlHasChangeMarker = false
         // update control if it was linked with this behavior
         filterWithPreviousIndex(
             list = controlItemList,
@@ -27,12 +28,13 @@ class BehaviorViewModel(
                 it.behaviorId == idRemoved
             }
         ) { controlIndex, _ ->
-
             controlItemList[controlIndex] = controlItemList[controlIndex].copy(
                 behaviorId = null
             )
+            controlHasChangeMarker = true
         }
-        controlsChange.value = true
+        if (controlHasChangeMarker)
+            controlsChange.value = true
         behaviorItemList.removeAt(index)
     }
 

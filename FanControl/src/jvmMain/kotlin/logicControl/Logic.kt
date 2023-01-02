@@ -9,15 +9,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import model.ItemType
 import model.SettingsModel
-import model.UnspecifiedTypeException
-import model.hardware.Sensor
 import model.item.ControlItem
-import model.item.behavior.BehaviorItem
-import model.item.behavior.FlatBehavior
-import model.item.behavior.LinearBehavior
-import utils.filterWithPreviousIndex
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -42,9 +35,7 @@ data class SetControlModel(
  * set.
  */
 class Logic(
-    private val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList,
     private val controlItemList: SnapshotStateList<ControlItem> = State.controlItemList,
-    private val behaviorItemList: SnapshotStateList<BehaviorItem> = State.behaviorItemList,
     private val controlsChange: MutableStateFlow<Boolean> = State.controlsChange,
     private val settings: StateFlow<SettingsModel> = State.settings.asStateFlow(),
     private val externalManager: ExternalManager
@@ -52,6 +43,7 @@ class Logic(
 
     private var shouldDelay: Boolean = true
     private val controlsHasChangeMarker = mutableStateOf(controlsChange.value)
+    private val provideSetControlList = ProvideSetControlList()
     suspend fun update() {
         /*
             we catch exception because another thread can modify
@@ -61,7 +53,7 @@ class Logic(
         */
 
         val setControlList: List<SetControlModel>? = try {
-            getSetControlList()
+            provideSetControlList.getSetControlList(controlsHasChangeMarker)
         } catch (e: Exception) {
             if (e !is NullPointerException) e.printStackTrace()
             else println("null pointer exception in logic")
@@ -106,6 +98,7 @@ class Logic(
      * @return shouldDelay
      */
     private fun setControlLogic(
+
         setControlList: List<SetControlModel>
     ): Boolean {
 
@@ -144,117 +137,12 @@ class Logic(
         }
         return shouldDelay
     }
-
-
-    private fun getSetControlList(): List<SetControlModel> {
-
-        val finalSetControlList = mutableListOf<SetControlModel>()
-
-        if (controlsHasChangeMarker.value) {
-            handleControlChange(finalSetControlList)
-        } else {
-            handleControlShouldBeSet(finalSetControlList)
-        }
-
-        return finalSetControlList
-    }
-
-    private fun handleControlChange(setControlList: MutableList<SetControlModel>) {
-
-        controlItemList.forEachIndexed { index, control ->
-
-            setControlList.add(
-                if (control.isAuto || control.behaviorId == null) {
-                    SetControlModel(
-                        libIndex = control.libIndex,
-                        isAuto = true,
-                        index = index,
-                        controlShouldBeSet = false
-                    )
-                } else {
-                    val res = findValueAndType(control)
-
-                    val controlShouldBeSet = when (res.second) {
-                        ItemType.BehaviorType.I_B_FLAT -> false
-                        else -> true
-                    }
-
-                    SetControlModel(
-                        libIndex = control.libIndex,
-                        isAuto = res.first == null,
-                        value = res.first,
-                        index = index,
-                        controlShouldBeSet = controlShouldBeSet
-                    )
-                }
-            )
-        }
-    }
-
-    private fun handleControlShouldBeSet(setControlList: MutableList<SetControlModel>) {
-
-        filterWithPreviousIndex(
-            list = controlItemList,
-            predicate = { it.controlShouldBeSet }
-        ) label@{ index, control ->
-            /*
-            continue keyword of forEach loop
-            we only return from the lambda expression
-            (control here)
-            */
-            val value = findValue(control) ?: return@label
-
-            setControlList.add(
-                SetControlModel(
-                    libIndex = control.libIndex,
-                    isAuto = false,
-                    value = value,
-                    index = index,
-                    controlShouldBeSet = true
-                )
-            )
-        }
-    }
-
-
-    private fun findValue(control: ControlItem): Int? {
-        val behavior = behaviorItemList.find { behavior ->
-            behavior.itemId == control.behaviorId
-        }!!
-
-        return when (behavior.type) {
-            ItemType.BehaviorType.I_B_FLAT -> {
-                (behavior.extension as FlatBehavior).value
-            }
-
-            ItemType.BehaviorType.I_B_LINEAR -> valueLinear(behavior.extension as LinearBehavior, tempList)
-
-            ItemType.BehaviorType.I_B_TARGET -> TODO()
-            else -> throw UnspecifiedTypeException()
-        }
-    }
-
-    /**
-     * use to know if we should reset control at each iteration
-     * @return Pair of (value, Behavior Type)
-     */
-    private fun findValueAndType(control: ControlItem): Pair<Int?, ItemType.BehaviorType> {
-        val behavior = behaviorItemList.find { behavior ->
-            behavior.itemId == control.behaviorId
-        }!!
-
-        return when (behavior.type) {
-            ItemType.BehaviorType.I_B_FLAT -> {
-                Pair((behavior.extension as FlatBehavior).value, ItemType.BehaviorType.I_B_FLAT)
-            }
-
-            ItemType.BehaviorType.I_B_LINEAR -> Pair(
-                valueLinear(behavior.extension as LinearBehavior, tempList),
-                ItemType.BehaviorType.I_B_LINEAR
-            )
-
-            ItemType.BehaviorType.I_B_TARGET -> TODO()
-            else -> throw UnspecifiedTypeException()
-        }
-    }
 }
+
+
+fun isControlShouldBeSet(control: ControlItem): Boolean =
+    control.isAuto || control.behaviorId == null
+
+
+fun isControlChange(previousControl: ControlItem, newControl: ControlItem): Boolean =
+    isControlShouldBeSet(previousControl) != isControlShouldBeSet(newControl)

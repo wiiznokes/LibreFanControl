@@ -3,6 +3,7 @@ package ui.screen.body.controlList
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
+import logicControl.isControlChange
 import model.item.ControlItem
 import model.item.behavior.BehaviorItem
 import utils.checkNameTaken
@@ -12,18 +13,8 @@ class ControlViewModel(
     val behaviorItemList: SnapshotStateList<BehaviorItem> = State.behaviorItemList,
     val controlsChange: MutableStateFlow<Boolean> = State.controlsChange
 ) {
-    private fun updateSafely(operation: () -> Unit): Boolean {
-        if (controlsChange.value)
-            return false
-
-        operation()
-
-        controlsChange.value = true
-        return true
-    }
-
     fun remove(index: Int) {
-        updateSafely {
+        updateSafely(index) {
             controlItemList[index] = controlItemList[index].copy(
                 isAuto = true,
                 visible = false
@@ -32,7 +23,7 @@ class ControlViewModel(
     }
 
     fun setBehavior(index: Int, behaviorId: Long?) {
-        updateSafely {
+        updateSafely(index) {
             controlItemList[index] = controlItemList[index].copy(
                 behaviorId = behaviorId
             )
@@ -40,7 +31,7 @@ class ControlViewModel(
     }
 
     fun onSwitchClick(checked: Boolean, index: Int) {
-        updateSafely {
+        updateSafely(index) {
             controlItemList[index] = controlItemList[index].copy(
                 isAuto = !checked
             )
@@ -59,5 +50,15 @@ class ControlViewModel(
         controlItemList[index] = controlItemList[index].copy(
             name = name
         )
+    }
+
+    private fun updateSafely(index: Int, operation: () -> Unit) {
+        if (controlsChange.value)
+            return
+
+        val previousControl = controlItemList[index].copy()
+        operation()
+        if (isControlChange(previousControl, controlItemList[index]))
+            controlsChange.value = true
     }
 }
