@@ -20,7 +20,6 @@ import ui.utils.Resources
 fun baseControlBody(
     onEditClick: () -> Unit,
     onNameChange: (String) -> Unit,
-    editModeActivated: Boolean,
 
     onSwitchClick: (Boolean) -> Unit,
     value: String,
@@ -34,7 +33,6 @@ fun baseControlBody(
         iconPainter = Resources.getIcon("alternate_email"),
         iconContentDescription = Resources.getString("ct/control"),
         onNameChange = onNameChange,
-        editModeActivated = editModeActivated,
         onEditClick = onEditClick,
         item = control
     ) {

@@ -2,10 +2,6 @@ package ui.screen.body.behaviorList.linear
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import model.hardware.Sensor
 import model.item.behavior.BehaviorItem
 import model.item.behavior.LinearBehavior
@@ -30,141 +26,69 @@ private fun getFinalValue(value: Int): Int =
 
 
 class LinearBehaviorViewModel(
-    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
-    val tempList: StateFlow<SnapshotStateList<Sensor>> = State._tempList.asStateFlow()
+    private val behaviorItemList: SnapshotStateList<BehaviorItem> = State.behaviorItemList,
+    val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList
 ) {
 
 
     fun setTemp(index: Int, tempSensorId: Long?) {
-        _behaviorItemList.update {
-            it[index] = it[index].copy(
-                extension = (it[index].extension as LinearBehavior).copy(
-                    tempSensorId = tempSensorId
-                )
+        behaviorItemList[index] = behaviorItemList[index].copy(
+            extension = (behaviorItemList[index].extension as LinearBehavior).copy(
+                tempSensorId = tempSensorId
             )
-            it
-        }
+        )
     }
 
     fun increase(index: Int, type: LinearParams): String {
-        var finalValue = 0
-
-        _behaviorItemList.update {
-            it[index] = it[index].copy(
-                extension = with(it[index].extension as LinearBehavior) {
-                    when (type) {
-                        LinearParams.MIN_TEMP -> {
-                            finalValue = getFinalValue(minTemp + 1)
-                            copy(
-                                minTemp = finalValue
-                            )
-                        }
-
-                        LinearParams.MAX_TEMP -> {
-                            finalValue = getFinalValue(maxTemp + 1)
-                            copy(
-                                maxTemp = finalValue
-                            )
-                        }
-
-                        LinearParams.MIN_FAN_SPEED -> {
-                            finalValue = getFinalValue(minFanSpeed + 1)
-                            copy(
-                                minFanSpeed = finalValue
-                            )
-                        }
-
-                        LinearParams.MAX_FAN_SPEED -> {
-                            finalValue = getFinalValue(maxFanSpeed + 1)
-                            copy(
-                                maxFanSpeed = finalValue
-                            )
-                        }
-                    }
-                }
-            )
-            it
+        return updateValue(index, type) {
+            it + 1
         }
-        return finalValue.toString()
     }
 
     fun decrease(index: Int, type: LinearParams): String {
-        var finalValue = 0
-
-        _behaviorItemList.update {
-            it[index] = it[index].copy(
-                extension = with(it[index].extension as LinearBehavior) {
-                    when (type) {
-                        LinearParams.MIN_TEMP -> {
-                            finalValue = getFinalValue(minTemp - 1)
-                            copy(
-                                minTemp = finalValue
-                            )
-                        }
-
-                        LinearParams.MAX_TEMP -> {
-                            finalValue = getFinalValue(maxTemp - 1)
-                            copy(
-                                maxTemp = finalValue
-                            )
-                        }
-
-                        LinearParams.MIN_FAN_SPEED -> {
-                            finalValue = getFinalValue(minFanSpeed - 1)
-                            copy(
-                                minFanSpeed = finalValue
-                            )
-                        }
-
-                        LinearParams.MAX_FAN_SPEED -> {
-                            finalValue = getFinalValue(maxFanSpeed - 1)
-                            copy(
-                                maxFanSpeed = finalValue
-                            )
-                        }
-                    }
-                }
-            )
-            it
+        return updateValue(index, type) {
+            it - 1
         }
-        return finalValue.toString()
     }
 
     fun onChange(index: Int, value: Int, type: LinearParams): String {
-        val finalValue = getFinalValue(value)
-
-        _behaviorItemList.update {
-            it[index] = it[index].copy(
-                extension = with(it[index].extension as LinearBehavior) {
-                    when (type) {
-                        LinearParams.MIN_TEMP -> {
-                            copy(
-                                minTemp = finalValue
-                            )
-                        }
-
-                        LinearParams.MAX_TEMP -> {
-                            copy(
-                                maxTemp = finalValue
-                            )
-                        }
-
-                        LinearParams.MIN_FAN_SPEED -> {
-                            copy(
-                                minFanSpeed = finalValue
-                            )
-                        }
-
-                        LinearParams.MAX_FAN_SPEED -> {
-                            copy(
-                                maxFanSpeed = finalValue
-                            )
-                        }
-                    }
-                }
-            )
-            it
+        return updateValue(index, type) {
+            value
         }
+    }
+
+
+    /**
+     * @param value used to make operation on the previous value before calculation of the final value
+     */
+    private fun updateValue(index: Int, type: LinearParams, value: (Int) -> Int): String {
+        val finalValue: Int
+        val extension = with(behaviorItemList[index].extension as LinearBehavior) {
+            when (type) {
+                LinearParams.MIN_TEMP -> {
+                    finalValue = getFinalValue(value(minTemp))
+                    copy(minTemp = finalValue)
+                }
+
+                LinearParams.MAX_TEMP -> {
+                    finalValue = getFinalValue(value(maxTemp))
+                    copy(maxTemp = finalValue)
+                }
+
+                LinearParams.MIN_FAN_SPEED -> {
+                    finalValue = getFinalValue(value(minFanSpeed))
+                    copy(minFanSpeed = finalValue)
+                }
+
+                LinearParams.MAX_FAN_SPEED -> {
+                    finalValue = getFinalValue(value(maxFanSpeed))
+                    copy(maxFanSpeed = finalValue)
+                }
+            }
+        }
+        behaviorItemList[index] = behaviorItemList[index].copy(
+            extension = extension
+        )
         return finalValue.toString()
     }
 }

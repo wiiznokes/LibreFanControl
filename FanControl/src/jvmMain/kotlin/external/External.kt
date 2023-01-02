@@ -1,16 +1,15 @@
 package external
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.flow.MutableStateFlow
 import model.hardware.Sensor
 import model.item.ControlItem
 
 interface External {
 
     fun start(
-        fans: MutableStateFlow<SnapshotStateList<Sensor>>,
-        temps: MutableStateFlow<SnapshotStateList<Sensor>>,
-        controls: MutableStateFlow<SnapshotStateList<ControlItem>>
+        fans: SnapshotStateList<Sensor>,
+        temps: SnapshotStateList<Sensor>,
+        controls: SnapshotStateList<ControlItem>
     ) {
         getFan(fans)
         getTemp(temps)
@@ -19,22 +18,22 @@ interface External {
 
     fun stop()
 
-    fun getFan(fans: MutableStateFlow<SnapshotStateList<Sensor>>)
+    fun getFan(fans: SnapshotStateList<Sensor>)
 
-    fun getTemp(temps: MutableStateFlow<SnapshotStateList<Sensor>>)
+    fun getTemp(temps: SnapshotStateList<Sensor>)
 
-    fun getControl(controls: MutableStateFlow<SnapshotStateList<ControlItem>>)
+    fun getControl(controls: SnapshotStateList<ControlItem>)
 
     fun updateFan(
-        fans: MutableStateFlow<SnapshotStateList<Sensor>>
+        fans: SnapshotStateList<Sensor>
     )
 
     fun updateTemp(
-        temps: MutableStateFlow<SnapshotStateList<Sensor>>
+        temps: SnapshotStateList<Sensor>
     )
 
     fun updateControl(
-        controls: MutableStateFlow<SnapshotStateList<ControlItem>>
+        controls: SnapshotStateList<ControlItem>
     )
 
     fun setControl(libIndex: Int, isAuto: Boolean, value: Int?)

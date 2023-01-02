@@ -8,7 +8,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -20,10 +20,7 @@ import ui.screen.body.tempList.tempList
 import ui.utils.Resources
 
 @Composable
-fun body(
-    editModeActivated: MutableState<Boolean>,
-    addItemExpanded: MutableState<Boolean>
-) {
+fun body() {
 
     val viewModel = BodyViewModel()
 
@@ -42,25 +39,27 @@ fun body(
                 itemsList(
                     title = Resources.getString("title/control")
                 ) {
-                    controlList(editModeActivated.value)
+                    controlList()
                 }
                 itemsList(
                     title = Resources.getString("title/behavior")
                 ) {
-                    behaviorList(editModeActivated.value)
+                    behaviorList()
                 }
                 itemsList(
                     title = Resources.getString("title/fan")
                 ) {
-                    fanList(editModeActivated.value)
+                    fanList()
                 }
                 itemsList(
                     title = Resources.getString("title/temp")
                 ) {
-                    tempList(editModeActivated.value)
+                    tempList()
                 }
             }
         }
+
+        val addItemExpanded = viewModel.addItemExpanded.collectAsState()
 
         // add button
         if (!addItemExpanded.value) {

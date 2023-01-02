@@ -2,34 +2,26 @@ package ui.screen.body.controlList
 
 
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import model.item.ControlItem
 import ui.component.baseControlBody
 import ui.utils.Resources
+import utils.filterWithPreviousIndexComposable
 
 
 private val viewModel: ControlViewModel = ControlViewModel()
 
 
-fun LazyListScope.controlList(
-    editModeActivated: Boolean
-) {
+fun LazyListScope.controlList() {
 
-
-    val previousIndexList = mutableListOf<Int>()
-
-    itemsIndexed(viewModel.controlItemList.value.filterIndexed { index, controlItem ->
-        if (controlItem.visible)
-            previousIndexList.add(index)
-        controlItem.visible
-    }) { index, it ->
-
+    filterWithPreviousIndexComposable(
+        list = viewModel.controlItemList,
+        predicate = { it.visible }
+    ) { index, control ->
         control(
-            control = it,
-            index = previousIndexList[index],
-            editModeActivated = editModeActivated
+            control = control,
+            index = index
         )
     }
 }
@@ -38,12 +30,10 @@ fun LazyListScope.controlList(
 @Composable
 fun control(
     control: ControlItem,
-    index: Int,
-    editModeActivated: Boolean
+    index: Int
 ) {
     baseControlBody(
         onNameChange = { viewModel.setName(it, index) },
-        editModeActivated = editModeActivated,
         onEditClick = {
             viewModel.remove(
                 index = index
@@ -58,12 +48,12 @@ fun control(
         },
         value = "${control.value} ${Resources.getString("unity/percent")}",
         fanValue = "",
-        behaviorItemList = viewModel.behaviorItemList.value,
+        behaviorItemList = viewModel.behaviorItemList,
         onBehaviorChange = {
             viewModel.setBehavior(index, it)
         },
         control = control,
-        enabled = !viewModel.controlChange.collectAsState().value
+        enabled = !viewModel.controlsChange.collectAsState().value
     )
 }
 

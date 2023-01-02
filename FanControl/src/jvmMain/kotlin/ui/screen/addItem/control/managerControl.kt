@@ -1,34 +1,25 @@
 package ui.screen.addItem.control
 
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
 import model.item.ControlItem
 import ui.component.baseControlAddItem
 import ui.utils.Resources
+import utils.filterWithPreviousIndexComposable
 
 
 val viewModel = AddControlViewModel()
 
 
-@Composable
-fun managerAddControl() {
-    LazyColumn {
-
-        val previousIndexList = mutableListOf<Int>()
-
-        itemsIndexed(viewModel.controlItemList.value.filterIndexed { index, controlItem ->
-            if (!controlItem.visible)
-                previousIndexList.add(index)
-            !controlItem.visible
-        }) { index, it ->
-
-            controlAddItem(
-                control = it,
-                index = previousIndexList[index]
-            )
-
-        }
+fun LazyListScope.managerAddControl() {
+    filterWithPreviousIndexComposable(
+        list = viewModel.controlItemList,
+        predicate = { !it.visible }
+    ) { index, control ->
+        controlAddItem(
+            control = control,
+            index = index
+        )
     }
 }
 

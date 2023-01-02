@@ -3,80 +3,61 @@ package ui.screen.body.controlList
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import model.item.ControlItem
 import model.item.behavior.BehaviorItem
 import utils.checkNameTaken
 
 class ControlViewModel(
-    private val _controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
-    val behaviorItemList: StateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList.asStateFlow(),
-    private val _controlsChange: MutableStateFlow<Boolean> = State._controlsChange
+    val controlItemList: SnapshotStateList<ControlItem> = State.controlItemList,
+    val behaviorItemList: SnapshotStateList<BehaviorItem> = State.behaviorItemList,
+    val controlsChange: MutableStateFlow<Boolean> = State.controlsChange
 ) {
-    val controlItemList = _controlItemList.asStateFlow()
-    val controlChange = _controlsChange.asStateFlow()
-
-    private fun updateSafely(index: Int, isAuto: Boolean, behaviorId: Long?): Boolean {
-        if (controlChange.value)
+    private fun updateSafely(operation: () -> Unit): Boolean {
+        if (controlsChange.value)
             return false
 
-        _controlItemList.update {
-            it[index].isAuto = isAuto
-            it[index].behaviorId = behaviorId
-            it
-        }
-        _controlsChange.value = true
-        println("controlsChange = true, in control View Model")
+        operation()
 
+        controlsChange.value = true
         return true
     }
 
     fun remove(index: Int) {
-        if (updateSafely(
-                index = index,
+        updateSafely {
+            controlItemList[index] = controlItemList[index].copy(
                 isAuto = true,
-                behaviorId = controlItemList.value[index].behaviorId
+                visible = false
             )
-        ) {
-            _controlItemList.update {
-                it[index].visible = false
-                it
-            }
         }
     }
 
     fun setBehavior(index: Int, behaviorId: Long?) {
-        updateSafely(
-            index = index,
-            isAuto = controlItemList.value[index].isAuto,
-            behaviorId = behaviorId
-        )
+        updateSafely {
+            controlItemList[index] = controlItemList[index].copy(
+                behaviorId = behaviorId
+            )
+        }
     }
 
     fun onSwitchClick(checked: Boolean, index: Int) {
-        updateSafely(
-            index = index,
-            isAuto = !checked,
-            behaviorId = controlItemList.value[index].behaviorId
-        )
+        updateSafely {
+            controlItemList[index] = controlItemList[index].copy(
+                isAuto = !checked
+            )
+        }
     }
 
 
     fun setName(name: String, index: Int) {
         checkNameTaken(
-            names = _controlItemList.value.map { item ->
+            names = controlItemList.map { item ->
                 item.name
             },
             name = name,
             index = index
         )
-        _controlItemList.update {
-            it[index] = it[index].copy(
-                name = name
-            )
-            it
-        }
+        controlItemList[index] = controlItemList[index].copy(
+            name = name
+        )
     }
 }

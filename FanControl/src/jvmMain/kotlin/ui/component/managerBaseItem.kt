@@ -9,10 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,7 +19,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
-import kotlinx.coroutines.flow.asStateFlow
 import model.ItemType
 import model.item.BaseItem
 import ui.utils.Resources
@@ -35,14 +31,12 @@ fun baseItemBody(
     item: BaseItem,
     onEditClick: () -> Unit,
     onNameChange: (String) -> Unit,
-    editModeActivated: Boolean,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    // id use to update value witch use remember
-    val idConfig = State._settings.asStateFlow().value.configId
+    val configId = State.settings.collectAsState().value.configId
 
     val text = remember(
-        item.itemId, idConfig
+        item.itemId, configId
     ) {
         mutableStateOf(item.name)
     }
@@ -59,7 +53,7 @@ fun baseItemBody(
                 tint = Color.Red
             )
         },
-        editModeActivated = editModeActivated,
+        editModeActivated = State.editModeActivated.collectAsState().value,
         onEditClick = onEditClick,
         contentName = {
             managerNameOutlinedTextField(
@@ -68,10 +62,8 @@ fun baseItemBody(
                     .width(IntrinsicSize.Min)
                     .height(50.dp),
                 text = text,
-                ids = Pair(item.itemId, idConfig.value),
-                onValueChange = {
-                    onNameChange(it)
-                },
+                ids = Pair(item.itemId, configId),
+                onValueChange = { onNameChange(it) },
                 label = Resources.getString("label/name")
             )
         },

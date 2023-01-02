@@ -1,8 +1,6 @@
 package configuration.read
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import model.ItemType
 import model.UnspecifiedTypeException
 import model.getItemType
@@ -16,32 +14,30 @@ import org.json.JSONObject
 import utils.getJsonValue
 
 class ReadItem {
-    fun getControls(controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>>, array: JSONArray) {
-        controlItemList.update {
-            for (i in 0 until array.length()) {
-                val obj = array[i] as JSONObject
+    fun getControls(controlItemList: SnapshotStateList<ControlItem>, array: JSONArray) {
 
-                val index = controlItemList.value.indexOfFirst { control ->
-                    control.libId == getJsonValue("libId", obj)
-                }
+        for (i in 0 until array.length()) {
+            val obj = array[i] as JSONObject
 
-                val isAuto: Boolean = getJsonValue("isAuto", obj)!!
-
-                it[index] = it[index].copy(
-                    name = getJsonValue("name", obj)!!,
-                    itemId = getJsonValue("itemId", obj)!!,
-                    type = getItemType(getJsonValue("type", obj)!!) as ItemType.ControlType,
-                    visible = getJsonValue("visible", obj)!!,
-                    behaviorId = getJsonValue("behaviorId", obj),
-                    isAuto = isAuto
-                )
+            val index = controlItemList.indexOfFirst { control ->
+                control.libId == getJsonValue("libId", obj)
             }
-            it
+
+            val isAuto: Boolean = getJsonValue("isAuto", obj)!!
+
+            controlItemList[index] = controlItemList[index].copy(
+                name = getJsonValue("name", obj)!!,
+                itemId = getJsonValue("itemId", obj)!!,
+                type = getItemType(getJsonValue("type", obj)!!) as ItemType.ControlType,
+                visible = getJsonValue("visible", obj)!!,
+                behaviorId = getJsonValue("behaviorId", obj),
+                isAuto = isAuto
+            )
         }
     }
 
     fun getBehaviors(
-        behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>>,
+        behaviorItemList: SnapshotStateList<BehaviorItem>,
         array: JSONArray
     ) {
         for (i in 0 until array.length()) {
@@ -49,43 +45,39 @@ class ReadItem {
 
             val type = getItemType(getJsonValue("type", obj)!!) as ItemType.BehaviorType
 
-            behaviorItemList.update {
-                it.add(
-                    BehaviorItem(
-                        name = getJsonValue("name", obj)!!,
-                        itemId = getJsonValue("itemId", obj)!!,
-                        type = type,
-                        extension = when (type) {
-                            ItemType.BehaviorType.I_B_FLAT -> getFlatBehavior(obj)
-                            ItemType.BehaviorType.I_B_LINEAR -> getLinearBehavior(obj)
-                            ItemType.BehaviorType.I_B_TARGET -> TODO()
-                            ItemType.BehaviorType.I_B_UNSPECIFIED -> throw UnspecifiedTypeException()
-                        }
-                    )
+
+            behaviorItemList.add(
+                BehaviorItem(
+                    name = getJsonValue("name", obj)!!,
+                    itemId = getJsonValue("itemId", obj)!!,
+                    type = type,
+                    extension = when (type) {
+                        ItemType.BehaviorType.I_B_FLAT -> getFlatBehavior(obj)
+                        ItemType.BehaviorType.I_B_LINEAR -> getLinearBehavior(obj)
+                        ItemType.BehaviorType.I_B_TARGET -> TODO()
+                        ItemType.BehaviorType.I_B_UNSPECIFIED -> throw UnspecifiedTypeException()
+                    }
                 )
-                it
-            }
+            )
+
         }
     }
 
     fun getSensors(
-        sensorItemList: MutableStateFlow<SnapshotStateList<SensorItem>>,
+        sensorItemList: SnapshotStateList<SensorItem>,
         array: JSONArray
     ) {
         for (i in 0 until array.length()) {
             val obj = array[i] as JSONObject
 
-            sensorItemList.update {
-                it.add(
-                    SensorItem(
-                        name = getJsonValue("name", obj)!!,
-                        itemId = getJsonValue("itemId", obj)!!,
-                        type = getItemType(getJsonValue("type", obj)!!) as ItemType.SensorType,
-                        sensorId = getJsonValue("sensorId", obj),
-                    )
+            sensorItemList.add(
+                SensorItem(
+                    name = getJsonValue("name", obj)!!,
+                    itemId = getJsonValue("itemId", obj)!!,
+                    type = getItemType(getJsonValue("type", obj)!!) as ItemType.SensorType,
+                    sensorId = getJsonValue("sensorId", obj),
                 )
-                it
-            }
+            )
         }
     }
 

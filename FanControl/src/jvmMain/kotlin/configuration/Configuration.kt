@@ -1,22 +1,18 @@
 package configuration
 
 
-import State
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import State.Companion.behaviorItemList
+import State.Companion.controlItemList
+import State.Companion.fanItemList
+import State.Companion.sensorLists
+import State.Companion.tempItemList
 import configuration.read.ReadHardware
 import configuration.read.ReadItem
 import configuration.write.WriteHardware
 import configuration.write.WriteItem
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import model.ConfigurationModel
 import model.HardwareType
 import model.ItemType
-import model.hardware.BaseHardware
-import model.hardware.Sensor
-import model.item.ControlItem
-import model.item.SensorItem
-import model.item.behavior.BehaviorItem
 import org.json.JSONObject
 import org.json.JSONTokener
 import org.json.JSONWriter
@@ -34,15 +30,11 @@ class Configuration {
         private val writeHardware = WriteHardware()
         private val writeItem = WriteItem()
 
+        /**
+         * load configuration
+         */
         fun loadConfig(
             configId: Long,
-            controlItemList: MutableStateFlow<SnapshotStateList<ControlItem>> = State._controlItemList,
-            behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList,
-            fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
-            tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList,
-
-            fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
-            tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList
         ) {
             val file = getFile(configId)
             val string = file.bufferedReader().readText()
@@ -54,36 +46,27 @@ class Configuration {
             )
 
             readHardware.getSensors(
-                sensorList = fanList,
+                sensorList = sensorLists.fanList,
                 array = obj.getJSONArray(HardwareType.SensorType.H_S_FAN.toString())
             )
             readHardware.getSensors(
-                sensorList = tempList,
+                sensorList = sensorLists.tempList,
                 array = obj.getJSONArray(HardwareType.SensorType.H_S_TEMP.toString())
             )
 
-            behaviorItemList.update {
-                it.clear()
-                it
-            }
+            behaviorItemList.clear()
             readItem.getBehaviors(
                 behaviorItemList = behaviorItemList,
                 array = obj.getJSONArray(ItemType.BehaviorType.I_B_UNSPECIFIED.toString())
             )
 
-            fanItemList.update {
-                it.clear()
-                it
-            }
+            fanItemList.clear()
             readItem.getSensors(
                 sensorItemList = fanItemList,
                 array = obj.getJSONArray(ItemType.SensorType.I_S_FAN.toString())
             )
 
-            tempItemList.update {
-                it.clear()
-                it
-            }
+            tempItemList.clear()
             readItem.getSensors(
                 sensorItemList = tempItemList,
                 array = obj.getJSONArray(ItemType.SensorType.I_S_TEMP.toString())
@@ -98,13 +81,6 @@ class Configuration {
 
         fun saveConfig(
             configuration: ConfigurationModel,
-            controlItemList: List<ControlItem>,
-            behaviorItemList: List<BehaviorItem>,
-            fanItemList: List<SensorItem>,
-            tempItemList: List<SensorItem>,
-
-            fanList: List<BaseHardware>,
-            tempList: List<BaseHardware>
         ) {
             val str = StringBuilder()
             val writer = JSONWriter(str)
@@ -116,12 +92,12 @@ class Configuration {
             writer.value(configuration.id)
 
             writeHardware.setHardware(
-                itemList = fanList,
+                itemList = sensorLists.fanList,
                 writer = writer,
                 type = HardwareType.SensorType.H_S_FAN
             )
             writeHardware.setHardware(
-                itemList = tempList,
+                itemList = sensorLists.tempList,
                 writer = writer,
                 type = HardwareType.SensorType.H_S_TEMP
             )

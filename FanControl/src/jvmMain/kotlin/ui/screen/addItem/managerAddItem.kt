@@ -2,6 +2,7 @@ package ui.screen.addItem
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -37,10 +38,12 @@ fun addItem(
             color = MaterialTheme.colorScheme.onSurface
         )
 
-        when (currentChoiceType.value) {
-            ChoiceType.CONTROL -> managerAddControl()
-            ChoiceType.BEHAVIOR -> managerAddBehavior()
-            ChoiceType.SENSOR -> managerAddSensor()
+        LazyColumn {
+            when (currentChoiceType.value) {
+                ChoiceType.CONTROL -> managerAddControl()
+                ChoiceType.BEHAVIOR -> managerAddBehavior()
+                ChoiceType.SENSOR -> managerAddSensor()
+            }
         }
     }
 }

@@ -1,11 +1,14 @@
 package external
 
+import SensorLists
+import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.flow.MutableStateFlow
-import model.hardware.Sensor
 import model.item.ControlItem
 
-class ExternalManager {
+class ExternalManager(
+    private val controlItemList: SnapshotStateList<ControlItem> = State.controlItemList,
+    private val sensorLists: SensorLists = State.sensorLists
+) {
 
     private val external: External = when (getOS()) {
         OS.WINDOWS -> ExternalWindows()
@@ -13,12 +16,11 @@ class ExternalManager {
         OS.UNSUPPORTED -> throw Exception("unsupported OS")
     }
 
-    fun start(
-        fans: MutableStateFlow<SnapshotStateList<Sensor>>,
-        temps: MutableStateFlow<SnapshotStateList<Sensor>>,
-        controls: MutableStateFlow<SnapshotStateList<ControlItem>>
-    ) {
-        external.start(fans, temps, controls)
+    /**
+     * load library and fetch sensors
+     */
+    fun start() {
+        external.start(sensorLists.fanList, sensorLists.tempList, controlItemList)
         println("start lib : success")
     }
 
@@ -27,40 +29,19 @@ class ExternalManager {
         println("stop lib : success")
     }
 
-    fun getFan(fans: MutableStateFlow<SnapshotStateList<Sensor>>) {
-        external.getFan(fans)
-        println("getFan : success")
-    }
-
-    fun getTemp(temps: MutableStateFlow<SnapshotStateList<Sensor>>) {
-        external.getTemp(temps)
-        println("getTemp : success")
-    }
-
-    fun getControl(controls: MutableStateFlow<SnapshotStateList<ControlItem>>) {
-        external.getControl(controls)
-        println("getControl : success")
-    }
-
-    fun updateFan(
-        fans: MutableStateFlow<SnapshotStateList<Sensor>>
-    ) {
-        external.updateFan(fans)
+    fun updateFan() {
+        external.updateFan(sensorLists.fanList)
         //println("updateFan : success")
 
     }
 
-    fun updateTemp(
-        temps: MutableStateFlow<SnapshotStateList<Sensor>>
-    ) {
-        external.updateTemp(temps)
+    fun updateTemp() {
+        external.updateTemp(sensorLists.tempList)
         //println("updateTemp : success")
     }
 
-    fun updateControl(
-        controls: MutableStateFlow<SnapshotStateList<ControlItem>>
-    ) {
-        external.updateControl(controls)
+    fun updateControl() {
+        external.updateControl(controlItemList)
         //println("updateControl : success")
     }
 

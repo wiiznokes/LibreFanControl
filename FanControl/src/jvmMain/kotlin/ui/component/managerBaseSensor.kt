@@ -15,7 +15,6 @@ fun baseSensorBody(
     iconPainter: Painter,
     iconContentDescription: String,
     onNameChange: (String) -> Unit,
-    editModeActivated: Boolean,
 
     sensorName: String?,
     sensorValue: String,
@@ -28,7 +27,6 @@ fun baseSensorBody(
         iconPainter = iconPainter,
         iconContentDescription = iconContentDescription,
         onNameChange = onNameChange,
-        editModeActivated = editModeActivated,
         onEditClick = onEditClick,
         item = sensorItem
     ) {

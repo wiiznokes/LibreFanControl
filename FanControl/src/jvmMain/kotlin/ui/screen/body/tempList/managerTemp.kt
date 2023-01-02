@@ -10,14 +10,11 @@ import ui.utils.Resources
 
 private val viewModel: TempViewModel = TempViewModel()
 
-fun LazyListScope.tempList(
-    editModeActivated: Boolean
-) {
-    itemsIndexed(viewModel.tempItemList.value) { index, temp ->
+fun LazyListScope.tempList() {
+    itemsIndexed(viewModel.tempItemList) { index, temp ->
         temp(
             sensorItem = temp,
-            index = index,
-            editModeActivated = editModeActivated
+            index = index
         )
     }
 }
@@ -27,12 +24,11 @@ fun LazyListScope.tempList(
 fun temp(
     sensorItem: SensorItem,
     index: Int,
-    editModeActivated: Boolean
 ) {
 
 
     val sensor = if (sensorItem.sensorId != null) {
-        viewModel.tempList.value.find {
+        viewModel.tempList.find {
             it.id == sensorItem.sensorId
         }
     } else null
@@ -41,11 +37,10 @@ fun temp(
         iconPainter = Resources.getIcon("thermometer"),
         iconContentDescription = Resources.getString("ct/temp"),
         onNameChange = { viewModel.setName(it, index) },
-        editModeActivated = editModeActivated,
         onEditClick = { viewModel.remove(index) },
         sensorName = sensor?.libName,
         sensorValue = "${sensor?.value ?: 0} ${Resources.getString("unity/degree")}",
-        sensorList = viewModel.tempList.value,
+        sensorList = viewModel.tempList,
         onItemClick = { viewModel.setTemp(index, it) },
         sensorItem = sensorItem
     )

@@ -2,8 +2,6 @@ package ui.screen.addItem.behavior
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import model.ItemType
 import model.item.behavior.BehaviorItem
 import model.item.behavior.FlatBehavior
@@ -13,55 +11,47 @@ import utils.getAvailableId
 import utils.getAvailableName
 
 class AddBehaviorViewModel(
-    private val _behaviorItemList: MutableStateFlow<SnapshotStateList<BehaviorItem>> = State._behaviorItemList
+    private val behaviorItemList: SnapshotStateList<BehaviorItem> = State.behaviorItemList
 ) {
 
     fun addFlat() {
-        _behaviorItemList.update {
-            it.add(
-                BehaviorItem(
-                    name = getAvailableName(
-                        names = _behaviorItemList.value.map { item ->
-                            item.name
-                        },
-                        prefix = Resources.getString("default/flat_name")
-                    ),
-                    type = ItemType.BehaviorType.I_B_FLAT,
-                    extension = FlatBehavior(),
-                    itemId = getAvailableId(
-                        ids = _behaviorItemList.value.map { item ->
-                            item.itemId
-                        }
-                    )
+        behaviorItemList.add(
+            BehaviorItem(
+                name = getAvailableName(
+                    names = behaviorItemList.map { item ->
+                        item.name
+                    },
+                    prefix = Resources.getString("default/flat_name")
+                ),
+                type = ItemType.BehaviorType.I_B_FLAT,
+                extension = FlatBehavior(),
+                itemId = getAvailableId(
+                    ids = behaviorItemList.map { item ->
+                        item.itemId
+                    }
                 )
             )
-            it
-        }
+        )
     }
 
     fun addLinear() {
-        val name = getAvailableName(
-            names = _behaviorItemList.value.map { item ->
-                item.name
-            },
-            prefix = Resources.getString("default/linear_name")
-        )
-
-        _behaviorItemList.update {
-            it.add(
-                BehaviorItem(
-                    name = name,
-                    type = ItemType.BehaviorType.I_B_LINEAR,
-                    extension = LinearBehavior(),
-                    itemId = getAvailableId(
-                        ids = _behaviorItemList.value.map { item ->
-                            item.itemId
-                        }
-                    )
+        behaviorItemList.add(
+            BehaviorItem(
+                name = getAvailableName(
+                    names = behaviorItemList.map { item ->
+                        item.name
+                    },
+                    prefix = Resources.getString("default/linear_name")
+                ),
+                type = ItemType.BehaviorType.I_B_LINEAR,
+                extension = LinearBehavior(),
+                itemId = getAvailableId(
+                    ids = behaviorItemList.map { item ->
+                        item.itemId
+                    }
                 )
             )
-            it
-        }
+        )
     }
 
 }

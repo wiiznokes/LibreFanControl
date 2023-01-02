@@ -1,50 +1,45 @@
 package utils
 
+import SensorLists
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import model.ItemType
-import model.hardware.Sensor
 import model.item.SensorItem
 
-// init sensor list, used when there is no config at start
+//
+/**
+ * init fan and temperature item list, used when there is no config at start.
+ * Each sensor will be represented by one sensor item.
+ */
 fun initSensor(
-    fanList: MutableStateFlow<SnapshotStateList<Sensor>> = State._fanList,
-    tempList: MutableStateFlow<SnapshotStateList<Sensor>> = State._tempList,
+    sensorLists: SensorLists = State.sensorLists,
 
-    fanItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._fanItemList,
-    tempItemList: MutableStateFlow<SnapshotStateList<SensorItem>> = State._tempItemList
+    fanItemList: SnapshotStateList<SensorItem> = State.fanItemList,
+    tempItemList: SnapshotStateList<SensorItem> = State.tempItemList
 ) {
-    fanList.value.forEach { fanSensor ->
-        fanItemList.update {
-            it.add(
-                SensorItem(
-                    name = fanSensor.libName,
-                    type = ItemType.SensorType.I_S_FAN,
-                    itemId = getAvailableId(
-                        ids = it.map { item -> item.itemId }
-                    ),
-                    sensorId = fanSensor.id
-                )
+    sensorLists.fanList.forEach { fanSensor ->
+        fanItemList.add(
+            SensorItem(
+                name = fanSensor.libName,
+                type = ItemType.SensorType.I_S_FAN,
+                itemId = getAvailableId(
+                    ids = fanItemList.map { it.itemId }
+                ),
+                sensorId = fanSensor.id
             )
-            it
-        }
+        )
     }
 
-    tempList.value.forEach { tempSensor ->
-        tempItemList.update {
-            it.add(
-                SensorItem(
-                    name = tempSensor.libName,
-                    type = ItemType.SensorType.I_S_FAN,
-                    itemId = getAvailableId(
-                        ids = it.map { item -> item.itemId }
-                    ),
-                    sensorId = tempSensor.id
-                )
+    sensorLists.tempList.forEach { tempSensor ->
+        tempItemList.add(
+            SensorItem(
+                name = tempSensor.libName,
+                type = ItemType.SensorType.I_S_FAN,
+                itemId = getAvailableId(
+                    ids = tempItemList.map { it.itemId }
+                ),
+                sensorId = tempSensor.id
             )
-            it
-        }
+        )
     }
 }

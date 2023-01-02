@@ -1,27 +1,19 @@
 package ui.screen.topBar
 
 import State
-import androidx.compose.runtime.MutableState
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 
 class TopBarViewModel(
-    private val _editModeActivated: MutableStateFlow<MutableState<Boolean>> = State._editModeActivated,
-    private val _addItemExpanded: MutableStateFlow<MutableState<Boolean>> = State._addItemExpanded,
+    private val editModeActivated: MutableStateFlow<Boolean> = State.editModeActivated,
+    private val addItemExpanded: MutableStateFlow<Boolean> = State.addItemExpanded,
 ) {
 
     fun edit() {
-        _editModeActivated.update {
-            it.value = !it.value
-            it
-        }
+        editModeActivated.value = !editModeActivated.value
     }
 
-    fun unexpandAddItem() {
-        _addItemExpanded.update {
-            it.value = false
-            it
-        }
+    fun closeAddItem() {
+        addItemExpanded.value = false
     }
 
 }
