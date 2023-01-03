@@ -1,6 +1,7 @@
 package ui.screen.itemsList.behaviorList.flat
 
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import model.ItemType
 import model.item.behavior.BehaviorItem
@@ -31,8 +32,10 @@ fun flatBody(
             value = flatBehavior.value,
             enabled = true,
             onLess = { viewModel.onLess(index, flatBehavior.value) },
-            onMore = { viewModel.onMore(index, flatBehavior.value) }
-        ) { viewModel.onValueChange(index, it.toInt()) }
+            onMore = { viewModel.onMore(index, flatBehavior.value) },
+            onValueChange = { viewModel.onValueChange(index, it.toInt()) },
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 }
 
@@ -50,7 +53,8 @@ fun flatAddItem(
     ) {
         baseFlat(
             value = 50,
-            enabled = false
+            enabled = false,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

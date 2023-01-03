@@ -6,6 +6,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import model.item.behavior.LinearBehavior
 import ui.component.managerText
@@ -51,6 +52,7 @@ fun baseLinear(
 
     increase: (() -> Unit)? = null,
     decrease: (() -> Unit)? = null,
+    color: Color
 ) {
     Row(
         modifier = Modifier
@@ -65,15 +67,14 @@ fun baseLinear(
                 managerText(
                     modifier = Modifier
                         .width(110.dp),
-                    text = prefix
+                    text = prefix,
+                    color = color
                 )
                 text()
-                Spacer(
-                    modifier = Modifier
-                        .width(5.dp)
-                )
+                Spacer(Modifier.width(5.dp))
                 managerText(
-                    text = suffix
+                    text = suffix,
+                    color = color
                 )
             }
         }
@@ -83,7 +84,8 @@ fun baseLinear(
             ) {
                 Icon(
                     painter = Resources.getIcon("add"),
-                    contentDescription = Resources.getString("ct/increase")
+                    contentDescription = Resources.getString("ct/increase"),
+                    tint = color
                 )
             }
             IconButton(
@@ -91,7 +93,8 @@ fun baseLinear(
             ) {
                 Icon(
                     painter = Resources.getIcon("remove"),
-                    contentDescription = Resources.getString("ct/decrease")
+                    contentDescription = Resources.getString("ct/decrease"),
+                    tint = color
                 )
             }
         }

@@ -5,13 +5,15 @@ import Source
 import State
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -37,36 +39,29 @@ fun baseItemBody(
 ) {
     val configId = State.settings.collectAsState().value.configId
 
-    val text = remember(
-        item.itemId, configId
-    ) {
-        mutableStateOf(item.name)
-    }
-
     baseItem(
+        color = MaterialTheme.colorScheme.surface,
+        onColor = MaterialTheme.colorScheme.onSurface,
         source = Source.BODY,
         type = item.type,
         iconPainter = iconPainter,
         iconContentDescription = iconContentDescription,
         contentEditIcon = {
             Icon(
-                painter = Resources.getIcon("cancel"),
+                painter = Resources.getIcon("close"),
                 contentDescription = Resources.getString("ct/edit_remove"),
-                tint = Color.Red
+                tint = Color.White
             )
         },
+        editButtonContainerColor = Color.Red,
         editModeActivated = State.editModeActivated.collectAsState().value,
         onEditClick = onEditClick,
         contentName = {
             managerNameOutlinedTextField(
-                modifier = Modifier
-                    .widthIn(min = 90.dp, max = 180.dp)
-                    .width(IntrinsicSize.Min)
-                    .height(50.dp),
-                text = text,
+                value = item.name,
                 ids = Pair(item.itemId, configId),
                 onValueChange = { onNameChange(it) },
-                label = Resources.getString("label/name")
+                label = Resources.getString("label/name"),
             )
         },
 
@@ -86,22 +81,26 @@ fun baseItemAddItem(
 ) {
 
     baseItem(
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        onColor = MaterialTheme.colorScheme.onSurfaceVariant,
         source = Source.ADD,
         type = type,
         iconPainter = iconPainter,
         iconContentDescription = iconContentDescription,
         contentEditIcon = {
             Icon(
-                painter = Resources.getIcon("add_circle"),
+                painter = Resources.getIcon("add"),
                 contentDescription = Resources.getString("ct/edit_add"),
-                tint = Color.Green
+                tint = Color.White
             )
         },
+        editButtonContainerColor = Color.Green,
         editModeActivated = true,
         onEditClick = onEditClick,
         contentName = {
             managerText(
-                text = name
+                text = name,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         },
 
@@ -113,12 +112,15 @@ fun baseItemAddItem(
 
 @Composable
 private fun baseItem(
+    color: Color,
+    onColor: Color,
     source: Source,
     type: ItemType,
     iconPainter: Painter,
     iconContentDescription: String,
     contentEditIcon: @Composable () -> Unit,
     onEditClick: () -> Unit,
+    editButtonContainerColor: Color,
     editModeActivated: Boolean,
     contentName: @Composable RowScope.() -> Unit,
     content: @Composable ColumnScope.() -> Unit
@@ -134,11 +136,10 @@ private fun baseItem(
             modifier = Modifier
                 .padding(18.dp),
             shape = MaterialTheme.shapes.medium,
-            color = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onSurface,
+            color = color,
             border = BorderStroke(
                 width = 2.dp,
-                color = MaterialTheme.colorScheme.onSurface
+                color = onColor
             )
         ) {
 
@@ -167,7 +168,8 @@ private fun baseItem(
                 ) {
                     Icon(
                         painter = iconPainter,
-                        contentDescription = iconContentDescription
+                        contentDescription = iconContentDescription,
+                        tint = onColor
                     )
                     Spacer(
                         modifier = Modifier
@@ -195,12 +197,15 @@ private fun baseItem(
         }
 
         if (editModeActivated) {
-            IconButton(
+            FloatingActionButton(
                 modifier = Modifier
-                    .align(Alignment.TopEnd),
-                onClick = {
-                    onEditClick()
-                }
+                    .wrapContentSize()
+                    .align(Alignment.TopEnd)
+                    .scale(0.6f),
+                onClick = onEditClick,
+
+                shape = RoundedCornerShape(100),
+                containerColor = editButtonContainerColor,
             ) {
                 contentEditIcon()
             }

@@ -17,8 +17,9 @@ class Application(
     private val controlsChange: MutableStateFlow<Boolean> = State.controlsChange
 ) {
 
-    private var jobUpdate: Job? = null
+    private lateinit var jobUpdate: Job
     private val externalManager = ExternalManager()
+    private lateinit var logic: Logic
 
     /**
      * - init sensor lib
@@ -42,23 +43,18 @@ class Application(
 
     private var updateShouldStop = false
     fun onStop() {
-        runBlocking {
-            updateShouldStop = true
-            jobUpdate?.cancel()
-            jobUpdate = null
-        }
+        updateShouldStop = true
+        runBlocking { jobUpdate.cancelAndJoin() }
+        logic.finish()
+        externalManager.stop()
     }
 
-
     private suspend fun startUpdate() {
-        val logic = Logic(
+        logic = Logic(
             externalManager = externalManager
         )
-
         while (!updateShouldStop) {
             logic.update()
         }
-        logic.finish()
-        externalManager.stop()
     }
 }

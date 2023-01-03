@@ -2,6 +2,8 @@ package ui.screen.topBar.configuration
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -13,10 +15,11 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.delay
-import ui.component.managerButton
 import ui.component.managerNameOutlinedTextField
+import ui.component.managerText
 import ui.utils.Resources
 import utils.checkNameTaken
 import utils.getAvailableId
@@ -43,7 +46,8 @@ fun addConfiguration() {
     ) {
         Icon(
             painter = Resources.getIcon("add"),
-            contentDescription = Resources.getString("ct/add_conf")
+            contentDescription = Resources.getString("ct/add_conf"),
+            tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
     }
 
@@ -65,22 +69,13 @@ private fun dialog(
 
     val configList = viewModel.settings.value.configList
 
-    val id = getAvailableId(
-        ids = configList.map {
-            it.id
-        }
-    )
-    val text = remember(
-        id
-    ) {
-        mutableStateOf("")
-    }
+    val id = getAvailableId(configList.map { it.id })
+    val text = remember(id) { mutableStateOf("") }
 
     Dialog(
         visible = enabled.value,
-        onCloseRequest = {
-            enabled.value = false
-        },
+        resizable = false,
+        onCloseRequest = { enabled.value = false },
         title = Resources.getString("title/add_config"),
         focusable = enabled.value,
         onKeyEvent = {
@@ -112,18 +107,20 @@ private fun dialog(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(
-                    color = MaterialTheme.colorScheme.surface
-                ),
+                .background(MaterialTheme.colorScheme.inverseSurface),
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val focusRequester = remember { FocusRequester() }
 
             managerNameOutlinedTextField(
+                value = text.value,
+                ids = Pair(id, null),
+                text = text,
                 modifier = Modifier
                     .fillMaxWidth(0.7f)
-                    .focusRequester(focusRequester),
+                    .focusRequester(focusRequester)
+                    .size(width = 180.dp, height = 50.dp),
                 onValueChange = {
                     checkNameTaken(
                         names = configList.map { config ->
@@ -133,8 +130,6 @@ private fun dialog(
                     )
                 },
                 label = Resources.getString("label/conf_name"),
-                ids = Pair(id, null),
-                text = text
             )
             LaunchedEffect(
                 Unit
@@ -146,8 +141,7 @@ private fun dialog(
             }
 
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
@@ -171,5 +165,24 @@ private fun dialog(
                 )
             }
         }
+    }
+}
+
+
+@Composable
+private fun managerButton(
+    onClick: () -> Unit,
+    text: String
+) {
+    Button(
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = MaterialTheme.colorScheme.tertiary
+        )
+    ) {
+        managerText(
+            text = text,
+            color = MaterialTheme.colorScheme.onTertiary
+        )
     }
 }

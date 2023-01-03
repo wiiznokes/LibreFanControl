@@ -2,6 +2,7 @@ package ui.screen.itemsList.controlList
 
 
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import model.ItemType
@@ -49,7 +50,8 @@ fun controlBody(
                 viewModel.onSwitchClick(checked, index)
             },
             value = control.value,
-            fanValue = "",
+            fanValue = 0,
+            color = MaterialTheme.colorScheme.onSurface
         ) {
             managerListChoice(
                 text = viewModel.behaviorItemList.firstOrNull {
@@ -82,7 +84,8 @@ fun controlAddItem(
             switchEnabled = false,
             onSwitchClick = {},
             value = control.value,
-            fanValue = ""
+            fanValue = 0,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         ) {
             managerAddItemListChoice(
                 name = Resources.getString("add_item/choose_behavior")

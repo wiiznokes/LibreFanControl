@@ -1,13 +1,13 @@
 package ui.screen.itemsList.behaviorList.linear
 
 import State
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import model.ItemType
 import model.item.behavior.BehaviorItem
 import model.item.behavior.LinearBehavior
 import ui.component.managerAddItemListChoice
 import ui.component.managerListChoice
-import ui.component.managerNumberTextField
 import ui.component.managerText
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
@@ -98,7 +98,8 @@ fun linearBody(
                         index = index,
                         type = linearTypes[i]
                     )
-                }
+                },
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
@@ -126,9 +127,15 @@ fun linearAddItem(
 
         for (i in 0..3) {
             baseLinear(
-                text = { managerText(linearValues[i]) },
+                text = {
+                    managerText(
+                        text = linearValues[i],
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                },
                 prefix = linearPrefixes[i],
                 suffix = linearSuffixes[i],
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
