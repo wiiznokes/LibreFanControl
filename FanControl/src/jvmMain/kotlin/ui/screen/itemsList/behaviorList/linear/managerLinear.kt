@@ -8,7 +8,6 @@ import model.item.behavior.BehaviorItem
 import model.item.behavior.LinearBehavior
 import ui.component.managerAddItemListChoice
 import ui.component.managerListChoice
-import ui.component.managerNumberTextField
 import ui.component.managerText
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody

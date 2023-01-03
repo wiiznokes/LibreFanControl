@@ -9,23 +9,23 @@ import androidx.compose.ui.graphics.Color
 
 private val darkColorScheme = darkColorScheme(
     // text field, floating button, list choice content
-    primary = Color.Magenta,
-    onPrimary = Color.White,
+    primary = LightCyan,
+    onPrimary = Color.Black,
 
     // main top bar background
-    primaryContainer = Color.Blue,
+    primaryContainer = DarkPurple,
     onPrimaryContainer = Color.White,
 
     // second top bar background
-    secondaryContainer = Color.Green,
+    secondaryContainer = LightPurple,
     onSecondaryContainer = Color.White,
 
     // add item choice
-    secondary = Color.White,
-    onSecondary = Color.Black,
+    secondary = Grey,
+    onSecondary = Color.White,
 
     // conf choice text field, bottom navigation bar, conf dialog button
-    tertiary = Color.Cyan,
+    tertiary = LightCyan,
     onTertiary = Color.Black,
 
     // background of the body
@@ -33,15 +33,15 @@ private val darkColorScheme = darkColorScheme(
     onBackground = Color.White,
 
     // background of addItem
-    inverseSurface = Color.DarkGray,
+    inverseSurface = LightBlack,
     inverseOnSurface = Color.White,
 
     // background of item in body
-    surface = Color.Gray,
+    surface = BlueGrey,
     onSurface = Color.White,
 
     // background of item in add item, background of conf dialog
-    surfaceVariant = Color.LightGray,
+    surfaceVariant = MateGrey,
     onSurfaceVariant = Color.White,
 
     error = Beige

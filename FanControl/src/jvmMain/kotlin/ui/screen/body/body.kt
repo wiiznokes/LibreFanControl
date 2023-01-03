@@ -13,6 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
 import ui.screen.itemsList.behaviorList.behaviorBodyList
@@ -82,6 +83,7 @@ fun body() {
             FloatingActionButton(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
+                    .scale(0.8f)
                     .padding(
                         end = floatingActionButtonPadding,
                         bottom = if (scrollBarShouldShow.value) scrollBarHeight + floatingActionButtonPadding
