@@ -8,6 +8,7 @@ import model.item.behavior.BehaviorItem
 import model.item.behavior.LinearBehavior
 import ui.component.managerAddItemListChoice
 import ui.component.managerListChoice
+import ui.component.managerNumberChoice
 import ui.component.managerText
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
@@ -49,58 +50,69 @@ fun linearBody(
             names = viewModel.tempList.map { it.libName }
         )
 
-        val linearValues = linearValues(linearBehavior)
-        val linearPrefixes = linearPrefixes
-        val linearSuffixes = linearSuffixes
-        val linearTypes = linearTypes
+        val expanded = remember(
+            behavior.itemId,
+            State.settings.collectAsState().value.configId
+        ) {
+            mutableStateOf(false)
+        }
 
+        baseLinear(
+            value = linearBehavior.value,
+            color = MaterialTheme.colorScheme.onSurface,
+            expanded = expanded
+        )
 
-        for (i in 0..3) {
+        if (expanded.value) {
+            val linearValues = linearValues(linearBehavior)
 
-            val text: MutableState<String> = remember(
-                behavior.itemId,
-                State.settings.collectAsState().value.configId
-            ) {
-                mutableStateOf(linearValues[i].toString())
+            for (i in 0..3) {
+
+                val text: MutableState<String> = remember(
+                    behavior.itemId,
+                    State.settings.collectAsState().value.configId
+                ) {
+                    mutableStateOf(linearValues[i].toString())
+                }
+
+                managerNumberChoice(
+                    text = {
+                        managerNumberTextField(
+                            text = text,
+                            opposedValue = when (i) {
+                                0 -> linearValues[1]
+                                1 -> linearValues[0]
+                                2 -> linearValues[3]
+                                3 -> linearValues[2]
+                                else -> throw Exception("impossible index")
+                            },
+                            onValueChange = {
+                                viewModel.onChange(
+                                    index = index,
+                                    value = it,
+                                    type = linearTypes[i]
+                                )
+                            },
+                            type = linearTypes[i]
+                        )
+                    },
+                    prefix = linearPrefixes[i],
+                    suffix = linearSuffixes[i],
+                    increase = {
+                        text.value = viewModel.increase(
+                            index = index,
+                            type = linearTypes[i]
+                        )
+                    },
+                    decrease = {
+                        text.value = viewModel.decrease(
+                            index = index,
+                            type = linearTypes[i]
+                        )
+                    },
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             }
-
-            baseLinear(
-                text = {
-                    managerNumberTextField(
-                        text = text,
-                        opposedValue = when (i) {
-                            0 -> linearValues[1]
-                            1 -> linearValues[0]
-                            2 -> linearValues[3]
-                            3 -> linearValues[2]
-                            else -> throw Exception("impossible index")
-                        },
-                        onValueChange = {
-                            viewModel.onChange(
-                                index = index,
-                                value = it,
-                                type = linearTypes[i]
-                            )
-                        },
-                        type = linearTypes[i]
-                    )
-                },
-                prefix = linearPrefixes[i],
-                suffix = linearSuffixes[i],
-                increase = {
-                    text.value = viewModel.increase(
-                        index = index,
-                        type = linearTypes[i]
-                    )
-                },
-                decrease = {
-                    text.value = viewModel.decrease(
-                        index = index,
-                        type = linearTypes[i]
-                    )
-                },
-                color = MaterialTheme.colorScheme.onSurface
-            )
         }
     }
 }
@@ -121,12 +133,14 @@ fun linearAddItem(
             name = Resources.getString("add_item/temp_name")
         )
 
-        val linearValues = linearValues
-        val linearPrefixes = linearPrefixes
-        val linearSuffixes = linearSuffixes
+        baseLinear(
+            value = 50,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            enabled = false
+        )
 
         for (i in 0..3) {
-            baseLinear(
+            managerNumberChoice(
                 text = {
                     managerText(
                         text = linearValues[i],

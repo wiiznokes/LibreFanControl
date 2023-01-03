@@ -7,7 +7,6 @@ data class ControlItem(
     override val itemId: Long,
     override val type: ItemType.ControlType = ItemType.ControlType.I_C_FAN,
 
-    override var isExpanded: Boolean = false,
     var visible: Boolean = true,
     var behaviorId: Long? = null,
 

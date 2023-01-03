@@ -8,8 +8,6 @@ data class BehaviorItem(
     override val itemId: Long,
     override val type: ItemType.BehaviorType,
 
-    override var isExpanded: Boolean = false,
-
     val extension: BehaviorExtension,
 ) : BaseItem
 

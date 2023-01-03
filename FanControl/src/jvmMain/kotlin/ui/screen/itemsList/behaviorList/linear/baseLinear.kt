@@ -1,13 +1,14 @@
 package ui.screen.itemsList.behaviorList.linear
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import model.item.behavior.LinearBehavior
 import ui.component.managerText
 import ui.utils.Resources
@@ -46,57 +47,42 @@ val linearTypes = listOf(
 
 @Composable
 fun baseLinear(
-    text: @Composable () -> Unit,
-    prefix: String,
-    suffix: String,
-
-    increase: (() -> Unit)? = null,
-    decrease: (() -> Unit)? = null,
-    color: Color
+    value: Int,
+    color: Color,
+    enabled: Boolean = true,
+    expanded: MutableState<Boolean> = mutableStateOf(true)
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+    Row (
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Box {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+        managerText(
+            text = "$value ${Resources.getString("unity/percent")}",
+            color = color
+        )
+
+        if (enabled) {
+            IconButton(
+                onClick = { expanded.value = !expanded.value }
             ) {
-                managerText(
-                    modifier = Modifier
-                        .width(110.dp),
-                    text = prefix,
-                    color = color
-                )
-                text()
-                Spacer(Modifier.width(5.dp))
-                managerText(
-                    text = suffix,
-                    color = color
+                val painter = when (expanded.value) {
+                    true -> Resources.getIcon("expand_less")
+                    false -> Resources.getIcon("expand_more")
+                }
+                Icon(
+                    painter = painter,
+                    contentDescription = Resources.getString("ct/choose"),
+                    tint = color
                 )
             }
         }
-        Column {
-            IconButton(
-                onClick = increase ?: {}
-            ) {
-                Icon(
-                    painter = Resources.getIcon("add"),
-                    contentDescription = Resources.getString("ct/increase"),
-                    tint = color
-                )
-            }
-            IconButton(
-                onClick = decrease ?: {}
-            ) {
-                Icon(
-                    painter = Resources.getIcon("remove"),
-                    contentDescription = Resources.getString("ct/decrease"),
-                    tint = color
-                )
-            }
+        else {
+            Icon(
+                painter = Resources.getIcon("expand_less"),
+                contentDescription = Resources.getString("ct/choose"),
+                tint = color
+            )
         }
     }
 }

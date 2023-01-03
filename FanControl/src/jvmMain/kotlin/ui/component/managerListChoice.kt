@@ -32,7 +32,7 @@ fun managerAddItemListChoice(
 
                 Icon(
                     painter = Resources.getIcon("expand_more"),
-                    contentDescription = Resources.getString("ct/choose_sensor"),
+                    contentDescription = Resources.getString("ct/choose"),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
@@ -128,7 +128,7 @@ private fun managerBaseDropdownMenu(
 
                         Icon(
                             painter = painter,
-                            contentDescription = Resources.getString("ct/choose_sensor"),
+                            contentDescription = Resources.getString("ct/choose"),
                             tint = expandIconColor
                         )
                     }

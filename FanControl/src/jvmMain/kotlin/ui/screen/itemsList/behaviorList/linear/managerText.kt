@@ -51,8 +51,7 @@ fun managerNumberTextField(
                 shape = RoundedCornerShape(20.dp)
             )
             .indicatorLine(true, isError, interactionSource, colors)
-            .height(50.dp)
-            .width(50.dp),
+            .height(40.dp).width(50.dp),
         onValueChange = {
             try {
                 val finalValue = onValueChange(it.toInt())

@@ -6,4 +6,6 @@ data class LinearBehavior(
     var minFanSpeed: Int = 50,
     var maxFanSpeed: Int = 100,
     var tempSensorId: Long? = null,
+
+    var value: Int = 0
 ) : BehaviorExtension
