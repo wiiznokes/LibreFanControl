@@ -113,6 +113,9 @@ private fun dialog(
             val focusRequester = remember { FocusRequester() }
 
             managerNameOutlinedTextField(
+                value = text.value,
+                ids = Pair(id, null),
+                text = text,
                 modifier = Modifier
                     .fillMaxWidth(0.7f)
                     .focusRequester(focusRequester),
@@ -125,8 +128,6 @@ private fun dialog(
                     )
                 },
                 label = Resources.getString("label/conf_name"),
-                ids = Pair(id, null),
-                text = text
             )
             LaunchedEffect(
                 Unit

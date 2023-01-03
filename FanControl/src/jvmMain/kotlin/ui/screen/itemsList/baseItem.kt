@@ -39,12 +39,6 @@ fun baseItemBody(
 ) {
     val configId = State.settings.collectAsState().value.configId
 
-    val text = remember(
-        item.itemId, configId
-    ) {
-        mutableStateOf(item.name)
-    }
-
     baseItem(
         color = MaterialTheme.colorScheme.surface,
         onColor = MaterialTheme.colorScheme.onSurface,
@@ -64,14 +58,14 @@ fun baseItemBody(
         onEditClick = onEditClick,
         contentName = {
             managerNameOutlinedTextField(
+                value = item.name,
+                ids = Pair(item.itemId, configId),
+                onValueChange = { onNameChange(it) },
                 modifier = Modifier
                     .widthIn(min = 90.dp, max = 180.dp)
                     .width(IntrinsicSize.Min)
                     .height(50.dp),
-                text = text,
-                ids = Pair(item.itemId, configId),
-                onValueChange = { onNameChange(it) },
-                label = Resources.getString("label/name")
+                label = Resources.getString("label/name"),
             )
         },
 

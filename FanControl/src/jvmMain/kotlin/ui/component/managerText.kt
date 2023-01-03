@@ -5,19 +5,16 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.material3.TextFieldDefaults.indicatorLine
 import androidx.compose.material3.tokens.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import ui.screen.itemsList.behaviorList.linear.LinearParams
 import utils.NameException
 
 
@@ -43,40 +40,46 @@ fun managerText(
     )
 }
 
-private val cornerShape = 2.dp
 
 @Composable
 fun managerNameOutlinedTextField(
-    ids: Pair<Long, Long?>,
-    text: MutableState<String>,
-    onValueChange: (String) -> Unit,
+    value: String,
+    ids: Pair<Long?, Long?>,
+    text: MutableState<String> = remember(ids.first, ids.second) {
+        mutableStateOf(value)
+    },
+    onValueChange: ((String) -> Unit)? = null,
     modifier: Modifier = Modifier,
-    label: String,
-    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(
-        textColor = MaterialTheme.colorScheme.onPrimary,
-        containerColor = MaterialTheme.colorScheme.primary,
-        focusedBorderColor = MaterialTheme.colorScheme.onPrimary,
-        focusedLabelColor = MaterialTheme.colorScheme.onPrimary,
-        unfocusedLabelColor = MaterialTheme.colorScheme.onPrimary,
-        cursorColor = MaterialTheme.colorScheme.onPrimary,
-        unfocusedBorderColor = MaterialTheme.colorScheme.onPrimary.copy(
-            alpha = 0.8f
-        )
-    ),
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
+    label: String? = null,
+    color: Color = MaterialTheme.colorScheme.primary,
+    onColor: Color = MaterialTheme.colorScheme.onPrimary,
+    cornerShape: Dp = 2.dp,
+    enabled: Boolean = true
 ) {
-    // if id had change, remember have to update
-    // this avoid bug when name of an item
-    // get reuse with another item
-    val isError = remember(
-        ids.first, ids.second
-    ) { mutableStateOf(false) }
+
+    val colors = TextFieldDefaults.outlinedTextFieldColors(
+        textColor = onColor,
+        containerColor = color,
+        focusedBorderColor = onColor,
+        focusedLabelColor = onColor,
+        unfocusedLabelColor = onColor,
+        cursorColor = onColor,
+        unfocusedBorderColor = onColor.copy(
+            alpha = 0.5f
+        )
+    )
+
+    val isError = remember(ids.first, ids.second) {
+        mutableStateOf(false)
+    }
+
+    val interactionSource = remember { MutableInteractionSource() }
 
     @OptIn(ExperimentalMaterial3Api::class)
     BasicTextField(
         value = text.value,
+        enabled = enabled,
         modifier = modifier
-            .padding(top = 8.dp)
             .background(
                 shape = RoundedCornerShape(cornerShape),
                 color = colors.containerColor(true).value
@@ -84,7 +87,7 @@ fun managerNameOutlinedTextField(
         onValueChange = {
             text.value = it
             try {
-                onValueChange(it)
+                onValueChange?.invoke(it)
                 isError.value = false
             } catch (e: NameException) {
                 isError.value = true
@@ -94,19 +97,19 @@ fun managerNameOutlinedTextField(
             color = colors.textColor(true).value
         ),
         singleLine = true,
-        interactionSource = interactionSource,
         decorationBox = @Composable { innerTextField ->
             TextFieldDefaults.OutlinedTextFieldDecorationBox(
                 value = text.value,
                 visualTransformation = VisualTransformation.None,
                 innerTextField = innerTextField,
-                label = {
-                    managerText(
-                        modifier = Modifier.padding(top = 3.dp),
-                        text = label,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
+                placeholder = {
+                    if (label != null) {
+                        managerText(
+                            text = label,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = colors.textColor(true).value
+                        )
+                    }
                 },
                 singleLine = true,
                 isError = isError.value,
@@ -118,11 +121,13 @@ fun managerNameOutlinedTextField(
                         isError = isError.value,
                         interactionSource = interactionSource,
                         colors = colors,
+                        focusedBorderThickness = 2.dp,
+                        unfocusedBorderThickness = 2.dp,
                         shape = RoundedCornerShape(cornerShape)
                     )
                 },
-                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp),
-                enabled = true
+                contentPadding = PaddingValues(horizontal = 10.dp),
+                enabled = enabled
             )
         }
     )

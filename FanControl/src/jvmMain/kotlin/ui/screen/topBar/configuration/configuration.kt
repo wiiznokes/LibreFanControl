@@ -1,7 +1,9 @@
 package ui.screen.topBar.configuration
 
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -11,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.ConfigurationModel
 import ui.component.managerListChoice
+import ui.component.managerNameOutlinedTextField
 import ui.utils.Resources
 import utils.checkNameTaken
 
@@ -28,8 +31,16 @@ fun configuration() {
         } else {
             configurationListChoice(
                 textContent = {
-                    managerConfigNameRoundedTextField(
+                    managerNameOutlinedTextField(
                         value = it,
+                        ids = Pair(null, null),
+                        modifier = Modifier
+                            .widthIn(200.dp, 250.dp)
+                            .height(35.dp),
+
+                        color = MaterialTheme.colorScheme.tertiary,
+                        onColor = MaterialTheme.colorScheme.onTertiary,
+                        cornerShape = 22.dp,
                         enabled = false
                     )
                 },
@@ -70,9 +81,12 @@ private fun configurationWithId(
     configurationListChoice(
         text = text.value,
         enabled = !viewModel.controlChange.collectAsState().value,
+
         textContent = {
-            managerConfigNameRoundedTextField(
+            managerNameOutlinedTextField(
                 value = text.value,
+                ids = Pair(null, id),
+                text = text,
                 onValueChange = {
                     checkNameTaken(
                         names = configList.map { config ->
@@ -82,8 +96,13 @@ private fun configurationWithId(
                         index = index
                     )
                 },
-                id = id,
-                text = text,
+                modifier = Modifier
+                    .widthIn(200.dp, 250.dp)
+                    .height(35.dp),
+                label = Resources.getString("label/conf_name"),
+                color = MaterialTheme.colorScheme.tertiary,
+                onColor = MaterialTheme.colorScheme.onTertiary,
+                cornerShape = 22.dp,
                 enabled = true
             )
         },
