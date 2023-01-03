@@ -15,19 +15,27 @@ class UpdateBehaviorValue (
     private val behaviorItemList: SnapshotStateList<BehaviorItem> = State.behaviorItemList,
     private val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList
 ) {
+
     fun update() {
-        behaviorItemList.forEachIndexed { index, behavior ->
-            when(behavior.type) {
-                ItemType.BehaviorType.I_B_LINEAR ->  {
-                    val value = valueLinear(behavior.extension as LinearBehavior, tempList)
-                    behaviorItemList[index] = behaviorItemList[index].copy(
-                        extension = (behaviorItemList[index].extension as LinearBehavior).copy(
-                            value = value ?: 0
+
+        try {
+            for (i in behaviorItemList.indices) {
+                val behavior = behaviorItemList[i]
+                when(behavior.type) {
+                    ItemType.BehaviorType.I_B_LINEAR ->  {
+                        val value = valueLinear(behavior.extension as LinearBehavior, tempList)
+                        behaviorItemList[i] = behavior.copy(
+                            extension = behavior.extension.copy(
+                                value = value ?: 0
+                            )
                         )
-                    )
+                    }
+                    else -> {}
                 }
-                else -> {}
             }
+
+        }  catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

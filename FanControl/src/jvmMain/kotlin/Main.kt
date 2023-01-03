@@ -18,6 +18,7 @@ fun main() {
         exitProcessOnExit = true
     ) {
         Window(
+            visible = true,
             title = Resources.getString("title/app_name"),
             icon = Resources.getIcon("toys_fan"),
             state = rememberWindowState(),
