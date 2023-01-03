@@ -44,6 +44,8 @@ fun baseItemBody(
     }
 
     baseItem(
+        color = MaterialTheme.colorScheme.surface,
+        onColor = MaterialTheme.colorScheme.onSurface,
         source = Source.BODY,
         type = item.type,
         iconPainter = iconPainter,
@@ -86,6 +88,8 @@ fun baseItemAddItem(
 ) {
 
     baseItem(
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        onColor = MaterialTheme.colorScheme.onSurfaceVariant,
         source = Source.ADD,
         type = type,
         iconPainter = iconPainter,
@@ -101,7 +105,8 @@ fun baseItemAddItem(
         onEditClick = onEditClick,
         contentName = {
             managerText(
-                text = name
+                text = name,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         },
 
@@ -113,6 +118,8 @@ fun baseItemAddItem(
 
 @Composable
 private fun baseItem(
+    color: Color,
+    onColor: Color,
     source: Source,
     type: ItemType,
     iconPainter: Painter,
@@ -134,11 +141,10 @@ private fun baseItem(
             modifier = Modifier
                 .padding(18.dp),
             shape = MaterialTheme.shapes.medium,
-            color = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onSurface,
+            color = color,
             border = BorderStroke(
                 width = 2.dp,
-                color = MaterialTheme.colorScheme.onSurface
+                color = onColor
             )
         ) {
 
@@ -167,7 +173,8 @@ private fun baseItem(
                 ) {
                     Icon(
                         painter = iconPainter,
-                        contentDescription = iconContentDescription
+                        contentDescription = iconContentDescription,
+                        tint = onColor
                     )
                     Spacer(
                         modifier = Modifier

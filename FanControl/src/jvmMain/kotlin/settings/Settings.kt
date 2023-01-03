@@ -71,7 +71,7 @@ class Settings {
          * which serves as a source of truth, to avoid committing a modified settings.json file.
          * This avoids using "smudge", the git tool, because it is really not practical.
          * @return true if the file existed, false otherwise
-        */
+         */
         private fun initSettingsFile(): Boolean {
             val localSettingFile = File(DIR_CONF + SETTINGS_FILE_NAME)
 

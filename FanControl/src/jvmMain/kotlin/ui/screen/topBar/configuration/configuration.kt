@@ -1,8 +1,7 @@
 package ui.screen.topBar.configuration
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -11,9 +10,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.ConfigurationModel
-import ui.component.managerConfigNameRoundedTextField
 import ui.component.managerListChoice
-import ui.component.managerText
 import ui.utils.Resources
 import utils.checkNameTaken
 
@@ -31,18 +28,9 @@ fun configuration() {
         } else {
             configurationListChoice(
                 textContent = {
-                    managerText(
-                        text = it,
-                        modifier = Modifier
-                            .width(200.dp)
-                            .height(35.dp)
-                            .background(
-                                color = MaterialTheme.colorScheme.secondary,
-                                shape = RoundedCornerShape(22.dp), //rounded corners
-                            )
-                            .padding(horizontal = 10.dp, vertical = 5.dp),
-                        color = MaterialTheme.colorScheme.onSecondary,
-                        style = MaterialTheme.typography.bodyMedium
+                    managerConfigNameRoundedTextField(
+                        value = it,
+                        enabled = false
                     )
                 },
                 configList = viewModel.settings.value.configList,
@@ -63,20 +51,17 @@ private fun configurationWithId(
         it.id == id
     }
 
-    val text: MutableState<String> = remember(
-        id
-    ) {
+    val text: MutableState<String> = remember(id) {
         mutableStateOf(configList[index].name)
     }
 
     IconButton(
-        onClick = {
-            viewModel.saveConfiguration(text.value, index, id)
-        }
+        onClick = { viewModel.saveConfiguration(text.value, index, id) }
     ) {
         Icon(
             painter = Resources.getIcon("save_as"),
-            contentDescription = Resources.getString("ct/save_conf")
+            contentDescription = Resources.getString("ct/save_conf"),
+            tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
     }
 
@@ -87,9 +72,6 @@ private fun configurationWithId(
         enabled = !viewModel.controlChange.collectAsState().value,
         textContent = {
             managerConfigNameRoundedTextField(
-                modifier = Modifier
-                    .widthIn(200.dp, 250.dp)
-                    .height(35.dp),
                 value = text.value,
                 onValueChange = {
                     checkNameTaken(
@@ -102,7 +84,7 @@ private fun configurationWithId(
                 },
                 id = id,
                 text = text,
-                placeholder = Resources.getString("label/conf_name")
+                enabled = true
             )
         },
         configList = viewModel.settings.value.configList
@@ -119,20 +101,19 @@ private fun configurationListChoice(
     managerListChoice(
         text = text,
         textContent = textContent,
+        color = MaterialTheme.colorScheme.onPrimaryContainer,
         enabled = enabled,
         baseModifier = Modifier,
-        dropDownModifier = Modifier
-            .width(180.dp),
-        onItemClick = {
-            viewModel.onChangeConfiguration(it)
-        },
+        itemModifier = Modifier.width(180.dp),
+        onItemClick = { viewModel.onChangeConfiguration(it) },
         iconContent = { id, index ->
             IconButton(
                 onClick = { viewModel.removeConfiguration(id, index) }
             ) {
                 Icon(
                     painter = Resources.getIcon("delete_forever"),
-                    contentDescription = Resources.getString("ct/remove_conf")
+                    contentDescription = Resources.getString("ct/remove_conf"),
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         },

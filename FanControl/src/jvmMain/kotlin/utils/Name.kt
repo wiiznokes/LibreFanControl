@@ -38,8 +38,8 @@ fun getAvailableId(ids: List<Long>): Long {
 }
 
 
-
 private fun isNameTaken(names: List<String>, name: String): Boolean =
     names.count { it == name } != 0
+
 private fun isIdTaken(ids: List<Long>, id: Long): Boolean =
     ids.count { it == id } != 0

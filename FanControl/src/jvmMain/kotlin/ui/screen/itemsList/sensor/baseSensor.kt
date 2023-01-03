@@ -1,6 +1,7 @@
 package ui.screen.itemsList.sensor
 
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.painter.Painter
@@ -42,7 +43,8 @@ fun baseSensorBody(
             names = sensorList.map { it.libName }
         )
         managerText(
-            text = sensorValue
+            text = sensorValue,
+            color = MaterialTheme.colorScheme.onSurface
         )
     }
 }
@@ -68,7 +70,8 @@ fun baseSensorAddItem(
             name = sensorName
         )
         managerText(
-            text = sensorValue
+            text = sensorValue,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

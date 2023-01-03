@@ -30,13 +30,13 @@ fun addItem(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.inverseSurface)
     ) {
         addItemChoice(currentChoiceType, choiceStates)
 
         Divider(
             modifier = Modifier.padding(bottom = 10.dp),
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSecondary
         )
 
         LazyColumn {
@@ -60,39 +60,38 @@ fun addItem(
 private fun addItemChoice(currentChoiceType: MutableState<ChoiceType>, choiceStates: ChoiceStates) {
     Row(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.secondary),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
             onClick = {
-                currentChoiceType.value = choiceStates.getState(currentChoiceType.value)
-                    .previous
+                currentChoiceType.value = choiceStates.getState(currentChoiceType.value).previous
             }
         ) {
             Icon(
                 painter = Resources.getIcon("arrow_back"),
                 contentDescription = Resources.getString("ct/previous"),
-                tint = MaterialTheme.colorScheme.onSurface
+                tint = MaterialTheme.colorScheme.onSecondary
             )
         }
 
         managerText(
             modifier = Modifier,
-            text = choiceStates.getState(currentChoiceType.value)
-                .title
+            text = choiceStates.getState(currentChoiceType.value).title,
+            color = MaterialTheme.colorScheme.onSecondary
         )
 
         IconButton(
             onClick = {
-                currentChoiceType.value = choiceStates.getState(currentChoiceType.value)
-                    .next
+                currentChoiceType.value = choiceStates.getState(currentChoiceType.value).next
             }
         ) {
             Icon(
                 painter = Resources.getIcon("arrow_forward"),
                 contentDescription = Resources.getString("ct/next"),
-                tint = MaterialTheme.colorScheme.onSurface
+                tint = MaterialTheme.colorScheme.onSecondary
             )
         }
     }

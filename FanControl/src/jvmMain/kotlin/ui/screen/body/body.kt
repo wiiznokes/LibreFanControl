@@ -4,7 +4,6 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.material.IconButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -21,9 +20,11 @@ import ui.screen.itemsList.controlList.controlBody
 import ui.screen.itemsList.controlList.controlList
 import ui.screen.itemsList.sensor.body.fanList.fanBodyList
 import ui.screen.itemsList.sensor.body.tempList.tempBodyList
-import ui.theme.floatingActionButtonPadding
-import ui.theme.scrollBarHeight
 import ui.utils.Resources
+
+
+private val floatingActionButtonPadding = 20.dp
+private val scrollBarHeight = 20.dp
 
 @Composable
 fun body() {
@@ -84,14 +85,15 @@ fun body() {
                     .padding(
                         end = floatingActionButtonPadding,
                         bottom = if (scrollBarShouldShow.value) scrollBarHeight + floatingActionButtonPadding
-                        else floatingActionButtonPadding),
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        else floatingActionButtonPadding
+                    ),
+                containerColor = MaterialTheme.colorScheme.primary,
                 onClick = { viewModel.expandAddItem() }
             ) {
                 Icon(
                     painter = Resources.getIcon("add"),
                     contentDescription = Resources.getString("ct/open_add_item"),
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }
@@ -111,7 +113,8 @@ private fun itemsList(
                 text = title,
                 modifier = Modifier
                     .padding(10.dp),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(Modifier.height(20.dp))
         }
@@ -149,7 +152,7 @@ private fun BoxScope.scrollableBox(
         HorizontalScrollbar(
             modifier = Modifier.align(Alignment.BottomStart)
                 .height(scrollBarHeight)
-                .background(MaterialTheme.colorScheme.secondary),
+                .background(MaterialTheme.colorScheme.tertiary),
             adapter = rememberScrollbarAdapter(stateHorizontal)
         )
     }

@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -31,11 +32,13 @@ fun managerAddItemListChoice(
 
                 Icon(
                     painter = Resources.getIcon("expand_more"),
-                    contentDescription = Resources.getString("ct/choose_sensor")
+                    contentDescription = Resources.getString("ct/choose_sensor"),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
                 managerText(
-                    text = name
+                    text = name,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -47,16 +50,18 @@ fun managerAddItemListChoice(
 fun managerListChoice(
     text: String?,
     enabled: Boolean = true,
+    color: Color = MaterialTheme.colorScheme.onSurface,
     textContent: @Composable (String) -> Unit = {
         managerText(
             text = it,
+            color = color,
             enabled = enabled
         )
     },
     baseModifier: Modifier = Modifier
         .fillMaxWidth()
         .widthIn(min = 100.dp, max = 250.dp),
-    dropDownModifier: Modifier = Modifier,
+    itemModifier: Modifier = Modifier,
     onItemClick: (Long?) -> Unit,
     iconContent: @Composable ((Long, Int) -> Unit)? = null,
     ids: List<Long>,
@@ -68,9 +73,11 @@ fun managerListChoice(
         text = text ?: Resources.getString("none"),
         textContent = textContent,
         expanded = expanded,
-        modifier = baseModifier
+        modifier = baseModifier,
+        expandIconColor = color
     ) {
         managerDropDownContent(
+            modifier = itemModifier,
             expanded = expanded,
             text = Resources.getString("none"),
             onItemClick = onItemClick,
@@ -78,14 +85,14 @@ fun managerListChoice(
         )
         for (i in ids.indices) {
             managerDropDownContent(
-                modifier = dropDownModifier,
+                modifier = itemModifier,
                 expanded = expanded,
                 text = names[i],
                 onItemClick = onItemClick,
                 iconContent = iconContent,
                 id = ids[i],
                 index = i,
-                enabled = enabled
+                enabled = enabled,
             )
         }
     }
@@ -98,6 +105,7 @@ private fun managerBaseDropdownMenu(
     text: String,
     textContent: @Composable (String) -> Unit,
     expanded: MutableState<Boolean>,
+    expandIconColor: Color,
     dropDownContent: @Composable ColumnScope.() -> Unit
 ) {
     Box {
@@ -120,7 +128,8 @@ private fun managerBaseDropdownMenu(
 
                         Icon(
                             painter = painter,
-                            contentDescription = Resources.getString("ct/choose_sensor")
+                            contentDescription = Resources.getString("ct/choose_sensor"),
+                            tint = expandIconColor
                         )
                     }
 
@@ -180,7 +189,8 @@ private fun managerDropDownContent(
 
                     managerText(
                         text = text,
-                        enabled = enabled
+                        enabled = enabled,
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }

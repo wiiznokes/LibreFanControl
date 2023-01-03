@@ -7,6 +7,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
 import ui.utils.Resources
@@ -18,7 +19,8 @@ fun baseFlat(
     enabled: Boolean,
     onLess: (() -> Unit)? = null,
     onMore: (() -> Unit)? = null,
-    onValueChange: ((Float) -> Unit)? = null
+    onValueChange: ((Float) -> Unit)? = null,
+    color: Color
 ) {
     Row(
         modifier = Modifier
@@ -27,7 +29,10 @@ fun baseFlat(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
 
-        managerText(Resources.getString("fan_speed"))
+        managerText(
+            text = Resources.getString("fan_speed"),
+            color = color
+        )
 
         Box {
             Row {
@@ -36,7 +41,8 @@ fun baseFlat(
                 ) {
                     Icon(
                         painter = Resources.getIcon("remove"),
-                        contentDescription = Resources.getString("ct/decrease")
+                        contentDescription = Resources.getString("ct/decrease"),
+                        tint = color
                     )
                 }
                 IconButton(
@@ -44,7 +50,8 @@ fun baseFlat(
                 ) {
                     Icon(
                         painter = Resources.getIcon("add"),
-                        contentDescription = Resources.getString("ct/increase")
+                        contentDescription = Resources.getString("ct/increase"),
+                        tint = color
                     )
                 }
             }
@@ -66,12 +73,10 @@ fun baseFlat(
             modifier = Modifier
                 .fillMaxWidth(0.75f)
         )
-        Spacer(
-            modifier = Modifier
-                .width(10.dp)
-        )
+        Spacer(Modifier.width(10.dp))
         managerText(
-            text = "$value ${Resources.getString("unity/percent")}"
+            text = "$value ${Resources.getString("unity/percent")}",
+            color = color
         )
     }
 }

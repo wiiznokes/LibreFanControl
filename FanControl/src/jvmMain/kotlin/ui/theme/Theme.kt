@@ -8,42 +8,85 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val darkColorScheme = darkColorScheme(
-    primary = Brown,
+    // text field, floating button, list choice content
+    primary = Color.Magenta,
     onPrimary = Color.White,
 
-    secondary = Teal200,
+    // main top bar background
+    primaryContainer = Color.Blue,
+    onPrimaryContainer = Color.White,
+
+    // second top bar background
+    secondaryContainer = Color.Green,
+    onSecondaryContainer = Color.White,
+
+    // add item choice
+    secondary = Color.White,
     onSecondary = Color.Black,
 
-    tertiary = Brown,
-    onTertiary = Color.White,
+    // conf choice text field, bottom navigation bar, conf dialog button
+    tertiary = Color.Cyan,
+    onTertiary = Color.Black,
 
-    surface = DarkGrey,
-    onSurface = Color.White,
-
-    background = Black,
+    // background of the body
+    background = Color.Black,
     onBackground = Color.White,
 
-    onError = Beige
+    // background of addItem
+    inverseSurface = Color.DarkGray,
+    inverseOnSurface = Color.White,
+
+    // background of item in body
+    surface = Color.Gray,
+    onSurface = Color.White,
+
+    // background of item in add item, background of conf dialog
+    surfaceVariant = Color.LightGray,
+    onSurfaceVariant = Color.White,
+
+    error = Beige
 )
 
 private val lightColorScheme = lightColorScheme(
-    primary = LightGrey,
-    onPrimary = Color.Black,
+    // text field, floating button, list choice content
+    primary = Color.Magenta,
+    onPrimary = Color.White,
 
-    secondary = Teal200,
+    // main top bar background
+    primaryContainer = Color.Blue,
+    onPrimaryContainer = Color.White,
+
+    // second top bar background
+    secondaryContainer = Color.Green,
+    onSecondaryContainer = Color.White,
+
+    // add item choice
+    secondary = Color.White,
     onSecondary = Color.Black,
 
-    tertiary = WhiteGrey,
+    // conf choice text field, bottom navigation bar, conf dialog button
+    tertiary = Color.Cyan,
     onTertiary = Color.Black,
 
-    surface = White,
-    onSurface = Color.Black,
+    // background of the body
+    background = Color.Black,
+    onBackground = Color.White,
 
-    background = WhiteGrey2,
-    onBackground = Color.Black,
+    // background of addItem
+    inverseSurface = Color.DarkGray,
+    inverseOnSurface = Color.White,
 
-    onError = Beige
+    // background of item in body
+    surface = Color.Gray,
+    onSurface = Color.White,
+
+    // background of item in add item, background of conf dialog
+    surfaceVariant = Color.LightGray,
+    onSurfaceVariant = Color.White,
+
+    error = Beige
 )
+
 
 @Composable
 fun fanControlTheme(

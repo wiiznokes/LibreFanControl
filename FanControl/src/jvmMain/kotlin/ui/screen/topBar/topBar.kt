@@ -13,6 +13,7 @@ import ui.utils.Resources
 
 
 private val viewModel = TopBarVM()
+private val topBarHeight = 50.dp
 
 @Composable
 fun topBarBody(
@@ -20,7 +21,7 @@ fun topBarBody(
 ) {
     MediumTopAppBar(
         modifier = Modifier
-            .height(50.dp),
+            .height(topBarHeight),
         title = {
             Row(
                 modifier = Modifier
@@ -29,23 +30,21 @@ fun topBarBody(
             ) {
                 Icon(
                     painter = Resources.getIcon("toys_fan"),
-                    contentDescription = Resources.getString("title/app_name")
+                    contentDescription = Resources.getString("title/app_name"),
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
-                Spacer(
-                    modifier = Modifier
-                        .width(10.dp)
-                )
+                Spacer(Modifier.width(10.dp))
+
                 managerText(
                     modifier = Modifier,
                     text = Resources.getString("title/app_name"),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
         },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.tertiary,
-            titleContentColor = MaterialTheme.colorScheme.onTertiary,
-            navigationIconContentColor = MaterialTheme.colorScheme.onTertiary
+            containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
         navigationIcon = {
             IconButton(
@@ -55,12 +54,12 @@ fun topBarBody(
             ) {
                 Icon(
                     painter = Resources.getIcon("menu"),
-                    contentDescription = Resources.getString("ct/open_drawer")
+                    contentDescription = Resources.getString("ct/open_drawer"),
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
         },
         actions = {
-
             Row(
                 modifier = Modifier
                     .fillMaxHeight(),
@@ -74,7 +73,7 @@ fun topBarBody(
                         .fillMaxHeight(0.8f)
                         .padding(horizontal = 10.dp)
                         .width(2.dp),
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
 
                 IconButton(
@@ -86,7 +85,8 @@ fun topBarBody(
                         painter = Resources.getIcon("edit_square"),
                         contentDescription = Resources.getString("ct/edit"),
                         modifier = Modifier
-                            .padding(bottom = 5.dp, top = 1.dp)
+                            .padding(bottom = 5.dp, top = 1.dp),
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }
@@ -101,7 +101,7 @@ fun topBarAddItem(
 ) {
     CenterAlignedTopAppBar(
         modifier = modifier
-            .height(50.dp),
+            .height(topBarHeight),
         title = {
             Box(
                 modifier = Modifier.fillMaxSize()
@@ -110,24 +110,22 @@ fun topBarAddItem(
                     modifier = Modifier
                         .align(Alignment.Center),
                     text = Resources.getString("title/add_item"),
-                    style = MaterialTheme.typography.titleSmall
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
         },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.tertiary,
-            titleContentColor = MaterialTheme.colorScheme.onTertiary,
-            navigationIconContentColor = MaterialTheme.colorScheme.onTertiary
+            containerColor = MaterialTheme.colorScheme.secondaryContainer
         ),
         navigationIcon = {
             IconButton(
-                onClick = {
-                    viewModel.closeAddItem()
-                }
+                onClick = { viewModel.closeAddItem() }
             ) {
                 Icon(
                     painter = Resources.getIcon("arrow_forward"),
-                    contentDescription = Resources.getString("ct/close_add_item")
+                    contentDescription = Resources.getString("ct/close_add_item"),
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
         }
