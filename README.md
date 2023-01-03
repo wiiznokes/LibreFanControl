@@ -14,7 +14,6 @@ To run the project, just use `.\gradlew run` in FanControl folder.
 <details>
   <summary>Next steps</summary>
   
-- upgrade linear apparence (add pourcent, expand button)
 - add test for linear behavior
 - add target behavior (idle temp, load temp, idle fan speed, load fan speed)
 - add graph behavior (abscissa -> temp, ordinate -> fan speed)
