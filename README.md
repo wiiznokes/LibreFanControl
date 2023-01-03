@@ -11,20 +11,25 @@ To build the project, you first need to compile the Windows library :
 
 To run the project, just use `.\gradlew run` in FanControl folder.
 
-Next steps :
-- fixes bugs
+<details>
+  <summary>Next steps</summary>
+  
+- upgrade linear apparence (add pourcent, expand button)
+- add target behavior (idle temp, load temp, idle fan speed, load fan speed)
+- add graph behavior (abscissa -> temp, ordinate -> fan speed)
+- implement settings (language, time between update, theme, support the project, lib used)
+- add a way to mix sensor (average)
+- add test to for linear
 - fixe Windows Lib (the current way of fetching String may cause memory leaks)
 - publish (add lib folder to executable and conf folder)
-- implement settings (language, time between update, theme, support the project, ...)
-- finalize UI (colors, size, fan speed visible on behaviors, ...)
 - support Linux
 - support Nvidia GPU
-- add behaviors(graph, ...)
-- add some tests
+- suppor water cooling
 
+</details>
 
 <details>
-  <summary>Library</summary>
+  <summary>Library used</summary>
 
 #### &emsp;UI
 - [Compose Multiplatform Desktop](https://www.jetbrains.com/lp/compose-mpp/)
