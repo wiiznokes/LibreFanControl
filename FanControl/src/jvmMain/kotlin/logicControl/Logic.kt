@@ -99,11 +99,18 @@ class Logic(
     }
 
     /**
-     * set all controls to auto
+     * set controls witch was previously active to auto
+     * if controls change is true, we set all controls to auto
      */
     fun finish() {
         controlItemList.forEach {
-            externalManager.setControl(it.libIndex, true)
+            if (controlsChange.value)
+                externalManager.setControl(it.libIndex, true)
+            else {
+                if (isControlShouldBeSet(it)) {
+                    externalManager.setControl(it.libIndex, true)
+                }
+            }
         }
     }
 
@@ -159,7 +166,7 @@ class Logic(
 
 
 fun isControlShouldBeSet(control: ControlItem): Boolean =
-    control.isAuto || control.behaviorId == null
+    !control.isAuto && control.behaviorId != null
 
 
 fun isControlChange(previousControl: ControlItem, newControl: ControlItem): Boolean =

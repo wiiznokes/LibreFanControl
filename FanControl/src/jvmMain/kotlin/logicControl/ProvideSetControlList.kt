@@ -37,13 +37,6 @@ class ProvideSetControlList(
 
             setControlList.add(
                 if (isControlShouldBeSet(control)) {
-                    SetControlModel(
-                        libIndex = control.libIndex,
-                        isAuto = true,
-                        index = index,
-                        controlShouldBeSet = false
-                    )
-                } else {
                     val res = findValueAndType(control)
 
                     val controlShouldBeSet = when (res.second) {
@@ -57,6 +50,13 @@ class ProvideSetControlList(
                         value = res.first,
                         index = index,
                         controlShouldBeSet = controlShouldBeSet
+                    )
+                } else {
+                    SetControlModel(
+                        libIndex = control.libIndex,
+                        isAuto = true,
+                        index = index,
+                        controlShouldBeSet = false
                     )
                 }
             )
