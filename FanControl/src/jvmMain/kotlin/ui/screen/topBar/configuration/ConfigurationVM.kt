@@ -30,7 +30,9 @@ class ConfigurationVM(
         }
         settings.value = settings.value.copy(
             configList = settings.value.configList.apply {
-                this[index].name = name
+                this[index] = this[index].copy(
+                    name = name
+                )
             }
         )
 

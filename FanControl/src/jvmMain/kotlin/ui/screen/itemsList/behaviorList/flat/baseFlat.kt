@@ -71,7 +71,7 @@ fun baseFlat(
             enabled = enabled,
             onValueChange = onValueChange ?: {},
             modifier = Modifier
-                .fillMaxWidth(0.75f)
+                .fillMaxWidth(0.7f)
         )
         Spacer(Modifier.width(10.dp))
         managerText(

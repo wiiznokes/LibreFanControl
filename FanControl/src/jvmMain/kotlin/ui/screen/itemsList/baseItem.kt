@@ -61,10 +61,6 @@ fun baseItemBody(
                 value = item.name,
                 ids = Pair(item.itemId, configId),
                 onValueChange = { onNameChange(it) },
-                modifier = Modifier
-                    .widthIn(min = 90.dp, max = 180.dp)
-                    .width(IntrinsicSize.Min)
-                    .height(50.dp),
                 label = Resources.getString("label/name"),
             )
         },
