@@ -1,8 +1,8 @@
 package configuration
 
 
-import State.Companion.behaviorItemList
-import State.Companion.controlItemList
+import State.Companion.behaviorList
+import State.Companion.controlList
 import State.Companion.fanItemList
 import State.Companion.sensorLists
 import State.Companion.tempItemList
@@ -41,7 +41,7 @@ class Configuration {
             val obj = JSONTokener(string).nextValue() as JSONObject
 
             readItem.getControls(
-                controlItemList = controlItemList,
+                controlList = controlList,
                 array = obj.getJSONArray(ItemType.ControlType.I_C_FAN.toString())
             )
 
@@ -54,9 +54,9 @@ class Configuration {
                 array = obj.getJSONArray(HardwareType.SensorType.H_S_TEMP.toString())
             )
 
-            behaviorItemList.clear()
+            behaviorList.clear()
             readItem.getBehaviors(
-                behaviorItemList = behaviorItemList,
+                behaviorList = behaviorList,
                 array = obj.getJSONArray(ItemType.BehaviorType.I_B_UNSPECIFIED.toString())
             )
 
@@ -103,12 +103,12 @@ class Configuration {
             )
 
             writeItem.setItems(
-                itemList = controlItemList,
+                itemList = controlList,
                 writer = writer,
                 type = ItemType.ControlType.I_C_FAN
             )
             writeItem.setItems(
-                itemList = behaviorItemList,
+                itemList = behaviorList,
                 writer = writer,
                 type = ItemType.BehaviorType.I_B_UNSPECIFIED
             )

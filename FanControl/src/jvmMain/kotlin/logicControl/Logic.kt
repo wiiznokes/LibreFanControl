@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import model.SettingsModel
-import model.item.ControlItem
+import model.item.Control
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -35,7 +35,7 @@ data class SetControlModel(
  * set.
  */
 class Logic(
-    private val controlItemList: SnapshotStateList<ControlItem> = State.controlItemList,
+    private val controlList: SnapshotStateList<Control> = State.controlList,
     private val controlsChange: MutableStateFlow<Boolean> = State.controlsChange,
     private val settings: StateFlow<SettingsModel> = State.settings.asStateFlow(),
     private val externalManager: ExternalManager
@@ -103,7 +103,7 @@ class Logic(
      * if controls change is true, we set all controls to auto
      */
     fun finish() {
-        controlItemList.forEach {
+        controlList.forEach {
             if (controlsChange.value)
                 externalManager.setControl(it.libIndex, true)
             else {
@@ -145,7 +145,7 @@ class Logic(
                         controlsHasChangeMarker.value = false
                         setControlList.forEach { model ->
 
-                            controlItemList[model.index].controlShouldBeSet = model.controlShouldBeSet
+                            controlList[model.index].controlShouldBeSet = model.controlShouldBeSet
 
                             externalManager.setControl(model.libIndex, model.isAuto, model.value)
                         }
@@ -165,9 +165,9 @@ class Logic(
 }
 
 
-fun isControlShouldBeSet(control: ControlItem): Boolean =
+fun isControlShouldBeSet(control: Control): Boolean =
     !control.isAuto && control.behaviorId != null
 
 
-fun isControlChange(previousControl: ControlItem, newControl: ControlItem): Boolean =
+fun isControlChange(previousControl: Control, newControl: Control): Boolean =
     isControlShouldBeSet(previousControl) != isControlShouldBeSet(newControl)

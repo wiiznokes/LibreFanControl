@@ -4,8 +4,8 @@ import State
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import model.ItemType
-import model.item.behavior.BehaviorItem
-import model.item.behavior.LinearBehavior
+import model.item.behavior.Behavior
+import model.item.behavior.Linear
 import ui.component.managerAddItemListChoice
 import ui.component.managerListChoice
 import ui.component.managerNumberChoice
@@ -19,7 +19,7 @@ private val viewModel: LinearVM = LinearVM()
 
 @Composable
 fun linearBody(
-    behavior: BehaviorItem,
+    behavior: Behavior,
     index: Int,
     onEditClick: () -> Unit,
     onNameChange: (String) -> Unit
@@ -32,12 +32,12 @@ fun linearBody(
         item = behavior
     ) {
 
-        val linearBehavior = behavior.extension as LinearBehavior
+        val linear = behavior.extension as Linear
 
         managerListChoice(
-            text = if (linearBehavior.tempSensorId != null) {
+            text = if (linear.tempSensorId != null) {
                 viewModel.tempList.find {
-                    it.id == linearBehavior.tempSensorId
+                    it.id == linear.tempSensorId
                 }!!.libName
             } else null,
             onItemClick = {
@@ -58,13 +58,13 @@ fun linearBody(
         }
 
         baseLinear(
-            value = linearBehavior.value,
+            value = linear.value,
             color = MaterialTheme.colorScheme.onSurface,
             expanded = expanded
         )
 
         if (expanded.value) {
-            val linearValues = linearValues(linearBehavior)
+            val linearValues = linearValues(linear)
 
             for (i in 0..3) {
 

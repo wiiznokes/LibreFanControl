@@ -2,17 +2,17 @@ package ui.screen.itemsList.behaviorList.flat
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.item.behavior.BehaviorItem
-import model.item.behavior.FlatBehavior
+import model.item.behavior.Behavior
+import model.item.behavior.Flat
 
 class FlatVM(
-    private val behaviorItemList: SnapshotStateList<BehaviorItem> = State.behaviorItemList
+    private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList
 ) {
     fun onMore(index: Int, value: Int) {
         if (value >= 100) return
 
-        behaviorItemList[index] = behaviorItemList[index].copy(
-            extension = (behaviorItemList[index].extension as FlatBehavior).copy(
+        behaviorList[index] = behaviorList[index].copy(
+            extension = (behaviorList[index].extension as Flat).copy(
                 value = value + 1
             )
         )
@@ -21,16 +21,16 @@ class FlatVM(
     fun onLess(index: Int, value: Int) {
         if (value <= 0) return
 
-        behaviorItemList[index] = behaviorItemList[index].copy(
-            extension = (behaviorItemList[index].extension as FlatBehavior).copy(
+        behaviorList[index] = behaviorList[index].copy(
+            extension = (behaviorList[index].extension as Flat).copy(
                 value = value - 1
             )
         )
     }
 
     fun onValueChange(index: Int, value: Int) {
-        behaviorItemList[index] = behaviorItemList[index].copy(
-            extension = (behaviorItemList[index].extension as FlatBehavior).copy(
+        behaviorList[index] = behaviorList[index].copy(
+            extension = (behaviorList[index].extension as Flat).copy(
                 value = value
             )
         )

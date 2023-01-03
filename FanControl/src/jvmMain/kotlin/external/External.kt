@@ -2,14 +2,14 @@ package external
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.Sensor
-import model.item.ControlItem
+import model.item.Control
 
 interface External {
 
     fun start(
         fans: SnapshotStateList<Sensor>,
         temps: SnapshotStateList<Sensor>,
-        controls: SnapshotStateList<ControlItem>
+        controls: SnapshotStateList<Control>
     ) {
         getFan(fans)
         getTemp(temps)
@@ -22,7 +22,7 @@ interface External {
 
     fun getTemp(temps: SnapshotStateList<Sensor>)
 
-    fun getControl(controls: SnapshotStateList<ControlItem>)
+    fun getControl(controls: SnapshotStateList<Control>)
 
     fun updateFan(
         fans: SnapshotStateList<Sensor>
@@ -33,7 +33,7 @@ interface External {
     )
 
     fun updateControl(
-        controls: SnapshotStateList<ControlItem>
+        controls: SnapshotStateList<Control>
     )
 
     fun setControl(libIndex: Int, isAuto: Boolean, value: Int?)

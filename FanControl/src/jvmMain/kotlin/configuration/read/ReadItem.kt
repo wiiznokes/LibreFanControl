@@ -4,28 +4,28 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.ItemType
 import model.UnspecifiedTypeException
 import model.getItemType
-import model.item.ControlItem
+import model.item.Control
 import model.item.SensorItem
-import model.item.behavior.BehaviorItem
-import model.item.behavior.FlatBehavior
-import model.item.behavior.LinearBehavior
+import model.item.behavior.Behavior
+import model.item.behavior.Flat
+import model.item.behavior.Linear
 import org.json.JSONArray
 import org.json.JSONObject
 import utils.getJsonValue
 
 class ReadItem {
-    fun getControls(controlItemList: SnapshotStateList<ControlItem>, array: JSONArray) {
+    fun getControls(controlList: SnapshotStateList<Control>, array: JSONArray) {
 
         for (i in 0 until array.length()) {
             val obj = array[i] as JSONObject
 
-            val index = controlItemList.indexOfFirst { control ->
+            val index = controlList.indexOfFirst { control ->
                 control.libId == getJsonValue("libId", obj)
             }
 
             val isAuto: Boolean = getJsonValue("isAuto", obj)!!
 
-            controlItemList[index] = controlItemList[index].copy(
+            controlList[index] = controlList[index].copy(
                 name = getJsonValue("name", obj)!!,
                 itemId = getJsonValue("itemId", obj)!!,
                 type = getItemType(getJsonValue("type", obj)!!) as ItemType.ControlType,
@@ -37,7 +37,7 @@ class ReadItem {
     }
 
     fun getBehaviors(
-        behaviorItemList: SnapshotStateList<BehaviorItem>,
+        behaviorList: SnapshotStateList<Behavior>,
         array: JSONArray
     ) {
         for (i in 0 until array.length()) {
@@ -46,8 +46,8 @@ class ReadItem {
             val type = getItemType(getJsonValue("type", obj)!!) as ItemType.BehaviorType
 
 
-            behaviorItemList.add(
-                BehaviorItem(
+            behaviorList.add(
+                Behavior(
                     name = getJsonValue("name", obj)!!,
                     itemId = getJsonValue("itemId", obj)!!,
                     type = type,
@@ -82,15 +82,15 @@ class ReadItem {
     }
 
 
-    private fun getFlatBehavior(obj: JSONObject): FlatBehavior {
-        return FlatBehavior(
+    private fun getFlatBehavior(obj: JSONObject): Flat {
+        return Flat(
             value = getJsonValue("value", obj)!!
         )
     }
 
-    private fun getLinearBehavior(obj: JSONObject): LinearBehavior {
+    private fun getLinearBehavior(obj: JSONObject): Linear {
 
-        return LinearBehavior(
+        return Linear(
             minTemp = getJsonValue("minTemp", obj)!!,
             maxTemp = getJsonValue("maxTemp", obj)!!,
             minFanSpeed = getJsonValue("minFanSpeed", obj)!!,

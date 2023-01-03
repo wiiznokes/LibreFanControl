@@ -2,7 +2,7 @@ package model.item
 
 import model.ItemType
 
-data class ControlItem(
+data class Control(
     override var name: String,
     override val itemId: Long,
     override val type: ItemType.ControlType = ItemType.ControlType.I_C_FAN,

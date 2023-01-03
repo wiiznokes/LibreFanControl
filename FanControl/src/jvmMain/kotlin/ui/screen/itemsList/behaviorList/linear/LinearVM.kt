@@ -3,8 +3,8 @@ package ui.screen.itemsList.behaviorList.linear
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.Sensor
-import model.item.behavior.BehaviorItem
-import model.item.behavior.LinearBehavior
+import model.item.behavior.Behavior
+import model.item.behavior.Linear
 
 
 enum class LinearParams {
@@ -26,14 +26,14 @@ private fun getFinalValue(value: Int): Int =
 
 
 class LinearVM(
-    private val behaviorItemList: SnapshotStateList<BehaviorItem> = State.behaviorItemList,
+    private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
     val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList
 ) {
 
 
     fun setTemp(index: Int, tempSensorId: Long?) {
-        behaviorItemList[index] = behaviorItemList[index].copy(
-            extension = (behaviorItemList[index].extension as LinearBehavior).copy(
+        behaviorList[index] = behaviorList[index].copy(
+            extension = (behaviorList[index].extension as Linear).copy(
                 tempSensorId = tempSensorId
             )
         )
@@ -63,7 +63,7 @@ class LinearVM(
      */
     private fun updateValue(index: Int, type: LinearParams, value: (Int) -> Int): String {
         val finalValue: Int
-        val extension = with(behaviorItemList[index].extension as LinearBehavior) {
+        val extension = with(behaviorList[index].extension as Linear) {
             when (type) {
                 LinearParams.MIN_TEMP -> {
                     finalValue = getFinalValue(value(minTemp))
@@ -86,7 +86,7 @@ class LinearVM(
                 }
             }
         }
-        behaviorItemList[index] = behaviorItemList[index].copy(
+        behaviorList[index] = behaviorList[index].copy(
             extension = extension
         )
         return finalValue.toString()

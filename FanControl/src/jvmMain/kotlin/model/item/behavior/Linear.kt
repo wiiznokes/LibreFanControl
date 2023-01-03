@@ -1,6 +1,6 @@
 package model.item.behavior
 
-data class LinearBehavior(
+data class Linear(
     var minTemp: Int = 0,
     var maxTemp: Int = 100,
     var minFanSpeed: Int = 50,

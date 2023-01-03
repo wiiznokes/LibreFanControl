@@ -1,5 +1,5 @@
 package model.item.behavior
 
-data class FlatBehavior(
+data class Flat(
     var value: Int = 50
 ) : BehaviorExtension

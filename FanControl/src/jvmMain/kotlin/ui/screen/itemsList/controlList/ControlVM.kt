@@ -4,25 +4,25 @@ import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import logicControl.isControlChange
-import model.item.ControlItem
-import model.item.behavior.BehaviorItem
+import model.item.Control
+import model.item.behavior.Behavior
 import utils.checkNameTaken
 
 class ControlVM(
-    val controlItemList: SnapshotStateList<ControlItem> = State.controlItemList,
-    val behaviorItemList: SnapshotStateList<BehaviorItem> = State.behaviorItemList,
+    val controlList: SnapshotStateList<Control> = State.controlList,
+    val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
     val controlsChange: MutableStateFlow<Boolean> = State.controlsChange
 ) {
 
     fun addControl(index: Int) {
-        controlItemList[index] = controlItemList[index].copy(
+        controlList[index] = controlList[index].copy(
             visible = true
         )
     }
 
     fun remove(index: Int) {
         updateSafely(index) {
-            controlItemList[index] = controlItemList[index].copy(
+            controlList[index] = controlList[index].copy(
                 isAuto = true,
                 visible = false
             )
@@ -31,7 +31,7 @@ class ControlVM(
 
     fun setBehavior(index: Int, behaviorId: Long?) {
         updateSafely(index) {
-            controlItemList[index] = controlItemList[index].copy(
+            controlList[index] = controlList[index].copy(
                 behaviorId = behaviorId
             )
         }
@@ -39,7 +39,7 @@ class ControlVM(
 
     fun onSwitchClick(checked: Boolean, index: Int) {
         updateSafely(index) {
-            controlItemList[index] = controlItemList[index].copy(
+            controlList[index] = controlList[index].copy(
                 isAuto = !checked
             )
         }
@@ -48,13 +48,13 @@ class ControlVM(
 
     fun setName(name: String, index: Int) {
         checkNameTaken(
-            names = controlItemList.map { item ->
+            names = controlList.map { item ->
                 item.name
             },
             name = name,
             index = index
         )
-        controlItemList[index] = controlItemList[index].copy(
+        controlList[index] = controlList[index].copy(
             name = name
         )
     }
@@ -63,9 +63,9 @@ class ControlVM(
         if (controlsChange.value)
             return
 
-        val previousControl = controlItemList[index].copy()
+        val previousControl = controlList[index].copy()
         operation()
-        if (isControlChange(previousControl, controlItemList[index]))
+        if (isControlChange(previousControl, controlList[index]))
             controlsChange.value = true
     }
 }

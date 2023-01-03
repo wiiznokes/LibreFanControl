@@ -3,7 +3,7 @@ package external
 import SensorLists
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.item.ControlItem
+import model.item.Control
 
 
 /**
@@ -12,7 +12,7 @@ import model.item.ControlItem
  * with the External interface
  */
 class ExternalManager(
-    private val controlItemList: SnapshotStateList<ControlItem> = State.controlItemList,
+    private val controlList: SnapshotStateList<Control> = State.controlList,
     private val sensorLists: SensorLists = State.sensorLists
 ) {
 
@@ -26,7 +26,7 @@ class ExternalManager(
      * load library and fetch sensors
      */
     fun start() {
-        external.start(sensorLists.fanList, sensorLists.tempList, controlItemList)
+        external.start(sensorLists.fanList, sensorLists.tempList, controlList)
         println("start lib : success")
     }
 
@@ -47,7 +47,7 @@ class ExternalManager(
     }
 
     fun updateControl() {
-        external.updateControl(controlItemList)
+        external.updateControl(controlList)
         //println("updateControl : success")
     }
 

@@ -6,17 +6,17 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.ItemType
 import model.UnspecifiedTypeException
 import model.hardware.Sensor
-import model.item.ControlItem
-import model.item.behavior.BehaviorItem
-import model.item.behavior.FlatBehavior
-import model.item.behavior.LinearBehavior
+import model.item.Control
+import model.item.behavior.Behavior
+import model.item.behavior.Flat
+import model.item.behavior.Linear
 import utils.filterWithPreviousIndex
 
 
 class ProvideSetControlList(
     private val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList,
-    private val controlItemList: SnapshotStateList<ControlItem> = State.controlItemList,
-    private val behaviorItemList: SnapshotStateList<BehaviorItem> = State.behaviorItemList,
+    private val controlList: SnapshotStateList<Control> = State.controlList,
+    private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
 ) {
     fun getSetControlList(controlsHasChangeMarker: MutableState<Boolean>): List<SetControlModel> {
 
@@ -33,7 +33,8 @@ class ProvideSetControlList(
 
     private fun handleControlChange(setControlList: MutableList<SetControlModel>) {
 
-        controlItemList.forEachIndexed { index, control ->
+        for (i in controlList.indices) {
+            val control = controlList[i]
 
             setControlList.add(
                 if (isControlShouldBeSet(control)) {
@@ -48,14 +49,14 @@ class ProvideSetControlList(
                         libIndex = control.libIndex,
                         isAuto = res.first == null,
                         value = res.first,
-                        index = index,
+                        index = i,
                         controlShouldBeSet = controlShouldBeSet
                     )
                 } else {
                     SetControlModel(
                         libIndex = control.libIndex,
                         isAuto = true,
-                        index = index,
+                        index = i,
                         controlShouldBeSet = false
                     )
                 }
@@ -66,7 +67,7 @@ class ProvideSetControlList(
     private fun handleControlShouldBeSet(setControlList: MutableList<SetControlModel>) {
 
         filterWithPreviousIndex(
-            list = controlItemList,
+            list = controlList,
             predicate = { it.controlShouldBeSet }
         ) label@{ index, control ->
             /*
@@ -92,17 +93,17 @@ class ProvideSetControlList(
     /**
      * @return value found if we can calculate it
      */
-    private fun findValue(control: ControlItem): Int? {
+    private fun findValue(control: Control): Int? {
 
-        val behaviorIndex = behaviorItemList.indexOfFirst {
+        val behaviorIndex = behaviorList.indexOfFirst {
             it.itemId == control.behaviorId
         }
-        val behavior = behaviorItemList[behaviorIndex]
+        val behavior = behaviorList[behaviorIndex]
 
         return when (behavior.type) {
-            ItemType.BehaviorType.I_B_FLAT -> (behavior.extension as FlatBehavior).value
+            ItemType.BehaviorType.I_B_FLAT -> (behavior.extension as Flat).value
 
-            ItemType.BehaviorType.I_B_LINEAR -> valueLinear(behavior.extension as LinearBehavior, tempList)
+            ItemType.BehaviorType.I_B_LINEAR -> valueLinear(behavior.extension as Linear, tempList)
 
             ItemType.BehaviorType.I_B_TARGET -> TODO()
             else -> throw UnspecifiedTypeException()
@@ -113,22 +114,22 @@ class ProvideSetControlList(
      * use to know if we should reset control at each iteration
      * @return Pair of (value, Behavior Type)
      */
-    private fun findValueAndType(control: ControlItem): Pair<Int?, ItemType.BehaviorType> {
-        val behaviorIndex = behaviorItemList.indexOfFirst {
+    private fun findValueAndType(control: Control): Pair<Int?, ItemType.BehaviorType> {
+        val behaviorIndex = behaviorList.indexOfFirst {
             it.itemId == control.behaviorId
         }
-        val behavior = behaviorItemList[behaviorIndex]
+        val behavior = behaviorList[behaviorIndex]
 
         return when (behavior.type) {
             ItemType.BehaviorType.I_B_FLAT ->
                 Pair(
-                    (behavior.extension as FlatBehavior).value,
+                    (behavior.extension as Flat).value,
                     ItemType.BehaviorType.I_B_FLAT
                 )
 
             ItemType.BehaviorType.I_B_LINEAR ->
                 Pair(
-                    valueLinear(behavior.extension as LinearBehavior, tempList),
+                    valueLinear(behavior.extension as Linear, tempList),
                     ItemType.BehaviorType.I_B_LINEAR
                 )
 

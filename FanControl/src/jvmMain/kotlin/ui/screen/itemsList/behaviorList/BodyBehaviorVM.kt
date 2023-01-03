@@ -3,14 +3,14 @@ package ui.screen.itemsList.behaviorList
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
-import model.item.ControlItem
-import model.item.behavior.BehaviorItem
+import model.item.Control
+import model.item.behavior.Behavior
 import utils.checkNameTaken
 import utils.filterWithPreviousIndex
 
 class BodyBehaviorVM(
-    val behaviorItemList: SnapshotStateList<BehaviorItem> = State.behaviorItemList,
-    private val controlItemList: SnapshotStateList<ControlItem> = State.controlItemList,
+    val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
+    private val controlList: SnapshotStateList<Control> = State.controlList,
     private val controlsChange: MutableStateFlow<Boolean> = State.controlsChange
 ) {
 
@@ -18,36 +18,36 @@ class BodyBehaviorVM(
         if (controlsChange.value)
             return
 
-        val idRemoved = behaviorItemList[index].itemId
+        val idRemoved = behaviorList[index].itemId
 
         var controlHasChangeMarker = false
         // update control if it was linked with this behavior
         filterWithPreviousIndex(
-            list = controlItemList,
+            list = controlList,
             predicate = {
                 it.behaviorId == idRemoved
             }
         ) { controlIndex, _ ->
-            controlItemList[controlIndex] = controlItemList[controlIndex].copy(
+            controlList[controlIndex] = controlList[controlIndex].copy(
                 behaviorId = null
             )
             controlHasChangeMarker = true
         }
         if (controlHasChangeMarker)
             controlsChange.value = true
-        behaviorItemList.removeAt(index)
+        behaviorList.removeAt(index)
     }
 
 
     fun setName(name: String, index: Int) {
         checkNameTaken(
-            names = behaviorItemList.map { item ->
+            names = behaviorList.map { item ->
                 item.name
             },
             name = name,
             index = index
         )
-        behaviorItemList[index] = behaviorItemList[index].copy(
+        behaviorList[index] = behaviorList[index].copy(
             name = name
         )
     }

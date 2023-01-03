@@ -3,11 +3,11 @@ package configuration.write
 import model.ItemType
 import model.UnspecifiedTypeException
 import model.item.BaseItem
-import model.item.ControlItem
+import model.item.Control
 import model.item.SensorItem
-import model.item.behavior.BehaviorItem
-import model.item.behavior.FlatBehavior
-import model.item.behavior.LinearBehavior
+import model.item.behavior.Behavior
+import model.item.behavior.Flat
+import model.item.behavior.Linear
 import org.json.JSONWriter
 
 
@@ -19,8 +19,8 @@ class WriteItem {
         itemList.forEach {
             writer.`object`()
             when (type) {
-                is ItemType.ControlType -> setControl(it as ControlItem, writer)
-                is ItemType.BehaviorType -> setBehavior(it as BehaviorItem, writer)
+                is ItemType.ControlType -> setControl(it as Control, writer)
+                is ItemType.BehaviorType -> setBehavior(it as Behavior, writer)
                 is ItemType.SensorType -> setSensorItem(it as SensorItem, writer)
             }
             writer.endObject()
@@ -28,30 +28,30 @@ class WriteItem {
         writer.endArray()
     }
 
-    private fun setControl(controlItem: ControlItem, writer: JSONWriter) {
-        setItem(controlItem, writer)
+    private fun setControl(control: Control, writer: JSONWriter) {
+        setItem(control, writer)
 
         writer.key("visible")
-        writer.value(controlItem.visible)
+        writer.value(control.visible)
         writer.key("behaviorId")
-        writer.value(controlItem.behaviorId)
+        writer.value(control.behaviorId)
         writer.key("isAuto")
-        writer.value(controlItem.isAuto)
+        writer.value(control.isAuto)
         writer.key("libId")
-        writer.value(controlItem.libId)
+        writer.value(control.libId)
     }
 
-    private fun setBehavior(behaviorItem: BehaviorItem, writer: JSONWriter) {
-        setItem(behaviorItem, writer)
+    private fun setBehavior(behavior: Behavior, writer: JSONWriter) {
+        setItem(behavior, writer)
 
-        when (behaviorItem.type) {
+        when (behavior.type) {
             ItemType.BehaviorType.I_B_FLAT -> setFlatBehavior(
-                flatBehavior = behaviorItem.extension as FlatBehavior,
+                flat = behavior.extension as Flat,
                 writer = writer
             )
 
             ItemType.BehaviorType.I_B_LINEAR -> setLinearBehavior(
-                linearBehavior = behaviorItem.extension as LinearBehavior,
+                linear = behavior.extension as Linear,
                 writer = writer
             )
 
@@ -77,21 +77,21 @@ class WriteItem {
         writer.value(item.type)
     }
 
-    private fun setFlatBehavior(flatBehavior: FlatBehavior, writer: JSONWriter) {
+    private fun setFlatBehavior(flat: Flat, writer: JSONWriter) {
         writer.key("value")
-        writer.value(flatBehavior.value)
+        writer.value(flat.value)
     }
 
-    private fun setLinearBehavior(linearBehavior: LinearBehavior, writer: JSONWriter) {
+    private fun setLinearBehavior(linear: Linear, writer: JSONWriter) {
         writer.key("minTemp")
-        writer.value(linearBehavior.minTemp)
+        writer.value(linear.minTemp)
         writer.key("maxTemp")
-        writer.value(linearBehavior.maxTemp)
+        writer.value(linear.maxTemp)
         writer.key("minFanSpeed")
-        writer.value(linearBehavior.minFanSpeed)
+        writer.value(linear.minFanSpeed)
         writer.key("maxFanSpeed")
-        writer.value(linearBehavior.maxFanSpeed)
+        writer.value(linear.maxFanSpeed)
         writer.key("tempSensorId")
-        writer.value(linearBehavior.tempSensorId)
+        writer.value(linear.tempSensorId)
     }
 }

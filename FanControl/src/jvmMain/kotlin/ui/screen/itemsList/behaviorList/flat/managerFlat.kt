@@ -4,8 +4,8 @@ package ui.screen.itemsList.behaviorList.flat
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import model.ItemType
-import model.item.behavior.BehaviorItem
-import model.item.behavior.FlatBehavior
+import model.item.behavior.Behavior
+import model.item.behavior.Flat
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
 import ui.utils.Resources
@@ -14,12 +14,12 @@ private val viewModel: FlatVM = FlatVM()
 
 @Composable
 fun flatBody(
-    behavior: BehaviorItem,
+    behavior: Behavior,
     index: Int,
     onEditClick: () -> Unit,
     onNameChange: (String) -> Unit,
 ) {
-    val flatBehavior = behavior.extension as FlatBehavior
+    val flat = behavior.extension as Flat
 
     baseItemBody(
         iconPainter = Resources.getIcon("horizontal_rule"),
@@ -29,10 +29,10 @@ fun flatBody(
         item = behavior
     ) {
         baseFlat(
-            value = flatBehavior.value,
+            value = flat.value,
             enabled = true,
-            onLess = { viewModel.onLess(index, flatBehavior.value) },
-            onMore = { viewModel.onMore(index, flatBehavior.value) },
+            onLess = { viewModel.onLess(index, flat.value) },
+            onMore = { viewModel.onMore(index, flat.value) },
             onValueChange = { viewModel.onValueChange(index, it.toInt()) },
             color = MaterialTheme.colorScheme.onSurface
         )

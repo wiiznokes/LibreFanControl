@@ -3,7 +3,7 @@ package external
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.HardwareType
 import model.hardware.Sensor
-import model.item.ControlItem
+import model.item.Control
 import utils.getAvailableId
 
 class ExternalWindows : External {
@@ -13,7 +13,7 @@ class ExternalWindows : External {
     override fun start(
         fans: SnapshotStateList<Sensor>,
         temps: SnapshotStateList<Sensor>,
-        controls: SnapshotStateList<ControlItem>
+        controls: SnapshotStateList<Control>
     ) {
         try {
             System.loadLibrary("CppProxy")
@@ -61,13 +61,13 @@ class ExternalWindows : External {
         }
     }
 
-    override fun getControl(controls: SnapshotStateList<ControlItem>) {
+    override fun getControl(controls: SnapshotStateList<Control>) {
         val result = externalGetControl()
 
         for (i in 0..(result.size - 1) / 3) {
 
             controls.add(
-                ControlItem(
+                Control(
                     libIndex = result[i * 3].toInt(),
                     libId = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2],
@@ -100,7 +100,7 @@ class ExternalWindows : External {
         }
     }
 
-    override fun updateControl(controls: SnapshotStateList<ControlItem>) {
+    override fun updateControl(controls: SnapshotStateList<Control>) {
         externalUpdateControl()
 
         for (i in controls.indices) {

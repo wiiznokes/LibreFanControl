@@ -3,9 +3,9 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import model.SettingsModel
 import model.hardware.Sensor
-import model.item.ControlItem
+import model.item.Control
 import model.item.SensorItem
-import model.item.behavior.BehaviorItem
+import model.item.behavior.Behavior
 
 
 data class SensorLists(
@@ -16,8 +16,8 @@ data class SensorLists(
 class State {
 
     companion object {
-        val controlItemList: SnapshotStateList<ControlItem> = mutableStateListOf()
-        val behaviorItemList: SnapshotStateList<BehaviorItem> = mutableStateListOf()
+        val controlList: SnapshotStateList<Control> = mutableStateListOf()
+        val behaviorList: SnapshotStateList<Behavior> = mutableStateListOf()
         val fanItemList: SnapshotStateList<SensorItem> = mutableStateListOf()
         val tempItemList: SnapshotStateList<SensorItem> = mutableStateListOf()
 

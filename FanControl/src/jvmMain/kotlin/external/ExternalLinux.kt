@@ -3,7 +3,7 @@ package external
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.HardwareType
 import model.hardware.Sensor
-import model.item.ControlItem
+import model.item.Control
 import utils.getAvailableId
 import utils.getAvailableName
 import kotlin.random.Random
@@ -41,10 +41,10 @@ class ExternalLinux : External {
         }
     }
 
-    override fun getControl(controls: SnapshotStateList<ControlItem>) {
+    override fun getControl(controls: SnapshotStateList<Control>) {
         for (i in 0..3) {
             controls.add(
-                ControlItem(
+                Control(
                     name = getAvailableName(controls.map { it.name }, "control"),
                     libIndex = i,
                     libId = "fan${i + 1}",
@@ -72,7 +72,7 @@ class ExternalLinux : External {
         }
     }
 
-    override fun updateControl(controls: SnapshotStateList<ControlItem>) {
+    override fun updateControl(controls: SnapshotStateList<Control>) {
         for (i in controls.indices) {
             controls[i] = controls[i].copy(
                 value = Random.nextInt(0, 100)

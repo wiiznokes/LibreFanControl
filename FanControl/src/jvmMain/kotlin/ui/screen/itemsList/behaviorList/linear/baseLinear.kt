@@ -1,15 +1,17 @@
 package ui.screen.itemsList.behaviorList.linear
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.IconButton
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import model.item.behavior.LinearBehavior
+import model.item.behavior.Linear
 import ui.component.managerText
 import ui.utils.Resources
 
@@ -18,11 +20,11 @@ val linearValues = listOf(
     "20", "70", "50", "100"
 )
 
-fun linearValues(linearBehavior: LinearBehavior) = listOf(
-    linearBehavior.minTemp,
-    linearBehavior.maxTemp,
-    linearBehavior.minFanSpeed,
-    linearBehavior.maxFanSpeed
+fun linearValues(linear: Linear) = listOf(
+    linear.minTemp,
+    linear.maxTemp,
+    linear.minFanSpeed,
+    linear.maxFanSpeed
 )
 
 val linearPrefixes = listOf(
@@ -52,7 +54,7 @@ fun baseLinear(
     enabled: Boolean = true,
     expanded: MutableState<Boolean> = mutableStateOf(true)
 ) {
-    Row (
+    Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -76,8 +78,7 @@ fun baseLinear(
                     tint = color
                 )
             }
-        }
-        else {
+        } else {
             Icon(
                 painter = Resources.getIcon("expand_less"),
                 contentDescription = Resources.getString("ct/choose"),

@@ -6,7 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import model.ItemType
-import model.item.ControlItem
+import model.item.Control
 import ui.component.managerAddItemListChoice
 import ui.component.managerListChoice
 import ui.screen.itemsList.baseItemAddItem
@@ -19,11 +19,11 @@ private val viewModel: ControlVM = ControlVM()
 
 
 fun LazyListScope.controlList(
-    predicate: (ControlItem) -> Boolean,
-    content: @Composable (Int, ControlItem) -> Unit
+    predicate: (Control) -> Boolean,
+    content: @Composable (Int, Control) -> Unit
 ) {
     filterWithPreviousIndexComposable(
-        list = viewModel.controlItemList,
+        list = viewModel.controlList,
         predicate = predicate
     ) { index, control ->
         content(index, control)
@@ -33,7 +33,7 @@ fun LazyListScope.controlList(
 
 @Composable
 fun controlBody(
-    control: ControlItem,
+    control: Control,
     index: Int
 ) {
     baseItemBody(
@@ -53,12 +53,12 @@ fun controlBody(
             color = MaterialTheme.colorScheme.onSurface
         ) {
             managerListChoice(
-                text = viewModel.behaviorItemList.firstOrNull {
+                text = viewModel.behaviorList.firstOrNull {
                     it.itemId == control.behaviorId
                 }?.name,
                 onItemClick = { viewModel.setBehavior(index, it) },
-                ids = viewModel.behaviorItemList.map { it.itemId },
-                names = viewModel.behaviorItemList.map { it.name },
+                ids = viewModel.behaviorList.map { it.itemId },
+                names = viewModel.behaviorList.map { it.name },
                 enabled = !viewModel.controlsChange.collectAsState().value
             )
         }
@@ -68,7 +68,7 @@ fun controlBody(
 
 @Composable
 fun controlAddItem(
-    control: ControlItem,
+    control: Control,
     index: Int
 ) {
     baseItemAddItem(
