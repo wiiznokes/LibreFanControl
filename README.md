@@ -15,12 +15,13 @@ To run the project, just use `.\gradlew run` in FanControl folder.
   <summary>Next steps</summary>
   
 - upgrade linear apparence (add pourcent, expand button)
+- add test for linear behavior
 - add target behavior (idle temp, load temp, idle fan speed, load fan speed)
 - add graph behavior (abscissa -> temp, ordinate -> fan speed)
 - implement settings (language, time between update, theme, support the project, lib used)
 - add a way to mix sensor (average)
-- add test to for linear
 - fixe Windows Lib (the current way of fetching String may cause memory leaks)
+- don't stop the app when we close it, add small icon in task bar instead with an option to exist
 - publish (add lib folder to executable and conf folder)
 - support Linux
 - support Nvidia GPU
