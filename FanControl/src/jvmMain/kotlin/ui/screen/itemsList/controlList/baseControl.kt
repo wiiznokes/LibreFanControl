@@ -19,11 +19,9 @@ fun baseControl(
     switchEnabled: Boolean,
     onSwitchClick: (Boolean) -> Unit,
     value: Int,
-    fanValue: Int,
     color: Color,
     contentListChoice: @Composable () -> Unit
 ) {
-
     Row {
 
         Switch(
@@ -40,18 +38,9 @@ fun baseControl(
 
         contentListChoice()
     }
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        managerText(
-            text = "$value ${Resources.getString("unity/percent")}",
-            color = color
-        )
-        managerText(
-            text = "$fanValue ${Resources.getString("unity/rpm")}",
-            color = color
-        )
-    }
+    managerText(
+        text = "$value ${Resources.getString("unity/percent")}",
+        color = color
+    )
+
 }

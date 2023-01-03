@@ -50,7 +50,6 @@ fun controlBody(
                 viewModel.onSwitchClick(checked, index)
             },
             value = control.value,
-            fanValue = 0,
             color = MaterialTheme.colorScheme.onSurface
         ) {
             managerListChoice(
@@ -84,7 +83,6 @@ fun controlAddItem(
             switchEnabled = false,
             onSwitchClick = {},
             value = control.value,
-            fanValue = 0,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         ) {
             managerAddItemListChoice(
