@@ -90,7 +90,6 @@ class ProvideSetControlList(
 
 
     /**
-     * if linear behavior, we set the value found
      * @return value found if we can calculate it
      */
     private fun findValue(control: ControlItem): Int? {
@@ -101,20 +100,9 @@ class ProvideSetControlList(
         val behavior = behaviorItemList[behaviorIndex]
 
         return when (behavior.type) {
-            ItemType.BehaviorType.I_B_FLAT -> {
-                (behavior.extension as FlatBehavior).value
-            }
+            ItemType.BehaviorType.I_B_FLAT -> (behavior.extension as FlatBehavior).value
 
-            ItemType.BehaviorType.I_B_LINEAR -> {
-                val value = valueLinear(behavior.extension as LinearBehavior, tempList)
-
-                behaviorItemList[behaviorIndex] = behaviorItemList[behaviorIndex].copy(
-                    extension = (behaviorItemList[behaviorIndex].extension as LinearBehavior).copy(
-                        value = value ?: 0
-                    )
-                )
-                value
-            }
+            ItemType.BehaviorType.I_B_LINEAR -> valueLinear(behavior.extension as LinearBehavior, tempList)
 
             ItemType.BehaviorType.I_B_TARGET -> TODO()
             else -> throw UnspecifiedTypeException()
@@ -123,7 +111,6 @@ class ProvideSetControlList(
 
     /**
      * use to know if we should reset control at each iteration
-     * if linear behavior, we set the value found
      * @return Pair of (value, Behavior Type)
      */
     private fun findValueAndType(control: ControlItem): Pair<Int?, ItemType.BehaviorType> {
@@ -134,18 +121,16 @@ class ProvideSetControlList(
 
         return when (behavior.type) {
             ItemType.BehaviorType.I_B_FLAT ->
-                Pair((behavior.extension as FlatBehavior).value, ItemType.BehaviorType.I_B_FLAT)
-
-
-            ItemType.BehaviorType.I_B_LINEAR ->  {
-                val value = valueLinear(behavior.extension as LinearBehavior, tempList)
-                behaviorItemList[behaviorIndex] = behaviorItemList[behaviorIndex].copy(
-                    extension = (behaviorItemList[behaviorIndex].extension as LinearBehavior).copy(
-                        value = value ?: 0
-                    )
+                Pair(
+                    (behavior.extension as FlatBehavior).value,
+                    ItemType.BehaviorType.I_B_FLAT
                 )
-                Pair(value, ItemType.BehaviorType.I_B_LINEAR)
-            }
+
+            ItemType.BehaviorType.I_B_LINEAR ->
+                Pair(
+                    valueLinear(behavior.extension as LinearBehavior, tempList),
+                    ItemType.BehaviorType.I_B_LINEAR
+                )
 
             ItemType.BehaviorType.I_B_TARGET -> TODO()
             else -> throw UnspecifiedTypeException()
