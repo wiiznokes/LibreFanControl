@@ -8,6 +8,7 @@ import model.item.SensorItem
 import model.item.behavior.Behavior
 import model.item.behavior.Flat
 import model.item.behavior.Linear
+import model.item.behavior.Target
 import org.json.JSONWriter
 
 
@@ -55,7 +56,11 @@ class WriteItem {
                 writer = writer
             )
 
-            ItemType.BehaviorType.I_B_TARGET -> TODO()
+            ItemType.BehaviorType.I_B_TARGET -> setTargetBehavior(
+                target = behavior.extension as Target,
+                writer = writer
+            )
+
             else -> throw UnspecifiedTypeException()
         }
     }
@@ -71,8 +76,8 @@ class WriteItem {
     private fun setItem(item: BaseItem, writer: JSONWriter) {
         writer.key("name")
         writer.value(item.name)
-        writer.key("itemId")
-        writer.value(item.itemId)
+        writer.key("id")
+        writer.value(item.id)
         writer.key("type")
         writer.value(item.type)
     }
@@ -93,5 +98,19 @@ class WriteItem {
         writer.value(linear.maxFanSpeed)
         writer.key("tempSensorId")
         writer.value(linear.tempSensorId)
+    }
+
+
+    private fun setTargetBehavior(target: Target, writer: JSONWriter) {
+        writer.key("idleTemp")
+        writer.value(target.idleTemp)
+        writer.key("loadTemp")
+        writer.value(target.loadTemp)
+        writer.key("idleFanSpeed")
+        writer.value(target.idleFanSpeed)
+        writer.key("loadFanSpeed")
+        writer.value(target.loadFanSpeed)
+        writer.key("tempSensorId")
+        writer.value(target.tempSensorId)
     }
 }

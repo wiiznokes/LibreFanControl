@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import logicControl.Logic
-import logicControl.UpdateBehaviorValue
+import logicControl.uiUpdate.UpdateBehaviorValue
 import model.SettingsModel
 import utils.initSensor
 

@@ -6,6 +6,7 @@ import model.ItemType
 import model.item.behavior.Behavior
 import model.item.behavior.Flat
 import model.item.behavior.Linear
+import model.item.behavior.Target
 import ui.utils.Resources
 import utils.getAvailableId
 import utils.getAvailableName
@@ -25,9 +26,9 @@ class AddBehaviorVM(
                 ),
                 type = ItemType.BehaviorType.I_B_FLAT,
                 extension = Flat(),
-                itemId = getAvailableId(
+                id = getAvailableId(
                     ids = behaviorList.map { item ->
-                        item.itemId
+                        item.id
                     }
                 )
             )
@@ -45,9 +46,29 @@ class AddBehaviorVM(
                 ),
                 type = ItemType.BehaviorType.I_B_LINEAR,
                 extension = Linear(),
-                itemId = getAvailableId(
+                id = getAvailableId(
                     ids = behaviorList.map { item ->
-                        item.itemId
+                        item.id
+                    }
+                )
+            )
+        )
+    }
+
+    fun addTarget() {
+        behaviorList.add(
+            Behavior(
+                name = getAvailableName(
+                    names = behaviorList.map { item ->
+                        item.name
+                    },
+                    prefix = Resources.getString("default/target_name")
+                ),
+                type = ItemType.BehaviorType.I_B_TARGET,
+                extension = Target(),
+                id = getAvailableId(
+                    ids = behaviorList.map { item ->
+                        item.id
                     }
                 )
             )

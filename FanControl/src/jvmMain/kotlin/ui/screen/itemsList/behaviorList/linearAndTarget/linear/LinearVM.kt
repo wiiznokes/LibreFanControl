@@ -1,28 +1,20 @@
-package ui.screen.itemsList.behaviorList.linear
+package ui.screen.itemsList.behaviorList.linearAndTarget.linear
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.Sensor
 import model.item.behavior.Behavior
 import model.item.behavior.Linear
+import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
+import ui.screen.itemsList.behaviorList.linearAndTarget.numberChoiceFinalValue
 
 
-enum class LinearParams {
+enum class LinearParams : LinAndTarParams {
     MIN_TEMP,
     MAX_TEMP,
     MIN_FAN_SPEED,
     MAX_FAN_SPEED
 }
-
-private fun getFinalValue(value: Int): Int =
-    if (value < 0)
-        0
-    else {
-        if (value > 100)
-            100
-        else
-            value
-    }
 
 
 class LinearVM(
@@ -66,22 +58,22 @@ class LinearVM(
         val extension = with(behaviorList[index].extension as Linear) {
             when (type) {
                 LinearParams.MIN_TEMP -> {
-                    finalValue = getFinalValue(value(minTemp))
+                    finalValue = numberChoiceFinalValue(value(minTemp))
                     copy(minTemp = finalValue)
                 }
 
                 LinearParams.MAX_TEMP -> {
-                    finalValue = getFinalValue(value(maxTemp))
+                    finalValue = numberChoiceFinalValue(value(maxTemp))
                     copy(maxTemp = finalValue)
                 }
 
                 LinearParams.MIN_FAN_SPEED -> {
-                    finalValue = getFinalValue(value(minFanSpeed))
+                    finalValue = numberChoiceFinalValue(value(minFanSpeed))
                     copy(minFanSpeed = finalValue)
                 }
 
                 LinearParams.MAX_FAN_SPEED -> {
-                    finalValue = getFinalValue(value(maxFanSpeed))
+                    finalValue = numberChoiceFinalValue(value(maxFanSpeed))
                     copy(maxFanSpeed = finalValue)
                 }
             }

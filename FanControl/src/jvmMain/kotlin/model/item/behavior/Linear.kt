@@ -7,5 +7,9 @@ data class Linear(
     var maxFanSpeed: Int = 100,
     var tempSensorId: Long? = null,
 
-    var value: Int = 0
-) : BehaviorExtension
+    override var value: Int = 0
+) : BehaviorExtension {
+    override fun copyI(value: Int): BehaviorExtension = copy(
+        value = value
+    )
+}

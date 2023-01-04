@@ -6,7 +6,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -50,19 +49,13 @@ fun home() {
                     }
 
                     if (addItemExpanded.value) {
-                        Column {
-                            val modifier = Modifier
-                                .widthIn(min = 200.dp, max = Dp.Infinity)
+                        Column(
+                            modifier = Modifier
+                                .widthIn(min = 250.dp)
                                 .fillMaxWidth(0.2f)
-
-                            topBarAddItem(
-                                modifier = modifier
-                            )
-
-                            addItem(
-                                modifier = modifier,
-                                currentChoiceType = currentChoiceType
-                            )
+                        ) {
+                            topBarAddItem()
+                            addItem(currentChoiceType)
                         }
                     }
 

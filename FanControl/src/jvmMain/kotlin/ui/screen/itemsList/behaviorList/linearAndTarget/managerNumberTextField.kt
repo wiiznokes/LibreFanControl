@@ -1,4 +1,4 @@
-package ui.screen.itemsList.behaviorList.linear
+package ui.screen.itemsList.behaviorList.linearAndTarget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 fun managerNumberTextField(
     text: MutableState<String>,
     opposedValue: Int,
-    type: LinearParams,
+    type: LinAndTarParams,
     onValueChange: (Int) -> String,
 ) {
     val colors = TextFieldDefaults.textFieldColors(
@@ -31,16 +31,7 @@ fun managerNumberTextField(
     )
 
     val interactionSource = remember { MutableInteractionSource() }
-    val isError = try {
-        when (type) {
-            LinearParams.MIN_TEMP -> text.value.toInt() >= opposedValue
-            LinearParams.MAX_TEMP -> text.value.toInt() <= opposedValue
-            LinearParams.MIN_FAN_SPEED -> text.value.toInt() >= opposedValue
-            LinearParams.MAX_FAN_SPEED -> text.value.toInt() <= opposedValue
-        }
-    } catch (e: NumberFormatException) {
-        true
-    }
+    val isError = isError(type, text.value, opposedValue)
 
     @OptIn(ExperimentalMaterial3Api::class)
     (BasicTextField(

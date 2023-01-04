@@ -54,10 +54,10 @@ fun controlBody(
         ) {
             managerListChoice(
                 text = viewModel.behaviorList.firstOrNull {
-                    it.itemId == control.behaviorId
+                    it.id == control.behaviorId
                 }?.name,
                 onItemClick = { viewModel.setBehavior(index, it) },
-                ids = viewModel.behaviorList.map { it.itemId },
+                ids = viewModel.behaviorList.map { it.id },
                 names = viewModel.behaviorList.map { it.name },
                 enabled = !viewModel.controlsChange.collectAsState().value
             )

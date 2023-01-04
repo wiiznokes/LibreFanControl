@@ -1,4 +1,4 @@
-package ui.screen.itemsList.behaviorList.linear
+package ui.screen.itemsList.behaviorList.linearAndTarget
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -11,44 +11,64 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import model.item.behavior.Linear
 import ui.component.managerText
+import ui.screen.itemsList.behaviorList.linearAndTarget.linear.LinearParams
+import ui.screen.itemsList.behaviorList.linearAndTarget.target.TargetParams
 import ui.utils.Resources
 
 
-val linearValues = listOf(
-    "20", "70", "50", "100"
-)
-
-fun linearValues(linear: Linear) = listOf(
-    linear.minTemp,
-    linear.maxTemp,
-    linear.minFanSpeed,
-    linear.maxFanSpeed
-)
-
-val linearPrefixes = listOf(
-    Resources.getString("linear/min_temp"),
-    Resources.getString("linear/max_temp"),
-    Resources.getString("linear/min_fan_speed"),
-    Resources.getString("linear/max_fan_speed")
-)
-val linearSuffixes = listOf(
+val linAndTarSuffixes = listOf(
     Resources.getString("unity/degree"),
     Resources.getString("unity/degree"),
     Resources.getString("unity/percent"),
     Resources.getString("unity/percent")
 )
-val linearTypes = listOf(
-    LinearParams.MIN_TEMP,
-    LinearParams.MAX_TEMP,
-    LinearParams.MIN_FAN_SPEED,
-    LinearParams.MAX_FAN_SPEED
-)
 
+interface LinAndTarParams
 
+fun isError(params: LinAndTarParams, str: String, opposedValue: Int): Boolean {
+    val value = try {
+        str.toInt()
+    } catch (e: NumberFormatException) {
+        return true
+    }
+
+    when (params) {
+        is LinearParams -> {
+            return try {
+                when (params) {
+                    LinearParams.MIN_TEMP -> value >= opposedValue
+                    LinearParams.MAX_TEMP -> value <= opposedValue
+                    LinearParams.MIN_FAN_SPEED -> value >= opposedValue
+                    LinearParams.MAX_FAN_SPEED -> value <= opposedValue
+                }
+            } catch (e: NumberFormatException) {
+                true
+            }
+        }
+
+        is TargetParams -> {
+            return try {
+                when (params) {
+                    TargetParams.IDLE_TEMP -> value >= opposedValue
+                    TargetParams.LOAD_TEMP -> value <= opposedValue
+                    TargetParams.IDLE_FAN_SPEED -> value >= opposedValue
+                    TargetParams.LOAD_FAN_SPEED -> value <= opposedValue
+                }
+            } catch (e: NumberFormatException) {
+                true
+            }
+        }
+
+        else -> throw IllegalArgumentException()
+    }
+}
+
+/**
+ * base linear and target behavior
+ */
 @Composable
-fun baseLinear(
+fun baseLinAndTar(
     value: Int,
     color: Color,
     enabled: Boolean = true,

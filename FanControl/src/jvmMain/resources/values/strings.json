@@ -21,6 +21,7 @@
     "control": "control info",
     "flat": "flat behavior info",
     "linear": "linear behavior info",
+    "target": "target behavior info",
     "fan": "fan sensor info",
     "temp": "temp sensor info",
     "edit_add": "Add item",
@@ -43,6 +44,7 @@
   "add_item": {
     "flat_name": "Flat",
     "linear_name": "Linear",
+    "target_name": "Target",
     "fan_name": "Fan",
     "temp_name": "Temperature",
     "choose_sensor": "Sensor name",
@@ -52,6 +54,7 @@
     "control_name": "Control #",
     "flat_name": "Flat #",
     "linear_name": "Linear #",
+    "target_name": "Target #",
     "fan_name": "Fan #",
     "temp_name": "Temp #"
   },
@@ -60,6 +63,12 @@
     "max_temp": "max temp : ",
     "min_fan_speed": "min speed : ",
     "max_fan_speed": "max speed : "
+  },
+  "target": {
+    "idle_temp": "idle temp : ",
+    "load_temp": "load temp : ",
+    "idle_fan_speed": "idle speed : ",
+    "load_fan_speed": "load speed : "
   },
   "none": "None",
   "fan_speed": "fan speed",

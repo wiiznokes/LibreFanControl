@@ -96,11 +96,9 @@ fun topBarBody(
 
 
 @Composable
-fun topBarAddItem(
-    modifier: Modifier
-) {
+fun topBarAddItem() {
     CenterAlignedTopAppBar(
-        modifier = modifier
+        modifier = Modifier
             .height(topBarHeight),
         title = {
             Box(
