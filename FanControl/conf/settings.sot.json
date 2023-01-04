@@ -2,5 +2,6 @@
   "language": "en",
   "configId": null,
   "configList": {},
-  "updateDelay": 2
+  "updateDelay": 2,
+  "theme": 0
 }

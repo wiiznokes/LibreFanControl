@@ -24,15 +24,19 @@ fun home() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
+
     ModalNavigationDrawer(
         modifier = Modifier,
         drawerContent = {
             drawer(
-
+                drawerState = drawerState
             )
         },
         drawerState = drawerState,
-        gesturesEnabled = true
+        gesturesEnabled = true,
+        drawerContainerColor = MaterialTheme.colorScheme.inverseSurface,
+        drawerContentColor = MaterialTheme.colorScheme.inverseOnSurface,
+
     ) {
         val addItemExpanded = viewModel.addItemExpanded.collectAsState()
 
