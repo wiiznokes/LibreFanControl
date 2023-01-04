@@ -55,8 +55,7 @@ fun home() {
                     if (addItemExpanded.value) {
                         Column(
                             modifier = Modifier
-                                .widthIn(min = 250.dp)
-                                .fillMaxWidth(0.2f)
+                                .width(250.dp)
                         ) {
                             topBarAddItem()
                             addItem(currentChoiceType)
