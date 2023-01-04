@@ -7,7 +7,6 @@ import logicControl.behaviorLogic.BehaviorLogic
 import model.ItemType
 import model.item.Control
 import model.item.behavior.Behavior
-import model.item.behavior.Linear
 import utils.filterWithPreviousIndex
 
 
@@ -113,7 +112,7 @@ class ProvideSetControlList(
         val behavior = behaviorList[behaviorIndex]
 
         return Pair(
-            behaviorLogic.getValue(behavior.extension as Linear, behaviorIndex),
+            behaviorLogic.getValue(behavior.extension, behaviorIndex),
             behavior.type
         )
     }

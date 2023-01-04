@@ -173,3 +173,4 @@ fun isControlShouldBeSet(control: Control): Boolean =
 
 fun isControlChange(previousControl: Control, newControl: Control): Boolean =
     isControlShouldBeSet(previousControl) != isControlShouldBeSet(newControl)
+            || previousControl.behaviorId != newControl.behaviorId
