@@ -50,19 +50,13 @@ fun home() {
                     }
 
                     if (addItemExpanded.value) {
-                        Column {
-                            val modifier = Modifier
-                                .widthIn(min = 200.dp)
+                        Column(
+                            modifier = Modifier
+                                .widthIn(min = 250.dp)
                                 .fillMaxWidth(0.2f)
-
-                            topBarAddItem(
-                                modifier = modifier
-                            )
-
-                            addItem(
-                                modifier = modifier,
-                                currentChoiceType = currentChoiceType
-                            )
+                        ) {
+                            topBarAddItem()
+                            addItem(currentChoiceType)
                         }
                     }
 

@@ -22,13 +22,12 @@ import ui.utils.Resources
 
 @Composable
 fun addItem(
-    modifier: Modifier,
     currentChoiceType: MutableState<ChoiceType>
 ) {
     val choiceStates = ChoiceStates()
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.inverseSurface)
     ) {
