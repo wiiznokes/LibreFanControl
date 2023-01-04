@@ -95,7 +95,7 @@ class ProvideSetControlList(
     private fun findValue(control: Control): Int? {
 
         val behaviorIndex = behaviorList.indexOfFirst {
-            it.itemId == control.behaviorId
+            it.id == control.behaviorId
         }
         val behavior = behaviorList[behaviorIndex]
 
@@ -108,7 +108,7 @@ class ProvideSetControlList(
      */
     private fun findValueAndType(control: Control): Pair<Int?, ItemType.BehaviorType> {
         val behaviorIndex = behaviorList.indexOfFirst {
-            it.itemId == control.behaviorId
+            it.id == control.behaviorId
         }
         val behavior = behaviorList[behaviorIndex]
 

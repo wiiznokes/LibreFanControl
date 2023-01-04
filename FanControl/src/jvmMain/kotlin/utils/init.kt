@@ -22,8 +22,8 @@ fun initSensor(
             SensorItem(
                 name = fanSensor.libName,
                 type = ItemType.SensorType.I_S_FAN,
-                itemId = getAvailableId(
-                    ids = fanItemList.map { it.itemId }
+                id = getAvailableId(
+                    ids = fanItemList.map { it.id }
                 ),
                 sensorId = fanSensor.id
             )
@@ -35,8 +35,8 @@ fun initSensor(
             SensorItem(
                 name = tempSensor.libName,
                 type = ItemType.SensorType.I_S_FAN,
-                itemId = getAvailableId(
-                    ids = tempItemList.map { it.itemId }
+                id = getAvailableId(
+                    ids = tempItemList.map { it.id }
                 ),
                 sensorId = tempSensor.id
             )

@@ -25,9 +25,9 @@ class AddBehaviorVM(
                 ),
                 type = ItemType.BehaviorType.I_B_FLAT,
                 extension = Flat(),
-                itemId = getAvailableId(
+                id = getAvailableId(
                     ids = behaviorList.map { item ->
-                        item.itemId
+                        item.id
                     }
                 )
             )
@@ -45,9 +45,9 @@ class AddBehaviorVM(
                 ),
                 type = ItemType.BehaviorType.I_B_LINEAR,
                 extension = Linear(),
-                itemId = getAvailableId(
+                id = getAvailableId(
                     ids = behaviorList.map { item ->
-                        item.itemId
+                        item.id
                     }
                 )
             )

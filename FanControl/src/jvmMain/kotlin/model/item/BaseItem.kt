@@ -5,5 +5,5 @@ import model.ItemType
 interface BaseItem {
     var name: String
     val type: ItemType
-    val itemId: Long
+    val id: Long
 }

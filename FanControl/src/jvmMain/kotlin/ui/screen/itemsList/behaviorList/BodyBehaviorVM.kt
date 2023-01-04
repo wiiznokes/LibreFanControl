@@ -18,7 +18,7 @@ class BodyBehaviorVM(
         if (controlsChange.value)
             return
 
-        val idRemoved = behaviorList[index].itemId
+        val idRemoved = behaviorList[index].id
 
         var controlHasChangeMarker = false
         // update control if it was linked with this behavior

@@ -49,7 +49,7 @@ class ExternalLinux : External {
                     libIndex = i,
                     libId = "fan${i + 1}",
                     libName = "control lib${i + 1}",
-                    itemId = getAvailableId(controls.map { it.itemId })
+                    id = getAvailableId(controls.map { it.id })
                 )
             )
         }

@@ -59,7 +59,7 @@ fun baseItemBody(
         contentName = {
             managerNameOutlinedTextField(
                 value = item.name,
-                ids = Pair(item.itemId, configId),
+                ids = Pair(item.id, configId),
                 onValueChange = { onNameChange(it) },
                 label = Resources.getString("label/name"),
             )

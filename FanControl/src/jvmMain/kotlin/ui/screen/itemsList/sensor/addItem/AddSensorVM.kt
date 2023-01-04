@@ -25,9 +25,9 @@ class AddSensorVM(
             SensorItem(
                 name = name,
                 type = ItemType.SensorType.I_S_FAN,
-                itemId = getAvailableId(
+                id = getAvailableId(
                     ids = fanItemList.map { item ->
-                        item.itemId
+                        item.id
                     }
                 )
             )
@@ -46,9 +46,9 @@ class AddSensorVM(
             SensorItem(
                 name = name,
                 type = ItemType.SensorType.I_S_TEMP,
-                itemId = getAvailableId(
+                id = getAvailableId(
                     ids = tempItemList.map { item ->
-                        item.itemId
+                        item.id
                     }
                 )
             )

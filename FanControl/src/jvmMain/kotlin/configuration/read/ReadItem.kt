@@ -27,7 +27,7 @@ class ReadItem {
 
             controlList[index] = controlList[index].copy(
                 name = getJsonValue("name", obj)!!,
-                itemId = getJsonValue("itemId", obj)!!,
+                id = getJsonValue("id", obj)!!,
                 type = getItemType(getJsonValue("type", obj)!!) as ItemType.ControlType,
                 visible = getJsonValue("visible", obj)!!,
                 behaviorId = getJsonValue("behaviorId", obj),
@@ -49,7 +49,7 @@ class ReadItem {
             behaviorList.add(
                 Behavior(
                     name = getJsonValue("name", obj)!!,
-                    itemId = getJsonValue("itemId", obj)!!,
+                    id = getJsonValue("id", obj)!!,
                     type = type,
                     extension = when (type) {
                         ItemType.BehaviorType.I_B_FLAT -> getFlatBehavior(obj)
@@ -73,7 +73,7 @@ class ReadItem {
             sensorItemList.add(
                 SensorItem(
                     name = getJsonValue("name", obj)!!,
-                    itemId = getJsonValue("itemId", obj)!!,
+                    id = getJsonValue("id", obj)!!,
                     type = getItemType(getJsonValue("type", obj)!!) as ItemType.SensorType,
                     sensorId = getJsonValue("sensorId", obj),
                 )

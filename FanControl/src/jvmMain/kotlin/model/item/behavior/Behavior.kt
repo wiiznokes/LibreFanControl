@@ -5,7 +5,7 @@ import model.item.BaseItem
 
 data class Behavior(
     override var name: String,
-    override val itemId: Long,
+    override val id: Long,
     override val type: ItemType.BehaviorType,
 
     val extension: BehaviorExtension,
