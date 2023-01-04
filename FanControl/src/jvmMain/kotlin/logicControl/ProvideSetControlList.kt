@@ -3,18 +3,15 @@ package logicControl
 import State
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import logicControl.behaviorLogic.BehaviorLogic
 import model.ItemType
-import model.UnspecifiedTypeException
-import model.hardware.Sensor
 import model.item.Control
 import model.item.behavior.Behavior
-import model.item.behavior.Flat
 import model.item.behavior.Linear
 import utils.filterWithPreviousIndex
 
 
 class ProvideSetControlList(
-    private val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList,
     private val controlList: SnapshotStateList<Control> = State.controlList,
     private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
 ) {
@@ -90,6 +87,8 @@ class ProvideSetControlList(
     }
 
 
+    private val behaviorLogic = BehaviorLogic()
+
     /**
      * @return value found if we can calculate it
      */
@@ -100,14 +99,7 @@ class ProvideSetControlList(
         }
         val behavior = behaviorList[behaviorIndex]
 
-        return when (behavior.type) {
-            ItemType.BehaviorType.I_B_FLAT -> (behavior.extension as Flat).value
-
-            ItemType.BehaviorType.I_B_LINEAR -> valueLinear(behavior.extension as Linear, tempList)
-
-            ItemType.BehaviorType.I_B_TARGET -> TODO()
-            else -> throw UnspecifiedTypeException()
-        }
+        return behaviorLogic.getValue(behavior.extension, behaviorIndex)
     }
 
     /**
@@ -120,21 +112,9 @@ class ProvideSetControlList(
         }
         val behavior = behaviorList[behaviorIndex]
 
-        return when (behavior.type) {
-            ItemType.BehaviorType.I_B_FLAT ->
-                Pair(
-                    (behavior.extension as Flat).value,
-                    ItemType.BehaviorType.I_B_FLAT
-                )
-
-            ItemType.BehaviorType.I_B_LINEAR ->
-                Pair(
-                    valueLinear(behavior.extension as Linear, tempList),
-                    ItemType.BehaviorType.I_B_LINEAR
-                )
-
-            ItemType.BehaviorType.I_B_TARGET -> TODO()
-            else -> throw UnspecifiedTypeException()
-        }
+        return Pair(
+            behaviorLogic.getValue(behavior.extension as Linear, behaviorIndex),
+            behavior.type
+        )
     }
 }

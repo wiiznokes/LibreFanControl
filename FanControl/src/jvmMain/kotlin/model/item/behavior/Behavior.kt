@@ -12,4 +12,8 @@ data class Behavior(
 ) : BaseItem
 
 
-interface BehaviorExtension
+interface BehaviorExtension {
+    var value: Int
+
+    fun copy_(value: Int): BehaviorExtension
+}
