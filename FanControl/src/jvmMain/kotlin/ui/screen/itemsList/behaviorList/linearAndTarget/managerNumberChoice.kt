@@ -1,4 +1,4 @@
-package ui.component
+package ui.screen.itemsList.behaviorList.linearAndTarget
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import ui.component.managerText
 import ui.utils.Resources
 
 @Composable
@@ -71,3 +72,14 @@ fun managerNumberChoice(
         }
     }
 }
+
+
+fun numberChoiceFinalValue(value: Int): Int =
+    if (value < 0)
+        0
+    else {
+        if (value > 100)
+            100
+        else
+            value
+    }

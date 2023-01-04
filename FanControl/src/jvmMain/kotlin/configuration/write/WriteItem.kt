@@ -60,6 +60,7 @@ class WriteItem {
                 target = behavior.extension as Target,
                 writer = writer
             )
+
             else -> throw UnspecifiedTypeException()
         }
     }

@@ -1,4 +1,4 @@
-package ui.screen.itemsList.behaviorList.linear
+package ui.screen.itemsList.behaviorList.linearAndTarget.linear
 
 import State
 import androidx.compose.material3.MaterialTheme
@@ -8,10 +8,13 @@ import model.item.behavior.Behavior
 import model.item.behavior.Linear
 import ui.component.managerAddItemListChoice
 import ui.component.managerListChoice
-import ui.component.managerNumberChoice
 import ui.component.managerText
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
+import ui.screen.itemsList.behaviorList.linearAndTarget.baseLinAndTar
+import ui.screen.itemsList.behaviorList.linearAndTarget.linAndTarSuffixes
+import ui.screen.itemsList.behaviorList.linearAndTarget.managerNumberChoice
+import ui.screen.itemsList.behaviorList.linearAndTarget.managerNumberTextField
 import ui.utils.Resources
 
 private val viewModel: LinearVM = LinearVM()
@@ -36,9 +39,9 @@ fun linearBody(
 
         managerListChoice(
             text = if (linear.tempSensorId != null) {
-                viewModel.tempList.find {
+                viewModel.tempList.first {
                     it.id == linear.tempSensorId
-                }!!.libName
+                }.libName
             } else null,
             onItemClick = {
                 viewModel.setTemp(
@@ -57,7 +60,7 @@ fun linearBody(
             mutableStateOf(false)
         }
 
-        baseLinear(
+        baseLinAndTar(
             value = linear.value,
             color = MaterialTheme.colorScheme.onSurface,
             expanded = expanded
@@ -97,7 +100,7 @@ fun linearBody(
                         )
                     },
                     prefix = linearPrefixes[i],
-                    suffix = linearSuffixes[i],
+                    suffix = linAndTarSuffixes[i],
                     increase = {
                         text.value = viewModel.increase(
                             index = index,
@@ -133,7 +136,7 @@ fun linearAddItem(
             name = Resources.getString("add_item/temp_name")
         )
 
-        baseLinear(
+        baseLinAndTar(
             value = 50,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             enabled = false
@@ -148,7 +151,7 @@ fun linearAddItem(
                     )
                 },
                 prefix = linearPrefixes[i],
-                suffix = linearSuffixes[i],
+                suffix = linAndTarSuffixes[i],
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }

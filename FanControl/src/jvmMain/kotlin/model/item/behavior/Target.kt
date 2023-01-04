@@ -1,10 +1,10 @@
 package model.item.behavior
 
 data class Target(
-    var idleTemp: Int,
-    var loadTemp: Int,
-    var idleFanSpeed: Int,
-    var loadFanSpeed: Int,
+    var idleTemp: Int = 40,
+    var loadTemp: Int = 60,
+    var idleFanSpeed: Int = 50,
+    var loadFanSpeed: Int = 100,
 
     var tempSensorId: Long? = null,
 

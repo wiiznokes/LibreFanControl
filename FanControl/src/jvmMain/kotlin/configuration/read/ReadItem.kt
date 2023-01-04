@@ -9,6 +9,7 @@ import model.item.SensorItem
 import model.item.behavior.Behavior
 import model.item.behavior.Flat
 import model.item.behavior.Linear
+import model.item.behavior.Target
 import org.json.JSONArray
 import org.json.JSONObject
 import utils.getJsonValue
@@ -54,7 +55,7 @@ class ReadItem {
                     extension = when (type) {
                         ItemType.BehaviorType.I_B_FLAT -> getFlatBehavior(obj)
                         ItemType.BehaviorType.I_B_LINEAR -> getLinearBehavior(obj)
-                        ItemType.BehaviorType.I_B_TARGET -> TODO()
+                        ItemType.BehaviorType.I_B_TARGET -> getTargetBehavior(obj)
                         ItemType.BehaviorType.I_B_UNSPECIFIED -> throw UnspecifiedTypeException()
                     }
                 )
@@ -89,7 +90,6 @@ class ReadItem {
     }
 
     private fun getLinearBehavior(obj: JSONObject): Linear {
-
         return Linear(
             minTemp = getJsonValue("minTemp", obj)!!,
             maxTemp = getJsonValue("maxTemp", obj)!!,
@@ -97,6 +97,15 @@ class ReadItem {
             maxFanSpeed = getJsonValue("maxFanSpeed", obj)!!,
             tempSensorId = getJsonValue("tempSensorId", obj)
         )
+    }
 
+    private fun getTargetBehavior(obj: JSONObject): Target {
+        return Target(
+            idleTemp = getJsonValue("idleTemp", obj)!!,
+            loadTemp = getJsonValue("loadTemp", obj)!!,
+            idleFanSpeed = getJsonValue("idleFanSpeed", obj)!!,
+            loadFanSpeed = getJsonValue("loadFanSpeed", obj)!!,
+            tempSensorId = getJsonValue("tempSensorId", obj)
+        )
     }
 }

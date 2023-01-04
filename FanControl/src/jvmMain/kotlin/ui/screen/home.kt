@@ -52,7 +52,7 @@ fun home() {
                     if (addItemExpanded.value) {
                         Column {
                             val modifier = Modifier
-                                .widthIn(min = 200.dp, max = Dp.Infinity)
+                                .widthIn(min = 200.dp)
                                 .fillMaxWidth(0.2f)
 
                             topBarAddItem(
