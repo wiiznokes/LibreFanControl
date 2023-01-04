@@ -7,33 +7,33 @@ import model.item.Control
 interface External {
 
     fun start(
-        fans: SnapshotStateList<Sensor>,
-        temps: SnapshotStateList<Sensor>,
-        controls: SnapshotStateList<Control>
+        fanList: SnapshotStateList<Sensor>,
+        tempList: SnapshotStateList<Sensor>,
+        controlList: SnapshotStateList<Control>
     ) {
-        getFan(fans)
-        getTemp(temps)
-        getControl(controls)
+        setFanList(fanList)
+        setTempList(tempList)
+        setControlList(controlList)
     }
 
     fun stop()
 
-    fun getFan(fans: SnapshotStateList<Sensor>)
+    fun setFanList(fanList: SnapshotStateList<Sensor>)
 
-    fun getTemp(temps: SnapshotStateList<Sensor>)
+    fun setTempList(tempList: SnapshotStateList<Sensor>)
 
-    fun getControl(controls: SnapshotStateList<Control>)
+    fun setControlList(controlList: SnapshotStateList<Control>)
 
-    fun updateFan(
-        fans: SnapshotStateList<Sensor>
+    fun updateFanList(
+        fanList: SnapshotStateList<Sensor>
     )
 
-    fun updateTemp(
-        temps: SnapshotStateList<Sensor>
+    fun updateTempList(
+        tempList: SnapshotStateList<Sensor>
     )
 
-    fun updateControl(
-        controls: SnapshotStateList<Control>
+    fun updateControlList(
+        controlList: SnapshotStateList<Control>
     )
 
     fun setControl(libIndex: Int, isAuto: Boolean, value: Int?)

@@ -11,69 +11,64 @@ class ExternalWindows : External {
 
     private val values: IntArray = IntArray(25) { 0 }
     override fun start(
-        fans: SnapshotStateList<Sensor>,
-        temps: SnapshotStateList<Sensor>,
-        controls: SnapshotStateList<Control>
+        fanList: SnapshotStateList<Sensor>,
+        tempList: SnapshotStateList<Sensor>,
+        controlList: SnapshotStateList<Control>
     ) {
-        try {
-            System.loadLibrary("CppProxy")
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        System.loadLibrary("CppProxy")
         externalStart(values)
-
-        super.start(fans, temps, controls)
+        super.start(fanList, tempList, controlList)
     }
 
     override fun stop() {
         externalStop()
     }
 
-    override fun getFan(fans: SnapshotStateList<Sensor>) {
-        val result = externalGetFan()
+    override fun setFanList(fanList: SnapshotStateList<Sensor>) {
+        val result = externalGetFansInfo()
 
         for (i in 0..(result.size - 1) / 3) {
-            fans.add(
+            fanList.add(
                 Sensor(
                     libIndex = result[i * 3].toInt(),
                     libId = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2],
                     type = HardwareType.SensorType.H_S_FAN,
-                    id = getAvailableId(fans.map { it.id })
+                    id = getAvailableId(fanList.map { it.id })
                 )
             )
         }
     }
 
-    override fun getTemp(temps: SnapshotStateList<Sensor>) {
-        val result = externalGetTemp()
+    override fun setTempList(tempList: SnapshotStateList<Sensor>) {
+        val result = externalGetTempsInfo()
 
         for (i in 0..(result.size - 1) / 3) {
-            temps.add(
+            tempList.add(
                 Sensor(
                     libIndex = result[i * 3].toInt(),
                     libId = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2],
                     type = HardwareType.SensorType.H_S_TEMP,
-                    id = getAvailableId(temps.map { it.id })
+                    id = getAvailableId(tempList.map { it.id })
                 )
             )
         }
     }
 
-    override fun getControl(controls: SnapshotStateList<Control>) {
-        val result = externalGetControl()
+    override fun setControlList(controlList: SnapshotStateList<Control>) {
+        val result = externalGetControlsInfo()
 
         for (i in 0..(result.size - 1) / 3) {
 
-            controls.add(
+            controlList.add(
                 Control(
                     libIndex = result[i * 3].toInt(),
                     libId = result[(i * 3) + 1],
                     libName = result[(i * 3) + 2],
                     name = result[(i * 3) + 2],
                     id = getAvailableId(
-                        controls.map { it.id }
+                        controlList.map { it.id }
                     )
                 )
             )
@@ -81,31 +76,31 @@ class ExternalWindows : External {
         }
     }
 
-    override fun updateFan(fans: SnapshotStateList<Sensor>) {
-        externalUpdateFan()
+    override fun updateFanList(fanList: SnapshotStateList<Sensor>) {
+        externalUpdateFanList()
 
-        for (i in fans.indices) {
-            fans[i] = fans[i].copy(
-                value = values[fans[i].libIndex]
+        for (i in fanList.indices) {
+            fanList[i] = fanList[i].copy(
+                value = values[fanList[i].libIndex]
             )
         }
     }
 
-    override fun updateTemp(temps: SnapshotStateList<Sensor>) {
-        externalUpdateTemp()
-        for (i in temps.indices) {
-            temps[i] = temps[i].copy(
-                value = values[temps[i].libIndex]
+    override fun updateTempList(tempList: SnapshotStateList<Sensor>) {
+        externalUpdateTempList()
+        for (i in tempList.indices) {
+            tempList[i] = tempList[i].copy(
+                value = values[tempList[i].libIndex]
             )
         }
     }
 
-    override fun updateControl(controls: SnapshotStateList<Control>) {
-        externalUpdateControl()
+    override fun updateControlList(controlList: SnapshotStateList<Control>) {
+        externalUpdateControlList()
 
-        for (i in controls.indices) {
-            controls[i] = controls[i].copy(
-                value = values[controls[i].libIndex]
+        for (i in controlList.indices) {
+            controlList[i] = controlList[i].copy(
+                value = values[controlList[i].libIndex]
             )
         }
     }
@@ -120,11 +115,11 @@ class ExternalWindows : External {
 
     private external fun externalStart(values: IntArray)
     private external fun externalStop()
-    private external fun externalGetFan(): Array<String>
-    private external fun externalGetTemp(): Array<String>
-    private external fun externalGetControl(): Array<String>
-    private external fun externalUpdateFan()
-    private external fun externalUpdateTemp()
-    private external fun externalUpdateControl()
+    private external fun externalGetFansInfo(): Array<String>
+    private external fun externalGetTempsInfo(): Array<String>
+    private external fun externalGetControlsInfo(): Array<String>
+    private external fun externalUpdateFanList()
+    private external fun externalUpdateTempList()
+    private external fun externalUpdateControlList()
     private external fun externalSetControl(libIndex: Int, isAuto: Boolean, value: Int)
 }

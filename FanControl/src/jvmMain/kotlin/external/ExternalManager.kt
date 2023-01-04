@@ -35,19 +35,19 @@ class ExternalManager(
         println("stop lib : success")
     }
 
-    fun updateFan() {
-        external.updateFan(sensorLists.fanList)
+    fun updateFanList() {
+        external.updateFanList(sensorLists.fanList)
         //println("updateFan : success")
 
     }
 
-    fun updateTemp() {
-        external.updateTemp(sensorLists.tempList)
+    fun updateTempList() {
+        external.updateTempList(sensorLists.tempList)
         //println("updateTemp : success")
     }
 
-    fun updateControl() {
-        external.updateControl(controlList)
+    fun updateControlList() {
+        external.updateControlList(controlList)
         //println("updateControl : success")
     }
 

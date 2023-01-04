@@ -13,68 +13,68 @@ class ExternalLinux : External {
     override fun stop() {
     }
 
-    override fun getFan(fans: SnapshotStateList<Sensor>) {
+    override fun setFanList(fanList: SnapshotStateList<Sensor>) {
         for (i in 0..3) {
-            fans.add(
+            fanList.add(
                 Sensor(
                     libIndex = i,
                     libId = "fan${i + 1}",
                     libName = "fan lib${i + 1}",
                     type = HardwareType.SensorType.H_S_FAN,
-                    id = getAvailableId(fans.map { it.id })
+                    id = getAvailableId(fanList.map { it.id })
                 )
             )
         }
     }
 
-    override fun getTemp(temps: SnapshotStateList<Sensor>) {
+    override fun setTempList(tempList: SnapshotStateList<Sensor>) {
         for (i in 0..3) {
-            temps.add(
+            tempList.add(
                 Sensor(
                     libIndex = i,
                     libId = "temp${i + 1}",
                     libName = "temp lib${i + 1}",
                     type = HardwareType.SensorType.H_S_TEMP,
-                    id = getAvailableId(temps.map { it.id })
+                    id = getAvailableId(tempList.map { it.id })
                 )
             )
         }
     }
 
-    override fun getControl(controls: SnapshotStateList<Control>) {
+    override fun setControlList(controlList: SnapshotStateList<Control>) {
         for (i in 0..3) {
-            controls.add(
+            controlList.add(
                 Control(
-                    name = getAvailableName(controls.map { it.name }, "control"),
+                    name = getAvailableName(controlList.map { it.name }, "control"),
                     libIndex = i,
                     libId = "fan${i + 1}",
                     libName = "control lib${i + 1}",
-                    id = getAvailableId(controls.map { it.id })
+                    id = getAvailableId(controlList.map { it.id })
                 )
             )
         }
     }
 
-    override fun updateFan(fans: SnapshotStateList<Sensor>) {
-        for (i in fans.indices) {
-            fans[i] = fans[i].copy(
+    override fun updateFanList(fanList: SnapshotStateList<Sensor>) {
+        for (i in fanList.indices) {
+            fanList[i] = fanList[i].copy(
                 value = Random.nextInt(0, 4000)
             )
         }
     }
 
 
-    override fun updateTemp(temps: SnapshotStateList<Sensor>) {
-        for (i in temps.indices) {
-            temps[i] = temps[i].copy(
+    override fun updateTempList(tempList: SnapshotStateList<Sensor>) {
+        for (i in tempList.indices) {
+            tempList[i] = tempList[i].copy(
                 value = Random.nextInt(0, 100)
             )
         }
     }
 
-    override fun updateControl(controls: SnapshotStateList<Control>) {
-        for (i in controls.indices) {
-            controls[i] = controls[i].copy(
+    override fun updateControlList(controlList: SnapshotStateList<Control>) {
+        for (i in controlList.indices) {
+            controlList[i] = controlList[i].copy(
                 value = Random.nextInt(0, 100)
             )
         }
