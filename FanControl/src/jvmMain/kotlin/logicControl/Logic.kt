@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import model.SettingsModel
 import model.item.Control
+import java.lang.IndexOutOfBoundsException
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -77,9 +78,11 @@ class Logic(
          */
         val setControlList: List<SetControlModel>? = try {
             provideSetControlList.getSetControlList(controlsHasChangeMarker)
-        } catch (e: Exception) {
-            if (e !is NullPointerException) e.printStackTrace()
-            else println("null pointer exception in logic")
+        } catch (e: NullPointerException) {
+            println("NullPointerException in logic")
+            null
+        } catch (e: IndexOutOfBoundsException) {
+            println("IndexOutOfBoundsException in logic")
             null
         }
 

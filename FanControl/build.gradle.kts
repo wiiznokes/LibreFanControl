@@ -34,7 +34,11 @@ kotlin {
                 implementation("org.json:json:20220924")
             }
         }
-        val jvmTest by getting
+        val jvmTest by getting {
+            dependencies {
+                implementation("junit:junit:4.13.1")
+            }
+        }
     }
 }
 
@@ -52,7 +56,5 @@ compose.desktop {
                 iconFile.set(project.file("./src/jvmMain/resources/drawable/app_icon.ico"))
             }
         }
-
-
     }
 }

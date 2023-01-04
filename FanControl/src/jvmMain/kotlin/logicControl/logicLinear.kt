@@ -2,6 +2,7 @@ package logicControl
 
 import model.hardware.Sensor
 import model.item.behavior.Linear
+import kotlin.math.roundToInt
 
 fun valueLinear(linear: Linear, tempList: List<Sensor>): Int? {
     if (linear.tempSensorId == null)
@@ -10,28 +11,26 @@ fun valueLinear(linear: Linear, tempList: List<Sensor>): Int? {
     return getSpeed(
         f = getAffine(linear),
         linear = linear,
-        tempValue = tempList.find {
+        tempValue = tempList.first {
             it.id == linear.tempSensorId
-        }!!.value
+        }.value
     )
 }
 
-private fun getSpeed(f: Pair<Int, Int>, linear: Linear, tempValue: Int): Int {
+private fun getSpeed(f: Affine, linear: Linear, tempValue: Int): Int {
     return when {
         tempValue <= linear.minTemp -> linear.minFanSpeed
         tempValue >= linear.maxTemp -> linear.maxFanSpeed
-        else -> {
-            f.first * tempValue + f.second
-        }
+        else -> (f.a * tempValue + f.b).roundToInt()
     }
 }
 
 
-private fun getAffine(linear: Linear): Pair<Int, Int> {
-    /*
-        y = ax + b
-        x -> temp
-        y -> speed
+private fun getAffine(linear: Linear): Affine {
+    /**
+     * y = ax + b
+     * x -> temp
+     * y -> speed
     */
 
     val xa = linear.minTemp
@@ -39,7 +38,17 @@ private fun getAffine(linear: Linear): Pair<Int, Int> {
     val ya = linear.minFanSpeed
     val yb = linear.maxFanSpeed
 
-    val a = (yb - ya) / (xb - xa)
-    val b = ya - a * xa
-    return Pair(a, b)
+
+
+    val a: Float = (yb - ya).toFloat() / (xb - xa).toFloat()
+    return Affine(
+        a = a,
+        b = ya - a * xa
+    )
 }
+
+
+data class Affine(
+    val a: Float,
+    val b: Float
+)
