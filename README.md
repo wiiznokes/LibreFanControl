@@ -14,12 +14,12 @@ To run the project, just use `.\gradlew run` in FanControl folder.
 <details>
   <summary>Next steps</summary>
   
-- add graph behavior (abscissa -> temp, ordinate -> fan speed)
 - implement settings (language, time between update, theme, support the project, lib used)
 - add a way to mix sensor (average)
 - fixe Windows Lib (the current way of fetching String may cause memory leaks)
-- don't stop the app when we close it, add small icon in task bar instead with an option to exist
 - publish (add lib folder to executable and conf folder)
+- don't stop the app when we close it, add small icon in task bar instead with an option to exist
+- add graph behavior (abscissa -> temp, ordinate -> fan speed)
 - support Linux
 - support Nvidia GPU
 - suppor water cooling
