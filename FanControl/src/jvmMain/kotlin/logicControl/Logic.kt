@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import model.SettingsModel
 import model.item.Control
-import java.lang.IndexOutOfBoundsException
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 

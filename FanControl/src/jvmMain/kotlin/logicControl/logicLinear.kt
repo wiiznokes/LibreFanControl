@@ -31,13 +31,12 @@ private fun getAffine(linear: Linear): Affine {
      * y = ax + b
      * x -> temp
      * y -> speed
-    */
+     */
 
     val xa = linear.minTemp
     val xb = linear.maxTemp
     val ya = linear.minFanSpeed
     val yb = linear.maxFanSpeed
-
 
 
     val a: Float = (yb - ya).toFloat() / (xb - xa).toFloat()
