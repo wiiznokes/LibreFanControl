@@ -15,5 +15,5 @@ data class Behavior(
 interface BehaviorExtension {
     var value: Int
 
-    fun copy_(value: Int): BehaviorExtension
+    fun copyI(value: Int): BehaviorExtension
 }

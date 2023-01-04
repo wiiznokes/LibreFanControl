@@ -23,7 +23,7 @@ class UpdateBehaviorValue(
                 val behavior = behaviorList[i]
 
                 behaviorList[i] = behavior.copy(
-                    extension = behavior.extension.copy_(
+                    extension = behavior.extension.copyI(
                         value = behaviorLogic.getValue(
                             extension = behavior.extension,
                             index = i,

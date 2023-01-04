@@ -9,7 +9,7 @@ data class Linear(
 
     override var value: Int = 0
 ) : BehaviorExtension {
-    override fun copy_(value: Int): BehaviorExtension = copy(
+    override fun copyI(value: Int): BehaviorExtension = copy(
         value = value
     )
 }
