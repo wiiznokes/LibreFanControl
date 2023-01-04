@@ -14,7 +14,6 @@ To run the project, just use `.\gradlew run` in FanControl folder.
 <details>
   <summary>Next steps</summary>
   
-- add target behavior (idle temp, load temp, idle fan speed, load fan speed)
 - add graph behavior (abscissa -> temp, ordinate -> fan speed)
 - implement settings (language, time between update, theme, support the project, lib used)
 - add a way to mix sensor (average)
