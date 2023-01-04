@@ -65,9 +65,9 @@ class Logic(
      * - delay if no error or if controls hasn't change
      */
     suspend fun update() {
-        externalManager.updateFan()
-        externalManager.updateTemp()
-        externalManager.updateControl()
+        externalManager.updateFanList()
+        externalManager.updateTempList()
+        externalManager.updateControlList()
 
         /**
          * we catch exception because another thread can modify
