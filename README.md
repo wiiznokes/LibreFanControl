@@ -14,7 +14,8 @@ To run the project, just use `.\gradlew run` in FanControl folder.
 <details>
   <summary>Next steps</summary>
   
-- implement settings (language, time between update, theme, support the project, lib used)
+- add frensh traduction
+- implement settings (support the project, info)
 - add a way to mix sensor (average)
 - publish (add lib folder to executable and conf folder)
 - don't stop the app when we close it, add small icon in task bar instead with an option to exist
