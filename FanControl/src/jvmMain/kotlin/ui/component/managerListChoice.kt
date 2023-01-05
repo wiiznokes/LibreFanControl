@@ -31,7 +31,7 @@ fun managerAddItemListChoice(
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
 
                 Icon(
-                    painter = Resources.getIcon("expand_more"),
+                    painter = Resources.getIcon("arrow_drop_down"),
                     contentDescription = Resources.getString("ct/choose"),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -122,8 +122,8 @@ private fun managerBaseDropdownMenu(
                         onClick = { expanded.value = true }
                     ) {
                         val painter = when (expanded.value) {
-                            true -> Resources.getIcon("expand_less")
-                            false -> Resources.getIcon("expand_more")
+                            true -> Resources.getIcon("arrow_drop_up")
+                            false -> Resources.getIcon("arrow_drop_down")
                         }
 
                         Icon(
