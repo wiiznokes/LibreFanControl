@@ -5,10 +5,13 @@ import ui.screen.drawer.firstView.SettingItem
 
 
 enum class SettingType {
+    FIRST_VIEW,
     TIME_UPDATE,
     LANGUAGE,
     THEME,
-    UNSPECIFIED
+    DONATE,
+    INFO,
+    HELP
 }
 
 
@@ -47,16 +50,17 @@ val secondSetting = listOf(
         title = "info",
         subTitle = "dive into app working",
         icon = "info",
-        contentDescription = ""
+        contentDescription = "",
+        type = SettingType.INFO
     ),
     SettingItem(
         title = "help",
         subTitle = "help",
         icon = "help",
-        contentDescription = ""
+        contentDescription = "",
+        type = SettingType.HELP
     )
 )
-
 
 enum class Theme {
     SYSTEME,

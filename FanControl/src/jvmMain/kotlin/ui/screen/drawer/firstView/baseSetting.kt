@@ -1,15 +1,18 @@
 package ui.screen.drawer.firstView
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.IconButton
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,7 +32,8 @@ import ui.utils.Resources
 data class DonateSettingItem(
     val title: String,
     val icon: String,
-    val contentDescription: String
+    val contentDescription: String,
+    val type: SettingType = SettingType.DONATE
 )
 
 data class SettingItem(
@@ -37,22 +41,29 @@ data class SettingItem(
     val subTitle: String,
     val icon: String,
     val contentDescription: String,
-    val type: SettingType = SettingType.UNSPECIFIED
+    val type: SettingType
 )
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun baseSetting(
+fun settingFistView(
     drawerState: DrawerState,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    settingState: MutableState<SettingType>
 ) {
-    LazyColumn {
+
+    val lazyListState = rememberLazyListState()
+
+
+    LazyColumn(
+        state = lazyListState
+    ) {
         topMainSetting(drawerState, scope)
         items(mainSetting) {
             baseDefaultItemSetting(
                 item = it,
-                onClick = { println(it.type) }
+                settingState = settingState
             )
         }
 
@@ -60,7 +71,7 @@ fun baseSetting(
         item {
             baseDonateItemSetting(
                 item = donateSetting,
-                onClick = { println("donate") }
+                settingState = settingState
             )
         }
 
@@ -68,7 +79,7 @@ fun baseSetting(
         items(secondSetting) {
             baseDefaultItemSetting(
                 item = it,
-                onClick = { println("second") }
+                settingState = settingState
             )
         }
 
@@ -140,12 +151,13 @@ private fun LazyListScope.baseTransition(
 @Composable
 private fun baseDefaultItemSetting(
     item: SettingItem,
-    onClick: () -> Unit
+    settingState: MutableState<SettingType>
 ) {
     baseItemSetting(
         icon = item.icon,
         contentDescription = item.contentDescription,
-        onClick = onClick
+        settingState = settingState,
+        type = item.type
     ) {
         Column {
             managerText(
@@ -168,7 +180,7 @@ private fun baseDefaultItemSetting(
 @Composable
 private fun baseDonateItemSetting(
     item: DonateSettingItem,
-    onClick: () -> Unit
+    settingState: MutableState<SettingType>
 ) {
     baseItemSetting(
         modifier = Modifier
@@ -176,7 +188,8 @@ private fun baseDonateItemSetting(
         onColor = Color.Black,
         icon = item.icon,
         contentDescription = item.contentDescription,
-        onClick = onClick
+        type = item.type,
+        settingState = settingState
     ) {
         managerText(
             text = item.title,
@@ -192,23 +205,22 @@ private fun baseItemSetting(
     modifier: Modifier = Modifier,
     onColor: Color = MaterialTheme.colorScheme.inverseOnSurface,
     icon: String,
+    type: SettingType,
     contentDescription: String,
-    onClick: () -> Unit,
+    settingState: MutableState<SettingType>,
     content: @Composable () -> Unit
 ) {
     Column {
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             Row(
                 modifier
-                    .clickable(
-                        onClick = onClick
-                    ),
+                    .clickable(onClick = { settingState.value = type }),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
 
                     IconButton(
-                        onClick = onClick
+                        onClick = { settingState.value = type }
                     ) {
                         Icon(
                             painter = Resources.getIcon("chevron_right"),
