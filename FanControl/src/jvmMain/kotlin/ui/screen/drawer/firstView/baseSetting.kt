@@ -1,18 +1,14 @@
 package ui.screen.drawer.firstView
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.IconButton
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,27 +18,10 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import model.SettingsModel
 import ui.component.managerText
 import ui.screen.drawer.SettingType
-import ui.screen.drawer.donateSetting
-import ui.screen.drawer.mainSetting
-import ui.screen.drawer.secondSetting
 import ui.utils.Resources
-
-data class DonateSettingItem(
-    val title: String,
-    val icon: String,
-    val contentDescription: String,
-    val type: SettingType = SettingType.DONATE
-)
-
-data class SettingItem(
-    val title: String,
-    val subTitle: String,
-    val icon: String,
-    val contentDescription: String,
-    val type: SettingType
-)
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,36 +29,36 @@ data class SettingItem(
 fun settingFistView(
     drawerState: DrawerState,
     scope: CoroutineScope,
-    settingState: MutableState<SettingType>
+    settingType: MutableState<SettingType>,
+    lazyListState: LazyListState,
+    settings: SettingsModel
 ) {
-
-    val lazyListState = rememberLazyListState()
 
 
     LazyColumn(
         state = lazyListState
     ) {
         topMainSetting(drawerState, scope)
-        items(mainSetting) {
+        items(getMainItemSetting(settings)) {
             baseDefaultItemSetting(
                 item = it,
-                settingState = settingState
+                settingType = settingType
             )
         }
 
-        baseTransition("Donation")
+        baseTransition(Resources.getString("settings/trans/donate"))
         item {
             baseDonateItemSetting(
-                item = donateSetting,
-                settingState = settingState
+                item = getDonateItemSetting(),
+                settingType = settingType
             )
         }
 
-        baseTransition("Other")
-        items(secondSetting) {
+        baseTransition(Resources.getString("settings/trans/other"))
+        items(getOtherItemSetting()) {
             baseDefaultItemSetting(
                 item = it,
-                settingState = settingState
+                settingType = settingType
             )
         }
 
@@ -151,12 +130,11 @@ private fun LazyListScope.baseTransition(
 @Composable
 private fun baseDefaultItemSetting(
     item: SettingItem,
-    settingState: MutableState<SettingType>
+    settingType: MutableState<SettingType>
 ) {
     baseItemSetting(
         icon = item.icon,
-        contentDescription = item.contentDescription,
-        settingState = settingState,
+        settingState = settingType,
         type = item.type
     ) {
         Column {
@@ -180,16 +158,15 @@ private fun baseDefaultItemSetting(
 @Composable
 private fun baseDonateItemSetting(
     item: DonateSettingItem,
-    settingState: MutableState<SettingType>
+    settingType: MutableState<SettingType>
 ) {
     baseItemSetting(
         modifier = Modifier
             .background(color = Color.Yellow),
         onColor = Color.Black,
         icon = item.icon,
-        contentDescription = item.contentDescription,
         type = item.type,
-        settingState = settingState
+        settingState = settingType
     ) {
         managerText(
             text = item.title,
@@ -206,7 +183,6 @@ private fun baseItemSetting(
     onColor: Color = MaterialTheme.colorScheme.inverseOnSurface,
     icon: String,
     type: SettingType,
-    contentDescription: String,
     settingState: MutableState<SettingType>,
     content: @Composable () -> Unit
 ) {
@@ -237,7 +213,7 @@ private fun baseItemSetting(
                     ) {
                         Icon(
                             painter = Resources.getIcon(icon),
-                            contentDescription = contentDescription,
+                            contentDescription = null,
                             tint = onColor
                         )
                         Spacer(modifier = Modifier.width(16.dp))

@@ -8,6 +8,8 @@ import model.ConfigurationModel
 import model.SettingsModel
 import org.json.JSONObject
 import org.json.JSONTokener
+import ui.screen.drawer.secondView.Languages
+import ui.screen.drawer.secondView.Themes
 import utils.DIR_CONF
 import utils.getJsonValue
 import utils.setJsonValue
@@ -90,10 +92,11 @@ class Settings {
             settings: MutableStateFlow<SettingsModel>
         ) {
             settings.update {
-                it.language = getSetting("language")!!
+                it.language = Languages from getSetting("language")!!
                 it.configId = getSetting("configId")
                 getConfigList(it.configList)
                 it.updateDelay = getSetting("updateDelay")!!
+                it.theme = Themes from getSetting("theme")!!
                 it
             }
         }

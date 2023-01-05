@@ -73,6 +73,28 @@
     "idle_fan_speed": "idle speed : ",
     "load_fan_speed": "load speed : "
   },
+  "settings": {
+    "update_delay": "Update delay",
+    "language": "Language",
+    "theme": "Theme",
+    "donate": "Support the project",
+    "info": "Info",
+    "info_sub_title": "Dive into app working",
+    "help": "Help",
+    "help_sub_title": "Get help here",
+    "transition": {
+      "donate": "Donation",
+      "other": "Other"
+    }
+  },
+  "language": {
+    "en": "English"
+  },
+  "theme": {
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  },
   "none": "None",
   "fan_speed": "fan speed",
   "add": "Add",

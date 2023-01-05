@@ -1,84 +1,41 @@
 package ui.screen.drawer
 
-import ui.screen.drawer.firstView.DonateSettingItem
-import ui.screen.drawer.firstView.SettingItem
+import State
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
+import model.SettingsModel
+import settings.Settings
+import ui.screen.drawer.secondView.Languages
+import ui.screen.drawer.secondView.Themes
 
 
-enum class SettingType {
-    FIRST_VIEW,
-    TIME_UPDATE,
-    LANGUAGE,
-    THEME,
-    DONATE,
-    INFO,
-    HELP
-}
-
-
-val mainSetting = listOf(
-    SettingItem(
-        title = "time between update",
-        subTitle = "2",
-        icon = "history",
-        contentDescription = "",
-        type = SettingType.TIME_UPDATE
-    ),
-    SettingItem(
-        title = "language",
-        subTitle = "en",
-        icon = "translate",
-        contentDescription = "",
-        type = SettingType.LANGUAGE
-    ),
-    SettingItem(
-        title = "theme",
-        subTitle = "dark",
-        icon = "dark_mode",
-        contentDescription = "",
-        type = SettingType.THEME
-    )
-)
-
-val donateSetting = DonateSettingItem(
-    title = "support the project",
-    icon = "attach_money",
-    contentDescription = ""
-)
-
-val secondSetting = listOf(
-    SettingItem(
-        title = "info",
-        subTitle = "dive into app working",
-        icon = "info",
-        contentDescription = "",
-        type = SettingType.INFO
-    ),
-    SettingItem(
-        title = "help",
-        subTitle = "help",
-        icon = "help",
-        contentDescription = "",
-        type = SettingType.HELP
-    )
-)
-
-enum class Theme {
-    SYSTEME,
-    DARK,
-    LIGHT
-}
-
-class DrawerVM {
-
-    fun onTimeUpdate() {
-
+class DrawerVM(
+    private val settings: MutableStateFlow<SettingsModel> = State.settings
+) {
+    fun onUpdateDelay(delay: Int) {
+        settings.update {
+            it.copy(
+                updateDelay = delay
+            )
+        }
+        Settings.setSetting("updateDelay", delay)
     }
 
-    fun onLanguage() {
-
+    fun onLanguageChange(language: Languages) {
+        settings.update {
+            it.copy(
+                language = language
+            )
+        }
+        Settings.setSetting("language", language)
     }
 
-    fun onTheme(theme: Theme) {
-
+    fun onThemeChange(theme: Themes) {
+        settings.update {
+            it.copy(
+                theme = theme
+            )
+        }
+        Settings.setSetting("theme", theme)
     }
 }
