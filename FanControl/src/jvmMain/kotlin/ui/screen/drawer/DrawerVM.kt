@@ -36,7 +36,7 @@ val mainSetting = listOf(
     )
 )
 
-val donate = DonateSettingItem(
+val donateSetting = DonateSettingItem(
     title = "support the project",
     icon = "attach_money",
     contentDescription = ""

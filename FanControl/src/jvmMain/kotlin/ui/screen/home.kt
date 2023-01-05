@@ -38,7 +38,7 @@ fun home() {
         drawerContainerColor = MaterialTheme.colorScheme.inverseSurface,
         drawerContentColor = MaterialTheme.colorScheme.inverseOnSurface,
 
-    ) {
+        ) {
         val addItemExpanded = viewModel.addItemExpanded.collectAsState()
 
 
