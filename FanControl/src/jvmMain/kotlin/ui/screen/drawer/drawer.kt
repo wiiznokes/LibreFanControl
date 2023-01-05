@@ -1,23 +1,47 @@
 package ui.screen.drawer
 
-import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.sp
-import ui.component.managerText
-import ui.utils.Resources
+import kotlinx.coroutines.CoroutineScope
+import ui.screen.drawer.firstView.baseSetting
+import ui.screen.drawer.firstView.baseSettingItem
 
+private val viewModel = DrawerVM()
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun drawer(
-    drawerState: DrawerState
+    drawerState: DrawerState,
+    scope: CoroutineScope
 ) {
-    managerText(
-        text = Resources.getString("title/setting"),
-        color = MaterialTheme.colorScheme.inverseOnSurface,
-        style = MaterialTheme.typography.titleLarge
-    )
+    baseSetting(
+        drawerState = drawerState,
+        scope = scope
+    ) {
+        items(mainSetting) {
+            baseSettingItem(
+                item = it,
+                onClick = { println("on click") }
+            )
+        }
+
+        item {
+
+        }
+
+
+        items(mainSetting) {
+            baseSettingItem(
+                item = it,
+                onClick = { println("on click") }
+            )
+        }
+    }
 }
+
+
+
+
+

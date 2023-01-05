@@ -12,6 +12,9 @@
   },
   "icon_content_description": {
     "open_drawer": "open setting",
+    "close_drawer": "close setting",
+    "open_setting_item": "open setting item",
+    "close_setting_item": "close setting item",
     "edit": "edit",
     "close_add_item": "close add item",
     "open_add_item": "open add item",

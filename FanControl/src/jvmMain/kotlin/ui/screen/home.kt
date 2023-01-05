@@ -29,7 +29,8 @@ fun home() {
         modifier = Modifier,
         drawerContent = {
             drawer(
-                drawerState = drawerState
+                drawerState = drawerState,
+                scope = scope
             )
         },
         drawerState = drawerState,
