@@ -5,6 +5,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import kotlinx.coroutines.CoroutineScope
 import ui.screen.drawer.firstView.baseSetting
+import ui.screen.drawer.secondView.baseSecondView
 
 private val viewModel = DrawerVM()
 
@@ -14,8 +15,16 @@ fun drawer(
     drawerState: DrawerState,
     scope: CoroutineScope
 ) {
+    baseSecondView(
+        title = "theme"
+    ) {
+
+    }
+    /*
     baseSetting(
         drawerState = drawerState,
         scope = scope
     )
+
+     */
 }
