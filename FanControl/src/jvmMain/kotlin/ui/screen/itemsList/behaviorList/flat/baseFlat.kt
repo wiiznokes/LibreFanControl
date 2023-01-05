@@ -7,6 +7,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
@@ -36,19 +37,34 @@ fun baseFlat(
 
         Box {
             Row {
-                IconButton(
-                    onClick = onLess ?: {}
-                ) {
+                if (enabled) {
+                    IconButton(
+                        onClick = onLess ?: {}
+                    ) {
+                        Icon(
+                            painter = Resources.getIcon("remove"),
+                            contentDescription = Resources.getString("ct/decrease"),
+                            tint = color
+                        )
+                    }
+                    IconButton(
+                        onClick = onMore ?: {}
+                    ) {
+                        Icon(
+                            painter = Resources.getIcon("add"),
+                            contentDescription = Resources.getString("ct/increase"),
+                            tint = color
+                        )
+                    }
+                } else {
                     Icon(
+                        modifier = Modifier.scale(0.8f).requiredSize(40.dp),
                         painter = Resources.getIcon("remove"),
                         contentDescription = Resources.getString("ct/decrease"),
                         tint = color
                     )
-                }
-                IconButton(
-                    onClick = onMore ?: {}
-                ) {
                     Icon(
+                        modifier = Modifier.scale(0.8f).requiredSize(40.dp),
                         painter = Resources.getIcon("add"),
                         contentDescription = Resources.getString("ct/increase"),
                         tint = color

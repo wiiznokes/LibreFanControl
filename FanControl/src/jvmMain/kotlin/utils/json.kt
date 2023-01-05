@@ -65,6 +65,7 @@ private fun getRealPath(input: String): String {
     return when (input) {
         "ct" -> "icon_content_description"
         "default" -> "default_value"
+        "trans" -> "transition"
         else -> input
     }
 }

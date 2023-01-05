@@ -1,3 +1,4 @@
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
@@ -28,7 +29,9 @@ fun main() {
             }
 
         ) {
-            fanControlTheme {
+            fanControlTheme(
+                State.settings.collectAsState().value.theme
+            ) {
                 home()
             }
         }

@@ -14,7 +14,9 @@ fun managerText(
     modifier: Modifier = Modifier,
     style: TextStyle = MaterialTheme.typography.bodyMedium,
     color: Color,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
+    maxLines: Int = 1
 ) {
     Text(
         modifier = modifier,
@@ -24,8 +26,8 @@ fun managerText(
         else color.copy(
             alpha = 0.8f
         ),
-        maxLines = 1,
+        maxLines = maxLines,
         style = style,
-        overflow = TextOverflow.Ellipsis
+        overflow = overflow
     )
 }

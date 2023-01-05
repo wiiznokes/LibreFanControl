@@ -3,6 +3,7 @@ package ui.screen.itemsList.behaviorList.linearAndTarget
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -10,7 +11,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import ui.component.managerText
 import ui.screen.itemsList.behaviorList.linearAndTarget.linear.LinearParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.target.TargetParams
@@ -100,6 +103,7 @@ fun baseLinAndTar(
             }
         } else {
             Icon(
+                modifier = Modifier.scale(0.8f).requiredSize(40.dp),
                 painter = Resources.getIcon("expand_less"),
                 contentDescription = Resources.getString("ct/choose"),
                 tint = color

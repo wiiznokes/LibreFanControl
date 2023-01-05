@@ -12,6 +12,9 @@
   },
   "icon_content_description": {
     "open_drawer": "open setting",
+    "close_drawer": "close setting",
+    "open_setting_item": "open setting item",
+    "close_setting_item": "close setting item",
     "edit": "edit",
     "close_add_item": "close add item",
     "open_add_item": "open add item",
@@ -69,6 +72,28 @@
     "load_temp": "load temp : ",
     "idle_fan_speed": "idle speed : ",
     "load_fan_speed": "load speed : "
+  },
+  "settings": {
+    "update_delay": "Update delay",
+    "language": "Language",
+    "theme": "Theme",
+    "donate": "Support the project",
+    "info": "Info",
+    "info_sub_title": "Dive into app working",
+    "help": "Help",
+    "help_sub_title": "Get help here",
+    "transition": {
+      "donate": "Donation",
+      "other": "Other"
+    }
+  },
+  "language": {
+    "en": "English"
+  },
+  "theme": {
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
   },
   "none": "None",
   "fan_speed": "fan speed",

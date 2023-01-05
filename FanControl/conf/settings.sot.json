@@ -3,5 +3,5 @@
   "configId": null,
   "configList": {},
   "updateDelay": 2,
-  "theme": 0
+  "theme": "system"
 }

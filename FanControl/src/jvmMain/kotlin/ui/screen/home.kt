@@ -29,7 +29,8 @@ fun home() {
         modifier = Modifier,
         drawerContent = {
             drawer(
-                drawerState = drawerState
+                drawerState = drawerState,
+                scope = scope
             )
         },
         drawerState = drawerState,
@@ -37,7 +38,7 @@ fun home() {
         drawerContainerColor = MaterialTheme.colorScheme.inverseSurface,
         drawerContentColor = MaterialTheme.colorScheme.inverseOnSurface,
 
-    ) {
+        ) {
         val addItemExpanded = viewModel.addItemExpanded.collectAsState()
 
 
@@ -55,7 +56,7 @@ fun home() {
                     if (addItemExpanded.value) {
                         Column(
                             modifier = Modifier
-                                .width(250.dp)
+                                .width(260.dp)
                         ) {
                             topBarAddItem()
                             addItem(currentChoiceType)
