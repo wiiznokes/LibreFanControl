@@ -1,4 +1,4 @@
-package logicControl.behaviorLogic
+package logicControl.behavior
 
 import model.UnspecifiedTypeException
 import model.hardware.Sensor
@@ -15,7 +15,7 @@ class BehaviorLogic {
     fun getValue(
         extension: BehaviorExtension,
         index: Int,
-        changeVariable: Boolean = true
+        changeVariable: Boolean
     ): Int? {
         return when (extension) {
             is Flat -> extension.value

@@ -14,7 +14,7 @@ enum class CustomTempType {
 }
 
 data class CustomTemp(
-    val customType: CustomTempType = CustomTempType.average,
+    val type: CustomTempType = CustomTempType.average,
     val sensorIdList: SnapshotStateList<Long> = mutableStateListOf(),
     var value: Int = 0
 ) : SensorExtension

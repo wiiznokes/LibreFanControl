@@ -3,7 +3,7 @@ package logicControl
 import State
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import logicControl.behaviorLogic.BehaviorLogic
+import logicControl.behavior.BehaviorLogic
 import model.ItemType
 import model.item.behavior.Behavior
 import model.item.control.Control
@@ -98,7 +98,11 @@ class ProvideSetControlList(
         }
         val behavior = behaviorList[behaviorIndex]
 
-        return behaviorLogic.getValue(behavior.extension, behaviorIndex)
+        return behaviorLogic.getValue(
+            extension = behavior.extension,
+            index = behaviorIndex,
+            changeVariable = true
+        )
     }
 
     /**
@@ -112,8 +116,12 @@ class ProvideSetControlList(
         val behavior = behaviorList[behaviorIndex]
 
         return Pair(
-            behaviorLogic.getValue(behavior.extension, behaviorIndex),
-            behavior.type
+            first = behaviorLogic.getValue(
+                behavior.extension,
+                behaviorIndex,
+                true
+            ),
+            second = behavior.type
         )
     }
 }

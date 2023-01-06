@@ -65,7 +65,7 @@ class AddSensorVM(
             names = tempItemList.map { item ->
                 item.name
             },
-            prefix = Resources.getString("default/temp_name")
+            prefix = Resources.getString("default/custom_temp_name")
         )
 
         tempItemList.add(

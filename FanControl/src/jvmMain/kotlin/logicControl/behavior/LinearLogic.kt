@@ -1,4 +1,4 @@
-package logicControl.behaviorLogic
+package logicControl.behavior
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList

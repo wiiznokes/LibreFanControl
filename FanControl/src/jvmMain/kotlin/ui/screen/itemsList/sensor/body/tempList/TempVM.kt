@@ -44,7 +44,7 @@ class TempVM(
     fun setCustomType(type: CustomTempType, index: Int) {
         tempItemList[index] = tempItemList[index].copy(
             extension = (tempItemList[index].extension as CustomTemp).copy(
-                customType = type
+                type = type
             )
         )
     }

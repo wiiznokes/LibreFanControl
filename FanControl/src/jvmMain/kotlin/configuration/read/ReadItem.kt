@@ -114,7 +114,7 @@ class ReadItem {
         }
 
         return CustomTemp(
-            customType = CustomTempType from getJsonValue("customType", obj)!!,
+            type = CustomTempType from getJsonValue("type", obj)!!,
             sensorIdList = sensorIdList
         )
     }

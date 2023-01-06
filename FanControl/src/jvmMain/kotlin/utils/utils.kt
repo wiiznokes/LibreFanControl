@@ -17,13 +17,13 @@ fun <T> filterWithPreviousIndex(
 ) {
     val previousIndexList = mutableListOf<Int>()
 
-    list.filterIndexed { index, control ->
-        if (predicate(control)) {
-            previousIndexList.add(index)
-            true
-        } else false
-    }.forEachIndexed { index, value ->
-        forEachFiltered(previousIndexList[index], value)
+    for (i in list.indices) {
+        if (predicate(list[i]))
+            previousIndexList.add(i)
+    }
+
+    previousIndexList.forEach {
+        forEachFiltered(it, list[it])
     }
 }
 
