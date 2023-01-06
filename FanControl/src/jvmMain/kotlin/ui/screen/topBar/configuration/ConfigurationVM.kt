@@ -2,11 +2,11 @@ package ui.screen.topBar.configuration
 
 import State
 import configuration.Configuration
+import configuration.ConfigurationModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import model.ConfigurationModel
-import model.SettingsModel
 import org.json.JSONObject
 import settings.Settings
+import settings.SettingsModel
 import utils.NameException
 import utils.checkNameTaken
 

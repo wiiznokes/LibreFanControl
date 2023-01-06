@@ -2,11 +2,9 @@ package configuration.read
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import configuration.Configuration
 import configuration.LoadConfigException
 import model.ItemType
 import model.UnspecifiedTypeException
-import model.getItemType
 import model.item.behavior.Behavior
 import model.item.behavior.Flat
 import model.item.behavior.Linear
@@ -33,7 +31,7 @@ class ReadItem {
             controlList[index] = controlList[index].copy(
                 name = getJsonValue("name", obj)!!,
                 id = getJsonValue("id", obj)!!,
-                type = getItemType(getJsonValue("type", obj)!!) as ItemType.ControlType,
+                type = ItemType.ControlType from getJsonValue("type", obj)!!,
                 visible = getJsonValue("visible", obj)!!,
                 behaviorId = getJsonValue("behaviorId", obj),
                 isAuto = isAuto
@@ -48,7 +46,7 @@ class ReadItem {
         for (i in 0 until array.length()) {
             val obj = array[i] as JSONObject
 
-            val type = getItemType(getJsonValue("type", obj)!!) as ItemType.BehaviorType
+            val type = ItemType.BehaviorType from getJsonValue("type", obj)!!
 
 
             behaviorList.add(
@@ -75,7 +73,7 @@ class ReadItem {
         for (i in 0 until array.length()) {
             val obj = array[i] as JSONObject
 
-            val type = getItemType(getJsonValue("type", obj)!!) as ItemType.SensorType
+            val type = ItemType.SensorType from getJsonValue("type", obj)!!
 
             sensorItemList.add(
                 SensorItem(
@@ -116,7 +114,7 @@ class ReadItem {
         }
 
         return CustomTemp(
-            customType = CustomTempType from getJsonValue("sensorId", obj)!!,
+            customType = CustomTempType from getJsonValue("customType", obj)!!,
             sensorIdList = sensorIdList
         )
     }

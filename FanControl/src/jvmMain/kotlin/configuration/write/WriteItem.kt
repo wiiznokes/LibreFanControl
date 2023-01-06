@@ -79,8 +79,6 @@ class WriteItem {
     }
 
     private fun setCustomTemp(customTemp: CustomTemp, writer: JSONWriter) {
-        println("setCustomTemp")
-
         writer.key("customType")
         writer.value(customTemp.customType)
         writer.key("sensorIdList")

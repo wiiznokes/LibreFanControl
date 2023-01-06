@@ -9,8 +9,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import model.SettingsModel
 import model.item.control.Control
+import settings.SettingsModel
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 

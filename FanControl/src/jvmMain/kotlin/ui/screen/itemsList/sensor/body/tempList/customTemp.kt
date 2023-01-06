@@ -4,6 +4,7 @@ import State
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -11,8 +12,10 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import model.hardware.Sensor
 import model.item.sensor.CustomTemp
 import model.item.sensor.CustomTempType
@@ -23,19 +26,6 @@ import ui.component.managerListChoice
 import ui.component.managerText
 import ui.screen.itemsList.baseItemBody
 import ui.utils.Resources
-
-
-/**
- * 1
- * custom type choice (list choice),
- * 2
- * add sensor (list choice static name, icons: + x)
- * 3
- * list sensor in the list with an option to remove
- *
- *
- * calculate value + expand (position -> if (expand) after 3 else between 1 et 2
- */
 
 
 @Composable
@@ -126,6 +116,7 @@ private fun selectedSensor(
                     onClick = { onRemove(id) }
                 ) {
                     Icon(
+                        modifier = Modifier.scale(0.7f).requiredSize(40.dp),
                         painter = Resources.getIcon("close"),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurface
@@ -137,6 +128,7 @@ private fun selectedSensor(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Icon(
+                        modifier = Modifier.scale(0.7f).requiredSize(30.dp),
                         painter = Resources.getIcon("radio_button_unchecked"),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurface

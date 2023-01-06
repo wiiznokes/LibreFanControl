@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
@@ -154,6 +155,7 @@ private fun managerBaseDropdownMenu(
                         }
 
                         Icon(
+                            modifier = Modifier.scale(0.8f).requiredSize(40.dp),
                             painter = painter,
                             contentDescription = Resources.getString("ct/choose"),
                             tint = expandIconColor

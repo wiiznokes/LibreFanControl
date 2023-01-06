@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import model.SettingsModel
+import settings.SettingsModel
 import ui.component.managerText
 import ui.screen.drawer.SettingType
 import ui.utils.Resources
