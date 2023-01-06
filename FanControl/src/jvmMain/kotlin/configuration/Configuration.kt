@@ -128,8 +128,6 @@ class Configuration {
             getFile(configuration.id).writeText(
                 str.toString()
             )
-
-            println("save config success")
         }
 
         private fun getFile(id: Long): File {
