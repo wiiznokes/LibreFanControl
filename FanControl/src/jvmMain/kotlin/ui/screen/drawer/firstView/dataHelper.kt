@@ -1,6 +1,6 @@
 package ui.screen.drawer.firstView
 
-import model.SettingsModel
+import settings.SettingsModel
 import ui.screen.drawer.SettingType
 import ui.utils.Resources
 

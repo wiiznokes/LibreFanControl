@@ -2,6 +2,9 @@ package ui.screen.itemsList.sensor.addItem
 
 import androidx.compose.foundation.lazy.LazyListScope
 import model.ItemType
+import ui.component.PainterType
+import ui.component.managerAddItemListChoice
+import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.sensor.baseSensorAddItem
 import ui.utils.Resources
 
@@ -40,4 +43,21 @@ fun LazyListScope.sensorAddItemList() {
         )
     }
 
+    item {
+        baseItemAddItem(
+            iconPainter = Resources.getIcon("thermostat"),
+            iconContentDescription = Resources.getString("ct/custom_temp"),
+            name = Resources.getString("add_item/temp_name"),
+            onEditClick = { viewModel.addCustomTemp() },
+            type = ItemType.SensorType.I_S_CUSTOM_TEMP
+        ) {
+            managerAddItemListChoice(
+                name = Resources.getString("custom_temp/average"),
+            )
+            managerAddItemListChoice(
+                name = Resources.getString("custom_temp/add_temp"),
+                painterType = PainterType.ADD
+            )
+        }
+    }
 }

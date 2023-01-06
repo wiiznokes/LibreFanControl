@@ -2,10 +2,9 @@ package settings
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import configuration.ConfigurationModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import model.ConfigurationModel
-import model.SettingsModel
 import org.json.JSONObject
 import org.json.JSONTokener
 import ui.screen.drawer.secondView.Languages
@@ -32,15 +31,13 @@ class Settings {
     companion object {
 
         private var rootObj: JSONObject
-        private val file: File = File(DIR_CONF + SETTINGS_FILE_NAME)
+        private val file = File(DIR_CONF + SETTINGS_FILE_NAME)
 
         init {
-            val existed = initSettingsFile()
+            initSettingsFile()
             val string = file.bufferedReader().readText()
             rootObj = JSONTokener(string).nextValue() as JSONObject
-
-            if (existed)
-                initSettingsState(State.settings)
+            initSettingsState(State.settings)
         }
 
         fun setSetting(path: String, value: Any?) {
@@ -74,17 +71,12 @@ class Settings {
          * This avoids using "smudge", the git tool, because it is really not practical.
          * @return true if the file existed, false otherwise
          */
-        private fun initSettingsFile(): Boolean {
+        private fun initSettingsFile() {
             val localSettingFile = File(DIR_CONF + SETTINGS_FILE_NAME)
 
-            return when (localSettingFile.exists()) {
-                false -> {
-                    val settingsSotFile = File(DIR_CONF + SETTINGS_SOT_FILE_NAME)
-                    localSettingFile.writeText(settingsSotFile.readText())
-                    false
-                }
-
-                true -> true
+            if (!localSettingFile.exists()) {
+                val settingsSotFile = File(DIR_CONF + SETTINGS_SOT_FILE_NAME)
+                localSettingFile.writeText(settingsSotFile.readText())
             }
         }
 

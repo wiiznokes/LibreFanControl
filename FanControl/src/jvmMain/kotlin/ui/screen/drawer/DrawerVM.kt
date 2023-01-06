@@ -3,8 +3,8 @@ package ui.screen.drawer
 import State
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import model.SettingsModel
 import settings.Settings
+import settings.SettingsModel
 import ui.screen.drawer.secondView.Languages
 import ui.screen.drawer.secondView.Themes
 

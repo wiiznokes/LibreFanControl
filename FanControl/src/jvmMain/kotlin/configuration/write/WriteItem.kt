@@ -3,12 +3,15 @@ package configuration.write
 import model.ItemType
 import model.UnspecifiedTypeException
 import model.item.BaseItem
-import model.item.Control
-import model.item.SensorItem
 import model.item.behavior.Behavior
 import model.item.behavior.Flat
 import model.item.behavior.Linear
 import model.item.behavior.Target
+import model.item.control.Control
+import model.item.sensor.CustomTemp
+import model.item.sensor.Fan
+import model.item.sensor.SensorItem
+import model.item.sensor.Temp
 import org.json.JSONWriter
 
 
@@ -46,30 +49,43 @@ class WriteItem {
         setItem(behavior, writer)
 
         when (behavior.type) {
-            ItemType.BehaviorType.I_B_FLAT -> setFlatBehavior(
-                flat = behavior.extension as Flat,
-                writer = writer
-            )
-
-            ItemType.BehaviorType.I_B_LINEAR -> setLinearBehavior(
-                linear = behavior.extension as Linear,
-                writer = writer
-            )
-
-            ItemType.BehaviorType.I_B_TARGET -> setTargetBehavior(
-                target = behavior.extension as Target,
-                writer = writer
-            )
-
-            else -> throw UnspecifiedTypeException()
+            ItemType.BehaviorType.I_B_FLAT -> setFlatBehavior(behavior.extension as Flat, writer)
+            ItemType.BehaviorType.I_B_LINEAR -> setLinearBehavior(behavior.extension as Linear, writer)
+            ItemType.BehaviorType.I_B_TARGET -> setTargetBehavior(behavior.extension as Target, writer)
+            ItemType.BehaviorType.I_B_UNSPECIFIED -> throw UnspecifiedTypeException()
         }
     }
 
     private fun setSensorItem(sensorItem: SensorItem, writer: JSONWriter) {
         setItem(sensorItem, writer)
 
+        when (sensorItem.type) {
+            ItemType.SensorType.I_S_FAN -> setFan(sensorItem.extension as Fan, writer)
+            ItemType.SensorType.I_S_TEMP -> setTemp(sensorItem.extension as Temp, writer)
+            ItemType.SensorType.I_S_CUSTOM_TEMP -> setCustomTemp(sensorItem.extension as CustomTemp, writer)
+            ItemType.SensorType.I_S_UNSPECIFIED -> throw UnspecifiedTypeException()
+        }
+    }
+
+
+    private fun setTemp(temp: Temp, writer: JSONWriter) {
         writer.key("sensorId")
-        writer.value(sensorItem.sensorId)
+        writer.value(temp.sensorId)
+    }
+
+    private fun setFan(fan: Fan, writer: JSONWriter) {
+        writer.key("sensorId")
+        writer.value(fan.sensorId)
+    }
+
+    private fun setCustomTemp(customTemp: CustomTemp, writer: JSONWriter) {
+        writer.key("type")
+        writer.value(customTemp.type)
+        writer.key("sensorIdList")
+        writer.array()
+        for (id in customTemp.sensorIdList)
+            writer.value(id)
+        writer.endArray()
     }
 
 

@@ -7,11 +7,11 @@ import model.ItemType
 import model.item.behavior.Behavior
 import model.item.behavior.Linear
 import ui.component.managerAddItemListChoice
+import ui.component.managerExpandItem
 import ui.component.managerListChoice
 import ui.component.managerText
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
-import ui.screen.itemsList.behaviorList.linearAndTarget.baseLinAndTar
 import ui.screen.itemsList.behaviorList.linearAndTarget.linAndTarSuffixes
 import ui.screen.itemsList.behaviorList.linearAndTarget.managerNumberChoice
 import ui.screen.itemsList.behaviorList.linearAndTarget.managerNumberTextField
@@ -60,7 +60,7 @@ fun linearBody(
             mutableStateOf(false)
         }
 
-        baseLinAndTar(
+        managerExpandItem(
             value = linear.value,
             color = MaterialTheme.colorScheme.onSurface,
             expanded = expanded
@@ -136,7 +136,7 @@ fun linearAddItem(
             name = Resources.getString("add_item/temp_name")
         )
 
-        baseLinAndTar(
+        managerExpandItem(
             value = 50,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             enabled = false

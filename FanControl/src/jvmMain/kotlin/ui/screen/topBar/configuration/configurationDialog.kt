@@ -51,12 +51,12 @@ fun addConfiguration() {
         )
     }
 
-    if (dialogExpanded.value) {
-        dialog(
-            enabled = dialogExpanded,
-            keyEnterPressed = keyEnterPressed
-        )
-    }
+
+    dialog(
+        enabled = dialogExpanded,
+        keyEnterPressed = keyEnterPressed
+    )
+
 }
 
 
@@ -72,6 +72,7 @@ private fun dialog(
     val id = getAvailableId(configList.map { it.id })
     val text = remember(id) { mutableStateOf("") }
 
+
     Dialog(
         visible = enabled.value,
         resizable = false,
@@ -86,24 +87,19 @@ private fun dialog(
                 }
 
                 Key.Enter -> {
-                    if (viewModel.addConfiguration(
-                            name = text.value,
-                            id = id
-                        )
-                    ) {
+                    if (viewModel.addConfiguration(text.value, id)) {
                         keyEnterPressed.value = true
                         enabled.value = false
                     }
                     return@Dialog true
                 }
 
-                else -> {
-                    return@Dialog false
-                }
+                else -> return@Dialog false
             }
         }
     ) {
 
+        val focusRequester = remember { FocusRequester() }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -111,8 +107,6 @@ private fun dialog(
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val focusRequester = remember { FocusRequester() }
-
             managerNameOutlinedTextField(
                 value = text.value,
                 ids = Pair(id, null),
@@ -131,11 +125,12 @@ private fun dialog(
                 },
                 label = Resources.getString("label/conf_name"),
             )
-            LaunchedEffect(
-                Unit
-            ) {
-                if (enabled.value) {
-                    delay(400L)
+
+            if (enabled.value) {
+                LaunchedEffect(
+                    Unit
+                ) {
+                    delay(500L)
                     focusRequester.requestFocus()
                 }
             }

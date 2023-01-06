@@ -148,6 +148,7 @@ private fun baseItem(
             val minDp = when (type) {
                 is ItemType.ControlType -> 200.dp
                 is ItemType.BehaviorType -> 220.dp
+                ItemType.SensorType.I_S_CUSTOM_TEMP -> 200.dp
                 else -> 100.dp
             }
 

@@ -10,7 +10,6 @@ import configuration.read.ReadHardware
 import configuration.read.ReadItem
 import configuration.write.WriteHardware
 import configuration.write.WriteItem
-import model.ConfigurationModel
 import model.HardwareType
 import model.ItemType
 import org.json.JSONObject
@@ -22,6 +21,8 @@ import java.io.File
 
 private const val PREFIX_NEW_CONF = "config"
 private const val SUFFIX_NEW_CONF = ".json"
+
+class LoadConfigException : Exception()
 
 class Configuration {
     companion object {

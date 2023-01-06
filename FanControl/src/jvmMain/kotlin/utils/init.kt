@@ -4,7 +4,9 @@ import SensorLists
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.ItemType
-import model.item.SensorItem
+import model.item.sensor.Fan
+import model.item.sensor.SensorItem
+import model.item.sensor.Temp
 
 
 /**
@@ -25,7 +27,7 @@ fun initSensor(
                 id = getAvailableId(
                     ids = fanItemList.map { it.id }
                 ),
-                sensorId = fanSensor.id
+                extension = Fan(fanSensor.id)
             )
         )
     }
@@ -34,11 +36,11 @@ fun initSensor(
         tempItemList.add(
             SensorItem(
                 name = tempSensor.libName,
-                type = ItemType.SensorType.I_S_FAN,
+                type = ItemType.SensorType.I_S_TEMP,
                 id = getAvailableId(
                     ids = tempItemList.map { it.id }
                 ),
-                sensorId = tempSensor.id
+                extension = Temp(tempSensor.id)
             )
         )
     }

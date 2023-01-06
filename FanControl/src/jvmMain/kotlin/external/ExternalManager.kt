@@ -3,7 +3,7 @@ package external
 import SensorLists
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.item.Control
+import model.item.control.Control
 
 
 /**
@@ -54,7 +54,8 @@ class ExternalManager(
     fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null) {
         //external.setControl(libIndex, isAuto, value)
         //println("setControl : success")
-        println("set control: index = $libIndex, isAuto = $isAuto, value = $value")
+        if (!isAuto)
+            println("set control: index = $libIndex, isAuto = $isAuto, value = $value")
     }
 
 }

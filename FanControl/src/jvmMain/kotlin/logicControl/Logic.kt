@@ -9,8 +9,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import model.SettingsModel
-import model.item.Control
+import model.item.control.Control
+import settings.SettingsModel
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -136,19 +136,15 @@ class Logic(
                 when (controlsHasChangeMarker.value) {
                     // control change in this iteration
                     false -> {
-                        println("control has change, marker not enable")
                         controlsHasChangeMarker.value = true
                         shouldDelay = false
                     }
                     // control change in the previous iteration
                     true -> {
-                        println("control has change, marker enable")
                         controlsChange.value = false
                         controlsHasChangeMarker.value = false
                         setControlList.forEach { model ->
-
                             controlList[model.index].controlShouldBeSet = model.controlShouldBeSet
-
                             externalManager.setControl(model.libIndex, model.isAuto, model.value)
                         }
                     }
@@ -157,6 +153,7 @@ class Logic(
 
             // normal case of update
             false -> {
+
                 setControlList.forEach { model ->
                     externalManager.setControl(model.libIndex, model.isAuto, model.value)
                 }

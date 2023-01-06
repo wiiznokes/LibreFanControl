@@ -11,7 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import model.ConfigurationModel
+import configuration.ConfigurationModel
 import ui.component.managerListChoice
 import ui.component.managerNameOutlinedTextField
 import ui.utils.Resources

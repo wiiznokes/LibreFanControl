@@ -5,8 +5,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import logicControl.Logic
-import logicControl.uiUpdate.UpdateBehaviorValue
-import model.SettingsModel
+import logicControl.uiUpdate.UiUpdate
+import settings.SettingsModel
 import utils.initSensor
 
 
@@ -50,9 +50,9 @@ class Application(
         externalManager.stop()
     }
 
-    private var uiUpdate: UpdateBehaviorValue? = null
+    private var uiUpdate: UiUpdate? = null
     private suspend fun startUpdate() {
-        uiUpdate = UpdateBehaviorValue()
+        uiUpdate = UiUpdate()
 
         logic = Logic(
             externalManager = externalManager

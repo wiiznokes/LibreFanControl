@@ -1,11 +1,15 @@
-package model.item
+package model.item.sensor
 
 import model.ItemType
+import model.item.BaseItem
+
 
 data class SensorItem(
     override var name: String,
     override val type: ItemType.SensorType,
     override val id: Long,
 
-    var sensorId: Long? = null
+    val extension: SensorExtension
 ) : BaseItem
+
+interface SensorExtension

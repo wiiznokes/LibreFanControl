@@ -6,7 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import model.ItemType
-import model.item.Control
+import model.item.control.Control
 import ui.component.managerAddItemListChoice
 import ui.component.managerListChoice
 import ui.screen.itemsList.baseItemAddItem

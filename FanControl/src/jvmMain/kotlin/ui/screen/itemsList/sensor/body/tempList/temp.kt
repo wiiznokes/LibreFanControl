@@ -3,7 +3,9 @@ package ui.screen.itemsList.sensor.body.tempList
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import model.item.SensorItem
+import model.ItemType
+import model.item.sensor.SensorItem
+import model.item.sensor.Temp
 import ui.screen.itemsList.sensor.baseSensorBody
 import ui.utils.Resources
 
@@ -12,10 +14,18 @@ private val viewModel: TempVM = TempVM()
 
 fun LazyListScope.tempBodyList() {
     itemsIndexed(viewModel.tempItemList) { index, temp ->
-        tempBody(
-            sensorItem = temp,
-            index = index
-        )
+        when (temp.type) {
+            ItemType.SensorType.I_S_CUSTOM_TEMP -> customTempBody(
+                sensorItem = temp,
+                index = index
+            )
+
+            else -> tempBody(
+                sensorItem = temp,
+                index = index
+            )
+        }
+
     }
 }
 
@@ -27,9 +37,9 @@ private fun tempBody(
 ) {
 
 
-    val sensor = if (sensorItem.sensorId != null) {
+    val sensor = if ((sensorItem.extension as Temp).sensorId != null) {
         viewModel.tempList.find {
-            it.id == sensorItem.sensorId
+            it.id == sensorItem.extension.sensorId
         }
     } else null
 
@@ -46,4 +56,18 @@ private fun tempBody(
     )
 }
 
-
+@Composable
+private fun customTempBody(
+    sensorItem: SensorItem,
+    index: Int,
+) {
+    baseCustomTempBody(
+        onEditClick = { viewModel.remove(index) },
+        onNameChange = { viewModel.setName(it, index) },
+        sensorList = viewModel.tempList,
+        sensorItem = sensorItem,
+        onCustomTypeChange = { viewModel.setCustomType(it, index) },
+        onAddTempSensor = { viewModel.addTempCustom(it, index) },
+        onRemoveTemp = { viewModel.removeTempCustom(it, index) }
+    )
+}

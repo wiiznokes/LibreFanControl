@@ -1,4 +1,4 @@
-package logicControl.behaviorLogic
+package logicControl.behavior
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -10,6 +10,29 @@ class TargetLogic(
     private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
     private val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList,
 ) {
+
+    fun getValue(target: Target): Int? {
+        val tempValue = getTempValue(target.tempSensorId, tempList) ?: return null
+
+        return when (target.idleHasBeenReach) {
+            true -> {
+                if (tempValue < target.loadTemp) {
+                    target.idleFanSpeed
+                } else {
+                    target.loadFanSpeed
+                }
+            }
+
+            false -> {
+                if (tempValue <= target.idleTemp) {
+                    target.idleFanSpeed
+                } else {
+                    target.loadFanSpeed
+                }
+            }
+        }
+    }
+
     fun getValueAndChangeVariable(target: Target, index: Int): Int? {
         val value = getValue(target) ?: return null
         changeIdleHasBeenReach(target, index, value)
@@ -36,29 +59,6 @@ class TargetLogic(
                             idleHasBeenReach = true
                         )
                     )
-                }
-            }
-        }
-    }
-
-
-    fun getValue(target: Target): Int? {
-        val tempValue = getTempValue(target.tempSensorId, tempList) ?: return null
-
-        return when (target.idleHasBeenReach) {
-            true -> {
-                if (tempValue < target.loadTemp) {
-                    target.idleFanSpeed
-                } else {
-                    target.loadFanSpeed
-                }
-            }
-
-            false -> {
-                if (tempValue <= target.idleTemp) {
-                    target.idleFanSpeed
-                } else {
-                    target.loadFanSpeed
                 }
             }
         }

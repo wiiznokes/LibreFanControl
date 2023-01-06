@@ -1,30 +1,31 @@
 package configuration.read
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import configuration.LoadConfigException
 import model.ItemType
 import model.UnspecifiedTypeException
-import model.getItemType
-import model.item.Control
-import model.item.SensorItem
 import model.item.behavior.Behavior
 import model.item.behavior.Flat
 import model.item.behavior.Linear
 import model.item.behavior.Target
+import model.item.control.Control
+import model.item.sensor.*
 import org.json.JSONArray
 import org.json.JSONObject
 import utils.getJsonValue
 
 class ReadItem {
     fun getControls(controlList: SnapshotStateList<Control>, array: JSONArray) {
-
-        println("read control, size = ${controlList.size}")
-
+    
         for (i in 0 until array.length()) {
             val obj = array[i] as JSONObject
 
             val index = controlList.indexOfFirst { control ->
-                control.libId == getJsonValue("libId", obj)
+                control.libId == getJsonValue("libId", obj)!!
             }
+            if (index == -1)
+                throw LoadConfigException()
 
             val isAuto: Boolean = getJsonValue("isAuto", obj)!!
 
@@ -33,7 +34,7 @@ class ReadItem {
             controlList[index] = controlList[index].copy(
                 name = getJsonValue("name", obj)!!,
                 id = getJsonValue("id", obj)!!,
-                type = getItemType(getJsonValue("type", obj)!!) as ItemType.ControlType,
+                type = ItemType.ControlType from getJsonValue("type", obj)!!,
                 visible = getJsonValue("visible", obj)!!,
                 behaviorId = getJsonValue("behaviorId", obj),
                 isAuto = isAuto
@@ -48,7 +49,7 @@ class ReadItem {
         for (i in 0 until array.length()) {
             val obj = array[i] as JSONObject
 
-            val type = getItemType(getJsonValue("type", obj)!!) as ItemType.BehaviorType
+            val type = ItemType.BehaviorType from getJsonValue("type", obj)!!
 
 
             behaviorList.add(
@@ -75,17 +76,51 @@ class ReadItem {
         for (i in 0 until array.length()) {
             val obj = array[i] as JSONObject
 
+            val type = ItemType.SensorType from getJsonValue("type", obj)!!
+
             sensorItemList.add(
                 SensorItem(
                     name = getJsonValue("name", obj)!!,
                     id = getJsonValue("id", obj)!!,
-                    type = getItemType(getJsonValue("type", obj)!!) as ItemType.SensorType,
-                    sensorId = getJsonValue("sensorId", obj),
+                    type = type,
+                    extension = when (type) {
+                        ItemType.SensorType.I_S_FAN -> getFan(obj)
+                        ItemType.SensorType.I_S_TEMP -> getTemp(obj)
+                        ItemType.SensorType.I_S_CUSTOM_TEMP -> getCustomTemp(obj)
+                        ItemType.SensorType.I_S_UNSPECIFIED -> throw UnspecifiedTypeException()
+                    }
+
                 )
             )
         }
     }
 
+    private fun getFan(obj: JSONObject): Fan {
+        return Fan(
+            sensorId = getJsonValue("sensorId", obj)
+        )
+    }
+
+    private fun getTemp(obj: JSONObject): Temp {
+        return Temp(
+            sensorId = getJsonValue("sensorId", obj)
+        )
+    }
+
+    private fun getCustomTemp(obj: JSONObject): CustomTemp {
+        val sensorIdList = mutableStateListOf<Long>()
+
+        obj.getJSONArray("sensorIdList").let {
+            for (i in 0 until it.length()) {
+                sensorIdList.add(it[i] as Long)
+            }
+        }
+
+        return CustomTemp(
+            type = CustomTempType from getJsonValue("type", obj)!!,
+            sensorIdList = sensorIdList
+        )
+    }
 
     private fun getFlatBehavior(obj: JSONObject): Flat {
         return Flat(
