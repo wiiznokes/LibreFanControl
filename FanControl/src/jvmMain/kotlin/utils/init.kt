@@ -36,7 +36,7 @@ fun initSensor(
         tempItemList.add(
             SensorItem(
                 name = tempSensor.libName,
-                type = ItemType.SensorType.I_S_FAN,
+                type = ItemType.SensorType.I_S_TEMP,
                 id = getAvailableId(
                     ids = tempItemList.map { it.id }
                 ),

@@ -1,5 +1,6 @@
 package configuration.read
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.ItemType
 import model.UnspecifiedTypeException
@@ -103,8 +104,17 @@ class ReadItem {
     }
 
     private fun getCustomTemp(obj: JSONObject): CustomTemp {
+        val sensorIdList = mutableStateListOf<Long>()
+
+        obj.getJSONArray("sensorIdList").let {
+            for (i in 0 until it.length()) {
+                sensorIdList.add(it[i] as Long)
+            }
+        }
+
         return CustomTemp(
-            customType = CustomTempType from getJsonValue("sensorId", obj)!!
+            customType = CustomTempType from getJsonValue("sensorId", obj)!!,
+            sensorIdList = sensorIdList
         )
     }
 

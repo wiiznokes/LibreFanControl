@@ -50,35 +50,10 @@ class TempVM(
     }
 
     fun addTempCustom(id: Long, index: Int) {
-        tempItemList[index] = tempItemList[index].copy(
-            extension = with((tempItemList[index].extension as CustomTemp)) {
-                sensorIdList.add(id)
-                copy(
-                    sensorIdList = sensorIdList
-                )
-            }
-        )
-    }
-
-    fun addTempCustom2(id: Long, index: Int) {
-
-        tempItemList[index] = tempItemList[index].copy(
-            extension = with((tempItemList[index].extension as CustomTemp)) {
-                copy(
-                    sensorIdList = sensorIdList.apply { add(id) }
-                )
-            }
-        )
+        (tempItemList[index].extension as CustomTemp).sensorIdList.add(id)
     }
 
     fun removeTempCustom(id: Long, index: Int) {
-        tempItemList[index] = tempItemList[index].copy(
-            extension = with((tempItemList[index].extension as CustomTemp)) {
-                sensorIdList.remove(id)
-                copy(
-                    sensorIdList = sensorIdList
-                )
-            }
-        )
+        (tempItemList[index].extension as CustomTemp).sensorIdList.remove(id)
     }
 }

@@ -67,7 +67,7 @@ private fun customTempBody(
         sensorList = viewModel.tempList,
         sensorItem = sensorItem,
         onCustomTypeChange = { viewModel.setCustomType(it, index) },
-        onAddTempSensor = { viewModel.addTempCustom2(it, index) },
+        onAddTempSensor = { viewModel.addTempCustom(it, index) },
         onRemoveTemp = { viewModel.removeTempCustom(it, index) }
     )
 }

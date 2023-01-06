@@ -1,5 +1,8 @@
 package model.item.sensor
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
+
 enum class CustomTempType {
     average,
     max,
@@ -12,5 +15,6 @@ enum class CustomTempType {
 
 data class CustomTemp(
     val customType: CustomTempType = CustomTempType.average,
-    val sensorIdList: MutableList<Long> = mutableListOf()
+    val sensorIdList: SnapshotStateList<Long> = mutableStateListOf(),
+    var value: Int = 0
 ) : SensorExtension
