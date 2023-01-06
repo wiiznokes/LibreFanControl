@@ -29,8 +29,6 @@ class ReadItem {
 
             val isAuto: Boolean = getJsonValue("isAuto", obj)!!
 
-            println("read control: index i, current -> ${controlList[i]}")
-
             controlList[index] = controlList[index].copy(
                 name = getJsonValue("name", obj)!!,
                 id = getJsonValue("id", obj)!!,
