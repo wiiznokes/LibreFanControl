@@ -2,7 +2,7 @@ package external
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.Sensor
-import model.item.Control
+import model.item.control.Control
 
 interface External {
 

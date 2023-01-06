@@ -27,6 +27,7 @@
     "target": "target behavior info",
     "fan": "fan sensor info",
     "temp": "temp sensor info",
+    "custom_temp": "custom temp info",
     "edit_add": "Add item",
     "edit_remove": "Remove item",
     "previous": "previous",
@@ -94,6 +95,12 @@
     "system": "System",
     "light": "Light",
     "dark": "Dark"
+  },
+  "custom_temp": {
+    "average": "Average",
+    "max": "Max",
+    "min": "Min",
+    "add_temp": "Add temp sensor"
   },
   "none": "None",
   "fan_speed": "fan speed",

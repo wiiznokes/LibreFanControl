@@ -3,7 +3,8 @@ package ui.screen.itemsList.sensor.body.fanList
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import model.item.SensorItem
+import model.item.sensor.Fan
+import model.item.sensor.SensorItem
 import ui.screen.itemsList.sensor.baseSensorBody
 import ui.utils.Resources
 
@@ -26,9 +27,9 @@ private fun fanBody(
     sensorItem: SensorItem,
     index: Int
 ) {
-    val sensor = if (sensorItem.sensorId != null) {
+    val sensor = if ((sensorItem.extension as Fan).sensorId != null) {
         viewModel.fanList.find {
-            it.id == sensorItem.sensorId
+            it.id == sensorItem.extension.sensorId
         }
     } else null
 

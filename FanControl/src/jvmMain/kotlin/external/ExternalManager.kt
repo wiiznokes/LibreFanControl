@@ -3,7 +3,7 @@ package external
 import SensorLists
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.item.Control
+import model.item.control.Control
 
 
 /**

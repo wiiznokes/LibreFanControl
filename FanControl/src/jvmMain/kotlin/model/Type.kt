@@ -19,6 +19,7 @@ interface ItemType {
     enum class SensorType : ItemType {
         I_S_FAN,
         I_S_TEMP,
+        I_S_CUSTOM_TEMP,
         I_S_UNSPECIFIED
     }
 }

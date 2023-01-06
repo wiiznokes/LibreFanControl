@@ -3,7 +3,10 @@ package ui.screen.itemsList.sensor.body.tempList
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.Sensor
-import model.item.SensorItem
+import model.item.sensor.CustomTemp
+import model.item.sensor.CustomTempType
+import model.item.sensor.SensorItem
+import model.item.sensor.Temp
 import utils.checkNameTaken
 
 class TempVM(
@@ -18,7 +21,9 @@ class TempVM(
 
     fun setTemp(index: Int, sensorId: Long?) {
         tempItemList[index] = tempItemList[index].copy(
-            sensorId = sensorId
+            extension = (tempItemList[index].extension as Temp).copy(
+                sensorId = sensorId
+            )
         )
     }
 
@@ -33,6 +38,47 @@ class TempVM(
         )
         tempItemList[index] = tempItemList[index].copy(
             name = name
+        )
+    }
+
+    fun setCustomType(type: CustomTempType, index: Int) {
+        tempItemList[index] = tempItemList[index].copy(
+            extension = (tempItemList[index].extension as CustomTemp).copy(
+                customType = type
+            )
+        )
+    }
+
+    fun addTempCustom(id: Long, index: Int) {
+        tempItemList[index] = tempItemList[index].copy(
+            extension = with((tempItemList[index].extension as CustomTemp)) {
+                sensorIdList.add(id)
+                copy(
+                    sensorIdList = sensorIdList
+                )
+            }
+        )
+    }
+
+    fun addTempCustom2(id: Long, index: Int) {
+
+        tempItemList[index] = tempItemList[index].copy(
+            extension = with((tempItemList[index].extension as CustomTemp)) {
+                copy(
+                    sensorIdList = sensorIdList.apply { add(id) }
+                )
+            }
+        )
+    }
+
+    fun removeTempCustom(id: Long, index: Int) {
+        tempItemList[index] = tempItemList[index].copy(
+            extension = with((tempItemList[index].extension as CustomTemp)) {
+                sensorIdList.remove(id)
+                copy(
+                    sensorIdList = sensorIdList
+                )
+            }
         )
     }
 }

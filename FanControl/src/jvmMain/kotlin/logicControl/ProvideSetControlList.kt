@@ -5,8 +5,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import logicControl.behaviorLogic.BehaviorLogic
 import model.ItemType
-import model.item.Control
 import model.item.behavior.Behavior
+import model.item.control.Control
 import utils.filterWithPreviousIndex
 
 

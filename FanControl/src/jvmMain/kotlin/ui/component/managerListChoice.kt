@@ -19,7 +19,8 @@ import ui.utils.Resources
 
 @Composable
 fun managerAddItemListChoice(
-    name: String
+    name: String,
+    painterType: PainterType = PainterType.CHOOSE,
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         Row(
@@ -31,7 +32,10 @@ fun managerAddItemListChoice(
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
 
                 Icon(
-                    painter = Resources.getIcon("arrow_drop_down"),
+                    painter = when (painterType) {
+                        PainterType.ADD -> Resources.getIcon("add")
+                        PainterType.CHOOSE -> Resources.getIcon("arrow_drop_down")
+                    },
                     contentDescription = Resources.getString("ct/choose"),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -47,7 +51,7 @@ fun managerAddItemListChoice(
 
 
 @Composable
-fun managerListChoice(
+fun <T> managerListChoice(
     text: String?,
     enabled: Boolean = true,
     color: Color = MaterialTheme.colorScheme.onSurface,
@@ -58,14 +62,16 @@ fun managerListChoice(
             enabled = enabled
         )
     },
+    painterType: PainterType = PainterType.CHOOSE,
     baseModifier: Modifier = Modifier
         .fillMaxWidth()
         .widthIn(min = 100.dp, max = 250.dp),
     itemModifier: Modifier = Modifier,
-    onItemClick: (Long?) -> Unit,
-    iconContent: @Composable ((Long, Int) -> Unit)? = null,
-    ids: List<Long>,
+    onItemClick: (T?) -> Unit,
+    iconContent: @Composable ((T, Int) -> Unit)? = null,
+    ids: List<T>,
     names: List<String>,
+    addNoneItem: Boolean = true
 ) {
     val expanded = remember { mutableStateOf(false) }
 
@@ -73,16 +79,20 @@ fun managerListChoice(
         text = text ?: Resources.getString("none"),
         textContent = textContent,
         expanded = expanded,
+        painterType = painterType,
         modifier = baseModifier,
         expandIconColor = color
     ) {
-        managerDropDownContent(
-            modifier = itemModifier,
-            expanded = expanded,
-            text = Resources.getString("none"),
-            onItemClick = onItemClick,
-            enabled = enabled
-        )
+        if (addNoneItem) {
+            managerDropDownContent(
+                modifier = itemModifier,
+                expanded = expanded,
+                text = Resources.getString("none"),
+                onItemClick = onItemClick,
+                enabled = enabled
+            )
+        }
+
         for (i in ids.indices) {
             managerDropDownContent(
                 modifier = itemModifier,
@@ -99,6 +109,11 @@ fun managerListChoice(
 }
 
 
+enum class PainterType {
+    ADD,
+    CHOOSE
+}
+
 @Composable
 private fun managerBaseDropdownMenu(
     modifier: Modifier,
@@ -106,6 +121,7 @@ private fun managerBaseDropdownMenu(
     textContent: @Composable (String) -> Unit,
     expanded: MutableState<Boolean>,
     expandIconColor: Color,
+    painterType: PainterType,
     dropDownContent: @Composable ColumnScope.() -> Unit
 ) {
     Box {
@@ -121,9 +137,20 @@ private fun managerBaseDropdownMenu(
                     IconButton(
                         onClick = { expanded.value = true }
                     ) {
-                        val painter = when (expanded.value) {
-                            true -> Resources.getIcon("arrow_drop_up")
-                            false -> Resources.getIcon("arrow_drop_down")
+                        val painter = when (painterType) {
+                            PainterType.ADD -> {
+                                when (expanded.value) {
+                                    true -> Resources.getIcon("close")
+                                    false -> Resources.getIcon("add")
+                                }
+                            }
+
+                            PainterType.CHOOSE -> {
+                                when (expanded.value) {
+                                    true -> Resources.getIcon("arrow_drop_up")
+                                    false -> Resources.getIcon("arrow_drop_down")
+                                }
+                            }
                         }
 
                         Icon(
@@ -156,13 +183,13 @@ private fun managerBaseDropdownMenu(
 
 
 @Composable
-private fun managerDropDownContent(
+private fun <T> managerDropDownContent(
     modifier: Modifier = Modifier,
     expanded: MutableState<Boolean>,
     text: String,
-    onItemClick: (Long?) -> Unit,
-    iconContent: @Composable ((Long, Int) -> Unit)? = null,
-    id: Long? = null,
+    onItemClick: (T?) -> Unit,
+    iconContent: @Composable ((T, Int) -> Unit)? = null,
+    id: T? = null,
     index: Int? = null,
     enabled: Boolean
 ) {

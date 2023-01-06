@@ -1,6 +1,7 @@
-package model.item
+package model.item.control
 
 import model.ItemType
+import model.item.BaseItem
 
 data class Control(
     override var name: String,

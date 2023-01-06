@@ -4,12 +4,12 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.ItemType
 import model.UnspecifiedTypeException
 import model.getItemType
-import model.item.Control
-import model.item.SensorItem
 import model.item.behavior.Behavior
 import model.item.behavior.Flat
 import model.item.behavior.Linear
 import model.item.behavior.Target
+import model.item.control.Control
+import model.item.sensor.*
 import org.json.JSONArray
 import org.json.JSONObject
 import utils.getJsonValue
@@ -71,17 +71,42 @@ class ReadItem {
         for (i in 0 until array.length()) {
             val obj = array[i] as JSONObject
 
+            val type = getItemType(getJsonValue("type", obj)!!) as ItemType.SensorType
+
             sensorItemList.add(
                 SensorItem(
                     name = getJsonValue("name", obj)!!,
                     id = getJsonValue("id", obj)!!,
-                    type = getItemType(getJsonValue("type", obj)!!) as ItemType.SensorType,
-                    sensorId = getJsonValue("sensorId", obj),
+                    type = type,
+                    extension = when (type) {
+                        ItemType.SensorType.I_S_FAN -> getFan(obj)
+                        ItemType.SensorType.I_S_TEMP -> getTemp(obj)
+                        ItemType.SensorType.I_S_CUSTOM_TEMP -> getCustomTemp(obj)
+                        ItemType.SensorType.I_S_UNSPECIFIED -> throw UnspecifiedTypeException()
+                    }
+
                 )
             )
         }
     }
 
+    private fun getFan(obj: JSONObject): Fan {
+        return Fan(
+            sensorId = getJsonValue("sensorId", obj)
+        )
+    }
+
+    private fun getTemp(obj: JSONObject): Temp {
+        return Temp(
+            sensorId = getJsonValue("sensorId", obj)
+        )
+    }
+
+    private fun getCustomTemp(obj: JSONObject): CustomTemp {
+        return CustomTemp(
+            customType = CustomTempType from getJsonValue("sensorId", obj)!!
+        )
+    }
 
     private fun getFlatBehavior(obj: JSONObject): Flat {
         return Flat(

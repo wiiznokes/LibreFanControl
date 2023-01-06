@@ -3,8 +3,8 @@ package ui.screen.itemsList.behaviorList
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
-import model.item.Control
 import model.item.behavior.Behavior
+import model.item.control.Control
 import utils.checkNameTaken
 import utils.filterWithPreviousIndex
 

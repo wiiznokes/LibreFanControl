@@ -3,9 +3,9 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import model.SettingsModel
 import model.hardware.Sensor
-import model.item.Control
-import model.item.SensorItem
 import model.item.behavior.Behavior
+import model.item.control.Control
+import model.item.sensor.SensorItem
 
 
 data class SensorLists(

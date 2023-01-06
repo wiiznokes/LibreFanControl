@@ -3,7 +3,7 @@ package external
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.HardwareType
 import model.hardware.Sensor
-import model.item.Control
+import model.item.control.Control
 import utils.getAvailableId
 
 class ExternalWindows : External {

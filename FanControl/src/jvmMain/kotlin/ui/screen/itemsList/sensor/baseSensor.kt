@@ -7,7 +7,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.painter.Painter
 import model.ItemType
 import model.hardware.Sensor
-import model.item.SensorItem
+import model.item.sensor.SensorItem
 import ui.component.managerAddItemListChoice
 import ui.component.managerListChoice
 import ui.component.managerText
