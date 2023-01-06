@@ -136,33 +136,27 @@ class Logic(
                 when (controlsHasChangeMarker.value) {
                     // control change in this iteration
                     false -> {
-                        println("control has change, marker not enable")
                         controlsHasChangeMarker.value = true
                         shouldDelay = false
                     }
                     // control change in the previous iteration
                     true -> {
-                        println("control has change, marker enable")
                         controlsChange.value = false
                         controlsHasChangeMarker.value = false
-                        println("change update, size: ${setControlList.size}")
                         setControlList.forEach { model ->
                             controlList[model.index].controlShouldBeSet = model.controlShouldBeSet
                             externalManager.setControl(model.libIndex, model.isAuto, model.value)
                         }
-                        println("change update success")
                     }
                 }
             }
 
             // normal case of update
             false -> {
-                println("usual update, size: ${setControlList.size}")
 
                 setControlList.forEach { model ->
                     externalManager.setControl(model.libIndex, model.isAuto, model.value)
                 }
-                println("usual update success")
             }
         }
         return shouldDelay

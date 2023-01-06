@@ -16,7 +16,7 @@ class ExternalManager(
     private val sensorLists: SensorLists = State.sensorLists
 ) {
 
-    private val external: External = when (OS.LINUX) {
+    private val external: External = when (getOS()) {
         OS.WINDOWS -> ExternalWindows()
         OS.LINUX -> ExternalLinux()
         OS.UNSUPPORTED -> throw Exception("unsupported OS")
@@ -37,24 +37,25 @@ class ExternalManager(
 
     fun updateFanList() {
         external.updateFanList(sensorLists.fanList)
-        println("updateFan : success")
+        //println("updateFan : success")
 
     }
 
     fun updateTempList() {
         external.updateTempList(sensorLists.tempList)
-        println("updateTemp : success")
+        //println("updateTemp : success")
     }
 
     fun updateControlList() {
         external.updateControlList(controlList)
-        println("updateControl : success")
+        //println("updateControl : success")
     }
 
     fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null) {
         //external.setControl(libIndex, isAuto, value)
         //println("setControl : success")
-        println("set control: index = $libIndex, isAuto = $isAuto, value = $value")
+        if (!isAuto)
+            println("set control: index = $libIndex, isAuto = $isAuto, value = $value")
     }
 
 }

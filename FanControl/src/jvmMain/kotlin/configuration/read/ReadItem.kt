@@ -17,7 +17,7 @@ import utils.getJsonValue
 
 class ReadItem {
     fun getControls(controlList: SnapshotStateList<Control>, array: JSONArray) {
-
+        println("read controls, size = ${controlList.size}")
         for (i in 0 until array.length()) {
             val obj = array[i] as JSONObject
 
@@ -27,6 +27,7 @@ class ReadItem {
 
             val isAuto: Boolean = getJsonValue("isAuto", obj)!!
 
+            println("read control, index $i -> ${controlList[i]}")
             controlList[index] = controlList[index].copy(
                 name = getJsonValue("name", obj)!!,
                 id = getJsonValue("id", obj)!!,

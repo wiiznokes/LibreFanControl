@@ -51,12 +51,12 @@ fun addConfiguration() {
         )
     }
 
-    if (dialogExpanded.value) {
-        dialog(
-            enabled = dialogExpanded,
-            keyEnterPressed = keyEnterPressed
-        )
-    }
+
+    dialog(
+        enabled = dialogExpanded,
+        keyEnterPressed = keyEnterPressed
+    )
+
 }
 
 

@@ -77,8 +77,6 @@ class ExternalWindows : External {
     }
 
     override fun updateFanList(fanList: SnapshotStateList<Sensor>) {
-        fanList.forEach { println(it) }
-
         externalUpdateFanList()
 
         for (i in fanList.indices) {
