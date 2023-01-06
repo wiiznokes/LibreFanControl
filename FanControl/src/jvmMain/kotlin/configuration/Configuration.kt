@@ -23,6 +23,8 @@ import java.io.File
 private const val PREFIX_NEW_CONF = "config"
 private const val SUFFIX_NEW_CONF = ".json"
 
+class LoadConfigException: Exception()
+
 class Configuration {
     companion object {
         private val readHardware = ReadHardware()
