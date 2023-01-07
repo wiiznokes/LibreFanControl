@@ -14,9 +14,10 @@ To run the project, just use `.\gradlew run` in FanControl folder.
 <details>
   <summary>Next steps</summary>
   
+- make a smart scipt to copy the lib dll in JAVA_HOME if needed
+- don't stop the app when we close it, add small icon in task bar instead with an option to exist
 - publish (add lib folder to executable and conf folder)
 - implement settings (support the project, info, °C or F°)
-- don't stop the app when we close it, add small icon in task bar instead with an option to exist
 - add an explenation windows on how the app works
 - add graph behavior (abscissa -> temp, ordinate -> fan speed)
 - support Linux
