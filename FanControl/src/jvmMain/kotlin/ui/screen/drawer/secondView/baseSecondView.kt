@@ -33,7 +33,7 @@ fun baseSecondView(
             ) {
                 Icon(
                     modifier = Modifier.align(Alignment.CenterStart),
-                    painter = Resources.getIcon("chevron_left"),
+                    painter = Resources.getIcon("arrow/chevron/chevron_left"),
                     contentDescription = Resources.getString("ct/close_setting_item"),
                     tint = MaterialTheme.colorScheme.inverseOnSurface
                 )

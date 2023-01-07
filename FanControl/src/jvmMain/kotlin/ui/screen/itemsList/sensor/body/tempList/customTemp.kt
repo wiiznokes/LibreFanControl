@@ -41,7 +41,7 @@ fun baseCustomTempBody(
     val customTemp = sensorItem.extension as CustomTemp
 
     baseItemBody(
-        iconPainter = Resources.getIcon("thermostat"),
+        iconPainter = Resources.getIcon("items/thermostat"),
         iconContentDescription = Resources.getString("ct/custom_temp"),
         onNameChange = onNameChange,
         onEditClick = onEditClick,
@@ -117,7 +117,7 @@ private fun selectedSensor(
                 ) {
                     Icon(
                         modifier = Modifier.scale(0.7f).requiredSize(40.dp),
-                        painter = Resources.getIcon("close"),
+                        painter = Resources.getIcon("select/close"),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurface
                     )
@@ -129,7 +129,7 @@ private fun selectedSensor(
                 ) {
                     Icon(
                         modifier = Modifier.scale(0.7f).requiredSize(30.dp),
-                        painter = Resources.getIcon("radio_button_unchecked"),
+                        painter = Resources.getIcon("select/radio_button_unchecked"),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurface
                     )

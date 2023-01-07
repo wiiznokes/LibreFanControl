@@ -28,7 +28,7 @@ fun targetBody(
     onNameChange: (String) -> Unit
 ) {
     baseItemBody(
-        iconPainter = Resources.getIcon("my_location"),
+        iconPainter = Resources.getIcon("items/my_location"),
         iconContentDescription = Resources.getString("ct/target"),
         onNameChange = onNameChange,
         onEditClick = onEditClick,
@@ -45,9 +45,11 @@ fun targetBody(
                     this > 0 -> viewModel.tempList.first {
                         it.id == this
                     }.libName
+
                     this < 0 -> customTempList.first {
                         it.id == this
                     }.name
+
                     else -> throw IllegalArgumentException()
                 }
             },
@@ -134,7 +136,7 @@ fun targetAddItem(
     onEditClick: () -> Unit,
 ) {
     baseItemAddItem(
-        iconPainter = Resources.getIcon("my_location"),
+        iconPainter = Resources.getIcon("items/my_location"),
         iconContentDescription = Resources.getString("ct/target"),
         name = Resources.getString("add_item/target_name"),
         onEditClick = onEditClick,

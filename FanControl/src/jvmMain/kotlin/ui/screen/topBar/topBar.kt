@@ -29,7 +29,7 @@ fun topBarBody(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    painter = Resources.getIcon("toys_fan"),
+                    painter = Resources.getIcon("topBar/toys_fan"),
                     contentDescription = Resources.getString("title/app_name"),
                     tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -53,7 +53,7 @@ fun topBarBody(
                 }
             ) {
                 Icon(
-                    painter = Resources.getIcon("menu"),
+                    painter = Resources.getIcon("topBar/menu"),
                     contentDescription = Resources.getString("ct/open_drawer"),
                     tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -82,7 +82,7 @@ fun topBarBody(
                     }
                 ) {
                     Icon(
-                        painter = Resources.getIcon("edit_square"),
+                        painter = Resources.getIcon("topBar/edit_square"),
                         contentDescription = Resources.getString("ct/edit"),
                         modifier = Modifier
                             .padding(bottom = 5.dp, top = 1.dp),
@@ -121,7 +121,7 @@ fun topBarAddItem() {
                 onClick = { viewModel.closeAddItem() }
             ) {
                 Icon(
-                    painter = Resources.getIcon("arrow_forward"),
+                    painter = Resources.getIcon("arrow/arrow_forward"),
                     contentDescription = Resources.getString("ct/close_add_item"),
                     tint = MaterialTheme.colorScheme.onSecondaryContainer
                 )

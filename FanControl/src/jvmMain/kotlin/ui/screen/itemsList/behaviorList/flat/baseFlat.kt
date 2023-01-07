@@ -42,7 +42,7 @@ fun baseFlat(
                         onClick = onLess ?: {}
                     ) {
                         Icon(
-                            painter = Resources.getIcon("remove"),
+                            painter = Resources.getIcon("sign/minus/remove"),
                             contentDescription = Resources.getString("ct/decrease"),
                             tint = color
                         )
@@ -51,7 +51,7 @@ fun baseFlat(
                         onClick = onMore ?: {}
                     ) {
                         Icon(
-                            painter = Resources.getIcon("add"),
+                            painter = Resources.getIcon("sign/plus/add"),
                             contentDescription = Resources.getString("ct/increase"),
                             tint = color
                         )
@@ -59,13 +59,13 @@ fun baseFlat(
                 } else {
                     Icon(
                         modifier = Modifier.scale(0.8f).requiredSize(40.dp),
-                        painter = Resources.getIcon("remove"),
+                        painter = Resources.getIcon("sign/minus/remove"),
                         contentDescription = Resources.getString("ct/decrease"),
                         tint = color
                     )
                     Icon(
                         modifier = Modifier.scale(0.8f).requiredSize(40.dp),
-                        painter = Resources.getIcon("add"),
+                        painter = Resources.getIcon("sign/plus/add"),
                         contentDescription = Resources.getString("ct/increase"),
                         tint = color
                     )

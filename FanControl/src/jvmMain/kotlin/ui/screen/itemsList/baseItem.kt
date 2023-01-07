@@ -48,7 +48,7 @@ fun baseItemBody(
         iconContentDescription = iconContentDescription,
         contentEditIcon = {
             Icon(
-                painter = Resources.getIcon("close"),
+                painter = Resources.getIcon("select/close"),
                 contentDescription = Resources.getString("ct/edit_remove"),
                 tint = Color.White
             )
@@ -89,7 +89,7 @@ fun baseItemAddItem(
         iconContentDescription = iconContentDescription,
         contentEditIcon = {
             Icon(
-                painter = Resources.getIcon("add"),
+                painter = Resources.getIcon("sign/plus/add"),
                 contentDescription = Resources.getString("ct/edit_add"),
                 tint = Color.White
             )

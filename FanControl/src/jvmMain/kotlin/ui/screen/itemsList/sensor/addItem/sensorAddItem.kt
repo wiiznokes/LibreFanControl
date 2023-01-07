@@ -16,7 +16,7 @@ fun LazyListScope.sensorAddItemList() {
     // fan
     item {
         baseSensorAddItem(
-            iconPainter = Resources.getIcon("toys_fan"),
+            iconPainter = Resources.getIcon("items/toys_fan"),
             iconContentDescription = Resources.getString("ct/fan"),
             name = Resources.getString("add_item/fan_name"),
             onEditClick = {
@@ -31,7 +31,7 @@ fun LazyListScope.sensorAddItemList() {
     // temp
     item {
         baseSensorAddItem(
-            iconPainter = Resources.getIcon("thermometer"),
+            iconPainter = Resources.getIcon("items/thermometer"),
             iconContentDescription = Resources.getString("ct/temp"),
             name = Resources.getString("add_item/temp_name"),
             onEditClick = {
@@ -45,7 +45,7 @@ fun LazyListScope.sensorAddItemList() {
 
     item {
         baseItemAddItem(
-            iconPainter = Resources.getIcon("thermostat"),
+            iconPainter = Resources.getIcon("items/thermostat"),
             iconContentDescription = Resources.getString("ct/custom_temp"),
             name = Resources.getString("add_item/temp_name"),
             onEditClick = { viewModel.addCustomTemp() },
