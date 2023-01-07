@@ -1,3 +1,5 @@
-<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3 41.8909L41.8909 3L44.7193 5.82842L5.82843 44.7193L3 41.8909Z" fill="black"/>
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="6" y="31" width="6.75" height="3" fill="black"/>
+    <path d="M27 6H34V9H27V6Z" fill="black"/>
+    <rect x="10.2269" y="32.3915" width="31.2733" height="3" transform="rotate(-57.5599 10.2269 32.3915)" fill="black"/>
 </svg>
