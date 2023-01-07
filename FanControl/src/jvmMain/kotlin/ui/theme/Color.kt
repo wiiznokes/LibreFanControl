@@ -49,7 +49,7 @@ private val darkColorScheme = darkColorScheme(
     background = Color.Black,
     onBackground = Color.White,
 
-    // background of addItem
+    // background of addItem, background of setting
     inverseSurface = LightBlack,
     inverseOnSurface = Color.White,
 

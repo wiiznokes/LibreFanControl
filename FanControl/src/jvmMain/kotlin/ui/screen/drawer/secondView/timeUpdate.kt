@@ -49,7 +49,7 @@ fun settingTimeUpdate(
                         }
                     ) {
                         Icon(
-                            painter = Resources.getIcon("sign/plus/add2"),
+                            painter = Resources.getIcon("sign/plus/add40"),
                             contentDescription = Resources.getString("ct/increase"),
                             tint = MaterialTheme.colorScheme.inverseOnSurface
                         )
@@ -62,7 +62,7 @@ fun settingTimeUpdate(
                         }
                     ) {
                         Icon(
-                            painter = Resources.getIcon("sign/minus/remove2"),
+                            painter = Resources.getIcon("sign/minus/remove40"),
                             contentDescription = Resources.getString("ct/decrease"),
                             tint = MaterialTheme.colorScheme.inverseOnSurface
                         )
