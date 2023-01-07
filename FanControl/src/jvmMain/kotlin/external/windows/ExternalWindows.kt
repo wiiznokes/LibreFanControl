@@ -16,6 +16,22 @@ class ExternalWindows : External {
         tempList: SnapshotStateList<Sensor>,
         controlList: SnapshotStateList<Control>
     ) {
+        /**
+         * copy the lib inside libWindowsJava to JAVA_HOME/bin folder
+         */
+        val processBuilder = ProcessBuilder(
+            "powershell.exe", "-File",
+            "./scripts/copy_lib_windows.ps1", "-libLocal", "./libWindowsJava"
+        )
+        val process = processBuilder.start()
+        process.waitFor()
+        process.inputStream.bufferedReader().readLines().let { println(it) }
+
+        if (process.exitValue() != 0) {
+            throw Exception("Not able to copy the necessary lib to JAVA_HOME folder." +
+                    "Maybe the JAVA_HOME path is not set.")
+        }
+
         System.loadLibrary("CppProxy")
         externalStart(values)
         super.start(fanList, tempList, controlList)

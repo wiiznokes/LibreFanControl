@@ -16,8 +16,24 @@ if (!(Test-Path ($env:JAVA_HOME + "\bin")))
     exit 1
 }
 
+# Set default value for $libFilesDir
+$libFilesDir = "./../libWindowsJava"
+
+# Check if there are any arguments
+if ($args.Length -gt 0) {
+    # Check if "-libLocal" argument is present
+    if ($args -contains "-libLocal") {
+        # Set $libFilesDir to first argument after "-libLocal"
+        $libFilesDir = $args[($args.IndexOf("-libLocal") + 1)]
+    } else {
+        # "-libLocal" argument is not present
+        Write-Error "Error: -libLocal argument is required when specifying a directory."
+        exit 1
+    }
+}
+
 # Get a list of file in local lib dir
-$libFiles = Get-ChildItem "./../../../../../libWindowsJava"
+$libFiles = Get-ChildItem $libFilesDir
 
 # Get the path to the "lib" directory specified in the JAVA_HOME environment variable
 $javaHomeLibDir = $env:JAVA_HOME + "\bin"
