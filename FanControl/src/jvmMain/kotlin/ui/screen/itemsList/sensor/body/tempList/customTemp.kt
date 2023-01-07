@@ -116,7 +116,7 @@ private fun selectedSensor(
                     onClick = { onRemove(id) }
                 ) {
                     Icon(
-                        modifier = Modifier.scale(0.7f).requiredSize(40.dp),
+                        modifier = Modifier,
                         painter = Resources.getIcon("select/close"),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurface
@@ -128,7 +128,7 @@ private fun selectedSensor(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Icon(
-                        modifier = Modifier.scale(0.7f).requiredSize(30.dp),
+                        modifier = Modifier,
                         painter = Resources.getIcon("select/radio_button_unchecked"),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurface

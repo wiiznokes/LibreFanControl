@@ -155,7 +155,7 @@ private fun managerBaseDropdownMenu(
                         }
 
                         Icon(
-                            modifier = Modifier.scale(0.8f).requiredSize(40.dp),
+                            modifier = Modifier,
                             painter = painter,
                             contentDescription = Resources.getString("ct/choose"),
                             tint = expandIconColor

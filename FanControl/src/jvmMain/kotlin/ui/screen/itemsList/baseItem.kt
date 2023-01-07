@@ -201,8 +201,7 @@ private fun baseItem(
             FloatingActionButton(
                 modifier = Modifier
                     .wrapContentSize()
-                    .align(Alignment.TopEnd)
-                    .scale(0.6f),
+                    .align(Alignment.TopEnd),
                 onClick = onEditClick,
 
                 shape = RoundedCornerShape(100),

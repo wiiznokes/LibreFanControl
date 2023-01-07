@@ -50,7 +50,7 @@ fun managerExpandItem(
             }
         } else {
             Icon(
-                modifier = Modifier.scale(0.8f).requiredSize(40.dp),
+                modifier = Modifier,
                 painter = Resources.getIcon("arrow/expand/expand_less"),
                 contentDescription = Resources.getString("ct/choose"),
                 tint = color

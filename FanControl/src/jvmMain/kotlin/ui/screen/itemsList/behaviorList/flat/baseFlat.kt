@@ -58,13 +58,13 @@ fun baseFlat(
                     }
                 } else {
                     Icon(
-                        modifier = Modifier.scale(0.8f).requiredSize(40.dp),
+                        modifier = Modifier,
                         painter = Resources.getIcon("sign/minus/remove"),
                         contentDescription = Resources.getString("ct/decrease"),
                         tint = color
                     )
                     Icon(
-                        modifier = Modifier.scale(0.8f).requiredSize(40.dp),
+                        modifier = Modifier,
                         painter = Resources.getIcon("sign/plus/add"),
                         contentDescription = Resources.getString("ct/increase"),
                         tint = color

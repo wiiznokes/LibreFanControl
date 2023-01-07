@@ -50,7 +50,7 @@ fun managerNumberChoice(
         }
         Column {
             IconButton(
-                modifier = Modifier.scale(0.8f).requiredSize(20.dp),
+                modifier = Modifier,
                 onClick = increase ?: {}
             ) {
                 Icon(
@@ -60,7 +60,7 @@ fun managerNumberChoice(
                 )
             }
             IconButton(
-                modifier = Modifier.scale(0.8f).requiredSize(20.dp),
+                modifier = Modifier,
                 onClick = decrease ?: {}
             ) {
                 Icon(
