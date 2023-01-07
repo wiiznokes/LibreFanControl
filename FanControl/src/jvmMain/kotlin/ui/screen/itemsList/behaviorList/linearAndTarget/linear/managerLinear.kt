@@ -28,7 +28,7 @@ fun linearBody(
     onNameChange: (String) -> Unit
 ) {
     baseItemBody(
-        iconPainter = Resources.getIcon("linear"),
+        iconPainter = Resources.getIcon("items/linear"),
         iconContentDescription = Resources.getString("ct/linear"),
         onNameChange = onNameChange,
         onEditClick = onEditClick,
@@ -46,9 +46,11 @@ fun linearBody(
                     this > 0 -> viewModel.tempList.first {
                         it.id == this
                     }.libName
+
                     this < 0 -> customTempList.first {
                         it.id == this
                     }.name
+
                     else -> throw IllegalArgumentException()
                 }
             },
@@ -135,7 +137,7 @@ fun linearAddItem(
     onEditClick: () -> Unit,
 ) {
     baseItemAddItem(
-        iconPainter = Resources.getIcon("linear"),
+        iconPainter = Resources.getIcon("items/linear"),
         iconContentDescription = Resources.getString("ct/linear"),
         name = Resources.getString("add_item/linear_name"),
         onEditClick = onEditClick,

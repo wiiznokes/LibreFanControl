@@ -70,7 +70,7 @@ private fun addItemChoice(currentChoiceType: MutableState<ChoiceType>, choiceSta
             }
         ) {
             Icon(
-                painter = Resources.getIcon("line_start_arrow_notch"),
+                painter = Resources.getIcon("arrow/notch/line_start_arrow_notch"),
                 contentDescription = Resources.getString("ct/previous"),
                 tint = MaterialTheme.colorScheme.onSecondary
             )
@@ -88,7 +88,7 @@ private fun addItemChoice(currentChoiceType: MutableState<ChoiceType>, choiceSta
             }
         ) {
             Icon(
-                painter = Resources.getIcon("line_end_arrow_notch"),
+                painter = Resources.getIcon("arrow/notch/line_end_arrow_notch"),
                 contentDescription = Resources.getString("ct/next"),
                 tint = MaterialTheme.colorScheme.onSecondary
             )

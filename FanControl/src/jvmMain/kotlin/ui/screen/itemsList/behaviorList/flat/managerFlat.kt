@@ -22,7 +22,7 @@ fun flatBody(
     val flat = behavior.extension as Flat
 
     baseItemBody(
-        iconPainter = Resources.getIcon("horizontal_rule"),
+        iconPainter = Resources.getIcon("items/horizontal_rule"),
         iconContentDescription = Resources.getString("ct/flat"),
         onNameChange = onNameChange,
         onEditClick = onEditClick,
@@ -45,7 +45,7 @@ fun flatAddItem(
     onEditClick: () -> Unit
 ) {
     baseItemAddItem(
-        iconPainter = Resources.getIcon("horizontal_rule"),
+        iconPainter = Resources.getIcon("items/horizontal_rule"),
         iconContentDescription = Resources.getString("ct/flat"),
         name = Resources.getString("add_item/flat_name"),
         onEditClick = onEditClick,

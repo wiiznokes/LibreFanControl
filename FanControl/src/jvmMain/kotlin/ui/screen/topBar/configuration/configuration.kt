@@ -70,7 +70,7 @@ private fun configurationWithId(
         onClick = { viewModel.saveConfiguration(text.value, index, id) }
     ) {
         Icon(
-            painter = Resources.getIcon("save_as"),
+            painter = Resources.getIcon("topBar/save_as"),
             contentDescription = Resources.getString("ct/save_conf"),
             tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
@@ -130,7 +130,7 @@ private fun configurationListChoice(
                 onClick = { viewModel.removeConfiguration(id, index) }
             ) {
                 Icon(
-                    painter = Resources.getIcon("delete_forever"),
+                    painter = Resources.getIcon("select/delete_forever"),
                     contentDescription = Resources.getString("ct/remove_conf"),
                     tint = MaterialTheme.colorScheme.onPrimary
                 )

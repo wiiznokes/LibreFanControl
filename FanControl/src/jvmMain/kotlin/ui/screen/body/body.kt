@@ -93,7 +93,7 @@ fun body() {
                 onClick = { viewModel.expandAddItem() }
             ) {
                 Icon(
-                    painter = Resources.getIcon("add"),
+                    painter = Resources.getIcon("sign/plus/add"),
                     contentDescription = Resources.getString("ct/open_add_item"),
                     tint = MaterialTheme.colorScheme.onPrimary
                 )

@@ -24,19 +24,19 @@ fun getMainItemSetting(setting: SettingsModel) =
         SettingItem(
             title = Resources.getString("settings/update_delay"),
             subTitle = setting.updateDelay.toString(),
-            icon = "history",
+            icon = "settings/history",
             type = SettingType.TIME_UPDATE
         ),
         SettingItem(
             title = Resources.getString("settings/language"),
             subTitle = Resources.getString("language/${setting.language}"),
-            icon = "translate",
+            icon = "settings/translate",
             type = SettingType.LANGUAGE
         ),
         SettingItem(
             title = Resources.getString("settings/theme"),
             subTitle = Resources.getString("theme/${setting.theme}"),
-            icon = "dark_mode",
+            icon = "settings/dark_mode",
             type = SettingType.THEME
         )
     )
@@ -44,7 +44,7 @@ fun getMainItemSetting(setting: SettingsModel) =
 fun getDonateItemSetting() =
     DonateSettingItem(
         title = Resources.getString("settings/donate"),
-        icon = "attach_money",
+        icon = "settings/attach_money",
     )
 
 fun getOtherItemSetting() =
@@ -52,13 +52,13 @@ fun getOtherItemSetting() =
         SettingItem(
             title = Resources.getString("settings/info"),
             subTitle = Resources.getString("settings/info_sub_title"),
-            icon = "info",
+            icon = "settings/info",
             type = SettingType.INFO
         ),
         SettingItem(
             title = Resources.getString("settings/help"),
             subTitle = Resources.getString("settings/help_sub_title"),
-            icon = "help",
+            icon = "settings/help",
             type = SettingType.HELP
         )
     )

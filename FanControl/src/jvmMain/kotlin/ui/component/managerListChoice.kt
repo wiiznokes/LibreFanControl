@@ -34,8 +34,8 @@ fun managerAddItemListChoice(
 
                 Icon(
                     painter = when (painterType) {
-                        PainterType.ADD -> Resources.getIcon("add")
-                        PainterType.CHOOSE -> Resources.getIcon("arrow_drop_down")
+                        PainterType.ADD -> Resources.getIcon("sign/plus/add")
+                        PainterType.CHOOSE -> Resources.getIcon("arrow/dropDown/arrow_drop_down")
                     },
                     contentDescription = Resources.getString("ct/choose"),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
@@ -141,15 +141,15 @@ private fun managerBaseDropdownMenu(
                         val painter = when (painterType) {
                             PainterType.ADD -> {
                                 when (expanded.value) {
-                                    true -> Resources.getIcon("close")
-                                    false -> Resources.getIcon("add")
+                                    true -> Resources.getIcon("select/close")
+                                    false -> Resources.getIcon("sign/plus/add")
                                 }
                             }
 
                             PainterType.CHOOSE -> {
                                 when (expanded.value) {
-                                    true -> Resources.getIcon("arrow_drop_up")
-                                    false -> Resources.getIcon("arrow_drop_down")
+                                    true -> Resources.getIcon("arrow/dropDown/arrow_drop_up")
+                                    false -> Resources.getIcon("arrow/dropDown/arrow_drop_down")
                                 }
                             }
                         }
