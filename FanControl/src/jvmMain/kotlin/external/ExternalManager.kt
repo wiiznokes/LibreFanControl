@@ -3,6 +3,8 @@ package external
 import SensorLists
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import external.linux.ExternalLinux
+import external.windows.ExternalWindows
 import model.item.control.Control
 
 

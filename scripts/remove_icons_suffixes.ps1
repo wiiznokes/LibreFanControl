@@ -1,29 +1,30 @@
+# Change the current location to "./../FanControl/src/jvmMain/resources/drawable"
 Set-Location "./../FanControl/src/jvmMain/resources/drawable"
 
-# Récupération de la liste des fichiers
+# Get a list of files
 $files = Get-ChildItem -Recurse
 
-# recuppere le dernier nombre dans une string
+# Get the last number in a string
 $regex = '(\d+)(?=\.)'
 
-# Parcours de chaque fichier
+# Loop through each file
 foreach ($file in $files)
 {
-    # Découpage du nom du fichier en deux parties
+    # Split the file name into two parts
     $parts = $file -split '_FILL'
 
-    # Si le tableau contient deux éléments, cela signifie que le motif a été trouvé
+    # If the array contains two elements, it means the pattern was found
     if ($parts.Count -eq 2)
     {
         $size = [regex]::Match($parts[1], $regex).Value
 
-        # Réassemblage du nom du fichier avec l'extension .svg
+        # Reassemble the file name with the .svg extension
         $newName = $parts[0] + $size + '.svg'
 
-        # Renommage du fichier
+        # Rename the file
         Rename-Item -Path $file.FullName -NewName $newName
     }
 }
 
-# Retour au répertoire de départ
+# Return to the starting directory
 Set-Location $PSScriptRoot

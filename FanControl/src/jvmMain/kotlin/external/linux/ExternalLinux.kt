@@ -1,6 +1,7 @@
-package external
+package external.linux
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import external.External
 import model.HardwareType
 import model.hardware.Sensor
 import model.item.control.Control
