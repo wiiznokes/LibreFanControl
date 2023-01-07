@@ -21,7 +21,7 @@ fun main() {
         Window(
             visible = true,
             title = Resources.getString("title/app_name"),
-            icon = Resources.getIcon("app/toys_fan"),
+            icon = Resources.getIcon("app/toys_fan48"),
             state = rememberWindowState(),
             onCloseRequest = {
                 application.onStop()

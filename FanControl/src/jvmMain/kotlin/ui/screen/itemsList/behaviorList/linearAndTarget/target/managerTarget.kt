@@ -28,7 +28,7 @@ fun targetBody(
     onNameChange: (String) -> Unit
 ) {
     baseItemBody(
-        iconPainter = Resources.getIcon("items/my_location"),
+        iconPainter = Resources.getIcon("items/my_location40"),
         iconContentDescription = Resources.getString("ct/target"),
         onNameChange = onNameChange,
         onEditClick = onEditClick,
@@ -136,7 +136,7 @@ fun targetAddItem(
     onEditClick: () -> Unit,
 ) {
     baseItemAddItem(
-        iconPainter = Resources.getIcon("items/my_location"),
+        iconPainter = Resources.getIcon("items/my_location40"),
         iconContentDescription = Resources.getString("ct/target"),
         name = Resources.getString("add_item/target_name"),
         onEditClick = onEditClick,

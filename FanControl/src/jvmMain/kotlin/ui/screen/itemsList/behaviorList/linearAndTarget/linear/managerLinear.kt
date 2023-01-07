@@ -28,7 +28,7 @@ fun linearBody(
     onNameChange: (String) -> Unit
 ) {
     baseItemBody(
-        iconPainter = Resources.getIcon("items/linear"),
+        iconPainter = Resources.getIcon("items/linear40"),
         iconContentDescription = Resources.getString("ct/linear"),
         onNameChange = onNameChange,
         onEditClick = onEditClick,
@@ -137,7 +137,7 @@ fun linearAddItem(
     onEditClick: () -> Unit,
 ) {
     baseItemAddItem(
-        iconPainter = Resources.getIcon("items/linear"),
+        iconPainter = Resources.getIcon("items/linear40"),
         iconContentDescription = Resources.getString("ct/linear"),
         name = Resources.getString("add_item/linear_name"),
         onEditClick = onEditClick,

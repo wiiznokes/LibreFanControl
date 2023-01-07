@@ -44,7 +44,7 @@ fun addConfiguration() {
         }
     ) {
         Icon(
-            painter = Resources.getIcon("sign/plus/add3"),
+            painter = Resources.getIcon("sign/plus/add48"),
             contentDescription = Resources.getString("ct/add_conf"),
             tint = MaterialTheme.colorScheme.onPrimaryContainer
         )

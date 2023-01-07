@@ -36,7 +36,7 @@ private fun fanBody(
     viewModel.fanList
 
     baseSensorBody(
-        iconPainter = Resources.getIcon("items/toys_fan"),
+        iconPainter = Resources.getIcon("items/toys_fan40"),
         iconContentDescription = Resources.getString("ct/fan"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },

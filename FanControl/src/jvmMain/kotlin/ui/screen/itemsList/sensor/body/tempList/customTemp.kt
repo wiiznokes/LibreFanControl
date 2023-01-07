@@ -4,7 +4,6 @@ import State
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -12,10 +11,8 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.dp
 import model.hardware.Sensor
 import model.item.sensor.CustomTemp
 import model.item.sensor.CustomTempType
@@ -41,7 +38,7 @@ fun baseCustomTempBody(
     val customTemp = sensorItem.extension as CustomTemp
 
     baseItemBody(
-        iconPainter = Resources.getIcon("items/thermostat"),
+        iconPainter = Resources.getIcon("items/thermostat40"),
         iconContentDescription = Resources.getString("ct/custom_temp"),
         onNameChange = onNameChange,
         onEditClick = onEditClick,
@@ -117,7 +114,7 @@ private fun selectedSensor(
                 ) {
                     Icon(
                         modifier = Modifier,
-                        painter = Resources.getIcon("select/close/close1"),
+                        painter = Resources.getIcon("select/close/close24"),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurface
                     )
@@ -129,7 +126,7 @@ private fun selectedSensor(
                 ) {
                     Icon(
                         modifier = Modifier,
-                        painter = Resources.getIcon("select/radio_button_unchecked"),
+                        painter = Resources.getIcon("select/radio_button_unchecked24"),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurface
                     )

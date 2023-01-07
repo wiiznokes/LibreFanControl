@@ -7,7 +7,6 @@ import androidx.compose.material3.Slider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
@@ -42,7 +41,7 @@ fun baseFlat(
                         onClick = onLess ?: {}
                     ) {
                         Icon(
-                            painter = Resources.getIcon("sign/minus/remove1"),
+                            painter = Resources.getIcon("sign/minus/remove24"),
                             contentDescription = Resources.getString("ct/decrease"),
                             tint = color
                         )
@@ -51,7 +50,7 @@ fun baseFlat(
                         onClick = onMore ?: {}
                     ) {
                         Icon(
-                            painter = Resources.getIcon("sign/plus/add1"),
+                            painter = Resources.getIcon("sign/plus/add24"),
                             contentDescription = Resources.getString("ct/increase"),
                             tint = color
                         )
@@ -59,13 +58,13 @@ fun baseFlat(
                 } else {
                     Icon(
                         modifier = Modifier,
-                        painter = Resources.getIcon("sign/minus/remove1"),
+                        painter = Resources.getIcon("sign/minus/remove24"),
                         contentDescription = Resources.getString("ct/decrease"),
                         tint = color
                     )
                     Icon(
                         modifier = Modifier,
-                        painter = Resources.getIcon("sign/plus/add1"),
+                        painter = Resources.getIcon("sign/plus/add24"),
                         contentDescription = Resources.getString("ct/increase"),
                         tint = color
                     )

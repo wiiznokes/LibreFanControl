@@ -37,7 +37,7 @@ fun controlBody(
     index: Int
 ) {
     baseItemBody(
-        iconPainter = Resources.getIcon("items/alternate_email"),
+        iconPainter = Resources.getIcon("items/alternate_email40"),
         iconContentDescription = Resources.getString("ct/control"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
@@ -72,7 +72,7 @@ fun controlAddItem(
     index: Int
 ) {
     baseItemAddItem(
-        iconPainter = Resources.getIcon("items/alternate_email"),
+        iconPainter = Resources.getIcon("items/alternate_email40"),
         iconContentDescription = Resources.getString("ct/control"),
         name = control.name,
         onEditClick = { viewModel.addControl(index) },

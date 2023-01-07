@@ -70,7 +70,7 @@ private fun configurationWithId(
         onClick = { viewModel.saveConfiguration(text.value, index, id) }
     ) {
         Icon(
-            painter = Resources.getIcon("topBar/save_as"),
+            painter = Resources.getIcon("topBar/save_as48"),
             contentDescription = Resources.getString("ct/save_conf"),
             tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
@@ -125,7 +125,7 @@ private fun configurationListChoice(
         baseModifier = Modifier,
         itemModifier = Modifier.width(180.dp),
         onItemClick = { viewModel.onChangeConfiguration(it) },
-        size = 3,
+        size = 48,
         iconContent = { id, index ->
             IconButton(
                 onClick = { viewModel.removeConfiguration(id, index) }

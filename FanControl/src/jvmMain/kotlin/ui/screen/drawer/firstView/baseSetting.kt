@@ -92,7 +92,7 @@ private fun LazyListScope.topMainSetting(
                 onClick = { scope.launch { drawerState.close() } }
             ) {
                 Icon(
-                    painter = Resources.getIcon("arrow/arrow_back"),
+                    painter = Resources.getIcon("arrow/arrow_back48"),
                     contentDescription = Resources.getString("ct/close_drawer"),
                     tint = MaterialTheme.colorScheme.inverseOnSurface
                 )

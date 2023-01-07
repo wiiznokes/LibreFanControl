@@ -11,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
@@ -21,8 +20,7 @@ import ui.utils.Resources
 @Composable
 fun managerAddItemListChoice(
     name: String,
-    painterType: PainterType = PainterType.CHOOSE,
-    size: Int = 2
+    painterType: PainterType = PainterType.CHOOSE
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         Row(
@@ -35,8 +33,8 @@ fun managerAddItemListChoice(
 
                 Icon(
                     painter = when (painterType) {
-                        PainterType.ADD -> Resources.getIcon("sign/plus/add1")
-                        PainterType.CHOOSE -> Resources.getIcon("arrow/dropDown/arrow_drop_down$size")
+                        PainterType.ADD -> Resources.getIcon("sign/plus/add24")
+                        PainterType.CHOOSE -> Resources.getIcon("arrow/dropDown/arrow_drop_down40")
                     },
                     contentDescription = Resources.getString("ct/choose"),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
@@ -65,7 +63,7 @@ fun <T> managerListChoice(
         )
     },
     painterType: PainterType = PainterType.CHOOSE,
-    size: Int = 2,
+    size: Int = 40,
     baseModifier: Modifier = Modifier
         .fillMaxWidth()
         .widthIn(min = 100.dp, max = 250.dp),
@@ -146,8 +144,8 @@ private fun managerBaseDropdownMenu(
                         val painter = when (painterType) {
                             PainterType.ADD -> {
                                 when (expanded.value) {
-                                    true -> Resources.getIcon("select/close/close1")
-                                    false -> Resources.getIcon("sign/plus/add1")
+                                    true -> Resources.getIcon("select/close/close24")
+                                    false -> Resources.getIcon("sign/plus/add24")
                                 }
                             }
 

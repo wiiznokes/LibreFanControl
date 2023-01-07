@@ -13,7 +13,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -48,7 +47,7 @@ fun baseItemBody(
         iconContentDescription = iconContentDescription,
         contentEditIcon = {
             Icon(
-                painter = Resources.getIcon("select/close/close1"),
+                painter = Resources.getIcon("select/close/close24"),
                 contentDescription = Resources.getString("ct/edit_remove"),
                 tint = Color.White
             )
@@ -89,7 +88,7 @@ fun baseItemAddItem(
         iconContentDescription = iconContentDescription,
         contentEditIcon = {
             Icon(
-                painter = Resources.getIcon("sign/plus/add1"),
+                painter = Resources.getIcon("sign/plus/add24"),
                 contentDescription = Resources.getString("ct/edit_add"),
                 tint = Color.White
             )

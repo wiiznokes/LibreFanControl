@@ -7,7 +7,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
@@ -55,7 +54,7 @@ fun managerNumberChoice(
             ) {
                 Icon(
                     modifier = Modifier,
-                    painter = Resources.getIcon("sign/plus/add0"),
+                    painter = Resources.getIcon("sign/plus/add20"),
                     contentDescription = Resources.getString("ct/increase"),
                     tint = color
                 )
@@ -66,7 +65,7 @@ fun managerNumberChoice(
             ) {
                 Icon(
                     modifier = Modifier,
-                    painter = Resources.getIcon("sign/minus/remove0"),
+                    painter = Resources.getIcon("sign/minus/remove20"),
                     contentDescription = Resources.getString("ct/decrease"),
                     tint = color
                 )

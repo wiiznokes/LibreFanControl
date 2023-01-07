@@ -3,7 +3,6 @@ package ui.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -11,9 +10,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import ui.utils.Resources
 
 @Composable
@@ -39,8 +36,8 @@ fun managerExpandItem(
                 onClick = { expanded.value = !expanded.value }
             ) {
                 val painter = when (expanded.value) {
-                    true -> Resources.getIcon("arrow/expand/expand_less")
-                    false -> Resources.getIcon("arrow/expand/expand_more")
+                    true -> Resources.getIcon("arrow/expand/expand_less40")
+                    false -> Resources.getIcon("arrow/expand/expand_more40")
                 }
                 Icon(
                     painter = painter,
@@ -51,7 +48,7 @@ fun managerExpandItem(
         } else {
             Icon(
                 modifier = Modifier,
-                painter = Resources.getIcon("arrow/expand/expand_less"),
+                painter = Resources.getIcon("arrow/expand/expand_less40"),
                 contentDescription = Resources.getString("ct/choose"),
                 tint = color
             )
