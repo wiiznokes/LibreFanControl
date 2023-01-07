@@ -131,7 +131,7 @@ private fun configurationListChoice(
                 onClick = { viewModel.removeConfiguration(id, index) }
             ) {
                 Icon(
-                    painter = Resources.getIcon("select/delete_forever"),
+                    painter = Resources.getIcon("select/delete_forever40"),
                     contentDescription = Resources.getString("ct/remove_conf"),
                     tint = MaterialTheme.colorScheme.onPrimary
                 )

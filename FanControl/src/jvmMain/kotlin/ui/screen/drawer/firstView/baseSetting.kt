@@ -199,7 +199,7 @@ private fun baseItemSetting(
                         onClick = { settingState.value = type }
                     ) {
                         Icon(
-                            painter = Resources.getIcon("arrow/chevron/chevron_right"),
+                            painter = Resources.getIcon("arrow/chevron/chevron_right40"),
                             contentDescription = Resources.getString("ct/open_setting_item"),
                             tint = onColor
                         )
