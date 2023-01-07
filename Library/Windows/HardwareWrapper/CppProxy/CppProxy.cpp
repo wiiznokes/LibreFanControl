@@ -11,8 +11,7 @@ using namespace HardwareLib;
 
 /*
  * Array used to retrieve fans, temps and
- * controls infos. This arrays are declared free
- * in C++
+ * controls infos. This arrays are declared and freed in C++
  */
 jobjectArray fan_list_info;
 jobjectArray temp_list_info;
