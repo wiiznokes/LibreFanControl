@@ -37,6 +37,8 @@ fun linearBody(
 
         val linear = behavior.extension as Linear
 
+        val customTempList = viewModel.tempItemList.filter { it.type == ItemType.SensorType.I_S_CUSTOM_TEMP }
+
         managerListChoice(
             text = if (linear.tempSensorId != null) {
                 viewModel.tempList.first {
@@ -49,8 +51,8 @@ fun linearBody(
                     tempSensorId = it
                 )
             },
-            ids = viewModel.tempList.map { it.id },
-            names = viewModel.tempList.map { it.libName }
+            ids = viewModel.tempList.map { it.id } + customTempList.map { it.id },
+            names = viewModel.tempList.map { it.libName } + customTempList.map { it.name }
         )
 
         val expanded = remember(

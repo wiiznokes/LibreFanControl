@@ -37,6 +37,7 @@ fun targetBody(
 
         val target = behavior.extension as Target
 
+        val customTempList = viewModel.tempItemList.filter { it.type == ItemType.SensorType.I_S_CUSTOM_TEMP }
         managerListChoice(
             text = if (target.tempSensorId != null) {
                 viewModel.tempList.first {
@@ -49,8 +50,8 @@ fun targetBody(
                     tempSensorId = it
                 )
             },
-            ids = viewModel.tempList.map { it.id },
-            names = viewModel.tempList.map { it.libName }
+            ids = viewModel.tempList.map { it.id } + customTempList.map { it.id },
+            names = viewModel.tempList.map { it.libName } + customTempList.map { it.name }
         )
 
         val expanded = remember(

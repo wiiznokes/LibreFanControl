@@ -48,7 +48,7 @@ fun baseCustomTempBody(
         item = sensorItem
     ) {
         managerListChoice(
-            text = Resources.getString("custom_temp/${customTemp.type}"),
+            text = Resources.getString("custom_temp/${customTemp.customTempType}"),
             onItemClick = { onCustomTypeChange(it!!) },
             ids = CustomTempType.values().toList(),
             names = CustomTempType.values().map {

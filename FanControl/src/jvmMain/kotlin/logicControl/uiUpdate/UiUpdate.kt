@@ -3,7 +3,7 @@ package logicControl.uiUpdate
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import logicControl.behavior.BehaviorLogic
-import logicControl.temp.CustomTempLogic
+import logicControl.temp.TempLogic
 import model.ItemType
 import model.item.behavior.Behavior
 import model.item.sensor.CustomTemp
@@ -21,7 +21,6 @@ class UiUpdate(
 ) {
 
     private val behaviorLogic = BehaviorLogic()
-    private val tempLogic = CustomTempLogic()
 
     fun update() {
         try {
@@ -47,9 +46,7 @@ class UiUpdate(
             ) { index, customTemp ->
                 tempItemList[index] = tempItemList[index].copy(
                     extension = (tempItemList[index].extension as CustomTemp).copy(
-                        value = tempLogic.getValue(
-                            customTemp = customTemp.extension as CustomTemp
-                        ) ?: 0
+                        value = TempLogic.getValue(customTemp.id) ?: 0
                     )
                 )
 

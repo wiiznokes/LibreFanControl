@@ -1,7 +1,6 @@
 package logicControl.behavior
 
 import model.UnspecifiedTypeException
-import model.hardware.Sensor
 import model.item.behavior.BehaviorExtension
 import model.item.behavior.Flat
 import model.item.behavior.Linear
@@ -31,14 +30,4 @@ class BehaviorLogic {
         }
     }
 
-}
-
-
-fun getTempValue(id: Long?, tempList: List<Sensor>): Int? {
-    if (id == null)
-        return null
-
-    return tempList.first {
-        it.id == id
-    }.value
 }

@@ -2,17 +2,16 @@ package logicControl.behavior
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.hardware.Sensor
+import logicControl.temp.TempLogic
 import model.item.behavior.Behavior
 import model.item.behavior.Target
 
 class TargetLogic(
-    private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
-    private val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList,
+    private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList
 ) {
 
     fun getValue(target: Target): Int? {
-        val tempValue = getTempValue(target.tempSensorId, tempList) ?: return null
+        val tempValue = TempLogic.getValue(target.tempSensorId) ?: return null
 
         return when (target.idleHasBeenReach) {
             true -> {
