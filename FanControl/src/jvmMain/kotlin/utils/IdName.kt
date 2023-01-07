@@ -53,7 +53,7 @@ class Id {
 
         private fun generateId(positive: Boolean): Long {
             val nb = rand.nextLong(Long.MAX_VALUE) + 1
-            return if (positive) nb else nb * 1
+            return if (positive) nb else nb * -1
         }
 
         private fun isIdTaken(ids: List<Long>, id: Long): Boolean =

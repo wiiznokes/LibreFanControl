@@ -40,11 +40,18 @@ fun linearBody(
         val customTempList = viewModel.tempItemList.filter { it.type == ItemType.SensorType.I_S_CUSTOM_TEMP }
 
         managerListChoice(
-            text = if (linear.tempSensorId != null) {
-                viewModel.tempList.first {
-                    it.id == linear.tempSensorId
-                }.libName
-            } else null,
+            text = with(linear.tempSensorId) {
+                when {
+                    this == null -> null
+                    this > 0 -> viewModel.tempList.first {
+                        it.id == this
+                    }.libName
+                    this < 0 -> customTempList.first {
+                        it.id == this
+                    }.name
+                    else -> throw IllegalArgumentException()
+                }
+            },
             onItemClick = {
                 viewModel.setTemp(
                     index = index,

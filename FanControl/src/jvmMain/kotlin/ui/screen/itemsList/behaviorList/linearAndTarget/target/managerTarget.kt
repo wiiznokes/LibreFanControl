@@ -39,11 +39,18 @@ fun targetBody(
 
         val customTempList = viewModel.tempItemList.filter { it.type == ItemType.SensorType.I_S_CUSTOM_TEMP }
         managerListChoice(
-            text = if (target.tempSensorId != null) {
-                viewModel.tempList.first {
-                    it.id == target.tempSensorId
-                }.libName
-            } else null,
+            text = with(target.tempSensorId) {
+                when {
+                    this == null -> null
+                    this > 0 -> viewModel.tempList.first {
+                        it.id == this
+                    }.libName
+                    this < 0 -> customTempList.first {
+                        it.id == this
+                    }.name
+                    else -> throw IllegalArgumentException()
+                }
+            },
             onItemClick = {
                 viewModel.setTemp(
                     index = index,
