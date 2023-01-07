@@ -3,5 +3,6 @@
   "configId": null,
   "configList": {},
   "updateDelay": 2,
-  "theme": "system"
+  "theme": "system",
+  "first_start": true
 }
