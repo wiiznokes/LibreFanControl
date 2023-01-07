@@ -5,7 +5,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.Sensor
 import model.item.sensor.Fan
 import model.item.sensor.SensorItem
-import utils.checkNameTaken
+import utils.Name.Companion.checkNameTaken
 
 class FanVM(
     val fanItemList: SnapshotStateList<SensorItem> = State.fanItemList,

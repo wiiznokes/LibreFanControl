@@ -1,20 +1,16 @@
 package logicControl.behavior
 
-import State
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.hardware.Sensor
+import logicControl.temp.TempLogic
 import model.item.behavior.Linear
 import kotlin.math.roundToInt
 
 
-class LinearLogic(
-    private val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList,
-) {
+class LinearLogic {
     fun getValue(linear: Linear): Int? {
         return getSpeed(
             f = getAffine(linear),
             linear = linear,
-            tempValue = getTempValue(linear.tempSensorId, tempList) ?: return null
+            tempValue = TempLogic.getValue(linear.tempSensorId) ?: return null
         )
     }
 

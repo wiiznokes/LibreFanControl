@@ -8,8 +8,8 @@ import model.item.behavior.Flat
 import model.item.behavior.Linear
 import model.item.behavior.Target
 import ui.utils.Resources
-import utils.getAvailableId
-import utils.getAvailableName
+import utils.Id.Companion.getAvailableId
+import utils.Name.Companion.getAvailableName
 
 class AddBehaviorVM(
     private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList

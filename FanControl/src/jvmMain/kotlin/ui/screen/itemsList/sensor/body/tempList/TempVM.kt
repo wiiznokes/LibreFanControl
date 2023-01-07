@@ -7,7 +7,7 @@ import model.item.sensor.CustomTemp
 import model.item.sensor.CustomTempType
 import model.item.sensor.SensorItem
 import model.item.sensor.Temp
-import utils.checkNameTaken
+import utils.Name.Companion.checkNameTaken
 
 class TempVM(
     val tempItemList: SnapshotStateList<SensorItem> = State.tempItemList,
@@ -44,7 +44,7 @@ class TempVM(
     fun setCustomType(type: CustomTempType, index: Int) {
         tempItemList[index] = tempItemList[index].copy(
             extension = (tempItemList[index].extension as CustomTemp).copy(
-                type = type
+                customTempType = type
             )
         )
     }

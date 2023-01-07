@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.json.JSONObject
 import settings.Settings
 import settings.SettingsModel
+import utils.Name.Companion.checkNameTaken
 import utils.NameException
-import utils.checkNameTaken
 
 class ConfigurationVM(
     val settings: MutableStateFlow<SettingsModel> = State.settings,

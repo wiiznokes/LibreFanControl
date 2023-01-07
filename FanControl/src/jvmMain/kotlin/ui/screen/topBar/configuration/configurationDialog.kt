@@ -21,9 +21,8 @@ import kotlinx.coroutines.delay
 import ui.component.managerNameOutlinedTextField
 import ui.component.managerText
 import ui.utils.Resources
-import utils.checkNameTaken
-import utils.getAvailableId
-
+import utils.Id.Companion.getAvailableId
+import utils.Name.Companion.checkNameTaken
 
 @Composable
 fun addConfiguration() {

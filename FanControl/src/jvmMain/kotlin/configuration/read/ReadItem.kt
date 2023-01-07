@@ -17,7 +17,7 @@ import utils.getJsonValue
 
 class ReadItem {
     fun getControls(controlList: SnapshotStateList<Control>, array: JSONArray) {
-    
+
         for (i in 0 until array.length()) {
             val obj = array[i] as JSONObject
 
@@ -115,7 +115,7 @@ class ReadItem {
         }
 
         return CustomTemp(
-            type = CustomTempType from getJsonValue("type", obj)!!,
+            customTempType = CustomTempType from getJsonValue("customTempType", obj)!!,
             sensorIdList = sensorIdList
         )
     }

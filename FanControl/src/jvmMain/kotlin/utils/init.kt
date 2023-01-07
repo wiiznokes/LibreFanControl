@@ -7,6 +7,7 @@ import model.ItemType
 import model.item.sensor.Fan
 import model.item.sensor.SensorItem
 import model.item.sensor.Temp
+import utils.Id.Companion.getAvailableId
 
 
 /**
