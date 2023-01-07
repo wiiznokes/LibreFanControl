@@ -40,8 +40,6 @@ int size_temp_value_array;
 int size_control_value_array;
 
 
-
-
 JNIEXPORT void JNICALL
 Java_external_ExternalWindows_externalStart(JNIEnv* env, jobject o, const jintArray value_array)
 {
@@ -78,7 +76,7 @@ void fill_java_list_info(JNIEnv* env, array<String^>^ info_list, int* size, jobj
      * index in the lib, LibId, LibName
      */
     *size = (len - 1) / 3;
-    
+
     // len is len - 1 because the index[0] is ignored
     *java_list_info = env->NewObjectArray(len - 1, clazz, nullptr);
     for (int i = 1; i < len; i++)
@@ -133,14 +131,16 @@ JNIEXPORT void JNICALL
 Java_external_ExternalWindows_externalUpdateTempList(JNIEnv* env, jobject o)
 {
     Api::UpdateTemp(c_value_array);
-    env->SetIntArrayRegion(value_array_returned, 0, size_temp_value_array, reinterpret_cast<const jint*>(c_value_array));
+    env->SetIntArrayRegion(value_array_returned, 0, size_temp_value_array,
+                           reinterpret_cast<const jint*>(c_value_array));
 }
 
 JNIEXPORT void JNICALL
 Java_external_ExternalWindows_externalUpdateControlList(JNIEnv* env, jobject o)
 {
     Api::UpdateControl(c_value_array);
-    env->SetIntArrayRegion(value_array_returned, 0, size_control_value_array, reinterpret_cast<const jint*>(c_value_array));
+    env->SetIntArrayRegion(value_array_returned, 0, size_control_value_array,
+                           reinterpret_cast<const jint*>(c_value_array));
 }
 
 JNIEXPORT void JNICALL

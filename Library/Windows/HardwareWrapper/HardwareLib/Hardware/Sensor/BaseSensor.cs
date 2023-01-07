@@ -1,6 +1,4 @@
-﻿using HardwareLib.Hardware;
-
-namespace LHMWrapper.Hardware.Sensor
+﻿namespace HardwareLib.Hardware.Sensor
 {
     public class BaseSensor : BaseDevice
     {

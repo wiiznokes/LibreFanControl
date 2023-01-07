@@ -1,14 +1,14 @@
 ﻿using System;
 using LibreHardwareMonitor.Hardware;
 
-namespace LHMWrapper.Hardware.Sensor
+namespace HardwareLib.Hardware.Sensor
 {
-    public class LHMTemp : BaseSensor
+    public class LhmTemp : BaseSensor
     {
         // ISensor
         private readonly ISensor _mSensor;
 
-        public LHMTemp(string id, ISensor sensor, string name, int index)
+        public LhmTemp(string id, ISensor sensor, string name, int index)
         {
             Id = id;
             _mSensor = sensor;

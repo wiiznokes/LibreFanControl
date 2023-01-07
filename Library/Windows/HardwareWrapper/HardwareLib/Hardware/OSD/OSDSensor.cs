@@ -2,28 +2,28 @@
 
 namespace HardwareLib.Hardware.OSD
 {
-    public enum OSDUnitType
+    public enum OsdUnitType
     {
         Temperature = 0,
-        RPM,
+        Rpm,
         Percent,
         MHz,
-        kHz,
-        KB,
-        MB,
-        GB,
-        MBPerSec,
+        KHz,
+        Kb,
+        Mb,
+        Gb,
+        MbPerSec,
         Voltage,
         Power,
-        FPS,
+        Fps,
         Blank,
-        HWiNFO,
+        HWiNfo,
         Unknown
     }
 
-    public class OSDSensor
+    public class OsdSensor
     {
-        public OSDSensor(string id, string prefix, string name, OSDUnitType unitType)
+        protected OsdSensor(string id, string prefix, string name, OsdUnitType unitType)
         {
             ID = id;
             Prefix = prefix;
@@ -37,47 +37,51 @@ namespace HardwareLib.Hardware.OSD
 
         public string ID { get; set; }
 
-        public OSDUnitType UnitType { get; set; }
+        public OsdUnitType UnitType { get; set; }
 
         public double DoubleValue { get; set; }
 
         public int Value { get; set; }
 
-        public virtual string getString()
+        public virtual string GetString()
         {
-            update();
+            Update();
 
-            if (UnitType == OSDUnitType.Voltage) return string.Format("{0:0.00}", DoubleValue);
-
-            if (UnitType == OSDUnitType.kHz)
+            switch (UnitType)
             {
-                Value = (int)Math.Round(DoubleValue / 1000);
-                return Value.ToString();
+                case OsdUnitType.Voltage:
+                    return $"{DoubleValue:0.00}";
+                case OsdUnitType.KHz:
+                    Value = (int)Math.Round(DoubleValue / 1000);
+                    return Value.ToString();
+                case OsdUnitType.Kb:
+                    Value = (int)Math.Round(DoubleValue / 1024);
+                    return Value.ToString();
+                case OsdUnitType.Gb:
+                    Value = (int)Math.Round(DoubleValue * 1024);
+                    return Value.ToString();
+                case OsdUnitType.MbPerSec:
+                {
+                    var value = Math.Round(DoubleValue / 1024 / 1024);
+                    return $"{value}";
+                }
+                case OsdUnitType.Temperature:
+                case OsdUnitType.Rpm:
+                case OsdUnitType.Percent:
+                case OsdUnitType.MHz:
+                case OsdUnitType.Mb:
+                case OsdUnitType.Power:
+                case OsdUnitType.Fps:
+                case OsdUnitType.Blank:
+                case OsdUnitType.HWiNfo:
+                case OsdUnitType.Unknown:
+                default:
+                    Value = (int)Math.Round(DoubleValue);
+                    return Value.ToString();
             }
-
-            if (UnitType == OSDUnitType.KB)
-            {
-                Value = (int)Math.Round(DoubleValue / 1024);
-                return Value.ToString();
-            }
-
-            if (UnitType == OSDUnitType.GB)
-            {
-                Value = (int)Math.Round(DoubleValue * 1024);
-                return Value.ToString();
-            }
-
-            if (UnitType == OSDUnitType.MBPerSec)
-            {
-                var value = Math.Round(DoubleValue / 1024 / 1024);
-                return string.Format("{0}", value);
-            }
-
-            Value = (int)Math.Round(DoubleValue);
-            return Value.ToString();
         }
 
-        public virtual void update()
+        protected virtual void Update()
         {
         }
     }

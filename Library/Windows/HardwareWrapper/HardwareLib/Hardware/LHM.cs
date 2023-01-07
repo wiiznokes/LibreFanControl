@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using HardwareLib.Hardware.Control;
 using HardwareLib.Hardware.OSD;
-using LHMWrapper.Hardware.Sensor;
+using HardwareLib.Hardware.Sensor;
 using LibreHardwareMonitor.Hardware;
 
 namespace HardwareLib.Hardware
 {
-    public class LHM : IVisitor
+    public class Lhm : IVisitor
     {
         private Computer _mComputer;
 
@@ -78,7 +78,7 @@ namespace HardwareLib.Hardware
 
                     var id = t1.Identifier.ToString();
                     var name = t1.Name.Length > 0 ? t1.Name : "Fan";
-                    var sensor = new LHMFanSpeed(id, t1, name, index);
+                    var sensor = new LhmFanSpeed(id, t1, name, index);
                     deviceList.Add(sensor);
                     index++;
                 }
@@ -94,7 +94,7 @@ namespace HardwareLib.Hardware
 
                         var id = t2.Identifier.ToString();
                         var name = t2.Name.Length > 0 ? t2.Name : "Fan";
-                        var sensor = new LHMFanSpeed(id, t2, name, index);
+                        var sensor = new LhmFanSpeed(id, t2, name, index);
                         deviceList.Add(sensor);
                         index++;
                     }
@@ -116,7 +116,7 @@ namespace HardwareLib.Hardware
 
                     var id = t1.Identifier.ToString();
                     var name = t1.Name.Length > 0 ? t1.Name : "Temperature";
-                    var sensor = new LHMTemp(id, t1, name, index);
+                    var sensor = new LhmTemp(id, t1, name, index);
                     deviceList.Add(sensor);
                     index++;
                 }
@@ -132,7 +132,7 @@ namespace HardwareLib.Hardware
 
                         var id = sensorArray[k].Identifier.ToString();
                         var name = subSensorList[k].Name.Length > 0 ? subSensorList[k].Name : "Temperature";
-                        var sensor = new LHMTemp(id, subSensorList[k], name, index);
+                        var sensor = new LhmTemp(id, subSensorList[k], name, index);
                         deviceList.Add(sensor);
                         index++;
                     }
@@ -155,7 +155,7 @@ namespace HardwareLib.Hardware
 
                     var id = t1.Identifier.ToString();
                     var name = t1.Name.Length > 0 ? t1.Name : "Control";
-                    var sensor = new LHMControl(id, t1, name, index);
+                    var sensor = new LhmControl(id, t1, name, index);
                     deviceList.Add(sensor);
                     index++;
                 }
@@ -171,7 +171,7 @@ namespace HardwareLib.Hardware
 
                         var id = t2.Identifier.ToString();
                         var name = t2.Name.Length > 0 ? t2.Name : "Control";
-                        var sensor = new LHMControl(id, t2, name, index);
+                        var sensor = new LhmControl(id, t2, name, index);
                         deviceList.Add(sensor);
                         index++;
                     }
@@ -179,7 +179,7 @@ namespace HardwareLib.Hardware
             }
         }
 
-        public void CreateOsdSensor(List<OSDSensor> osdList, Dictionary<string, OSDSensor> osdMap)
+        public void CreateOsdSensor(List<OsdSensor> osdList, Dictionary<string, OsdSensor> osdMap)
         {
             try
             {
@@ -215,49 +215,49 @@ namespace HardwareLib.Hardware
             }
         }
 
-        private void SetOsdSensor(ISensor[] sensorArray, SensorType sensorType, List<OSDSensor> osdList,
-            Dictionary<string, OSDSensor> osdMap)
+        private void SetOsdSensor(ISensor[] sensorArray, SensorType sensorType, List<OsdSensor> osdList,
+            Dictionary<string, OsdSensor> osdMap)
         {
             foreach (var t in sensorArray)
             {
                 if (t.SensorType != sensorType) continue;
 
-                OSDUnitType unitType;
+                OsdUnitType unitType;
                 var prefix = "";
                 switch (t.SensorType)
                 {
                     case SensorType.Voltage:
-                        unitType = OSDUnitType.Voltage;
+                        unitType = OsdUnitType.Voltage;
                         prefix = "[Voltage] ";
                         break;
 
                     case SensorType.Power:
-                        unitType = OSDUnitType.Power;
+                        unitType = OsdUnitType.Power;
                         prefix = "[Power] ";
                         break;
 
                     case SensorType.Load:
-                        unitType = OSDUnitType.Percent;
+                        unitType = OsdUnitType.Percent;
                         prefix = "[Load] ";
                         break;
 
                     case SensorType.Clock:
-                        unitType = OSDUnitType.MHz;
+                        unitType = OsdUnitType.MHz;
                         prefix = "[Clock] ";
                         break;
 
                     case SensorType.Data:
-                        unitType = OSDUnitType.GB;
+                        unitType = OsdUnitType.Gb;
                         prefix = "[Data] ";
                         break;
 
                     case SensorType.SmallData:
-                        unitType = OSDUnitType.MB;
+                        unitType = OsdUnitType.Mb;
                         prefix = "[Data] ";
                         break;
 
                     case SensorType.Throughput:
-                        unitType = OSDUnitType.MBPerSec;
+                        unitType = OsdUnitType.MbPerSec;
                         prefix = "[Throughput] ";
                         break;
 
@@ -272,15 +272,15 @@ namespace HardwareLib.Hardware
                     case SensorType.TimeSpan:
                     case SensorType.Energy:
                     default:
-                        unitType = OSDUnitType.Unknown;
+                        unitType = OsdUnitType.Unknown;
                         break;
                 }
 
-                if (unitType == OSDUnitType.Unknown)
+                if (unitType == OsdUnitType.Unknown)
                     continue;
 
                 var id = t.Identifier.ToString();
-                var osdSensor = new LHMOSDSensor(id, prefix, t.Name, unitType, t);
+                var osdSensor = new LhmOsdSensor(id, prefix, t.Name, unitType, t);
                 osdList.Add(osdSensor);
                 osdMap.Add(id, osdSensor);
             }

@@ -3,12 +3,12 @@ using LibreHardwareMonitor.Hardware;
 
 namespace HardwareLib.Hardware.Control
 {
-    public class LHMControl : BaseControl
+    public class LhmControl : BaseControl
     {
         // ISensor
         private readonly ISensor _mSensor;
 
-        public LHMControl(string id, ISensor sensor, string name, int index)
+        public LhmControl(string id, ISensor sensor, string name, int index)
         {
             Id = id;
             _mSensor = sensor;
@@ -19,20 +19,20 @@ namespace HardwareLib.Hardware.Control
         public override void Update()
         {
             double temp = 0.0f;
-            if (_mSensor != null && _mSensor.Value.HasValue) temp = (double)_mSensor.Value;
+            if (_mSensor?.Value != null) temp = (double)_mSensor.Value;
             temp = Math.Round(temp);
             Value = (int)temp;
         }
 
         public override int GetMinSpeed()
         {
-            if (_mSensor != null && _mSensor.Control != null) return (int)_mSensor.Control.MinSoftwareValue;
+            if (_mSensor?.Control != null) return (int)_mSensor.Control.MinSoftwareValue;
             return 0;
         }
 
         public override int GetMaxSpeed()
         {
-            if (_mSensor != null && _mSensor.Control != null) return (int)_mSensor.Control.MaxSoftwareValue;
+            if (_mSensor?.Control != null) return (int)_mSensor.Control.MaxSoftwareValue;
             return 100;
         }
 

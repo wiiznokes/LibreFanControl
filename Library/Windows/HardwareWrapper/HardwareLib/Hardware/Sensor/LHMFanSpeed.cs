@@ -1,13 +1,13 @@
 ﻿using LibreHardwareMonitor.Hardware;
 
-namespace LHMWrapper.Hardware.Sensor
+namespace HardwareLib.Hardware.Sensor
 {
-    public class LHMFanSpeed : BaseSensor
+    public class LhmFanSpeed : BaseSensor
     {
         // ISensor
         private readonly ISensor _mSensor;
 
-        public LHMFanSpeed(string id, ISensor sensor, string name, int index)
+        public LhmFanSpeed(string id, ISensor sensor, string name, int index)
         {
             Id = id;
             _mSensor = sensor;

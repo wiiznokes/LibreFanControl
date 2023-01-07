@@ -71,7 +71,7 @@
         <Compile Include="Hardware\Control\LHMControl.cs"/>
         <Compile Include="Hardware\HardwareManager.cs"/>
         <Compile Include="Hardware\LHM.cs"/>
-        <Compile Include="Hardware\OSD\LHMOSDSensor.cs"/>
+        <Compile Include="Hardware\OSD\LhmOsdSensor.cs"/>
         <Compile Include="Hardware\OSD\OSDSensor.cs"/>
         <Compile Include="Hardware\Sensor\BaseSensor.cs"/>
         <Compile Include="Hardware\Sensor\LHMFanSpeed.cs"/>

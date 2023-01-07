@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HardwareLib.Hardware.Control;
-using LHMWrapper.Hardware.Sensor;
+using HardwareLib.Hardware.Sensor;
 
 namespace HardwareLib.Hardware
 {
@@ -12,7 +12,7 @@ namespace HardwareLib.Hardware
         private static List<BaseDevice> _fanList;
         private static List<BaseDevice> _controlList;
 
-        private LHM _lhm;
+        private Lhm _lhm;
 
         //static private List<OSDSensor> osdSensorList;
         //static private Dictionary<string, OSDSensor> osdSensorMap;
@@ -20,7 +20,7 @@ namespace HardwareLib.Hardware
 
         public void Start()
         {
-            _lhm = new LHM();
+            _lhm = new Lhm();
             _lhm.Start();
 
 
