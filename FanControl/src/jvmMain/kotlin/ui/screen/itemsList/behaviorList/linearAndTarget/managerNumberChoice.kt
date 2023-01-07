@@ -50,21 +50,23 @@ fun managerNumberChoice(
         }
         Column {
             IconButton(
-                modifier = Modifier,
+                modifier = Modifier.size(20.dp),
                 onClick = increase ?: {}
             ) {
                 Icon(
-                    painter = Resources.getIcon("sign/plus/add"),
+                    modifier = Modifier,
+                    painter = Resources.getIcon("sign/plus/add0"),
                     contentDescription = Resources.getString("ct/increase"),
                     tint = color
                 )
             }
             IconButton(
-                modifier = Modifier,
+                modifier = Modifier.size(20.dp),
                 onClick = decrease ?: {}
             ) {
                 Icon(
-                    painter = Resources.getIcon("sign/minus/remove"),
+                    modifier = Modifier,
+                    painter = Resources.getIcon("sign/minus/remove0"),
                     contentDescription = Resources.getString("ct/decrease"),
                     tint = color
                 )

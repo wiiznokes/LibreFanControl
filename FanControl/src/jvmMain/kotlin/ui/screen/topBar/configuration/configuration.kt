@@ -125,6 +125,7 @@ private fun configurationListChoice(
         baseModifier = Modifier,
         itemModifier = Modifier.width(180.dp),
         onItemClick = { viewModel.onChangeConfiguration(it) },
+        size = 3,
         iconContent = { id, index ->
             IconButton(
                 onClick = { viewModel.removeConfiguration(id, index) }

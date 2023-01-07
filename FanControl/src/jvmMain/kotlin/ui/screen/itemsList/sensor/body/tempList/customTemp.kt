@@ -117,7 +117,7 @@ private fun selectedSensor(
                 ) {
                     Icon(
                         modifier = Modifier,
-                        painter = Resources.getIcon("select/close"),
+                        painter = Resources.getIcon("select/close/close1"),
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurface
                     )

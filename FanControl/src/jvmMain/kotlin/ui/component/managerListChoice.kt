@@ -22,6 +22,7 @@ import ui.utils.Resources
 fun managerAddItemListChoice(
     name: String,
     painterType: PainterType = PainterType.CHOOSE,
+    size: Int = 2
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         Row(
@@ -34,8 +35,8 @@ fun managerAddItemListChoice(
 
                 Icon(
                     painter = when (painterType) {
-                        PainterType.ADD -> Resources.getIcon("sign/plus/add")
-                        PainterType.CHOOSE -> Resources.getIcon("arrow/dropDown/arrow_drop_down")
+                        PainterType.ADD -> Resources.getIcon("sign/plus/add1")
+                        PainterType.CHOOSE -> Resources.getIcon("arrow/dropDown/arrow_drop_down$size")
                     },
                     contentDescription = Resources.getString("ct/choose"),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
@@ -64,6 +65,7 @@ fun <T> managerListChoice(
         )
     },
     painterType: PainterType = PainterType.CHOOSE,
+    size: Int = 2,
     baseModifier: Modifier = Modifier
         .fillMaxWidth()
         .widthIn(min = 100.dp, max = 250.dp),
@@ -81,6 +83,7 @@ fun <T> managerListChoice(
         textContent = textContent,
         expanded = expanded,
         painterType = painterType,
+        size = size,
         modifier = baseModifier,
         expandIconColor = color
     ) {
@@ -123,6 +126,7 @@ private fun managerBaseDropdownMenu(
     expanded: MutableState<Boolean>,
     expandIconColor: Color,
     painterType: PainterType,
+    size: Int,
     dropDownContent: @Composable ColumnScope.() -> Unit
 ) {
     Box {
@@ -136,20 +140,21 @@ private fun managerBaseDropdownMenu(
             ) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                     IconButton(
+                        modifier = Modifier,
                         onClick = { expanded.value = true }
                     ) {
                         val painter = when (painterType) {
                             PainterType.ADD -> {
                                 when (expanded.value) {
-                                    true -> Resources.getIcon("select/close")
-                                    false -> Resources.getIcon("sign/plus/add")
+                                    true -> Resources.getIcon("select/close/close1")
+                                    false -> Resources.getIcon("sign/plus/add1")
                                 }
                             }
 
                             PainterType.CHOOSE -> {
                                 when (expanded.value) {
-                                    true -> Resources.getIcon("arrow/dropDown/arrow_drop_up")
-                                    false -> Resources.getIcon("arrow/dropDown/arrow_drop_down")
+                                    true -> Resources.getIcon("arrow/dropDown/arrow_drop_up$size")
+                                    false -> Resources.getIcon("arrow/dropDown/arrow_drop_down$size")
                                 }
                             }
                         }

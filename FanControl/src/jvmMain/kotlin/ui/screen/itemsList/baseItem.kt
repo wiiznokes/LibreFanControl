@@ -48,7 +48,7 @@ fun baseItemBody(
         iconContentDescription = iconContentDescription,
         contentEditIcon = {
             Icon(
-                painter = Resources.getIcon("select/close"),
+                painter = Resources.getIcon("select/close/close1"),
                 contentDescription = Resources.getString("ct/edit_remove"),
                 tint = Color.White
             )
@@ -89,7 +89,7 @@ fun baseItemAddItem(
         iconContentDescription = iconContentDescription,
         contentEditIcon = {
             Icon(
-                painter = Resources.getIcon("sign/plus/add"),
+                painter = Resources.getIcon("sign/plus/add1"),
                 contentDescription = Resources.getString("ct/edit_add"),
                 tint = Color.White
             )
@@ -134,7 +134,7 @@ private fun baseItem(
 
         Surface(
             modifier = Modifier
-                .padding(18.dp),
+                .padding(10.dp),
             shape = MaterialTheme.shapes.medium,
             color = color,
             border = BorderStroke(
@@ -201,7 +201,8 @@ private fun baseItem(
             FloatingActionButton(
                 modifier = Modifier
                     .wrapContentSize()
-                    .align(Alignment.TopEnd),
+                    .align(Alignment.TopEnd)
+                    .requiredSize(30.dp),
                 onClick = onEditClick,
 
                 shape = RoundedCornerShape(100),
