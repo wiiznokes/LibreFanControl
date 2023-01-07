@@ -3,7 +3,10 @@ Set-Location "./../FanControl/src/jvmMain/resources/drawable"
 $files = Get-ChildItem -Recurse
 foreach ($file in $files)
 {
-    # Remplace le suffixe par une chaîne vide
-    $newName = $file.Name.Replace('_FILL','')
-    Rename-Item -Path $file.FullName -NewName $newName
+    $parts = $file.Name.Split('_FILL')
+    if ($parts.Count -eq 2)
+    {
+        $newName = $parts[0].Insert($parts[0].Length, '.svg')
+        Rename-Item -Path $file.FullName -NewName $newName
+    }
 }
