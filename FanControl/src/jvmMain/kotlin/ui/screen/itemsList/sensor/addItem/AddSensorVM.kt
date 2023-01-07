@@ -8,8 +8,8 @@ import model.item.sensor.Fan
 import model.item.sensor.SensorItem
 import model.item.sensor.Temp
 import ui.utils.Resources
-import utils.getAvailableId
-import utils.getAvailableName
+import utils.Id.Companion.getAvailableId
+import utils.Name.Companion.getAvailableName
 
 class AddSensorVM(
     private val fanItemList: SnapshotStateList<SensorItem> = State.fanItemList,
@@ -75,7 +75,8 @@ class AddSensorVM(
                 id = getAvailableId(
                     ids = tempItemList.map { item ->
                         item.id
-                    }
+                    },
+                    positive = false
                 ),
                 extension = CustomTemp()
             )

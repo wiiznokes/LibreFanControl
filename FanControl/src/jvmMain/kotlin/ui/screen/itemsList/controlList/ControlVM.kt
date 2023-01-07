@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import logicControl.isControlChange
 import model.item.behavior.Behavior
 import model.item.control.Control
-import utils.checkNameTaken
+import utils.Name.Companion.checkNameTaken
 
 class ControlVM(
     val controlList: SnapshotStateList<Control> = State.controlList,

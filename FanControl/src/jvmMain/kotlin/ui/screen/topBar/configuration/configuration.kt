@@ -15,7 +15,7 @@ import configuration.ConfigurationModel
 import ui.component.managerListChoice
 import ui.component.managerNameOutlinedTextField
 import ui.utils.Resources
-import utils.checkNameTaken
+import utils.Name.Companion.checkNameTaken
 
 val viewModel = ConfigurationVM()
 

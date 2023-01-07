@@ -4,7 +4,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.HardwareType
 import model.hardware.Sensor
 import model.item.control.Control
-import utils.getAvailableId
+import utils.Id.Companion.getAvailableId
 
 class ExternalWindows : External {
 
