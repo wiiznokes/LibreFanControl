@@ -41,7 +41,7 @@ int size_control_value_array;
 
 
 JNIEXPORT void JNICALL
-Java_external_ExternalWindows_externalStart(JNIEnv* env, jobject o, const jintArray value_array)
+Java_external_windows_ExternalWindows_externalStart(JNIEnv* env, jobject o, const jintArray value_array)
 {
     Api::Start();
     value_array_returned = static_cast<jintArray>(env->NewGlobalRef(value_array));
@@ -51,7 +51,7 @@ Java_external_ExternalWindows_externalStart(JNIEnv* env, jobject o, const jintAr
 
 
 JNIEXPORT void JNICALL
-Java_external_ExternalWindows_externalStop(JNIEnv* env, jobject o)
+Java_external_windows_ExternalWindows_externalStop(JNIEnv* env, jobject o)
 {
     Api::Stop();
     env->DeleteGlobalRef(value_array_returned);
@@ -92,7 +92,7 @@ void fill_java_list_info(JNIEnv* env, array<String^>^ info_list, int* size, jobj
 
 
 JNIEXPORT jobjectArray JNICALL
-Java_external_ExternalWindows_externalGetFansInfo(JNIEnv* env, jobject o)
+Java_external_windows_ExternalWindows_externalGetFansInfo(JNIEnv* env, jobject o)
 {
     // this array is manager by the .NET GB
     array<String^>^ fan_list = Api::GetFanList();
@@ -102,7 +102,7 @@ Java_external_ExternalWindows_externalGetFansInfo(JNIEnv* env, jobject o)
 
 
 JNIEXPORT jobjectArray JNICALL
-Java_external_ExternalWindows_externalGetTempsInfo(JNIEnv* env, jobject o)
+Java_external_windows_ExternalWindows_externalGetTempsInfo(JNIEnv* env, jobject o)
 {
     array<String^>^ temp_list = Api::GetTempList();
     fill_java_list_info(env, temp_list, &size_temp_value_array, &temp_list_info);
@@ -111,7 +111,7 @@ Java_external_ExternalWindows_externalGetTempsInfo(JNIEnv* env, jobject o)
 
 
 JNIEXPORT jobjectArray JNICALL
-Java_external_ExternalWindows_externalGetControlsInfo(JNIEnv* env, jobject o)
+Java_external_windows_ExternalWindows_externalGetControlsInfo(JNIEnv* env, jobject o)
 {
     array<String^>^ control_list = Api::GetControlList();
     fill_java_list_info(env, control_list, &size_control_value_array, &control_list_info);
@@ -120,7 +120,7 @@ Java_external_ExternalWindows_externalGetControlsInfo(JNIEnv* env, jobject o)
 
 
 JNIEXPORT void JNICALL
-Java_external_ExternalWindows_externalUpdateFanList(JNIEnv* env, jobject o)
+Java_external_windows_ExternalWindows_externalUpdateFanList(JNIEnv* env, jobject o)
 {
     Api::UpdateFan(c_value_array);
     env->SetIntArrayRegion(value_array_returned, 0, size_fan_value_array, reinterpret_cast<const jint*>(c_value_array));
@@ -128,7 +128,7 @@ Java_external_ExternalWindows_externalUpdateFanList(JNIEnv* env, jobject o)
 
 
 JNIEXPORT void JNICALL
-Java_external_ExternalWindows_externalUpdateTempList(JNIEnv* env, jobject o)
+Java_external_windows_ExternalWindows_externalUpdateTempList(JNIEnv* env, jobject o)
 {
     Api::UpdateTemp(c_value_array);
     env->SetIntArrayRegion(value_array_returned, 0, size_temp_value_array,
@@ -136,7 +136,7 @@ Java_external_ExternalWindows_externalUpdateTempList(JNIEnv* env, jobject o)
 }
 
 JNIEXPORT void JNICALL
-Java_external_ExternalWindows_externalUpdateControlList(JNIEnv* env, jobject o)
+Java_external_windows_ExternalWindows_externalUpdateControlList(JNIEnv* env, jobject o)
 {
     Api::UpdateControl(c_value_array);
     env->SetIntArrayRegion(value_array_returned, 0, size_control_value_array,
@@ -144,7 +144,7 @@ Java_external_ExternalWindows_externalUpdateControlList(JNIEnv* env, jobject o)
 }
 
 JNIEXPORT void JNICALL
-Java_external_ExternalWindows_externalSetControl(JNIEnv* env, jobject o, const jint index,
+Java_external_windows_ExternalWindows_externalSetControl(JNIEnv* env, jobject o, const jint index,
                                                  const jboolean is_auto, const jint value)
 {
     Api::SetControl(index, is_auto, value);

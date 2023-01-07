@@ -10,7 +10,7 @@ if ($null -eq $env:JAVA_HOME)
 }
 
 # Check if the lib directory exists within the JAVA_HOME directory
-if (!(Test-Path ($env:JAVA_HOME + "\lib")))
+if (!(Test-Path ($env:JAVA_HOME + "\bin")))
 {
     # If the lib directory does not exist, output an error message and exit the script
     Write-Output "JAVA_HOME is not a valid directory"
@@ -21,7 +21,7 @@ if (!(Test-Path ($env:JAVA_HOME + "\lib")))
 $libFiles = Get-ChildItem "./../libWindowsJava"
 
 # Get a list of files in the lib directory within JAVA_HOME
-$javaHomeLibFiles = Get-ChildItem ($env:JAVA_HOME + "\lib")
+$javaHomeLibFiles = Get-ChildItem ($env:JAVA_HOME + "\bin")
 
 # Loop through the local list of files
 foreach ($libFile in $libFiles)

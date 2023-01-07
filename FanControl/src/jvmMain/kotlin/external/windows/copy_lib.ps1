@@ -10,7 +10,7 @@ if ($null -eq $env:JAVA_HOME)
 }
 
 # Check if the JAVA_HOME environment variable points to a valid directory that contains a "lib" subdirectory
-if (!(Test-Path ($env:JAVA_HOME + "\lib")))
+if (!(Test-Path ($env:JAVA_HOME + "\bin")))
 {
     Write-Output "JAVA_HOME is not a valid directory"
     exit 1
@@ -20,7 +20,7 @@ if (!(Test-Path ($env:JAVA_HOME + "\lib")))
 $libFiles = Get-ChildItem "./../../../../../libWindowsJava"
 
 # Get the path to the "lib" directory specified in the JAVA_HOME environment variable
-$javaHomeLibDir = $env:JAVA_HOME + "\lib"
+$javaHomeLibDir = $env:JAVA_HOME + "\bin"
 
 foreach ($file in $libFiles)
 {
