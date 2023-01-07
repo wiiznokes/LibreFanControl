@@ -30,7 +30,7 @@ constexpr int array_size = 25;
 int c_value_array[array_size];
 jintArray value_array_returned;
 
-/**
+/*
  * size tab to use SetIntArrayRegion on values.
  * Their initialisation is done after the discovery
  * of the hardware.
@@ -101,9 +101,6 @@ Java_external_ExternalWindows_externalGetFansInfo(JNIEnv* env, jobject o)
     fill_java_list_info(env, fan_list, &size_fan_value_array, &fan_list_info);
     return fan_list_info;
 }
-
-
-
 
 
 JNIEXPORT jobjectArray JNICALL
