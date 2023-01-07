@@ -14,7 +14,6 @@ To run the project, just use `.\gradlew run` in FanControl folder.
 <details>
   <summary>Next steps</summary>
   
-- upgrade icons (get the right size instead a lazy scaling)
 - change some colors
 - add frensh translation
 - implement settings (support the project, info)
