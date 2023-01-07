@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
 import ui.utils.Resources
@@ -24,7 +25,8 @@ fun managerNumberChoice(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(end = 3.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -33,12 +35,14 @@ fun managerNumberChoice(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 managerText(
-                    modifier = Modifier
-                        .width(90.dp),
-                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier,
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontFamily = FontFamily.Monospace
+                    ),
                     text = prefix,
                     color = color
                 )
+                Spacer(Modifier.width(5.dp))
                 text()
                 Spacer(Modifier.width(5.dp))
                 managerText(
