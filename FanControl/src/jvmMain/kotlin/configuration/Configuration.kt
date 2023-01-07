@@ -10,6 +10,7 @@ import configuration.read.ReadHardware
 import configuration.read.ReadItem
 import configuration.write.WriteHardware
 import configuration.write.WriteItem
+import external.getOS
 import model.HardwareType
 import model.ItemType
 import org.json.JSONObject
@@ -91,6 +92,8 @@ class Configuration {
             writer.value(configuration.name)
             writer.key("id")
             writer.value(configuration.id)
+            writer.key("os")
+            writer.value(getOS())
 
             writeHardware.setHardware(
                 itemList = sensorLists.fanList,

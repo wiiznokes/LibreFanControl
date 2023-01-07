@@ -3,18 +3,23 @@ package external
 import java.util.*
 
 
+@Suppress("EnumEntryName")
 enum class OS {
-    WINDOWS, LINUX, UNSUPPORTED
+    windows, linux, unsupported;
+
+    companion object {
+        infix fun from(value: String): OS = OS.values().first { it.name == value }
+    }
 }
 
 fun getOS(): OS {
     val os = System.getProperty("os.name").lowercase(Locale.getDefault())
     return when {
-        os.contains("win") -> OS.WINDOWS
+        os.contains("win") -> OS.windows
 
         os.contains("nix") || os.contains("nux") || os.contains("aix") ->
-            OS.LINUX
+            OS.linux
 
-        else -> OS.UNSUPPORTED
+        else -> OS.unsupported
     }
 }

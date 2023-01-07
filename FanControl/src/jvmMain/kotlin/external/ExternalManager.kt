@@ -17,9 +17,9 @@ class ExternalManager(
 ) {
 
     private val external: External = when (getOS()) {
-        OS.WINDOWS -> ExternalWindows()
-        OS.LINUX -> ExternalLinux()
-        OS.UNSUPPORTED -> throw Exception("unsupported OS")
+        OS.windows -> ExternalWindows()
+        OS.linux -> ExternalLinux()
+        OS.unsupported -> throw Exception("unsupported OS")
     }
 
     /**
