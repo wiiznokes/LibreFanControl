@@ -16,9 +16,8 @@ To run the project, just use `.\gradlew run` in FanControl folder.
   
 - upgrade icons (get the right size instead a lazy scaling)
 - change some colors
-- add frensh traduction
+- add frensh translation
 - implement settings (support the project, info)
-- add a way to mix sensor (average)
 - publish (add lib folder to executable and conf folder)
 - don't stop the app when we close it, add small icon in task bar instead with an option to exist
 - add an explenation windows on how the app works
