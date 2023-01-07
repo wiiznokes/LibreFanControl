@@ -6,7 +6,11 @@ foreach ($file in $files)
     $parts = $file.Name.Split('_FILL')
     if ($parts.Count -eq 2)
     {
+        Write-Output "$parts"
         $newName = $parts[0].Insert($parts[0].Length, '.svg')
         Rename-Item -Path $file.FullName -NewName $newName
     }
 }
+
+
+Set-Location $PSScriptRoot
