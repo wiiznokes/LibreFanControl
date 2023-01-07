@@ -43,8 +43,9 @@ bin/
 
 
 
-### LHM dll ###
-lib/
+
+libApp/
+libWindowsJava/
 
 ### Configuration folder ###
 conf/*

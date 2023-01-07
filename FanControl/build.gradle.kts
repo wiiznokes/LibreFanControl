@@ -45,7 +45,7 @@ kotlin {
 compose.desktop {
     application {
         mainClass = "MainKt"
-        jvmArgs += listOf("-Djava.library.path=./lib")
+        jvmArgs += listOf("-Djava.library.path=./libApp")
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "FanControl"
