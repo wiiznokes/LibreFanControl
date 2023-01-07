@@ -4,5 +4,6 @@
   "configList": {},
   "updateDelay": 2,
   "theme": "system",
-  "first_start": true
+  "first_start": true,
+  "launch_at_startup": false
 }
