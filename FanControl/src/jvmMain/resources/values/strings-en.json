@@ -86,11 +86,12 @@
     "help_sub_title": "Get help here",
     "transition": {
       "donate": "Donation",
-      "other": "Other"
+      "other": "Others"
     }
   },
   "language": {
-    "en": "English"
+    "en": "English",
+    "fr": "French"
   },
   "theme": {
     "system": "System",
@@ -108,4 +109,3 @@
   "add": "Add",
   "cancel": "Cancel"
 }
-

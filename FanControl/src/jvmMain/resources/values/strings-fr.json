@@ -1,0 +1,111 @@
+{
+  "title": {
+    "app_name": "FanControl",
+    "add_item": "Ajouter item",
+    "setting": "Paramètre",
+    "control": "Control",
+    "behavior": "Comportement",
+    "sensor": "Capteur",
+    "fan": "Fan",
+    "temp": "Température",
+    "add_config": "Ajouter configuration"
+  },
+  "icon_content_description": {
+    "open_drawer": "ouvrir paramètre",
+    "close_drawer": "fermer paramètre",
+    "open_setting_item": "ouvrir paramètre item",
+    "close_setting_item": "fermer paramètre item",
+    "edit": "modifier",
+    "close_add_item": "fermer ajouter item",
+    "open_add_item": "ouvrir ajouter item",
+    "choose": "choisir",
+    "decrease": "baisser",
+    "increase": "augmenter",
+    "control": "control info",
+    "flat": "comportement plat info",
+    "linear": "comportement linéaire info",
+    "target": "comportement cible info",
+    "fan": "capteur ventilateur info",
+    "temp": "capteur température info",
+    "custom_temp": "custom température info",
+    "edit_add": "ajouter item",
+    "edit_remove": "enlever item",
+    "previous": "précédent",
+    "next": "suivant",
+    "save_conf": "sauvegarder configuration",
+    "remove_conf": "supprimer configuration",
+    "add_conf": "ajouter configuration"
+  },
+  "unity": {
+    "rpm": "RPM",
+    "degree": "°C",
+    "percent": "%"
+  },
+  "label": {
+    "name": "nom",
+    "conf_name": "nom configuration"
+  },
+  "add_item": {
+    "flat_name": "Plat",
+    "linear_name": "Linéaire",
+    "target_name": "Cible",
+    "fan_name": "Fan",
+    "temp_name": "Température",
+    "choose_sensor": "Nom capteur",
+    "choose_behavior": "Nom comportement"
+  },
+  "default_value": {
+    "control_name": "Control #",
+    "flat_name": "Plat #",
+    "linear_name": "Linéaire #",
+    "target_name": "Cible #",
+    "fan_name": "Fan #",
+    "temp_name": "Temp #",
+    "custom_temp_name": "Custom Temp #"
+  },
+  "linear": {
+    "min_temp": "min temp  :",
+    "max_temp": "max temp  :",
+    "min_fan_speed": "min vitesse :",
+    "max_fan_speed": "max vitesse :"
+  },
+  "target": {
+    "idle_temp": "temp idéale     :",
+    "load_temp": "temp trigger    :",
+    "idle_fan_speed": "vitesse idéale  :",
+    "load_fan_speed": "vitesse trigger :"
+  },
+  "settings": {
+    "update_delay": "délai mise a jour",
+    "language": "Langue",
+    "theme": "Thème",
+    "donate": "Supporter le projet",
+    "info": "Information",
+    "info_sub_title": "Plonger dans le fonctionnement",
+    "help": "Aide",
+    "help_sub_title": "Trouver de l'aide",
+    "transition": {
+      "donate": "Donation",
+      "other": "Autres"
+    }
+  },
+  "language": {
+    "en": "Anglais",
+    "fr": "Français"
+  },
+  "theme": {
+    "system": "Système",
+    "light": "Clair",
+    "dark": "Sombre"
+  },
+  "custom_temp": {
+    "average": "Moyenne",
+    "max": "Max",
+    "min": "Min",
+    "add_temp": "Ajouter capteur temp"
+  },
+  "none": "Aucun",
+  "fan_speed": "vitesse fan",
+  "add": "Ajouter",
+  "cancel": "Annuler"
+}

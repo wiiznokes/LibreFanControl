@@ -20,16 +20,13 @@ import ui.utils.Resources
  */
 @Suppress("EnumEntryName")
 enum class Languages {
-    en;
+    en,
+    fr;
 
     companion object {
         infix fun from(value: String): Languages = Languages.values().first { it.name == value }
     }
 }
-
-private val languages = listOf(
-    Languages.en
-)
 
 @Composable
 fun settingLanguage(
@@ -47,7 +44,7 @@ fun settingLanguage(
                 thickness = 2.dp
             )
         }
-        items(languages) {
+        items(Languages.values()) {
             Column {
                 Row(
                     modifier = Modifier

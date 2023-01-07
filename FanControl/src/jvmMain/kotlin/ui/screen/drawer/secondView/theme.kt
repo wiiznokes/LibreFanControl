@@ -30,13 +30,6 @@ enum class Themes {
 }
 
 
-private val themes = listOf(
-    Themes.system,
-    Themes.light,
-    Themes.dark
-)
-
-
 @Composable
 fun settingTheme(
     settingState: MutableState<SettingType>,
@@ -53,7 +46,7 @@ fun settingTheme(
                 thickness = 2.dp
             )
         }
-        items(themes) {
+        items(Themes.values()) {
             Column {
                 Row(
                     modifier = Modifier
