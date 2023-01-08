@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "KWUatNh2cC4Flzw5bZPKE+sg9dQGyqhTyzsiYCAtCwU8+EhRH6ROgxsxz9UMtn/aJNm8/kgHgxM9iWLVtYfroQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\lenai\\Documents\\GitHub\\LibreFanControl\\Library\\Windows\\Hardware\\CppProxy\\CppProxy.vcxproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\lenai\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.19041.27\\microsoft.windows.sdk.net.ref.10.0.19041.27.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,65 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\lenai\\Documents\\GitHub\\LibreFanControl\\Library\\Windows\\Hardware\\CppProxy\\CppProxy.vcxproj": {}
+  },
+  "projects": {
+    "C:\\Users\\lenai\\Documents\\GitHub\\LibreFanControl\\Library\\Windows\\Hardware\\CppProxy\\CppProxy.vcxproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\lenai\\Documents\\GitHub\\LibreFanControl\\Library\\Windows\\Hardware\\CppProxy\\CppProxy.vcxproj",
+        "projectName": "CppProxy",
+        "projectPath": "C:\\Users\\lenai\\Documents\\GitHub\\LibreFanControl\\Library\\Windows\\Hardware\\CppProxy\\CppProxy.vcxproj",
+        "packagesPath": "C:\\Users\\lenai\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lenai\\Documents\\GitHub\\LibreFanControl\\Library\\Windows\\Hardware\\CppProxy\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\lenai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "secondaryFramework": "native",
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.Windows.SDK.NET.Ref",
+              "version": "[10.0.19041.27, 10.0.19041.27]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
