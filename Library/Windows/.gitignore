@@ -28,30 +28,4 @@ HardwareWrapper/CppProxy/*.dll.recipe
 
 
 
-### Solution ###
-
-Hardware/x64/
-Hardware/.vs/
-Hardware/packages/
-Hardware/Hardware.sln.DotSettings.user
-Hardware/MigrationBackup/
-
-### C# project: Hardware ###
-
-Hardware/HardwareLib/obj/
-Hardware/HardwareLib/bin/
-
-
-### CppProxy ###
-
-Hardware/CppProxy/Debug/
-Hardware/CppProxy/obj/
-Hardware/CppProxy/Release/
-Hardware/CppProxy/x64/
-
-Hardware/CppProxy/*.log
-Hardware/CppProxy/*.tlog/
-Hardware/CppProxy/*.obj
-Hardware/CppProxy/*.pdb
-Hardware/CppProxy/*.pch
-Hardware/CppProxy/*.dll.recipe
+Hardware/
