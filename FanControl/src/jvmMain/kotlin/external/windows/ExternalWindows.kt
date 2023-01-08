@@ -16,6 +16,7 @@ class ExternalWindows : External {
         tempList: SnapshotStateList<Sensor>,
         controlList: SnapshotStateList<Control>
     ) {
+        /*
         /**
          * copy the lib inside libWindowsJava to JAVA_HOME/bin folder
          */
@@ -32,6 +33,8 @@ class ExternalWindows : External {
                     "Maybe the JAVA_HOME path is not set.")
         }
 
+         */
+        System.loadLibrary("HardwareLib")
         System.loadLibrary("CppProxy")
         externalStart(values)
         super.start(fanList, tempList, controlList)
