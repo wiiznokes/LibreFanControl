@@ -28,7 +28,6 @@ fun main() {
             visible = visible.value,
             title = Resources.getString("title/app_name"),
             icon = Resources.getIcon("app/toys_fan48"),
-            state = rememberWindowState(),
             onCloseRequest = {
                 visible.value = false
                 application.onClose()
