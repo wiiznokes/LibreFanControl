@@ -1,10 +1,17 @@
 namespace HardwareLib.Hardware;
 
-public class BaseDevice
+public abstract class BaseDevice
 {
-    public string Name { get; protected set; }
-    public int Index { get; protected set; }
-    public string Id { get; protected set; }
+    protected BaseDevice(string name, string id, int index)
+    {
+        Name = name;
+        Id = id;
+        Index = index;
+    }
+
+    public string Name { get; }
+    public int Index { get; }
+    public string Id { get; }
 
     public int Value { get; protected set; }
 

@@ -14,6 +14,6 @@ public class LhmOsdSensor : OsdSensor
 
     protected override void Update()
     {
-        if (_mSensor != null) DoubleValue = _mSensor.Value.HasValue ? (double)_mSensor.Value : Value;
+        DoubleValue = _mSensor.Value.HasValue ? (double)_mSensor.Value : Value;
     }
 }

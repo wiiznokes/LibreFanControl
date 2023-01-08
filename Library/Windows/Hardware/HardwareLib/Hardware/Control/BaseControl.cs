@@ -1,8 +1,8 @@
 ﻿namespace HardwareLib.Hardware.Control;
 
-public class BaseControl : BaseDevice
+public abstract class BaseControl : BaseDevice
 {
-    protected BaseControl()
+    protected BaseControl(string name, string id, int index) : base(name, id, index)
     {
         Value = 0;
         IsSetSpeed = false;

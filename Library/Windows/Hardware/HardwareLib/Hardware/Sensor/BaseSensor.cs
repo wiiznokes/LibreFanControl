@@ -1,8 +1,8 @@
 ﻿namespace HardwareLib.Hardware.Sensor;
 
-public class BaseSensor : BaseDevice
+public abstract class BaseSensor : BaseDevice
 {
-    protected BaseSensor()
+    protected BaseSensor(string name, string id, int index): base(name, id, index)
     {
         Value = 0;
     }

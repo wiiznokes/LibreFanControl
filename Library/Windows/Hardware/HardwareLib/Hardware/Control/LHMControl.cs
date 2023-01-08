@@ -7,12 +7,9 @@ public class LhmControl : BaseControl
     // ISensor
     private readonly ISensor _mSensor;
 
-    public LhmControl(string id, ISensor sensor, string name, int index)
+    public LhmControl(string id, ISensor sensor, string name, int index) : base(name, id, index)
     {
-        Id = id;
         _mSensor = sensor;
-        Name = name;
-        Index = index;
     }
 
     public override void Update()

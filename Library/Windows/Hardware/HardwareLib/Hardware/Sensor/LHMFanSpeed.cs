@@ -7,12 +7,9 @@ public class LhmFanSpeed : BaseSensor
     // ISensor
     private readonly ISensor _mSensor;
 
-    public LhmFanSpeed(string id, ISensor sensor, string name, int index)
+    public LhmFanSpeed(string id, ISensor sensor, string name, int index) : base(name, id, index)
     {
-        Id = id;
         _mSensor = sensor;
-        Name = name;
-        Index = index;
     }
 
     public override void Update()
