@@ -1,35 +1,5 @@
 ### Solution ###
 
-HardwareWrapper/x64/
-HardwareWrapper/.vs/
-HardwareWrapper/packages/
-HardwareWrapper/HardwareWrapper.sln.DotSettings.user
-HardwareWrapper/MigrationBackup/
-
-### C# project: Hardware ###
-
-HardwareWrapper/HardwareLib/obj/
-HardwareWrapper/HardwareLib/bin/
-
-
-### CppProxy ###
-
-HardwareWrapper/CppProxy/Debug/
-HardwareWrapper/CppProxy/obj/
-HardwareWrapper/CppProxy/Release/
-HardwareWrapper/CppProxy/x64/
-
-HardwareWrapper/CppProxy/*.log
-HardwareWrapper/CppProxy/*.tlog/
-HardwareWrapper/CppProxy/*.obj
-HardwareWrapper/CppProxy/*.pdb
-HardwareWrapper/CppProxy/*.pch
-HardwareWrapper/CppProxy/*.dll.recipe
-
-
-
-### Solution ###
-
 Hardware/x64/
 Hardware/.vs/
 Hardware/packages/
@@ -55,3 +25,8 @@ Hardware/CppProxy/*.obj
 Hardware/CppProxy/*.pdb
 Hardware/CppProxy/*.pch
 Hardware/CppProxy/*.dll.recipe
+
+
+
+
+HardwareWrapper/
