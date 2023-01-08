@@ -1,4 +1,5 @@
 #include "pch.h"
+#pragma once
 
 // header JNI
 #include "include/jni_header_fan_control.h"
