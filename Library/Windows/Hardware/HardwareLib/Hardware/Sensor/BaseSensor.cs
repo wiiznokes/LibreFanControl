@@ -1,10 +1,9 @@
-﻿namespace HardwareLib.Hardware.Sensor
+﻿namespace HardwareLib.Hardware.Sensor;
+
+public class BaseSensor : BaseDevice
 {
-    public class BaseSensor : BaseDevice
+    protected BaseSensor()
     {
-        protected BaseSensor()
-        {
-            Value = 0;
-        }
+        Value = 0;
     }
 }
