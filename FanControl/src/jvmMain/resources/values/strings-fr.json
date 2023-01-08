@@ -104,8 +104,14 @@
     "min": "Min",
     "add_temp": "Ajouter capteur temp"
   },
-  "none": "Aucun",
+
   "fan_speed": "vitesse fan",
-  "add": "Ajouter",
-  "cancel": "Annuler"
+
+  "common": {
+    "add": "Ajouter",
+    "cancel": "Annuler",
+    "none": "Aucun",
+    "open": "Ouvrir",
+    "exit": "Fermer"
+  }
 }

@@ -143,7 +143,7 @@ private fun dialog(
                     onClick = {
                         enabled.value = false
                     },
-                    text = Resources.getString("cancel")
+                    text = Resources.getString("common/cancel")
                 )
                 managerButton(
                     onClick = {
@@ -155,7 +155,7 @@ private fun dialog(
                             enabled.value = false
                         }
                     },
-                    text = Resources.getString("add")
+                    text = Resources.getString("common/add")
                 )
             }
         }

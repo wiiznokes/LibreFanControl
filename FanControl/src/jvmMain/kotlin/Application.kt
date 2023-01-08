@@ -42,6 +42,19 @@ class Application(
     }
 
 
+    /**
+     * only call when we click on open option of icon tray
+     */
+    fun onOpen() {
+        uiUpdate = UiUpdate()
+    }
+
+    fun onClose() {
+        uiUpdate = null
+    }
+
+
+
     private var updateShouldStop = false
     fun onStop() {
         updateShouldStop = true

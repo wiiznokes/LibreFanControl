@@ -77,7 +77,7 @@ fun <T> managerListChoice(
     val expanded = remember { mutableStateOf(false) }
 
     managerBaseDropdownMenu(
-        text = text ?: Resources.getString("none"),
+        text = text ?: Resources.getString("common/none"),
         textContent = textContent,
         expanded = expanded,
         painterType = painterType,
@@ -89,7 +89,7 @@ fun <T> managerListChoice(
             managerDropDownContent(
                 modifier = itemModifier,
                 expanded = expanded,
-                text = Resources.getString("none"),
+                text = Resources.getString("common/none"),
                 onItemClick = onItemClick,
                 enabled = enabled
             )

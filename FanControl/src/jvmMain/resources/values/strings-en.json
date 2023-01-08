@@ -104,8 +104,13 @@
     "min": "Min",
     "add_temp": "Add temp sensor"
   },
-  "none": "None",
   "fan_speed": "fan speed",
-  "add": "Add",
-  "cancel": "Cancel"
+
+  "common": {
+    "add": "Add",
+    "cancel": "Cancel",
+    "none": "None",
+    "open": "Open",
+    "exit": "Exit"
+  }
 }
