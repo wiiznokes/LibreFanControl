@@ -53,7 +53,7 @@ compose.desktop {
 
 
             windows {
-                iconFile.set(project.file("./src/jvmMain/resources/drawable/app_icon.ico"))
+                iconFile.set(project.file("./src/jvmMain/resources/drawable/app/app_icon.ico"))
             }
         }
     }
