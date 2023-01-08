@@ -4,14 +4,19 @@ namespace HardwareLib
 {
     public static class Api
     {
+        
         private static HardwareManager _hardwareManager;
+
+        static Api()
+        {
+            _hardwareManager = new HardwareManager();
+        }
 
         private static string[] _getItemsList = new string[100];
 
         public static void Start()
         {
             _hardwareManager = new HardwareManager();
-            _hardwareManager.Start();
         }
 
         public static void Stop()

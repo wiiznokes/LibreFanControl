@@ -17,7 +17,7 @@ namespace HardwareLib.Hardware.Sensor
 
         public override void Update()
         {
-            if (_mSensor != null) Value = _mSensor.Value.HasValue ? (int)_mSensor.Value : Value;
+            Value = _mSensor.Value.HasValue ? (int)_mSensor.Value : Value;
         }
     }
 }

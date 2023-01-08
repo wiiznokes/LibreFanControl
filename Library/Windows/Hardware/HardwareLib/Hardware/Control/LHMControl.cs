@@ -1,5 +1,4 @@
-﻿using System;
-using LibreHardwareMonitor.Hardware;
+﻿using LibreHardwareMonitor.Hardware;
 
 namespace HardwareLib.Hardware.Control
 {
@@ -19,26 +18,26 @@ namespace HardwareLib.Hardware.Control
         public override void Update()
         {
             double temp = 0.0f;
-            if (_mSensor?.Value != null) temp = (double)_mSensor.Value;
+            if (_mSensor.Value != null) temp = (double)_mSensor.Value;
             temp = Math.Round(temp);
             Value = (int)temp;
         }
 
         public override int GetMinSpeed()
         {
-            if (_mSensor?.Control != null) return (int)_mSensor.Control.MinSoftwareValue;
+            if (_mSensor.Control != null) return (int)_mSensor.Control.MinSoftwareValue;
             return 0;
         }
 
         public override int GetMaxSpeed()
         {
-            if (_mSensor?.Control != null) return (int)_mSensor.Control.MaxSoftwareValue;
+            if (_mSensor.Control != null) return (int)_mSensor.Control.MaxSoftwareValue;
             return 100;
         }
 
         public override bool SetSpeed(int value)
         {
-            if (_mSensor?.Control != null)
+            if (_mSensor.Control != null)
             {
                 _mSensor.Control.SetSoftware(value);
                 IsSetSpeed = true;
@@ -54,7 +53,7 @@ namespace HardwareLib.Hardware.Control
 
         public override bool SetAuto()
         {
-            if (_mSensor?.Control == null) return false;
+            if (_mSensor.Control == null) return false;
 
             if (IsSetSpeed == false)
                 return true;

@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using HardwareLib.Hardware.Control;
+﻿using HardwareLib.Hardware.Control;
 using HardwareLib.Hardware.Sensor;
 
 namespace HardwareLib.Hardware
 {
     public class HardwareManager
     {
-        private static List<BaseDevice> _tempList;
-        private static List<BaseDevice> _fanList;
-        private static List<BaseDevice> _controlList;
+        private static List<BaseDevice> _tempList  = new();
+        private static List<BaseDevice> _fanList  = new();
+        private static List<BaseDevice> _controlList  = new();
 
-        private Lhm _lhm;
+        private readonly Lhm _lhm;
+
+        public HardwareManager()
+        {
+            _lhm = new Lhm();
+        }
 
         //static private List<OSDSensor> osdSensorList;
         //static private Dictionary<string, OSDSensor> osdSensorMap;
@@ -20,14 +22,7 @@ namespace HardwareLib.Hardware
 
         public void Start()
         {
-            _lhm = new Lhm();
             _lhm.Start();
-
-
-            _fanList = new List<BaseDevice>();
-            _tempList = new List<BaseDevice>();
-            _controlList = new List<BaseDevice>();
-
 
             //osdSensorList = new List<OSDSensor>();
             //osdSensorMap = new Dictionary<string, OSDSensor>();

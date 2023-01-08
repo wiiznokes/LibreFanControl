@@ -8,7 +8,20 @@ namespace HardwareLib.Hardware
 {
     public class Lhm : IVisitor
     {
-        private Computer _mComputer;
+        private readonly Computer _mComputer;
+
+        public Lhm()
+        {
+            _mComputer = new Computer
+            {
+                IsCpuEnabled = true,
+                IsMotherboardEnabled = true,
+                IsControllerEnabled = true,
+                IsGpuEnabled = true,
+                IsStorageEnabled = true,
+                IsMemoryEnabled = true
+            };   
+        }
 
         private bool _mIsStart;
 
@@ -39,16 +52,6 @@ namespace HardwareLib.Hardware
                 return;
             _mIsStart = true;
 
-            _mComputer = new Computer
-            {
-                IsCpuEnabled = true,
-                IsMotherboardEnabled = true,
-                IsControllerEnabled = true,
-                IsGpuEnabled = true,
-                IsStorageEnabled = true,
-                IsMemoryEnabled = true
-            };
-
             _mComputer.Open();
             _mComputer.Accept(this);
         }
@@ -59,9 +62,7 @@ namespace HardwareLib.Hardware
                 return;
             _mIsStart = false;
 
-            if (_mComputer == null) return;
             _mComputer.Close();
-            _mComputer = null;
         }
 
         public void CreateFan(ref List<BaseDevice> deviceList)
