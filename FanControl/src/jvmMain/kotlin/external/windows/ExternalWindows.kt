@@ -34,7 +34,6 @@ class ExternalWindows : External {
         }
 
          */
-        System.loadLibrary("HardwareLib")
         System.loadLibrary("CppProxy")
         externalStart(values)
         super.start(fanList, tempList, controlList)
