@@ -15,7 +15,7 @@ To run the project, just use `.\gradlew run` in FanControl folder.
   <summary>Next steps</summary>
   
 - publish (add lib folder to executable and conf folder)
-- implement settings (support the project, info, °C or F°)
+- implement settings (support the project, info, °C or F°, launch at start up)
 - add an explenation windows on how the app works
 - add graph behavior (abscissa -> temp, ordinate -> fan speed)
 - support Linux
