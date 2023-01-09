@@ -16,7 +16,7 @@ import model.ItemType
 import org.json.JSONObject
 import org.json.JSONTokener
 import org.json.JSONWriter
-import utils.DIR_CONF
+import settings.DIR_CONF
 import java.io.File
 
 

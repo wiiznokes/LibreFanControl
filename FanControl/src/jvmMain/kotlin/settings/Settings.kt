@@ -9,14 +9,13 @@ import org.json.JSONObject
 import org.json.JSONTokener
 import ui.screen.drawer.secondView.Languages
 import ui.screen.drawer.secondView.Themes
-import utils.DIR_CONF
 import utils.getJsonValue
 import utils.setJsonValue
 import java.io.File
 
+const val DIR_CONF = "./conf/"
 
 const val SETTINGS_FILE_NAME = "settings.json"
-
 private const val SETTINGS_SOT_FILE_NAME = "settings.sot.json"
 
 
