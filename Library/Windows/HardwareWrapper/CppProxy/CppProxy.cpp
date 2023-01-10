@@ -145,7 +145,7 @@ Java_external_windows_ExternalWindows_externalUpdateControlList(JNIEnv* env, job
 
 JNIEXPORT void JNICALL
 Java_external_windows_ExternalWindows_externalSetControl(JNIEnv* env, jobject o, const jint index,
-                                                 const jboolean is_auto, const jint value)
+                                                         const jboolean is_auto, const jint value)
 {
     Api::SetControl(index, is_auto, value);
 }

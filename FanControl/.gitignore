@@ -43,9 +43,7 @@ bin/
 
 
 
-
-libApp/
-libWindowsJava/
+libWindows/
 
 ### Configuration folder ###
 conf/*
