@@ -135,7 +135,9 @@ class Configuration {
         }
 
         private fun getFile(id: Long): File {
-            return File(DIR_CONF + PREFIX_NEW_CONF + id + SUFFIX_NEW_CONF)
+            val includeFolder = File(System.getProperty("compose.application.resources.dir"))
+
+            return includeFolder.resolve(DIR_CONF + PREFIX_NEW_CONF + id + SUFFIX_NEW_CONF)
         }
     }
 }

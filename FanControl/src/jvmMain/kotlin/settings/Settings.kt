@@ -13,7 +13,8 @@ import utils.getJsonValue
 import utils.setJsonValue
 import java.io.File
 
-const val DIR_CONF = "./conf/"
+
+const val DIR_CONF = "conf/"
 
 const val SETTINGS_FILE_NAME = "settings.json"
 private const val SETTINGS_SOT_FILE_NAME = "settings.sot.json"
@@ -28,12 +29,24 @@ private const val SETTINGS_SOT_FILE_NAME = "settings.sot.json"
  */
 class Settings {
     companion object {
+        private val confFolder = File(System.getProperty("compose.application.resources.dir"))
+            .resolve(DIR_CONF)
 
         private var rootObj: JSONObject
-        private val file = File(DIR_CONF + SETTINGS_FILE_NAME)
+        private val file: File = confFolder.resolve(SETTINGS_FILE_NAME)
 
+        /**
+         * initialize the settings.json file using the settings.sot.json file
+         * which serves as a source of truth, to avoid committing a modified settings.json file.
+         * This avoids using "smudge", the git tool, because it is really not practical.
+         */
         init {
-            initSettingsFile()
+            if (!file.exists()) {
+                val settingsSotFile = confFolder.resolve(SETTINGS_SOT_FILE_NAME)
+                println(settingsSotFile.absolutePath)
+                file.writeText(settingsSotFile.readText())
+            }
+
             val string = file.bufferedReader().readText()
             rootObj = JSONTokener(string).nextValue() as JSONObject
             initSettingsState(State.settings)
@@ -63,21 +76,6 @@ class Settings {
             )
         }
 
-
-        /**
-         * initialize the settings.json file using the settings.sot.json file
-         * which serves as a source of truth, to avoid committing a modified settings.json file.
-         * This avoids using "smudge", the git tool, because it is really not practical.
-         * @return true if the file existed, false otherwise
-         */
-        private fun initSettingsFile() {
-            val localSettingFile = File(DIR_CONF + SETTINGS_FILE_NAME)
-
-            if (!localSettingFile.exists()) {
-                val settingsSotFile = File(DIR_CONF + SETTINGS_SOT_FILE_NAME)
-                localSettingFile.writeText(settingsSotFile.readText())
-            }
-        }
 
         private fun initSettingsState(
             settings: MutableStateFlow<SettingsModel>
