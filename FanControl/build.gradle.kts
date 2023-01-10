@@ -21,7 +21,6 @@ kotlin {
                 jvmTarget = "17"
             }
         }
-        withJava()
     }
     sourceSets {
         val jvmMain by getting {
@@ -45,15 +44,22 @@ kotlin {
 compose.desktop {
     application {
         mainClass = "MainKt"
-        jvmArgs += listOf("-Djava.library.path=./libApp")
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Msi, TargetFormat.AppImage, TargetFormat.Rpm)
             packageName = "FanControl"
             packageVersion = "1.0.0"
+            description = "Control your fan"
+            licenseFile.set(project.file("./../LICENSE"))
 
+            appResourcesRootDir.set(project.layout.projectDirectory.dir("include"))
 
             windows {
-                iconFile.set(project.file("./src/jvmMain/resources/drawable/app/app_icon.ico"))
+                jvmArgs += listOf("-Djava.library.path=include/windows/app")
+                iconFile.set(project.file("drawable/app_icon.ico"))
+            }
+
+            linux {
+                iconFile.set(project.file("drawable/app_icon.png"))
             }
         }
     }

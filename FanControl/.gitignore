@@ -43,11 +43,11 @@ bin/
 
 
 
-libWindows/
+include/windows/app
+include/windows/jvm
 
 ### Configuration folder ###
 conf/*
-!/conf/settings.sot.json
 
 ### generated log files ###
 *.log
