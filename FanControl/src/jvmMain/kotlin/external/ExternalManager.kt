@@ -18,7 +18,7 @@ class ExternalManager(
     private val sensorLists: SensorLists = State.sensorLists
 ) {
 
-    private val external: External = when (OS.linux) {
+    private val external: External = when (getOS()) {
         OS.windows -> ExternalWindows()
         OS.linux -> ExternalLinux()
         OS.unsupported -> throw Exception("unsupported OS")

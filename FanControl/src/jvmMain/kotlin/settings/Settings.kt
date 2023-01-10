@@ -43,7 +43,6 @@ class Settings {
         init {
             if (!file.exists()) {
                 val settingsSotFile = confFolder.resolve(SETTINGS_SOT_FILE_NAME)
-                println(settingsSotFile.absolutePath)
                 file.writeText(settingsSotFile.readText())
             }
 

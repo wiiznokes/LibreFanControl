@@ -6,6 +6,7 @@ import model.HardwareType
 import model.hardware.Sensor
 import model.item.control.Control
 import utils.Id.Companion.getAvailableId
+import java.io.File
 
 class ExternalWindows : External {
 
@@ -19,13 +20,23 @@ class ExternalWindows : External {
         /**
          * copy the lib inside libWindowsJava to JAVA_HOME/bin folder
          */
+        val includeFolder = File(System.getProperty("compose.application.resources.dir"))
+
+        val script = includeFolder.resolve("scripts/copy_lib_windows.ps1")
+
         val processBuilder = ProcessBuilder(
             "powershell.exe", "-File",
-            "./scripts/copy_lib_windows.ps1", "-libLocal", "./libWindowsJava"
+            includeFolder.resolve("scripts/copy_lib_windows.ps1").absolutePath
         )
         val process = processBuilder.start()
         process.waitFor()
+
+
+        process.errorStream.bufferedReader().readLines().let { println(it) }
+
         process.inputStream.bufferedReader().readLines().let { println(it) }
+
+        println("hello")
 
         if (process.exitValue() != 0) {
             throw Exception("Not able to copy the necessary lib to JAVA_HOME folder." +
