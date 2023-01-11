@@ -2,9 +2,11 @@ package ui.screen.itemsList.behaviorList.linearAndTarget.target
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import kotlinx.coroutines.sync.Mutex
 import model.hardware.Sensor
 import model.item.behavior.Behavior
 import model.item.behavior.Target
+import model.item.control.Control
 import model.item.sensor.SensorItem
 import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.numberChoiceFinalValue
@@ -20,15 +22,38 @@ enum class TargetParams : LinAndTarParams {
 class TargetVM(
     private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
     val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList,
-    val tempItemList: SnapshotStateList<SensorItem> = State.tempItemList
+    val tempItemList: SnapshotStateList<SensorItem> = State.tempItemList,
+    val controlList: SnapshotStateList<Control> = State.controlList,
+    val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList,
+    private val mutex: Mutex = State.controlChangeMutex
 ) {
 
     fun setTemp(index: Int, tempSensorId: Long?) {
+        val behavior = behaviorList[index]
+
+        val controlIndex = controlList.indexOfFirst {
+            it.behaviorId == behavior.id
+        }
+        if (controlIndex == -1) {
+            behaviorList[index] = behaviorList[index].copy(
+                extension = (behaviorList[index].extension as Target).copy(
+                    tempSensorId = tempSensorId
+                )
+            )
+            return
+        }
+
+        if (!mutex.tryLock())
+            return
+
         behaviorList[index] = behaviorList[index].copy(
             extension = (behaviorList[index].extension as Target).copy(
                 tempSensorId = tempSensorId
             )
         )
+
+        controlChangeList[controlIndex] = true
+        mutex.unlock()
     }
 
     fun increase(index: Int, type: TargetParams): String {
