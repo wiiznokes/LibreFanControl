@@ -39,18 +39,12 @@ class ProvideSetControlList(
             setControlList.add(
                 if (isControlShouldBeSet(control)) {
                     val res = findValueAndType(control)
-
-                    val controlShouldBeSet = when (res.second) {
-                        ItemType.BehaviorType.I_B_FLAT -> false
-                        else -> true
-                    }
-
                     SetControlModel(
                         libIndex = control.libIndex,
-                        isAuto = res.first == null,
-                        value = res.first,
+                        isAuto = res.value == null,
+                        value = res.value,
                         index = index,
-                        controlShouldBeSet = controlShouldBeSet
+                        controlShouldBeSet = res.value != null && res.type != ItemType.BehaviorType.I_B_FLAT
                     )
                 } else {
                     SetControlModel(
@@ -109,23 +103,28 @@ class ProvideSetControlList(
         )
     }
 
+    private data class BehaviorInfo(
+        val value: Int?,
+        val type: ItemType.BehaviorType
+    )
+
     /**
      * use to know if we should reset control at each iteration
      * @return Pair of (value, Behavior Type)
      */
-    private fun findValueAndType(control: Control): Pair<Int?, ItemType.BehaviorType> {
+    private fun findValueAndType(control: Control): BehaviorInfo {
         val behaviorIndex = behaviorList.indexOfFirst {
             it.id == control.behaviorId
         }
         val behavior = behaviorList[behaviorIndex]
 
-        return Pair(
-            first = behaviorLogic.getValue(
+        return BehaviorInfo(
+            value = behaviorLogic.getValue(
                 behavior.extension,
                 behaviorIndex,
                 true
             ),
-            second = behavior.type
+            type = behavior.type
         )
     }
 }

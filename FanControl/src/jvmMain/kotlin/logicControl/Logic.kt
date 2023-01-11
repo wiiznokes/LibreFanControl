@@ -170,6 +170,15 @@ fun isControlShouldBeSet(control: Control): Boolean =
     !control.isAuto && control.behaviorId != null
 
 
-fun isControlChange(previousControl: Control, newControl: Control): Boolean =
-    isControlShouldBeSet(previousControl) != isControlShouldBeSet(newControl)
-            || previousControl.behaviorId != newControl.behaviorId
+fun isControlChange(previousControl: Control, newControl: Control): Boolean {
+
+    if (isControlShouldBeSet(previousControl) != isControlShouldBeSet(newControl))
+        return true
+
+    if (isControlShouldBeSet(newControl)) {
+        if (previousControl.behaviorId != newControl.behaviorId)
+            return true
+    }
+
+    return false
+}
