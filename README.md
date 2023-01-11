@@ -40,7 +40,7 @@ High usage of RAM can be seen for now, but it will be improve in future update I
   - [ ] add an explenation windows on how the app works
 - [ ] support Linux
 - [ ] support Nvidia GPU
-- [ ] suppor water cooling
+- [ ] support water cooling
 
 
 ## Library used
@@ -54,7 +54,7 @@ High usage of RAM can be seen for now, but it will be improve in future update I
 ##### Linux
 - [lm-sensor](https://github.com/lm-sensors/lm-sensors)
 
-## remove app
+## Remove app
 On Windows, there is a script you can use to remove the lib copied inside the JVM, because they will not be removed automatically.
 
   
