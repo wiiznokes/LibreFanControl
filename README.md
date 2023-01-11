@@ -33,7 +33,7 @@ High usage of RAM can be seen for now, but it will be improve in future update I
 - [ ] Add tests
   - [ ] UI
   - [ ] Update
-- [ ] Create different module for eatch OS
+- [ ] Create different module for each OS
 - [ ] UI
   - [ ] implement settings (support the project, info, °C or F°, launch at start up)
   - [ ] add graph behavior (abscissa -> temp, ordinate -> fan speed)
