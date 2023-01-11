@@ -35,7 +35,7 @@ High usage of RAM can be seen for now, but it will be improve in future update I
   - [ ] Update
 - [ ] Use expect/acutal functions of Kotlin instead of the current External interface
 - [ ] UI
-  - [ ] implement settings (support the project, info, °C or F°, launch at start up)
+  - [ ] implement settings (info, help, °C or F°, launch at start up)
   - [ ] add graph behavior (abscissa -> temp, ordinate -> fan speed)
   - [ ] add an explenation windows on how the app works
 - [ ] support Linux
