@@ -35,12 +35,12 @@ High usage of RAM can be seen for now, but it will be improve in future update I
   - [ ] Update
 - [ ] Use expect/acutal functions of Kotlin instead of the current External interface
 - [ ] UI
-  - [ ] implement settings (info, help, °C or F°, launch at start up)
-  - [ ] add graph behavior (abscissa -> temp, ordinate -> fan speed)
-  - [ ] add an explenation windows on how the app works
-- [ ] support Linux
-- [ ] support Nvidia GPU
-- [ ] support water cooling
+  - [ ] Implement settings (info, help, °C or F°, launch at start up)
+  - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
+  - [ ] Add animations
+- [ ] Support Linux
+- [ ] Support Nvidia GPU
+- [ ] Support water cooling
 
 
 ## Library used
@@ -55,7 +55,7 @@ High usage of RAM can be seen for now, but it will be improve in future update I
 - [lm-sensor](https://github.com/lm-sensors/lm-sensors)
 
 ## Remove app
-On Windows, there is a script you can use to remove the lib copied inside the JVM, because they will not be removed automatically.
+On Windows, there is a script you can use to remove libs copied inside the JVM, because they will not be removed automatically.
 
   
 <details>
