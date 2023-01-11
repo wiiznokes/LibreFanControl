@@ -1,9 +1,11 @@
 package ui.screen.topBar.configuration
 
 import State
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import configuration.Configuration
 import configuration.ConfigurationModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.sync.Mutex
 import org.json.JSONObject
 import settings.Settings
 import settings.SettingsModel
@@ -12,7 +14,8 @@ import utils.NameException
 
 class ConfigurationVM(
     val settings: MutableStateFlow<SettingsModel> = State.settings,
-    val controlChange: MutableStateFlow<Boolean> = State.controlsChange,
+    val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList,
+    val mutex: Mutex = State.controlChangeMutex
 ) {
 
     // save conf is only visible when idConfig != null
@@ -49,11 +52,23 @@ class ConfigurationVM(
         when (id) {
             null -> Settings.setSetting("configId", JSONObject.NULL)
             else -> {
-                if (controlChange.value)
+                if (!mutex.tryLock())
                     return
-                controlChange.value = true
+
+                if (controlChangeList.contains(true)) {
+                    mutex.unlock()
+                    return
+                }
+
+                for (i in controlChangeList.indices) {
+                    controlChangeList[i] = true
+                }
                 Configuration.loadConfig(id)
+                for (i in controlChangeList.indices) {
+                    controlChangeList[i] = false
+                }
                 Settings.setSetting("configId", id)
+                mutex.unlock()
             }
         }
         settings.value = settings.value.copy(

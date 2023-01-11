@@ -15,7 +15,8 @@ import model.item.control.Control
  */
 class ExternalManager(
     private val controlList: SnapshotStateList<Control> = State.controlList,
-    private val sensorLists: SensorLists = State.sensorLists
+    private val sensorLists: SensorLists = State.sensorLists,
+    private val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList
 ) {
 
     private val external: External = when (getOS()) {
@@ -28,7 +29,7 @@ class ExternalManager(
      * load library and fetch sensors
      */
     fun start() {
-        external.start(sensorLists.fanList, sensorLists.tempList, controlList)
+        external.start(sensorLists.fanList, sensorLists.tempList, controlList, controlChangeList)
         println("start lib : success")
     }
 
@@ -55,9 +56,7 @@ class ExternalManager(
 
     fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null) {
         //external.setControl(libIndex, isAuto, value)
-        //println("setControl : success")
-        if (!isAuto)
-            println("set control: index = $libIndex, isAuto = $isAuto, value = $value")
+        println("set control: index = $libIndex, isAuto = $isAuto, value = $value")
     }
 
 }

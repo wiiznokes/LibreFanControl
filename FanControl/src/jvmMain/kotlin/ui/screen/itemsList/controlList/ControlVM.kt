@@ -2,7 +2,7 @@ package ui.screen.itemsList.controlList
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.sync.Mutex
 import logicControl.isControlChange
 import model.item.behavior.Behavior
 import model.item.control.Control
@@ -11,7 +11,8 @@ import utils.Name.Companion.checkNameTaken
 class ControlVM(
     val controlList: SnapshotStateList<Control> = State.controlList,
     val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
-    val controlsChange: MutableStateFlow<Boolean> = State.controlsChange
+    val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList,
+    private val mutex: Mutex = State.controlChangeMutex
 ) {
 
     fun addControl(index: Int) {
@@ -60,12 +61,21 @@ class ControlVM(
     }
 
     private fun updateSafely(index: Int, operation: () -> Unit) {
-        if (controlsChange.value)
+        if (!mutex.tryLock())
             return
+
+
+        if (controlChangeList[index]) {
+            mutex.unlock()
+            return
+        }
+
 
         val previousControl = controlList[index].copy()
         operation()
         if (isControlChange(previousControl, controlList[index]))
-            controlsChange.value = true
+            controlChangeList[index] = true
+
+        mutex.unlock()
     }
 }

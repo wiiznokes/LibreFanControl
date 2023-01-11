@@ -45,7 +45,7 @@ fun configuration() {
                     )
                 },
                 configList = viewModel.settings.value.configList,
-                enabled = !viewModel.controlChange.collectAsState().value
+                enabled = !viewModel.controlChangeList.contains(true)
             )
         }
     }
@@ -80,7 +80,7 @@ private fun configurationWithId(
 
     configurationListChoice(
         text = text.value,
-        enabled = !viewModel.controlChange.collectAsState().value,
+        enabled = !viewModel.controlChangeList.contains(true),
 
         textContent = {
             managerNameOutlinedTextField(

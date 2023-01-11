@@ -23,8 +23,6 @@ class LinearVM(
     val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList,
     val tempItemList: SnapshotStateList<SensorItem> = State.tempItemList
 ) {
-
-
     fun setTemp(index: Int, tempSensorId: Long?) {
         behaviorList[index] = behaviorList[index].copy(
             extension = (behaviorList[index].extension as Linear).copy(

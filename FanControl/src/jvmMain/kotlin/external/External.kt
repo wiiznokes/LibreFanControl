@@ -9,7 +9,8 @@ interface External {
     fun start(
         fanList: SnapshotStateList<Sensor>,
         tempList: SnapshotStateList<Sensor>,
-        controlList: SnapshotStateList<Control>
+        controlList: SnapshotStateList<Control>,
+        controlChangeList: SnapshotStateList<Boolean>
     ) {
         setFanList(fanList)
         println("setFanList success")
@@ -17,6 +18,9 @@ interface External {
         println("setTempList success")
         setControlList(controlList)
         println("setControlList success")
+        controlList.forEach { _ ->
+            controlChangeList.add(false)
+        }
     }
 
     fun stop()

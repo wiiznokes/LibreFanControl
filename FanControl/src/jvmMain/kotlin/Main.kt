@@ -4,7 +4,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Tray
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import androidx.compose.ui.window.rememberWindowState
 import settings.Settings
 import ui.screen.home
 import ui.theme.fanControlTheme

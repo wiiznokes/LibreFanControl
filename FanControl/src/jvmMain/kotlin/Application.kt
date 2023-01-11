@@ -1,7 +1,7 @@
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import configuration.Configuration
 import external.ExternalManager
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import logicControl.Logic
@@ -15,7 +15,7 @@ import utils.initSensor
  */
 class Application(
     private val settings: StateFlow<SettingsModel> = State.settings.asStateFlow(),
-    private val controlsChange: MutableStateFlow<Boolean> = State.controlsChange
+    private val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList
 ) {
 
     private lateinit var jobUpdate: Job
@@ -34,8 +34,10 @@ class Application(
         when (configId) {
             null -> initSensor()
             else -> {
-                controlsChange.value = true
                 Configuration.loadConfig(configId)
+                for (i in controlChangeList.indices) {
+                    controlChangeList[i] = true
+                }
             }
         }
         jobUpdate = CoroutineScope(Dispatchers.IO).launch { startUpdate() }

@@ -1,6 +1,7 @@
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.sync.Mutex
 import model.hardware.Sensor
 import model.item.behavior.Behavior
 import model.item.control.Control
@@ -30,7 +31,8 @@ class State {
          * used to know if controls has change recently, so logic class will recalculate
          * each controls, to know if we need to calculate each updateDelay
          */
-        val controlsChange: MutableStateFlow<Boolean> = MutableStateFlow(false)
+        val controlChangeList: SnapshotStateList<Boolean> = mutableStateListOf()
+        val controlChangeMutex = Mutex()
 
         val settings: MutableStateFlow<SettingsModel> = MutableStateFlow(SettingsModel())
     }

@@ -45,10 +45,8 @@ fun controlBody(
     ) {
         baseControl(
             isAuto = control.isAuto,
-            switchEnabled = !viewModel.controlsChange.collectAsState().value,
-            onSwitchClick = { checked ->
-                viewModel.onSwitchClick(checked, index)
-            },
+            switchEnabled = !viewModel.controlChangeList[index],
+            onSwitchClick = { checked -> viewModel.onSwitchClick(checked, index) },
             value = control.value,
             color = MaterialTheme.colorScheme.onSurface
         ) {
@@ -59,7 +57,7 @@ fun controlBody(
                 onItemClick = { viewModel.setBehavior(index, it) },
                 ids = viewModel.behaviorList.map { it.id },
                 names = viewModel.behaviorList.map { it.name },
-                enabled = !viewModel.controlsChange.collectAsState().value
+                enabled = !viewModel.controlChangeList[index]
             )
         }
     }

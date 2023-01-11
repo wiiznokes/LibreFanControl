@@ -15,7 +15,8 @@ class ExternalWindows : External {
     override fun start(
         fanList: SnapshotStateList<Sensor>,
         tempList: SnapshotStateList<Sensor>,
-        controlList: SnapshotStateList<Control>
+        controlList: SnapshotStateList<Control>,
+        controlChangeList: SnapshotStateList<Boolean>
     ) {
         /**
          * copy the lib inside libWindowsJava to JAVA_HOME/bin folder
@@ -45,10 +46,8 @@ class ExternalWindows : External {
 
 
         System.load(includeFolder.resolve("app/CppProxy.dll").path)
-        println("load success")
         externalStart(values)
-        println("externalStart success")
-        super.start(fanList, tempList, controlList)
+        super.start(fanList, tempList, controlList, controlChangeList)
     }
 
     override fun stop() {
