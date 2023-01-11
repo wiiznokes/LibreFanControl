@@ -43,7 +43,9 @@ class ExternalWindows : External {
                     "Maybe the JAVA_HOME path is not set.")
         }
 
+
         System.loadLibrary("CppProxy")
+        println("load success")
         externalStart(values)
         super.start(fanList, tempList, controlList)
     }
