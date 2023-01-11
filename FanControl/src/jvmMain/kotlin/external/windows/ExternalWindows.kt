@@ -21,22 +21,24 @@ class ExternalWindows : External {
          * copy the lib inside libWindowsJava to JAVA_HOME/bin folder
          */
         val includeFolder = File(System.getProperty("compose.application.resources.dir"))
+        println("include folder is in ${includeFolder.absolutePath}")
 
-        val script = includeFolder.resolve("scripts/copy_lib_windows.ps1")
 
         val processBuilder = ProcessBuilder(
             "powershell.exe", "-File",
-            includeFolder.resolve("scripts/copy_lib_windows.ps1").absolutePath
+            includeFolder.resolve("scripts/copy_lib_windows.ps1").absolutePath,
+            "-libPath", includeFolder.resolve("jvm").absolutePath
         )
         val process = processBuilder.start()
         process.waitFor()
 
 
-        process.errorStream.bufferedReader().readLines().let { println(it) }
-
-        process.inputStream.bufferedReader().readLines().let { println(it) }
-
-        println("hello")
+        process.errorStream.bufferedReader().readLines().let {
+            it.forEach {str -> println(str) }
+        }
+        process.inputStream.bufferedReader().readLines().let {
+            it.forEach {str -> println(str) }
+        }
 
         if (process.exitValue() != 0) {
             throw Exception("Not able to copy the necessary lib to JAVA_HOME folder." +

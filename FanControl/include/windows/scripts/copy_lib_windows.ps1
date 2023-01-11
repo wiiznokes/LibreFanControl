@@ -19,9 +19,18 @@ if (!(Test-Path ($env:JAVA_HOME + "\bin")))
 # Set default value for $libFilesDir
 $libFilesDir = "./../jvm"
 
-
-$currentDirectory = Get-Location
-Write-Output $currentDirectory
+# Check if there are any arguments
+if ($args.Length -gt 0) {
+    # Check if "-libLocal" argument is present
+    if ($args -contains "-libPath") {
+        # Set $libFilesDir to first argument after "-libLocal"
+        $libFilesDir = $args[($args.IndexOf("-libPath") + 1)]
+    } else {
+        # "-libLocal" argument is not present
+        Write-Error "Error: -libPath argument is required when specifying a directory."
+        exit 1
+    }
+}
 
 # Get a list of file in local lib dir
 $libFiles = Get-ChildItem $libFilesDir
