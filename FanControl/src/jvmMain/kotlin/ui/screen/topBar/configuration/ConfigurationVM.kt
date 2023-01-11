@@ -60,12 +60,9 @@ class ConfigurationVM(
                     return
                 }
 
-                for (i in controlChangeList.indices) {
-                    controlChangeList[i] = true
-                }
                 Configuration.loadConfig(id)
                 for (i in controlChangeList.indices) {
-                    controlChangeList[i] = false
+                    controlChangeList[i] = true
                 }
                 Settings.setSetting("configId", id)
                 mutex.unlock()

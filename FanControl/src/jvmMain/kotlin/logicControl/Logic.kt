@@ -106,7 +106,7 @@ class Logic(
      * if controls change is true, we set all controls to auto
      */
     fun finish() {
-        controlList.forEachIndexed {index, control ->
+        controlList.forEachIndexed { index, control ->
             if (controlChangeList[index])
                 externalManager.setControl(control.libIndex, true)
             else {
