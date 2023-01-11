@@ -55,7 +55,7 @@ class ExternalManager(
     }
 
     fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null) {
-        //external.setControl(libIndex, isAuto, value)
+        external.setControl(libIndex, isAuto, value)
         println("set control: index = $libIndex, isAuto = $isAuto, value = $value")
     }
 

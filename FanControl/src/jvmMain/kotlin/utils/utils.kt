@@ -54,7 +54,7 @@ fun <T> getIndexList(
 ): List<Int> {
 
     val previousIndexList = mutableListOf<Int>()
-    val l = list.filterIndexed { index, element ->
+    list.filterIndexed { index, element ->
         if (predicate(element)) {
             previousIndexList.add(index)
             true
