@@ -65,22 +65,67 @@ class ExternalLinux : External {
         }
     }
 
+    // used for testing
+    private var direction = true
+    private fun newValue(value: Int): Int {
+        val min = 30
+        val max = 75
+        val delta = Random.nextInt(0, 10)
+
+        return if (direction) {
+            (value + delta).let {
+                if (it > max) {
+                    direction = false
+                    max
+                } else it
+            }
+        } else {
+            (value - delta).let {
+                if (it < min) {
+                    direction = true
+                    min
+                } else it
+            }
+        }
+    }
 
     override fun updateTempList(tempList: SnapshotStateList<Sensor>) {
         for (i in tempList.indices) {
-            tempList[i] = tempList[i].copy(
-                value = Random.nextInt(0, 100)
+            val temp = tempList[i]
+            tempList[i] = temp.copy(
+                value = newValue(temp.value)
             )
         }
     }
 
     override fun updateControlList(controlList: SnapshotStateList<Control>) {
-        for (i in controlList.indices) {
-            controlList[i] = controlList[i].copy(
-                value = Random.nextInt(0, 100)
-            )
+        setList.forEach {
+            val index = controlList.indexOfFirst { control ->
+                control.libIndex == it.libIndex
+            }
+
+            if (it.isAuto) {
+                controlList[index] = controlList[index].copy(
+                    value = 0
+                )
+            }
+            else {
+                controlList[index] = controlList[index].copy(
+                    value = it.value ?: 0
+                )
+            }
         }
+        setList.clear()
     }
 
-    override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {}
+    private data class UpdateControl(
+        val libIndex: Int,
+        val isAuto: Boolean,
+        val value: Int?
+    )
+    private val setList = mutableListOf<UpdateControl>()
+
+    override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {
+        setList.add(UpdateControl(libIndex, isAuto, value))
+    }
 }
