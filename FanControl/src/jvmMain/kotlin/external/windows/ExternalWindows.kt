@@ -24,8 +24,8 @@ class ExternalWindows : External {
 
         val processBuilder = ProcessBuilder(
             "powershell.exe", "-File",
-            includeFolder.resolve("scripts/copy_lib_windows.ps1").absolutePath,
-            "-libPath", includeFolder.resolve("jvm").absolutePath
+            includeFolder.resolve("scripts/copy_lib_windows.ps1").path,
+            "-libPath", includeFolder.resolve("jvm").path
         )
         val process = processBuilder.start()
         process.waitFor()
@@ -44,9 +44,10 @@ class ExternalWindows : External {
         }
 
 
-        System.loadLibrary("CppProxy")
+        System.load(includeFolder.resolve("app/CppProxy.dll").path)
         println("load success")
         externalStart(values)
+        println("externalStart success")
         super.start(fanList, tempList, controlList)
     }
 

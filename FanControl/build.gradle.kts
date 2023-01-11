@@ -56,7 +56,6 @@ compose.desktop {
             appResourcesRootDir.set(project.layout.projectDirectory.dir("include"))
 
             windows {
-                jvmArgs += listOf("-Djava.library.path=\$APPDIR/resources/app")
                 iconFile.set(project.file("drawable/app_icon.ico"))
             }
 
