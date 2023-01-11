@@ -4,7 +4,6 @@ package ui.screen.itemsList.controlList
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import model.ItemType
 import model.item.control.Control
 import ui.component.managerAddItemListChoice

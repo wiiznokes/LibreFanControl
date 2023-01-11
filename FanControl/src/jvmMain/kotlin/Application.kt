@@ -56,7 +56,6 @@ class Application(
     }
 
 
-
     private var updateShouldStop = false
     fun onStop() {
         updateShouldStop = true
