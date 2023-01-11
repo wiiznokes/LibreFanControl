@@ -10,9 +10,10 @@ import utils.Name.Companion.getAvailableName
 import kotlin.random.Random
 
 class ExternalLinux : External {
-
     override fun stop() {
+        TODO("Not yet implemented")
     }
+
 
     override fun setFanList(fanList: SnapshotStateList<Sensor>) {
         for (i in 0..3) {

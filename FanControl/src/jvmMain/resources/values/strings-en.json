@@ -105,7 +105,6 @@
     "add_temp": "Add temp sensor"
   },
   "fan_speed": "fan speed",
-
   "common": {
     "add": "Add",
     "cancel": "Cancel",

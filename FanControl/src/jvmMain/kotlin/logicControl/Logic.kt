@@ -2,13 +2,12 @@ package logicControl
 
 
 import State
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import external.ExternalManager
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.sync.Mutex
 import model.item.control.Control
 import settings.SettingsModel
 import kotlin.time.DurationUnit
@@ -36,9 +35,10 @@ data class SetControlModel(
  */
 class Logic(
     private val controlList: SnapshotStateList<Control> = State.controlList,
-    private val controlsChange: MutableStateFlow<Boolean> = State.controlsChange,
+    private val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList,
     private val settings: StateFlow<SettingsModel> = State.settings.asStateFlow(),
-    private val externalManager: ExternalManager
+    private val externalManager: ExternalManager,
+    private val mutex: Mutex = State.controlChangeMutex
 ) {
 
     private var shouldDelay: Boolean = true
@@ -53,7 +53,7 @@ class Logic(
      *
      * So we recalculate one time before setting the values
      */
-    private val controlsHasChangeMarker = mutableStateOf(controlsChange.value)
+    private val controlChangeListMarker = controlChangeList.toMutableList()
 
     private val provideSetControlList = ProvideSetControlList()
 
@@ -76,7 +76,7 @@ class Logic(
          * This is not a problem because we can recalculate
          */
         val setControlList: List<SetControlModel>? = try {
-            provideSetControlList.getSetControlList(controlsHasChangeMarker)
+            provideSetControlList.getSetControlList(controlChangeListMarker)
         } catch (e: NullPointerException) {
             println("NullPointerException in logic")
             null
@@ -86,8 +86,9 @@ class Logic(
         }
 
         if (setControlList == null) {
-            if (controlsChange.value) {
-                controlsHasChangeMarker.value = true
+            for (i in controlChangeList.indices) {
+                if (controlChangeList[i])
+                    controlChangeListMarker[i] = true
             }
             shouldDelay = false
         } else {
@@ -105,12 +106,12 @@ class Logic(
      * if controls change is true, we set all controls to auto
      */
     fun finish() {
-        controlList.forEach {
-            if (controlsChange.value)
-                externalManager.setControl(it.libIndex, true)
+        controlList.forEachIndexed { index, control ->
+            if (controlChangeList[index])
+                externalManager.setControl(control.libIndex, true)
             else {
-                if (isControlShouldBeSet(it)) {
-                    externalManager.setControl(it.libIndex, true)
+                if (isControlShouldBeSet(control)) {
+                    externalManager.setControl(control.libIndex, true)
                 }
             }
         }
@@ -124,41 +125,42 @@ class Logic(
      *
      * @return shouldDelay
      */
-    private fun setControlLogic(
-
+    private suspend fun setControlLogic(
         setControlList: List<SetControlModel>
     ): Boolean {
 
         var shouldDelay = true
 
-        when (controlsChange.value) {
-            true -> {
-                when (controlsHasChangeMarker.value) {
-                    // control change in this iteration
-                    false -> {
-                        controlsHasChangeMarker.value = true
-                        shouldDelay = false
-                    }
-                    // control change in the previous iteration
-                    true -> {
-                        controlsChange.value = false
-                        controlsHasChangeMarker.value = false
-                        setControlList.forEach { model ->
-                            controlList[model.index].controlShouldBeSet = model.controlShouldBeSet
+        for (i in controlChangeList.indices) {
+            when (controlChangeList[i]) {
+                true -> {
+                    when (controlChangeListMarker[i]) {
+                        // control change in this iteration
+                        false -> {
+                            controlChangeListMarker[i] = true
+                            shouldDelay = false
+                        }
+                        // control change in the previous iteration
+                        true -> {
+                            mutex.lock()
+                            controlChangeList[i] = false
+                            mutex.unlock()
+                            controlChangeListMarker[i] = false
+                            val model = setControlList.first { it.index == i }
+                            controlList[i].controlShouldBeSet = model.controlShouldBeSet
                             externalManager.setControl(model.libIndex, model.isAuto, model.value)
                         }
                     }
                 }
-            }
-
-            // normal case of update
-            false -> {
-
-                setControlList.forEach { model ->
-                    externalManager.setControl(model.libIndex, model.isAuto, model.value)
+                // normal case of update
+                false -> {
+                    val model = setControlList.firstOrNull { it.index == i }
+                    if (model != null)
+                        externalManager.setControl(model.libIndex, model.isAuto, model.value)
                 }
             }
         }
+
         return shouldDelay
     }
 }
@@ -168,6 +170,15 @@ fun isControlShouldBeSet(control: Control): Boolean =
     !control.isAuto && control.behaviorId != null
 
 
-fun isControlChange(previousControl: Control, newControl: Control): Boolean =
-    isControlShouldBeSet(previousControl) != isControlShouldBeSet(newControl)
-            || previousControl.behaviorId != newControl.behaviorId
+fun isControlChange(previousControl: Control, newControl: Control): Boolean {
+
+    if (isControlShouldBeSet(previousControl) != isControlShouldBeSet(newControl))
+        return true
+
+    if (isControlShouldBeSet(newControl)) {
+        if (previousControl.behaviorId != newControl.behaviorId)
+            return true
+    }
+
+    return false
+}

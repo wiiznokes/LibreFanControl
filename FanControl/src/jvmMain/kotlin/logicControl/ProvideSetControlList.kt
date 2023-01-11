@@ -1,7 +1,6 @@
 package logicControl
 
 import State
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import logicControl.behavior.BehaviorLogic
 import model.ItemType
@@ -12,14 +11,14 @@ import utils.filterWithPreviousIndex
 
 class ProvideSetControlList(
     private val controlList: SnapshotStateList<Control> = State.controlList,
-    private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
+    private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList
 ) {
-    fun getSetControlList(controlsHasChangeMarker: MutableState<Boolean>): List<SetControlModel> {
+    fun getSetControlList(controlChangeListMarker: MutableList<Boolean>): List<SetControlModel> {
 
         val finalSetControlList = mutableListOf<SetControlModel>()
 
-        if (controlsHasChangeMarker.value) {
-            handleControlChange(finalSetControlList)
+        if (controlChangeListMarker.contains(true)) {
+            handleControlChange(finalSetControlList, controlChangeListMarker)
         } else {
             handleControlShouldBeSet(finalSetControlList)
         }
@@ -27,32 +26,31 @@ class ProvideSetControlList(
         return finalSetControlList
     }
 
-    private fun handleControlChange(setControlList: MutableList<SetControlModel>) {
+    private fun handleControlChange(
+        setControlList: MutableList<SetControlModel>,
+        controlChangeListMarker: MutableList<Boolean>
+    ) {
 
-        for (i in controlList.indices) {
-            val control = controlList[i]
-
+        filterWithPreviousIndex(
+            list = controlChangeListMarker,
+            predicate = { it }
+        ) { index, _ ->
+            val control = controlList[index]
             setControlList.add(
                 if (isControlShouldBeSet(control)) {
                     val res = findValueAndType(control)
-
-                    val controlShouldBeSet = when (res.second) {
-                        ItemType.BehaviorType.I_B_FLAT -> false
-                        else -> true
-                    }
-
                     SetControlModel(
                         libIndex = control.libIndex,
-                        isAuto = res.first == null,
-                        value = res.first,
-                        index = i,
-                        controlShouldBeSet = controlShouldBeSet
+                        isAuto = res.value == null,
+                        value = res.value,
+                        index = index,
+                        controlShouldBeSet = res.value != null && res.type != ItemType.BehaviorType.I_B_FLAT
                     )
                 } else {
                     SetControlModel(
                         libIndex = control.libIndex,
                         isAuto = true,
-                        index = i,
+                        index = index,
                         controlShouldBeSet = false
                     )
                 }
@@ -105,23 +103,28 @@ class ProvideSetControlList(
         )
     }
 
+    private data class BehaviorInfo(
+        val value: Int?,
+        val type: ItemType.BehaviorType
+    )
+
     /**
      * use to know if we should reset control at each iteration
-     * @return Pair of (value, Behavior Type)
+     * @return BehaviorInfo
      */
-    private fun findValueAndType(control: Control): Pair<Int?, ItemType.BehaviorType> {
+    private fun findValueAndType(control: Control): BehaviorInfo {
         val behaviorIndex = behaviorList.indexOfFirst {
             it.id == control.behaviorId
         }
         val behavior = behaviorList[behaviorIndex]
 
-        return Pair(
-            first = behaviorLogic.getValue(
+        return BehaviorInfo(
+            value = behaviorLogic.getValue(
                 behavior.extension,
                 behaviorIndex,
                 true
             ),
-            second = behavior.type
+            type = behavior.type
         )
     }
 }

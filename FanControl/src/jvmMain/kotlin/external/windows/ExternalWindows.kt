@@ -15,7 +15,8 @@ class ExternalWindows : External {
     override fun start(
         fanList: SnapshotStateList<Sensor>,
         tempList: SnapshotStateList<Sensor>,
-        controlList: SnapshotStateList<Control>
+        controlList: SnapshotStateList<Control>,
+        controlChangeList: SnapshotStateList<Boolean>
     ) {
         /**
          * copy the lib inside libWindowsJava to JAVA_HOME/bin folder
@@ -32,23 +33,23 @@ class ExternalWindows : External {
 
 
         process.errorStream.bufferedReader().readLines().let {
-            it.forEach {str -> println(str) }
+            it.forEach { str -> println(str) }
         }
         process.inputStream.bufferedReader().readLines().let {
-            it.forEach {str -> println(str) }
+            it.forEach { str -> println(str) }
         }
 
         if (process.exitValue() != 0) {
-            throw Exception("Not able to copy the necessary lib to JAVA_HOME folder." +
-                    "Maybe the JAVA_HOME path is not set.")
+            throw Exception(
+                "Not able to copy the necessary lib to JAVA_HOME folder." +
+                        "Maybe the JAVA_HOME path is not set."
+            )
         }
 
 
         System.load(includeFolder.resolve("app/CppProxy.dll").path)
-        println("load success")
         externalStart(values)
-        println("externalStart success")
-        super.start(fanList, tempList, controlList)
+        super.start(fanList, tempList, controlList, controlChangeList)
     }
 
     override fun stop() {

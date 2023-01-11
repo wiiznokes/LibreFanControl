@@ -11,13 +11,12 @@ import ui.screen.itemsList.behaviorList.linearAndTarget.target.targetAddItem
 import ui.screen.itemsList.behaviorList.linearAndTarget.target.targetBody
 
 
-private val bodyViewModel: BodyBehaviorVM = BodyBehaviorVM()
-private val addViewModel = AddBehaviorVM()
+private val bodyViewModel: BaseBehaviorVM = BaseBehaviorVM()
 
 fun LazyListScope.behaviorAddItemList() {
-    item { flatAddItem(onEditClick = { addViewModel.addFlat() }) }
-    item { linearAddItem(onEditClick = { addViewModel.addLinear() }) }
-    item { targetAddItem(onEditClick = { addViewModel.addTarget() }) }
+    item { flatAddItem() }
+    item { linearAddItem() }
+    item { targetAddItem() }
 }
 
 
@@ -28,27 +27,21 @@ fun LazyListScope.behaviorBodyList() {
             ItemType.BehaviorType.I_B_FLAT -> {
                 flatBody(
                     behavior = behavior,
-                    index = index,
-                    onNameChange = { bodyViewModel.setName(it, index) },
-                    onEditClick = { bodyViewModel.remove(index) },
+                    index = index
                 )
             }
 
             ItemType.BehaviorType.I_B_LINEAR -> {
                 linearBody(
                     behavior = behavior,
-                    index = index,
-                    onNameChange = { bodyViewModel.setName(it, index) },
-                    onEditClick = { bodyViewModel.remove(index) },
+                    index = index
                 )
             }
 
             ItemType.BehaviorType.I_B_TARGET -> {
                 targetBody(
                     behavior = behavior,
-                    index = index,
-                    onNameChange = { bodyViewModel.setName(it, index) },
-                    onEditClick = { bodyViewModel.remove(index) },
+                    index = index
                 )
             }
 

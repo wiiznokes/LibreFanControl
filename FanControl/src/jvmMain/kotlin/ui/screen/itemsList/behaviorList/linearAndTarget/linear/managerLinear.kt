@@ -23,15 +23,13 @@ private val viewModel: LinearVM = LinearVM()
 @Composable
 fun linearBody(
     behavior: Behavior,
-    index: Int,
-    onEditClick: () -> Unit,
-    onNameChange: (String) -> Unit
+    index: Int
 ) {
     baseItemBody(
         iconPainter = Resources.getIcon("items/linear40"),
         iconContentDescription = Resources.getString("ct/linear"),
-        onNameChange = onNameChange,
-        onEditClick = onEditClick,
+        onNameChange = { viewModel.setName(it, index) },
+        onEditClick = { viewModel.remove(index) },
         item = behavior
     ) {
 
@@ -133,14 +131,12 @@ fun linearBody(
 
 
 @Composable
-fun linearAddItem(
-    onEditClick: () -> Unit,
-) {
+fun linearAddItem() {
     baseItemAddItem(
         iconPainter = Resources.getIcon("items/linear40"),
         iconContentDescription = Resources.getString("ct/linear"),
         name = Resources.getString("add_item/linear_name"),
-        onEditClick = onEditClick,
+        onEditClick = { viewModel.addBehavior(viewModel.defaultLinear) },
         type = ItemType.BehaviorType.I_B_LINEAR
     ) {
         managerAddItemListChoice(

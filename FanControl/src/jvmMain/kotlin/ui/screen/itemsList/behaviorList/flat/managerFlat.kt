@@ -16,16 +16,14 @@ private val viewModel: FlatVM = FlatVM()
 fun flatBody(
     behavior: Behavior,
     index: Int,
-    onEditClick: () -> Unit,
-    onNameChange: (String) -> Unit,
 ) {
     val flat = behavior.extension as Flat
 
     baseItemBody(
         iconPainter = Resources.getIcon("items/horizontal_rule40"),
         iconContentDescription = Resources.getString("ct/flat"),
-        onNameChange = onNameChange,
-        onEditClick = onEditClick,
+        onNameChange = { viewModel.setName(it, index) },
+        onEditClick = { viewModel.remove(index) },
         item = behavior
     ) {
         baseFlat(
@@ -41,14 +39,12 @@ fun flatBody(
 
 
 @Composable
-fun flatAddItem(
-    onEditClick: () -> Unit
-) {
+fun flatAddItem() {
     baseItemAddItem(
         iconPainter = Resources.getIcon("items/horizontal_rule40"),
         iconContentDescription = Resources.getString("ct/flat"),
         name = Resources.getString("add_item/flat_name"),
-        onEditClick = onEditClick,
+        onEditClick = { viewModel.addBehavior(viewModel.defaultFlat) },
         type = ItemType.BehaviorType.I_B_FLAT
     ) {
         baseFlat(

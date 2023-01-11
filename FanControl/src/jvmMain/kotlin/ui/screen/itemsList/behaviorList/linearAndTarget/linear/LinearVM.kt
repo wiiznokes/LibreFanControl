@@ -2,12 +2,17 @@ package ui.screen.itemsList.behaviorList.linearAndTarget.linear
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import model.ItemType
 import model.hardware.Sensor
 import model.item.behavior.Behavior
 import model.item.behavior.Linear
 import model.item.sensor.SensorItem
+import ui.screen.itemsList.behaviorList.BaseBehaviorVM
 import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.numberChoiceFinalValue
+import ui.utils.Resources
+import utils.Id
+import utils.Name
 
 
 enum class LinearParams : LinAndTarParams {
@@ -19,17 +24,21 @@ enum class LinearParams : LinAndTarParams {
 
 
 class LinearVM(
-    private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
     val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList,
-    val tempItemList: SnapshotStateList<SensorItem> = State.tempItemList
-) {
+    val tempItemList: SnapshotStateList<SensorItem> = State.tempItemList,
+) : BaseBehaviorVM() {
 
 
     fun setTemp(index: Int, tempSensorId: Long?) {
-        behaviorList[index] = behaviorList[index].copy(
-            extension = (behaviorList[index].extension as Linear).copy(
-                tempSensorId = tempSensorId
-            )
+        updateSafely(
+            index = index,
+            behaviorOperation = {
+                behaviorList[index] = behaviorList[index].copy(
+                    extension = (behaviorList[index].extension as Linear).copy(
+                        tempSensorId = tempSensorId
+                    )
+                )
+            }
         )
     }
 
@@ -85,4 +94,20 @@ class LinearVM(
         )
         return finalValue.toString()
     }
+
+    val defaultLinear = Behavior(
+        name = Name.getAvailableName(
+            names = behaviorList.map { item ->
+                item.name
+            },
+            prefix = Resources.getString("default/linear_name")
+        ),
+        type = ItemType.BehaviorType.I_B_LINEAR,
+        extension = Linear(),
+        id = Id.getAvailableId(
+            ids = behaviorList.map { item ->
+                item.id
+            }
+        )
+    )
 }

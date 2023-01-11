@@ -1,13 +1,19 @@
 package ui.screen.itemsList.behaviorList.linearAndTarget.target
 
+
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import model.ItemType
 import model.hardware.Sensor
 import model.item.behavior.Behavior
 import model.item.behavior.Target
 import model.item.sensor.SensorItem
+import ui.screen.itemsList.behaviorList.BaseBehaviorVM
 import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.numberChoiceFinalValue
+import ui.utils.Resources
+import utils.Id
+import utils.Name
 
 
 enum class TargetParams : LinAndTarParams {
@@ -18,16 +24,20 @@ enum class TargetParams : LinAndTarParams {
 }
 
 class TargetVM(
-    private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
     val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList,
     val tempItemList: SnapshotStateList<SensorItem> = State.tempItemList
-) {
+) : BaseBehaviorVM() {
 
     fun setTemp(index: Int, tempSensorId: Long?) {
-        behaviorList[index] = behaviorList[index].copy(
-            extension = (behaviorList[index].extension as Target).copy(
-                tempSensorId = tempSensorId
-            )
+        updateSafely(
+            index = index,
+            behaviorOperation = {
+                behaviorList[index] = behaviorList[index].copy(
+                    extension = (behaviorList[index].extension as Target).copy(
+                        tempSensorId = tempSensorId
+                    )
+                )
+            }
         )
     }
 
@@ -84,4 +94,21 @@ class TargetVM(
         )
         return finalValue.toString()
     }
+
+
+    val defaultTarget = Behavior(
+        name = Name.getAvailableName(
+            names = behaviorList.map { item ->
+                item.name
+            },
+            prefix = Resources.getString("default/target_name")
+        ),
+        type = ItemType.BehaviorType.I_B_TARGET,
+        extension = Target(),
+        id = Id.getAvailableId(
+            ids = behaviorList.map { item ->
+                item.id
+            }
+        )
+    )
 }

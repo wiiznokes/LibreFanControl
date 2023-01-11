@@ -20,12 +20,16 @@ if (!(Test-Path ($env:JAVA_HOME + "\bin")))
 $libFilesDir = "./../jvm"
 
 # Check if there are any arguments
-if ($args.Length -gt 0) {
+if ($args.Length -gt 0)
+{
     # Check if "-libLocal" argument is present
-    if ($args -contains "-libPath") {
+    if ($args -contains "-libPath")
+    {
         # Set $libFilesDir to first argument after "-libLocal"
         $libFilesDir = $args[($args.IndexOf("-libPath") + 1)]
-    } else {
+    }
+    else
+    {
         # "-libLocal" argument is not present
         Write-Error "Error: -libPath argument is required when specifying a directory."
         exit 1

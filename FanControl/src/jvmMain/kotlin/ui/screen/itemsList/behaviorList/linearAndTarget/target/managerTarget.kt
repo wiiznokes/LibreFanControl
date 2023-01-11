@@ -23,15 +23,13 @@ private val viewModel: TargetVM = TargetVM()
 @Composable
 fun targetBody(
     behavior: Behavior,
-    index: Int,
-    onEditClick: () -> Unit,
-    onNameChange: (String) -> Unit
+    index: Int
 ) {
     baseItemBody(
         iconPainter = Resources.getIcon("items/my_location40"),
         iconContentDescription = Resources.getString("ct/target"),
-        onNameChange = onNameChange,
-        onEditClick = onEditClick,
+        onNameChange = { viewModel.setName(it, index) },
+        onEditClick = { viewModel.remove(index) },
         item = behavior
     ) {
 
@@ -132,14 +130,12 @@ fun targetBody(
 
 
 @Composable
-fun targetAddItem(
-    onEditClick: () -> Unit,
-) {
+fun targetAddItem() {
     baseItemAddItem(
         iconPainter = Resources.getIcon("items/my_location40"),
         iconContentDescription = Resources.getString("ct/target"),
         name = Resources.getString("add_item/target_name"),
-        onEditClick = onEditClick,
+        onEditClick = { viewModel.addBehavior(viewModel.defaultTarget) },
         type = ItemType.BehaviorType.I_B_TARGET
     ) {
         managerAddItemListChoice(
