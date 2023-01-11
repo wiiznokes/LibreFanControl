@@ -23,7 +23,7 @@ High usage of RAM can be seen for now, but it will be improve in future update I
 
 
 ## Build
-1) compile the library (`dotnet build` doesn't work for some reason, so you'll need an editor (I personally use Rider))
+1) Compile the library (`dotnet build` doesn't work for some reason, so you'll need an editor (I personally use Rider))
 2) `.\gradlew run` in FanControl folder.
 
 
