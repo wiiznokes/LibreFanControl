@@ -64,12 +64,10 @@ class ControlVM(
         if (!mutex.tryLock())
             return
 
-
         if (controlChangeList[index]) {
             mutex.unlock()
             return
         }
-
 
         val previousControl = controlList[index].copy()
         operation()

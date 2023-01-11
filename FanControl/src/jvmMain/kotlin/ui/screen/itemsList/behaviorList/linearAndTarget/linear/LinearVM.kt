@@ -2,15 +2,17 @@ package ui.screen.itemsList.behaviorList.linearAndTarget.linear
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.sync.Mutex
+import model.ItemType
 import model.hardware.Sensor
 import model.item.behavior.Behavior
 import model.item.behavior.Linear
-import model.item.control.Control
 import model.item.sensor.SensorItem
+import ui.screen.itemsList.behaviorList.BaseBehaviorVM
 import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.numberChoiceFinalValue
-import utils.getIndexList
+import ui.utils.Resources
+import utils.Id
+import utils.Name
 
 
 enum class LinearParams : LinAndTarParams {
@@ -22,40 +24,22 @@ enum class LinearParams : LinAndTarParams {
 
 
 class LinearVM(
-    private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
     val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList,
     val tempItemList: SnapshotStateList<SensorItem> = State.tempItemList,
-    val controlList: SnapshotStateList<Control> = State.controlList,
-    val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList,
-    private val mutex: Mutex = State.controlChangeMutex
-) {
+) : BaseBehaviorVM() {
+
+
     fun setTemp(index: Int, tempSensorId: Long?) {
-
-        val behavior = behaviorList[index]
-
-        val controlIndex = controlList.indexOfFirst {
-            it.behaviorId == behavior.id
-        }
-        if (controlIndex == -1) {
-            behaviorList[index] = behaviorList[index].copy(
-                extension = (behaviorList[index].extension as Linear).copy(
-                    tempSensorId = tempSensorId
+        updateSafely(
+            index = index,
+            behaviorOperation = {
+                behaviorList[index] = behaviorList[index].copy(
+                    extension = (behaviorList[index].extension as Linear).copy(
+                        tempSensorId = tempSensorId
+                    )
                 )
-            )
-            return
-        }
-
-        if (!mutex.tryLock())
-            return
-
-        behaviorList[index] = behaviorList[index].copy(
-            extension = (behaviorList[index].extension as Linear).copy(
-                tempSensorId = tempSensorId
-            )
+            }
         )
-
-        controlChangeList[controlIndex] = true
-        mutex.unlock()
     }
 
     fun increase(index: Int, type: LinearParams): String {
@@ -110,4 +94,20 @@ class LinearVM(
         )
         return finalValue.toString()
     }
+
+    val defaultLinear = Behavior(
+        name = Name.getAvailableName(
+            names = behaviorList.map { item ->
+                item.name
+            },
+            prefix = Resources.getString("default/linear_name")
+        ),
+        type = ItemType.BehaviorType.I_B_LINEAR,
+        extension = Linear(),
+        id = Id.getAvailableId(
+            ids = behaviorList.map { item ->
+                item.id
+            }
+        )
+    )
 }

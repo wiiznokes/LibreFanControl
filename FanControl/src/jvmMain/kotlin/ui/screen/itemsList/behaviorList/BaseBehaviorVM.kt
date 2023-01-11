@@ -9,7 +9,7 @@ import model.item.control.Control
 import utils.Name.Companion.checkNameTaken
 import utils.getIndexList
 
-class BodyBehaviorVM(
+open class BaseBehaviorVM(
     val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
     private val controlList: SnapshotStateList<Control> = State.controlList,
     private val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList,
@@ -76,5 +76,10 @@ class BodyBehaviorVM(
         behaviorList[index] = behaviorList[index].copy(
             name = name
         )
+    }
+
+
+    fun addBehavior(behavior: Behavior) {
+        behaviorList.add(behavior)
     }
 }
