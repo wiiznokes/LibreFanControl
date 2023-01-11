@@ -110,7 +110,7 @@ class ProvideSetControlList(
 
     /**
      * use to know if we should reset control at each iteration
-     * @return Pair of (value, Behavior Type)
+     * @return BehaviorInfo
      */
     private fun findValueAndType(control: Control): BehaviorInfo {
         val behaviorIndex = behaviorList.indexOfFirst {

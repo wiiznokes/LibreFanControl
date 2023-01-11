@@ -10,6 +10,7 @@ import model.item.control.Control
 import model.item.sensor.SensorItem
 import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.numberChoiceFinalValue
+import utils.getIndexList
 
 
 enum class LinearParams : LinAndTarParams {
@@ -29,6 +30,7 @@ class LinearVM(
     private val mutex: Mutex = State.controlChangeMutex
 ) {
     fun setTemp(index: Int, tempSensorId: Long?) {
+
         val behavior = behaviorList[index]
 
         val controlIndex = controlList.indexOfFirst {

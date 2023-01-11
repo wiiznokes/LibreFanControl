@@ -35,8 +35,8 @@ fun <T> LazyListScope.filterWithPreviousIndexComposable(
 ) {
     val previousIndexList = mutableListOf<Int>()
 
-    list.filterIndexed { index, control ->
-        if (predicate(control)) {
+    list.filterIndexed { index, t ->
+        if (predicate(t)) {
             previousIndexList.add(index)
             true
         } else false
@@ -45,4 +45,20 @@ fun <T> LazyListScope.filterWithPreviousIndexComposable(
             content(previousIndexList[index], value)
         }
     }
+}
+
+
+fun <T> getIndexList(
+    list: List<T>,
+    predicate: (T) -> Boolean
+): List<Int> {
+
+    val previousIndexList = mutableListOf<Int>()
+    val l =  list.filterIndexed { index, element ->
+        if (predicate(element)) {
+            previousIndexList.add(index)
+            true
+        } else false
+    }
+    return previousIndexList
 }

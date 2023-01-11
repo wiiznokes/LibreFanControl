@@ -3,9 +3,11 @@ package ui.screen.itemsList.behaviorList
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.sync.Mutex
+import logicControl.isControlChange
 import model.item.behavior.Behavior
 import model.item.control.Control
 import utils.Name.Companion.checkNameTaken
+import utils.getIndexList
 
 class BodyBehaviorVM(
     val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
@@ -14,25 +16,52 @@ class BodyBehaviorVM(
     private val mutex: Mutex = State.controlChangeMutex
 ) {
 
-    fun remove(index: Int) {
+    fun updateSafely(
+        index: Int,
+        behaviorOperation: () -> Unit,
+        controlOperation: ((Int) -> Unit)? = null,
+        controlShouldChange: ((Int, Control) -> Boolean)? = null
+    ) {
         val behavior = behaviorList[index]
 
-        val controlIndex = controlList.indexOfFirst {
-            it.behaviorId == behavior.id
-        }
-        if (controlIndex == -1) {
-            behaviorList.removeAt(index)
+        val indexList = getIndexList(
+            list = controlList,
+            predicate = { it.behaviorId == behavior.id }
+        )
+
+        if (indexList.isEmpty()) {
+            behaviorOperation()
             return
         }
 
         if (!mutex.tryLock())
             return
 
-        controlList[controlIndex] = controlList[controlIndex].copy(
-            behaviorId = null
-        )
-        controlChangeList[controlIndex] = true
+        behaviorOperation()
+
+        for (controlIndex in indexList) {
+            val previousControl = controlList[controlIndex]
+            controlOperation?.invoke(controlIndex)
+            val shouldChange = when (controlShouldChange) {
+                null -> true
+                else -> controlShouldChange(controlIndex, previousControl)
+            }
+            if (shouldChange)
+                controlChangeList[controlIndex] = true
+        }
+
         mutex.unlock()
+    }
+
+    fun remove(index: Int) {
+        updateSafely(
+            index = index,
+            behaviorOperation = { behaviorList.removeAt(index) },
+            controlOperation = { controlList[it] = controlList[it].copy(behaviorId = null) },
+            controlShouldChange = { controlIndex, previousControl ->
+                isControlChange(previousControl, controlList[controlIndex])
+            }
+        )
     }
 
 
