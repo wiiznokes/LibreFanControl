@@ -21,8 +21,6 @@ class ExternalWindows : External {
          * copy the lib inside libWindowsJava to JAVA_HOME/bin folder
          */
         val includeFolder = File(System.getProperty("compose.application.resources.dir"))
-        println("include folder is in ${includeFolder.absolutePath}")
-
 
         val processBuilder = ProcessBuilder(
             "powershell.exe", "-File",
