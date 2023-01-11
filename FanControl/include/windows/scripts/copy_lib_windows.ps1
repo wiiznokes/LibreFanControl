@@ -17,17 +17,17 @@ if (!(Test-Path ($env:JAVA_HOME + "\bin")))
 }
 
 # Set default value for $libFilesDir
-$libFilesDir = "./../libWindowsJava"
+$libFilesDir = "./../jvm"
 
 # Check if there are any arguments
 if ($args.Length -gt 0) {
     # Check if "-libLocal" argument is present
-    if ($args -contains "-libLocal") {
+    if ($args -contains "-libPath") {
         # Set $libFilesDir to first argument after "-libLocal"
-        $libFilesDir = $args[($args.IndexOf("-libLocal") + 1)]
+        $libFilesDir = $args[($args.IndexOf("-libPath") + 1)]
     } else {
         # "-libLocal" argument is not present
-        Write-Error "Error: -libLocal argument is required when specifying a directory."
+        Write-Error "Error: -libPath argument is required when specifying a directory."
         exit 1
     }
 }
@@ -61,5 +61,5 @@ foreach ($file in $libFiles)
     }
 }
 
-# Exit with success
+Write-Output "Exit with success"
 exit 0

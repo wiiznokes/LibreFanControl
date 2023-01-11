@@ -18,7 +18,7 @@ if (!(Test-Path ($env:JAVA_HOME + "\bin")))
 }
 
 # Get a list of files in the local lib directory
-$libFiles = Get-ChildItem "./../libWindowsJava"
+$libFiles = Get-ChildItem "./../jvm"
 
 # Get a list of files in the lib directory within JAVA_HOME
 $javaHomeLibFiles = Get-ChildItem ($env:JAVA_HOME + "\bin")

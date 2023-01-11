@@ -12,8 +12,11 @@ interface External {
         controlList: SnapshotStateList<Control>
     ) {
         setFanList(fanList)
+        println("setFanList success")
         setTempList(tempList)
+        println("setTempList success")
         setControlList(controlList)
+        println("setControlList success")
     }
 
     fun stop()
