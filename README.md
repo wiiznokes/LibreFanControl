@@ -2,8 +2,6 @@
 
 <img src="assets/mainPage.png" alt="app image">
 
-This project aims to recreate the existing [FanControl](https://github.com/Rem0o/FanControl.Releases) application with kotlin to target the JVM and make the app cross-platform.
-
 Windows is currently the only supported OS.
 High usage of RAM can be seen for now, but it will be improve in future update I hope
 
