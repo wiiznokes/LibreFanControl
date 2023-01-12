@@ -2,8 +2,8 @@
 
 <img src="assets/mainPage.png" alt="app image">
 
-Windows is currently the only supported OS.
-High usage of RAM can be seen for now, but it will be improve in future update I hope
+Windows is currently the only supported OS. For supporting Linux, we will need to implement an interface used in Kotlin.
+High usage of RAM can be seen for now, but it will be improve in future update I hope.
 
 ------
 
