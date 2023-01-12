@@ -52,9 +52,6 @@ High usage of RAM can be seen for now, but it will be improve in future update I
 ##### Linux
 - [lm-sensor](https://github.com/lm-sensors/lm-sensors)
 
-## Remove app
-On Windows, there is a script you can use to remove libs copied inside the JVM, because they will not be removed automatically.
-
   
 <details>
 <summary>Help to develop</summary>
