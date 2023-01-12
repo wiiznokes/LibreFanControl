@@ -11,5 +11,9 @@ data class SettingsModel(
     var theme: Themes = Themes.system,
     val configList: SnapshotStateList<ConfigurationModel> = mutableStateListOf(),
     var configId: Long? = null,
-    var updateDelay: Int = 2
-)
+    var updateDelay: Int = 2,
+    var firstStart: Boolean = true,
+    var launchAtStartup: Boolean = false,
+    var degree: Boolean = true,
+
+    )

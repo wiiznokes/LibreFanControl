@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import logicControl.Logic
 import logicControl.uiUpdate.UiUpdate
+import settings.Settings
 import settings.SettingsModel
 import utils.initSensor
 
@@ -62,6 +63,10 @@ class Application(
         runBlocking { jobUpdate.cancelAndJoin() }
         logic.finish()
         externalManager.stop()
+
+        if (settings.value.firstStart) {
+            Settings.setSetting("first_start", false)
+        }
     }
 
     private var uiUpdate: UiUpdate? = null

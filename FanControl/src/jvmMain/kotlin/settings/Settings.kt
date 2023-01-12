@@ -85,6 +85,9 @@ class Settings {
                 getConfigList(it.configList)
                 it.updateDelay = getSetting("updateDelay")!!
                 it.theme = Themes from getSetting("theme")!!
+                it.firstStart = getSetting("first_start")!!
+                it.launchAtStartup = getSetting("launch_at_startup")!!
+                it.degree = getSetting("degree")!!
                 it
             }
         }
