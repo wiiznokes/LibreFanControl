@@ -31,6 +31,7 @@ High usage of RAM can be seen for now, but it will be improve in future update I
   - [ ] UI
   - [ ] Update
 - [ ] Use expect/acutal functions of Kotlin instead of the current External interface
+- [ ] Automated publishing process (apply scripts, set output directory)
 - [ ] UI
   - [ ] Implement settings (info, help, °C or F°, launch at start up)
   - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
