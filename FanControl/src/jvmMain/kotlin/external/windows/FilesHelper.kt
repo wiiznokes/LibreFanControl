@@ -2,9 +2,6 @@ package external.windows
 
 import java.io.File
 
-/**
- * @return should call removeDir
- */
 fun copyFiles(srcDir: File, destDir: File) {
     if (!srcDir.exists()) {
         return
