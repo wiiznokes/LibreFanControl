@@ -18,34 +18,16 @@ class ExternalWindows : External {
         controlList: SnapshotStateList<Control>,
         controlChangeList: SnapshotStateList<Boolean>
     ) {
-        /**
-         * copy the lib inside libWindowsJava to JAVA_HOME/bin folder
-         */
         val includeFolder = File(System.getProperty("compose.application.resources.dir"))
 
-        val processBuilder = ProcessBuilder(
-            "powershell.exe", "-File",
-            includeFolder.resolve("scripts/copy_lib_windows.ps1").path,
-            "-libPath", includeFolder.resolve("jvm").path
-        )
-        val process = processBuilder.start()
-        process.waitFor()
-
-
-        process.errorStream.bufferedReader().readLines().let {
-            it.forEach { str -> println(str) }
-        }
-        process.inputStream.bufferedReader().readLines().let {
-            it.forEach { str -> println(str) }
-        }
-
-        if (process.exitValue() != 0) {
-            throw Exception(
-                "Not able to copy the necessary lib to JAVA_HOME folder." +
-                        "Maybe the JAVA_HOME path is not set."
+        if (copyFiles(
+                srcDir = includeFolder.resolve("jvm"),
+                destDir = includeFolder.resolve("../..")
+            )) {
+            removeDir(
+                dir = includeFolder.resolve("jvm")
             )
         }
-
 
         System.load(includeFolder.resolve("app/CppProxy.dll").path)
         externalStart(values)

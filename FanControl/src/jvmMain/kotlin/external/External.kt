@@ -13,11 +13,12 @@ interface External {
         controlChangeList: SnapshotStateList<Boolean>
     ) {
         setFanList(fanList)
-        println("setFanList success")
         setTempList(tempList)
-        println("setTempList success")
         setControlList(controlList)
-        println("setControlList success")
+        /**
+         * initialize controlChangeList with the same size of control
+         * if a configuration is used, all value will be set to true
+         */
         controlList.forEach { _ ->
             controlChangeList.add(false)
         }
