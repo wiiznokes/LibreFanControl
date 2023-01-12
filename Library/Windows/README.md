@@ -2,7 +2,7 @@ Use C# code in the JVM.
 
 The Cpp project will serve as a proxy between C# and Kotlin.
 
-The C# project is used to retrieve data and set controls. His output must be in the bin directory of the JVM. I created a script in FanControl app to do so automatically, so you don't need to change the output directory
+The C# project is used to retrieve data and set controls. His output must be in the same folder of Java.exe (FanControl.exe here)
 
 Both project use CLR.
 

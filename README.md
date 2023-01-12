@@ -17,19 +17,16 @@ High usage of RAM can be seen for now, but it will be improve in future update I
 - Save configuration
 
 
-## Requirements
-- Windows PC
-- JDK with JAVA_HOME Path variable pointing to it ([JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html), [JDK 19](https://jdk.java.net/19/))
-
-
 ## Build
-1) Compile the library (`dotnet build` doesn't work for some reason, so you'll need an editor (I personally use Rider))
-2) `.\gradlew run` in FanControl folder.
+- You will need a JDK ([JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html), [JDK 19](https://jdk.java.net/19/))
+- Compile the library (`dotnet build` doesn't work for some reason, so you'll need an editor (I personally use Rider))
+- `.\gradlew runDistributable` in FanControl folder
+-  `.\gradlew packageReleaseMsi` to build the package (`remove_duplicate_libs.ps1` script may be useful to reduce the final size)
 
 
 ## Next steps
 
-- [ ] Publish (fix this damn StackOverFlowExecption)
+- [x] Publish
 - [ ] Add tests
   - [ ] UI
   - [ ] Update
