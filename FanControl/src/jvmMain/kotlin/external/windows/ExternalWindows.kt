@@ -8,7 +8,9 @@ import model.item.control.Control
 import utils.Id.Companion.getAvailableId
 import java.io.File
 
-class ExternalWindows : External {
+class ExternalWindows(
+    private val firstStart: Boolean = State.settings.value.firstStart
+) : External {
 
 
     private val values: IntArray = IntArray(25) { 0 }
@@ -20,10 +22,11 @@ class ExternalWindows : External {
     ) {
         val includeFolder = File(System.getProperty("compose.application.resources.dir"))
 
-        if (copyFiles(
+        if (firstStart) {
+            copyFiles(
                 srcDir = includeFolder.resolve("jvm"),
                 destDir = includeFolder.resolve("../..")
-            )) {
+            )
             removeDir(
                 dir = includeFolder.resolve("jvm")
             )

@@ -5,16 +5,16 @@ import java.io.File
 /**
  * @return should call removeDir
  */
-fun copyFiles(srcDir: File, destDir: File): Boolean {
+fun copyFiles(srcDir: File, destDir: File) {
     if (!srcDir.exists()) {
-        return false
+        return
     }
 
     srcDir.listFiles()?.forEach { file ->
         val destFile = File(destDir, file.name)
         file.copyTo(destFile, true)
     }
-    return true
+    return
 }
 
 
