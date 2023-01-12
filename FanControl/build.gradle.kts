@@ -48,7 +48,6 @@ compose.desktop {
             targetFormats(TargetFormat.Msi, TargetFormat.AppImage, TargetFormat.Rpm)
             packageName = "FanControl"
             packageVersion = "1.0.0"
-            description = "Control your fan"
             copyright = "© 2023 Wiiznokes. All rights reserved."
             vendor = "Wiiznokes"
             licenseFile.set(project.file("./../LICENSE"))
