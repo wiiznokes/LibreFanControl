@@ -2,8 +2,10 @@
 
 <img src="assets/mainPage.png" alt="app image">
 
-Windows is currently the only supported OS. For supporting Linux, we will need to implement an interface used in Kotlin.
-High usage of RAM can be seen for now, but it will be improve in future update I hope.
+## Notes
+- Windows is currently the only supported OS.
+- To support Linux, we must first implement an interface used in Kotlin. It might be easier than Windows because C++ is the only language required, and it's very easy to use with Kotlin, but [lm-sensor](https://github.com/lm-sensors/lm-sensors) doesn't look like an easy-to-use library.
+- High usage of RAM can be seen for now, but it will be improve in future update I hope.
 
 ------
 
