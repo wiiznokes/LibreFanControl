@@ -7,7 +7,7 @@
 
 ## Notes
 - Windows is currently the only supported OS.
-- To support Linux, we must first implement an interface used in Kotlin. It might be easier than Windows because C++ is the only language required, and it's very easy to use with Kotlin, but [lm-sensor](https://github.com/lm-sensors/lm-sensors) doesn't look like an easy-to-use library.
+- To support Linux, we must first implement an interface used in Kotlin. It might be easier than Windows because C++ is the only language required, and it's very easy to use it with Kotlin, but [lm-sensor](https://github.com/lm-sensors/lm-sensors) doesn't look like an easy-to-use library.
 - High usage of RAM can be seen for now, but it will be improve in future update I hope.
 
 
