@@ -33,7 +33,7 @@
   - [ ] UI
   - [ ] Update
 - [ ] Use expect/acutal functions of Kotlin instead of the current External interface
-- [ ] Automated publishing process (apply scripts, set output directory)
+- [ ] Add workflow to the project (CI/CD, ect...)
 - [ ] UI
   - [ ] Implement settings (info, help, °C or F°, launch at start up)
   - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
