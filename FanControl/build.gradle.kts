@@ -29,13 +29,13 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
 
-                implementation("org.jetbrains.compose.material3:material3-desktop:1.2.1")
+                implementation("org.jetbrains.compose.material3:material3-desktop:${extra["compose.version"] as String}")
                 implementation("org.json:json:20220924")
             }
         }
         val jvmTest by getting {
             dependencies {
-                implementation("junit:junit:4.13.1")
+                implementation(kotlin("test"))
             }
         }
     }
