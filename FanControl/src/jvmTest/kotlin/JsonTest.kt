@@ -18,9 +18,7 @@ class JsonTest {
         writer.key("name")
         writer.value("myName")
         writer.endObject()
-
-
-        println(str)
+        
         return JSONObject(str.toString())
     }
 }
