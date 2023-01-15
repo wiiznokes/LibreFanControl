@@ -14,28 +14,27 @@ data class SensorLists(
     val tempList: SnapshotStateList<Sensor> = mutableStateListOf()
 )
 
-class State {
+object State {
 
-    companion object {
-        val controlList: SnapshotStateList<Control> = mutableStateListOf()
-        val behaviorList: SnapshotStateList<Behavior> = mutableStateListOf()
-        val fanItemList: SnapshotStateList<SensorItem> = mutableStateListOf()
-        val tempItemList: SnapshotStateList<SensorItem> = mutableStateListOf()
+    val controlList: SnapshotStateList<Control> = mutableStateListOf()
+    val behaviorList: SnapshotStateList<Behavior> = mutableStateListOf()
+    val fanItemList: SnapshotStateList<SensorItem> = mutableStateListOf()
+    val tempItemList: SnapshotStateList<SensorItem> = mutableStateListOf()
 
-        val sensorLists: SensorLists = SensorLists()
+    val sensorLists: SensorLists = SensorLists()
 
-        val addItemExpanded: MutableStateFlow<Boolean> = MutableStateFlow(false)
-        val editModeActivated: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val addItemExpanded: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val editModeActivated: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-        /**
-         * used to know if controls has change recently, so logic class will recalculate
-         * each controls, to know if we need to calculate each updateDelay
-         */
-        val controlChangeList: SnapshotStateList<Boolean> = mutableStateListOf()
-        val controlChangeMutex = Mutex()
+    /**
+     * used to know if controls has change recently, so logic class will recalculate
+     * each controls, to know if we need to calculate each updateDelay
+     */
+    val controlChangeList: SnapshotStateList<Boolean> = mutableStateListOf()
+    val controlChangeMutex = Mutex()
 
-        val settings: MutableStateFlow<SettingsModel> = MutableStateFlow(SettingsModel())
-    }
+    val settings: MutableStateFlow<SettingsModel> = MutableStateFlow(SettingsModel())
+
 }
 
 
