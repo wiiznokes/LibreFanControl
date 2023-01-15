@@ -1,11 +1,11 @@
 package configuration
 
 
-import State.Companion.behaviorList
-import State.Companion.controlList
-import State.Companion.fanItemList
-import State.Companion.sensorLists
-import State.Companion.tempItemList
+import State.behaviorList
+import State.controlList
+import State.fanItemList
+import State.sensorLists
+import State.tempItemList
 import configuration.read.ReadHardware
 import configuration.read.ReadItem
 import configuration.write.WriteHardware
