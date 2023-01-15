@@ -95,7 +95,7 @@ class LinearVM(
         return finalValue.toString()
     }
 
-    val defaultLinear = Behavior(
+    fun defaultLinear() = Behavior(
         name = Name.getAvailableName(
             names = behaviorList.map { item ->
                 item.name

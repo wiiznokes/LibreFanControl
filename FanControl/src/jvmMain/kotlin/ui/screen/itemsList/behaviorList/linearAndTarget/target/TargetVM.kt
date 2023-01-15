@@ -96,7 +96,7 @@ class TargetVM(
     }
 
 
-    val defaultTarget = Behavior(
+    fun defaultTarget() = Behavior(
         name = Name.getAvailableName(
             names = behaviorList.map { item ->
                 item.name

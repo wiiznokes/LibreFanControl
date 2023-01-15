@@ -49,7 +49,7 @@ class FlatVM : BaseBehaviorVM() {
     }
 
 
-    val defaultFlat = Behavior(
+    fun defaultFlat() = Behavior(
         name = Name.getAvailableName(
             names = behaviorList.map { item ->
                 item.name
