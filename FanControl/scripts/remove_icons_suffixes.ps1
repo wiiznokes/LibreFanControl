@@ -1,5 +1,10 @@
-# Change the current location to "./../FanControl/src/jvmMain/resources/drawable"
-Set-Location "./../FanControl/src/jvmMain/resources/drawable"
+<#
+    remove all suffix of the drawable directory
+#>
+
+
+$drawablePath = $PSScriptRoot + "/../src/jvmMain/resources/drawable"
+Set-Location $drawablePath
 
 # Get a list of files
 $files = Get-ChildItem -Recurse

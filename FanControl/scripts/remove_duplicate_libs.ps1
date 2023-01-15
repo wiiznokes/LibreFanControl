@@ -38,8 +38,8 @@ if ($args.Count -gt 0)
     }
 }
 else {
-    $srcDir = "./../include/windows/jvm"
-    $rmDir  = "./../include/windows/app"
+    $srcDir = $PSScriptRoot + "/../include/windows/jvm"
+    $rmDir  = $PSScriptRoot + "/../include/windows/app"
 }
 
 $srcFiles = Get-ChildItem $srcDir
