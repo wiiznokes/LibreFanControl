@@ -14,5 +14,7 @@ class ExitAppVM(
     ) {
         Settings.setSetting("exit_on_close_set", exitOnCloseSet)
         Settings.setSetting("exit_on_close", exitOnClose)
+        settings.value.exitOnCloseSet = exitOnCloseSet
+        settings.value.exitOnClose = exitOnClose
     }
 }

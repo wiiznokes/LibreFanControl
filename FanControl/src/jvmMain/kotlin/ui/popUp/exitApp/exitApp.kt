@@ -69,6 +69,9 @@ fun exitApp(
                     },
                     enabled = true,
                     colors = CheckboxDefaults.colors(
+                        checkedColor = MaterialTheme.colorScheme.primary,
+                        checkmarkColor = MaterialTheme.colorScheme.onPrimary,
+                        uncheckedColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
                     )
                 )
             }

@@ -138,12 +138,17 @@ private fun dialog(
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 managerButton(
+                    modifier = Modifier
+                        .width(100.dp),
                     onClick = {
                         enabled.value = false
                     },
+                    icon = Resources.getIcon("select/close/close24"),
                     text = Resources.getString("common/cancel")
                 )
                 managerButton(
+                    modifier = Modifier
+                        .width(100.dp),
                     onClick = {
                         if (viewModel.addConfiguration(
                                 name = text.value,
@@ -153,6 +158,7 @@ private fun dialog(
                             enabled.value = false
                         }
                     },
+                    icon = Resources.getIcon("select/check24"),
                     text = Resources.getString("common/add")
                 )
             }
