@@ -135,7 +135,7 @@ fun targetAddItem() {
         iconPainter = Resources.getIcon("items/my_location40"),
         iconContentDescription = Resources.getString("ct/target"),
         name = Resources.getString("add_item/target_name"),
-        onEditClick = { viewModel.addBehavior(viewModel.defaultTarget) },
+        onEditClick = { viewModel.addBehavior(viewModel.defaultTarget()) },
         type = ItemType.BehaviorType.I_B_TARGET
     ) {
         managerAddItemListChoice(

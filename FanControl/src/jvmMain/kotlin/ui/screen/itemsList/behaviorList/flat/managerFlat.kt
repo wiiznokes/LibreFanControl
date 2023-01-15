@@ -44,7 +44,7 @@ fun flatAddItem() {
         iconPainter = Resources.getIcon("items/horizontal_rule40"),
         iconContentDescription = Resources.getString("ct/flat"),
         name = Resources.getString("add_item/flat_name"),
-        onEditClick = { viewModel.addBehavior(viewModel.defaultFlat) },
+        onEditClick = { viewModel.addBehavior(viewModel.defaultFlat()) },
         type = ItemType.BehaviorType.I_B_FLAT
     ) {
         baseFlat(

@@ -24,6 +24,7 @@ class LinearTest {
     )
 
     private val linearLogic = LinearLogic()
+
     @Test
     fun `valueLinear returns null when Linear has no temp sensor ID`() {
         assert(linearLogic.getValue(baseLinear.copy(tempSensorId = null)) == null)
@@ -49,10 +50,8 @@ class LinearTest {
     }
 
 
-
-
     private val tempList = State.sensorLists.tempList
-    private fun addAndRemove (temp: Sensor) {
+    private fun addAndRemove(temp: Sensor) {
         if (tempList.size > 0) {
             tempList.removeAt(0)
         }

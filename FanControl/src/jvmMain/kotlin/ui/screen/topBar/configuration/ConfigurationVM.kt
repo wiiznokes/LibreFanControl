@@ -15,7 +15,7 @@ import utils.NameException
 class ConfigurationVM(
     val settings: MutableStateFlow<SettingsModel> = State.settings,
     val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList,
-    val mutex: Mutex = State.controlChangeMutex
+    private val mutex: Mutex = State.controlChangeMutex
 ) {
 
     // save conf is only visible when idConfig != null

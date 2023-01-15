@@ -1,10 +1,12 @@
 {
   "language": "en",
-  "configId": null,
-  "configList": {},
-  "updateDelay": 2,
+  "config_id": null,
+  "config_list": {},
+  "update_delay": 2,
   "theme": "system",
   "first_start": true,
   "launch_at_startup": false,
-  "degree": true
+  "degree": true,
+  "exit_on_close_set": false,
+  "exit_on_close": true
 }

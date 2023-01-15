@@ -27,7 +27,7 @@ fun managerNameOutlinedTextField(
     modifier: Modifier = Modifier
         .widthIn(min = 90.dp, max = 180.dp)
         .width(IntrinsicSize.Min)
-        .height(50.dp),
+        .height(35.dp),
     label: String? = null,
     color: Color = MaterialTheme.colorScheme.primary,
     onColor: Color = MaterialTheme.colorScheme.onPrimary,

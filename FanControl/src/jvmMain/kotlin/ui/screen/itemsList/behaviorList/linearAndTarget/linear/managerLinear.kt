@@ -136,7 +136,7 @@ fun linearAddItem() {
         iconPainter = Resources.getIcon("items/linear40"),
         iconContentDescription = Resources.getString("ct/linear"),
         name = Resources.getString("add_item/linear_name"),
-        onEditClick = { viewModel.addBehavior(viewModel.defaultLinear) },
+        onEditClick = { viewModel.addBehavior(viewModel.defaultLinear()) },
         type = ItemType.BehaviorType.I_B_LINEAR
     ) {
         managerAddItemListChoice(

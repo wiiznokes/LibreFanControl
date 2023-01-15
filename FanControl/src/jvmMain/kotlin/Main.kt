@@ -1,70 +1,94 @@
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.Tray
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import kotlinx.coroutines.flow.asStateFlow
 import settings.Settings
+import ui.popUp.exitApp.exitApp
 import ui.screen.home
 import ui.theme.fanControlTheme
 import ui.utils.Resources
 
 
 fun main() {
-    Settings()
+    MainApp()
+}
 
-    val application = Application().apply {
-        onStart()
-    }
+class MainApp {
+    private val application: Application
 
-    application(
-        exitProcessOnExit = false
-    ) {
+    private val appIsVisible = mutableStateOf(true)
 
-        val visible = remember { mutableStateOf(true) }
+    init {
+        Settings()
+        application = Application().apply {
+            onStart()
+        }
 
-        Window(
-            visible = visible.value,
-            title = Resources.getString("title/app_name"),
-            icon = Resources.getIcon("app/toys_fan48"),
-            onCloseRequest = {
-                visible.value = false
-                application.onClose()
-            }
-
+        application(
+            exitProcessOnExit = false
         ) {
-            fanControlTheme(
-                State.settings.collectAsState().value.theme
-            ) {
-                home()
-            }
-
-
-            Tray(
+            val settings = State.settings.asStateFlow().value
+            val closeHasBeenClick = remember { mutableStateOf(false) }
+            Window(
+                visible = appIsVisible.value,
+                title = Resources.getString("title/app_name"),
                 icon = Resources.getIcon("app/toys_fan48"),
-                tooltip = Resources.getString("title/app_name"),
-                onAction = {
-                    visible.value = true
-                    application.onOpen()
-                },
-                menu = {
-                    Item(
-                        text = Resources.getString("common/open"),
-                        onClick = {
-                            visible.value = true
-                            application.onOpen()
-                        }
-                    )
-                    Separator()
-                    Item(
-                        text = Resources.getString("common/exit"),
-                        onClick = {
-                            application.onStop()
-                            (::exitApplication)()
-                        }
-                    )
+                onCloseRequest = {
+                    if (!settings.exitOnCloseSet) closeHasBeenClick.value = true
+                    else if (settings.exitOnClose) exit() else close()
                 }
-            )
+            ) {
+                fanControlTheme(
+                    State.settings.collectAsState().value.theme
+                ) {
+                    home()
+                    exitApp(
+                        closeHasBeenClick = closeHasBeenClick
+                    ) {
+                        if (it) exit() else close()
+                    }
+                }
+
+
+                Tray(
+                    icon = Resources.getIcon("app/toys_fan48"),
+                    tooltip = Resources.getString("title/app_name"),
+                    onAction = { open() },
+                    menu = {
+                        Item(
+                            text = Resources.getString("common/open"),
+                            onClick = { open() }
+                        )
+                        Separator()
+                        Item(
+                            text = Resources.getString("common/exit"),
+                            onClick = {
+                                exit()
+                            }
+                        )
+                    }
+                )
+            }
         }
     }
+
+    private fun open() {
+        appIsVisible.value = true
+        application.onOpen()
+    }
+
+    private fun ApplicationScope.exit() {
+        application.onStop()
+        exitApplication()
+    }
+
+    private fun close() {
+        appIsVisible.value = false
+        application.onClose()
+    }
 }
+

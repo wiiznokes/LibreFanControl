@@ -65,7 +65,7 @@ class Settings {
          * remove config from configList
          */
         fun removeConfig(id: Long) {
-            val path = "configList/$id"
+            val path = "config_list/$id"
             updateVariable(
                 setJsonValue(
                     path = path,
@@ -81,19 +81,21 @@ class Settings {
         ) {
             settings.update {
                 it.language = Languages from getSetting("language")!!
-                it.configId = getSetting("configId")
+                it.configId = getSetting("config_id")
                 getConfigList(it.configList)
-                it.updateDelay = getSetting("updateDelay")!!
+                it.updateDelay = getSetting("update_delay")!!
                 it.theme = Themes from getSetting("theme")!!
                 it.firstStart = getSetting("first_start")!!
                 it.launchAtStartup = getSetting("launch_at_startup")!!
                 it.degree = getSetting("degree")!!
+                it.exitOnCloseSet = getSetting("exit_on_close_set")!!
+                it.exitOnClose = getSetting("exit_on_close")!!
                 it
             }
         }
 
         private fun getConfigList(configList: SnapshotStateList<ConfigurationModel>) {
-            val jsonList = rootObj.getJSONObject("configList")
+            val jsonList = rootObj.getJSONObject("config_list")
 
             for (key in jsonList.keys()) {
                 configList.add(

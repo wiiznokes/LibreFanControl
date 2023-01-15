@@ -1,5 +1,6 @@
 package external.windows
 
+import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import external.External
 import model.HardwareType

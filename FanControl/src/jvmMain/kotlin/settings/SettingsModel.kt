@@ -8,12 +8,13 @@ import ui.screen.drawer.secondView.Themes
 
 data class SettingsModel(
     var language: Languages = Languages.en,
-    var theme: Themes = Themes.system,
     val configList: SnapshotStateList<ConfigurationModel> = mutableStateListOf(),
     var configId: Long? = null,
     var updateDelay: Int = 2,
+    var theme: Themes = Themes.system,
     var firstStart: Boolean = true,
     var launchAtStartup: Boolean = false,
     var degree: Boolean = true,
-
-    )
+    var exitOnCloseSet: Boolean = false,
+    var exitOnClose: Boolean = true
+)

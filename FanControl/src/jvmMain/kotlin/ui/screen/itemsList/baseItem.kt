@@ -62,9 +62,8 @@ fun baseItemBody(
                 onValueChange = { onNameChange(it) },
                 label = Resources.getString("label/name"),
             )
-        },
-
-        ) {
+        }
+    ) {
         content()
     }
 }
@@ -180,7 +179,7 @@ private fun baseItem(
                 }
                 Spacer(
                     modifier = Modifier
-                        .height(10.dp)
+                        .height(5.dp)
                 )
                 modifier = when (source) {
                     Source.ADD -> Modifier
