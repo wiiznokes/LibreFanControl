@@ -1,4 +1,4 @@
-import logicControl.valueLinear
+import logicControl.behavior.LinearLogic
 import model.HardwareType
 import model.hardware.Sensor
 import model.item.behavior.Linear
@@ -11,39 +11,51 @@ class LinearTest {
         libId = "",
         libName = "",
         type = HardwareType.SensorType.H_S_TEMP,
-        id = 0,
+        id = 1,
         value = 40
     )
-    private val baseTempList = listOf(baseTemp)
 
     private val baseLinear = Linear(
-        tempSensorId = 0,
+        tempSensorId = 1,
         minTemp = 20,
         maxTemp = 80,
         minFanSpeed = 40,
         maxFanSpeed = 60
     )
 
+    private val linearLogic = LinearLogic()
     @Test
     fun `valueLinear returns null when Linear has no temp sensor ID`() {
-        assert(valueLinear(baseLinear.copy(tempSensorId = null), baseTempList) == null)
+        assert(linearLogic.getValue(baseLinear.copy(tempSensorId = null)) == null)
     }
 
     @Test
     fun `valueLinear returns min fan speed when temp is below min temp`() {
-        val tempList = listOf(baseTemp.copy(value = 10))
-        assert(40 == valueLinear(baseLinear, tempList))
+        addAndRemove(baseTemp.copy(value = 10))
+        assert(40 == linearLogic.getValue(baseLinear))
     }
 
     @Test
     fun `valueLinear returns max fan speed when temp is above max temp`() {
-        val tempList = listOf(baseTemp.copy(value = 90))
-        assert(60 == valueLinear(baseLinear, tempList))
+        addAndRemove(baseTemp.copy(value = 90))
+        assert(60 == linearLogic.getValue(baseLinear))
     }
 
     @Test
     fun `valueLinear returns correct fan speed when temp is within min and max temp range`() {
-        val a = valueLinear(baseLinear, baseTempList)
+        addAndRemove(baseTemp)
+        val a = linearLogic.getValue(baseLinear)
         assert(47 == a)
+    }
+
+
+
+
+    private val tempList = State.sensorLists.tempList
+    private fun addAndRemove (temp: Sensor) {
+        if (tempList.size > 0) {
+            tempList.removeAt(0)
+        }
+        tempList.add(0, temp)
     }
 }
