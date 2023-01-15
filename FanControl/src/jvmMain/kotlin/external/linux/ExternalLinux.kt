@@ -10,7 +10,7 @@ import utils.Name.Companion.getAvailableName
 import kotlin.random.Random
 
 class ExternalLinux : External {
-    override fun stop() { }
+    override fun stop() {}
 
 
     override fun setFanList(fanList: SnapshotStateList<Sensor>) {
@@ -106,8 +106,7 @@ class ExternalLinux : External {
                 controlList[index] = controlList[index].copy(
                     value = 0
                 )
-            }
-            else {
+            } else {
                 controlList[index] = controlList[index].copy(
                     value = it.value ?: 0
                 )
@@ -121,6 +120,7 @@ class ExternalLinux : External {
         val isAuto: Boolean,
         val value: Int?
     )
+
     private val setList = mutableListOf<UpdateControl>()
 
     override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {

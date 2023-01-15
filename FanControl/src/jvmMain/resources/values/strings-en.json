@@ -111,5 +111,11 @@
     "none": "None",
     "open": "Open",
     "exit": "Exit"
+  },
+  "exit": {
+    "title": "Exit setting",
+    "remember_choice": "Remember choice",
+    "exit": "Exit app",
+    "background": "Keep in background"
   }
 }

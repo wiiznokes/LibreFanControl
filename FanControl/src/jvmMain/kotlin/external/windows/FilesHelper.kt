@@ -18,10 +18,9 @@ fun copyFiles(srcDir: File, destDir: File) {
 fun removeDir(dir: File) {
     if (dir.exists() && dir.isDirectory) {
         dir.listFiles()?.forEach {
-            if (it.isDirectory){
+            if (it.isDirectory) {
                 removeDir(File(it.path))
-            }
-            else {
+            } else {
                 it.delete()
             }
         }

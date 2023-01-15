@@ -2,8 +2,6 @@ package ui.screen.topBar.configuration
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -18,8 +16,8 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.delay
+import ui.component.managerButton
 import ui.component.managerNameOutlinedTextField
-import ui.component.managerText
 import ui.utils.Resources
 import utils.Id.Companion.getAvailableId
 import utils.Name.Companion.checkNameTaken
@@ -159,24 +157,5 @@ private fun dialog(
                 )
             }
         }
-    }
-}
-
-
-@Composable
-private fun managerButton(
-    onClick: () -> Unit,
-    text: String
-) {
-    Button(
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colorScheme.tertiary
-        )
-    ) {
-        managerText(
-            text = text,
-            color = MaterialTheme.colorScheme.onTertiary
-        )
     }
 }

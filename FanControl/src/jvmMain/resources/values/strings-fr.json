@@ -111,5 +111,11 @@
     "none": "Aucun",
     "open": "Ouvrir",
     "exit": "Fermer"
+  },
+  "exit": {
+    "title": "Quitter Paramètre",
+    "remember_choice": "Sauvegarder le choix",
+    "exit": "Quitter l'application",
+    "background": "Garder en arrière-plan"
   }
 }
