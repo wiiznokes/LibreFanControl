@@ -12,6 +12,7 @@ repositories {
     google()
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    maven("https://jitpack.io")
 }
 
 kotlin {
@@ -31,6 +32,7 @@ kotlin {
 
                 implementation("org.jetbrains.compose.material3:material3-desktop:${extra["compose.version"] as String}")
                 implementation("org.json:json:20220924")
+                implementation("com.github.wiiznokes:setting-sliding-windows:1.0.3")
             }
         }
         val jvmTest by getting {
