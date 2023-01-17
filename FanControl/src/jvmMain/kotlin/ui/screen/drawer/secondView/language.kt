@@ -2,15 +2,14 @@ package ui.screen.drawer.secondView
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
-import ui.screen.drawer.SettingType
 import ui.utils.Resources
 
 
@@ -30,20 +29,17 @@ enum class Languages {
 
 @Composable
 fun settingLanguage(
-    settingState: MutableState<SettingType>,
     onLanguageChange: (Languages) -> Unit
 ) {
-    baseSecondView(
-        title = Resources.getString("settings/language"),
-        settingState = settingState
-    ) {
-        item {
-            Divider(
-                modifier = Modifier.fillMaxWidth(),
-                color = MaterialTheme.colorScheme.inverseOnSurface,
-                thickness = 2.dp
-            )
-        }
+
+
+    Divider(
+        modifier = Modifier.fillMaxWidth(),
+        color = MaterialTheme.colorScheme.inverseOnSurface,
+        thickness = 2.dp
+    )
+
+    LazyColumn {
         items(Languages.values()) {
             Column {
                 Row(
@@ -66,6 +62,7 @@ fun settingLanguage(
                 )
             }
         }
+
         item {
             Spacer(Modifier.height(80.dp))
         }

@@ -2,15 +2,14 @@ package ui.screen.drawer.secondView
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
-import ui.screen.drawer.SettingType
 import ui.utils.Resources
 
 
@@ -32,44 +31,43 @@ enum class Themes {
 
 @Composable
 fun settingTheme(
-    settingState: MutableState<SettingType>,
     onThemeChange: (Themes) -> Unit
 ) {
-    baseSecondView(
-        title = Resources.getString("settings/theme"),
-        settingState = settingState
-    ) {
-        item {
+
+
+    Divider(
+        modifier = Modifier.fillMaxWidth(),
+        color = MaterialTheme.colorScheme.inverseOnSurface,
+        thickness = 2.dp
+    )
+    LazyColumn {
+        items(Themes.values()) {
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        onThemeChange(it)
+                    }
+            ) {
+                managerText(
+                    text = Resources.getString("theme/$it"),
+                    color = MaterialTheme.colorScheme.inverseOnSurface,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
             Divider(
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colorScheme.inverseOnSurface,
                 thickness = 2.dp
             )
+
         }
-        items(Themes.values()) {
-            Column {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            onThemeChange(it)
-                        }
-                ) {
-                    managerText(
-                        text = Resources.getString("theme/$it"),
-                        color = MaterialTheme.colorScheme.inverseOnSurface,
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
-                Divider(
-                    modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.inverseOnSurface,
-                    thickness = 2.dp
-                )
-            }
-        }
+
+
         item {
             Spacer(Modifier.height(80.dp))
         }
     }
+
 }

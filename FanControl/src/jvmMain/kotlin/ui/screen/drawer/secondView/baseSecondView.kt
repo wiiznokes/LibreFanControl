@@ -8,18 +8,15 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
-import ui.screen.drawer.SettingType
 import ui.utils.Resources
 
 @Composable
 fun baseSecondView(
     title: String,
-    settingState: MutableState<SettingType>,
     content: LazyListScope.() -> Unit
 ) {
     Column(
@@ -29,7 +26,7 @@ fun baseSecondView(
             modifier = Modifier.fillMaxWidth().padding(16.dp)
         ) {
             IconButton(
-                onClick = { settingState.value = SettingType.FIRST_VIEW }
+                onClick = { }
             ) {
                 Icon(
                     modifier = Modifier.align(Alignment.CenterStart),
