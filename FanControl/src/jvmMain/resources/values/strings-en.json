@@ -76,7 +76,7 @@
     "load_fan_speed": "load speed :"
   },
   "settings": {
-    "update_delay": "Update delay",
+    "update_delay": "Update delay : ",
     "language": "Language",
     "theme": "Theme",
     "donate": "Support the project",

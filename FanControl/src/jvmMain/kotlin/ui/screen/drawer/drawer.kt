@@ -41,18 +41,10 @@ fun drawer(
                 scope = scope
             )
         }
-
-        item(
-            title = Resources.getString("settings/update_delay"),
-            subTitle = settings.updateDelay.toString(),
-            icon = { managerIcon("settings/history40") }
-        ) {
-            Header(null, null)
-            settingTimeUpdate(
-                onDelayChange = { viewModel.onUpdateDelay(it) },
-                updateDelay = settings.updateDelay
-            )
-        }
+        updateDelay(
+            onDelayChange = { viewModel.onUpdateDelay(it) },
+            updateDelay = settings.updateDelay
+        )
 
         item(
             title = Resources.getString("settings/language"),

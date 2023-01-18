@@ -76,7 +76,7 @@
     "load_fan_speed": "vitesse trigger :"
   },
   "settings": {
-    "update_delay": "délai mise a jour",
+    "update_delay": "délai maj : ",
     "language": "Langue",
     "theme": "Thème",
     "donate": "Supporter le projet",
