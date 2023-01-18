@@ -38,4 +38,24 @@ class DrawerVM(
         }
         Settings.setSetting("theme", theme)
     }
+
+    fun onExitOnCloseChange(exitOnClose: Boolean) {
+        settings.update {
+            it.copy(
+                exitOnClose = exitOnClose,
+                exitOnCloseSet = true
+            )
+        }
+        Settings.setSetting("exit_on_close_set", true)
+        Settings.setSetting("exit_on_close", exitOnClose)
+    }
+
+    fun onLaunchAtStartUpChange(launchAtStartUp: Boolean) {
+        settings.update {
+            it.copy(
+                launchAtStartUp = launchAtStartUp
+            )
+        }
+        Settings.setSetting("launch_at_startup", launchAtStartUp)
+    }
 }

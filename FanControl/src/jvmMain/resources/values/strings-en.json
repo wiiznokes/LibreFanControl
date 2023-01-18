@@ -79,6 +79,8 @@
     "update_delay": "Update delay : ",
     "language": "Language",
     "theme": "Theme",
+    "exit_on_close": "Quit when closing",
+    "launch_at_startup": "Launch at startup",
     "donate": "Support the project",
     "info": "Info",
     "info_sub_title": "Dive into app working",

@@ -13,7 +13,7 @@ data class SettingsModel(
     var updateDelay: Int = 2,
     var theme: Themes = Themes.system,
     var firstStart: Boolean = true,
-    var launchAtStartup: Boolean = false,
+    var launchAtStartUp: Boolean = false,
     var degree: Boolean = true,
     var exitOnCloseSet: Boolean = false,
     var exitOnClose: Boolean = true
