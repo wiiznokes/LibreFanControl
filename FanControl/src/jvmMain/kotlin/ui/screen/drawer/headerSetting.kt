@@ -40,11 +40,5 @@ fun headerSetting(
                 )
             }
         }
-
-        Divider(
-            modifier = Modifier.fillMaxWidth(),
-            color = MaterialTheme.colorScheme.inverseOnSurface,
-            thickness = 2.dp
-        )
     }
 }
