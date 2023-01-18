@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.settingSlidingWindows.SettingScope
@@ -29,7 +28,6 @@ enum class Themes {
         infix fun from(value: String): Themes = Themes.values().first { it.name == value }
     }
 }
-
 
 
 fun SettingScope.theme(

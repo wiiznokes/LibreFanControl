@@ -5,16 +5,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.graphics.Color
 import com.example.settingSlidingWindows.Setting
-import com.example.settingSlidingWindows.SettingColors
 import com.example.settingSlidingWindows.SettingDefaults
 import com.example.settingSlidingWindows.rememberSettingState
 import kotlinx.coroutines.CoroutineScope
 import ui.screen.drawer.firstView.headerSetting
 import ui.screen.drawer.secondView.*
 import ui.utils.Resources
-import ui.utils.Resources.Companion.getIcon
 
 private val viewModel = DrawerVM()
 
@@ -45,69 +42,20 @@ fun drawer(
             onDelayChange = { viewModel.onUpdateDelay(it) },
             updateDelay = settings.updateDelay
         )
-
-        item(
-            title = Resources.getString("settings/language"),
-            subTitle = Resources.getString("language/${settings.language}"),
-            icon = { managerIcon("settings/translate40") }
-        ) {
-            Header(null, null)
-            settingLanguage(onLanguageChange = { viewModel.onLanguageChange(it) })
-        }
-
+        language(
+            language = settings.language,
+            onLanguageChange = { viewModel.onLanguageChange(it) }
+        )
         theme(
             theme = settings.theme,
             onThemeChange = { viewModel.onThemeChange(it) }
         )
 
         group(text = Resources.getString("settings/trans/donate"))
-
-        item(
-            settingColors = SettingColors(
-                container = Color.Yellow,
-                onContainer = Color.Black
-            ),
-            title = Resources.getString("settings/donate"),
-            icon = { managerIcon("settings/attach_money40", Color.Black) }
-        ) {
-            Header(null, null)
-            settingDonate()
-        }
+        donate()
 
         group(text = Resources.getString("settings/trans/other"))
-
-        item(
-            title = Resources.getString("settings/info"),
-            subTitle = Resources.getString("settings/info_sub_title"),
-            icon = { managerIcon("settings/info40") }
-        ) {
-            Header(null, null)
-            settingInfo()
-        }
-
-        item(
-            title = Resources.getString("settings/help"),
-            subTitle = Resources.getString("settings/help_sub_title"),
-            icon = { managerIcon("settings/help40") }
-        ) {
-            Header(null, null)
-            settingHelp()
-        }
-
-
+        info()
+        help()
     }
-}
-
-
-@Composable
-private fun managerIcon(
-    iconPath: String,
-    color: Color = MaterialTheme.colorScheme.inverseOnSurface,
-    contentDescription: String? = null
-) {
-    Icon(
-        painter = getIcon(iconPath),
-        tint = color,
-        contentDescription = contentDescription
-    )
 }
