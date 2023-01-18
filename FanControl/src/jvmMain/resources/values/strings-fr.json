@@ -87,6 +87,7 @@
     "help": "Aide",
     "help_sub_title": "Trouver de l'aide",
     "transition": {
+      "lifecycle": "Cycle de vie",
       "donate": "Donation",
       "other": "Autres"
     }

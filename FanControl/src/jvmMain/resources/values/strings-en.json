@@ -87,6 +87,7 @@
     "help": "Help",
     "help_sub_title": "Get help here",
     "transition": {
+      "lifecycle": "Lifecycle",
       "donate": "Donation",
       "other": "Others"
     }

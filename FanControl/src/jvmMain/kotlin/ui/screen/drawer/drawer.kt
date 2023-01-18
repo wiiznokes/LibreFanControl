@@ -51,6 +51,8 @@ fun drawer(
             onThemeChange = { viewModel.onThemeChange(it) }
         )
 
+        group(text = Resources.getString("settings/trans/lifecycle"))
+
         exitOnClose(
             exitOnClose = settings.exitOnClose,
             onExitChange = { viewModel.onExitOnCloseChange(it) }
