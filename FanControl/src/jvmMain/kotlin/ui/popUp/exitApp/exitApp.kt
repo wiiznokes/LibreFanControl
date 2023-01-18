@@ -8,8 +8,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogState
+import androidx.compose.ui.window.WindowPosition
 import ui.component.managerButton
 import ui.component.managerText
 import ui.utils.Resources
@@ -31,7 +34,11 @@ fun exitApp(
     val enabled = mutableStateOf(closeHasBeenClick.value && !settings.exitOnCloseSet)
 
 
+
     Dialog(
+        state = DialogState(
+            position = WindowPosition(Alignment.Center),
+            size = DpSize(width = 600.dp, height = 300.dp)),
         visible = enabled.value,
         resizable = false,
         onCloseRequest = {
