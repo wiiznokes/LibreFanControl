@@ -1,16 +1,16 @@
-package ui.screen.drawer.secondView
+package ui.screen.drawer.settings
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.settingSlidingWindows.SettingScope
 import ui.component.managerText
-import ui.screen.drawer.SettingType
 import ui.utils.Resources
 
 
@@ -30,30 +30,34 @@ enum class Themes {
 }
 
 
-@Composable
-fun settingTheme(
-    settingState: MutableState<SettingType>,
+fun SettingScope.theme(
+    theme: Themes,
     onThemeChange: (Themes) -> Unit
 ) {
-    baseSecondView(
+    item(
         title = Resources.getString("settings/theme"),
-        settingState = settingState
-    ) {
-        item {
-            Divider(
-                modifier = Modifier.fillMaxWidth(),
-                color = MaterialTheme.colorScheme.inverseOnSurface,
-                thickness = 2.dp
+        subTitle = Resources.getString("theme/${theme}"),
+        icon = {
+            Icon(
+                painter = Resources.getIcon("settings/dark_mode40"),
+                tint = MaterialTheme.colorScheme.inverseOnSurface,
+                contentDescription = null
             )
         }
-        items(Themes.values()) {
-            Column {
+    ) {
+        Header(null, null)
+
+        Divider(
+            modifier = Modifier.fillMaxWidth(),
+            color = MaterialTheme.colorScheme.inverseOnSurface,
+            thickness = 2.dp
+        )
+        LazyColumn {
+            items(Themes.values()) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            onThemeChange(it)
-                        }
+                        .clickable { onThemeChange(it) }
                 ) {
                     managerText(
                         text = Resources.getString("theme/$it"),
@@ -67,9 +71,10 @@ fun settingTheme(
                     thickness = 2.dp
                 )
             }
-        }
-        item {
-            Spacer(Modifier.height(80.dp))
+
+            item {
+                Spacer(Modifier.height(80.dp))
+            }
         }
     }
 }

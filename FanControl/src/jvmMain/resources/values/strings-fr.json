@@ -76,15 +76,18 @@
     "load_fan_speed": "vitesse trigger :"
   },
   "settings": {
-    "update_delay": "délai mise a jour",
+    "update_delay": "délai maj : ",
     "language": "Langue",
     "theme": "Thème",
+    "exit_on_close": "Quitter à la fermeture",
+    "launch_at_startup": "Lancer au démarrage",
     "donate": "Supporter le projet",
     "info": "Information",
     "info_sub_title": "Plonger dans le fonctionnement",
     "help": "Aide",
     "help_sub_title": "Trouver de l'aide",
     "transition": {
+      "lifecycle": "Cycle de vie",
       "donate": "Donation",
       "other": "Autres"
     }

@@ -3,8 +3,8 @@ package settings
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import configuration.ConfigurationModel
-import ui.screen.drawer.secondView.Languages
-import ui.screen.drawer.secondView.Themes
+import ui.screen.drawer.settings.Languages
+import ui.screen.drawer.settings.Themes
 
 data class SettingsModel(
     var language: Languages = Languages.en,
@@ -13,7 +13,7 @@ data class SettingsModel(
     var updateDelay: Int = 2,
     var theme: Themes = Themes.system,
     var firstStart: Boolean = true,
-    var launchAtStartup: Boolean = false,
+    var launchAtStartUp: Boolean = false,
     var degree: Boolean = true,
     var exitOnCloseSet: Boolean = false,
     var exitOnClose: Boolean = true

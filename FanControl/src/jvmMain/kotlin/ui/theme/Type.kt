@@ -23,10 +23,11 @@ val Typography = Typography(
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
+    // launch and exit setting
     titleSmall = TextStyle(
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 20.sp,
+        fontWeight = FontWeight.W500,
+        fontSize = 19.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),

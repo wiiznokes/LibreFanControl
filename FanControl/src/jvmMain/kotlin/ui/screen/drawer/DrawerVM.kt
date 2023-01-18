@@ -5,8 +5,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import settings.Settings
 import settings.SettingsModel
-import ui.screen.drawer.secondView.Languages
-import ui.screen.drawer.secondView.Themes
+import ui.screen.drawer.settings.Languages
+import ui.screen.drawer.settings.Themes
 
 
 class DrawerVM(
@@ -37,5 +37,25 @@ class DrawerVM(
             )
         }
         Settings.setSetting("theme", theme)
+    }
+
+    fun onExitOnCloseChange(exitOnClose: Boolean) {
+        settings.update {
+            it.copy(
+                exitOnClose = exitOnClose,
+                exitOnCloseSet = true
+            )
+        }
+        Settings.setSetting("exit_on_close_set", true)
+        Settings.setSetting("exit_on_close", exitOnClose)
+    }
+
+    fun onLaunchAtStartUpChange(launchAtStartUp: Boolean) {
+        settings.update {
+            it.copy(
+                launchAtStartUp = launchAtStartUp
+            )
+        }
+        Settings.setSetting("launch_at_start_up", launchAtStartUp)
     }
 }

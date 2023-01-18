@@ -76,15 +76,18 @@
     "load_fan_speed": "load speed :"
   },
   "settings": {
-    "update_delay": "Update delay",
+    "update_delay": "Update delay : ",
     "language": "Language",
     "theme": "Theme",
+    "exit_on_close": "Quit when closing",
+    "launch_at_startup": "Launch at startup",
     "donate": "Support the project",
     "info": "Info",
     "info_sub_title": "Dive into app working",
     "help": "Help",
     "help_sub_title": "Get help here",
     "transition": {
+      "lifecycle": "Lifecycle",
       "donate": "Donation",
       "other": "Others"
     }
