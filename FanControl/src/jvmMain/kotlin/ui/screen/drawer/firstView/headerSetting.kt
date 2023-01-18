@@ -1,4 +1,4 @@
-package ui.screen.drawer
+package ui.screen.drawer.firstView
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*

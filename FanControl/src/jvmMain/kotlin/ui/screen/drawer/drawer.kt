@@ -11,6 +11,7 @@ import com.example.settingSlidingWindows.SettingColors
 import com.example.settingSlidingWindows.SettingDefaults
 import com.example.settingSlidingWindows.rememberSettingState
 import kotlinx.coroutines.CoroutineScope
+import ui.screen.drawer.firstView.headerSetting
 import ui.screen.drawer.secondView.*
 import ui.utils.Resources
 import ui.utils.Resources.Companion.getIcon
@@ -44,12 +45,7 @@ fun drawer(
         item(
             title = Resources.getString("settings/update_delay"),
             subTitle = settings.updateDelay.toString(),
-            icon = {
-                Icon(
-                    painter = getIcon("settings/history40"),
-                    contentDescription = null
-                )
-            }
+            icon = { managerIcon("settings/history40") }
         ) {
             Header(null, null)
             settingTimeUpdate(
@@ -61,38 +57,22 @@ fun drawer(
         item(
             title = Resources.getString("settings/language"),
             subTitle = Resources.getString("language/${settings.language}"),
-            icon = {
-                Icon(
-                    painter = getIcon("settings/translate40"),
-                    contentDescription = null
-                )
-            }
+            icon = { managerIcon("settings/translate40") }
         ) {
             Header(null, null)
-            settingLanguage(
-                onLanguageChange = { viewModel.onLanguageChange(it) }
-            )
+            settingLanguage(onLanguageChange = { viewModel.onLanguageChange(it) })
         }
 
         item(
             title = Resources.getString("settings/theme"),
             subTitle = Resources.getString("theme/${settings.theme}"),
-            icon = {
-                Icon(
-                    painter = getIcon("settings/dark_mode40"),
-                    contentDescription = null
-                )
-            }
+            icon = { managerIcon("settings/dark_mode40") }
         ) {
             Header(null, null)
-            settingTheme(
-                onThemeChange = { viewModel.onThemeChange(it) }
-            )
+            settingTheme(onThemeChange = { viewModel.onThemeChange(it) })
         }
 
-        group(
-            text = Resources.getString("settings/trans/donate")
-        )
+        group(text = Resources.getString("settings/trans/donate"))
 
         item(
             settingColors = SettingColors(
@@ -100,31 +80,18 @@ fun drawer(
                 onContainer = Color.Black
             ),
             title = Resources.getString("settings/donate"),
-            icon = {
-                Icon(
-                    painter = getIcon("settings/attach_money40"),
-                    contentDescription = null,
-                    tint = Color.Black
-                )
-            }
+            icon = { managerIcon("settings/attach_money40", Color.Black) }
         ) {
             Header(null, null)
             settingDonate()
         }
 
-        group(
-            text = Resources.getString("settings/trans/other")
-        )
+        group(text = Resources.getString("settings/trans/other"))
 
         item(
             title = Resources.getString("settings/info"),
             subTitle = Resources.getString("settings/info_sub_title"),
-            icon = {
-                Icon(
-                    painter = getIcon("settings/info40"),
-                    contentDescription = null
-                )
-            }
+            icon = { managerIcon("settings/info40") }
         ) {
             Header(null, null)
             settingInfo()
@@ -133,12 +100,7 @@ fun drawer(
         item(
             title = Resources.getString("settings/help"),
             subTitle = Resources.getString("settings/help_sub_title"),
-            icon = {
-                Icon(
-                    painter = getIcon("settings/help40"),
-                    contentDescription = null
-                )
-            }
+            icon = { managerIcon("settings/help40") }
         ) {
             Header(null, null)
             settingHelp()
@@ -146,4 +108,18 @@ fun drawer(
 
 
     }
+}
+
+
+@Composable
+private fun managerIcon(
+    iconPath: String,
+    color: Color = MaterialTheme.colorScheme.inverseOnSurface,
+    contentDescription: String? = null
+) {
+    Icon(
+        painter = getIcon(iconPath),
+        tint = color,
+        contentDescription = contentDescription
+    )
 }
