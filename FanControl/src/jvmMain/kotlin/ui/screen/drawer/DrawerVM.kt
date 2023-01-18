@@ -56,6 +56,6 @@ class DrawerVM(
                 launchAtStartUp = launchAtStartUp
             )
         }
-        Settings.setSetting("launch_at_startup", launchAtStartUp)
+        Settings.setSetting("launch_at_start_up", launchAtStartUp)
     }
 }

@@ -5,7 +5,7 @@
   "update_delay": 2,
   "theme": "system",
   "first_start": true,
-  "launch_at_startup": false,
+  "launch_at_start_up": false,
   "degree": true,
   "exit_on_close_set": false,
   "exit_on_close": true

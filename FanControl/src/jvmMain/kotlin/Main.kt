@@ -5,7 +5,6 @@ import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.Tray
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import kotlinx.coroutines.flow.asStateFlow
 import settings.Settings
 import ui.popUp.exitApp.exitApp
 import ui.screen.home
@@ -31,7 +30,7 @@ class MainApp {
         application(
             exitProcessOnExit = false
         ) {
-            val settings = State.settings.asStateFlow().value
+            val settings = State.settings.collectAsState().value
             val closeHasBeenClick = remember { mutableStateOf(false) }
             Window(
                 visible = appIsVisible.value,
@@ -43,7 +42,7 @@ class MainApp {
                 }
             ) {
                 fanControlTheme(
-                    State.settings.collectAsState().value.theme
+                    settings.theme
                 ) {
                     home()
                     exitApp(

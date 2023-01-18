@@ -86,7 +86,7 @@ class Settings {
                 it.updateDelay = getSetting("update_delay")!!
                 it.theme = Themes from getSetting("theme")!!
                 it.firstStart = getSetting("first_start")!!
-                it.launchAtStartUp = getSetting("launch_at_startup")!!
+                it.launchAtStartUp = getSetting("launch_at_start_up")!!
                 it.degree = getSetting("degree")!!
                 it.exitOnCloseSet = getSetting("exit_on_close_set")!!
                 it.exitOnClose = getSetting("exit_on_close")!!
