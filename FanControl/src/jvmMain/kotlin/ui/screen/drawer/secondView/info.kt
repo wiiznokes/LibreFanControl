@@ -17,7 +17,8 @@ fun SettingScope.info() {
                 tint = MaterialTheme.colorScheme.inverseOnSurface,
                 contentDescription = null
             )
-        }
+        },
+        showTopLine = true
     ) {
         Header(null, null)
     }

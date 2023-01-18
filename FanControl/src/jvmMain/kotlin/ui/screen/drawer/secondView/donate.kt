@@ -43,7 +43,8 @@ fun SettingScope.donate() {
                 tint = Color.Black,
                 contentDescription = null
             )
-        }
+        },
+        showTopLine = true
     ) {
         Header(null, null)
 
