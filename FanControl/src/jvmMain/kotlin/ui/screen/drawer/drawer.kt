@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.graphics.Color
 import com.example.settingSlidingWindows.Setting
+import com.example.settingSlidingWindows.SettingColors
 import com.example.settingSlidingWindows.SettingDefaults
 import com.example.settingSlidingWindows.rememberSettingState
 import kotlinx.coroutines.CoroutineScope
@@ -88,18 +90,31 @@ fun drawer(
             )
         }
 
+        group(
+            text = Resources.getString("settings/trans/donate")
+        )
+
         item(
+            settingColors = SettingColors(
+                container = Color.Yellow,
+                onContainer = Color.Black
+            ),
             title = Resources.getString("settings/donate"),
             icon = {
                 Icon(
                     painter = getIcon("settings/attach_money40"),
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = Color.Black
                 )
             }
         ) {
             Header(null, null)
             settingDonate()
         }
+
+        group(
+            text = Resources.getString("settings/trans/other")
+        )
 
         item(
             title = Resources.getString("settings/info"),
