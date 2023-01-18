@@ -3,8 +3,8 @@ package settings
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import configuration.ConfigurationModel
-import ui.screen.drawer.secondView.Languages
-import ui.screen.drawer.secondView.Themes
+import ui.screen.drawer.settings.Languages
+import ui.screen.drawer.settings.Themes
 
 data class SettingsModel(
     var language: Languages = Languages.en,

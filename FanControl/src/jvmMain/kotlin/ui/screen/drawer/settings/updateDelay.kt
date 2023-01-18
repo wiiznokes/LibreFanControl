@@ -1,9 +1,12 @@
-package ui.screen.drawer.secondView
+package ui.screen.drawer.settings
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.example.settingSlidingWindows.SettingScope
 import ui.utils.Resources
 
@@ -24,6 +27,7 @@ fun SettingScope.updateDelay(
         advanceIconButton = {
             Column {
                 IconButton(
+                    modifier = Modifier.size(40.dp),
                     onClick = {
                         val newDelay = updateDelay + 1
                         if (isCorrectDelay(newDelay))
@@ -37,6 +41,7 @@ fun SettingScope.updateDelay(
                     )
                 }
                 IconButton(
+                    modifier = Modifier.size(40.dp),
                     onClick = {
                         val newDelay = updateDelay - 1
                         if (isCorrectDelay(newDelay))
