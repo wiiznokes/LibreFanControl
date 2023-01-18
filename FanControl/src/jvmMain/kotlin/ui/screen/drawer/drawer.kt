@@ -55,14 +55,10 @@ fun drawer(
             settingLanguage(onLanguageChange = { viewModel.onLanguageChange(it) })
         }
 
-        item(
-            title = Resources.getString("settings/theme"),
-            subTitle = Resources.getString("theme/${settings.theme}"),
-            icon = { managerIcon("settings/dark_mode40") }
-        ) {
-            Header(null, null)
-            settingTheme(onThemeChange = { viewModel.onThemeChange(it) })
-        }
+        theme(
+            theme = settings.theme,
+            onThemeChange = { viewModel.onThemeChange(it) }
+        )
 
         group(text = Resources.getString("settings/trans/donate"))
 
