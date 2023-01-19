@@ -1,11 +1,14 @@
 package ui.screen.topBar
 
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.IconButton
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
 import ui.screen.topBar.configuration.configuration
@@ -28,11 +31,28 @@ fun topBarBody(
                     .fillMaxHeight(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Spacer(Modifier.width(20.dp))
+
+                val infiniteTransition = rememberInfiniteTransition()
+                val angle by infiniteTransition.animateFloat(
+                    initialValue = 0F,
+                    targetValue = 360F,
+                    animationSpec = infiniteRepeatable(
+                        animation = tween(2000, easing = LinearEasing)
+                    )
+                )
+
                 Icon(
+                    modifier = Modifier
+                        .graphicsLayer { rotationZ = angle },
                     painter = Resources.getIcon("topBar/toys_fan48"),
                     contentDescription = Resources.getString("title/app_name"),
                     tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
+
+
+
+
                 Spacer(Modifier.width(10.dp))
 
                 managerText(
