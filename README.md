@@ -36,9 +36,9 @@
 - [ ] Use expect/acutal functions of Kotlin instead of the current External interface
 - [ ] Add workflow to the project (CI/CD, ect...)
 - [ ] UI
-  - [ ] Implement settings (info, help, °C or F°, launch at start up)
+  - [ ] Implement settings (info, help, launch at start up)
   - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
-  - [ ] Add animations
+  - [x] Add animations
 - [ ] Support Linux
 - [ ] Support Nvidia GPU
 - [ ] Support water cooling
