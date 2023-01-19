@@ -12,10 +12,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -82,13 +79,21 @@ fun body() {
 
         val addItemExpanded = viewModel.addItemExpanded.collectAsState()
 
+        val visibleState = remember { MutableTransitionState(!addItemExpanded.value) }
+        visibleState.targetState = !addItemExpanded.value
+
         // add button
         AnimatedVisibility(
             modifier = Modifier
                 .align(Alignment.BottomEnd),
-            visibleState = MutableTransitionState(!addItemExpanded.value)
+            visibleState = visibleState,
+            enter = slideInHorizontally(
+                animationSpec = tween(delayMillis = 500),
+                initialOffsetX = {
+                    it
+                }
+            )
         ) {
-            
             FloatingActionButton(
                 modifier = Modifier
                     .scale(0.8f)
