@@ -73,7 +73,7 @@ fun home() {
                                 initialContentExit = slideOutHorizontally(
                                     tween(durationMillis = 1000),
                                     targetOffsetX = {
-                                        it
+                                        -it
                                     }
                                 )
                             )
