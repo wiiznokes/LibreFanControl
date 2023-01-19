@@ -1,11 +1,15 @@
 package ui.screen
 
 import androidx.compose.animation.*
+import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -53,17 +57,25 @@ fun home() {
                         mutableStateOf(ChoiceType.BEHAVIOR)
                     }
 
-                    AnimatedContent(
-                        targetState = addItemExpanded.value,
+                    val transition = updateTransition(
+                        targetState = addItemExpanded.value
+                    )
+
+                    transition.AnimatedContent(
                         transitionSpec = {
-                            slideInHorizontally(
-                                initialOffsetX = {
-                                    it
-                                }
-                            ) with slideOutHorizontally(
-                                targetOffsetX = {
-                                    it
-                                }
+                            ContentTransform(
+                                targetContentEnter = slideInHorizontally(
+                                    tween(durationMillis = 1000),
+                                    initialOffsetX = {
+                                        it
+                                    }
+                                ),
+                                initialContentExit = slideOutHorizontally(
+                                    tween(durationMillis = 1000),
+                                    targetOffsetX = {
+                                        it
+                                    }
+                                )
                             )
                         }
                     ) {
@@ -84,7 +96,7 @@ fun home() {
                                 scope.launch { drawerState.open() }
                             }
                         )
-                        body()
+                        body(transition)
                     }
                 }
             }

@@ -1,7 +1,9 @@
 package ui.screen.body
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.Transition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
@@ -29,8 +31,11 @@ import ui.utils.Resources
 private val floatingActionButtonPadding = 20.dp
 private val scrollBarHeight = 20.dp
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun body() {
+fun body(
+    transition: Transition<Boolean>
+) {
 
     val viewModel = BodyVM()
 
@@ -83,10 +88,12 @@ fun body() {
         visibleState.targetState = !addItemExpanded.value
 
         // add button
-        AnimatedVisibility(
+        transition.AnimatedVisibility(
             modifier = Modifier
                 .align(Alignment.BottomEnd),
-            visibleState = visibleState,
+            visible = {
+                !it
+            },
             enter = slideInHorizontally(
                 animationSpec = tween(delayMillis = 500),
                 initialOffsetX = {
