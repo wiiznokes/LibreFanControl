@@ -54,10 +54,6 @@ fun home() {
             ) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
 
-                    val currentChoiceType: MutableState<ChoiceType> = remember {
-                        mutableStateOf(ChoiceType.BEHAVIOR)
-                    }
-
                     val visibleState = remember { MutableTransitionState(addItemExpanded.value) }
                     visibleState.targetState = addItemExpanded.value
 
@@ -90,7 +86,7 @@ fun home() {
                                     .width(260.dp)
                             ) {
                                 topBarAddItem()
-                                addItem(currentChoiceType)
+                                addItem()
                             }
                         }
                     }

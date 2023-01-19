@@ -1,5 +1,9 @@
 package ui.screen.addItem
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.with
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,9 +13,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.settingSlidingWindows.BaseFirstView
 import ui.component.managerText
 import ui.screen.itemsList.behaviorList.behaviorAddItemList
 import ui.screen.itemsList.controlList.controlAddItem
@@ -21,17 +27,15 @@ import ui.utils.Resources
 
 
 @Composable
-fun addItem(
-    currentChoiceType: MutableState<ChoiceType>
-) {
-    val choiceStates = ChoiceStates()
+fun addItem() {
+    val state = mutableStateOf(ChoiceState())
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.inverseSurface)
     ) {
-        addItemChoice(currentChoiceType, choiceStates)
+        addItemChoice(state)
 
         Divider(
             modifier = Modifier.padding(bottom = 10.dp),
@@ -39,7 +43,9 @@ fun addItem(
         )
 
         LazyColumn {
-            when (currentChoiceType.value) {
+
+            
+            when (state.value.current) {
                 ChoiceType.CONTROL -> controlList({ !it.visible }) { index, control ->
                     controlAddItem(
                         control = control,
@@ -56,7 +62,7 @@ fun addItem(
 
 
 @Composable
-private fun addItemChoice(currentChoiceType: MutableState<ChoiceType>, choiceStates: ChoiceStates) {
+private fun addItemChoice(state: MutableState<ChoiceState>) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,7 +72,9 @@ private fun addItemChoice(currentChoiceType: MutableState<ChoiceType>, choiceSta
     ) {
         IconButton(
             onClick = {
-                currentChoiceType.value = choiceStates.getState(currentChoiceType.value).previous
+                state.value = updateChoiceState(state.value.copy(
+                    animationSign = -1
+                ))
             }
         ) {
             Icon(
@@ -78,13 +86,15 @@ private fun addItemChoice(currentChoiceType: MutableState<ChoiceType>, choiceSta
 
         managerText(
             modifier = Modifier,
-            text = choiceStates.getState(currentChoiceType.value).title,
+            text = state.value.title,
             color = MaterialTheme.colorScheme.onSecondary
         )
 
         IconButton(
             onClick = {
-                currentChoiceType.value = choiceStates.getState(currentChoiceType.value).next
+                state.value = updateChoiceState(state.value.copy(
+                    animationSign = 1
+                ))
             }
         ) {
             Icon(
