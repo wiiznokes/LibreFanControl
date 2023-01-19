@@ -1,9 +1,7 @@
 package ui.screen.addItem
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.with
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,10 +12,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.settingSlidingWindows.BaseFirstView
 import ui.component.managerText
 import ui.screen.itemsList.behaviorList.behaviorAddItemList
 import ui.screen.itemsList.controlList.controlAddItem
@@ -26,9 +24,10 @@ import ui.screen.itemsList.sensor.addItem.sensorAddItemList
 import ui.utils.Resources
 
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun addItem() {
-    val state = mutableStateOf(ChoiceState())
+    val state = remember { mutableStateOf(ChoiceState()) }
 
     Column(
         modifier = Modifier
@@ -42,19 +41,37 @@ fun addItem() {
             color = MaterialTheme.colorScheme.onSecondary
         )
 
-        LazyColumn {
 
-            
-            when (state.value.current) {
-                ChoiceType.CONTROL -> controlList({ !it.visible }) { index, control ->
-                    controlAddItem(
-                        control = control,
-                        index = index
-                    )
+
+        AnimatedContent(
+            targetState = state.value,
+            transitionSpec = {
+                slideInHorizontally(
+                    initialOffsetX = {
+                        it * targetState.animationSign
+                    }
+                ) with slideOutHorizontally(
+                    targetOffsetX = {
+                        it * targetState.animationSign * -1
+                    }
+                )
+            }
+        ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                when (it.current) {
+                    ChoiceType.CONTROL -> controlList({ !it.visible }) { index, control ->
+                        controlAddItem(
+                            control = control,
+                            index = index
+                        )
+                    }
+
+                    ChoiceType.BEHAVIOR -> behaviorAddItemList()
+                    ChoiceType.SENSOR -> sensorAddItemList()
                 }
-
-                ChoiceType.BEHAVIOR -> behaviorAddItemList()
-                ChoiceType.SENSOR -> sensorAddItemList()
             }
         }
     }
@@ -72,9 +89,11 @@ private fun addItemChoice(state: MutableState<ChoiceState>) {
     ) {
         IconButton(
             onClick = {
-                state.value = updateChoiceState(state.value.copy(
-                    animationSign = -1
-                ))
+                state.value = updateChoiceState(
+                    state.value.copy(
+                        animationSign = -1
+                    )
+                )
             }
         ) {
             Icon(
@@ -92,9 +111,11 @@ private fun addItemChoice(state: MutableState<ChoiceState>) {
 
         IconButton(
             onClick = {
-                state.value = updateChoiceState(state.value.copy(
-                    animationSign = 1
-                ))
+                state.value = updateChoiceState(
+                    state.value.copy(
+                        animationSign = 1
+                    )
+                )
             }
         ) {
             Icon(
