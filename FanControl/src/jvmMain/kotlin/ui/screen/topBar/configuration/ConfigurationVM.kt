@@ -43,14 +43,14 @@ class ConfigurationVM(
             configuration = settings.value.configList[index]
         )
         Settings.setSetting(
-            path = "configList/$id",
+            path = "config_list/$id",
             value = name
         )
     }
 
     fun onChangeConfiguration(id: Long?) {
         when (id) {
-            null -> Settings.setSetting("configId", JSONObject.NULL)
+            null -> Settings.setSetting("config_id", JSONObject.NULL)
             else -> {
                 if (!mutex.tryLock())
                     return
@@ -64,7 +64,7 @@ class ConfigurationVM(
                 for (i in controlChangeList.indices) {
                     controlChangeList[i] = true
                 }
-                Settings.setSetting("configId", id)
+                Settings.setSetting("config_id", id)
                 mutex.unlock()
             }
         }
@@ -96,11 +96,11 @@ class ConfigurationVM(
         Configuration.saveConfig(newConfig)
 
         Settings.setSetting(
-            path = "configId",
+            path = "config_id",
             value = id
         )
         Settings.setSetting(
-            path = "configList/$id",
+            path = "config_list/$id",
             value = name
         )
         return true
@@ -114,7 +114,7 @@ class ConfigurationVM(
             settings.value = settings.value.copy(
                 configId = null
             )
-            Settings.setSetting("configId", JSONObject.NULL)
+            Settings.setSetting("config_id", JSONObject.NULL)
         }
 
         Configuration.deleteConfig(id)

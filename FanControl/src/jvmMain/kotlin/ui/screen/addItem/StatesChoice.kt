@@ -2,57 +2,65 @@ package ui.screen.addItem
 
 import ui.utils.Resources
 
-
-interface IChoiceStates {
-    val title: String
-    val previous: ChoiceType
-    val next: ChoiceType
-}
-
 enum class ChoiceType {
     CONTROL,
     BEHAVIOR,
     SENSOR
 }
 
-class ChoiceStates {
-    private val controlChoice = ControlChoice()
-    private val behaviorChoice = BehaviorChoice()
-    private val sensorChoice = SensorChoice()
+private class ChoiceStateException(msg: String = ""): Exception(msg)
 
-    fun getState(choiceType: ChoiceType): IChoiceStates {
-        return when (choiceType) {
-            ChoiceType.CONTROL -> {
-                controlChoice
-            }
+data class ChoiceState(
+    val current: ChoiceType = ChoiceType.BEHAVIOR,
+    val animationSign: Int = 0,
+    val title: String = Resources.getString("title/behavior"),
+    val previous: ChoiceType = ChoiceType.CONTROL,
+    val next: ChoiceType = ChoiceType.SENSOR
+)
 
-            ChoiceType.BEHAVIOR -> {
-                behaviorChoice
-            }
 
-            ChoiceType.SENSOR -> {
-                sensorChoice
-            }
-        }
+
+
+fun updateChoiceState(
+    state: ChoiceState
+): ChoiceState {
+    val currentState = when (state.animationSign) {
+        -1 -> state.previous
+        1 -> state.next
+        else -> throw ChoiceStateException()
+    }
+
+    return when (currentState) {
+        ChoiceType.CONTROL -> controlChoice(state)
+        ChoiceType.BEHAVIOR -> behaviorChoice(state)
+        ChoiceType.SENSOR -> sensorChoice(state)
     }
 }
 
-class BehaviorChoice : IChoiceStates {
 
-    override val title: String = Resources.getString("title/behavior")
-    override val previous: ChoiceType = ChoiceType.CONTROL
-    override val next: ChoiceType = ChoiceType.SENSOR
-}
+private fun behaviorChoice(
+    state: ChoiceState
+): ChoiceState = state.copy(
+    title = Resources.getString("title/behavior"),
+    current = ChoiceType.BEHAVIOR,
+    previous = ChoiceType.CONTROL,
+    next = ChoiceType.SENSOR
+)
 
+private fun controlChoice(
+    state: ChoiceState
+): ChoiceState = state.copy(
+    title = Resources.getString("title/control"),
+    current = ChoiceType.CONTROL,
+    previous = ChoiceType.SENSOR,
+    next = ChoiceType.BEHAVIOR
+)
 
-class SensorChoice : IChoiceStates {
-    override val title: String = Resources.getString("title/sensor")
-    override val previous: ChoiceType = ChoiceType.BEHAVIOR
-    override val next: ChoiceType = ChoiceType.CONTROL
-}
-
-class ControlChoice : IChoiceStates {
-    override val title: String = Resources.getString("title/control")
-    override val previous: ChoiceType = ChoiceType.SENSOR
-    override val next: ChoiceType = ChoiceType.BEHAVIOR
-}
+private fun sensorChoice(
+    state: ChoiceState
+): ChoiceState = state.copy(
+    title = Resources.getString("title/sensor"),
+    current = ChoiceType.SENSOR,
+    previous = ChoiceType.BEHAVIOR,
+    next = ChoiceType.CONTROL
+)

@@ -73,9 +73,7 @@ fun linearBody(
             value = linear.value,
             color = MaterialTheme.colorScheme.onSurface,
             expanded = expanded
-        )
-
-        if (expanded.value) {
+        ) {
             val linearValues = linearValues(linear)
 
             for (i in 0..3) {

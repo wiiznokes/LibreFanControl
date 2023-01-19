@@ -1,5 +1,8 @@
 package ui.screen.body
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -7,10 +10,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -28,7 +28,9 @@ private val floatingActionButtonPadding = 20.dp
 private val scrollBarHeight = 20.dp
 
 @Composable
-fun body() {
+fun body(
+    addItemAnimationState: MutableTransitionState<Boolean>
+) {
 
     val viewModel = BodyVM()
 
@@ -77,12 +79,25 @@ fun body() {
 
         val addItemExpanded = viewModel.addItemExpanded.collectAsState()
 
-        // add button
-        if (!addItemExpanded.value) {
+        val visibleState = remember { MutableTransitionState(!addItemExpanded.value) }
+        // visible only when add item transition has finish to avoid icon show to early
+        visibleState.targetState = !addItemExpanded.value && addItemAnimationState.currentState == addItemExpanded.value
 
+        // add button
+        AnimatedVisibility(
+            visibleState = visibleState,
+            modifier = Modifier
+                .align(Alignment.BottomEnd),
+            enter = slideInHorizontally(
+                animationSpec = tween(delayMillis = 500),
+                initialOffsetX = {
+                    it
+                }
+            ),
+            exit = fadeOut()
+        ) {
             FloatingActionButton(
                 modifier = Modifier
-                    .align(Alignment.BottomEnd)
                     .scale(0.8f)
                     .padding(
                         end = floatingActionButtonPadding,

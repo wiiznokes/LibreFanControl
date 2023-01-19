@@ -1,11 +1,16 @@
 package ui.screen
 
-import androidx.compose.foundation.*
+import androidx.compose.animation.*
+import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -17,7 +22,7 @@ import ui.screen.topBar.topBarAddItem
 import ui.screen.topBar.topBarBody
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun home() {
     val viewModel = HomeVM()
@@ -49,17 +54,40 @@ fun home() {
             ) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
 
-                    val currentChoiceType: MutableState<ChoiceType> = remember {
-                        mutableStateOf(ChoiceType.BEHAVIOR)
-                    }
+                    val visibleState = remember { MutableTransitionState(addItemExpanded.value) }
+                    visibleState.targetState = addItemExpanded.value
 
-                    if (addItemExpanded.value) {
-                        Column(
-                            modifier = Modifier
-                                .width(260.dp)
-                        ) {
-                            topBarAddItem()
-                            addItem(currentChoiceType)
+
+                    AnimatedContent(
+                        targetState = visibleState.targetState,
+                        transitionSpec = {
+                            ContentTransform(
+                                targetContentEnter =
+                                    slideInHorizontally(
+                                        tween(durationMillis = 1000),
+                                        initialOffsetX = {
+                                            it
+                                        }
+                                    ),
+                                initialContentExit =
+                                    slideOutHorizontally(
+                                        tween(durationMillis = 1000),
+                                        targetOffsetX = {
+                                            it
+                                        }
+                                    )
+
+                            )
+                        }
+                    ) {
+                        if (it) {
+                            Column(
+                                modifier = Modifier
+                                    .width(260.dp)
+                            ) {
+                                topBarAddItem()
+                                addItem()
+                            }
                         }
                     }
 
@@ -69,7 +97,7 @@ fun home() {
                                 scope.launch { drawerState.open() }
                             }
                         )
-                        body()
+                        body(visibleState)
                     }
                 }
             }
