@@ -2,7 +2,6 @@ package ui.screen.body
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.Transition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -30,7 +29,7 @@ private val scrollBarHeight = 20.dp
 
 @Composable
 fun body(
-    p: MutableTransitionState<Boolean>
+    addItemAnimationState: MutableTransitionState<Boolean>
 ) {
 
     val viewModel = BodyVM()
@@ -81,8 +80,8 @@ fun body(
         val addItemExpanded = viewModel.addItemExpanded.collectAsState()
 
         val visibleState = remember { MutableTransitionState(!addItemExpanded.value) }
-        visibleState.targetState = !addItemExpanded.value && p.currentState == addItemExpanded.value
-
+        // visible only when add item transition has finish to avoid icon show to early
+        visibleState.targetState = !addItemExpanded.value && addItemAnimationState.currentState == addItemExpanded.value
 
         // add button
         AnimatedVisibility(
