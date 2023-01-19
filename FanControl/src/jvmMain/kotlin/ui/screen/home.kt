@@ -2,6 +2,7 @@ package ui.screen
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.*
@@ -57,35 +58,41 @@ fun home() {
                         mutableStateOf(ChoiceType.BEHAVIOR)
                     }
 
-                    val transition = updateTransition(
-                        targetState = addItemExpanded.value
-                    )
+                    val visibleState = remember { MutableTransitionState(addItemExpanded.value) }
+                    visibleState.targetState = addItemExpanded.value
 
-                    transition.AnimatedVisibility(
-                        visible = {
-                            it
-                        },
-                        enter = slideInHorizontally(
-                            tween(durationMillis = 1000),
-                            initialOffsetX = {
-                                it
-                            }
-                        ),
-                        exit = slideOutHorizontally(
-                            tween(durationMillis = 1000),
-                            targetOffsetX = {
-                                it
-                            }
-                        )
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .width(260.dp)
-                        ) {
-                            topBarAddItem()
-                            addItem(currentChoiceType)
+
+                    AnimatedContent(
+                        targetState = visibleState.targetState,
+                        transitionSpec = {
+                            ContentTransform(
+                                targetContentEnter =
+                                    slideInHorizontally(
+                                        tween(durationMillis = 1000),
+                                        initialOffsetX = {
+                                            it
+                                        }
+                                    ),
+                                initialContentExit =
+                                    slideOutHorizontally(
+                                        tween(durationMillis = 1000),
+                                        targetOffsetX = {
+                                            it
+                                        }
+                                    )
+
+                            )
                         }
-
+                    ) {
+                        if (it) {
+                            Column(
+                                modifier = Modifier
+                                    .width(260.dp)
+                            ) {
+                                topBarAddItem()
+                                addItem(currentChoiceType)
+                            }
+                        }
                     }
 
                     Column {
@@ -94,7 +101,7 @@ fun home() {
                                 scope.launch { drawerState.open() }
                             }
                         )
-                        body(transition)
+                        body(visibleState)
                     }
                 }
             }

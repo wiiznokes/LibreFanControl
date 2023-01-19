@@ -1,12 +1,9 @@
 package ui.screen.body
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.Transition
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,10 +28,9 @@ import ui.utils.Resources
 private val floatingActionButtonPadding = 20.dp
 private val scrollBarHeight = 20.dp
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun body(
-    transition: Transition<Boolean>
+    p: MutableTransitionState<Boolean>
 ) {
 
     val viewModel = BodyVM()
@@ -85,8 +81,7 @@ fun body(
         val addItemExpanded = viewModel.addItemExpanded.collectAsState()
 
         val visibleState = remember { MutableTransitionState(!addItemExpanded.value) }
-        visibleState.targetState = !addItemExpanded.value && transition.currentState == addItemExpanded.value
-
+        visibleState.targetState = !addItemExpanded.value && p.currentState == addItemExpanded.value
 
 
         // add button
@@ -99,7 +94,8 @@ fun body(
                 initialOffsetX = {
                     it
                 }
-            )
+            ),
+            exit = fadeOut()
         ) {
             FloatingActionButton(
                 modifier = Modifier
