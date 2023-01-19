@@ -31,10 +31,9 @@ import ui.utils.Resources
 private val floatingActionButtonPadding = 20.dp
 private val scrollBarHeight = 20.dp
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun body(
-    transition: Transition<Boolean>
+    p: MutableTransitionState<Boolean>
 ) {
 
     val viewModel = BodyVM()
@@ -85,8 +84,7 @@ fun body(
         val addItemExpanded = viewModel.addItemExpanded.collectAsState()
 
         val visibleState = remember { MutableTransitionState(!addItemExpanded.value) }
-        visibleState.targetState = !addItemExpanded.value && transition.currentState == addItemExpanded.value
-
+        visibleState.targetState = !addItemExpanded.value && p.currentState == addItemExpanded.value
 
 
         // add button
