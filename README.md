@@ -29,6 +29,7 @@
 ## Next steps
 
 - [x] Publish
+- [ ] Maybe change the way of fetching data, use a database instead
 - [ ] Add tests
   - [ ] UI
   - [ ] Update
