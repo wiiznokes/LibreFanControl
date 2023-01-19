@@ -112,11 +112,11 @@ private fun addItemChoice(state: MutableState<ChoiceState>) {
                     initialOffsetX = {
                         it * targetState.animationSign
                     }
-                ) with slideOutHorizontally(
+                ) + fadeIn() with slideOutHorizontally(
                     targetOffsetX = {
                         it * targetState.animationSign * -1
                     }
-                )
+                ) + fadeOut()
             }
         ) {
             managerText(
