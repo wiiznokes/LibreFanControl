@@ -61,33 +61,31 @@ fun home() {
                         targetState = addItemExpanded.value
                     )
 
-                    transition.AnimatedContent(
-                        transitionSpec = {
-                            ContentTransform(
-                                targetContentEnter = slideInHorizontally(
-                                    tween(durationMillis = 1000),
-                                    initialOffsetX = {
-                                        it
-                                    }
-                                ),
-                                initialContentExit = slideOutHorizontally(
-                                    tween(durationMillis = 1000),
-                                    targetOffsetX = {
-                                        -it
-                                    }
-                                )
-                            )
-                        }
-                    ) {
-                        if (it) {
-                            Column(
-                                modifier = Modifier
-                                    .width(260.dp)
-                            ) {
-                                topBarAddItem()
-                                addItem(currentChoiceType)
+                    transition.AnimatedVisibility(
+                        visible = {
+                            it
+                        },
+                        enter = slideInHorizontally(
+                            tween(durationMillis = 1000),
+                            initialOffsetX = {
+                                it
                             }
+                        ),
+                        exit = slideOutHorizontally(
+                            tween(durationMillis = 1000),
+                            targetOffsetX = {
+                                it
+                            }
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .width(260.dp)
+                        ) {
+                            topBarAddItem()
+                            addItem(currentChoiceType)
                         }
+
                     }
 
                     Column {

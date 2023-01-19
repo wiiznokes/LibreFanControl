@@ -85,15 +85,15 @@ fun body(
         val addItemExpanded = viewModel.addItemExpanded.collectAsState()
 
         val visibleState = remember { MutableTransitionState(!addItemExpanded.value) }
-        visibleState.targetState = !addItemExpanded.value
+        visibleState.targetState = !addItemExpanded.value && transition.currentState == addItemExpanded.value
+
+
 
         // add button
-        transition.AnimatedVisibility(
+        AnimatedVisibility(
+            visibleState = visibleState,
             modifier = Modifier
                 .align(Alignment.BottomEnd),
-            visible = {
-                !it
-            },
             enter = slideInHorizontally(
                 animationSpec = tween(delayMillis = 500),
                 initialOffsetX = {
