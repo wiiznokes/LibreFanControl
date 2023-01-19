@@ -1,6 +1,7 @@
 package ui.screen.addItem
 
 import androidx.compose.animation.*
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -78,6 +79,7 @@ fun addItem() {
 }
 
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun addItemChoice(state: MutableState<ChoiceState>) {
     Row(
@@ -103,11 +105,27 @@ private fun addItemChoice(state: MutableState<ChoiceState>) {
             )
         }
 
-        managerText(
-            modifier = Modifier,
-            text = state.value.title,
-            color = MaterialTheme.colorScheme.onSecondary
-        )
+        AnimatedContent(
+            targetState = state.value,
+            transitionSpec = {
+                slideInHorizontally(
+                    initialOffsetX = {
+                        it * targetState.animationSign
+                    }
+                ) with slideOutHorizontally(
+                    targetOffsetX = {
+                        it * targetState.animationSign * -1
+                    }
+                )
+            }
+        ) {
+            managerText(
+                modifier = Modifier
+                    .padding(horizontal = 20.dp),
+                text = it.title,
+                color = MaterialTheme.colorScheme.onSecondary
+            )
+        }
 
         IconButton(
             onClick = {
