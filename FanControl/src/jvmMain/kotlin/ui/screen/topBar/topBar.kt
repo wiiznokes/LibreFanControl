@@ -4,11 +4,13 @@ import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.IconButton
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
 import ui.screen.topBar.configuration.configuration
@@ -18,6 +20,7 @@ import ui.utils.Resources
 private val viewModel = TopBarVM()
 private val topBarHeight = 50.dp
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun topBarBody(
     onNavigationIconClick: () -> Unit
@@ -33,25 +36,46 @@ fun topBarBody(
             ) {
                 Spacer(Modifier.width(20.dp))
 
-                val infiniteTransition = rememberInfiniteTransition()
-                val angle by infiniteTransition.animateFloat(
-                    initialValue = 0F,
-                    targetValue = 360F,
-                    animationSpec = infiniteRepeatable(
-                        animation = tween(2000, easing = LinearEasing)
-                    )
-                )
+                var active by remember { mutableStateOf(false) }
 
+                var angle by remember { mutableStateOf(0f) }
+                val rotation = remember { Animatable(angle) }
+
+                LaunchedEffect(active) {
+                    if (active) {
+                        rotation.animateTo(
+                            targetValue = angle + 360f,
+                            animationSpec = infiniteRepeatable(
+                                animation = tween(500, easing = LinearEasing),
+                                repeatMode = RepeatMode.Restart
+                            )
+                        ) {
+                            angle = value
+                        }
+                    } else {
+                        if (angle > 0f) {
+                            // Slow down rotation on pause
+                            rotation.animateTo(
+                                targetValue = angle + 300,
+                                animationSpec = tween(
+                                    durationMillis = 1250,
+                                    easing = LinearOutSlowInEasing
+                                )
+                            ) {
+                                angle = value
+                            }
+                        }
+                    }
+                }
                 Icon(
                     modifier = Modifier
+                        .onPointerEvent(PointerEventType.Enter) { active = true }
+                        .onPointerEvent(PointerEventType.Exit) { active = false }
                         .graphicsLayer { rotationZ = angle },
                     painter = Resources.getIcon("topBar/toys_fan48"),
                     contentDescription = Resources.getString("title/app_name"),
                     tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
-
-
-
 
                 Spacer(Modifier.width(10.dp))
 
