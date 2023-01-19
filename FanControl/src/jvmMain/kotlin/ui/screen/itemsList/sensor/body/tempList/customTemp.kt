@@ -67,9 +67,7 @@ fun baseCustomTempBody(
             color = MaterialTheme.colorScheme.onSurface,
             expanded = expanded,
             suffix = Resources.getString("unity/degree")
-        )
-
-        if (expanded.value) {
+        ) {
             val filterListSensor = sensorList.filter {
                 !customTemp.sensorIdList.contains(it.id)
             }

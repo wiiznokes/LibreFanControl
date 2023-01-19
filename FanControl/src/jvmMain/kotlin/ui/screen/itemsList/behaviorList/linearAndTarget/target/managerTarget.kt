@@ -72,9 +72,7 @@ fun targetBody(
             value = target.value,
             color = MaterialTheme.colorScheme.onSurface,
             expanded = expanded
-        )
-
-        if (expanded.value) {
+        ) {
             val targetValues = targetValues(target)
 
             for (i in 0..3) {

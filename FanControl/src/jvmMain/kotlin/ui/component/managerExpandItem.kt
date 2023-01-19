@@ -1,6 +1,8 @@
 package ui.component
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Icon
@@ -13,13 +15,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import ui.utils.Resources
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun managerExpandItem(
     value: Int,
     color: Color,
     enabled: Boolean = true,
     expanded: MutableState<Boolean> = mutableStateOf(true),
-    suffix: String = Resources.getString("unity/percent")
+    suffix: String = Resources.getString("unity/percent"),
+    content: @Composable (() -> Unit)? = null
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -53,5 +57,21 @@ fun managerExpandItem(
                 tint = color
             )
         }
+    }
+
+
+    AnimatedContent(
+        targetState = expanded.value,
+        transitionSpec = {
+            slideInVertically() with slideOutVertically()
+        }
+    ) {
+        if (it) {
+            // we need Columns somehow
+            Column {
+                content?.invoke()
+            }
+        }
+
     }
 }
