@@ -38,7 +38,7 @@ fun exitApp(
     Dialog(
         state = DialogState(
             position = WindowPosition(Alignment.Center),
-            size = DpSize(width = 600.dp, height = 300.dp)),
+            size = DpSize(width = 500.dp, height = 350.dp)),
         visible = enabled.value,
         resizable = false,
         onCloseRequest = {

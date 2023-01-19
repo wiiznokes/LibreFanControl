@@ -1,6 +1,6 @@
 package ui.screen
 
-import androidx.compose.foundation.*
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -17,7 +17,7 @@ import ui.screen.topBar.topBarAddItem
 import ui.screen.topBar.topBarBody
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun home() {
     val viewModel = HomeVM()
@@ -53,13 +53,28 @@ fun home() {
                         mutableStateOf(ChoiceType.BEHAVIOR)
                     }
 
-                    if (addItemExpanded.value) {
-                        Column(
-                            modifier = Modifier
-                                .width(260.dp)
-                        ) {
-                            topBarAddItem()
-                            addItem(currentChoiceType)
+                    AnimatedContent(
+                        targetState = addItemExpanded.value,
+                        transitionSpec = {
+                            slideInHorizontally(
+                                initialOffsetX = {
+                                    it
+                                }
+                            ) with slideOutHorizontally(
+                                targetOffsetX = {
+                                    it
+                                }
+                            )
+                        }
+                    ) {
+                        if (it) {
+                            Column(
+                                modifier = Modifier
+                                    .width(260.dp)
+                            ) {
+                                topBarAddItem()
+                                addItem(currentChoiceType)
+                            }
                         }
                     }
 

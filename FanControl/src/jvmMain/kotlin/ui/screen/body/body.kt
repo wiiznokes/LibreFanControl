@@ -1,5 +1,10 @@
 package ui.screen.body
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -78,11 +83,14 @@ fun body() {
         val addItemExpanded = viewModel.addItemExpanded.collectAsState()
 
         // add button
-        if (!addItemExpanded.value) {
-
+        AnimatedVisibility(
+            modifier = Modifier
+                .align(Alignment.BottomEnd),
+            visibleState = MutableTransitionState(!addItemExpanded.value)
+        ) {
+            
             FloatingActionButton(
                 modifier = Modifier
-                    .align(Alignment.BottomEnd)
                     .scale(0.8f)
                     .padding(
                         end = floatingActionButtonPadding,
