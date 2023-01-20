@@ -7,18 +7,19 @@ import kotlin.math.roundToInt
 
 class LinearLogic {
     fun getValue(linear: Linear): Int? {
+        val tempValue = TempLogic.getValue(linear.tempSensorId) ?: return null
+
         return getSpeed(
-            f = getAffine(linear),
             linear = linear,
-            tempValue = TempLogic.getValue(linear.tempSensorId) ?: return null
+            tempValue = tempValue
         )
     }
 
-    private fun getSpeed(f: Affine, linear: Linear, tempValue: Int): Int {
+    private fun getSpeed(linear: Linear, tempValue: Int): Int {
         return when {
             tempValue <= linear.minTemp -> linear.minFanSpeed
             tempValue >= linear.maxTemp -> linear.maxFanSpeed
-            else -> (f.a * tempValue + f.b).roundToInt()
+            else -> getAffine(linear).let {(it.a * tempValue + it.b).roundToInt() }
         }
     }
 
