@@ -1,10 +1,7 @@
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.window.ApplicationScope
-import androidx.compose.ui.window.Tray
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
+import androidx.compose.ui.window.*
 import settings.Settings
 import ui.popUp.exitApp.exitApp
 import ui.screen.home
@@ -53,24 +50,26 @@ class MainApp {
                 }
 
 
-                Tray(
-                    icon = Resources.getIcon("app/toys_fan48"),
-                    tooltip = Resources.getString("title/app_name"),
-                    onAction = { open() },
-                    menu = {
-                        Item(
-                            text = Resources.getString("common/open"),
-                            onClick = { open() }
-                        )
-                        Separator()
-                        Item(
-                            text = Resources.getString("common/exit"),
-                            onClick = {
-                                exit()
-                            }
-                        )
-                    }
-                )
+                if (isTraySupported) {
+                    Tray(
+                        icon = Resources.getIcon("app/toys_fan48"),
+                        tooltip = Resources.getString("title/app_name"),
+                        onAction = { open() },
+                        menu = {
+                            Item(
+                                text = Resources.getString("common/open"),
+                                onClick = { open() }
+                            )
+                            Separator()
+                            Item(
+                                text = Resources.getString("common/exit"),
+                                onClick = {
+                                    exit()
+                                }
+                            )
+                        }
+                    )
+                }
             }
         }
     }
