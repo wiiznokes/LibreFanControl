@@ -60,11 +60,12 @@ fun drawer(
             exitOnClose = settings.exitOnClose,
             onExitChange = { viewModel.onExitOnCloseChange(it) }
         )
-
+        /*
         launchAtStartUp(
             launchAtStartUp = settings.launchAtStartUp,
             onLaunchAtStartUpChange = { viewModel.onLaunchAtStartUpChange(it) }
         )
+        */
 
         group(text = Resources.getString("settings/trans/donate"))
         donate()
