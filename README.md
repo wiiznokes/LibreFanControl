@@ -29,18 +29,19 @@
 ## Next steps
 
 - [x] Publish
-- [ ] Maybe change the way of fetching data, use a database instead
-- [ ] Add tests
-  - [ ] UI
-  - [ ] Update
-- [ ] Use expect/acutal functions of Kotlin instead of the current External interface
+- [ ] Maybe change the way of fetching data, use .proto file and socket
+- [ ] Use strongly type resources, maybe Kotlin dataframe
 - [ ] Add workflow to the project (CI/CD, ect...)
+- [ ] Support Nvidia GPU
+- [ ] Support Linux
 - [ ] UI
   - [ ] Implement settings (info, help, launch at start up)
   - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
-  - [x] Add animations
-- [ ] Support Linux
-- [ ] Support Nvidia GPU
+  - [ ] Add animations
+- [ ] Add tests
+  - [ ] UI
+  - [ ] Update
+- [ ] Use expect/acutal functions of Kotlin instead of the current External interface (Kotlin don't support it for now)
 - [ ] Support water cooling
 
 
