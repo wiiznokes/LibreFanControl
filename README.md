@@ -49,6 +49,7 @@
 
 #### UI
 - [Compose Multiplatform Desktop](https://www.jetbrains.com/lp/compose-mpp/)
+- [setting-sliding-windows](https://github.com/wiiznokes/setting-sliding-windows)
 #### SENSORS
 ##### Windows
 - [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor)
