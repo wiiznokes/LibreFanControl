@@ -1,15 +1,21 @@
-namespace HardwareDaemon.Hardware
+namespace HardwareDaemon.Hardware;
+
+public class BaseDevice
 {
-    public class BaseDevice
+    protected BaseDevice(string name, int index, string id)
     {
-        public string Name { get; protected set; }
-        public int Index { get; protected set; }
-        public string Id { get; protected set; }
+        Name = name;
+        Index = index;
+        Id = id;
+        Value = 0;
+    }
+    public string Name { get; }
+    public int Index { get; }
+    public string Id { get; }
 
-        public int Value { get; protected set; }
+    protected int Value { get; set; }
 
-        public virtual void Update()
-        {
-        }
+    public virtual void Update()
+    {
     }
 }

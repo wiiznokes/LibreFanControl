@@ -1,10 +1,8 @@
-﻿namespace HardwareDaemon.Hardware.Sensor
+﻿namespace HardwareDaemon.Hardware.Sensor;
+
+public class BaseSensor : BaseDevice
 {
-    public class BaseSensor : BaseDevice
+    protected BaseSensor(string name, int index, string id) : base(name, index, id)
     {
-        protected BaseSensor()
-        {
-            Value = 0;
-        }
     }
 }

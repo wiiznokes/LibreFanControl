@@ -1,33 +1,31 @@
-﻿namespace HardwareDaemon.Hardware.Control
+﻿namespace HardwareDaemon.Hardware.Control;
+
+public class BaseControl : BaseDevice
 {
-    public class BaseControl : BaseDevice
+    protected BaseControl(string name, int index, string id): base(name, index, id)
     {
-        protected BaseControl()
-        {
-            Value = 0;
-            IsSetSpeed = false;
-        }
+        IsSetSpeed = false;
+    }
 
-        protected bool IsSetSpeed { get; set; }
+    protected bool IsSetSpeed { get; set; }
 
-        public virtual int GetMinSpeed()
-        {
-            return 0;
-        }
+    public virtual int GetMinSpeed()
+    {
+        return 0;
+    }
 
-        public virtual int GetMaxSpeed()
-        {
-            return 100;
-        }
+    public virtual int GetMaxSpeed()
+    {
+        return 100;
+    }
 
-        public virtual bool SetSpeed(int value)
-        {
-            return false;
-        }
+    public virtual bool SetSpeed(int value)
+    {
+        return false;
+    }
 
-        public virtual bool SetAuto()
-        {
-            return false;
-        }
+    public virtual bool SetAuto()
+    {
+        return false;
     }
 }
