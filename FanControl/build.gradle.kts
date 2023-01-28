@@ -33,6 +33,7 @@ kotlin {
 
                 implementation("org.jetbrains.compose.material3:material3-desktop:${extra["compose.version"] as String}")
                 implementation("org.json:json:20220924")
+                implementation("com.google.protobuf:protobuf-java:3.21.12")
                 implementation("com.github.wiiznokes:setting-sliding-windows:2.0.1")
                 //implementation("com.example:setting-sliding-windows-jvm:2.0.1")
             }

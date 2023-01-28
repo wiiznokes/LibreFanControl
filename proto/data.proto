@@ -1,0 +1,10 @@
+﻿syntax = "proto3";
+option csharp_namespace = "Proto";
+option java_package = "external.windows";
+
+message Device {
+    string Name = 1;
+    int32 Index = 2;
+    string Id = 3;
+    int32 Value = 4;
+}

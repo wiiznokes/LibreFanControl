@@ -37,6 +37,7 @@ public class SocketListener
              string data = null;
              byte[] bytes = null;
 
+             /*
             while (true)
             {
                 bytes = new byte[8];
@@ -49,8 +50,18 @@ public class SocketListener
                 Console.WriteLine("Text received : {0}", data);
                 break;
             }
+            */
 
-            byte[] msg = Encoding.ASCII.GetBytes(data);
+            var device = new Proto.Device
+            {
+                Name = "Device1",
+                Index = 1,
+                Id = "123",
+                Value = 10
+            };
+        
+            var msg = Google.Protobuf.MessageExtensions.ToByteArray(device);
+            
             handler.Send(msg);
             handler.Shutdown(SocketShutdown.Both);
             handler.Close();
