@@ -13,7 +13,7 @@ HardwareWrapper/HardwareLib/bin/
 
 
 
-Hardware/
+./Hardware/
 
 
 HardwareLib/HardwareDaemon/obj/
