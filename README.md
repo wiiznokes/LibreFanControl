@@ -33,7 +33,7 @@
 - [ ] Use strongly type resources, maybe Kotlin dataframe
 - [ ] Add workflow to the project (CI/CD, ect...)
 - [ ] Support Nvidia GPU
-- [ ] Add a program to automatically bind control with his fan (may change the architecture so I will do it later)
+- [ ] Add a program to automatically bind controls with his fan (may change the architecture so I will do it later)
 - [ ] Support Linux
 - [ ] UI
   - [ ] Implement settings (info, help, launch at start up)
