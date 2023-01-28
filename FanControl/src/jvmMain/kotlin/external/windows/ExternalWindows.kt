@@ -7,7 +7,11 @@ import model.HardwareType
 import model.hardware.Sensor
 import model.item.control.Control
 import utils.Id.Companion.getAvailableId
+import java.io.BufferedReader
 import java.io.File
+import java.io.InputStreamReader
+import java.io.PrintWriter
+import java.net.Socket
 
 class ExternalWindows(
     private val firstStart: Boolean = State.settings.value.firstStart
@@ -21,21 +25,15 @@ class ExternalWindows(
         controlList: SnapshotStateList<Control>,
         controlChangeList: SnapshotStateList<Boolean>
     ) {
-        val includeFolder = File(System.getProperty("compose.application.resources.dir"))
 
-        if (firstStart) {
-            copyFiles(
-                srcDir = includeFolder.resolve("jvm"),
-                destDir = includeFolder.resolve("../..")
-            )
-            removeDir(
-                dir = includeFolder.resolve("jvm")
-            )
-        }
+        val client = Socket("::1", 11000)
+        val output = PrintWriter(client.getOutputStream(), true)
+        val input = BufferedReader(InputStreamReader(client.inputStream))
 
-        System.load(includeFolder.resolve("app/CppProxy.dll").path)
-        externalStart(values)
-        super.start(fanList, tempList, controlList, controlChangeList)
+        println("Client sending [Hello]")
+        output.println("Hello\n")
+        println("Client receiving [${input.readLine()}]")
+        client.close()
     }
 
     override fun stop() {
