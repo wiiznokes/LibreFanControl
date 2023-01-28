@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CppProxy", "CppProxy\CppProxy.vcxproj", "{04E3C131-FABA-4B77-961A-A095A5AD2C0A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardwareLib", "HardwareLib\HardwareLib.csproj", "{43C97844-8C7B-47F6-BB63-71F3322E5F77}"
 EndProject
 Global
@@ -15,14 +13,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{04E3C131-FABA-4B77-961A-A095A5AD2C0A}.Debug|x64.ActiveCfg = Debug|x64
-		{04E3C131-FABA-4B77-961A-A095A5AD2C0A}.Debug|x64.Build.0 = Debug|x64
-		{04E3C131-FABA-4B77-961A-A095A5AD2C0A}.Release|x64.ActiveCfg = Release|x64
-		{04E3C131-FABA-4B77-961A-A095A5AD2C0A}.Release|x64.Build.0 = Release|x64
-		{04E3C131-FABA-4B77-961A-A095A5AD2C0A}.Release|x86.ActiveCfg = Release|Win32
-		{04E3C131-FABA-4B77-961A-A095A5AD2C0A}.Release|x86.Build.0 = Release|Win32
-		{04E3C131-FABA-4B77-961A-A095A5AD2C0A}.Debug|x86.ActiveCfg = Debug|Win32
-		{04E3C131-FABA-4B77-961A-A095A5AD2C0A}.Debug|x86.Build.0 = Debug|Win32
 		{43C97844-8C7B-47F6-BB63-71F3322E5F77}.Debug|x64.ActiveCfg = Debug|x64
 		{43C97844-8C7B-47F6-BB63-71F3322E5F77}.Debug|x64.Build.0 = Debug|x64
 		{43C97844-8C7B-47F6-BB63-71F3322E5F77}.Release|x86.ActiveCfg = Release|x86
