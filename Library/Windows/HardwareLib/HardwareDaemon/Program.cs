@@ -1,12 +1,9 @@
-﻿using System;
+﻿namespace HardwareDaemon;
 
-namespace MyApp // Note: actual namespace depends on the project name.
+internal static class Program
 {
-    internal class Program
+    private static void Main()
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
+        SocketListener.StartServer();
     }
 }
