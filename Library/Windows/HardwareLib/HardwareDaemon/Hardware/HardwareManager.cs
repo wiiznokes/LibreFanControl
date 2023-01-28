@@ -1,6 +1,5 @@
 ﻿using HardwareDaemon.Hardware.Control;
 using HardwareDaemon.Hardware.Sensor;
-using HardwareLib.Hardware;
 using NvAPIWrapper;
 using NvAPIWrapper.GPU;
 using NvAPIWrapper.Native.GPU;
