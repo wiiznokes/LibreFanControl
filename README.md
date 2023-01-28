@@ -39,7 +39,7 @@
   - [ ] Implement settings (info, help, launch at start up)
   - [ ] Implement controls just like the rest of the app
   - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
-  - [ ] Change the size of item, upgrade settings looks
+  - [ ] Change the size of items, upgrade settings looks
   - [ ] Add animations
 - [ ] Add tests
   - [ ] UI
