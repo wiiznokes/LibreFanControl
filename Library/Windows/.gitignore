@@ -11,10 +11,6 @@ HardwareWrapper/MigrationBackup/
 HardwareWrapper/HardwareLib/obj/
 HardwareWrapper/HardwareLib/bin/
 
-
-
-./Hardware/
-
-
+HardwareLib/.vs/
 HardwareLib/HardwareDaemon/obj/
 HardwareLib/HardwareDaemon/bin/

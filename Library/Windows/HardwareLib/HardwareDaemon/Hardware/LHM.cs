@@ -1,6 +1,5 @@
 ﻿using HardwareDaemon.Hardware.Control;
 using HardwareDaemon.Hardware.Sensor;
-using HardwareLib.Hardware;
 using LibreHardwareMonitor.Hardware;
 
 namespace HardwareDaemon.Hardware
