@@ -30,30 +30,21 @@ public class HardwareManager
         _controlList.Clear();
     }
 
-   
+
     public static void UpdateControl()
     {
-        foreach (var control in _controlList)
-        {
-            control.Update();
-        }
+        foreach (var control in _controlList) control.Update();
     }
 
     public void UpdateFan()
     {
         _lhm.Update();
-        foreach (var fan in _fanList)
-        {
-            fan.Update();
-        }
+        foreach (var fan in _fanList) fan.Update();
     }
 
     public static void UpdateTemp()
     {
-        foreach (var temp in _tempList)
-        {
-            temp.Update();
-        }
+        foreach (var temp in _tempList) temp.Update();
     }
 
 

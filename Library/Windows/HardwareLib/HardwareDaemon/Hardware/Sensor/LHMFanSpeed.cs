@@ -7,7 +7,7 @@ public class LhmFanSpeed : BaseSensor
     // ISensor
     private readonly ISensor _mSensor;
 
-    public LhmFanSpeed(string id, ISensor sensor, string name, int index): base(name, index, id)
+    public LhmFanSpeed(string id, ISensor sensor, string name, int index) : base(name, index, id)
     {
         _mSensor = sensor;
     }

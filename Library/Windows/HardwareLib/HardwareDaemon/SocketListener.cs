@@ -7,7 +7,6 @@ namespace HardwareDaemon;
 
 public static class SocketListener
 {
-
     public static void StartServer()
     {
         var host = Dns.GetHostEntry("localhost");
@@ -25,7 +24,7 @@ public static class SocketListener
             Console.WriteLine("Waiting for a connection...");
             var handler = listener.Accept();
             Console.WriteLine("after accept");
-            
+
             var device1 = new Device
             {
                 Name = "Device1",
@@ -42,7 +41,6 @@ public static class SocketListener
             };
 
 
-
             var deviceList = new DeviceList
             {
                 Type = DeviceList.Types.DeviceType.Control,
@@ -50,11 +48,11 @@ public static class SocketListener
             };
 
             handler.Send(deviceList.ToByteArray());
-            
+
             handler.Close();
         }
         catch (Exception e)
-        {   
+        {
             Console.WriteLine(e.ToString());
             Thread.Sleep(2000);
         }

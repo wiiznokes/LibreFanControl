@@ -2,7 +2,7 @@
 
 public class BaseControl : BaseDevice
 {
-    protected BaseControl(string name, int index, string id): base(name, index, id)
+    protected BaseControl(string name, int index, string id) : base(name, index, id)
     {
         IsSetSpeed = false;
     }

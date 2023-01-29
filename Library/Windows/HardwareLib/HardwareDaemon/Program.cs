@@ -7,4 +7,3 @@ internal static class Program
         SocketListener.StartServer();
     }
 }
-

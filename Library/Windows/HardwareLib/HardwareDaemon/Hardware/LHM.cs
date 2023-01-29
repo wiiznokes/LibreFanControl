@@ -57,7 +57,7 @@ public class Lhm : IVisitor
 
         _mComputer.Close();
     }
-    
+
     public void CreateControl(ref List<BaseControl> deviceList)
     {
         var index = 0;
