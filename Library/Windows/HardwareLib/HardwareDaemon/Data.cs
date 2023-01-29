@@ -25,8 +25,8 @@ namespace Proto {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CgpkYXRhLnByb3RvIkAKBkRldmljZRIMCgROYW1lGAEgASgJEg0KBUluZGV4",
-            "GAIgASgFEgoKAklkGAMgASgJEg0KBVZhbHVlGAQgASgFQiAKFmV4dGVybmFs",
-            "LndpbmRvd3MucHJvdG+qAgVQcm90b2IGcHJvdG8z"));
+            "GAIgASgFEgoKAklkGAMgASgJEg0KBVZhbHVlGAQgASgFQigKFmV4dGVybmFs",
+            "LndpbmRvd3MucHJvdG9CBERhdGFQAaoCBVByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {

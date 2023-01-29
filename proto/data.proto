@@ -1,5 +1,8 @@
 ﻿syntax = "proto3";
 
+option java_outer_classname = "Data";
+option java_multiple_files = true;
+
 option csharp_namespace = "Proto";
 option java_package = "external.windows.proto";
 

@@ -4,21 +4,23 @@
 package external.windows.proto;
 
 @kotlin.jvm.JvmName("-initializedevice")
-public inline fun device(block: external.windows.proto.DeviceKt.Dsl.() -> kotlin.Unit): external.windows.proto.Data.Device =
-  external.windows.proto.DeviceKt.Dsl._create(external.windows.proto.Data.Device.newBuilder()).apply { block() }._build()
+public inline fun device(block: external.windows.proto.DeviceKt.Dsl.() -> kotlin.Unit): external.windows.proto.Device =
+  external.windows.proto.DeviceKt.Dsl._create(external.windows.proto.Device.newBuilder()).apply { block() }._build()
 public object DeviceKt {
+  @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+  @com.google.protobuf.kotlin.ProtoDslMarker
   public class Dsl private constructor(
-    private val _builder: external.windows.proto.Data.Device.Builder
+    private val _builder: external.windows.proto.Device.Builder
   ) {
     public companion object {
       @kotlin.jvm.JvmSynthetic
       @kotlin.PublishedApi
-      internal fun _create(builder: external.windows.proto.Data.Device.Builder): Dsl = Dsl(builder)
+      internal fun _create(builder: external.windows.proto.Device.Builder): Dsl = Dsl(builder)
     }
 
     @kotlin.jvm.JvmSynthetic
     @kotlin.PublishedApi
-    internal fun _build(): external.windows.proto.Data.Device = _builder.build()
+    internal fun _build(): external.windows.proto.Device = _builder.build()
 
     /**
      * <code>string Name = 1;</code>
@@ -90,6 +92,6 @@ public object DeviceKt {
   }
 }
 @kotlin.jvm.JvmSynthetic
-public inline fun external.windows.proto.Data.Device.copy(block: external.windows.proto.DeviceKt.Dsl.() -> kotlin.Unit): external.windows.proto.Data.Device =
+public inline fun external.windows.proto.Device.copy(block: external.windows.proto.DeviceKt.Dsl.() -> kotlin.Unit): external.windows.proto.Device =
   external.windows.proto.DeviceKt.Dsl._create(this.toBuilder()).apply { block() }._build()
 

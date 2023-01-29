@@ -1,15 +1,8 @@
-$OldPath = Get-Location
-Set-Location $PSScriptRoot
+$protocPath = $PSScriptRoot + "/protoc-21.12-win64/bin/protoc.exe"
+$protoFilePath = $PSScriptRoot + "/data.proto"
 
 
-$protocPath = "./protoc-21.12-win64/bin/protoc.exe"
-$protoFilePath = "./data.proto"
-
-
-$csharpOutput = "./../Library/Windows/HardwareLib/HardwareDaemon/"
-$kotlinOutput = "./../FanControl/src/jvmMain/kotlin/"
+$csharpOutput = $PSScriptRoot + "/../Library/Windows/HardwareLib/HardwareDaemon/"
+$kotlinOutput = $PSScriptRoot + "/../FanControl/src/jvmMain/kotlin/"
  
-& "$protocPath" "$protoFilePath" "--csharp_out" "$csharpOutput" "--java_out" "$kotlinOutput" "--kotlin_out" "$kotlinOutput"
-
-
-Set-Location $OldPath
+& "$protocPath" "-I" "$PSScriptRoot" "--csharp_out" "$csharpOutput" "--java_out" "$kotlinOutput" "--kotlin_out" "$kotlinOutput" "$protoFilePath"
