@@ -5,16 +5,17 @@
         <TargetFramework>net6.0-windows</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Configurations>Debug;Release</Configurations>
+        <Configurations>Release;Debug</Configurations>
         <SelfContained>false</SelfContained>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <Platforms>x64</Platforms>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
       <OutputPath>.\..\..\..\..\FanControl\include\windows\</OutputPath>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
       <OutputPath>.\..\..\..\..\FanControl\include\windows\</OutputPath>
     </PropertyGroup>
 
