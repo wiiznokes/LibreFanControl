@@ -5,11 +5,23 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <Configurations>Debug;Release</Configurations>
+        <Platforms>AnyCPU;Windows</Platforms>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <OutputPath>.\..\..\..\..\FanControl\include\windows\</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <OutputPath>.\..\..\..\..\FanControl\include\windows\</OutputPath>
+      <PlatformTarget>x64</PlatformTarget>
+      <DebugType>portable</DebugType>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Google.Protobuf" Version="3.21.12"/>
-        <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.1"/>
+        <PackageReference Include="Google.Protobuf" Version="3.21.12" />
+        <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.1" />
     </ItemGroup>
 
 </Project>

@@ -22,7 +22,7 @@ public class ProtoHelper {
         return list.getUpdateList();
     }
 
-    public static byte[] getSetControl (int libIndex, boolean isAuto, int value) {
+    public static byte[] getSetControl(int libIndex, boolean isAuto, int value) {
 
         SetControl setControl = SetControl.newBuilder()
                 .setLibIndex(libIndex)

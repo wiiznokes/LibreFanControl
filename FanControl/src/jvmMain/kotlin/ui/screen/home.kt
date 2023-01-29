@@ -1,20 +1,19 @@
 package ui.screen
 
 import androidx.compose.animation.*
-import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import ui.screen.addItem.ChoiceType
 import ui.screen.addItem.addItem
 import ui.screen.body.body
 import ui.screen.drawer.drawer
@@ -63,19 +62,19 @@ fun home() {
                         transitionSpec = {
                             ContentTransform(
                                 targetContentEnter =
-                                    slideInHorizontally(
-                                        tween(durationMillis = 1000),
-                                        initialOffsetX = {
-                                            it
-                                        }
-                                    ),
+                                slideInHorizontally(
+                                    tween(durationMillis = 1000),
+                                    initialOffsetX = {
+                                        it
+                                    }
+                                ),
                                 initialContentExit =
-                                    slideOutHorizontally(
-                                        tween(durationMillis = 1000),
-                                        targetOffsetX = {
-                                            it
-                                        }
-                                    )
+                                slideOutHorizontally(
+                                    tween(durationMillis = 1000),
+                                    targetOffsetX = {
+                                        it
+                                    }
+                                )
 
                             )
                         }
