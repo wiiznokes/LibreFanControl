@@ -1,16 +1,3 @@
-### Solution ###
-
-HardwareWrapper/x64/
-HardwareWrapper/.vs/
-HardwareWrapper/packages/
-HardwareWrapper/HardwareWrapper.sln.DotSettings.user
-HardwareWrapper/MigrationBackup/
-
-### C# project: Hardware ###
-
-HardwareWrapper/HardwareLib/obj/
-HardwareWrapper/HardwareLib/bin/
-
 HardwareLib/.vs/
 HardwareLib/HardwareDaemon/obj/
 HardwareLib/HardwareDaemon/bin/
