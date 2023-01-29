@@ -2,6 +2,8 @@ package external.windows
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import external.External
+import external.windows.proto.Data
+import external.windows.proto.DeviceKt
 import model.HardwareType
 import model.hardware.Sensor
 import model.item.control.Control
@@ -15,7 +17,7 @@ class ExternalWindows : External {
     private var inputStream: InputStream? = null
 
     private val byteArray = ByteArray(1024)
-    private var device: Data.Device? = null
+    private var device: Data.Device.Builder? = null
 
     override fun start(
         fanList: SnapshotStateList<Sensor>,
@@ -38,7 +40,7 @@ class ExternalWindows : External {
         if (bytesRead == null || bytesRead == 0)
             return
 
-        device = Data.Device.parseFrom(byteArray.sliceArray(0 until bytesRead))
+        device = Data.Device.newBuilder().mergeFrom(byteArray.sliceArray(0 until bytesRead))
 
         fanList.add(
             Sensor(

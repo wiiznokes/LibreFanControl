@@ -13,6 +13,8 @@ public static class SocketListener
         var host = Dns.GetHostEntry("localhost");
         var ipAddress = host.AddressList[0];
         var localEndPoint = new IPEndPoint(ipAddress, 11000);
+
+        Socket? handler = null;
         while (true)
         {
             try
@@ -25,7 +27,7 @@ public static class SocketListener
                 listener.Listen(10);
 
                 Console.WriteLine("Waiting for a connection...");
-                var handler = listener.Accept();
+                handler = listener.Accept();
                 Console.WriteLine("after accept");
 
 
@@ -49,9 +51,10 @@ public static class SocketListener
 
             }
             catch (Exception e)
-            {
+            {   
                 Console.WriteLine(e.ToString());
                 Thread.Sleep(2000);
+                handler?.Close();
             }
         }
 

@@ -8,8 +8,8 @@ $protoFilePath = "./data.proto"
 
 $csharpOutput = "./../Library/Windows/HardwareLib/HardwareDaemon/"
 $kotlinOutput = "./../FanControl/src/jvmMain/kotlin/"
-
-& "$protocPath" "$protoFilePath" "--csharp_out" "$csharpOutput" "--java_out" "$kotlinOutput"
+ 
+& "$protocPath" "$protoFilePath" "--csharp_out" "$csharpOutput" "--java_out" "$kotlinOutput" "--kotlin_out" "$kotlinOutput"
 
 
 Set-Location $OldPath
