@@ -1,5 +1,5 @@
 $OldPath = Get-Location
-cd $PSScriptRoot
+Set-Location $PSScriptRoot
 
 
 $protocPath = "./protoc-21.12-win64/bin/protoc.exe"
@@ -12,4 +12,4 @@ $kotlinOutput = "./../FanControl/src/jvmMain/kotlin/"
 & "$protocPath" "$protoFilePath" "--csharp_out" "$csharpOutput" "--java_out" "$kotlinOutput"
 
 
-cd $OldPath
+Set-Location $OldPath

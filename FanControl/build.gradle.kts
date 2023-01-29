@@ -20,9 +20,10 @@ kotlin {
     jvm {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "17"
+                jvmTarget = "11"
             }
         }
+        withJava()
     }
     sourceSets {
         val jvmMain by getting {
