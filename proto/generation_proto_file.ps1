@@ -3,6 +3,6 @@ $protoFilePath = $PSScriptRoot + "/data.proto"
 
 
 $csharpOutput = $PSScriptRoot + "/../Library/Windows/HardwareLib/HardwareDaemon/"
-$kotlinOutput = $PSScriptRoot + "/../FanControl/src/jvmMain/kotlin/"
+$kotlinOutput = $PSScriptRoot + "/../FanControl/src/jvmMain/java/"
  
-& "$protocPath" "-I" "$PSScriptRoot" "--csharp_out" "$csharpOutput" "--java_out" "$kotlinOutput" "--kotlin_out" "$kotlinOutput" "$protoFilePath"
+& "$protocPath" "-I" "$PSScriptRoot" "--csharp_out" "$csharpOutput" "--java_out" "$kotlinOutput" "$protoFilePath"

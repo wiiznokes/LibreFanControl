@@ -2,7 +2,6 @@ package external.windows
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import external.External
-import external.windows.proto.Device
 import model.hardware.Sensor
 import model.item.control.Control
 import java.io.InputStream
@@ -33,25 +32,14 @@ class ExternalWindows : External {
 
     override fun setFanList(fanList: SnapshotStateList<Sensor>) {
         val bytesRead = inputStream?.read(byteArray)
-        if (bytesRead == null || bytesRead == 0)
-            return
 
-        val device = Device.newBuilder().mergeFrom(byteArray.sliceArray(0 until bytesRead))
+        val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
-    /*
-        device = Data.Device.newBuilder().mergeFrom(byteArray.sliceArray(0 until bytesRead))
-
-        fanList.add(
-            Sensor(
-                libIndex = device!!.index,
-                libId = device!!.id,
-                libName = device!!.name,
-                type = HardwareType.SensorType.H_S_FAN,
-                id = getAvailableId(fanList.map { it.id })
-            )
-        )
-
-         */
+        println(deviceList.type)
+        deviceList.deviceList.forEach {
+            println(it.name)
+            println(it.value)
+        }
     }
 
     override fun setTempList(tempList: SnapshotStateList<Sensor>) {

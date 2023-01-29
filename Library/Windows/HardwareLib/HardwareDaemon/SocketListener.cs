@@ -1,5 +1,7 @@
 ﻿using System.Net;
 using System.Net.Sockets;
+using Google.Protobuf;
+using Proto;
 
 namespace HardwareDaemon;
 
@@ -24,15 +26,30 @@ public static class SocketListener
             var handler = listener.Accept();
             Console.WriteLine("after accept");
             
-            var device = new Proto.Device
+            var device1 = new Device
             {
                 Name = "Device1",
                 Index = 1,
                 Id = "123",
                 Value = 10
             };
-            var msg = Google.Protobuf.MessageExtensions.ToByteArray(device);
-            handler.Send(msg);
+            var device2 = new Device
+            {
+                Name = "Device2",
+                Index = 1,
+                Id = "123",
+                Value = 10
+            };
+
+
+
+            var deviceList = new DeviceList
+            {
+                Type = DeviceList.Types.DeviceType.Control,
+                Device = { device1, device2 }
+            };
+
+            handler.Send(deviceList.ToByteArray());
             
             handler.Close();
         }

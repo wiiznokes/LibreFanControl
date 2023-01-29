@@ -12,3 +12,29 @@ message Device {
     string Id = 3;
     int32 Value = 4;
 }
+
+message DeviceList {
+    enum DeviceType {
+        CONTROL = 0;
+        FAN = 1;
+        TEMP = 2;
+    }
+
+    DeviceType Type = 1;
+    repeated Device Device = 2;
+}
+
+message SetControl {
+    int32 LibIndex = 1;
+    bool isAuto = 2;
+    int32 Value = 3;
+}
+
+message Update {
+    int32 Index = 1;
+    int32 Value = 2;
+}
+
+message UpdateList {
+    repeated Update Update = 1;
+}
