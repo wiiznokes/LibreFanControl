@@ -8,7 +8,7 @@
 ## Notes
 Windows is currently the only supported OS. I will support Linux soon, but for now, I'm not able to control the fans of my pc.
 
-I intend to produce a v2 with a service system, which will therefore be much lighter in resources. The service will be in charge of fetching datas, calculate the % for fans controlling, based on the configuration made with the app and set controls values. Communication between the service and the app will be powered by gRPC, a powerfull protocol used in microservice.
+I intend to produce a v2 with a service system, which will therefore be much lighter on resources. The service will be in charge of fetching datas, calculate the % for fans controlling, based on the configuration made with the app and set controls values. Communication between the service and the app will be powered by gRPC, a powerfull protocol used in microservice.
 
 ## Feature
 - Customize UI (data in real time, several kinds of items)
