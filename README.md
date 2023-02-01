@@ -6,40 +6,35 @@
 
 
 ## Notes
-- Windows is currently the only supported OS.
-- To support Linux, we must first implement an interface used in Kotlin. It might be easier than Windows because C++ is the only language required, and it's very easy to use it with Kotlin, but [lm-sensor](https://github.com/lm-sensors/lm-sensors) doesn't look like an easy-to-use library.
-- High usage of RAM can be seen for now, but it will be improve in future update I hope.
+Windows is currently the only supported OS. I will support Linux soon, but for now, I'm not able to control the fans of my pc.
 
+I intend to produce a v2 with a service system, which will therefore be much lighter in resources. The service will be in charge of fetching datas, calculate the % for fans controlling, based on the configuration made with the app and set controls values. Communication between the service and the app will be powered by gRPC, a powerfull protocol used in microservice.
 
 ## Feature
 - Customize UI (data in real time, several kinds of items)
-- Control fan (GPU fan don't work for now)
+- Control fans
 - Linear and Target behavior
 - Custom sensor (average, max, ...)
 - Save configuration
 
 
 ## Build
-- You will need a JDK ([JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html), [JDK 19](https://jdk.java.net/19/))
-- Compile the library (`dotnet build` doesn't work for some reason, so you'll need an editor (I personally use Rider))
-- `.\gradlew runDistributable` in FanControl folder
--  `.\gradlew packageReleaseMsi` to build the package (`remove_duplicate_libs.ps1` script may be useful to reduce the final size)
+- Compile the library (`dotnet build` doesn't work for some reason, so you'll need an editor)
+- `.\gradlew runDistributable` in FanControl folder ([JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html), [JDK 19](https://jdk.java.net/19/))
 
 
 ## Next steps
 
 - [x] Publish
-- [ ] Maybe change the way of fetching data, use .proto file and socket
 - [ ] Use strongly type resources, maybe Kotlin dataframe
 - [ ] Add workflow to the project (CI/CD, ect...)
-- [ ] Support Nvidia GPU
 - [ ] Add a program to automatically bind controls with his fan (may change the architecture so I will do it later)
 - [ ] Support Linux
 - [ ] UI
   - [ ] Implement settings (info, help, launch at start up)
   - [ ] Implement controls just like the rest of the app
   - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
-  - [ ] Change the size of items, upgrade settings looks
+  - [ ] Change the size of items, upgrade settings and add items looks
   - [ ] Add animations
 - [ ] Add tests
   - [ ] UI
@@ -56,7 +51,6 @@
 #### SENSORS
 ##### Windows
 - [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor)
-- [Nvidia api wrapper](https://github.com/falahati/NvAPIWrapper)
 ##### Linux
 - [lm-sensor](https://github.com/lm-sensors/lm-sensors)
 
