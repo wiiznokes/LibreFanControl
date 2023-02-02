@@ -29,8 +29,10 @@ class ExternalWindows : External {
     }
 
     private fun makeRequest(command: Command) {
+        println("make request: $command")
         outputStream?.let { PrintWriter(it, true).write(command.name) }
         outputStream?.flush()
+        println("request send")
     }
 
 
@@ -75,11 +77,12 @@ class ExternalWindows : External {
     }
 
     override fun stop() {
+        println("close socket")
         client.close()
     }
 
     override fun setControlList(controlList: SnapshotStateList<Control>) {
-
+        println("setControlList")
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
@@ -100,6 +103,7 @@ class ExternalWindows : External {
     }
 
     override fun setFanList(fanList: SnapshotStateList<Sensor>) {
+        println("setControlList")
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
@@ -117,6 +121,7 @@ class ExternalWindows : External {
     }
 
     override fun setTempList(tempList: SnapshotStateList<Sensor>) {
+        println("setControlList")
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
@@ -134,6 +139,7 @@ class ExternalWindows : External {
     }
 
     override fun updateControlList(controlList: SnapshotStateList<Control>) {
+        println("updateControlList")
         makeRequest(Command.Controls)
 
         val bytesRead = inputStream?.read(byteArray)

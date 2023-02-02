@@ -26,24 +26,7 @@ internal static class Program
         SocketListener.TryConnect();
         StartListening();
     }
-
-    private static void SendInfo()
-    {
-        SocketListener.SendDevice(
-            _controls.Cast<BaseDevice>().ToList(),
-            DeviceList.Types.DeviceType.Control
-        );
-        Thread.Sleep(500);
-        SocketListener.SendDevice(
-            _fans.Cast<BaseDevice>().ToList(),
-            DeviceList.Types.DeviceType.Fan
-        );
-        Thread.Sleep(500);
-        SocketListener.SendDevice(
-            _temps.Cast<BaseDevice>().ToList(),
-            DeviceList.Types.DeviceType.Temp
-        );
-    }
+    
 
     private static void StartListening()
     {
@@ -88,5 +71,25 @@ internal static class Program
             
             Console.WriteLine("new update");
         }
+        
+        
+    }
+    
+    private static void SendInfo()
+    {
+        SocketListener.SendDevice(
+            _controls.Cast<BaseDevice>().ToList(),
+            DeviceList.Types.DeviceType.Control
+        );
+        Thread.Sleep(500);
+        SocketListener.SendDevice(
+            _fans.Cast<BaseDevice>().ToList(),
+            DeviceList.Types.DeviceType.Fan
+        );
+        Thread.Sleep(500);
+        SocketListener.SendDevice(
+            _temps.Cast<BaseDevice>().ToList(),
+            DeviceList.Types.DeviceType.Temp
+        );
     }
 }
