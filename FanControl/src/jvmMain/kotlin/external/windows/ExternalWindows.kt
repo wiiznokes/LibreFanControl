@@ -27,7 +27,7 @@ class ExternalWindows : External {
         controlChangeList: SnapshotStateList<Boolean>
     ) {
         val path = File(System.getProperty("compose.application.resources.dir"))
-            .resolve("net6.0-windows/win-x64/HardwareDaemon.exe").path
+            .resolve("HardwareDaemon.exe").path
 
         process = ProcessBuilder(path).start()
 
