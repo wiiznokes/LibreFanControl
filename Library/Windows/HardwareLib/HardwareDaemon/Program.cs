@@ -1,6 +1,8 @@
 ﻿using HardwareDaemon.Hardware;
 using HardwareDaemon.Hardware.Control;
 using HardwareDaemon.Hardware.Sensor;
+using HidSharp;
+using DeviceList = Proto.DeviceList;
 
 namespace HardwareDaemon;
 
@@ -27,6 +29,21 @@ internal static class Program
             ref _fans,
             ref _temps
         );
+        
+        SocketListener.SendDevice(
+            _controls.Cast<BaseDevice>().ToList(),
+            DeviceList.Types.DeviceType.Control
+        );
+        SocketListener.SendDevice(
+            _fans.Cast<BaseDevice>().ToList(),
+            DeviceList.Types.DeviceType.Fan
+        );
+        SocketListener.SendDevice(
+            _temps.Cast<BaseDevice>().ToList(),
+            DeviceList.Types.DeviceType.Temp
+        );
+
+        //StartUpdate();
     }
 
     private static void StartUpdate()
@@ -39,11 +56,7 @@ internal static class Program
                 ref _temps
             );
 
-            var t = _controls.Cast<BaseDevice>().ToList();
-            
-            SocketListener.SendDevice(
-                ref t
-            );
+            Thread.Sleep(2000);
             
         }
     }

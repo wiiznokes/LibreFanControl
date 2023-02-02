@@ -28,7 +28,8 @@ public static class SocketListener
     }
 
     public static void SendDevice(
-        ref List<BaseDevice> list
+        List<BaseDevice> list,
+        DeviceList.Types.DeviceType type
     )
     {
         var deviceList = new List<Device>();
@@ -44,7 +45,7 @@ public static class SocketListener
         
         var sDeviceList = new DeviceList
         {
-            Type = DeviceList.Types.DeviceType.Control,
+            Type = type,
             Device = { deviceList }
         };
 

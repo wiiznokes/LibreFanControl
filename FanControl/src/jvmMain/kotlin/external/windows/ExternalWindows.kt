@@ -44,23 +44,29 @@ class ExternalWindows : External {
         client.close()
     }
 
-
-    override fun setFanList(fanList: SnapshotStateList<Sensor>) {
+    override fun setControlList(controlList: SnapshotStateList<Control>) {
         val bytesRead = inputStream?.read(byteArray)
-
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
         println(deviceList.type)
-        deviceList.deviceList.forEach {
-            println(it.name)
-            println(it.value)
-        }
+
+    }
+
+    override fun setFanList(fanList: SnapshotStateList<Sensor>) {
+        val bytesRead = inputStream?.read(byteArray)
+        val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
+
+        println(deviceList.type)
     }
 
     override fun setTempList(tempList: SnapshotStateList<Sensor>) {
+        val bytesRead = inputStream?.read(byteArray)
+        val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
+
+        println(deviceList.type)
     }
 
-    override fun setControlList(controlList: SnapshotStateList<Control>) {
+    override fun updateControlList(controlList: SnapshotStateList<Control>) {
 
     }
 
@@ -69,10 +75,6 @@ class ExternalWindows : External {
     }
 
     override fun updateTempList(tempList: SnapshotStateList<Sensor>) {
-
-    }
-
-    override fun updateControlList(controlList: SnapshotStateList<Control>) {
 
     }
 
