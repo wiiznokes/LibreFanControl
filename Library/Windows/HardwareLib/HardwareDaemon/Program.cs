@@ -16,8 +16,6 @@ internal static class Program
 
     private static void Main()
     {
-        Console.WriteLine("Hello World!");
-        Thread.Sleep(1000);
         HardwareManager.Start(
             ref _controls,
             ref _fans,

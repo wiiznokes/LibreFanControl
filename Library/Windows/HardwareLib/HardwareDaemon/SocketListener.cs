@@ -25,7 +25,7 @@ public static class SocketListener
 
         Console.WriteLine("Waiting for a connection...");
         _handler = listener.Accept();
-        Console.WriteLine("Accept" + _handler.AddressFamily);
+        Console.WriteLine("Accept");
     }
 
     public static void SendDevice(
@@ -92,15 +92,15 @@ public static class SocketListener
     }
     
     
-
-    private static readonly byte[] Buffer = new byte[1024];
-    private static int _bytesReceived;
+    
     public static Command GetMessage()
-    {
-
-        _bytesReceived = _handler?.Receive(Buffer) ?? 0;
-        var message = Encoding.ASCII.GetString(Buffer, 0, _bytesReceived);
+    { 
+        var buffer = new byte[1024];
+        var bytesReceived = _handler?.Receive(buffer) ?? 0;
+        
+        var message = Encoding.ASCII.GetString(buffer, 0, bytesReceived);
         Console.WriteLine("message = " + message);
+        
         return message switch
         {
             "GetInfo" => Command.GetInfo,
