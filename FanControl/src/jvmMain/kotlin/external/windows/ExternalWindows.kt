@@ -17,9 +17,17 @@ import java.net.Socket
 
 
 
-
-
 class ExternalWindows : External {
+
+    private lateinit var process: Process
+
+    private lateinit var client: Socket
+    private var inputStream: InputStream? = null
+    private var outputStream: OutputStream? = null
+
+    private val byteArray = ByteArray(1024)
+
+
     enum class Command {
         GetInfo,
         Controls,
@@ -30,19 +38,9 @@ class ExternalWindows : External {
 
     private fun makeRequest(command: Command) {
         println("make request: $command")
-        outputStream?.let { PrintWriter(it, true).write(command.name) }
-        outputStream?.flush()
+        outputStream?.write(command.name.toByteArray())
         println("request send")
     }
-
-
-    private lateinit var process: Process
-
-    private lateinit var client: Socket
-    private var inputStream: InputStream? = null
-    private var outputStream: OutputStream? = null
-
-    private val byteArray = ByteArray(1024)
 
 
     override fun start(
@@ -77,12 +75,11 @@ class ExternalWindows : External {
     }
 
     override fun stop() {
-        println("close socket")
+        makeRequest(Command.Stop)
         client.close()
     }
 
     override fun setControlList(controlList: SnapshotStateList<Control>) {
-        println("setControlList")
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
@@ -103,7 +100,6 @@ class ExternalWindows : External {
     }
 
     override fun setFanList(fanList: SnapshotStateList<Sensor>) {
-        println("setControlList")
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
