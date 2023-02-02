@@ -13,9 +13,7 @@ public class BaseDevice
     public string Name { get; }
     public int Index { get; }
     public string Id { get; }
-
-
-    protected int Value { get; set; }
+    public int Value { get; protected set; }
 
     public virtual void Update()
     {

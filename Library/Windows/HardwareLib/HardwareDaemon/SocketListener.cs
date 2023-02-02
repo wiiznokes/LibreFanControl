@@ -1,60 +1,66 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using Google.Protobuf;
+using HardwareDaemon.Hardware;
 using Proto;
 
 namespace HardwareDaemon;
 
 public static class SocketListener
 {
-    public static void StartServer()
+
+    private static Socket? _handler;
+    private static readonly IPHostEntry Host = Dns.GetHostEntry("localhost");
+    private static readonly IPAddress IpAddress = Host.AddressList[0];
+    private const int Port = 11000;
+
+    public static void TryConnect()
     {
-        var host = Dns.GetHostEntry("localhost");
-        var ipAddress = host.AddressList[0];
-        var localEndPoint = new IPEndPoint(ipAddress, 11000);
+        var localEndPoint = new IPEndPoint(IpAddress, Port);
+
+        var listener = new Socket(IpAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        listener.Bind(localEndPoint);
+        listener.Listen(10);
+
+        Console.WriteLine("Waiting for a connection...");
+        _handler = listener.Accept();
+        Console.WriteLine("Accept" + _handler.AddressFamily);
+    }
+
+    public static void SendDevice(
+        ref List<BaseDevice> list
+    )
+    {
+        var deviceList = new List<Device>();
+        foreach (var item in list)
+        {
+            deviceList.Add(new Device {
+                Name = item.Name,
+                Index = item.Index,
+                Id = item.Id,
+                Value = item.Value
+            }); 
+        }
+        
+        var sDeviceList = new DeviceList
+        {
+            Type = DeviceList.Types.DeviceType.Control,
+            Device = { deviceList }
+        };
 
         try
         {
-            var listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            listener.Bind(localEndPoint);
-            // Specify how many requests a Socket can listen before it gives Server busy response.
-            // We will listen 10 requests at a time
-            listener.Listen(10);
-
-            Console.WriteLine("Waiting for a connection...");
-            var handler = listener.Accept();
-            Console.WriteLine("after accept");
-
-            var device1 = new Device
-            {
-                Name = "Device1",
-                Index = 1,
-                Id = "123",
-                Value = 10
-            };
-            var device2 = new Device
-            {
-                Name = "Device2",
-                Index = 1,
-                Id = "123",
-                Value = 10
-            };
-
-
-            var deviceList = new DeviceList
-            {
-                Type = DeviceList.Types.DeviceType.Control,
-                Device = { device1, device2 }
-            };
-
-            handler.Send(deviceList.ToByteArray());
-
-            handler.Close();
+            _handler?.Send(sDeviceList.ToByteArray());
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.ToString());
-            Thread.Sleep(2000);
+            Console.WriteLine(e);
+            throw;
         }
+    }
+
+    public static void Close()
+    {
+        _handler?.Close();
     }
 }

@@ -3,56 +3,59 @@ using HardwareDaemon.Hardware.Sensor;
 
 namespace HardwareDaemon.Hardware;
 
-public class HardwareManager
+public static class HardwareManager
 {
-    private static List<BaseControl> _controlList = new();
-    private static List<BaseSensor> _fanList = new();
-    private static List<BaseSensor> _tempList = new();
 
-    private readonly Lhm _lhm = new();
-
-
-    public void Start()
+    private static readonly Lhm Lhm = new();
+    
+    
+    public static void Start(
+        ref List<BaseControl> controls,
+        ref List<BaseSensor> fans,
+        ref List<BaseSensor> temps
+    )
     {
-        _lhm.Start();
+        Lhm.Start();
 
-        _lhm.CreateFan(ref _fanList);
-        _lhm.CreateTemp(ref _tempList);
-        _lhm.CreateControl(ref _controlList);
+        Lhm.CreateControl(ref controls);
+        Lhm.CreateFan(ref fans);
+        Lhm.CreateTemp(ref temps);
     }
 
-    public void Stop()
+    public static void Stop(
+        ref List<BaseControl> controls,
+        ref List<BaseSensor> fans,
+        ref List<BaseSensor> temps
+    )
     {
-        _lhm.Stop();
+        Lhm.Stop();
 
-        _fanList.Clear();
-        _tempList.Clear();
-        _controlList.Clear();
-    }
-
-
-    public static void UpdateControl()
-    {
-        foreach (var control in _controlList) control.Update();
-    }
-
-    public void UpdateFan()
-    {
-        _lhm.Update();
-        foreach (var fan in _fanList) fan.Update();
-    }
-
-    public static void UpdateTemp()
-    {
-        foreach (var temp in _tempList) temp.Update();
+        controls.Clear();
+        fans.Clear();
+        temps.Clear();
     }
 
 
-    public static bool SetControl(int index, bool isAuto, int value)
+    public static void Update(
+        ref List<BaseControl> controls,
+        ref List<BaseSensor> fans,
+        ref List<BaseSensor> temps
+    )
+    {
+        Lhm.Update();
+        foreach (var control in controls) control.Update();
+        foreach (var fan in fans) fan.Update(); 
+        foreach (var temp in temps) temp.Update();
+    }
+
+
+    public static bool SetControl(
+        ref List<BaseControl> controls,
+        int index, bool isAuto, int value)
     {
         try
         {
-            var control = _controlList[index];
+            var control = controls[index];
             return isAuto ? control.SetAuto() : control.SetSpeed(value);
         }
         catch (Exception e)
