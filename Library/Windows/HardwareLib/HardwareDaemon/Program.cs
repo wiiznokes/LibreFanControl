@@ -1,4 +1,5 @@
-﻿using HardwareDaemon.Hardware;
+﻿using System.Net.Sockets;
+using HardwareDaemon.Hardware;
 using HardwareDaemon.Hardware.Control;
 using HardwareDaemon.Hardware.Sensor;
 using HidSharp;
@@ -15,21 +16,19 @@ internal static class Program
 
     private static void Main()
     {
-        try
-        {
-            SocketListener.TryConnect();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        Console.WriteLine("Hello World!");
+        Thread.Sleep(1000);
         HardwareManager.Start(
             ref _controls,
             ref _fans,
             ref _temps
         );
-        
+        SocketListener.TryConnect();
+        StartListening();
+    }
+
+    private static void SendInfo()
+    {
         SocketListener.SendDevice(
             _controls.Cast<BaseDevice>().ToList(),
             DeviceList.Types.DeviceType.Control
@@ -44,22 +43,50 @@ internal static class Program
             _temps.Cast<BaseDevice>().ToList(),
             DeviceList.Types.DeviceType.Temp
         );
-        Thread.Sleep(10000);
-        //StartUpdate();
     }
 
-    private static void StartUpdate()
+    private static void StartListening()
     {
-        while (true)
+        var updateShouldStop = false;
+        while (!updateShouldStop)
         {
+            var command = SocketListener.GetMessage();
+            switch (command)
+            {
+                case Command.GetInfo:
+                    SendInfo();
+                    break;
+                
+                case Command.Controls:
+                    SocketListener.SendUpdate(
+                        _controls.Cast<BaseDevice>().ToList()
+                    );
+                    break;
+                case Command.Fans:
+                    SocketListener.SendUpdate(
+                        _fans.Cast<BaseDevice>().ToList()
+                    );
+                    break;
+                case Command.Temps:
+                    SocketListener.SendUpdate(
+                        _temps.Cast<BaseDevice>().ToList()
+                    );
+                    break;
+                case Command.Stop:
+                    SocketListener.Close();
+                    updateShouldStop = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            
             HardwareManager.Update(
                 ref _controls,
                 ref _fans,
                 ref _temps
             );
-
-            Thread.Sleep(2000);
             
+            Console.WriteLine("new update");
         }
     }
 }

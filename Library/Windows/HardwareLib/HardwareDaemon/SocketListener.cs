@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using Google.Protobuf;
 using HardwareDaemon.Hardware;
 using Proto;
@@ -58,6 +59,57 @@ public static class SocketListener
             Console.WriteLine(e);
             throw;
         }
+    }
+    
+    
+    public static void SendUpdate(
+        List<BaseDevice> list
+    )
+    {
+        var updateList = new List<Update>();
+        foreach (var device in list)
+        {
+            updateList.Add(new Update {
+                Index = device.Index,
+                Value = device.Value
+            }); 
+        }
+        
+        var sUpdateList = new UpdateList
+        {
+            Update = { updateList }
+        };
+
+        try
+        {
+            _handler?.Send(sUpdateList.ToByteArray());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+    
+    
+
+    private static readonly byte[] Buffer = new byte[1024];
+    private static int _bytesReceived;
+    public static Command GetMessage()
+    {
+
+        _bytesReceived = _handler?.Receive(Buffer) ?? 0;
+        var message = Encoding.ASCII.GetString(Buffer, 0, _bytesReceived);
+        Console.WriteLine("message = " + message);
+        return message switch
+        {
+            "GetInfo" => Command.GetInfo,
+            "Controls" => Command.Controls,
+            "Fans" => Command.Fans,
+            "Temps" => Command.Temps,
+            "Stop" => Command.Stop,
+            _ => throw new Exception()
+        };
     }
 
     public static void Close()

@@ -10,14 +10,35 @@ import model.item.control.Control
 import utils.Id.Companion.getAvailableId
 import java.io.File
 import java.io.InputStream
+import java.io.OutputStream
+import java.io.PrintWriter
 import java.net.Socket
 
+
+
+
+
+
 class ExternalWindows : External {
+    enum class Command {
+        GetInfo,
+        Controls,
+        Fans,
+        Temps,
+        Stop
+    }
+
+    private fun makeRequest(command: Command) {
+        outputStream?.let { PrintWriter(it, true).write(command.name) }
+        outputStream?.flush()
+    }
+
 
     private lateinit var process: Process
 
     private lateinit var client: Socket
     private var inputStream: InputStream? = null
+    private var outputStream: OutputStream? = null
 
     private val byteArray = ByteArray(1024)
 
@@ -28,17 +49,28 @@ class ExternalWindows : External {
         controlList: SnapshotStateList<Control>,
         controlChangeList: SnapshotStateList<Boolean>
     ) {
-        val path = File(System.getProperty("compose.application.resources.dir"))
-            .resolve("HardwareDaemon.exe").path
 
-        process = ProcessBuilder(path).start()
+        try {
+            client = Socket("::1", 11000)
+        } catch (e: Exception) {
+            println("launch new process")
+            val path = File(System.getProperty("compose.application.resources.dir"))
+                .resolve("HardwareDaemon.exe").path
 
-        runBlocking {
-            delay(2000L)
+            process = ProcessBuilder(path).start()
+            runBlocking {
+                delay(2000L)
+            }
+
+            client = Socket("::1", 11000)
         }
+        println("connected")
 
-        client = Socket("::1", 11000)
+        makeRequest(Command.GetInfo)
+
         inputStream = client.getInputStream()
+        outputStream = client.getOutputStream()
+
         super.start(fanList, tempList, controlList, controlChangeList)
     }
 
@@ -102,7 +134,16 @@ class ExternalWindows : External {
     }
 
     override fun updateControlList(controlList: SnapshotStateList<Control>) {
+        makeRequest(Command.Controls)
 
+        val bytesRead = inputStream?.read(byteArray)
+        val updateList = ProtoHelper.getUpdateList(byteArray, bytesRead!!)
+
+        updateList.forEach {
+            controlList[it.index] = controlList[it.index].copy(
+                value = it.value
+            )
+        }
     }
 
     override fun updateFanList(fanList: SnapshotStateList<Sensor>) {
@@ -114,6 +155,9 @@ class ExternalWindows : External {
     }
 
     override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {
+        val setter = ProtoHelper.getSetControl(libIndex, isAuto, value.let { 0 })
 
+        outputStream?.write(setter)
+        outputStream?.flush()
     }
 }
