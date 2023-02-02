@@ -34,15 +34,17 @@ internal static class Program
             _controls.Cast<BaseDevice>().ToList(),
             DeviceList.Types.DeviceType.Control
         );
+        Thread.Sleep(500);
         SocketListener.SendDevice(
             _fans.Cast<BaseDevice>().ToList(),
             DeviceList.Types.DeviceType.Fan
         );
+        Thread.Sleep(500);
         SocketListener.SendDevice(
             _temps.Cast<BaseDevice>().ToList(),
             DeviceList.Types.DeviceType.Temp
         );
-
+        Thread.Sleep(10000);
         //StartUpdate();
     }
 

@@ -4,8 +4,10 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import external.External
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import model.HardwareType
 import model.hardware.Sensor
 import model.item.control.Control
+import utils.Id.Companion.getAvailableId
 import java.io.File
 import java.io.InputStream
 import java.net.Socket
@@ -45,10 +47,23 @@ class ExternalWindows : External {
     }
 
     override fun setControlList(controlList: SnapshotStateList<Control>) {
+
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
-        println(deviceList.type)
+        deviceList.deviceList.forEach {
+            controlList.add(
+                Control(
+                    libIndex = it.index,
+                    libId = it.id,
+                    libName = it.name,
+                    name = it.name,
+                    id = getAvailableId(
+                        controlList.map { control -> control.id }
+                    )
+                )
+            )
+        }
 
     }
 
@@ -56,14 +71,34 @@ class ExternalWindows : External {
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
-        println(deviceList.type)
+        deviceList.deviceList.forEach {
+            fanList.add(
+                Sensor(
+                    libIndex = it.index,
+                    libId = it.id,
+                    libName = it.name,
+                    type = HardwareType.SensorType.H_S_FAN,
+                    id = getAvailableId(fanList.map { fan -> fan.id })
+                )
+            )
+        }
     }
 
     override fun setTempList(tempList: SnapshotStateList<Sensor>) {
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
-        println(deviceList.type)
+        deviceList.deviceList.forEach {
+            tempList.add(
+                Sensor(
+                    libIndex = it.index,
+                    libId = it.id,
+                    libName = it.name,
+                    type = HardwareType.SensorType.H_S_TEMP,
+                    id = getAvailableId(tempList.map { temp-> temp.id })
+                )
+            )
+        }
     }
 
     override fun updateControlList(controlList: SnapshotStateList<Control>) {
