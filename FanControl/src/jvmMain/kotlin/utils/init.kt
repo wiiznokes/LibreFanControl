@@ -1,13 +1,10 @@
 package utils
 
-import SensorLists
-import State
 import State.hControls
 import State.hSensorsList
 import State.iControls
 import State.iFans
 import State.iTemps
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.ItemType
 import model.item.control.ControlItem
 import model.item.sensor.Fan

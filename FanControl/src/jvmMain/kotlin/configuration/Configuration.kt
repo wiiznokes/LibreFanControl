@@ -1,11 +1,11 @@
 package configuration
 
 
-import State.iBehaviors
 import State.hControls
-import State.iFans
 import State.hSensorsList
+import State.iBehaviors
 import State.iControls
+import State.iFans
 import State.iTemps
 import configuration.read.ReadHardware
 import configuration.read.ReadItem

@@ -1,9 +1,8 @@
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.window.*
+import androidx.compose.ui.window.ApplicationScope
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
 import settings.Settings
-import ui.popUp.exitApp.exitApp
 import ui.screen.home
 import ui.theme.fanControlTheme
 import ui.utils.Resources

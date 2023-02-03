@@ -14,7 +14,6 @@ import java.io.OutputStream
 import java.net.Socket
 
 
-
 class ExternalWindows : External {
 
     private lateinit var process: Process
@@ -24,8 +23,6 @@ class ExternalWindows : External {
     private var outputStream: OutputStream? = null
 
     private val byteArray = ByteArray(1024)
-
-
 
 
     private fun makeRequest(command: External.Command) {
@@ -59,8 +56,6 @@ class ExternalWindows : External {
 
         inputStream = client.getInputStream()
         outputStream = client.getOutputStream()
-
-        super.start(fans, temps, controls)
     }
 
     override fun reloadSetting() {
@@ -121,7 +116,7 @@ class ExternalWindows : External {
                 Sensor(
                     name = it.name,
                     type = HardwareType.SensorType.H_S_TEMP,
-                    id = getAvailableId(temps.map { temp-> temp.id })
+                    id = getAvailableId(temps.map { temp -> temp.id })
                 )
             )
         }

@@ -5,9 +5,6 @@ import model.hardware.Control
 import model.hardware.Sensor
 
 
-
-
-
 interface External {
 
     enum class Command {
@@ -28,11 +25,8 @@ interface External {
         fans: SnapshotStateList<Sensor>,
         temps: SnapshotStateList<Sensor>,
         controls: SnapshotStateList<Control>
-    ) {
-        setControls(controls)
-        setFans(fans)
-        setTemps(temps)
-    }
+    )
+
     fun close()
 
     fun setControls(controls: SnapshotStateList<Control>)

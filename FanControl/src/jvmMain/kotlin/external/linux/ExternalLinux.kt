@@ -10,6 +10,13 @@ import kotlin.random.Random
 
 class ExternalLinux : External {
 
+    override fun start(
+        fans: SnapshotStateList<Sensor>,
+        temps: SnapshotStateList<Sensor>,
+        controls: SnapshotStateList<Control>
+    ) {
+    }
+
     override fun close() {}
 
     override fun setControls(controls: SnapshotStateList<Control>) {
@@ -49,7 +56,6 @@ class ExternalLinux : External {
     }
 
 
-
     override fun setUpdateControls(controls: SnapshotStateList<Control>) {
         for (i in controls.indices) {
             val control = controls[i]
@@ -69,7 +75,6 @@ class ExternalLinux : External {
     }
 
 
-
     override fun setUpdateTemps(temps: SnapshotStateList<Sensor>) {
         for (i in temps.indices) {
             val temp = temps[i]
@@ -82,11 +87,6 @@ class ExternalLinux : External {
     override fun reloadSetting() {}
     override fun reloadConfig(id: Long?) {}
 }
-
-
-
-
-
 
 
 private class UseForTest {

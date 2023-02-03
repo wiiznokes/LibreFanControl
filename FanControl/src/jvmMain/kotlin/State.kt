@@ -1,7 +1,6 @@
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.sync.Mutex
 import model.hardware.Control
 import model.hardware.Sensor
 import model.item.behavior.Behavior
