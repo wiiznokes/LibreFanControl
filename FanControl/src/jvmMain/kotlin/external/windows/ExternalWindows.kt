@@ -3,7 +3,6 @@ package external.windows
 import State.hControls
 import State.hFans
 import State.hTemps
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import external.External
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking

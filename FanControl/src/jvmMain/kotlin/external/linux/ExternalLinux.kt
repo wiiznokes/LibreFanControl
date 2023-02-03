@@ -1,15 +1,14 @@
 package external.linux
 
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import State.hControls
+import State.hFans
+import State.hTemps
 import external.External
 import model.HardwareType
 import model.hardware.Control
 import model.hardware.Sensor
 import utils.Id.Companion.getAvailableId
 import kotlin.random.Random
-import State.hControls
-import State.hFans
-import State.hTemps
 
 class ExternalLinux : External {
 

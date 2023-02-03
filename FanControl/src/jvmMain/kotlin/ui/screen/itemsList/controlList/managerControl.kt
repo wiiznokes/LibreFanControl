@@ -27,7 +27,7 @@ fun LazyListScope.controlAddItemList() {
     item { controlAddItem() }
 }
 
-fun LazyListScope.controlBodyList(){
+fun LazyListScope.controlBodyList() {
 
     itemsIndexed(viewModel.iControls) { index, control ->
         controlBody(
@@ -50,12 +50,22 @@ fun controlBody(
         }
     } else null
 
+    println("controlId = ${controlItem.controlId}")
+    println("id = ${control?.id}")
+
     baseItemBody(
         icon = Resources.getIcon("items/alternate_email40"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
         item = controlItem
     ) {
+        managerListChoice(
+            text = control?.name,
+            onItemClick = { viewModel.setControl(index, it) },
+            ids = viewModel.hControls.map { it.id },
+            names = viewModel.hControls.map { it.name }
+        )
+
         Row {
 
             Switch(
@@ -84,8 +94,6 @@ fun controlBody(
         )
     }
 }
-
-
 
 
 @Composable

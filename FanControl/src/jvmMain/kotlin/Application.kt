@@ -1,6 +1,3 @@
-import State.hControls
-import State.hFans
-import State.hTemps
 import configuration.Configuration
 import external.ExternalManager
 import kotlinx.coroutines.*

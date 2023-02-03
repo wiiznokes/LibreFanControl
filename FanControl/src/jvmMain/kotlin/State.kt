@@ -9,7 +9,6 @@ import model.item.sensor.SensorItem
 import settings.SettingsModel
 
 
-
 object State {
 
     val iControls: SnapshotStateList<ControlItem> = mutableStateListOf()

@@ -26,7 +26,8 @@ fun initSensor() {
                 type = ItemType.ControlType.I_C_FAN,
                 id = getAvailableId(
                     ids = iControls.map { it.id }
-                )
+                ),
+                controlId = hControl.id
             )
         )
     }

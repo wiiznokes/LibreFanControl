@@ -30,11 +30,11 @@ class TargetVM(
 
     fun setTemp(index: Int, tempSensorId: Long?) {
 
-                iBehaviors[index] = iBehaviors[index].copy(
-                    extension = (iBehaviors[index].extension as Target).copy(
-                        tempSensorId = tempSensorId
-                    )
-                )
+        iBehaviors[index] = iBehaviors[index].copy(
+            extension = (iBehaviors[index].extension as Target).copy(
+                tempSensorId = tempSensorId
+            )
+        )
 
     }
 

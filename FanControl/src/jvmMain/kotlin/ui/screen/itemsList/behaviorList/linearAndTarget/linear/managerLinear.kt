@@ -6,10 +6,8 @@ import androidx.compose.runtime.*
 import model.ItemType
 import model.item.behavior.Behavior
 import model.item.behavior.Linear
-import ui.component.managerAddItemListChoice
 import ui.component.managerExpandItem
 import ui.component.managerListChoice
-import ui.component.managerText
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
 import ui.screen.itemsList.behaviorList.linearAndTarget.linAndTarSuffixes

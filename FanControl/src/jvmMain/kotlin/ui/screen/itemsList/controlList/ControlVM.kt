@@ -19,12 +19,16 @@ class ControlVM(
         iControls.removeAt(index)
     }
 
-    fun setBehavior(index: Int, behaviorId: Long?) {
+    fun setControl(index: Int, controlId: Long?) {
+        iControls[index] = iControls[index].copy(
+            controlId = controlId
+        )
+    }
 
+    fun setBehavior(index: Int, behaviorId: Long?) {
         iControls[index] = iControls[index].copy(
             behaviorId = behaviorId
         )
-
     }
 
     fun onSwitchClick(checked: Boolean, index: Int) {
@@ -49,7 +53,6 @@ class ControlVM(
     }
 
     fun addControl() {
-
         val name = Name.getAvailableName(
             names = iControls.map { item ->
                 item.name
