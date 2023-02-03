@@ -43,11 +43,13 @@ bin/
 
 
 
-include/windows/app
-include/windows/jvm
+include/windows/
 
 ### Configuration folder ###
 conf/*
 
 ### generated log files ###
 *.log
+
+### generated proto files ###
+src/jvmMain/java/external/windows/proto/

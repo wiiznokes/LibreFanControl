@@ -12,9 +12,9 @@ interface External {
         controlList: SnapshotStateList<Control>,
         controlChangeList: SnapshotStateList<Boolean>
     ) {
+        setControlList(controlList)
         setFanList(fanList)
         setTempList(tempList)
-        setControlList(controlList)
         /**
          * initialize controlChangeList with the same size of control
          * if a configuration is used, all value will be set to true

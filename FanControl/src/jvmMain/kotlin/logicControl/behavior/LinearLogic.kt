@@ -19,7 +19,7 @@ class LinearLogic {
         return when {
             tempValue <= linear.minTemp -> linear.minFanSpeed
             tempValue >= linear.maxTemp -> linear.maxFanSpeed
-            else -> getAffine(linear).let {(it.a * tempValue + it.b).roundToInt() }
+            else -> getAffine(linear).let { (it.a * tempValue + it.b).roundToInt() }
         }
     }
 

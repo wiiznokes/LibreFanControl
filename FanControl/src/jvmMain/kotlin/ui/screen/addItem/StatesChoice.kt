@@ -8,7 +8,7 @@ enum class ChoiceType {
     SENSOR
 }
 
-private class ChoiceStateException(msg: String = ""): Exception(msg)
+private class ChoiceStateException(msg: String = "") : Exception(msg)
 
 data class ChoiceState(
     val current: ChoiceType = ChoiceType.BEHAVIOR,
@@ -17,8 +17,6 @@ data class ChoiceState(
     val previous: ChoiceType = ChoiceType.CONTROL,
     val next: ChoiceType = ChoiceType.SENSOR
 )
-
-
 
 
 fun updateChoiceState(

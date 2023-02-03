@@ -1,143 +1,165 @@
 package external.windows
 
-import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import external.External
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import model.HardwareType
 import model.hardware.Sensor
 import model.item.control.Control
 import utils.Id.Companion.getAvailableId
 import java.io.File
+import java.io.InputStream
+import java.io.OutputStream
+import java.io.PrintWriter
+import java.net.Socket
 
-class ExternalWindows(
-    private val firstStart: Boolean = State.settings.value.firstStart
-) : External {
 
 
-    private val values: IntArray = IntArray(25) { 0 }
+
+class ExternalWindows : External {
+
+    private lateinit var process: Process
+
+    private lateinit var client: Socket
+    private var inputStream: InputStream? = null
+    private var outputStream: OutputStream? = null
+
+    private val byteArray = ByteArray(1024)
+
+
+    enum class Command {
+        GetInfo,
+        Controls,
+        Fans,
+        Temps,
+        Stop
+    }
+
+    private fun makeRequest(command: Command) {
+        println("make request: $command")
+        outputStream?.write(command.name.toByteArray())
+        println("request send")
+    }
+
+
     override fun start(
         fanList: SnapshotStateList<Sensor>,
         tempList: SnapshotStateList<Sensor>,
         controlList: SnapshotStateList<Control>,
         controlChangeList: SnapshotStateList<Boolean>
     ) {
-        val includeFolder = File(System.getProperty("compose.application.resources.dir"))
 
-        if (firstStart) {
-            copyFiles(
-                srcDir = includeFolder.resolve("jvm"),
-                destDir = includeFolder.resolve("../..")
-            )
-            removeDir(
-                dir = includeFolder.resolve("jvm")
-            )
+        try {
+            client = Socket("::1", 11000)
+        } catch (e: Exception) {
+            println("launch new process")
+            val path = File(System.getProperty("compose.application.resources.dir"))
+                .resolve("HardwareDaemon.exe").path
+
+            process = ProcessBuilder(path).start()
+            runBlocking {
+                delay(2000L)
+            }
+
+            client = Socket("::1", 11000)
         }
+        println("connected")
 
-        System.load(includeFolder.resolve("app/CppProxy.dll").path)
-        externalStart(values)
+        makeRequest(Command.GetInfo)
+
+        inputStream = client.getInputStream()
+        outputStream = client.getOutputStream()
+
         super.start(fanList, tempList, controlList, controlChangeList)
     }
 
     override fun stop() {
-        externalStop()
+        makeRequest(Command.Stop)
+        client.close()
+    }
+
+    override fun setControlList(controlList: SnapshotStateList<Control>) {
+        val bytesRead = inputStream?.read(byteArray)
+        val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
+
+        deviceList.deviceList.forEach {
+            controlList.add(
+                Control(
+                    libIndex = it.index,
+                    libId = it.id,
+                    libName = it.name,
+                    name = it.name,
+                    id = getAvailableId(
+                        controlList.map { control -> control.id }
+                    )
+                )
+            )
+        }
+
     }
 
     override fun setFanList(fanList: SnapshotStateList<Sensor>) {
-        val result = externalGetFansInfo()
+        val bytesRead = inputStream?.read(byteArray)
+        val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
-        for (i in 0..(result.size - 1) / 3) {
+        deviceList.deviceList.forEach {
             fanList.add(
                 Sensor(
-                    libIndex = result[i * 3].toInt(),
-                    libId = result[(i * 3) + 1],
-                    libName = result[(i * 3) + 2],
+                    libIndex = it.index,
+                    libId = it.id,
+                    libName = it.name,
                     type = HardwareType.SensorType.H_S_FAN,
-                    id = getAvailableId(fanList.map { it.id })
+                    id = getAvailableId(fanList.map { fan -> fan.id })
                 )
             )
         }
     }
 
     override fun setTempList(tempList: SnapshotStateList<Sensor>) {
-        val result = externalGetTempsInfo()
+        println("setControlList")
+        val bytesRead = inputStream?.read(byteArray)
+        val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
-        for (i in 0..(result.size - 1) / 3) {
+        deviceList.deviceList.forEach {
             tempList.add(
                 Sensor(
-                    libIndex = result[i * 3].toInt(),
-                    libId = result[(i * 3) + 1],
-                    libName = result[(i * 3) + 2],
+                    libIndex = it.index,
+                    libId = it.id,
+                    libName = it.name,
                     type = HardwareType.SensorType.H_S_TEMP,
-                    id = getAvailableId(tempList.map { it.id })
+                    id = getAvailableId(tempList.map { temp-> temp.id })
                 )
-            )
-        }
-    }
-
-    override fun setControlList(controlList: SnapshotStateList<Control>) {
-        val result = externalGetControlsInfo()
-
-        for (i in 0..(result.size - 1) / 3) {
-
-            controlList.add(
-                Control(
-                    libIndex = result[i * 3].toInt(),
-                    libId = result[(i * 3) + 1],
-                    libName = result[(i * 3) + 2],
-                    name = result[(i * 3) + 2],
-                    id = getAvailableId(
-                        controlList.map { it.id }
-                    )
-                )
-            )
-
-        }
-    }
-
-    override fun updateFanList(fanList: SnapshotStateList<Sensor>) {
-        externalUpdateFanList()
-
-        for (i in fanList.indices) {
-            fanList[i] = fanList[i].copy(
-                value = values[fanList[i].libIndex]
-            )
-        }
-    }
-
-    override fun updateTempList(tempList: SnapshotStateList<Sensor>) {
-        externalUpdateTempList()
-        for (i in tempList.indices) {
-            tempList[i] = tempList[i].copy(
-                value = values[tempList[i].libIndex]
             )
         }
     }
 
     override fun updateControlList(controlList: SnapshotStateList<Control>) {
-        externalUpdateControlList()
+        println("updateControlList")
+        makeRequest(Command.Controls)
 
-        for (i in controlList.indices) {
-            controlList[i] = controlList[i].copy(
-                value = values[controlList[i].libIndex]
+        val bytesRead = inputStream?.read(byteArray)
+        val updateList = ProtoHelper.getUpdateList(byteArray, bytesRead!!)
+
+        updateList.forEach {
+            controlList[it.index] = controlList[it.index].copy(
+                value = it.value
             )
         }
     }
 
-    override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {
-        externalSetControl(
-            libIndex = libIndex,
-            isAuto = isAuto,
-            value = value ?: 100
-        )
+    override fun updateFanList(fanList: SnapshotStateList<Sensor>) {
+
     }
 
-    private external fun externalStart(values: IntArray)
-    private external fun externalStop()
-    private external fun externalGetFansInfo(): Array<String>
-    private external fun externalGetTempsInfo(): Array<String>
-    private external fun externalGetControlsInfo(): Array<String>
-    private external fun externalUpdateFanList()
-    private external fun externalUpdateTempList()
-    private external fun externalUpdateControlList()
-    private external fun externalSetControl(libIndex: Int, isAuto: Boolean, value: Int)
+    override fun updateTempList(tempList: SnapshotStateList<Sensor>) {
+
+    }
+
+    override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {
+        val setter = ProtoHelper.getSetControl(libIndex, isAuto, value.let { 0 })
+
+        outputStream?.write(setter)
+        outputStream?.flush()
+    }
 }
