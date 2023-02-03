@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import model.item.BaseItem
 import ui.component.managerNameOutlinedTextField
 import ui.component.managerText
+import ui.theme.LocalColors
 import ui.utils.Resources
 
 
@@ -31,8 +32,8 @@ fun baseItemBody(
     content: @Composable ColumnScope.() -> Unit
 ) {
     baseItem(
-        color = MaterialTheme.colorScheme.surface,
-        onColor = MaterialTheme.colorScheme.onSurface,
+        color = LocalColors.current.mainContainer,
+        onColor = LocalColors.current.onMainContainer,
         editModeActivated = State.editModeActivated.collectAsState().value,
         icon = icon,
         editIcon = {
@@ -70,11 +71,11 @@ fun baseItemAddItem(
         contentName = {
             managerText(
                 text = name,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = LocalColors.current.onSecondContainer
             )
         },
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        onColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        color = LocalColors.current.secondContainer,
+        onColor = LocalColors.current.onSecondContainer,
         editIcon = {
             Icon(
                 painter = Resources.getIcon("sign/plus/add24"),

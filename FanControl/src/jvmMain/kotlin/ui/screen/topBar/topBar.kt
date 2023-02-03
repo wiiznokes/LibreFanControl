@@ -14,6 +14,7 @@ import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
 import ui.screen.topBar.configuration.configuration
+import ui.theme.LocalColors
 import ui.utils.Resources
 
 
@@ -74,7 +75,7 @@ fun topBarBody(
                         .graphicsLayer { rotationZ = angle },
                     painter = Resources.getIcon("topBar/toys_fan40"),
                     contentDescription = Resources.getString("title/app_name"),
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    tint = LocalColors.current.onMainTopBar
                 )
 
                 Spacer(Modifier.width(10.dp))
@@ -83,12 +84,12 @@ fun topBarBody(
                     modifier = Modifier,
                     text = Resources.getString("title/app_name"),
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                    color = LocalColors.current.onMainTopBar
                 )
             }
         },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
+            containerColor = LocalColors.current.mainTopBar
         ),
         navigationIcon = {
             IconButton(
@@ -99,7 +100,7 @@ fun topBarBody(
                 Icon(
                     painter = Resources.getIcon("topBar/menu40"),
                     contentDescription = Resources.getString("ct/open_drawer"),
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    tint = LocalColors.current.onMainTopBar
                 )
             }
         },
@@ -117,7 +118,7 @@ fun topBarBody(
                         .fillMaxHeight(0.8f)
                         .padding(horizontal = 10.dp)
                         .width(2.dp),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                    color = LocalColors.current.onMainTopBar
                 )
 
                 IconButton(
@@ -130,7 +131,7 @@ fun topBarBody(
                         contentDescription = Resources.getString("ct/edit"),
                         modifier = Modifier
                             .padding(bottom = 5.dp, top = 1.dp),
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                        tint = LocalColors.current.onMainTopBar
                     )
                 }
             }
@@ -153,12 +154,12 @@ fun topBarAddItem() {
                         .align(Alignment.Center),
                     text = Resources.getString("title/add_item"),
                     style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                    color = LocalColors.current.onSecondTopBar
                 )
             }
         },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
+            containerColor = LocalColors.current.secondTopBar
         ),
         navigationIcon = {
             IconButton(
@@ -167,7 +168,7 @@ fun topBarAddItem() {
                 Icon(
                     painter = Resources.getIcon("topBar/forward40"),
                     contentDescription = Resources.getString("ct/close_add_item"),
-                    tint = MaterialTheme.colorScheme.onSecondaryContainer
+                    tint = LocalColors.current.onSecondTopBar
                 )
             }
         }

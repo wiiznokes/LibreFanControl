@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import ui.theme.LocalColors
 
 @Composable
 fun managerButton(
@@ -17,11 +18,11 @@ fun managerButton(
     text: String,
     icon: Painter? = null
 ) {
-    val color = MaterialTheme.colorScheme.onTertiary
+
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colorScheme.tertiary
+            backgroundColor = LocalColors.current.inputVariant
         )
     ) {
 
@@ -31,14 +32,14 @@ fun managerButton(
         ) {
             managerText(
                 text = text,
-                color = color
+                color = LocalColors.current.onInputVariant
             )
 
             if (icon != null) {
                 Icon(
                     painter = icon,
                     contentDescription = null,
-                    tint = color
+                    tint = LocalColors.current.onInputVariant
                 )
             }
         }

@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 
 
 
-val Typography = Typography(
+val typography = Typography(
     // items lists titles
     titleLarge = TextStyle(
         textDecoration = TextDecoration.Underline,

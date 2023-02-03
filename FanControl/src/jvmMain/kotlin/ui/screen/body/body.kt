@@ -29,6 +29,7 @@ import ui.screen.itemsList.behaviorList.behaviorBodyList
 import ui.screen.itemsList.controlList.controlBodyList
 import ui.screen.itemsList.sensor.body.fanList.fanBodyList
 import ui.screen.itemsList.sensor.body.tempList.tempBodyList
+import ui.theme.LocalColors
 import ui.utils.Resources
 
 
@@ -46,7 +47,7 @@ fun body(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(LocalColors.current.mainBackground)
     ) {
         val scrollBarShouldShow = mutableStateOf(false)
         scrollableBox(
@@ -107,13 +108,13 @@ fun body(
                         bottom = if (scrollBarShouldShow.value) scrollBarHeight + floatingActionButtonPadding
                         else floatingActionButtonPadding
                     ),
-                containerColor = MaterialTheme.colorScheme.primary,
+                containerColor = LocalColors.current.input,
                 onClick = { viewModel.expandAddItem() }
             ) {
                 Icon(
                     painter = Resources.getIcon("sign/plus/add40"),
                     contentDescription = Resources.getString("ct/open_add_item"),
-                    tint = MaterialTheme.colorScheme.onPrimary
+                    tint = LocalColors.current.onInput
                 )
             }
         }
@@ -143,7 +144,7 @@ private fun itemsList(
                     letterSpacing = 0.6.sp,
                     lineHeight = 24.sp,
                 ),
-                color = MaterialTheme.colorScheme.onBackground
+                color = LocalColors.current.onMainBackground
             )
         }
         content()
@@ -180,8 +181,14 @@ private fun BoxScope.scrollableBox(
         HorizontalScrollbar(
             modifier = Modifier.align(Alignment.BottomStart)
                 .height(scrollBarHeight)
-                .background(MaterialTheme.colorScheme.tertiary),
-            adapter = rememberScrollbarAdapter(stateHorizontal)
+                .background(LocalColors.current.inputVariant),
+            adapter = rememberScrollbarAdapter(stateHorizontal),
+            style = LocalScrollbarStyle.current.copy(
+                unhoverColor = LocalColors.current.inputVariant,
+                hoverColor = LocalColors.current.inputVariant.copy(
+                    alpha = 0.7f
+                ),
+            )
         )
     }
 }

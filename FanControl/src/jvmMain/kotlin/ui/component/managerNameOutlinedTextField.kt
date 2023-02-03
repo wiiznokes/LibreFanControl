@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import ui.theme.LocalColors
 import utils.NameException
 
 
@@ -27,8 +28,8 @@ fun managerNameOutlinedTextField(
     modifier: Modifier = Modifier
         .height(30.dp),
     label: String? = null,
-    color: Color = MaterialTheme.colorScheme.primary,
-    onColor: Color = MaterialTheme.colorScheme.onPrimary,
+    color: Color = LocalColors.current.input,
+    onColor: Color = LocalColors.current.onInput,
     cornerShape: Dp = 2.dp,
     enabled: Boolean = true
 ) {

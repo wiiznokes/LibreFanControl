@@ -19,6 +19,7 @@ import ui.screen.body.body
 import ui.screen.drawer.drawer
 import ui.screen.topBar.topBarAddItem
 import ui.screen.topBar.topBarBody
+import ui.theme.LocalColors
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
@@ -39,8 +40,8 @@ fun home() {
         },
         drawerState = drawerState,
         gesturesEnabled = true,
-        drawerContainerColor = MaterialTheme.colorScheme.inverseSurface,
-        drawerContentColor = MaterialTheme.colorScheme.inverseOnSurface,
+        drawerContainerColor = LocalColors.current.secondBackground,
+        drawerContentColor = LocalColors.current.onSecondBackground,
 
         ) {
         val addItemExpanded = viewModel.addItemExpanded.collectAsState()

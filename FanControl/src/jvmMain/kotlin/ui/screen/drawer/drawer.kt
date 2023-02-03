@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ui.component.managerText
 import ui.screen.drawer.settings.*
+import ui.theme.LocalColors
 import ui.utils.Resources
 
 private val viewModel = DrawerVM()
@@ -31,8 +32,8 @@ fun drawer(
     Setting(
         settingState = settingState,
         settingColors = SettingDefaults.settingColors(
-            container = MaterialTheme.colorScheme.inverseSurface,
-            onContainer = MaterialTheme.colorScheme.inverseOnSurface
+            container = LocalColors.current.secondContainer,
+            onContainer = LocalColors.current.onSecondContainer
         )
     ) {
         header {
@@ -93,7 +94,7 @@ private fun managerHeader(
                 modifier = Modifier
                     .padding(start = 25.dp, top = 40.dp, bottom = 50.dp),
                 text = Resources.getString("title/setting"),
-                color = MaterialTheme.colorScheme.inverseOnSurface,
+                color = LocalColors.current.onSecondBackground,
                 style = MaterialTheme.typography.titleLarge
             )
 
@@ -103,7 +104,7 @@ private fun managerHeader(
                 Icon(
                     painter = Resources.getIcon("arrow/arrow_back48"),
                     contentDescription = Resources.getString("ct/close_drawer"),
-                    tint = MaterialTheme.colorScheme.inverseOnSurface
+                    tint = LocalColors.current.onSecondBackground
                 )
             }
         }

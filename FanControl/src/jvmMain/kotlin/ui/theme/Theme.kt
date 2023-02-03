@@ -22,10 +22,11 @@ fun fanControlTheme(
         darkTheme -> darkColors
         else -> lightColors
     }
-    
+
     CompositionLocalProvider(LocalColors provides colors) {
         MaterialTheme(
-            typography = Typography,
+            typography = typography,
+            shapes = shapes,
             content = content
         )
     }

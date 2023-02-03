@@ -16,13 +16,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import ui.theme.LocalColors
 import ui.utils.Resources
 
 @Composable
 fun <T> managerListChoice(
     text: String?,
     enabled: Boolean = true,
-    color: Color = MaterialTheme.colorScheme.onSurface,
+    color: Color = LocalColors.current.onMainSurface,
     textContent: @Composable (String) -> Unit = {
         managerText(
             text = it,
@@ -95,7 +96,8 @@ private fun managerBaseDropdownMenu(
     dropDownContent: @Composable ColumnScope.() -> Unit
 ) {
     Surface(
-        shape =
+        color = LocalColors.current.mainSurface,
+        shape = MaterialTheme.shapes.small
     ) {
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             Row(
@@ -141,11 +143,11 @@ private fun managerBaseDropdownMenu(
             onDismissRequest = { expanded.value = false },
             modifier = Modifier
                 .background(
-                    color = MaterialTheme.colorScheme.primary
+                    color = LocalColors.current.inputVariant
                 )
                 .border(
                     width = 2.dp,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = LocalColors.current.onInputVariant
                 )
         ) {
             dropDownContent()
@@ -167,7 +169,7 @@ private fun <T> managerDropDownContent(
 ) {
     DropdownMenuItem(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.primary),
+            .background(LocalColors.current.inputVariant),
         onClick = {
             if (enabled) {
                 onItemClick(id)

@@ -16,6 +16,7 @@ import ui.component.managerListChoice
 import ui.component.managerText
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
+import ui.theme.LocalColors
 import ui.utils.Resources
 
 
@@ -81,9 +82,10 @@ fun controlBody(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+
             managerText(
                 text = "${control?.value ?: 0} ${Resources.getString("unity/percent")}",
-                color = MaterialTheme.colorScheme.onSurface
+                color = LocalColors.current.onMainContainer
             )
 
             Switch(

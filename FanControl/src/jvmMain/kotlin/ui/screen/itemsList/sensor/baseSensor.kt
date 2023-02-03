@@ -10,6 +10,7 @@ import model.item.sensor.SensorItem
 import ui.component.managerListChoice
 import ui.component.managerText
 import ui.screen.itemsList.baseItemBody
+import ui.theme.LocalColors
 
 
 @Composable
@@ -39,7 +40,7 @@ fun baseSensorBody(
         )
         managerText(
             text = sensorValue,
-            color = MaterialTheme.colorScheme.onSurface
+            color = LocalColors.current.onMainContainer,
         )
     }
 }
