@@ -1,90 +1,100 @@
 package ui.screen.itemsList.controlList
 
 
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
-import model.ItemType
-import model.item.control.Control
-import ui.component.managerAddItemListChoice
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.unit.dp
+import model.item.control.ControlItem
 import ui.component.managerListChoice
+import ui.component.managerText
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
 import ui.utils.Resources
-import utils.filterWithPreviousIndexComposable
 
 
 private val viewModel: ControlVM = ControlVM()
 
+fun LazyListScope.controlAddItemList() {
+    item { controlAddItem() }
+}
 
-fun LazyListScope.controlList(
-    predicate: (Control) -> Boolean,
-    content: @Composable (Int, Control) -> Unit
-) {
-    filterWithPreviousIndexComposable(
-        list = viewModel.controlList,
-        predicate = predicate
-    ) { index, control ->
-        content(index, control)
+fun LazyListScope.controlBodyList(){
+
+    itemsIndexed(viewModel.iControls) { index, control ->
+        controlBody(
+            controlItem = control,
+            index = index
+        )
     }
+
 }
 
 
 @Composable
 fun controlBody(
-    control: Control,
+    controlItem: ControlItem,
     index: Int
 ) {
+    val control = if (controlItem.controlId != null) {
+        viewModel.hControls.find {
+            it.id == controlItem.id
+        }
+    } else null
+
     baseItemBody(
-        iconPainter = Resources.getIcon("items/alternate_email40"),
-        iconContentDescription = Resources.getString("ct/control"),
+        icon = Resources.getIcon("items/alternate_email40"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
-        item = control
+        item = controlItem
     ) {
-        baseControl(
-            isAuto = control.isAuto,
-            switchEnabled = !viewModel.controlChangeList[index],
-            onSwitchClick = { checked -> viewModel.onSwitchClick(checked, index) },
-            value = control.value,
-            color = MaterialTheme.colorScheme.onSurface
-        ) {
+        Row {
+
+            Switch(
+                modifier = Modifier
+                    .scale(0.8f)
+                    .wrapContentSize(),
+                checked = !controlItem.isAuto,
+                onCheckedChange = {
+                    viewModel.onSwitchClick(it, index)
+                }
+            )
+            Spacer(Modifier.width(10.dp))
+
             managerListChoice(
-                text = viewModel.behaviorList.firstOrNull {
-                    it.id == control.behaviorId
+                text = viewModel.iBehaviors.firstOrNull {
+                    it.id == controlItem.behaviorId
                 }?.name,
                 onItemClick = { viewModel.setBehavior(index, it) },
-                ids = viewModel.behaviorList.map { it.id },
-                names = viewModel.behaviorList.map { it.name },
-                enabled = !viewModel.controlChangeList[index]
+                ids = viewModel.iBehaviors.map { it.id },
+                names = viewModel.iBehaviors.map { it.name }
             )
         }
+        managerText(
+            text = "${control?.value ?: 0} ${Resources.getString("unity/percent")}",
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 }
 
 
+
+
 @Composable
-fun controlAddItem(
-    control: Control,
-    index: Int
-) {
+fun controlAddItem() {
     baseItemAddItem(
-        iconPainter = Resources.getIcon("items/alternate_email40"),
-        iconContentDescription = Resources.getString("ct/control"),
-        name = control.name,
-        onEditClick = { viewModel.addControl(index) },
-        type = ItemType.ControlType.I_C_FAN
+        icon = Resources.getIcon("items/alternate_email40"),
+        name = "Control",
+        onEditClick = { viewModel.addControl() }
     ) {
-        baseControl(
-            isAuto = true,
-            switchEnabled = false,
-            onSwitchClick = {},
-            value = control.value,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        ) {
-            managerAddItemListChoice(
-                name = Resources.getString("add_item/choose_behavior")
-            )
-        }
+
     }
 }

@@ -1,11 +1,7 @@
 package ui.screen.itemsList.sensor.addItem
 
 import androidx.compose.foundation.lazy.LazyListScope
-import model.ItemType
-import ui.component.PainterType
-import ui.component.managerAddItemListChoice
 import ui.screen.itemsList.baseItemAddItem
-import ui.screen.itemsList.sensor.baseSensorAddItem
 import ui.utils.Resources
 
 val viewModel = AddSensorVM()
@@ -15,49 +11,34 @@ fun LazyListScope.sensorAddItemList() {
 
     // fan
     item {
-        baseSensorAddItem(
-            iconPainter = Resources.getIcon("items/toys_fan40"),
-            iconContentDescription = Resources.getString("ct/fan"),
+        baseItemAddItem(
+            icon = Resources.getIcon("items/toys_fan40"),
             name = Resources.getString("add_item/fan_name"),
-            onEditClick = {
-                viewModel.addFan()
-            },
-            sensorName = Resources.getString("add_item/choose_sensor"),
-            sensorValue = "1000 ${Resources.getString("unity/rpm")}",
-            type = ItemType.SensorType.I_S_FAN
-        )
+            onEditClick = { viewModel.addFan() }
+        ) {
+
+        }
     }
 
     // temp
     item {
-        baseSensorAddItem(
-            iconPainter = Resources.getIcon("items/thermometer40"),
-            iconContentDescription = Resources.getString("ct/temp"),
+        baseItemAddItem(
+            icon = Resources.getIcon("items/thermometer40"),
             name = Resources.getString("add_item/temp_name"),
-            onEditClick = {
-                viewModel.addTemp()
-            },
-            sensorName = Resources.getString("add_item/choose_sensor"),
-            sensorValue = "50 ${Resources.getString("unity/degree")}",
-            type = ItemType.SensorType.I_S_TEMP
-        )
+            onEditClick = { viewModel.addTemp() }
+        ) {
+
+        }
     }
 
+    // custom temp
     item {
         baseItemAddItem(
-            iconPainter = Resources.getIcon("items/thermostat40"),
-            iconContentDescription = Resources.getString("ct/custom_temp"),
+            icon = Resources.getIcon("items/thermometer40"),
             name = Resources.getString("add_item/temp_name"),
-            onEditClick = { viewModel.addCustomTemp() },
-            type = ItemType.SensorType.I_S_CUSTOM_TEMP
+            onEditClick = { viewModel.addCustomTemp() }
         ) {
-            managerAddItemListChoice(
-                name = Resources.getString("custom_temp/average"),
-            )
-            managerAddItemListChoice(
-                name = Resources.getString("custom_temp/add_temp"),
-                painterType = PainterType.ADD
-            )
+
         }
     }
 }

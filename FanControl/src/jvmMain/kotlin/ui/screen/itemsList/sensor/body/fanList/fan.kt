@@ -2,6 +2,7 @@ package ui.screen.itemsList.sensor.body.fanList
 
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import model.item.sensor.Fan
 import model.item.sensor.SensorItem
@@ -33,14 +34,11 @@ private fun fanBody(
         }
     } else null
 
-    viewModel.fanList
-
     baseSensorBody(
-        iconPainter = Resources.getIcon("items/toys_fan40"),
-        iconContentDescription = Resources.getString("ct/fan"),
+        icon = Resources.getIcon("items/toys_fan40"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
-        sensorName = sensor?.libName,
+        sensorName = sensor?.name,
         sensorValue = "${sensor?.value ?: 0} ${Resources.getString("unity/rpm")}",
         sensorList = viewModel.fanList,
         onItemClick = { viewModel.setFan(index, it) },

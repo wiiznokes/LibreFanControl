@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import ui.component.managerText
 import ui.screen.itemsList.behaviorList.behaviorAddItemList
 import ui.screen.itemsList.controlList.controlAddItem
-import ui.screen.itemsList.controlList.controlList
+import ui.screen.itemsList.controlList.controlAddItemList
 import ui.screen.itemsList.sensor.addItem.sensorAddItemList
 import ui.utils.Resources
 
@@ -61,13 +61,7 @@ fun addItem() {
                     .fillMaxSize()
             ) {
                 when (it.current) {
-                    ChoiceType.CONTROL -> controlList({ !it.visible }) { index, control ->
-                        controlAddItem(
-                            control = control,
-                            index = index
-                        )
-                    }
-
+                    ChoiceType.CONTROL -> controlAddItemList()
                     ChoiceType.BEHAVIOR -> behaviorAddItemList()
                     ChoiceType.SENSOR -> sensorAddItemList()
                 }

@@ -9,7 +9,7 @@ import utils.Name.Companion.checkNameTaken
 
 class FanVM(
     val fanItemList: SnapshotStateList<SensorItem> = State.iFans,
-    val fanList: SnapshotStateList<Sensor> = State.hSensorsList.hFans
+    val fanList: SnapshotStateList<Sensor> = State.hFans
 ) {
 
     fun remove(index: Int) {

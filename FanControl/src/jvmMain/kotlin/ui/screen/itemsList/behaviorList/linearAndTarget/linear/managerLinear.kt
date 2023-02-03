@@ -26,8 +26,7 @@ fun linearBody(
     index: Int
 ) {
     baseItemBody(
-        iconPainter = Resources.getIcon("items/linear40"),
-        iconContentDescription = Resources.getString("ct/linear"),
+        icon = Resources.getIcon("items/linear40"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
         item = behavior
@@ -35,15 +34,15 @@ fun linearBody(
 
         val linear = behavior.extension as Linear
 
-        val customTempList = viewModel.tempItemList.filter { it.type == ItemType.SensorType.I_S_CUSTOM_TEMP }
+        val customTempList = viewModel.iTemps.filter { it.type == ItemType.SensorType.I_S_CUSTOM_TEMP }
 
         managerListChoice(
             text = with(linear.tempSensorId) {
                 when {
                     this == null -> null
-                    this > 0 -> viewModel.tempList.first {
+                    this > 0 -> viewModel.hTemps.first {
                         it.id == this
-                    }.libName
+                    }.name
 
                     this < 0 -> customTempList.first {
                         it.id == this
@@ -58,8 +57,8 @@ fun linearBody(
                     tempSensorId = it
                 )
             },
-            ids = viewModel.tempList.map { it.id } + customTempList.map { it.id },
-            names = viewModel.tempList.map { it.libName } + customTempList.map { it.name }
+            ids = viewModel.hTemps.map { it.id } + customTempList.map { it.id },
+            names = viewModel.hTemps.map { it.name } + customTempList.map { it.name }
         )
 
         val expanded = remember(
@@ -131,34 +130,10 @@ fun linearBody(
 @Composable
 fun linearAddItem() {
     baseItemAddItem(
-        iconPainter = Resources.getIcon("items/linear40"),
-        iconContentDescription = Resources.getString("ct/linear"),
+        icon = Resources.getIcon("items/linear40"),
         name = Resources.getString("add_item/linear_name"),
-        onEditClick = { viewModel.addBehavior(viewModel.defaultLinear()) },
-        type = ItemType.BehaviorType.I_B_LINEAR
+        onEditClick = { viewModel.addBehavior(viewModel.defaultLinear()) }
     ) {
-        managerAddItemListChoice(
-            name = Resources.getString("add_item/temp_name")
-        )
 
-        managerExpandItem(
-            value = 50,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            enabled = false
-        )
-
-        for (i in 0..3) {
-            managerNumberChoice(
-                text = {
-                    managerText(
-                        text = linearValues[i],
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                },
-                prefix = linearPrefixes[i],
-                suffix = linAndTarSuffixes[i],
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
     }
 }

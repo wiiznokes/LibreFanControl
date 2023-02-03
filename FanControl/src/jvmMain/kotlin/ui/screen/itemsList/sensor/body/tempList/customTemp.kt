@@ -38,8 +38,7 @@ fun baseCustomTempBody(
     val customTemp = sensorItem.extension as CustomTemp
 
     baseItemBody(
-        iconPainter = Resources.getIcon("items/thermostat40"),
-        iconContentDescription = Resources.getString("ct/custom_temp"),
+        icon = Resources.getIcon("items/thermostat40"),
         onNameChange = onNameChange,
         onEditClick = onEditClick,
         item = sensorItem
@@ -76,14 +75,14 @@ fun baseCustomTempBody(
                 text = Resources.getString("custom_temp/add_temp"),
                 onItemClick = { onAddTempSensor(it!!) },
                 ids = filterListSensor.map { it.id },
-                names = filterListSensor.map { it.libName },
+                names = filterListSensor.map { it.name },
                 painterType = PainterType.ADD,
                 addNoneItem = false
             )
 
             customTemp.sensorIdList.forEach { id ->
                 selectedSensor(
-                    name = sensorList.first { it.id == id }.libName,
+                    name = sensorList.first { it.id == id }.name,
                     id = id,
                     onRemove = onRemoveTemp
                 )

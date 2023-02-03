@@ -24,21 +24,18 @@ enum class TargetParams : LinAndTarParams {
 }
 
 class TargetVM(
-    val tempList: SnapshotStateList<Sensor> = State.hSensorsList.hTemps,
-    val tempItemList: SnapshotStateList<SensorItem> = State.iTemps
+    val hTemps: SnapshotStateList<Sensor> = State.hTemps,
+    val iTemps: SnapshotStateList<SensorItem> = State.iTemps
 ) : BaseBehaviorVM() {
 
     fun setTemp(index: Int, tempSensorId: Long?) {
-        updateSafely(
-            index = index,
-            behaviorOperation = {
-                behaviorList[index] = behaviorList[index].copy(
-                    extension = (behaviorList[index].extension as Target).copy(
+
+                iBehaviors[index] = iBehaviors[index].copy(
+                    extension = (iBehaviors[index].extension as Target).copy(
                         tempSensorId = tempSensorId
                     )
                 )
-            }
-        )
+
     }
 
     fun increase(index: Int, type: TargetParams): String {
@@ -65,7 +62,7 @@ class TargetVM(
      */
     private fun updateValue(index: Int, type: TargetParams, value: (Int) -> Int): String {
         val finalValue: Int
-        val extension = with(behaviorList[index].extension as Target) {
+        val extension = with(iBehaviors[index].extension as Target) {
             when (type) {
 
                 TargetParams.IDLE_TEMP -> {
@@ -89,7 +86,7 @@ class TargetVM(
                 }
             }
         }
-        behaviorList[index] = behaviorList[index].copy(
+        iBehaviors[index] = iBehaviors[index].copy(
             extension = extension
         )
         return finalValue.toString()
@@ -98,7 +95,7 @@ class TargetVM(
 
     fun defaultTarget() = Behavior(
         name = Name.getAvailableName(
-            names = behaviorList.map { item ->
+            names = iBehaviors.map { item ->
                 item.name
             },
             prefix = Resources.getString("default/target_name")
@@ -106,7 +103,7 @@ class TargetVM(
         type = ItemType.BehaviorType.I_B_TARGET,
         extension = Target(),
         id = Id.getAvailableId(
-            ids = behaviorList.map { item ->
+            ids = iBehaviors.map { item ->
                 item.id
             }
         )

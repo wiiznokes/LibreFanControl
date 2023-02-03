@@ -19,8 +19,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
 import ui.screen.itemsList.behaviorList.behaviorBodyList
-import ui.screen.itemsList.controlList.controlBody
-import ui.screen.itemsList.controlList.controlList
+import ui.screen.itemsList.controlList.controlBodyList
 import ui.screen.itemsList.sensor.body.fanList.fanBodyList
 import ui.screen.itemsList.sensor.body.tempList.tempBodyList
 import ui.utils.Resources
@@ -54,12 +53,7 @@ fun body(
                 itemsList(
                     title = Resources.getString("title/control")
                 ) {
-                    controlList({ it.visible }) { index, control ->
-                        controlBody(
-                            control = control,
-                            index = index
-                        )
-                    }
+                    controlBodyList()
                 }
                 itemsList(
                     title = Resources.getString("title/behavior")

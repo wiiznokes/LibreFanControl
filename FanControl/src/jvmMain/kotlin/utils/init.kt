@@ -1,7 +1,8 @@
 package utils
 
 import State.hControls
-import State.hSensorsList
+import State.hFans
+import State.hTemps
 import State.iControls
 import State.iFans
 import State.iTemps
@@ -30,7 +31,7 @@ fun initSensor() {
         )
     }
 
-    hSensorsList.hFans.forEach { hFan ->
+    hFans.forEach { hFan ->
         iFans.add(
             SensorItem(
                 name = hFan.name,
@@ -43,7 +44,7 @@ fun initSensor() {
         )
     }
 
-    hSensorsList.hTemps.forEach { hTemp ->
+    hTemps.forEach { hTemp ->
         iTemps.add(
             SensorItem(
                 name = hTemp.name,

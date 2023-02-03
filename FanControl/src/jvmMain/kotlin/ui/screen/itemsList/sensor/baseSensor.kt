@@ -17,9 +17,8 @@ import ui.screen.itemsList.baseItemBody
 
 @Composable
 fun baseSensorBody(
+    icon: Painter,
     onEditClick: () -> Unit,
-    iconPainter: Painter,
-    iconContentDescription: String,
     onNameChange: (String) -> Unit,
 
     sensorName: String?,
@@ -30,48 +29,20 @@ fun baseSensorBody(
     sensorItem: SensorItem
 ) {
     baseItemBody(
-        iconPainter = iconPainter,
-        iconContentDescription = iconContentDescription,
+        icon = icon,
+        item = sensorItem,
         onNameChange = onNameChange,
-        onEditClick = onEditClick,
-        item = sensorItem
+        onEditClick = onEditClick
     ) {
         managerListChoice(
             text = sensorName,
             onItemClick = onItemClick,
             ids = sensorList.map { it.id },
-            names = sensorList.map { it.libName }
+            names = sensorList.map { it.name }
         )
         managerText(
             text = sensorValue,
             color = MaterialTheme.colorScheme.onSurface
-        )
-    }
-}
-
-@Composable
-fun baseSensorAddItem(
-    iconPainter: Painter,
-    iconContentDescription: String,
-    name: String,
-    onEditClick: () -> Unit,
-    sensorName: String,
-    sensorValue: String,
-    type: ItemType
-) {
-    baseItemAddItem(
-        iconPainter = iconPainter,
-        iconContentDescription = iconContentDescription,
-        name = name,
-        onEditClick = onEditClick,
-        type = type
-    ) {
-        managerAddItemListChoice(
-            name = sensorName
-        )
-        managerText(
-            text = sensorValue,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
