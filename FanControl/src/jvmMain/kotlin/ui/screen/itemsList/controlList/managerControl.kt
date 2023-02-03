@@ -44,9 +44,10 @@ fun controlBody(
     controlItem: ControlItem,
     index: Int
 ) {
+
     val control = if (controlItem.controlId != null) {
         viewModel.hControls.find {
-            it.id == controlItem.id
+            it.id == controlItem.controlId
         }
     } else null
 
