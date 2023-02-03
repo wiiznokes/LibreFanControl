@@ -1,65 +1,123 @@
 package ui.theme
 
-import androidx.compose.material3.darkColorScheme
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-val Beige = Color(0xFFdfa9a9)
 
+val LocalColors = compositionLocalOf { lightColors }
+
+val Beige = Color(0xFFdfa9a9)
 val DarkPurple = Color(63, 59, 108)
 val LightPurple = Color(129, 103, 151)
-
 val LightCyan = Color(163, 199, 214)
-
 val BlueGrey = Color(43, 72, 101)
-
 val LightBlack = Color(27, 36, 48)
-
 val Grey = Color(81, 85, 126)
-
 val MateGrey = Color(60, 64, 72)
 
+data class CustomColors(
 
-/**
- * custom theme, I made it, and then test to remove
- * all custom colors, and it looks great.
- * I will keep it if future Material 3 update look bad.
- */
-private val darkColorScheme = darkColorScheme(
-    // text field, floating button, list choice content
-    primary = LightCyan,
-    onPrimary = Color.Black,
+    val input: Color,
+    val onInput: Color,
+    val inputVariant: Color,
+    val onInputVariant: Color,
+    val error: Color,
+    val onError: Color,
 
-    // main top bar background
-    primaryContainer = DarkPurple,
-    onPrimaryContainer = Color.White,
 
-    // second top bar background
-    secondaryContainer = LightPurple,
-    onSecondaryContainer = Color.White,
+    val mainTopBar: Color,
+    val onMainTopBar: Color,
+    val secondTopBar: Color,
+    val onSecondTopBar: Color,
 
-    // add item choice
-    secondary = Grey,
-    onSecondary = Color.White,
 
-    // conf choice text field, bottom navigation bar, conf dialog button
-    tertiary = LightCyan,
-    onTertiary = Color.Black,
+    val mainHeader: Color,
+    val onMainHeader: Color,
+    val mainBackground: Color,
+    val onMainBackground: Color,
+    val mainContainer: Color,
+    val onMainContainer: Color,
+    val mainSurface: Color,
+    val onMainSurface: Color,
 
-    // background of the body
-    background = Color.Black,
-    onBackground = Color.White,
 
-    // background of addItem, background of setting
-    inverseSurface = LightBlack,
-    inverseOnSurface = Color.White,
+    val secondHeader: Color,
+    val onSecondHeader: Color,
+    val secondBackground: Color,
+    val onSecondBackground: Color,
+    val secondContainer: Color,
+    val onSecondContainer: Color,
+    val secondSurface: Color,
+    val onSecondSurface: Color,
+)
 
-    // background of item in body
-    surface = BlueGrey,
-    onSurface = Color.White,
+val darkColors = CustomColors(
 
-    // background of item in add item, background of conf dialog
-    surfaceVariant = MateGrey,
-    onSurfaceVariant = Color.White,
+    input = LightCyan,
+    onInput = Color.Black,
+    inputVariant = LightCyan,
+    onInputVariant = Color.Black,
+    error = Beige,
+    onError = Beige,
 
-    error = Beige
+    mainTopBar = DarkPurple,
+    onMainTopBar = Color.White,
+    secondTopBar = LightPurple,
+    onSecondTopBar = Color.White,
+
+
+    mainHeader = Grey,
+    onMainHeader = Color.White,
+    mainBackground = Color.Black,
+    onMainBackground = Color.White,
+    mainContainer = BlueGrey,
+    onMainContainer = Color.White,
+    mainSurface = Color.White,
+    onMainSurface = Color.White,
+
+
+    secondHeader = Grey,
+    onSecondHeader = Color.White,
+    secondBackground = LightBlack,
+    onSecondBackground = Color.White,
+    secondContainer = MateGrey,
+    onSecondContainer = Color.White,
+    secondSurface = Color.White,
+    onSecondSurface = Color.White,
+)
+
+
+val lightColors = CustomColors(
+
+    input = LightCyan,
+    onInput = Color.Black,
+    inputVariant = LightCyan,
+    onInputVariant = Color.Black,
+    error = Beige,
+    onError = Beige,
+
+    mainTopBar = DarkPurple,
+    onMainTopBar = Color.White,
+    secondTopBar = LightPurple,
+    onSecondTopBar = Color.White,
+
+
+    mainHeader = Grey,
+    onMainHeader = Color.White,
+    mainBackground = Color.Black,
+    onMainBackground = Color.White,
+    mainContainer = BlueGrey,
+    onMainContainer = Color.White,
+    mainSurface = Color.White,
+    onMainSurface = Color.White,
+
+
+    secondHeader = Grey,
+    onSecondHeader = Color.White,
+    secondBackground = LightBlack,
+    onSecondBackground = Color.White,
+    secondContainer = MateGrey,
+    onSecondContainer = Color.White,
+    secondSurface = Color.White,
+    onSecondSurface = Color.White,
 )
