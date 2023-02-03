@@ -10,8 +10,8 @@ import model.item.sensor.Temp
 import utils.Name.Companion.checkNameTaken
 
 class TempVM(
-    val tempItemList: SnapshotStateList<SensorItem> = State.tempItemList,
-    val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList
+    val tempItemList: SnapshotStateList<SensorItem> = State.iTemps,
+    val tempList: SnapshotStateList<Sensor> = State.hSensorsList.hTemps
 ) {
 
 

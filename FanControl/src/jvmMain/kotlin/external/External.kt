@@ -1,48 +1,41 @@
 package external
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import model.hardware.Control
 import model.hardware.Sensor
-import model.item.control.Control
 
 interface External {
 
-    fun start(
-        fanList: SnapshotStateList<Sensor>,
-        tempList: SnapshotStateList<Sensor>,
-        controlList: SnapshotStateList<Control>,
-        controlChangeList: SnapshotStateList<Boolean>
-    ) {
-        setControlList(controlList)
-        setFanList(fanList)
-        setTempList(tempList)
-        /**
-         * initialize controlChangeList with the same size of control
-         * if a configuration is used, all value will be set to true
-         */
-        controlList.forEach { _ ->
-            controlChangeList.add(false)
-        }
+    private enum class Command {
+        GetControlsInfo,
+        GetFansInfo,
+        GetTempsInfo,
+        GetUpdateControls,
+        GetUpdateFans,
+        GetUpdateTemps,
+        Close
     }
 
-    fun stop()
+    fun start(
+        fans: SnapshotStateList<Sensor>,
+        temps: SnapshotStateList<Sensor>,
+        controls: SnapshotStateList<Control>
+    ) {
+        setControls(controls)
+        setFans(fans)
+        setTemps(temps)
+    }
 
-    fun setFanList(fanList: SnapshotStateList<Sensor>)
+    fun reloadSetting()
+    fun reloadConfig(id: Long?)
 
-    fun setTempList(tempList: SnapshotStateList<Sensor>)
+    fun close()
 
-    fun setControlList(controlList: SnapshotStateList<Control>)
+    fun setControls(controls: SnapshotStateList<Control>)
+    fun setFans(fans: SnapshotStateList<Sensor>)
+    fun setTemps(temps: SnapshotStateList<Sensor>)
 
-    fun updateFanList(
-        fanList: SnapshotStateList<Sensor>
-    )
-
-    fun updateTempList(
-        tempList: SnapshotStateList<Sensor>
-    )
-
-    fun updateControlList(
-        controlList: SnapshotStateList<Control>
-    )
-
-    fun setControl(libIndex: Int, isAuto: Boolean, value: Int?)
+    fun setUpdateControls(controls: SnapshotStateList<Control>)
+    fun setUpdateFans(fans: SnapshotStateList<Sensor>)
+    fun setUpdateTemps(temps: SnapshotStateList<Sensor>)
 }

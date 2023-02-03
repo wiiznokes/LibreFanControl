@@ -12,8 +12,8 @@ import utils.Id.Companion.getAvailableId
 import utils.Name.Companion.getAvailableName
 
 class AddSensorVM(
-    private val fanItemList: SnapshotStateList<SensorItem> = State.fanItemList,
-    private val tempItemList: SnapshotStateList<SensorItem> = State.tempItemList,
+    private val fanItemList: SnapshotStateList<SensorItem> = State.iFans,
+    private val tempItemList: SnapshotStateList<SensorItem> = State.iTemps,
 ) {
     fun addFan() {
         val name = getAvailableName(

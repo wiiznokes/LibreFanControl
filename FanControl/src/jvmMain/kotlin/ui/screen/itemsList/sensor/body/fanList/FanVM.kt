@@ -8,8 +8,8 @@ import model.item.sensor.SensorItem
 import utils.Name.Companion.checkNameTaken
 
 class FanVM(
-    val fanItemList: SnapshotStateList<SensorItem> = State.fanItemList,
-    val fanList: SnapshotStateList<Sensor> = State.sensorLists.fanList
+    val fanItemList: SnapshotStateList<SensorItem> = State.iFans,
+    val fanList: SnapshotStateList<Sensor> = State.hSensorsList.hFans
 ) {
 
     fun remove(index: Int) {

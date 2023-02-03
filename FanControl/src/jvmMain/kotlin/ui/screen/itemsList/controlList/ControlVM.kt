@@ -9,8 +9,8 @@ import model.item.control.Control
 import utils.Name.Companion.checkNameTaken
 
 class ControlVM(
-    val controlList: SnapshotStateList<Control> = State.controlList,
-    val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
+    val controlList: SnapshotStateList<Control> = State.hControls,
+    val behaviorList: SnapshotStateList<Behavior> = State.iBehaviors,
     val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList,
     private val mutex: Mutex = State.controlChangeMutex
 ) {

@@ -10,8 +10,8 @@ import utils.filterWithPreviousIndex
 
 
 class ProvideSetControlList(
-    private val controlList: SnapshotStateList<Control> = State.controlList,
-    private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList
+    private val controlList: SnapshotStateList<Control> = State.hControls,
+    private val behaviorList: SnapshotStateList<Behavior> = State.iBehaviors
 ) {
     fun getSetControlList(controlChangeListMarker: MutableList<Boolean>): List<SetControlModel> {
 

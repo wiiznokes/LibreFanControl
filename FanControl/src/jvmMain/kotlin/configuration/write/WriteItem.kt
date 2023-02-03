@@ -7,7 +7,7 @@ import model.item.behavior.Behavior
 import model.item.behavior.Flat
 import model.item.behavior.Linear
 import model.item.behavior.Target
-import model.item.control.Control
+import model.item.control.ControlItem
 import model.item.sensor.CustomTemp
 import model.item.sensor.Fan
 import model.item.sensor.SensorItem
@@ -17,13 +17,13 @@ import org.json.JSONWriter
 
 class WriteItem {
 
-    fun setItems(itemList: List<BaseItem>, writer: JSONWriter, type: ItemType) {
+    fun setItems(iList: List<BaseItem>, writer: JSONWriter, type: ItemType) {
         writer.key("$type")
         writer.array()
-        itemList.forEach {
+        iList.forEach {
             writer.`object`()
             when (type) {
-                is ItemType.ControlType -> setControl(it as Control, writer)
+                is ItemType.ControlType -> setControl(it as ControlItem, writer)
                 is ItemType.BehaviorType -> setBehavior(it as Behavior, writer)
                 is ItemType.SensorType -> setSensorItem(it as SensorItem, writer)
             }
@@ -32,17 +32,15 @@ class WriteItem {
         writer.endArray()
     }
 
-    private fun setControl(control: Control, writer: JSONWriter) {
+    private fun setControl(control: ControlItem, writer: JSONWriter) {
         setItem(control, writer)
 
-        writer.key("visible")
-        writer.value(control.visible)
         writer.key("behaviorId")
         writer.value(control.behaviorId)
         writer.key("isAuto")
         writer.value(control.isAuto)
-        writer.key("libId")
-        writer.value(control.libId)
+        writer.key("controlId")
+        writer.value(control.controlId)
     }
 
     private fun setBehavior(behavior: Behavior, writer: JSONWriter) {

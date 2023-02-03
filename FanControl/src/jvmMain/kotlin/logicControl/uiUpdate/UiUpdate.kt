@@ -16,8 +16,8 @@ import utils.filterWithPreviousIndex
  * Should be used only if app is visible and in a coroutine
  */
 class UiUpdate(
-    private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
-    private val tempItemList: SnapshotStateList<SensorItem> = State.tempItemList
+    private val behaviorList: SnapshotStateList<Behavior> = State.iBehaviors,
+    private val tempItemList: SnapshotStateList<SensorItem> = State.iTemps
 ) {
 
     private val behaviorLogic = BehaviorLogic()

@@ -34,7 +34,7 @@ data class SetControlModel(
  * set.
  */
 class Logic(
-    private val controlList: SnapshotStateList<Control> = State.controlList,
+    private val controlList: SnapshotStateList<Control> = State.hControls,
     private val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList,
     private val settings: StateFlow<SettingsModel> = State.settings.asStateFlow(),
     private val externalManager: ExternalManager,

@@ -1,11 +1,12 @@
 package configuration
 
 
-import State.behaviorList
-import State.controlList
-import State.fanItemList
-import State.sensorLists
-import State.tempItemList
+import State.iBehaviors
+import State.hControls
+import State.iFans
+import State.hSensorsList
+import State.iControls
+import State.iTemps
 import configuration.read.ReadHardware
 import configuration.read.ReadItem
 import configuration.write.WriteHardware
@@ -42,35 +43,34 @@ class Configuration {
             val string = file.bufferedReader().readText()
             val obj = JSONTokener(string).nextValue() as JSONObject
 
-            readItem.getControls(
-                controlList = controlList,
-                array = obj.getJSONArray(ItemType.ControlType.I_C_FAN.toString())
-            )
-
             readHardware.getSensors(
-                sensorList = sensorLists.fanList,
+                hSensors = hSensorsList.hFans,
                 array = obj.getJSONArray(HardwareType.SensorType.H_S_FAN.toString())
             )
             readHardware.getSensors(
-                sensorList = sensorLists.tempList,
+                hSensors = hSensorsList.hTemps,
                 array = obj.getJSONArray(HardwareType.SensorType.H_S_TEMP.toString())
             )
 
-            behaviorList.clear()
+            iControls.clear()
+            iBehaviors.clear()
+            iFans.clear()
+            iTemps.clear()
+
+            readItem.getControls(
+                iControls = iControls,
+                array = obj.getJSONArray(ItemType.ControlType.I_C_FAN.toString())
+            )
             readItem.getBehaviors(
-                behaviorList = behaviorList,
+                iBehaviors = iBehaviors,
                 array = obj.getJSONArray(ItemType.BehaviorType.I_B_UNSPECIFIED.toString())
             )
-
-            fanItemList.clear()
             readItem.getSensors(
-                sensorItemList = fanItemList,
+                iSensors = iFans,
                 array = obj.getJSONArray(ItemType.SensorType.I_S_FAN.toString())
             )
-
-            tempItemList.clear()
             readItem.getSensors(
-                sensorItemList = tempItemList,
+                iSensors = iTemps,
                 array = obj.getJSONArray(ItemType.SensorType.I_S_TEMP.toString())
             )
         }
@@ -96,33 +96,38 @@ class Configuration {
             writer.value(getOS())
 
             writeHardware.setHardware(
-                itemList = sensorLists.fanList,
+                hList = hSensorsList.hFans,
                 writer = writer,
                 type = HardwareType.SensorType.H_S_FAN
             )
             writeHardware.setHardware(
-                itemList = sensorLists.tempList,
+                hList = hSensorsList.hTemps,
                 writer = writer,
                 type = HardwareType.SensorType.H_S_TEMP
             )
+            writeHardware.setHardware(
+                hList = hControls,
+                writer = writer,
+                type = HardwareType.ControlType.H_C_FAN
+            )
 
             writeItem.setItems(
-                itemList = controlList,
+                iList = iControls,
                 writer = writer,
                 type = ItemType.ControlType.I_C_FAN
             )
             writeItem.setItems(
-                itemList = behaviorList,
+                iList = iBehaviors,
                 writer = writer,
                 type = ItemType.BehaviorType.I_B_UNSPECIFIED
             )
             writeItem.setItems(
-                itemList = fanItemList,
+                iList = iFans,
                 writer = writer,
                 type = ItemType.SensorType.I_S_FAN
             )
             writeItem.setItems(
-                itemList = tempItemList,
+                iList = iTemps,
                 writer = writer,
                 type = ItemType.SensorType.I_S_TEMP
             )

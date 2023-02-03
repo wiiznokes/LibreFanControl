@@ -5,7 +5,8 @@ import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import external.linux.ExternalLinux
 import external.windows.ExternalWindows
-import model.item.control.Control
+import model.hardware.Control
+import javax.swing.text.StyledEditorKit.BoldAction
 
 
 /**
@@ -14,49 +15,42 @@ import model.item.control.Control
  * with the External interface
  */
 class ExternalManager(
-    private val controlList: SnapshotStateList<Control> = State.controlList,
-    private val sensorLists: SensorLists = State.sensorLists,
-    private val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList
+    private val controlList: SnapshotStateList<Control> = State.hControls,
+    private val sensorLists: SensorLists = State.hSensorsList
 ) {
 
-    private val external: External = when (getOS()) {
+    private val external: External = when (OS.linux) {
         OS.windows -> ExternalWindows()
         OS.linux -> ExternalLinux()
         OS.unsupported -> throw Exception("unsupported OS")
     }
 
-    /**
-     * load library and fetch sensors
-     */
+
     fun start() {
-        external.start(sensorLists.fanList, sensorLists.tempList, controlList, controlChangeList)
+        external.start(sensorLists.hFans, sensorLists.hTemps, controlList)
         println("start lib : success")
     }
 
+
     fun stop() {
-        external.stop()
+        external.close()
         println("stop lib : success")
     }
 
     fun updateFanList() {
-        external.updateFanList(sensorLists.fanList)
+        external.setUpdateFans(sensorLists.hFans)
         //println("updateFan : success")
 
     }
 
     fun updateTempList() {
-        external.updateTempList(sensorLists.tempList)
+        external.setUpdateTemps(sensorLists.hTemps)
         //println("updateTemp : success")
     }
 
     fun updateControlList() {
-        external.updateControlList(controlList)
+        external.setUpdateControls(controlList)
         //println("updateControl : success")
-    }
-
-    fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null) {
-        external.setControl(libIndex, isAuto, value)
-        println("set control: index = $libIndex, isAuto = $isAuto, value = $value")
     }
 
 }

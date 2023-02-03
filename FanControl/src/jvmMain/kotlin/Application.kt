@@ -15,8 +15,7 @@ import utils.initSensor
  * main logic of the app
  */
 class Application(
-    private val settings: StateFlow<SettingsModel> = State.settings.asStateFlow(),
-    private val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList
+    private val settings: StateFlow<SettingsModel> = State.settings.asStateFlow()
 ) {
 
     private lateinit var jobUpdate: Job

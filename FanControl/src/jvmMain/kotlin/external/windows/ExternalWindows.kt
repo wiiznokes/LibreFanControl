@@ -5,13 +5,12 @@ import external.External
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import model.HardwareType
+import model.hardware.Control
 import model.hardware.Sensor
-import model.item.control.Control
 import utils.Id.Companion.getAvailableId
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
-import java.io.PrintWriter
 import java.net.Socket
 
 
@@ -28,13 +27,7 @@ class ExternalWindows : External {
     private val byteArray = ByteArray(1024)
 
 
-    enum class Command {
-        GetInfo,
-        Controls,
-        Fans,
-        Temps,
-        Stop
-    }
+
 
     private fun makeRequest(command: Command) {
         println("make request: $command")
@@ -44,10 +37,9 @@ class ExternalWindows : External {
 
 
     override fun start(
-        fanList: SnapshotStateList<Sensor>,
-        tempList: SnapshotStateList<Sensor>,
-        controlList: SnapshotStateList<Control>,
-        controlChangeList: SnapshotStateList<Boolean>
+        fans: SnapshotStateList<Sensor>,
+        temps: SnapshotStateList<Sensor>,
+        controls: SnapshotStateList<Control>
     ) {
 
         try {
@@ -71,7 +63,7 @@ class ExternalWindows : External {
         inputStream = client.getInputStream()
         outputStream = client.getOutputStream()
 
-        super.start(fanList, tempList, controlList, controlChangeList)
+        super.start(fans, temps, controls)
     }
 
     override fun stop() {
@@ -79,62 +71,59 @@ class ExternalWindows : External {
         client.close()
     }
 
-    override fun setControlList(controlList: SnapshotStateList<Control>) {
+    override fun setControls(controls: SnapshotStateList<Control>) {
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
         deviceList.deviceList.forEach {
-            controlList.add(
+            controls.add(
                 Control(
                     libIndex = it.index,
                     libId = it.id,
                     libName = it.name,
-                    name = it.name,
-                    id = getAvailableId(
-                        controlList.map { control -> control.id }
-                    )
+                    id = getAvailableId(controls.map { control -> control.id })
                 )
             )
         }
 
     }
 
-    override fun setFanList(fanList: SnapshotStateList<Sensor>) {
+    override fun setFans(fans: SnapshotStateList<Sensor>) {
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
         deviceList.deviceList.forEach {
-            fanList.add(
+            fans.add(
                 Sensor(
                     libIndex = it.index,
                     libId = it.id,
                     libName = it.name,
                     type = HardwareType.SensorType.H_S_FAN,
-                    id = getAvailableId(fanList.map { fan -> fan.id })
+                    id = getAvailableId(fans.map { fan -> fan.id })
                 )
             )
         }
     }
 
-    override fun setTempList(tempList: SnapshotStateList<Sensor>) {
+    override fun setTemps(temps: SnapshotStateList<Sensor>) {
         println("setControlList")
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
         deviceList.deviceList.forEach {
-            tempList.add(
+            temps.add(
                 Sensor(
                     libIndex = it.index,
                     libId = it.id,
                     libName = it.name,
                     type = HardwareType.SensorType.H_S_TEMP,
-                    id = getAvailableId(tempList.map { temp-> temp.id })
+                    id = getAvailableId(temps.map { temp-> temp.id })
                 )
             )
         }
     }
 
-    override fun updateControlList(controlList: SnapshotStateList<Control>) {
+    override fun setUpdateControls(controls: SnapshotStateList<Control>) {
         println("updateControlList")
         makeRequest(Command.Controls)
 
@@ -142,17 +131,17 @@ class ExternalWindows : External {
         val updateList = ProtoHelper.getUpdateList(byteArray, bytesRead!!)
 
         updateList.forEach {
-            controlList[it.index] = controlList[it.index].copy(
+            controls[it.index] = controls[it.index].copy(
                 value = it.value
             )
         }
     }
 
-    override fun updateFanList(fanList: SnapshotStateList<Sensor>) {
+    override fun setUpdateFans(fans: SnapshotStateList<Sensor>) {
 
     }
 
-    override fun updateTempList(tempList: SnapshotStateList<Sensor>) {
+    override fun setUpdateTemps(temps: SnapshotStateList<Sensor>) {
 
     }
 

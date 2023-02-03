@@ -46,4 +46,13 @@ interface HardwareType {
             infix fun from(value: String): SensorType = SensorType.values().first { it.name == value }
         }
     }
+
+    enum class ControlType : HardwareType {
+        H_C_FAN,
+        H_C_UNSPECIFIED;
+
+        companion object {
+            infix fun from(value: String): ControlType = ControlType.values().first { it.name == value }
+        }
+    }
 }

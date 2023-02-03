@@ -15,12 +15,12 @@ import utils.Id.Companion.getAvailableId
  * Each sensor will be represented by one sensor item.
  */
 fun initSensor(
-    sensorLists: SensorLists = State.sensorLists,
+    sensorLists: SensorLists = State.hSensorsList,
 
-    fanItemList: SnapshotStateList<SensorItem> = State.fanItemList,
-    tempItemList: SnapshotStateList<SensorItem> = State.tempItemList
+    fanItemList: SnapshotStateList<SensorItem> = State.iFans,
+    tempItemList: SnapshotStateList<SensorItem> = State.iTemps
 ) {
-    sensorLists.fanList.forEach { fanSensor ->
+    sensorLists.hFans.forEach { fanSensor ->
         fanItemList.add(
             SensorItem(
                 name = fanSensor.libName,
@@ -33,7 +33,7 @@ fun initSensor(
         )
     }
 
-    sensorLists.tempList.forEach { tempSensor ->
+    sensorLists.hTemps.forEach { tempSensor ->
         tempItemList.add(
             SensorItem(
                 name = tempSensor.libName,

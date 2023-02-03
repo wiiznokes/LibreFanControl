@@ -3,61 +3,59 @@ package external.linux
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import external.External
 import model.HardwareType
+import model.hardware.Control
 import model.hardware.Sensor
-import model.item.control.Control
 import utils.Id.Companion.getAvailableId
-import utils.Name.Companion.getAvailableName
 import kotlin.random.Random
 
 class ExternalLinux : External {
     override fun stop() {}
 
 
-    override fun setFanList(fanList: SnapshotStateList<Sensor>) {
+    override fun setFans(fans: SnapshotStateList<Sensor>) {
         for (i in 0..3) {
-            fanList.add(
+            fans.add(
                 Sensor(
                     libIndex = i,
                     libId = "fan${i + 1}",
                     libName = "fan lib${i + 1}",
                     type = HardwareType.SensorType.H_S_FAN,
-                    id = getAvailableId(fanList.map { it.id })
+                    id = getAvailableId(fans.map { it.id })
                 )
             )
         }
     }
 
-    override fun setTempList(tempList: SnapshotStateList<Sensor>) {
+    override fun setTemps(temps: SnapshotStateList<Sensor>) {
         for (i in 0..3) {
-            tempList.add(
+            temps.add(
                 Sensor(
                     libIndex = i,
                     libId = "temp${i + 1}",
                     libName = "temp lib${i + 1}",
                     type = HardwareType.SensorType.H_S_TEMP,
-                    id = getAvailableId(tempList.map { it.id })
+                    id = getAvailableId(temps.map { it.id })
                 )
             )
         }
     }
 
-    override fun setControlList(controlList: SnapshotStateList<Control>) {
+    override fun setControls(controls: SnapshotStateList<Control>) {
         for (i in 0..3) {
-            controlList.add(
+            controls.add(
                 Control(
-                    name = getAvailableName(controlList.map { it.name }, "control"),
                     libIndex = i,
                     libId = "fan${i + 1}",
                     libName = "control lib${i + 1}",
-                    id = getAvailableId(controlList.map { it.id })
+                    id = getAvailableId(controls.map { it.id })
                 )
             )
         }
     }
 
-    override fun updateFanList(fanList: SnapshotStateList<Sensor>) {
-        for (i in fanList.indices) {
-            fanList[i] = fanList[i].copy(
+    override fun setUpdateFans(fans: SnapshotStateList<Sensor>) {
+        for (i in fans.indices) {
+            fans[i] = fans[i].copy(
                 value = Random.nextInt(0, 4000)
             )
         }
@@ -87,27 +85,27 @@ class ExternalLinux : External {
         }
     }
 
-    override fun updateTempList(tempList: SnapshotStateList<Sensor>) {
-        for (i in tempList.indices) {
-            val temp = tempList[i]
-            tempList[i] = temp.copy(
+    override fun setUpdateTemps(temps: SnapshotStateList<Sensor>) {
+        for (i in temps.indices) {
+            val temp = temps[i]
+            temps[i] = temp.copy(
                 value = newValue(temp.value)
             )
         }
     }
 
-    override fun updateControlList(controlList: SnapshotStateList<Control>) {
+    override fun setUpdateControls(controls: SnapshotStateList<Control>) {
         setList.forEach {
-            val index = controlList.indexOfFirst { control ->
+            val index = controls.indexOfFirst { control ->
                 control.libIndex == it.libIndex
             }
 
             if (it.isAuto) {
-                controlList[index] = controlList[index].copy(
+                controls[index] = controls[index].copy(
                     value = 0
                 )
             } else {
-                controlList[index] = controlList[index].copy(
+                controls[index] = controls[index].copy(
                     value = it.value ?: 0
                 )
             }

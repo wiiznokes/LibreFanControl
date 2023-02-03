@@ -7,7 +7,7 @@ import model.item.behavior.Behavior
 import model.item.behavior.Target
 
 class TargetLogic(
-    private val behaviorList: SnapshotStateList<Behavior> = State.behaviorList
+    private val behaviorList: SnapshotStateList<Behavior> = State.iBehaviors
 ) {
 
     fun getValue(target: Target): Int? {

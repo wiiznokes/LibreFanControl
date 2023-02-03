@@ -24,8 +24,8 @@ enum class TargetParams : LinAndTarParams {
 }
 
 class TargetVM(
-    val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList,
-    val tempItemList: SnapshotStateList<SensorItem> = State.tempItemList
+    val tempList: SnapshotStateList<Sensor> = State.hSensorsList.hTemps,
+    val tempItemList: SnapshotStateList<SensorItem> = State.iTemps
 ) : BaseBehaviorVM() {
 
     fun setTemp(index: Int, tempSensorId: Long?) {

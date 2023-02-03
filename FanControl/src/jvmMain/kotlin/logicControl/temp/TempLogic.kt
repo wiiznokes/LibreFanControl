@@ -10,8 +10,8 @@ import model.item.sensor.SensorItem
 class TempLogic {
 
     companion object {
-        private val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList
-        private val tempItemList: SnapshotStateList<SensorItem> = State.tempItemList
+        private val tempList: SnapshotStateList<Sensor> = State.hSensorsList.hTemps
+        private val tempItemList: SnapshotStateList<SensorItem> = State.iTemps
 
 
         fun getValue(id: Long?): Int? {
