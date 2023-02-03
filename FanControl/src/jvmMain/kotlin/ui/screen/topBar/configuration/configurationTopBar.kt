@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import configuration.ConfigurationModel
 import ui.component.managerListChoice
 import ui.component.managerNameOutlinedTextField
+import ui.screen.topBar.topBarHeight
 import ui.utils.Resources
 import utils.Name.Companion.checkNameTaken
 
@@ -36,8 +37,7 @@ fun configuration() {
                         ids = Pair(null, null),
                         modifier = Modifier
                             .widthIn(200.dp, 250.dp)
-                            .height(35.dp),
-
+                            .height(topBarHeight - 10.dp),
                         color = MaterialTheme.colorScheme.tertiary,
                         onColor = MaterialTheme.colorScheme.onTertiary,
                         cornerShape = 22.dp,

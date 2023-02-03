@@ -38,8 +38,8 @@ fun baseItemBody(
         editIcon = {
             Icon(
                 painter = Resources.getIcon("select/close/close24"),
-                contentDescription = Resources.getString("ct/edit_remove"),
-                tint = Color.White
+                tint = Color.White,
+                contentDescription = null
             )
         },
         editIconContainerColor = Color.Red,
@@ -78,7 +78,7 @@ fun baseItemAddItem(
         editIcon = {
             Icon(
                 painter = Resources.getIcon("sign/plus/add24"),
-                contentDescription = Resources.getString("ct/edit_add"),
+                contentDescription = null,
                 tint = Color.White
             )
         },
@@ -105,8 +105,8 @@ private fun baseItem(
 ) {
     Box(
         modifier = Modifier
+            .size(width = 200.dp, height = 250.dp)
     ) {
-
         Surface(
             modifier = Modifier
                 .padding(10.dp),
@@ -119,25 +119,23 @@ private fun baseItem(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(20.dp)
+                    .padding(15.dp)
             ) {
-                Row {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     Icon(
                         painter = icon,
                         contentDescription = null,
                         tint = onColor
                     )
-                    Spacer(
-                        modifier = Modifier
-                            .width(10.dp)
-                    )
+                    Spacer(Modifier.width(10.dp))
 
                     contentName()
                 }
-                Spacer(
-                    modifier = Modifier
-                        .height(5.dp)
-                )
+                Spacer(Modifier.height(5.dp))
 
                 Column {
                     content()

@@ -24,6 +24,7 @@ fun flatBody(
         onEditClick = { viewModel.remove(index) },
         item = behavior
     ) {
+
         baseFlat(
             value = flat.value,
             enabled = true,

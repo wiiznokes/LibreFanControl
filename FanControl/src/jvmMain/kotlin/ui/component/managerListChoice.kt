@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.IconButton
+import androidx.compose.material.Surface
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
@@ -16,39 +17,6 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import ui.utils.Resources
-
-@Composable
-fun managerAddItemListChoice(
-    name: String,
-    painterType: PainterType = PainterType.CHOOSE
-) {
-    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-
-                Icon(
-                    painter = when (painterType) {
-                        PainterType.ADD -> Resources.getIcon("sign/plus/add24")
-                        PainterType.CHOOSE -> Resources.getIcon("arrow/dropDown/arrow_drop_down40")
-                    },
-                    contentDescription = Resources.getString("ct/choose"),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                managerText(
-                    text = name,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        }
-    }
-}
-
 
 @Composable
 fun <T> managerListChoice(
@@ -65,8 +33,7 @@ fun <T> managerListChoice(
     painterType: PainterType = PainterType.CHOOSE,
     size: Int = 40,
     baseModifier: Modifier = Modifier
-        .fillMaxWidth()
-        .widthIn(min = 100.dp, max = 250.dp),
+        .fillMaxWidth(),
     itemModifier: Modifier = Modifier,
     onItemClick: (T?) -> Unit,
     iconContent: @Composable ((T, Int) -> Unit)? = null,
@@ -127,9 +94,9 @@ private fun managerBaseDropdownMenu(
     size: Int,
     dropDownContent: @Composable ColumnScope.() -> Unit
 ) {
-    Box {
-
-
+    Surface(
+        shape =
+    ) {
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             Row(
                 modifier = modifier,

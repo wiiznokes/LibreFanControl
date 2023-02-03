@@ -4,9 +4,6 @@ import model.item.behavior.Linear
 import ui.utils.Resources
 
 
-val linearValues = listOf(
-    "25", "60", "10", "100"
-)
 
 fun linearValues(linear: Linear) = listOf(
     linear.minTemp,

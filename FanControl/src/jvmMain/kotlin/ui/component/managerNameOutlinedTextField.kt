@@ -25,9 +25,7 @@ fun managerNameOutlinedTextField(
     },
     onValueChange: ((String) -> Unit)? = null,
     modifier: Modifier = Modifier
-        .widthIn(min = 90.dp, max = 180.dp)
-        .width(IntrinsicSize.Min)
-        .height(35.dp),
+        .height(30.dp),
     label: String? = null,
     color: Color = MaterialTheme.colorScheme.primary,
     onColor: Color = MaterialTheme.colorScheme.onPrimary,
@@ -104,7 +102,7 @@ fun managerNameOutlinedTextField(
                         shape = RoundedCornerShape(cornerShape)
                     )
                 },
-                contentPadding = PaddingValues(horizontal = 10.dp),
+                contentPadding = PaddingValues(horizontal = 5.dp),
                 enabled = enabled
             )
         }

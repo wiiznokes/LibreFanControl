@@ -9,6 +9,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.material.Text
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -16,7 +17,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import ui.component.managerText
 import ui.screen.itemsList.behaviorList.behaviorBodyList
 import ui.screen.itemsList.controlList.controlBodyList
@@ -119,17 +126,25 @@ private fun itemsList(
     content: LazyListScope.() -> Unit
 ) {
     LazyColumn(
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.Start
     ) {
         item {
-            managerText(
+            Text(
                 text = title,
                 modifier = Modifier
-                    .padding(10.dp),
-                style = MaterialTheme.typography.titleLarge,
+                    .padding(20.dp),
+                maxLines = 1,
+                style = TextStyle(
+                    textDecoration = TextDecoration.Underline,
+                    fontStyle = FontStyle.Italic,
+                    fontFamily = FontFamily.Default,
+                    fontWeight = FontWeight.W600,
+                    fontSize = 26.sp,
+                    letterSpacing = 0.6.sp,
+                    lineHeight = 24.sp,
+                ),
                 color = MaterialTheme.colorScheme.onBackground
             )
-            Spacer(Modifier.height(20.dp))
         }
         content()
         item {

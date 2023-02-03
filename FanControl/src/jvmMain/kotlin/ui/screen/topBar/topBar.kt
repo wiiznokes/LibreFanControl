@@ -18,7 +18,7 @@ import ui.utils.Resources
 
 
 private val viewModel = TopBarVM()
-private val topBarHeight = 50.dp
+val topBarHeight = 45.dp
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -72,7 +72,7 @@ fun topBarBody(
                         .onPointerEvent(PointerEventType.Enter) { active = true }
                         .onPointerEvent(PointerEventType.Exit) { active = false }
                         .graphicsLayer { rotationZ = angle },
-                    painter = Resources.getIcon("topBar/toys_fan48"),
+                    painter = Resources.getIcon("topBar/toys_fan40"),
                     contentDescription = Resources.getString("title/app_name"),
                     tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -97,7 +97,7 @@ fun topBarBody(
                 }
             ) {
                 Icon(
-                    painter = Resources.getIcon("topBar/menu48"),
+                    painter = Resources.getIcon("topBar/menu40"),
                     contentDescription = Resources.getString("ct/open_drawer"),
                     tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -126,7 +126,7 @@ fun topBarBody(
                     }
                 ) {
                     Icon(
-                        painter = Resources.getIcon("topBar/edit_square48"),
+                        painter = Resources.getIcon("topBar/edit40"),
                         contentDescription = Resources.getString("ct/edit"),
                         modifier = Modifier
                             .padding(bottom = 5.dp, top = 1.dp),
@@ -165,7 +165,7 @@ fun topBarAddItem() {
                 onClick = { viewModel.closeAddItem() }
             ) {
                 Icon(
-                    painter = Resources.getIcon("arrow/arrow_forward48"),
+                    painter = Resources.getIcon("topBar/forward40"),
                     contentDescription = Resources.getString("ct/close_add_item"),
                     tint = MaterialTheme.colorScheme.onSecondaryContainer
                 )

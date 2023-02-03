@@ -19,8 +19,8 @@ fun managerNumberChoice(
     prefix: String,
     suffix: String,
 
-    increase: (() -> Unit)? = null,
-    decrease: (() -> Unit)? = null,
+    increase: (() -> Unit),
+    decrease: (() -> Unit),
     color: Color
 ) {
     Row(
@@ -54,7 +54,7 @@ fun managerNumberChoice(
         Column {
             IconButton(
                 modifier = Modifier.size(20.dp),
-                onClick = increase ?: {}
+                onClick = increase
             ) {
                 Icon(
                     modifier = Modifier,
@@ -65,7 +65,7 @@ fun managerNumberChoice(
             }
             IconButton(
                 modifier = Modifier.size(20.dp),
-                onClick = decrease ?: {}
+                onClick = decrease
             ) {
                 Icon(
                     modifier = Modifier,

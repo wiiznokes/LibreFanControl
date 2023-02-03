@@ -3,15 +3,23 @@ package ui.theme
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 
 
+
+
+
+
 val Typography = Typography(
-    // setting
+    // items lists titles
     titleLarge = TextStyle(
+        textDecoration = TextDecoration.Underline,
+        fontStyle = FontStyle.Italic,
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.W500,
         fontSize = 50.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
@@ -23,7 +31,7 @@ val Typography = Typography(
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
-    // launch and exit setting
+
     titleSmall = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.W500,
@@ -42,14 +50,14 @@ val Typography = Typography(
     bodyMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
-        fontSize = 18.sp,
+        fontSize = 15.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),
     bodySmall = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
-        fontSize = 15.sp,
+        fontSize = 11.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     ),

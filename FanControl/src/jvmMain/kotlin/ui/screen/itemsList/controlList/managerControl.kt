@@ -1,15 +1,13 @@
 package ui.screen.itemsList.controlList
 
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
@@ -48,14 +46,18 @@ fun controlBody(
     val control = if (controlItem.controlId != null) {
         viewModel.hControls.find {
             it.id == controlItem.controlId
-        }
+        }!!
     } else null
 
-    println("controlId = ${controlItem.controlId}")
-    println("id = ${control?.id}")
+    val behavior = if (controlItem.behaviorId != null) {
+        viewModel.iBehaviors.find {
+            it.id == controlItem.behaviorId
+        }!!
+    } else null
+
 
     baseItemBody(
-        icon = Resources.getIcon("items/alternate_email40"),
+        icon = Resources.getIcon("items/alternate_email24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
         item = controlItem
@@ -67,32 +69,32 @@ fun controlBody(
             names = viewModel.hControls.map { it.name }
         )
 
-        Row {
+        managerListChoice(
+            text = behavior?.name,
+            onItemClick = { viewModel.setBehavior(index, it) },
+            ids = viewModel.iBehaviors.map { it.id },
+            names = viewModel.iBehaviors.map { it.name }
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            managerText(
+                text = "${control?.value ?: 0} ${Resources.getString("unity/percent")}",
+                color = MaterialTheme.colorScheme.onSurface
+            )
 
             Switch(
                 modifier = Modifier
-                    .scale(0.8f)
+                    .scale(0.75f)
                     .wrapContentSize(),
                 checked = !controlItem.isAuto,
-                onCheckedChange = {
-                    viewModel.onSwitchClick(it, index)
-                }
-            )
-            Spacer(Modifier.width(10.dp))
-
-            managerListChoice(
-                text = viewModel.iBehaviors.firstOrNull {
-                    it.id == controlItem.behaviorId
-                }?.name,
-                onItemClick = { viewModel.setBehavior(index, it) },
-                ids = viewModel.iBehaviors.map { it.id },
-                names = viewModel.iBehaviors.map { it.name }
+                onCheckedChange = { viewModel.onSwitchClick(it, index) }
             )
         }
-        managerText(
-            text = "${control?.value ?: 0} ${Resources.getString("unity/percent")}",
-            color = MaterialTheme.colorScheme.onSurface
-        )
+
     }
 }
 
