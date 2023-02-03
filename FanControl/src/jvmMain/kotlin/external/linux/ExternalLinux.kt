@@ -9,16 +9,26 @@ import utils.Id.Companion.getAvailableId
 import kotlin.random.Random
 
 class ExternalLinux : External {
-    override fun stop() {}
+
+    override fun close() {}
+
+    override fun setControls(controls: SnapshotStateList<Control>) {
+        for (i in 0..3) {
+            controls.add(
+                Control(
+                    name = "control lib${i + 1}",
+                    id = getAvailableId(controls.map { it.id })
+                )
+            )
+        }
+    }
 
 
     override fun setFans(fans: SnapshotStateList<Sensor>) {
         for (i in 0..3) {
             fans.add(
                 Sensor(
-                    libIndex = i,
-                    libId = "fan${i + 1}",
-                    libName = "fan lib${i + 1}",
+                    name = "fan lib${i + 1}",
                     type = HardwareType.SensorType.H_S_FAN,
                     id = getAvailableId(fans.map { it.id })
                 )
@@ -30,9 +40,7 @@ class ExternalLinux : External {
         for (i in 0..3) {
             temps.add(
                 Sensor(
-                    libIndex = i,
-                    libId = "temp${i + 1}",
-                    libName = "temp lib${i + 1}",
+                    name = "temp lib${i + 1}",
                     type = HardwareType.SensorType.H_S_TEMP,
                     id = getAvailableId(temps.map { it.id })
                 )
@@ -40,18 +48,17 @@ class ExternalLinux : External {
         }
     }
 
-    override fun setControls(controls: SnapshotStateList<Control>) {
-        for (i in 0..3) {
-            controls.add(
-                Control(
-                    libIndex = i,
-                    libId = "fan${i + 1}",
-                    libName = "control lib${i + 1}",
-                    id = getAvailableId(controls.map { it.id })
-                )
+
+
+    override fun setUpdateControls(controls: SnapshotStateList<Control>) {
+        for (i in controls.indices) {
+            val control = controls[i]
+            controls[i] = control.copy(
+                value = UseForTest.newValue(control.value)
             )
         }
     }
+
 
     override fun setUpdateFans(fans: SnapshotStateList<Sensor>) {
         for (i in fans.indices) {
@@ -61,67 +68,53 @@ class ExternalLinux : External {
         }
     }
 
-    // used for testing
-    private var direction = true
-    private fun newValue(value: Int): Int {
-        val min = 30
-        val max = 75
-        val delta = Random.nextInt(0, 10)
 
-        return if (direction) {
-            (value + delta).let {
-                if (it > max) {
-                    direction = false
-                    max
-                } else it
-            }
-        } else {
-            (value - delta).let {
-                if (it < min) {
-                    direction = true
-                    min
-                } else it
-            }
-        }
-    }
 
     override fun setUpdateTemps(temps: SnapshotStateList<Sensor>) {
         for (i in temps.indices) {
             val temp = temps[i]
             temps[i] = temp.copy(
-                value = newValue(temp.value)
+                value = UseForTest.newValue(temp.value)
             )
         }
     }
 
-    override fun setUpdateControls(controls: SnapshotStateList<Control>) {
-        setList.forEach {
-            val index = controls.indexOfFirst { control ->
-                control.libIndex == it.libIndex
-            }
+    override fun reloadSetting() {}
+    override fun reloadConfig(id: Long?) {}
+}
 
-            if (it.isAuto) {
-                controls[index] = controls[index].copy(
-                    value = 0
-                )
+
+
+
+
+
+
+private class UseForTest {
+
+    companion object {
+        private var direction = true
+
+        // emulate natural value
+        fun newValue(value: Int): Int {
+            val min = 30
+            val max = 75
+            val delta = Random.nextInt(0, 10)
+
+            return if (direction) {
+                (value + delta).let {
+                    if (it > max) {
+                        direction = false
+                        max
+                    } else it
+                }
             } else {
-                controls[index] = controls[index].copy(
-                    value = it.value ?: 0
-                )
+                (value - delta).let {
+                    if (it < min) {
+                        direction = true
+                        min
+                    } else it
+                }
             }
         }
-        setList.clear()
-    }
-
-    private data class UpdateControl(
-        val libIndex: Int,
-        val isAuto: Boolean,
-        val value: Int?
-    )
-
-    private val setList = mutableListOf<UpdateControl>()
-
-    override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {
-        setList.add(UpdateControl(libIndex, isAuto, value))
     }
 }

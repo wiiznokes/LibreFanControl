@@ -2,7 +2,6 @@ package external.windows;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import external.windows.proto.DeviceList;
-import external.windows.proto.SetControl;
 import external.windows.proto.Update;
 import external.windows.proto.UpdateList;
 
@@ -23,16 +22,4 @@ public class ProtoHelper {
         UpdateList list = UpdateList.parseFrom(Arrays.copyOfRange(byteArray, 0, bytesRead));
         return list.getUpdateList();
     }
-
-    public static byte[] getSetControl(int libIndex, boolean isAuto, int value) {
-
-        SetControl setControl = SetControl.newBuilder()
-                .setLibIndex(libIndex)
-                .setIsAuto(isAuto)
-                .setValue(value)
-                .build();
-
-        return setControl.toByteArray();
-    }
-
 }

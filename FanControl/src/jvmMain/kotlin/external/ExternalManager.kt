@@ -6,7 +6,6 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import external.linux.ExternalLinux
 import external.windows.ExternalWindows
 import model.hardware.Control
-import javax.swing.text.StyledEditorKit.BoldAction
 
 
 /**
@@ -37,18 +36,18 @@ class ExternalManager(
         println("stop lib : success")
     }
 
-    fun updateFanList() {
+    fun updateFans() {
         external.setUpdateFans(sensorLists.hFans)
         //println("updateFan : success")
 
     }
 
-    fun updateTempList() {
+    fun updateTemps() {
         external.setUpdateTemps(sensorLists.hTemps)
         //println("updateTemp : success")
     }
 
-    fun updateControlList() {
+    fun updateControls() {
         external.setUpdateControls(controlList)
         //println("updateControl : success")
     }

@@ -24,11 +24,7 @@ message DeviceList {
     repeated Device Device = 2;
 }
 
-message SetControl {
-    int32 LibIndex = 1;
-    bool isAuto = 2;
-    int32 Value = 3;
-}
+
 
 message Update {
     int32 Index = 1;

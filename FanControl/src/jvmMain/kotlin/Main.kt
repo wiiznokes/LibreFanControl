@@ -16,8 +16,6 @@ fun main() {
 class MainApp {
     private val application: Application
 
-    private val appIsVisible = mutableStateOf(true)
-
     init {
         Settings()
         application = Application().apply {
@@ -25,58 +23,23 @@ class MainApp {
         }
 
         application(
-            exitProcessOnExit = false
+            exitProcessOnExit = true
         ) {
             val settings = State.settings.collectAsState().value
-            val closeHasBeenClick = remember { mutableStateOf(false) }
             Window(
-                visible = appIsVisible.value,
+                visible = true,
                 title = Resources.getString("title/app_name"),
                 icon = Resources.getIcon("app/toys_fan48"),
-                onCloseRequest = {
-                    if (!settings.exitOnCloseSet) closeHasBeenClick.value = true
-                    else if (settings.exitOnClose) exit() else close()
-                }
+                onCloseRequest = { exit() }
             ) {
                 fanControlTheme(
                     settings.theme
                 ) {
                     home()
-                    exitApp(
-                        closeHasBeenClick = closeHasBeenClick
-                    ) {
-                        if (it) exit() else close()
-                    }
                 }
 
-
-                if (isTraySupported) {
-                    Tray(
-                        icon = Resources.getIcon("app/toys_fan48"),
-                        tooltip = Resources.getString("title/app_name"),
-                        onAction = { open() },
-                        menu = {
-                            Item(
-                                text = Resources.getString("common/open"),
-                                onClick = { open() }
-                            )
-                            Separator()
-                            Item(
-                                text = Resources.getString("common/exit"),
-                                onClick = {
-                                    exit()
-                                }
-                            )
-                        }
-                    )
-                }
             }
         }
-    }
-
-    private fun open() {
-        appIsVisible.value = true
-        application.onOpen()
     }
 
     private fun ApplicationScope.exit() {
@@ -84,9 +47,5 @@ class MainApp {
         exitApplication()
     }
 
-    private fun close() {
-        appIsVisible.value = false
-        application.onClose()
-    }
 }
 
