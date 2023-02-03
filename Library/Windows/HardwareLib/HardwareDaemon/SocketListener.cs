@@ -94,10 +94,13 @@ public static class SocketListener
     
     
     public static Command GetMessage()
-    { 
-        var buffer = new byte[1024];
-        var bytesReceived = _handler?.Receive(buffer) ?? 0;
+    {
+        var input = new NetworkStream(_handler!, true);
         
+        var buffer = new byte[1024];
+        var bytesReceived = input.Read(buffer);
+        input.Close();
+
         var message = Encoding.ASCII.GetString(buffer, 0, bytesReceived);
         Console.WriteLine("message = " + message);
         
