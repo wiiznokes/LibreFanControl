@@ -7,79 +7,76 @@ import model.hardware.Control
 import model.hardware.Sensor
 import utils.Id.Companion.getAvailableId
 import kotlin.random.Random
+import State.hControls
+import State.hFans
+import State.hTemps
 
 class ExternalLinux : External {
 
-    override fun start(
-        fans: SnapshotStateList<Sensor>,
-        temps: SnapshotStateList<Sensor>,
-        controls: SnapshotStateList<Control>
-    ) {
+    override fun start() {
     }
 
     override fun close() {}
 
-    override fun setControls(controls: SnapshotStateList<Control>) {
+    override fun setControls() {
         for (i in 0..3) {
-            controls.add(
+            hControls.add(
                 Control(
                     name = "control lib${i + 1}",
-                    id = getAvailableId(controls.map { it.id })
+                    id = getAvailableId(hControls.map { it.id })
                 )
             )
         }
     }
 
 
-    override fun setFans(fans: SnapshotStateList<Sensor>) {
+    override fun setFans() {
         for (i in 0..3) {
-            fans.add(
+            hFans.add(
                 Sensor(
                     name = "fan lib${i + 1}",
                     type = HardwareType.SensorType.H_S_FAN,
-                    id = getAvailableId(fans.map { it.id })
+                    id = getAvailableId(hFans.map { it.id })
                 )
             )
         }
     }
 
-    override fun setTemps(temps: SnapshotStateList<Sensor>) {
+    override fun setTemps() {
         for (i in 0..3) {
-            temps.add(
+            hTemps.add(
                 Sensor(
                     name = "temp lib${i + 1}",
                     type = HardwareType.SensorType.H_S_TEMP,
-                    id = getAvailableId(temps.map { it.id })
+                    id = getAvailableId(hTemps.map { it.id })
                 )
             )
         }
     }
 
 
-    override fun updateControls(controls: SnapshotStateList<Control>) {
-        for (i in controls.indices) {
-            val control = controls[i]
-            controls[i] = control.copy(
-                value = UseForTest.newValue(control.value)
+    override fun updateControls() {
+        for (i in hControls.indices) {
+            hControls[i] = hControls[i].copy(
+                value = UseForTest.newValue(hControls[i].value)
             )
         }
     }
 
 
-    override fun updateFans(fans: SnapshotStateList<Sensor>) {
-        for (i in fans.indices) {
-            fans[i] = fans[i].copy(
+    override fun updateFans() {
+        for (i in hFans.indices) {
+            hFans[i] = hFans[i].copy(
                 value = Random.nextInt(0, 4000)
             )
         }
     }
 
 
-    override fun updateTemps(temps: SnapshotStateList<Sensor>) {
-        for (i in temps.indices) {
-            val temp = temps[i]
-            temps[i] = temp.copy(
-                value = UseForTest.newValue(temp.value)
+    override fun updateTemps() {
+        for (i in hTemps.indices) {
+            hTemps[i] = hTemps[i].copy(
+                value = UseForTest.newValue(hTemps[i].value)
             )
         }
     }
