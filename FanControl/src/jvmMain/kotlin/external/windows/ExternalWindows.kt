@@ -1,5 +1,8 @@
 package external.windows
 
+import State.hControls
+import State.hFans
+import State.hTemps
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import external.External
 import kotlinx.coroutines.delay
@@ -32,11 +35,7 @@ class ExternalWindows : External {
     }
 
 
-    override fun start(
-        fans: SnapshotStateList<Sensor>,
-        temps: SnapshotStateList<Sensor>,
-        controls: SnapshotStateList<Control>
-    ) {
+    override fun start() {
 
         try {
             client = Socket("::1", 11000)
@@ -71,91 +70,91 @@ class ExternalWindows : External {
         client.close()
     }
 
-    override fun setControls(controls: SnapshotStateList<Control>) {
+    override fun setControls() {
         makeRequest(External.Command.GetControlsInfo)
 
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
         deviceList.deviceList.forEach {
-            controls.add(
+            hControls.add(
                 Control(
                     name = it.name,
-                    id = getAvailableId(controls.map { control -> control.id })
+                    id = getAvailableId(hControls.map { control -> control.id })
                 )
             )
         }
 
     }
 
-    override fun setFans(fans: SnapshotStateList<Sensor>) {
+    override fun setFans() {
         makeRequest(External.Command.GetFansInfo)
 
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
         deviceList.deviceList.forEach {
-            fans.add(
+            hFans.add(
                 Sensor(
                     name = it.name,
                     type = HardwareType.SensorType.H_S_FAN,
-                    id = getAvailableId(fans.map { fan -> fan.id })
+                    id = getAvailableId(hFans.map { fan -> fan.id })
                 )
             )
         }
     }
 
-    override fun setTemps(temps: SnapshotStateList<Sensor>) {
+    override fun setTemps() {
         makeRequest(External.Command.GetTempsInfo)
 
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
         deviceList.deviceList.forEach {
-            temps.add(
+            hTemps.add(
                 Sensor(
                     name = it.name,
                     type = HardwareType.SensorType.H_S_TEMP,
-                    id = getAvailableId(temps.map { temp -> temp.id })
+                    id = getAvailableId(hTemps.map { temp -> temp.id })
                 )
             )
         }
     }
 
-    override fun setUpdateControls(controls: SnapshotStateList<Control>) {
+    override fun updateControls() {
         makeRequest(External.Command.GetUpdateControls)
 
         val bytesRead = inputStream?.read(byteArray)
         val updateList = ProtoHelper.getUpdateList(byteArray, bytesRead!!)
 
         updateList.forEach {
-            controls[it.index] = controls[it.index].copy(
+            hControls[it.index] = hControls[it.index].copy(
                 value = it.value
             )
         }
     }
 
-    override fun setUpdateFans(fans: SnapshotStateList<Sensor>) {
+    override fun updateFans() {
         makeRequest(External.Command.GetUpdateFans)
 
         val bytesRead = inputStream?.read(byteArray)
         val updateList = ProtoHelper.getUpdateList(byteArray, bytesRead!!)
 
         updateList.forEach {
-            fans[it.index] = fans[it.index].copy(
+            hFans[it.index] = hFans[it.index].copy(
                 value = it.value
             )
         }
     }
 
-    override fun setUpdateTemps(temps: SnapshotStateList<Sensor>) {
+    override fun updateTemps() {
         makeRequest(External.Command.GetUpdateTemps)
 
         val bytesRead = inputStream?.read(byteArray)
         val updateList = ProtoHelper.getUpdateList(byteArray, bytesRead!!)
 
         updateList.forEach {
-            temps[it.index] = temps[it.index].copy(
+            hTemps[it.index] = hTemps[it.index].copy(
                 value = it.value
             )
         }

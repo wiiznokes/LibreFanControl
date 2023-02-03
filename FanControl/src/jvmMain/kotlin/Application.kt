@@ -1,3 +1,6 @@
+import State.hControls
+import State.hFans
+import State.hTemps
 import configuration.Configuration
 import external.ExternalManager
 import kotlinx.coroutines.*
@@ -16,12 +19,11 @@ class Application(
 ) {
 
     private lateinit var jobUpdate: Job
-    private val externalManager = ExternalManager()
 
 
     fun onStart() {
         val configId = settings.value.configId
-        externalManager.start()
+        ExternalManager.start()
         when (configId) {
             null -> initSensor()
             else -> {
@@ -45,12 +47,12 @@ class Application(
     private suspend fun startUpdate() {
 
         while (!updateShouldStop) {
-            externalManager.updateControls()
-            externalManager.updateFans()
-            externalManager.updateTemps()
+            ExternalManager.updateControls()
+            ExternalManager.updateFans()
+            ExternalManager.updateTemps()
 
             delay(settings.value.updateDelay * 1000L)
         }
-        externalManager.stop()
+        ExternalManager.close()
     }
 }

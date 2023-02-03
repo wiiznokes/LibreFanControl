@@ -2,7 +2,8 @@ package configuration
 
 
 import State.hControls
-import State.hSensorsList
+import State.hFans
+import State.hTemps
 import State.iBehaviors
 import State.iControls
 import State.iFans
@@ -44,11 +45,11 @@ class Configuration {
             val obj = JSONTokener(string).nextValue() as JSONObject
 
             readHardware.getSensors(
-                hSensors = hSensorsList.hFans,
+                hSensors = hFans,
                 array = obj.getJSONArray(HardwareType.SensorType.H_S_FAN.toString())
             )
             readHardware.getSensors(
-                hSensors = hSensorsList.hTemps,
+                hSensors = hTemps,
                 array = obj.getJSONArray(HardwareType.SensorType.H_S_TEMP.toString())
             )
 
@@ -96,12 +97,12 @@ class Configuration {
             writer.value(getOS())
 
             writeHardware.setHardware(
-                hList = hSensorsList.hFans,
+                hList = hFans,
                 writer = writer,
                 type = HardwareType.SensorType.H_S_FAN
             )
             writeHardware.setHardware(
-                hList = hSensorsList.hTemps,
+                hList = hTemps,
                 writer = writer,
                 type = HardwareType.SensorType.H_S_TEMP
             )

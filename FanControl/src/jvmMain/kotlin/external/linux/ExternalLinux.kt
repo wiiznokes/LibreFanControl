@@ -56,7 +56,7 @@ class ExternalLinux : External {
     }
 
 
-    override fun setUpdateControls(controls: SnapshotStateList<Control>) {
+    override fun updateControls(controls: SnapshotStateList<Control>) {
         for (i in controls.indices) {
             val control = controls[i]
             controls[i] = control.copy(
@@ -66,7 +66,7 @@ class ExternalLinux : External {
     }
 
 
-    override fun setUpdateFans(fans: SnapshotStateList<Sensor>) {
+    override fun updateFans(fans: SnapshotStateList<Sensor>) {
         for (i in fans.indices) {
             fans[i] = fans[i].copy(
                 value = Random.nextInt(0, 4000)
@@ -75,7 +75,7 @@ class ExternalLinux : External {
     }
 
 
-    override fun setUpdateTemps(temps: SnapshotStateList<Sensor>) {
+    override fun updateTemps(temps: SnapshotStateList<Sensor>) {
         for (i in temps.indices) {
             val temp = temps[i]
             temps[i] = temp.copy(

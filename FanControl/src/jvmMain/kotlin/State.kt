@@ -9,10 +9,6 @@ import model.item.sensor.SensorItem
 import settings.SettingsModel
 
 
-data class SensorLists(
-    val hFans: SnapshotStateList<Sensor> = mutableStateListOf(),
-    val hTemps: SnapshotStateList<Sensor> = mutableStateListOf()
-)
 
 object State {
 
@@ -21,7 +17,8 @@ object State {
     val iFans: SnapshotStateList<SensorItem> = mutableStateListOf()
     val iTemps: SnapshotStateList<SensorItem> = mutableStateListOf()
 
-    val hSensorsList: SensorLists = SensorLists()
+    val hFans: SnapshotStateList<Sensor> = mutableStateListOf()
+    val hTemps: SnapshotStateList<Sensor> = mutableStateListOf()
     val hControls: SnapshotStateList<Control> = mutableStateListOf()
 
     val addItemExpanded: MutableStateFlow<Boolean> = MutableStateFlow(false)

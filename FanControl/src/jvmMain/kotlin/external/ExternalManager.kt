@@ -1,12 +1,7 @@
 package external
 
-import State.hControls
-import State.hSensorsList
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import external.linux.ExternalLinux
 import external.windows.ExternalWindows
-import model.hardware.Control
-import model.hardware.Sensor
 
 
 /**
@@ -22,16 +17,12 @@ object ExternalManager : External {
         OS.unsupported -> throw Exception("unsupported OS")
     }
 
-    override fun start(
-        fans: SnapshotStateList<Sensor>,
-        temps: SnapshotStateList<Sensor>,
-        controls: SnapshotStateList<Control>
-    ) {
-        external.start(hSensorsList.hFans, hSensorsList.hTemps, hControls)
+    override fun start() {
+        external.start()
 
-        setControls(controls)
-        setFans(fans)
-        setTemps(temps)
+        setControls()
+        setFans()
+        setTemps()
 
         println("start lib : success")
     }
@@ -41,28 +32,30 @@ object ExternalManager : External {
         println("stop lib : success")
     }
 
-    override fun setControls(controls: SnapshotStateList<Control>) {
-        external.setControls(controls)
+
+
+    override fun setControls() {
+        external.setControls()
     }
 
-    override fun setFans(fans: SnapshotStateList<Sensor>) {
-        external.setFans(fans)
+    override fun setFans() {
+        external.setFans()
     }
 
-    override fun setTemps(temps: SnapshotStateList<Sensor>) {
-        external.setTemps(temps)
+    override fun setTemps() {
+        external.setTemps()
     }
 
-    override fun setUpdateControls(controls: SnapshotStateList<Control>) {
-        external.setUpdateControls(hControls)
+    override fun updateControls() {
+        external.updateControls()
     }
 
-    override fun setUpdateFans(fans: SnapshotStateList<Sensor>) {
-        external.setUpdateFans(hSensorsList.hFans)
+    override fun updateFans() {
+        external.updateFans()
     }
 
-    override fun setUpdateTemps(temps: SnapshotStateList<Sensor>) {
-        external.setUpdateTemps(hSensorsList.hTemps)
+    override fun updateTemps() {
+        external.updateTemps()
     }
 
     override fun reloadSetting() {
