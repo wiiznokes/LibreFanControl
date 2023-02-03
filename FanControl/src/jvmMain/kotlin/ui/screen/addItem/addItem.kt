@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
 import ui.screen.itemsList.behaviorList.behaviorAddItemList
-import ui.screen.itemsList.controlList.controlAddItem
 import ui.screen.itemsList.controlList.controlAddItemList
 import ui.screen.itemsList.sensor.addItem.sensorAddItemList
 import ui.utils.Resources

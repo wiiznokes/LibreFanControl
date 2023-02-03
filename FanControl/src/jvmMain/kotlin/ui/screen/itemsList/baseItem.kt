@@ -85,7 +85,7 @@ fun baseItemAddItem(
         editIconContainerColor = Color.Green,
         editModeActivated = true,
         onEditClick = onEditClick,
-        ) {
+    ) {
         content()
     }
 
