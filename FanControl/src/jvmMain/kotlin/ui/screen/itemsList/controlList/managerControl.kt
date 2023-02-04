@@ -65,11 +65,15 @@ fun controlBody(
         item = controlItem
     ) {
 
+        val filterListControl = viewModel.hControls.filter { control ->
+            !viewModel.iControls.map {it.controlId }.contains(control.id)
+        }
+
         managerListChoice(
             text = control?.name,
             onItemClick = { viewModel.setControl(index, it) },
-            ids = viewModel.hControls.map { it.id },
-            names = viewModel.hControls.map { it.name }
+            ids = filterListControl.map { it.id },
+            names = filterListControl.map { it.name }
         )
 
         Spacer(Modifier.height(LocalSpaces.current.medium))

@@ -63,7 +63,7 @@ private fun customTempBody(
     baseCustomTempBody(
         onEditClick = { viewModel.remove(index) },
         onNameChange = { viewModel.setName(it, index) },
-        sensorList = viewModel.hTemps,
+        hTemps = viewModel.hTemps,
         sensorItem = sensorItem,
         onCustomTypeChange = { viewModel.setCustomType(it, index) },
         onAddTempSensor = { viewModel.addTempCustom(it, index) },
