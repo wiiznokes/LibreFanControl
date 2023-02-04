@@ -104,7 +104,7 @@ fun controlBody(
 @Composable
 fun controlAddItem() {
     baseItemAddItem(
-        icon = Resources.getIcon("items/alternate_email40"),
+        icon = Resources.getIcon("items/alternate_email24"),
         name = "Control",
         onEditClick = { viewModel.addControl() }
     ) {

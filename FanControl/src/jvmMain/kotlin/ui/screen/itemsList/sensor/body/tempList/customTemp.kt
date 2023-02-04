@@ -38,7 +38,7 @@ fun baseCustomTempBody(
     val customTemp = sensorItem.extension as CustomTemp
 
     baseItemBody(
-        icon = Resources.getIcon("items/thermostat40"),
+        icon = Resources.getIcon("items/thermostat24"),
         onNameChange = onNameChange,
         onEditClick = onEditClick,
         item = sensorItem

@@ -108,13 +108,13 @@ fun body(
                         bottom = if (scrollBarShouldShow.value) scrollBarHeight + floatingActionButtonPadding
                         else floatingActionButtonPadding
                     ),
-                containerColor = LocalColors.current.input,
+                containerColor = LocalColors.current.inputVariant,
                 onClick = { viewModel.expandAddItem() }
             ) {
                 Icon(
                     painter = Resources.getIcon("sign/plus/add40"),
                     contentDescription = Resources.getString("ct/open_add_item"),
-                    tint = LocalColors.current.onInput
+                    tint = LocalColors.current.onInputVariant
                 )
             }
         }

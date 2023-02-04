@@ -61,7 +61,7 @@ fun <T> managerListChoice(
         )
     },
     painterType: PainterType = PainterType.CHOOSE,
-    size: Int = 40,
+    size: Int = 24,
     baseModifier: Modifier = Modifier
         .fillMaxWidth(),
     itemModifier: Modifier = Modifier,

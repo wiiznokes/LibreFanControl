@@ -44,7 +44,7 @@ private fun tempBody(
     } else null
 
     baseSensorBody(
-        icon = Resources.getIcon("items/thermometer40"),
+        icon = Resources.getIcon("items/thermometer24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
         sensorName = sensor?.name,

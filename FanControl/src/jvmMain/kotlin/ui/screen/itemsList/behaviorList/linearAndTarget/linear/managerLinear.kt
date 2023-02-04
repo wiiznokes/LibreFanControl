@@ -24,7 +24,7 @@ fun linearBody(
     index: Int
 ) {
     baseItemBody(
-        icon = Resources.getIcon("items/linear40"),
+        icon = Resources.getIcon("items/linear24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
         item = behavior
@@ -128,7 +128,7 @@ fun linearBody(
 @Composable
 fun linearAddItem() {
     baseItemAddItem(
-        icon = Resources.getIcon("items/linear40"),
+        icon = Resources.getIcon("items/linear24"),
         name = Resources.getString("add_item/linear_name"),
         onEditClick = { viewModel.addBehavior(viewModel.defaultLinear()) }
     ) {

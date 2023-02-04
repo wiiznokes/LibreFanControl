@@ -24,7 +24,7 @@ fun targetBody(
     index: Int
 ) {
     baseItemBody(
-        icon = Resources.getIcon("items/my_location40"),
+        icon = Resources.getIcon("items/my_location24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
         item = behavior
@@ -127,7 +127,7 @@ fun targetBody(
 @Composable
 fun targetAddItem() {
     baseItemAddItem(
-        icon = Resources.getIcon("items/my_location40"),
+        icon = Resources.getIcon("items/my_location24"),
         name = Resources.getString("add_item/target_name"),
         onEditClick = { viewModel.addBehavior(viewModel.defaultTarget()) }
     ) {

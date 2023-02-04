@@ -19,7 +19,7 @@ fun flatBody(
     val flat = behavior.extension as Flat
 
     baseItemBody(
-        icon = Resources.getIcon("items/horizontal_rule40"),
+        icon = Resources.getIcon("items/horizontal_rule24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
         item = behavior
@@ -40,7 +40,7 @@ fun flatBody(
 @Composable
 fun flatAddItem() {
     baseItemAddItem(
-        icon = Resources.getIcon("items/horizontal_rule40"),
+        icon = Resources.getIcon("items/horizontal_rule24"),
         name = Resources.getString("add_item/flat_name"),
         onEditClick = { viewModel.addBehavior(viewModel.defaultFlat()) }
     ) {

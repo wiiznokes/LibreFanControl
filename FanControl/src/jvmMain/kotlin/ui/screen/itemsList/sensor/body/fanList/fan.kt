@@ -34,7 +34,7 @@ private fun fanBody(
     } else null
 
     baseSensorBody(
-        icon = Resources.getIcon("items/toys_fan40"),
+        icon = Resources.getIcon("items/toys_fan24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
         sensorName = sensor?.name,

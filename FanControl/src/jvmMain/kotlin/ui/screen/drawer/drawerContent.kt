@@ -102,7 +102,7 @@ private fun managerHeader(
                 onClick = { scope.launch { drawerState.close() } }
             ) {
                 Icon(
-                    painter = Resources.getIcon("arrow/arrow_back48"),
+                    painter = Resources.getIcon("arrow/arrow_back40"),
                     contentDescription = Resources.getString("ct/close_drawer"),
                     tint = LocalColors.current.onSecondBackground
                 )
