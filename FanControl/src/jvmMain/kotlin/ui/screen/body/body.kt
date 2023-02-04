@@ -157,7 +157,7 @@ private fun itemsList(
         }
         content()
         item {
-            Spacer(Modifier.height(50.dp))
+            Spacer(Modifier.height(70.dp))
         }
     }
 }

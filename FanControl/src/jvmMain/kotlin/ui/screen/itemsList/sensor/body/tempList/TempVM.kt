@@ -10,18 +10,18 @@ import model.item.sensor.Temp
 import utils.Name.Companion.checkNameTaken
 
 class TempVM(
-    val tempItemList: SnapshotStateList<SensorItem> = State.iTemps,
-    val tempList: SnapshotStateList<Sensor> = State.hTemps
+    val iTemps: SnapshotStateList<SensorItem> = State.iTemps,
+    val hTemps: SnapshotStateList<Sensor> = State.hTemps
 ) {
 
 
     fun remove(index: Int) {
-        tempItemList.removeAt(index)
+        iTemps.removeAt(index)
     }
 
     fun setTemp(index: Int, sensorId: Long?) {
-        tempItemList[index] = tempItemList[index].copy(
-            extension = (tempItemList[index].extension as Temp).copy(
+        iTemps[index] = iTemps[index].copy(
+            extension = (iTemps[index].extension as Temp).copy(
                 sensorId = sensorId
             )
         )
@@ -30,30 +30,30 @@ class TempVM(
 
     fun setName(name: String, index: Int) {
         checkNameTaken(
-            names = tempItemList.map { item ->
+            names = iTemps.map { item ->
                 item.name
             },
             name = name,
             index = index
         )
-        tempItemList[index] = tempItemList[index].copy(
+        iTemps[index] = iTemps[index].copy(
             name = name
         )
     }
 
     fun setCustomType(type: CustomTempType, index: Int) {
-        tempItemList[index] = tempItemList[index].copy(
-            extension = (tempItemList[index].extension as CustomTemp).copy(
+        iTemps[index] = iTemps[index].copy(
+            extension = (iTemps[index].extension as CustomTemp).copy(
                 customTempType = type
             )
         )
     }
 
     fun addTempCustom(id: Long, index: Int) {
-        (tempItemList[index].extension as CustomTemp).sensorIdList.add(id)
+        (iTemps[index].extension as CustomTemp).sensorIdList.add(id)
     }
 
     fun removeTempCustom(id: Long, index: Int) {
-        (tempItemList[index].extension as CustomTemp).sensorIdList.remove(id)
+        (iTemps[index].extension as CustomTemp).sensorIdList.remove(id)
     }
 }

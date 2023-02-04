@@ -38,7 +38,7 @@ fun managerExpandItem(
 
         Icon(
             modifier = Modifier
-                .clickable { expanded.value = true },
+                .clickable { expanded.value = !expanded.value },
             painter = when (expanded.value) {
                 true -> Resources.getIcon("arrow/expand/expand_less24")
                 false -> Resources.getIcon("arrow/expand/expand_more24")

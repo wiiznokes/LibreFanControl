@@ -1,8 +1,12 @@
 package ui.screen.itemsList.behaviorList.linearAndTarget.linear
 
 import State
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import model.ItemType
 import model.item.behavior.Behavior
 import model.item.behavior.Linear
@@ -14,6 +18,7 @@ import ui.screen.itemsList.baseItemBody
 import ui.screen.itemsList.behaviorList.linearAndTarget.linAndTarSuffixes
 import ui.screen.itemsList.behaviorList.linearAndTarget.managerNumberChoice
 import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 import ui.utils.Resources
 
 private val viewModel: LinearVM = LinearVM()
@@ -67,10 +72,14 @@ fun linearBody(
             mutableStateOf(false)
         }
 
+        Spacer(Modifier.height(LocalSpaces.current.medium))
+
         managerExpandItem(
             value = linear.value,
             expanded = expanded
         ) {
+            Spacer(Modifier.height(LocalSpaces.current.small))
+
             val linearValues = linearValues(linear)
 
             for (i in 0..3) {

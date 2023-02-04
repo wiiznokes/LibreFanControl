@@ -64,16 +64,16 @@
     "custom_temp_name": "Custom Temp #"
   },
   "linear": {
-    "min_temp": "min temp  :",
-    "max_temp": "max temp  :",
-    "min_fan_speed": "min speed :",
-    "max_fan_speed": "max speed :"
+    "min_temp": "min temp",
+    "max_temp": "max temp",
+    "min_fan_speed": "min speed",
+    "max_fan_speed": "max speed"
   },
   "target": {
-    "idle_temp": "idle temp  :",
-    "load_temp": "load temp  :",
-    "idle_fan_speed": "idle speed :",
-    "load_fan_speed": "load speed :"
+    "idle_temp": "idle temp",
+    "load_temp": "load temp",
+    "idle_fan_speed": "idle speed",
+    "load_fan_speed": "load speed"
   },
   "settings": {
     "update_delay": "Update delay : ",
