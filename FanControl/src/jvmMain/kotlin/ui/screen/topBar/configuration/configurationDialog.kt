@@ -18,6 +18,7 @@ import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.delay
 import ui.component.managerButton
 import ui.component.managerNameOutlinedTextField
+import ui.theme.LocalColors
 import ui.utils.Resources
 import utils.Id.Companion.getAvailableId
 import utils.Name.Companion.checkNameTaken
@@ -42,9 +43,9 @@ fun addConfiguration() {
         }
     ) {
         Icon(
-            painter = Resources.getIcon("sign/plus/add48"),
+            painter = Resources.getIcon("sign/plus/add40"),
             contentDescription = Resources.getString("ct/add_conf"),
-            tint = MaterialTheme.colorScheme.onPrimaryContainer
+            tint = LocalColors.current.onMainTopBar
         )
     }
 

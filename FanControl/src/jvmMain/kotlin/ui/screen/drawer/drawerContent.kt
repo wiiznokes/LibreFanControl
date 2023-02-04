@@ -21,7 +21,7 @@ private val viewModel = DrawerVM()
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun drawer(
+fun drawerContent(
     drawerState: DrawerState,
     scope: CoroutineScope
 ) {

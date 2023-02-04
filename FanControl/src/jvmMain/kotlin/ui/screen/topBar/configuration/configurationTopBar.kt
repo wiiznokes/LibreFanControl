@@ -69,7 +69,7 @@ private fun configurationWithId(
         onClick = { viewModel.saveConfiguration(text.value, index, id) }
     ) {
         Icon(
-            painter = Resources.getIcon("topBar/save_as48"),
+            painter = Resources.getIcon("topBar/save40"),
             contentDescription = Resources.getString("ct/save_conf"),
             tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
