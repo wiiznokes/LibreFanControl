@@ -2,6 +2,7 @@ package ui.screen.topBar.configuration
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.*
@@ -73,10 +74,14 @@ private fun dialog(
     Dialog(
         visible = enabled.value,
         resizable = false,
-        onCloseRequest = { enabled.value = false },
+        onCloseRequest = {
+            println("close dialog")
+            enabled.value = false
+                         },
         title = Resources.getString("title/add_config"),
         focusable = enabled.value,
         onKeyEvent = {
+            println("on key event, ${it.key}")
             when (it.key) {
                 Key.Escape -> {
                     enabled.value = false
@@ -100,7 +105,7 @@ private fun dialog(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(LocalColors.current.secondContainer),
+                .background(LocalColors.current.mainContainer),
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -109,9 +114,9 @@ private fun dialog(
                 ids = Pair(id, null),
                 text = text,
                 modifier = Modifier
-                    .fillMaxWidth(0.7f)
                     .focusRequester(focusRequester)
-                    .size(width = 180.dp, height = 50.dp),
+                    .widthIn(min = 160.dp, max = 250.dp)
+                    .height(40.dp),
                 onValueChange = {
                     checkNameTaken(
                         names = configList.map { config ->
@@ -138,25 +143,24 @@ private fun dialog(
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 managerButton(
-                    modifier = Modifier.width(100.dp),
-                    onClick = { enabled.value = false },
+                    onClick = {
+                        enabled.value = false
+                        println("cancel conf")
+                    },
                     icon = Resources.getIcon("select/close/close24"),
                     text = Resources.getString("common/cancel")
                 )
                 managerButton(
-                    modifier = Modifier
-                        .width(100.dp),
                     onClick = {
-                        if (viewModel.addConfiguration(
-                                name = text.value,
-                                id = id
-                            )
-                        ) {
+                        if (viewModel.addConfiguration(text.value, id))
                             enabled.value = false
-                        }
+                        println("add conf")
                     },
                     icon = Resources.getIcon("select/check24"),
-                    text = Resources.getString("common/add")
+                    text = Resources.getString("common/add"),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = LocalColors.current.error
+                    )
                 )
             }
         }

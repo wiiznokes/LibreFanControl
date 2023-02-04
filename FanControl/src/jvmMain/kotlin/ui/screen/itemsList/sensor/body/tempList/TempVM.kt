@@ -2,20 +2,69 @@ package ui.screen.itemsList.sensor.body.tempList
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import model.ItemType
 import model.hardware.Sensor
+import model.item.behavior.Behavior
+import model.item.behavior.Linear
+import model.item.behavior.Target
 import model.item.sensor.CustomTemp
 import model.item.sensor.CustomTempType
 import model.item.sensor.SensorItem
 import model.item.sensor.Temp
 import utils.Name.Companion.checkNameTaken
+import utils.getIndexList
 
 class TempVM(
     val iTemps: SnapshotStateList<SensorItem> = State.iTemps,
-    val hTemps: SnapshotStateList<Sensor> = State.hTemps
+    val hTemps: SnapshotStateList<Sensor> = State.hTemps,
+    val iBehaviors: SnapshotStateList<Behavior> = State.iBehaviors
 ) {
 
 
+    private data class BehaviorInfo(
+        val index: Int,
+        val type: ItemType.BehaviorType
+    )
+
+
     fun remove(index: Int) {
+
+        val itemp = iTemps[index]
+
+        /**
+         * only for custom sensor.
+         * we need to remove id in behaviors if necessary
+         */
+        if (itemp.id < 0) {
+            for (i in iBehaviors.indices) {
+                val behavior = iBehaviors[i]
+                when (behavior.type) {
+                    ItemType.BehaviorType.I_B_LINEAR -> {
+                        if ((behavior.extension as Linear).hTempId == itemp.id) {
+                            iBehaviors[i] = behavior.copy(
+                                extension = behavior.extension.copy(
+                                    hTempId = null
+                                )
+                            )
+                        }
+                    }
+
+                    ItemType.BehaviorType.I_B_TARGET -> {
+                        if ((behavior.extension as Target).hTempId == itemp.id) {
+                            iBehaviors[i] = behavior.copy(
+                                extension = behavior.extension.copy(
+                                    hTempId = null
+                                )
+                            )
+                        }
+                    }
+
+                    else -> {}
+                }
+            }
+        }
+
+
         iTemps.removeAt(index)
     }
 

@@ -1,8 +1,10 @@
-info about service:
+# info about service:
 
-3 entity -> Service, App, Share setting/conf
+## API
 
-### API
+- open
+- close
+
 
 - getControls
 - getFans
@@ -11,12 +13,26 @@ info about service:
 - getUpdateControls
 - getUpdateFans
 - getUpdateTemps
+- getUpdateCalculate
 
-- stop
-- settingHaveChange
-- confHaveChange (id)
 
-### process
+- settingHaveChange(setting)
+- confHaveChange (conf, setting)
+
+## process
+
+### 2 entries points
+#### app
+
+
+
+
+
+#### os
+
+
+
+
 
 if started automatically:
 -> see IdConf in setting
