@@ -2,8 +2,8 @@
 using HardwareDaemon.Hardware;
 using HardwareDaemon.Hardware.Control;
 using HardwareDaemon.Hardware.Sensor;
-using HidSharp;
-using DeviceList = Proto.DeviceList;
+using Proto.Device;
+using DeviceList = HidSharp.DeviceList;
 
 namespace HardwareDaemon;
 
@@ -77,17 +77,17 @@ internal static class Program
     {
         SocketListener.SendDevice(
             _controls.Cast<BaseDevice>().ToList(),
-            DeviceList.Types.DeviceType.Control
+            DeviceType.Control
         );
         Thread.Sleep(500);
         SocketListener.SendDevice(
             _fans.Cast<BaseDevice>().ToList(),
-            DeviceList.Types.DeviceType.Fan
+            DeviceType.Fan
         );
         Thread.Sleep(500);
         SocketListener.SendDevice(
             _temps.Cast<BaseDevice>().ToList(),
-            DeviceList.Types.DeviceType.Temp
+            DeviceType.Temp
         );
     }
 }

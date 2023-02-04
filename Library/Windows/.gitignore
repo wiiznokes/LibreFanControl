@@ -3,4 +3,4 @@ HardwareLib/HardwareDaemon/obj/
 HardwareLib/HardwareDaemon/bin/
 
 ### generated proto files ###
-HardwareLib/HardwareDaemon/Data.cs
+HardwareLib/HardwareDaemon/Proto/

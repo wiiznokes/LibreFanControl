@@ -4,6 +4,8 @@ using System.Text;
 using Google.Protobuf;
 using HardwareDaemon.Hardware;
 using Proto;
+using Proto.Device;
+using Proto.Update;
 
 namespace HardwareDaemon;
 
@@ -30,7 +32,7 @@ public static class SocketListener
 
     public static void SendDevice(
         List<BaseDevice> list,
-        DeviceList.Types.DeviceType type
+        DeviceType type
     )
     {
         var deviceList = new List<Device>();

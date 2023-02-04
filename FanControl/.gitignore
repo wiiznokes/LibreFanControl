@@ -52,4 +52,4 @@ conf/*
 *.log
 
 ### generated proto files ###
-src/jvmMain/java/external/windows/proto/
+src/jvmMain/java/external/proto/

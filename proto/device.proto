@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option java_outer_classname = "Devices";
+option java_multiple_files = true;
+
+option csharp_namespace = "Proto.Device";
+option java_package = "external.proto.device";
+
+message Device {
+    string Name = 1;
+    int32 Index = 2;
+    string Id = 3;
+    int32 Value = 4;
+}
+
+enum DeviceType {
+    CONTROL = 0;
+    FAN = 1;
+    TEMP = 2;
+}
+
+message DeviceList {
+    DeviceType Type = 1;
+    repeated Device Device = 2;
+}
