@@ -106,13 +106,10 @@ private fun baseItem(
     onEditClick: () -> Unit,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .background(Color.Green)
-    ) {
+    Box {
         Surface(
             modifier = Modifier
-                .size(width = 200.dp, height = 250.dp)
+                .width (200.dp)
                 .padding(10.dp),
             shape = MaterialTheme.shapes.medium,
             color = color,
