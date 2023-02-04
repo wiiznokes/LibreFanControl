@@ -1,15 +1,12 @@
-﻿using System.Net.Sockets;
-using HardwareDaemon.Hardware;
+﻿using HardwareDaemon.Hardware;
 using HardwareDaemon.Hardware.Control;
 using HardwareDaemon.Hardware.Sensor;
 using Proto.Device;
-using DeviceList = HidSharp.DeviceList;
 
 namespace HardwareDaemon;
 
 internal static class Program
 {
-    
     private static List<BaseControl> _controls = new();
     private static List<BaseSensor> _fans = new();
     private static List<BaseSensor> _temps = new();
@@ -24,7 +21,7 @@ internal static class Program
         SocketListener.TryConnect();
         StartListening();
     }
-    
+
 
     private static void StartListening()
     {
@@ -37,7 +34,7 @@ internal static class Program
                 case Command.GetInfo:
                     SendInfo();
                     break;
-                
+
                 case Command.Controls:
                     SocketListener.SendUpdate(
                         _controls.Cast<BaseDevice>().ToList()
@@ -60,19 +57,17 @@ internal static class Program
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            
+
             HardwareManager.Update(
                 ref _controls,
                 ref _fans,
                 ref _temps
             );
-            
+
             Console.WriteLine("new update");
         }
-        
-        
     }
-    
+
     private static void SendInfo()
     {
         SocketListener.SendDevice(

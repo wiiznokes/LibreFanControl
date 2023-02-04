@@ -1,7 +1,7 @@
-﻿namespace HardwareDaemon.Hardware;
+﻿namespace HardwareDaemon;
 
 public enum Command
-{   
+{
     GetInfo,
     Controls,
     Fans,
