@@ -6,11 +6,14 @@ option java_multiple_files = true;
 option csharp_namespace = "Proto.Device";
 option java_package = "external.proto.device";
 
+
+package src.example.proto;
+
+
 message Device {
     string Name = 1;
     int32 Index = 2;
     string Id = 3;
-    int32 Value = 4;
 }
 
 enum DeviceType {
@@ -21,5 +24,5 @@ enum DeviceType {
 
 message DeviceList {
     DeviceType Type = 1;
-    repeated Device Device = 2;
+    repeated Device DeviceList = 2;
 }
