@@ -22,7 +22,7 @@ class TempVM(
     fun setTemp(index: Int, sensorId: Long?) {
         iTemps[index] = iTemps[index].copy(
             extension = (iTemps[index].extension as Temp).copy(
-                sensorId = sensorId
+                hTempId = sensorId
             )
         )
     }

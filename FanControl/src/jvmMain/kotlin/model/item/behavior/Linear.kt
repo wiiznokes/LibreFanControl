@@ -5,7 +5,7 @@ data class Linear(
     var maxTemp: Int = 60,
     var minFanSpeed: Int = 10,
     var maxFanSpeed: Int = 100,
-    var tempSensorId: Long? = null,
+    var hTempId: Long? = null,
 
     override var value: Int = 0
 ) : BehaviorExtension {

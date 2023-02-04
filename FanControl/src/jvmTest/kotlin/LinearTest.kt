@@ -16,7 +16,7 @@ class LinearTest {
     )
 
     private val baseLinear = Linear(
-        tempSensorId = 1,
+        hTempId = 1,
         minTemp = 20,
         maxTemp = 80,
         minFanSpeed = 40,
@@ -27,7 +27,7 @@ class LinearTest {
 
     @Test
     fun `valueLinear returns null when Linear has no temp sensor ID`() {
-        assert(linearLogic.getValue(baseLinear.copy(tempSensorId = null)) == null)
+        assert(linearLogic.getValue(baseLinear.copy(hTempId = null)) == null)
     }
 
     @Test
