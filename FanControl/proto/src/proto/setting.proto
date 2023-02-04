@@ -1,14 +1,15 @@
 syntax = "proto3";
+package src.proto;
 
 option java_multiple_files = true;
 
 option csharp_namespace = "Proto.Setting";
 option java_package = "external.proto.setting";
 
+
 import "google/protobuf/struct.proto";
 
 
-package src.proto;
 
 
 enum Languages {

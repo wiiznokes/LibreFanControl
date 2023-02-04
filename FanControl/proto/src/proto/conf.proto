@@ -1,14 +1,17 @@
 syntax = "proto3";
-
+package src.proto;
 
 option java_multiple_files = true;
+
 
 option csharp_namespace = "Proto.Conf";
 option java_package = "external.proto.conf";
 
-package src.proto;
+
 
 import "src/proto/setting.proto";
+
+
 
 message Conf {
   ConfInfo Info = 1;
@@ -172,8 +175,3 @@ message IcustomTemp {
   CustomTempType Type = 1;
   repeated int64 HtempId = 2;
 }
-
-
-
-
-

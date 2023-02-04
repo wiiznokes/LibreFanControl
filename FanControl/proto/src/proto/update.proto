@@ -1,13 +1,13 @@
 ﻿syntax = "proto3";
-
+package src.proto;
 
 option java_multiple_files = true;
+
 
 option csharp_namespace = "Proto.Update";
 option java_package = "external.proto.update";
 
 
-package src.proto;
 
 message Update {
   int32 Index = 1;

@@ -1,13 +1,11 @@
 syntax = "proto3";
-
+package src.proto;
 
 option java_multiple_files = true;
 
 option csharp_namespace = "Proto.Device";
 option java_package = "external.proto.device";
 
-
-package src.proto;
 
 
 message Device {
