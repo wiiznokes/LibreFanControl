@@ -34,10 +34,10 @@ object ListChoiceDefault {
 
     @Composable
     fun listChoiceColors(
-        base: Color = LocalColors.current.mainSurface,
-        onBase: Color = LocalColors.current.onMainSurface,
-        container: Color = LocalColors.current.inputVariant,
-        onContainer: Color = LocalColors.current.onInputVariant,
+        base: Color = LocalColors.current.inputVariant,
+        onBase: Color = LocalColors.current.onInputVariant,
+        container: Color = LocalColors.current.input,
+        onContainer: Color = LocalColors.current.onInput,
 
         ): ListChoiceColors = ListChoiceColors(
         base = base,

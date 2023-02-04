@@ -116,8 +116,7 @@ fun linearBody(
                             index = index,
                             type = linearTypes[i]
                         )
-                    },
-                    color = MaterialTheme.colorScheme.onSurface
+                    }
                 )
             }
         }

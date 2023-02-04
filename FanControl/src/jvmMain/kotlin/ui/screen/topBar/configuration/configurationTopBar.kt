@@ -103,7 +103,9 @@ private fun configurationListChoice(
         },
         colors = ListChoiceDefault.listChoiceColors(
             base = LocalColors.current.mainTopBar,
-            onBase = LocalColors.current.onMainTopBar
+            onBase = LocalColors.current.onMainTopBar,
+            container = LocalColors.current.inputVariant,
+            onContainer = LocalColors.current.onInputVariant
         ),
         baseModifier = Modifier,
         itemModifier = Modifier.size(width = minWidth, height = 35.dp),

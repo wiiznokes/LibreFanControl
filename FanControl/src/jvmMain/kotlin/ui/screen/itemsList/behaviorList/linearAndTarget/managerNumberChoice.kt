@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
+import ui.theme.LocalColors
 import ui.utils.Resources
 
 @Composable
@@ -19,9 +20,9 @@ fun managerNumberChoice(
     prefix: String,
     suffix: String,
 
-    increase: (() -> Unit),
-    decrease: (() -> Unit),
-    color: Color
+    increase: () -> Unit,
+    decrease: () -> Unit,
+    color: Color = LocalColors.current.onMainContainer
 ) {
     Row(
         modifier = Modifier

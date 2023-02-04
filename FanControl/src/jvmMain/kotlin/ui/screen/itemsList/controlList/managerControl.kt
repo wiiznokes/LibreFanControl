@@ -4,14 +4,12 @@ package ui.screen.itemsList.controlList
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import model.item.control.ControlItem
 import ui.component.managerListChoice
@@ -105,8 +103,8 @@ fun controlBody(
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = LocalColors.current.onInput,
                     checkedTrackColor = LocalColors.current.input,
-                    uncheckedThumbColor = LocalColors.current.onMainSurface,
-                    uncheckedTrackColor = LocalColors.current.mainSurface,
+                    uncheckedThumbColor = LocalColors.current.onInactiveInput,
+                    uncheckedTrackColor = LocalColors.current.inactiveInput,
                 )
             )
         }

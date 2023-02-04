@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import ui.theme.LocalColors
 
 @Composable
 fun managerNumberTextField(
@@ -24,10 +25,10 @@ fun managerNumberTextField(
     onValueChange: (Int) -> String,
 ) {
     val colors = TextFieldDefaults.textFieldColors(
-        textColor = MaterialTheme.colorScheme.onPrimary,
-        containerColor = MaterialTheme.colorScheme.primary,
-        focusedLabelColor = MaterialTheme.colorScheme.onPrimary,
-        cursorColor = MaterialTheme.colorScheme.onPrimary
+        textColor = LocalColors.current.onInput,
+        containerColor = LocalColors.current.input,
+        focusedLabelColor = LocalColors.current.input,
+        cursorColor = LocalColors.current.onInput
     )
 
     val interactionSource = remember { MutableInteractionSource() }

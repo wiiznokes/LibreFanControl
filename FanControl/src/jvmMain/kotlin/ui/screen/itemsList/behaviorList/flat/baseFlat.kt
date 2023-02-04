@@ -6,6 +6,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
@@ -22,7 +23,7 @@ fun baseFlat(
     onValueChange: (Float) -> Unit
 ) {
     Surface(
-        color = LocalColors.current.mainSurface,
+        color = LocalColors.current.inputVariant,
         shape = MaterialTheme.shapes.small
     ) {
         Row(
@@ -35,7 +36,7 @@ fun baseFlat(
 
             managerText(
                 text = Resources.getString("fan_speed"),
-                color = LocalColors.current.onMainSurface,
+                color = LocalColors.current.onInputVariant,
                 modifier = Modifier.padding(start = LocalSpaces.current.small)
             )
 
@@ -46,7 +47,7 @@ fun baseFlat(
                             .clickable (onClick = onLess),
                         painter = Resources.getIcon("sign/minus/remove24"),
                         contentDescription = null,
-                        tint = LocalColors.current.onMainSurface
+                        tint = LocalColors.current.onInputVariant
                     )
 
                     Icon(
@@ -54,7 +55,7 @@ fun baseFlat(
                             .clickable (onClick = onMore),
                         painter = Resources.getIcon("sign/plus/add24"),
                         contentDescription = null,
-                        tint = LocalColors.current.onMainSurface
+                        tint = LocalColors.current.onInputVariant
                     )
                 }
             }
@@ -72,17 +73,13 @@ fun baseFlat(
             steps = 100,
             valueRange = 0f..100f,
             onValueChange = onValueChange,
-            modifier = Modifier
-                .fillMaxWidth(0.65f),
             colors = SliderDefaults.colors(
-                thumbColor = LocalColors.current.onInput,
-                activeTickColor = LocalColors.current.mainSurface,
-                inactiveTickColor = LocalColors.current.input,
-
-                activeTrackColor = Color.Green
+                thumbColor = LocalColors.current.onInactiveInput,
+                activeTickColor = LocalColors.current.input,
+                inactiveTickColor = LocalColors.current.inactiveInput
             )
         )
-        Spacer(Modifier.width(LocalSpaces.current.small))
+
         managerText(
             text = "$value ${Resources.getString("unity/percent")}",
             color = LocalColors.current.onMainContainer
