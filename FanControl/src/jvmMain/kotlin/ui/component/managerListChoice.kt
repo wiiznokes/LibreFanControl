@@ -3,31 +3,60 @@ package ui.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
+import androidx.compose.material.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.DefaultShadowColor
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import ui.theme.LocalColors
 import ui.utils.Resources
 
+
+data class ListChoiceColors(
+    val base: Color,
+    val onBase: Color,
+    val container: Color,
+    val onContainer: Color,
+)
+
+
+@Immutable
+object ListChoiceDefault{
+
+    @Composable
+    fun listChoiceColors(
+        base: Color = LocalColors.current.mainSurface,
+        onBase: Color = LocalColors.current.onMainSurface,
+        container: Color = LocalColors.current.inputVariant,
+        onContainer: Color = LocalColors.current.onInputVariant,
+
+    ): ListChoiceColors =  ListChoiceColors(
+        base = base,
+        onBase = onBase,
+        container = container,
+        onContainer = onContainer
+    )
+
+}
+
+
+
+
 @Composable
 fun <T> managerListChoice(
     text: String?,
     enabled: Boolean = true,
-    color: Color = LocalColors.current.onMainSurface,
+    colors: ListChoiceColors = ListChoiceDefault.listChoiceColors(),
     textContent: @Composable (String) -> Unit = {
         managerText(
             text = it,
-            color = color,
+            color = colors.onBase,
             enabled = enabled
         )
     },
@@ -51,7 +80,7 @@ fun <T> managerListChoice(
         painterType = painterType,
         size = size,
         modifier = baseModifier,
-        expandIconColor = color
+        colors = colors
     ) {
         if (addNoneItem) {
             managerDropDownContent(
@@ -59,7 +88,8 @@ fun <T> managerListChoice(
                 expanded = expanded,
                 text = Resources.getString("common/none"),
                 onItemClick = onItemClick,
-                enabled = enabled
+                enabled = enabled,
+                colors = colors
             )
         }
 
@@ -73,6 +103,7 @@ fun <T> managerListChoice(
                 id = ids[i],
                 index = i,
                 enabled = enabled,
+                colors = colors
             )
         }
     }
@@ -90,13 +121,13 @@ private fun managerBaseDropdownMenu(
     text: String,
     textContent: @Composable (String) -> Unit,
     expanded: MutableState<Boolean>,
-    expandIconColor: Color,
+    colors: ListChoiceColors,
     painterType: PainterType,
     size: Int,
     dropDownContent: @Composable ColumnScope.() -> Unit
 ) {
     Surface(
-        color = LocalColors.current.mainSurface,
+        color = colors.base,
         shape = MaterialTheme.shapes.small
     ) {
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
@@ -130,7 +161,7 @@ private fun managerBaseDropdownMenu(
                             modifier = Modifier,
                             painter = painter,
                             contentDescription = Resources.getString("ct/choose"),
-                            tint = expandIconColor
+                            tint = colors.onBase
                         )
                     }
 
@@ -143,11 +174,11 @@ private fun managerBaseDropdownMenu(
             onDismissRequest = { expanded.value = false },
             modifier = Modifier
                 .background(
-                    color = LocalColors.current.inputVariant
+                    color = colors.container
                 )
                 .border(
                     width = 2.dp,
-                    color = LocalColors.current.onInputVariant
+                    color = colors.onContainer
                 )
         ) {
             dropDownContent()
@@ -165,11 +196,12 @@ private fun <T> managerDropDownContent(
     iconContent: @Composable ((T, Int) -> Unit)? = null,
     id: T? = null,
     index: Int? = null,
-    enabled: Boolean
+    enabled: Boolean,
+    colors: ListChoiceColors,
 ) {
     DropdownMenuItem(
         modifier = Modifier
-            .background(LocalColors.current.inputVariant),
+            .background(colors.container),
         onClick = {
             if (enabled) {
                 onItemClick(id)
@@ -191,7 +223,7 @@ private fun <T> managerDropDownContent(
                     managerText(
                         text = text,
                         enabled = enabled,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = colors.onContainer
                     )
                 }
             }

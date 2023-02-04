@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.delay
 import ui.component.managerButton
-import ui.component.managerNameOutlinedTextField
+import ui.component.managerNameTextField
 import ui.theme.LocalColors
 import ui.utils.Resources
 import utils.Id.Companion.getAvailableId
@@ -105,7 +105,7 @@ private fun dialog(
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            managerNameOutlinedTextField(
+            managerNameTextField(
                 value = text.value,
                 ids = Pair(id, null),
                 text = text,
@@ -121,7 +121,7 @@ private fun dialog(
                         name = it
                     )
                 },
-                label = Resources.getString("label/conf_name"),
+                placeholder = Resources.getString("label/conf_name"),
             )
 
             if (enabled.value) {

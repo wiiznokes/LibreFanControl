@@ -14,6 +14,7 @@ val BlueGrey = Color(43, 72, 101)
 val LightBlack = Color(27, 36, 48)
 val Grey = Color(81, 85, 126)
 val MateGrey = Color(60, 64, 72)
+val LightBlue = Color(0xFF938BA1)
 
 data class CustomColors(
 
@@ -72,8 +73,8 @@ val darkColors = CustomColors(
     onMainBackground = Color.White,
     mainContainer = BlueGrey,
     onMainContainer = Color.White,
-    mainSurface = Color.White,
-    onMainSurface = Color.White,
+    mainSurface = LightBlue,
+    onMainSurface = Color.Black,
 
 
     secondHeader = Grey,

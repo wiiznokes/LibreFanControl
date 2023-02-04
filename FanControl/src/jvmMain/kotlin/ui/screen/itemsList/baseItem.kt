@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import model.item.BaseItem
-import ui.component.managerNameOutlinedTextField
+import ui.component.managerNameTextField
 import ui.component.managerText
 import ui.theme.LocalColors
 import ui.utils.Resources
@@ -46,11 +46,11 @@ fun baseItemBody(
         editIconContainerColor = Color.Red,
         onEditClick = onEditClick,
         contentName = {
-            managerNameOutlinedTextField(
+            managerNameTextField(
                 value = item.name,
                 ids = Pair(item.id, State.settings.collectAsState().value.configId),
                 onValueChange = { onNameChange(it) },
-                label = Resources.getString("label/name"),
+                placeholder = Resources.getString("label/name"),
             )
         }
     ) {

@@ -12,9 +12,11 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import configuration.ConfigurationModel
+import ui.component.ListChoiceDefault
 import ui.component.managerListChoice
-import ui.component.managerNameOutlinedTextField
+import ui.component.managerNameTextField
 import ui.screen.topBar.topBarHeight
+import ui.theme.LocalColors
 import ui.utils.Resources
 import utils.Name.Companion.checkNameTaken
 
@@ -32,15 +34,15 @@ fun configuration() {
         } else {
             configurationListChoice(
                 textContent = {
-                    managerNameOutlinedTextField(
+                    managerNameTextField(
                         value = it,
                         ids = Pair(null, null),
                         modifier = Modifier
                             .widthIn(200.dp, 250.dp)
                             .height(topBarHeight - 10.dp),
-                        color = MaterialTheme.colorScheme.tertiary,
-                        onColor = MaterialTheme.colorScheme.onTertiary,
-                        cornerShape = 22.dp,
+                        color = LocalColors.current.onMainTopBar,
+                        onColor = LocalColors.current.onMainTopBar,
+                        shape = MaterialTheme.shapes.large,
                         enabled = false
                     )
                 },
@@ -71,7 +73,7 @@ private fun configurationWithId(
         Icon(
             painter = Resources.getIcon("topBar/save40"),
             contentDescription = Resources.getString("ct/save_conf"),
-            tint = MaterialTheme.colorScheme.onPrimaryContainer
+            tint = LocalColors.current.onMainTopBar
         )
     }
 
@@ -81,7 +83,7 @@ private fun configurationWithId(
         text = text.value,
 
         textContent = {
-            managerNameOutlinedTextField(
+            managerNameTextField(
                 value = text.value,
                 ids = Pair(null, id),
                 text = text,
@@ -97,10 +99,10 @@ private fun configurationWithId(
                 modifier = Modifier
                     .widthIn(200.dp, 250.dp)
                     .height(35.dp),
-                label = Resources.getString("label/conf_name"),
-                color = MaterialTheme.colorScheme.tertiary,
-                onColor = MaterialTheme.colorScheme.onTertiary,
-                cornerShape = 22.dp,
+                placeholder = Resources.getString("label/conf_name"),
+                color = LocalColors.current.input,
+                onColor = LocalColors.current.onInput,
+                shape = MaterialTheme.shapes.large,
                 enabled = true
             )
         },
@@ -112,13 +114,39 @@ private fun configurationWithId(
 private fun configurationListChoice(
     text: String? = null,
     enabled: Boolean = true,
-    textContent: @Composable (String) -> Unit,
+    id: Long? = null,
     configList: SnapshotStateList<ConfigurationModel>
 ) {
     managerListChoice(
         text = text,
-        textContent = textContent,
-        color = MaterialTheme.colorScheme.onPrimaryContainer,
+        textContent = {
+            managerNameTextField(
+                value = it,
+                ids = Pair(null, id),
+                text = text,
+                onValueChange = {
+                    checkNameTaken(
+                        names = configList.map { config ->
+                            config.name
+                        },
+                        name = it,
+                        index = index
+                    )
+                },
+                modifier = Modifier
+                    .widthIn(200.dp, 250.dp)
+                    .height(35.dp),
+                placeholder = Resources.getString("label/conf_name"),
+                color = LocalColors.current.input,
+                onColor = LocalColors.current.onInput,
+                shape = MaterialTheme.shapes.large,
+                enabled = true
+            )
+        },
+        colors = ListChoiceDefault.listChoiceColors(
+            base = LocalColors.current.mainTopBar,
+            onBase = LocalColors.current.onMainTopBar
+        ),
         enabled = enabled,
         baseModifier = Modifier,
         itemModifier = Modifier.width(180.dp),
@@ -131,7 +159,7 @@ private fun configurationListChoice(
                 Icon(
                     painter = Resources.getIcon("select/delete_forever40"),
                     contentDescription = Resources.getString("ct/remove_conf"),
-                    tint = MaterialTheme.colorScheme.onPrimary
+                    tint = LocalColors.current.onInputVariant
                 )
             }
         },
