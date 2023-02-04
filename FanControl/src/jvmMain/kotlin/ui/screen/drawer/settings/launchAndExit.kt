@@ -3,7 +3,7 @@ package ui.screen.drawer.settings
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import com.example.settingSlidingWindows.SettingScope
-import ui.theme.Typography
+import ui.theme.typography
 import ui.utils.Resources
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -13,7 +13,7 @@ fun SettingScope.exitOnClose(
 ) {
     item(
         title = Resources.getString("settings/exit_on_close"),
-        titleStyle = Typography.titleSmall,
+        titleStyle = typography.titleSmall,
         advanceIconButton = {
             Checkbox(
                 checked = exitOnClose,
@@ -31,7 +31,7 @@ fun SettingScope.launchAtStartUp(
 ) {
     item(
         title = Resources.getString("settings/launch_at_startup"),
-        titleStyle = Typography.titleSmall,
+        titleStyle = typography.titleSmall,
         advanceIconButton = {
             Checkbox(
                 checked = launchAtStartUp,

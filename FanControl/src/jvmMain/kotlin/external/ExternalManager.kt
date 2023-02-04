@@ -1,11 +1,7 @@
 package external
 
-import SensorLists
-import State
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import external.linux.ExternalLinux
 import external.windows.ExternalWindows
-import model.item.control.Control
 
 
 /**
@@ -13,50 +9,60 @@ import model.item.control.Control
  * It provides an abstraction for handling Linux and Windows
  * with the External interface
  */
-class ExternalManager(
-    private val controlList: SnapshotStateList<Control> = State.controlList,
-    private val sensorLists: SensorLists = State.sensorLists,
-    private val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList
-) {
+object ExternalManager : External {
 
-    private val external: External = when (getOS()) {
+    private val external: External = when (OS.linux) {
         OS.windows -> ExternalWindows()
         OS.linux -> ExternalLinux()
         OS.unsupported -> throw Exception("unsupported OS")
     }
 
-    /**
-     * load library and fetch sensors
-     */
-    fun start() {
-        external.start(sensorLists.fanList, sensorLists.tempList, controlList, controlChangeList)
+    override fun start() {
+        external.start()
+
+        setControls()
+        setFans()
+        setTemps()
+
         println("start lib : success")
     }
 
-    fun stop() {
-        external.stop()
+    override fun close() {
+        external.close()
         println("stop lib : success")
     }
 
-    fun updateFanList() {
-        external.updateFanList(sensorLists.fanList)
-        //println("updateFan : success")
 
+    override fun setControls() {
+        external.setControls()
     }
 
-    fun updateTempList() {
-        external.updateTempList(sensorLists.tempList)
-        //println("updateTemp : success")
+    override fun setFans() {
+        external.setFans()
     }
 
-    fun updateControlList() {
-        external.updateControlList(controlList)
-        //println("updateControl : success")
+    override fun setTemps() {
+        external.setTemps()
     }
 
-    fun setControl(libIndex: Int, isAuto: Boolean, value: Int? = null) {
-        external.setControl(libIndex, isAuto, value)
-        println("set control: index = $libIndex, isAuto = $isAuto, value = $value")
+    override fun updateControls() {
+        external.updateControls()
+    }
+
+    override fun updateFans() {
+        external.updateFans()
+    }
+
+    override fun updateTemps() {
+        external.updateTemps()
+    }
+
+    override fun reloadSetting() {
+        external.reloadSetting()
+    }
+
+    override fun reloadConfig(id: Long?) {
+        external.reloadConfig(id)
     }
 
 }

@@ -12,21 +12,18 @@ import utils.Id.Companion.getAvailableId
 import utils.Name.Companion.getAvailableName
 
 class AddSensorVM(
-    private val fanItemList: SnapshotStateList<SensorItem> = State.fanItemList,
-    private val tempItemList: SnapshotStateList<SensorItem> = State.tempItemList,
+    private val fanItemList: SnapshotStateList<SensorItem> = State.iFans,
+    private val tempItemList: SnapshotStateList<SensorItem> = State.iTemps,
 ) {
     fun addFan() {
-        val name = getAvailableName(
-            names = fanItemList.map { item ->
-                item.name
-            },
-            prefix = Resources.getString("default/fan_name")
-        )
-
-
         fanItemList.add(
             SensorItem(
-                name = name,
+                name = getAvailableName(
+                    names = fanItemList.map { item ->
+                        item.name
+                    },
+                    prefix = Resources.getString("default/fan_name")
+                ),
                 type = ItemType.SensorType.I_S_FAN,
                 id = getAvailableId(
                     ids = fanItemList.map { item ->
@@ -39,16 +36,14 @@ class AddSensorVM(
     }
 
     fun addTemp() {
-        val name = getAvailableName(
-            names = tempItemList.map { item ->
-                item.name
-            },
-            prefix = Resources.getString("default/temp_name")
-        )
-
         tempItemList.add(
             SensorItem(
-                name = name,
+                name = getAvailableName(
+                    names = tempItemList.map { item ->
+                        item.name
+                    },
+                    prefix = Resources.getString("default/temp_name")
+                ),
                 type = ItemType.SensorType.I_S_TEMP,
                 id = getAvailableId(
                     ids = tempItemList.map { item ->
@@ -61,16 +56,14 @@ class AddSensorVM(
     }
 
     fun addCustomTemp() {
-        val name = getAvailableName(
-            names = tempItemList.map { item ->
-                item.name
-            },
-            prefix = Resources.getString("default/custom_temp_name")
-        )
-
         tempItemList.add(
             SensorItem(
-                name = name,
+                name = getAvailableName(
+                    names = tempItemList.map { item ->
+                        item.name
+                    },
+                    prefix = Resources.getString("default/custom_temp_name")
+                ),
                 type = ItemType.SensorType.I_S_CUSTOM_TEMP,
                 id = getAvailableId(
                     ids = tempItemList.map { item ->

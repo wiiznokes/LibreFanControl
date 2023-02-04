@@ -2,78 +2,73 @@ package ui.screen.itemsList.controlList
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.sync.Mutex
-import logicControl.isControlChange
+import model.hardware.Control
 import model.item.behavior.Behavior
-import model.item.control.Control
+import model.item.control.ControlItem
+import ui.utils.Resources
+import utils.Id
+import utils.Name
 import utils.Name.Companion.checkNameTaken
 
 class ControlVM(
-    val controlList: SnapshotStateList<Control> = State.controlList,
-    val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
-    val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList,
-    private val mutex: Mutex = State.controlChangeMutex
+    val iControls: SnapshotStateList<ControlItem> = State.iControls,
+    val iBehaviors: SnapshotStateList<Behavior> = State.iBehaviors,
+    val hControls: SnapshotStateList<Control> = State.hControls
 ) {
+    fun remove(index: Int) {
+        iControls.removeAt(index)
+    }
 
-    fun addControl(index: Int) {
-        controlList[index] = controlList[index].copy(
-            visible = true
+    fun setControl(index: Int, controlId: Long?) {
+        iControls[index] = iControls[index].copy(
+            controlId = controlId
         )
     }
 
-    fun remove(index: Int) {
-        updateSafely(index) {
-            controlList[index] = controlList[index].copy(
-                isAuto = true,
-                visible = false
-            )
-        }
-    }
-
     fun setBehavior(index: Int, behaviorId: Long?) {
-        updateSafely(index) {
-            controlList[index] = controlList[index].copy(
-                behaviorId = behaviorId
-            )
-        }
+        iControls[index] = iControls[index].copy(
+            behaviorId = behaviorId
+        )
     }
 
     fun onSwitchClick(checked: Boolean, index: Int) {
-        updateSafely(index) {
-            controlList[index] = controlList[index].copy(
-                isAuto = !checked
-            )
-        }
+        iControls[index] = iControls[index].copy(
+            isAuto = !checked
+        )
+
     }
 
 
     fun setName(name: String, index: Int) {
         checkNameTaken(
-            names = controlList.map { item ->
+            names = iControls.map { item ->
                 item.name
             },
             name = name,
             index = index
         )
-        controlList[index] = controlList[index].copy(
+        iControls[index] = iControls[index].copy(
             name = name
         )
     }
 
-    private fun updateSafely(index: Int, operation: () -> Unit) {
-        if (!mutex.tryLock())
-            return
+    fun addControl() {
+        val name = Name.getAvailableName(
+            names = iControls.map { item ->
+                item.name
+            },
+            prefix = Resources.getString("default/control_name")
+        )
 
-        if (controlChangeList[index]) {
-            mutex.unlock()
-            return
-        }
-
-        val previousControl = controlList[index].copy()
-        operation()
-        if (isControlChange(previousControl, controlList[index]))
-            controlChangeList[index] = true
-
-        mutex.unlock()
+        iControls.add(
+            ControlItem(
+                name = name,
+                id = Id.getAvailableId(
+                    ids = iControls.map { item ->
+                        item.id
+                    }
+                )
+            )
+        )
     }
 }

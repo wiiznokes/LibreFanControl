@@ -3,9 +3,7 @@ package ui.screen.itemsList.behaviorList.linearAndTarget.target
 import model.item.behavior.Target
 import ui.utils.Resources
 
-val targetValues = listOf(
-    "40", "60", "50", "100"
-)
+
 
 fun targetValues(target: Target) = listOf(
     target.idleTemp,

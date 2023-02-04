@@ -1,48 +1,33 @@
 package external
 
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.hardware.Sensor
-import model.item.control.Control
-
 interface External {
 
-    fun start(
-        fanList: SnapshotStateList<Sensor>,
-        tempList: SnapshotStateList<Sensor>,
-        controlList: SnapshotStateList<Control>,
-        controlChangeList: SnapshotStateList<Boolean>
-    ) {
-        setControlList(controlList)
-        setFanList(fanList)
-        setTempList(tempList)
-        /**
-         * initialize controlChangeList with the same size of control
-         * if a configuration is used, all value will be set to true
-         */
-        controlList.forEach { _ ->
-            controlChangeList.add(false)
-        }
+    enum class Command {
+        Close,
+        GetControlsInfo,
+        GetFansInfo,
+        GetTempsInfo,
+
+        GetUpdateControls,
+        GetUpdateFans,
+        GetUpdateTemps,
+
+        ReloadSetting,
+        ReloadConfig
     }
 
-    fun stop()
+    fun start()
 
-    fun setFanList(fanList: SnapshotStateList<Sensor>)
+    fun close()
 
-    fun setTempList(tempList: SnapshotStateList<Sensor>)
+    fun setControls()
+    fun setFans()
+    fun setTemps()
 
-    fun setControlList(controlList: SnapshotStateList<Control>)
+    fun updateControls()
+    fun updateFans()
+    fun updateTemps()
 
-    fun updateFanList(
-        fanList: SnapshotStateList<Sensor>
-    )
-
-    fun updateTempList(
-        tempList: SnapshotStateList<Sensor>
-    )
-
-    fun updateControlList(
-        controlList: SnapshotStateList<Control>
-    )
-
-    fun setControl(libIndex: Int, isAuto: Boolean, value: Int?)
+    fun reloadSetting()
+    fun reloadConfig(id: Long?)
 }

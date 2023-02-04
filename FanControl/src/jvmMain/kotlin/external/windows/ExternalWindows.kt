@@ -1,20 +1,19 @@
 package external.windows
 
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import State.hControls
+import State.hFans
+import State.hTemps
 import external.External
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import model.HardwareType
+import model.hardware.Control
 import model.hardware.Sensor
-import model.item.control.Control
 import utils.Id.Companion.getAvailableId
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
-import java.io.PrintWriter
 import java.net.Socket
-
-
 
 
 class ExternalWindows : External {
@@ -28,27 +27,14 @@ class ExternalWindows : External {
     private val byteArray = ByteArray(1024)
 
 
-    enum class Command {
-        GetInfo,
-        Controls,
-        Fans,
-        Temps,
-        Stop
-    }
-
-    private fun makeRequest(command: Command) {
+    private fun makeRequest(command: External.Command) {
         println("make request: $command")
         outputStream?.write(command.name.toByteArray())
         println("request send")
     }
 
 
-    override fun start(
-        fanList: SnapshotStateList<Sensor>,
-        tempList: SnapshotStateList<Sensor>,
-        controlList: SnapshotStateList<Control>,
-        controlChangeList: SnapshotStateList<Boolean>
-    ) {
+    override fun start() {
 
         try {
             client = Socket("::1", 11000)
@@ -66,100 +52,110 @@ class ExternalWindows : External {
         }
         println("connected")
 
-        makeRequest(Command.GetInfo)
-
         inputStream = client.getInputStream()
         outputStream = client.getOutputStream()
-
-        super.start(fanList, tempList, controlList, controlChangeList)
     }
 
-    override fun stop() {
-        makeRequest(Command.Stop)
+    override fun reloadSetting() {
+        makeRequest(External.Command.ReloadSetting)
+    }
+
+    override fun reloadConfig(id: Long?) {
+        makeRequest(External.Command.ReloadConfig)
+    }
+
+    override fun close() {
+        makeRequest(External.Command.Close)
         client.close()
     }
 
-    override fun setControlList(controlList: SnapshotStateList<Control>) {
+    override fun setControls() {
+        makeRequest(External.Command.GetControlsInfo)
+
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
         deviceList.deviceList.forEach {
-            controlList.add(
+            hControls.add(
                 Control(
-                    libIndex = it.index,
-                    libId = it.id,
-                    libName = it.name,
                     name = it.name,
-                    id = getAvailableId(
-                        controlList.map { control -> control.id }
-                    )
+                    id = getAvailableId(hControls.map { control -> control.id })
                 )
             )
         }
 
     }
 
-    override fun setFanList(fanList: SnapshotStateList<Sensor>) {
+    override fun setFans() {
+        makeRequest(External.Command.GetFansInfo)
+
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
         deviceList.deviceList.forEach {
-            fanList.add(
+            hFans.add(
                 Sensor(
-                    libIndex = it.index,
-                    libId = it.id,
-                    libName = it.name,
+                    name = it.name,
                     type = HardwareType.SensorType.H_S_FAN,
-                    id = getAvailableId(fanList.map { fan -> fan.id })
+                    id = getAvailableId(hFans.map { fan -> fan.id })
                 )
             )
         }
     }
 
-    override fun setTempList(tempList: SnapshotStateList<Sensor>) {
-        println("setControlList")
+    override fun setTemps() {
+        makeRequest(External.Command.GetTempsInfo)
+
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
         deviceList.deviceList.forEach {
-            tempList.add(
+            hTemps.add(
                 Sensor(
-                    libIndex = it.index,
-                    libId = it.id,
-                    libName = it.name,
+                    name = it.name,
                     type = HardwareType.SensorType.H_S_TEMP,
-                    id = getAvailableId(tempList.map { temp-> temp.id })
+                    id = getAvailableId(hTemps.map { temp -> temp.id })
                 )
             )
         }
     }
 
-    override fun updateControlList(controlList: SnapshotStateList<Control>) {
-        println("updateControlList")
-        makeRequest(Command.Controls)
+    override fun updateControls() {
+        makeRequest(External.Command.GetUpdateControls)
 
         val bytesRead = inputStream?.read(byteArray)
         val updateList = ProtoHelper.getUpdateList(byteArray, bytesRead!!)
 
         updateList.forEach {
-            controlList[it.index] = controlList[it.index].copy(
+            hControls[it.index] = hControls[it.index].copy(
                 value = it.value
             )
         }
     }
 
-    override fun updateFanList(fanList: SnapshotStateList<Sensor>) {
+    override fun updateFans() {
+        makeRequest(External.Command.GetUpdateFans)
 
+        val bytesRead = inputStream?.read(byteArray)
+        val updateList = ProtoHelper.getUpdateList(byteArray, bytesRead!!)
+
+        updateList.forEach {
+            hFans[it.index] = hFans[it.index].copy(
+                value = it.value
+            )
+        }
     }
 
-    override fun updateTempList(tempList: SnapshotStateList<Sensor>) {
+    override fun updateTemps() {
+        makeRequest(External.Command.GetUpdateTemps)
 
-    }
+        val bytesRead = inputStream?.read(byteArray)
+        val updateList = ProtoHelper.getUpdateList(byteArray, bytesRead!!)
 
-    override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {
-        val setter = ProtoHelper.getSetControl(libIndex, isAuto, value.let { 0 })
-
-        outputStream?.write(setter)
-        outputStream?.flush()
+        updateList.forEach {
+            hTemps[it.index] = hTemps[it.index].copy(
+                value = it.value
+            )
+        }
     }
 }

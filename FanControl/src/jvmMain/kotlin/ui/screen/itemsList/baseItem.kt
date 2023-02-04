@@ -1,7 +1,6 @@
 package ui.screen.itemsList
 
 
-import Source
 import State
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -10,57 +9,49 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
-import model.ItemType
 import model.item.BaseItem
-import ui.component.managerNameOutlinedTextField
+import ui.component.managerNameTextField
 import ui.component.managerText
+import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 import ui.utils.Resources
 
 
 @Composable
 fun baseItemBody(
-    iconPainter: Painter,
-    iconContentDescription: String,
+    icon: Painter,
     item: BaseItem,
-    onEditClick: () -> Unit,
     onNameChange: (String) -> Unit,
+    onEditClick: () -> Unit,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val configId = State.settings.collectAsState().value.configId
-
     baseItem(
-        color = MaterialTheme.colorScheme.surface,
-        onColor = MaterialTheme.colorScheme.onSurface,
-        source = Source.BODY,
-        type = item.type,
-        iconPainter = iconPainter,
-        iconContentDescription = iconContentDescription,
-        contentEditIcon = {
+        color = LocalColors.current.mainContainer,
+        onColor = LocalColors.current.onMainContainer,
+        editModeActivated = State.editModeActivated.collectAsState().value,
+        icon = icon,
+        editIcon = {
             Icon(
                 painter = Resources.getIcon("select/close/close24"),
-                contentDescription = Resources.getString("ct/edit_remove"),
-                tint = Color.White
+                tint = Color.White,
+                contentDescription = null
             )
         },
-        editButtonContainerColor = Color.Red,
-        editModeActivated = State.editModeActivated.collectAsState().value,
+        editIconContainerColor = Color.Red,
         onEditClick = onEditClick,
         contentName = {
-            managerNameOutlinedTextField(
+            managerNameTextField(
                 value = item.name,
-                ids = Pair(item.id, configId),
+                ids = Pair(item.id, State.settings.collectAsState().value.configId),
                 onValueChange = { onNameChange(it) },
-                label = Resources.getString("label/name"),
+                placeholder = Resources.getString("label/name"),
             )
         }
     ) {
@@ -70,39 +61,33 @@ fun baseItemBody(
 
 @Composable
 fun baseItemAddItem(
-    iconPainter: Painter,
-    iconContentDescription: String,
+    icon: Painter,
     name: String,
     onEditClick: () -> Unit,
-    type: ItemType,
     content: @Composable ColumnScope.() -> Unit
 ) {
 
     baseItem(
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        onColor = MaterialTheme.colorScheme.onSurfaceVariant,
-        source = Source.ADD,
-        type = type,
-        iconPainter = iconPainter,
-        iconContentDescription = iconContentDescription,
-        contentEditIcon = {
-            Icon(
-                painter = Resources.getIcon("sign/plus/add24"),
-                contentDescription = Resources.getString("ct/edit_add"),
-                tint = Color.White
-            )
-        },
-        editButtonContainerColor = Color.Green,
-        editModeActivated = true,
-        onEditClick = onEditClick,
+        icon = icon,
         contentName = {
             managerText(
                 text = name,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = LocalColors.current.onSecondContainer
             )
         },
-
-        ) {
+        color = LocalColors.current.secondContainer,
+        onColor = LocalColors.current.onSecondContainer,
+        editIcon = {
+            Icon(
+                painter = Resources.getIcon("sign/plus/add24"),
+                contentDescription = null,
+                tint = Color.White
+            )
+        },
+        editIconContainerColor = Color.Green,
+        editModeActivated = true,
+        onEditClick = onEditClick,
+    ) {
         content()
     }
 
@@ -110,26 +95,20 @@ fun baseItemAddItem(
 
 @Composable
 private fun baseItem(
+    icon: Painter,
+    contentName: @Composable RowScope.() -> Unit,
     color: Color,
     onColor: Color,
-    source: Source,
-    type: ItemType,
-    iconPainter: Painter,
-    iconContentDescription: String,
-    contentEditIcon: @Composable () -> Unit,
-    onEditClick: () -> Unit,
-    editButtonContainerColor: Color,
+    editIcon: @Composable () -> Unit,
+    editIconContainerColor: Color,
     editModeActivated: Boolean,
-    contentName: @Composable RowScope.() -> Unit,
+    onEditClick: () -> Unit,
     content: @Composable ColumnScope.() -> Unit
 ) {
-
-    var modifier: Modifier
-
     Box(
         modifier = Modifier
+            .size(width = 200.dp, height = 250.dp)
     ) {
-
         Surface(
             modifier = Modifier
                 .padding(10.dp),
@@ -140,56 +119,28 @@ private fun baseItem(
                 color = onColor
             )
         ) {
-
-            val density = LocalDensity.current
-            val finalWidth: MutableState<Dp> = remember { mutableStateOf(0.dp) }
-            val minDp = when (type) {
-                is ItemType.ControlType -> 200.dp
-                is ItemType.BehaviorType -> 220.dp
-                ItemType.SensorType.I_S_CUSTOM_TEMP -> 200.dp
-                else -> 100.dp
-            }
-
             Column(
                 modifier = Modifier
-                    .padding(20.dp)
+                    .padding(LocalSpaces.current.large)
             ) {
-                modifier = when (source) {
-                    Source.ADD -> Modifier
-
-                    Source.BODY -> Modifier.onGloballyPositioned {
-                        finalWidth.value = max(minDp, density.run { it.size.width.toDp() })
-                    }
-
-                }
                 Row(
-                    modifier = modifier
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Icon(
-                        painter = iconPainter,
-                        contentDescription = iconContentDescription,
+                        painter = icon,
+                        contentDescription = null,
                         tint = onColor
                     )
-                    Spacer(
-                        modifier = Modifier
-                            .width(10.dp)
-                    )
+                    Spacer(Modifier.width(LocalSpaces.current.medium))
 
                     contentName()
                 }
-                Spacer(
-                    modifier = Modifier
-                        .height(5.dp)
-                )
-                modifier = when (source) {
-                    Source.ADD -> Modifier
 
-                    Source.BODY -> Modifier.width(finalWidth.value)
-                }
+                Spacer(Modifier.height(LocalSpaces.current.large))
 
-                Column(
-                    modifier = modifier
-                ) {
+                Column {
                     content()
                 }
             }
@@ -204,9 +155,9 @@ private fun baseItem(
                 onClick = onEditClick,
 
                 shape = RoundedCornerShape(100),
-                containerColor = editButtonContainerColor,
+                containerColor = editIconContainerColor,
             ) {
-                contentEditIcon()
+                editIcon()
             }
         }
 

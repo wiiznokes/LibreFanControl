@@ -1,11 +1,10 @@
 package ui.screen.topBar.configuration
 
 import State
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import configuration.Configuration
 import configuration.ConfigurationModel
+import external.ExternalManager
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.sync.Mutex
 import org.json.JSONObject
 import settings.Settings
 import settings.SettingsModel
@@ -13,12 +12,9 @@ import utils.Name.Companion.checkNameTaken
 import utils.NameException
 
 class ConfigurationVM(
-    val settings: MutableStateFlow<SettingsModel> = State.settings,
-    val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList,
-    private val mutex: Mutex = State.controlChangeMutex
+    val settings: MutableStateFlow<SettingsModel> = State.settings
 ) {
 
-    // save conf is only visible when idConfig != null
     fun saveConfiguration(name: String, index: Int, id: Long) {
         try {
             checkNameTaken(
@@ -46,31 +42,23 @@ class ConfigurationVM(
             path = "config_list/$id",
             value = name
         )
+
+        ExternalManager.reloadConfig(id)
     }
 
     fun onChangeConfiguration(id: Long?) {
+
         when (id) {
             null -> Settings.setSetting("config_id", JSONObject.NULL)
             else -> {
-                if (!mutex.tryLock())
-                    return
-
-                if (controlChangeList.contains(true)) {
-                    mutex.unlock()
-                    return
-                }
-
-                Configuration.loadConfig(id)
-                for (i in controlChangeList.indices) {
-                    controlChangeList[i] = true
-                }
                 Settings.setSetting("config_id", id)
-                mutex.unlock()
+                Configuration.loadConfig(id)
             }
         }
         settings.value = settings.value.copy(
             configId = id
         )
+        ExternalManager.reloadConfig(id)
     }
 
     fun addConfiguration(name: String, id: Long): Boolean {
@@ -81,7 +69,7 @@ class ConfigurationVM(
                 },
                 name = name
             )
-        } catch (e: Exception) {
+        } catch (e: NameException) {
             return false
         }
 
@@ -103,11 +91,16 @@ class ConfigurationVM(
             path = "config_list/$id",
             value = name
         )
+
+        ExternalManager.reloadConfig(id)
         return true
     }
 
     fun removeConfiguration(id: Long, index: Int) {
         settings.value.configList.removeAt(index)
+
+        Configuration.deleteConfig(id)
+        Settings.removeConfig(id)
 
         // check if current config has been removed
         if (id == settings.value.configId) {
@@ -115,9 +108,7 @@ class ConfigurationVM(
                 configId = null
             )
             Settings.setSetting("config_id", JSONObject.NULL)
+            ExternalManager.reloadConfig(id)
         }
-
-        Configuration.deleteConfig(id)
-        Settings.removeConfig(id)
     }
 }

@@ -1,129 +1,116 @@
 package external.linux
 
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import State.hControls
+import State.hFans
+import State.hTemps
 import external.External
 import model.HardwareType
+import model.hardware.Control
 import model.hardware.Sensor
-import model.item.control.Control
 import utils.Id.Companion.getAvailableId
-import utils.Name.Companion.getAvailableName
 import kotlin.random.Random
 
 class ExternalLinux : External {
-    override fun stop() {}
 
-
-    override fun setFanList(fanList: SnapshotStateList<Sensor>) {
-        for (i in 0..3) {
-            fanList.add(
-                Sensor(
-                    libIndex = i,
-                    libId = "fan${i + 1}",
-                    libName = "fan lib${i + 1}",
-                    type = HardwareType.SensorType.H_S_FAN,
-                    id = getAvailableId(fanList.map { it.id })
-                )
-            )
-        }
+    override fun start() {
     }
 
-    override fun setTempList(tempList: SnapshotStateList<Sensor>) {
-        for (i in 0..3) {
-            tempList.add(
-                Sensor(
-                    libIndex = i,
-                    libId = "temp${i + 1}",
-                    libName = "temp lib${i + 1}",
-                    type = HardwareType.SensorType.H_S_TEMP,
-                    id = getAvailableId(tempList.map { it.id })
-                )
-            )
-        }
-    }
+    override fun close() {}
 
-    override fun setControlList(controlList: SnapshotStateList<Control>) {
+    override fun setControls() {
         for (i in 0..3) {
-            controlList.add(
+            hControls.add(
                 Control(
-                    name = getAvailableName(controlList.map { it.name }, "control"),
-                    libIndex = i,
-                    libId = "fan${i + 1}",
-                    libName = "control lib${i + 1}",
-                    id = getAvailableId(controlList.map { it.id })
+                    name = "control lib${i + 1}",
+                    id = getAvailableId(hControls.map { it.id })
                 )
             )
         }
     }
 
-    override fun updateFanList(fanList: SnapshotStateList<Sensor>) {
-        for (i in fanList.indices) {
-            fanList[i] = fanList[i].copy(
+
+    override fun setFans() {
+        for (i in 0..3) {
+            hFans.add(
+                Sensor(
+                    name = "fan lib${i + 1}",
+                    type = HardwareType.SensorType.H_S_FAN,
+                    id = getAvailableId(hFans.map { it.id })
+                )
+            )
+        }
+    }
+
+    override fun setTemps() {
+        for (i in 0..3) {
+            hTemps.add(
+                Sensor(
+                    name = "temp lib${i + 1}",
+                    type = HardwareType.SensorType.H_S_TEMP,
+                    id = getAvailableId(hTemps.map { it.id })
+                )
+            )
+        }
+    }
+
+
+    override fun updateControls() {
+        for (i in hControls.indices) {
+            hControls[i] = hControls[i].copy(
+                value = UseForTest.newValue(hControls[i].value)
+            )
+        }
+    }
+
+
+    override fun updateFans() {
+        for (i in hFans.indices) {
+            hFans[i] = hFans[i].copy(
                 value = Random.nextInt(0, 4000)
             )
         }
     }
 
-    // used for testing
-    private var direction = true
-    private fun newValue(value: Int): Int {
-        val min = 30
-        val max = 75
-        val delta = Random.nextInt(0, 10)
 
-        return if (direction) {
-            (value + delta).let {
-                if (it > max) {
-                    direction = false
-                    max
-                } else it
-            }
-        } else {
-            (value - delta).let {
-                if (it < min) {
-                    direction = true
-                    min
-                } else it
-            }
-        }
-    }
-
-    override fun updateTempList(tempList: SnapshotStateList<Sensor>) {
-        for (i in tempList.indices) {
-            val temp = tempList[i]
-            tempList[i] = temp.copy(
-                value = newValue(temp.value)
+    override fun updateTemps() {
+        for (i in hTemps.indices) {
+            hTemps[i] = hTemps[i].copy(
+                value = UseForTest.newValue(hTemps[i].value)
             )
         }
     }
 
-    override fun updateControlList(controlList: SnapshotStateList<Control>) {
-        setList.forEach {
-            val index = controlList.indexOfFirst { control ->
-                control.libIndex == it.libIndex
-            }
+    override fun reloadSetting() {}
+    override fun reloadConfig(id: Long?) {}
+}
 
-            if (it.isAuto) {
-                controlList[index] = controlList[index].copy(
-                    value = 0
-                )
+
+private class UseForTest {
+
+    companion object {
+        private var direction = true
+
+        // emulate natural value
+        fun newValue(value: Int): Int {
+            val min = 30
+            val max = 75
+            val delta = Random.nextInt(0, 10)
+
+            return if (direction) {
+                (value + delta).let {
+                    if (it > max) {
+                        direction = false
+                        max
+                    } else it
+                }
             } else {
-                controlList[index] = controlList[index].copy(
-                    value = it.value ?: 0
-                )
+                (value - delta).let {
+                    if (it < min) {
+                        direction = true
+                        min
+                    } else it
+                }
             }
         }
-        setList.clear()
-    }
-
-    private data class UpdateControl(
-        val libIndex: Int,
-        val isAuto: Boolean,
-        val value: Int?
-    )
-
-    private val setList = mutableListOf<UpdateControl>()
-
-    override fun setControl(libIndex: Int, isAuto: Boolean, value: Int?) {
-        setList.add(UpdateControl(libIndex, isAuto, value))
     }
 }

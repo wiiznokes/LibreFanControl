@@ -50,7 +50,7 @@ class LinearTest {
     }
 
 
-    private val tempList = State.sensorLists.tempList
+    private val tempList = State.hSensorsList.hTemps
     private fun addAndRemove(temp: Sensor) {
         if (tempList.size > 0) {
             tempList.removeAt(0)

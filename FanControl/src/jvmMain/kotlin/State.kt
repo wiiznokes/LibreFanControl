@@ -1,37 +1,27 @@
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.sync.Mutex
+import model.hardware.Control
 import model.hardware.Sensor
 import model.item.behavior.Behavior
-import model.item.control.Control
+import model.item.control.ControlItem
 import model.item.sensor.SensorItem
 import settings.SettingsModel
 
 
-data class SensorLists(
-    val fanList: SnapshotStateList<Sensor> = mutableStateListOf(),
-    val tempList: SnapshotStateList<Sensor> = mutableStateListOf()
-)
-
 object State {
 
-    val controlList: SnapshotStateList<Control> = mutableStateListOf()
-    val behaviorList: SnapshotStateList<Behavior> = mutableStateListOf()
-    val fanItemList: SnapshotStateList<SensorItem> = mutableStateListOf()
-    val tempItemList: SnapshotStateList<SensorItem> = mutableStateListOf()
+    val iControls: SnapshotStateList<ControlItem> = mutableStateListOf()
+    val iBehaviors: SnapshotStateList<Behavior> = mutableStateListOf()
+    val iFans: SnapshotStateList<SensorItem> = mutableStateListOf()
+    val iTemps: SnapshotStateList<SensorItem> = mutableStateListOf()
 
-    val sensorLists: SensorLists = SensorLists()
+    val hFans: SnapshotStateList<Sensor> = mutableStateListOf()
+    val hTemps: SnapshotStateList<Sensor> = mutableStateListOf()
+    val hControls: SnapshotStateList<Control> = mutableStateListOf()
 
     val addItemExpanded: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val editModeActivated: MutableStateFlow<Boolean> = MutableStateFlow(false)
-
-    /**
-     * used to know if controls has change recently, so logic class will recalculate
-     * each controls, to know if we need to calculate each updateDelay
-     */
-    val controlChangeList: SnapshotStateList<Boolean> = mutableStateListOf()
-    val controlChangeMutex = Mutex()
 
     val settings: MutableStateFlow<SettingsModel> = MutableStateFlow(SettingsModel())
 

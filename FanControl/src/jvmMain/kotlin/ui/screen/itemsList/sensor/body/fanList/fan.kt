@@ -13,7 +13,7 @@ private val viewModel: FanVM = FanVM()
 
 
 fun LazyListScope.fanBodyList() {
-    itemsIndexed(viewModel.fanItemList) { index, item ->
+    itemsIndexed(viewModel.iFans) { index, item ->
         fanBody(
             sensorItem = item,
             index = index
@@ -28,21 +28,18 @@ private fun fanBody(
     index: Int
 ) {
     val sensor = if ((sensorItem.extension as Fan).sensorId != null) {
-        viewModel.fanList.find {
+        viewModel.hFans.find {
             it.id == sensorItem.extension.sensorId
         }
     } else null
 
-    viewModel.fanList
-
     baseSensorBody(
-        iconPainter = Resources.getIcon("items/toys_fan40"),
-        iconContentDescription = Resources.getString("ct/fan"),
+        icon = Resources.getIcon("items/toys_fan24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
-        sensorName = sensor?.libName,
+        sensorName = sensor?.name,
         sensorValue = "${sensor?.value ?: 0} ${Resources.getString("unity/rpm")}",
-        sensorList = viewModel.fanList,
+        sensorList = viewModel.hFans,
         onItemClick = { viewModel.setFan(index, it) },
         sensorItem = sensorItem
     )

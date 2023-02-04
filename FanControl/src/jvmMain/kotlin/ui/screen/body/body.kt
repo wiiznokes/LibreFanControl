@@ -9,6 +9,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.material.Text
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -16,13 +17,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import ui.component.managerText
 import ui.screen.itemsList.behaviorList.behaviorBodyList
-import ui.screen.itemsList.controlList.controlBody
-import ui.screen.itemsList.controlList.controlList
+import ui.screen.itemsList.controlList.controlBodyList
 import ui.screen.itemsList.sensor.body.fanList.fanBodyList
 import ui.screen.itemsList.sensor.body.tempList.tempBodyList
+import ui.theme.LocalColors
 import ui.utils.Resources
 
 
@@ -40,7 +47,7 @@ fun body(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(LocalColors.current.mainBackground)
     ) {
         val scrollBarShouldShow = mutableStateOf(false)
         scrollableBox(
@@ -54,12 +61,7 @@ fun body(
                 itemsList(
                     title = Resources.getString("title/control")
                 ) {
-                    controlList({ it.visible }) { index, control ->
-                        controlBody(
-                            control = control,
-                            index = index
-                        )
-                    }
+                    controlBodyList()
                 }
                 itemsList(
                     title = Resources.getString("title/behavior")
@@ -106,13 +108,13 @@ fun body(
                         bottom = if (scrollBarShouldShow.value) scrollBarHeight + floatingActionButtonPadding
                         else floatingActionButtonPadding
                     ),
-                containerColor = MaterialTheme.colorScheme.primary,
+                containerColor = LocalColors.current.inputVariant,
                 onClick = { viewModel.expandAddItem() }
             ) {
                 Icon(
                     painter = Resources.getIcon("sign/plus/add40"),
                     contentDescription = Resources.getString("ct/open_add_item"),
-                    tint = MaterialTheme.colorScheme.onPrimary
+                    tint = LocalColors.current.onInputVariant
                 )
             }
         }
@@ -125,17 +127,25 @@ private fun itemsList(
     content: LazyListScope.() -> Unit
 ) {
     LazyColumn(
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.Start
     ) {
         item {
-            managerText(
+            Text(
                 text = title,
                 modifier = Modifier
-                    .padding(10.dp),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onBackground
+                    .padding(20.dp),
+                maxLines = 1,
+                style = TextStyle(
+                    textDecoration = TextDecoration.Underline,
+                    fontStyle = FontStyle.Italic,
+                    fontFamily = FontFamily.Default,
+                    fontWeight = FontWeight.W600,
+                    fontSize = 26.sp,
+                    letterSpacing = 0.6.sp,
+                    lineHeight = 24.sp,
+                ),
+                color = LocalColors.current.onMainBackground
             )
-            Spacer(Modifier.height(20.dp))
         }
         content()
         item {
@@ -171,8 +181,14 @@ private fun BoxScope.scrollableBox(
         HorizontalScrollbar(
             modifier = Modifier.align(Alignment.BottomStart)
                 .height(scrollBarHeight)
-                .background(MaterialTheme.colorScheme.tertiary),
-            adapter = rememberScrollbarAdapter(stateHorizontal)
+                .background(LocalColors.current.inputVariant),
+            adapter = rememberScrollbarAdapter(stateHorizontal),
+            style = LocalScrollbarStyle.current.copy(
+                unhoverColor = LocalColors.current.inputVariant,
+                hoverColor = LocalColors.current.inputVariant.copy(
+                    alpha = 0.7f
+                ),
+            )
         )
     }
 }

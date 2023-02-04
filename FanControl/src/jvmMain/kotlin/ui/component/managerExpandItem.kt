@@ -40,20 +40,20 @@ fun managerExpandItem(
                 onClick = { expanded.value = !expanded.value }
             ) {
                 val painter = when (expanded.value) {
-                    true -> Resources.getIcon("arrow/expand/expand_less40")
-                    false -> Resources.getIcon("arrow/expand/expand_more40")
+                    true -> Resources.getIcon("arrow/expand/expand_less24")
+                    false -> Resources.getIcon("arrow/expand/expand_more24")
                 }
                 Icon(
                     painter = painter,
-                    contentDescription = Resources.getString("ct/choose"),
+                    contentDescription = null,
                     tint = color
                 )
             }
         } else {
             Icon(
                 modifier = Modifier,
-                painter = Resources.getIcon("arrow/expand/expand_less40"),
-                contentDescription = Resources.getString("ct/choose"),
+                painter = Resources.getIcon("arrow/expand/expand_less24"),
+                contentDescription = null,
                 tint = color
             )
         }

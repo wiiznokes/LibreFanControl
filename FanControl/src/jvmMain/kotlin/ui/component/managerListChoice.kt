@@ -2,10 +2,12 @@ package ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.IconButton
+import androidx.compose.material.Surface
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
@@ -15,59 +17,60 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import ui.screen.topBar.configuration.viewModel
+import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 import ui.utils.Resources
 
-@Composable
-fun managerAddItemListChoice(
-    name: String,
-    painterType: PainterType = PainterType.CHOOSE
-) {
-    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
 
-                Icon(
-                    painter = when (painterType) {
-                        PainterType.ADD -> Resources.getIcon("sign/plus/add24")
-                        PainterType.CHOOSE -> Resources.getIcon("arrow/dropDown/arrow_drop_down40")
-                    },
-                    contentDescription = Resources.getString("ct/choose"),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+data class ListChoiceColors(
+    val base: Color,
+    val onBase: Color,
+    val container: Color,
+    val onContainer: Color,
+)
 
-                managerText(
-                    text = name,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        }
-    }
+
+@Immutable
+object ListChoiceDefault {
+
+    @Composable
+    fun listChoiceColors(
+        base: Color = LocalColors.current.mainSurface,
+        onBase: Color = LocalColors.current.onMainSurface,
+        container: Color = LocalColors.current.inputVariant,
+        onContainer: Color = LocalColors.current.onInputVariant,
+
+        ): ListChoiceColors = ListChoiceColors(
+        base = base,
+        onBase = onBase,
+        container = container,
+        onContainer = onContainer
+    )
+
 }
 
 
 @Composable
 fun <T> managerListChoice(
-    text: String?,
+    text: String? = null,
     enabled: Boolean = true,
-    color: Color = MaterialTheme.colorScheme.onSurface,
+    colors: ListChoiceColors = ListChoiceDefault.listChoiceColors(),
     textContent: @Composable (String) -> Unit = {
         managerText(
+            modifier = Modifier
+                .padding(start = LocalSpaces.current.small),
             text = it,
-            color = color,
+            color = colors.onBase,
             enabled = enabled
         )
     },
     painterType: PainterType = PainterType.CHOOSE,
-    size: Int = 40,
+    size: Int = 24,
     baseModifier: Modifier = Modifier
-        .fillMaxWidth()
-        .widthIn(min = 100.dp, max = 250.dp),
-    itemModifier: Modifier = Modifier,
+        .fillMaxWidth(),
+    itemModifier: Modifier = Modifier
+        .size(width = 130.dp, height = 30.dp),
     onItemClick: (T?) -> Unit,
     iconContent: @Composable ((T, Int) -> Unit)? = null,
     ids: List<T>,
@@ -83,7 +86,7 @@ fun <T> managerListChoice(
         painterType = painterType,
         size = size,
         modifier = baseModifier,
-        expandIconColor = color
+        colors = colors
     ) {
         if (addNoneItem) {
             managerDropDownContent(
@@ -91,7 +94,8 @@ fun <T> managerListChoice(
                 expanded = expanded,
                 text = Resources.getString("common/none"),
                 onItemClick = onItemClick,
-                enabled = enabled
+                enabled = enabled,
+                colors = colors
             )
         }
 
@@ -105,6 +109,7 @@ fun <T> managerListChoice(
                 id = ids[i],
                 index = i,
                 enabled = enabled,
+                colors = colors
             )
         }
     }
@@ -122,14 +127,15 @@ private fun managerBaseDropdownMenu(
     text: String,
     textContent: @Composable (String) -> Unit,
     expanded: MutableState<Boolean>,
-    expandIconColor: Color,
+    colors: ListChoiceColors,
     painterType: PainterType,
     size: Int,
     dropDownContent: @Composable ColumnScope.() -> Unit
 ) {
-    Box {
-
-
+    Surface(
+        color = colors.base,
+        shape = MaterialTheme.shapes.small
+    ) {
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             Row(
                 modifier = modifier,
@@ -137,33 +143,30 @@ private fun managerBaseDropdownMenu(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                    IconButton(
-                        modifier = Modifier,
-                        onClick = { expanded.value = true }
-                    ) {
-                        val painter = when (painterType) {
-                            PainterType.ADD -> {
-                                when (expanded.value) {
-                                    true -> Resources.getIcon("select/close/close24")
-                                    false -> Resources.getIcon("sign/plus/add24")
-                                }
-                            }
 
-                            PainterType.CHOOSE -> {
-                                when (expanded.value) {
-                                    true -> Resources.getIcon("arrow/dropDown/arrow_drop_up$size")
-                                    false -> Resources.getIcon("arrow/dropDown/arrow_drop_down$size")
-                                }
+                    val painter = when (painterType) {
+                        PainterType.ADD -> {
+                            when (expanded.value) {
+                                true -> Resources.getIcon("select/close/close$size")
+                                false -> Resources.getIcon("sign/plus/add$size")
                             }
                         }
 
-                        Icon(
-                            modifier = Modifier,
-                            painter = painter,
-                            contentDescription = Resources.getString("ct/choose"),
-                            tint = expandIconColor
-                        )
+                        PainterType.CHOOSE -> {
+                            when (expanded.value) {
+                                true -> Resources.getIcon("arrow/dropDown/arrow_drop_up$size")
+                                false -> Resources.getIcon("arrow/dropDown/arrow_drop_down$size")
+                            }
+                        }
                     }
+
+                    Icon(
+                        modifier = Modifier
+                            .clickable { expanded.value = true },
+                        painter = painter,
+                        contentDescription = null,
+                        tint = colors.onBase
+                    )
 
                     textContent(text)
                 }
@@ -174,11 +177,11 @@ private fun managerBaseDropdownMenu(
             onDismissRequest = { expanded.value = false },
             modifier = Modifier
                 .background(
-                    color = MaterialTheme.colorScheme.primary
+                    color = colors.container
                 )
                 .border(
                     width = 2.dp,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = colors.onContainer
                 )
         ) {
             dropDownContent()
@@ -196,36 +199,39 @@ private fun <T> managerDropDownContent(
     iconContent: @Composable ((T, Int) -> Unit)? = null,
     id: T? = null,
     index: Int? = null,
-    enabled: Boolean
+    enabled: Boolean,
+    colors: ListChoiceColors,
 ) {
     DropdownMenuItem(
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.primary),
+        modifier = modifier
+            .background(colors.container),
         onClick = {
             if (enabled) {
                 onItemClick(id)
                 expanded.value = false
             }
-        }
+        },
+        contentPadding = PaddingValues(0.dp)
     ) {
-        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-            Row(
-                modifier = modifier,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                    if (iconContent != null) {
-                        iconContent(id!!, index!!)
-                    }
+        Row(
+            modifier = modifier
+                .fillMaxSize(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-                    managerText(
-                        text = text,
-                        enabled = enabled,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                }
-            }
+            managerText(
+                modifier = Modifier
+                    .padding(start = LocalSpaces.current.small),
+                text = text,
+                enabled = enabled,
+                color = colors.onContainer
+            )
+
+            if (iconContent != null)
+                iconContent(id!!, index!!)
+
         }
+
     }
 }

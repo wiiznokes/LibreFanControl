@@ -21,7 +21,7 @@ fun LazyListScope.behaviorAddItemList() {
 
 
 fun LazyListScope.behaviorBodyList() {
-    itemsIndexed(bodyViewModel.behaviorList) { index, behavior ->
+    itemsIndexed(bodyViewModel.iBehaviors) { index, behavior ->
 
         when (behavior.type) {
             ItemType.BehaviorType.I_B_FLAT -> {

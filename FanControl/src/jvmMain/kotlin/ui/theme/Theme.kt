@@ -2,28 +2,9 @@ package ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.CompositionLocalProvider
 import ui.screen.drawer.settings.Themes
-
-private val darkColorScheme = darkColorScheme(
-
-    // second top bar background
-    secondaryContainer = LightPurple,
-    onSecondaryContainer = Color.White,
-
-    // background of addItem, background of setting
-    inverseSurface = LightBlack,
-    inverseOnSurface = Color.White,
-
-    // background of item in add item, background of conf dialog
-    surfaceVariant = MateGrey,
-    onSurfaceVariant = Color.White
-)
-
-private val lightColorScheme = lightColorScheme()
 
 
 @Composable
@@ -37,14 +18,20 @@ fun fanControlTheme(
         Themes.dark -> true
     }
 
-    val colorScheme = when {
-        darkTheme -> darkColorScheme
-        else -> lightColorScheme
+    val colors = when {
+        darkTheme -> darkColors
+        else -> lightColors
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalColors provides colors,
+        LocalShapes provides CustomShapes(),
+        LocalSpaces provides CustomSpaces()
+    ) {
+        MaterialTheme(
+            typography = typography,
+            content = content
+        )
+    }
 }
+

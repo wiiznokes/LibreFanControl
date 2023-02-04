@@ -17,9 +17,9 @@ import ui.utils.Resources
 fun baseFlat(
     value: Int,
     enabled: Boolean,
-    onLess: (() -> Unit)? = null,
-    onMore: (() -> Unit)? = null,
-    onValueChange: ((Float) -> Unit)? = null,
+    onLess: () -> Unit,
+    onMore: () -> Unit,
+    onValueChange: (Float) -> Unit,
     color: Color
 ) {
     Row(
@@ -38,20 +38,20 @@ fun baseFlat(
             Row {
                 if (enabled) {
                     IconButton(
-                        onClick = onLess ?: {}
+                        onClick = onLess
                     ) {
                         Icon(
                             painter = Resources.getIcon("sign/minus/remove24"),
-                            contentDescription = Resources.getString("ct/decrease"),
+                            contentDescription = null,
                             tint = color
                         )
                     }
                     IconButton(
-                        onClick = onMore ?: {}
+                        onClick = onMore
                     ) {
                         Icon(
                             painter = Resources.getIcon("sign/plus/add24"),
-                            contentDescription = Resources.getString("ct/increase"),
+                            contentDescription = null,
                             tint = color
                         )
                     }
@@ -59,13 +59,13 @@ fun baseFlat(
                     Icon(
                         modifier = Modifier,
                         painter = Resources.getIcon("sign/minus/remove24"),
-                        contentDescription = Resources.getString("ct/decrease"),
+                        contentDescription = null,
                         tint = color
                     )
                     Icon(
                         modifier = Modifier,
                         painter = Resources.getIcon("sign/plus/add24"),
-                        contentDescription = Resources.getString("ct/increase"),
+                        contentDescription = null,
                         tint = color
                     )
                 }
@@ -84,7 +84,7 @@ fun baseFlat(
             steps = 100,
             valueRange = 0f..100f,
             enabled = enabled,
-            onValueChange = onValueChange ?: {},
+            onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth(0.7f)
         )

@@ -2,46 +2,40 @@ package configuration.read
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import configuration.LoadConfigException
 import model.ItemType
 import model.UnspecifiedTypeException
 import model.item.behavior.Behavior
 import model.item.behavior.Flat
 import model.item.behavior.Linear
 import model.item.behavior.Target
-import model.item.control.Control
+import model.item.control.ControlItem
 import model.item.sensor.*
 import org.json.JSONArray
 import org.json.JSONObject
 import utils.getJsonValue
 
 class ReadItem {
-    fun getControls(controlList: SnapshotStateList<Control>, array: JSONArray) {
+    fun getControls(iControls: SnapshotStateList<ControlItem>, array: JSONArray) {
 
         for (i in 0 until array.length()) {
             val obj = array[i] as JSONObject
 
-            val index = controlList.indexOfFirst { control ->
-                control.libId == getJsonValue("libId", obj)!!
-            }
-            if (index == -1)
-                throw LoadConfigException()
+            iControls.add(
+                ControlItem(
+                    name = getJsonValue("name", obj)!!,
+                    id = getJsonValue("id", obj)!!,
+                    type = ItemType.ControlType from getJsonValue("type", obj)!!,
 
-            val isAuto: Boolean = getJsonValue("isAuto", obj)!!
-
-            controlList[index] = controlList[index].copy(
-                name = getJsonValue("name", obj)!!,
-                id = getJsonValue("id", obj)!!,
-                type = ItemType.ControlType from getJsonValue("type", obj)!!,
-                visible = getJsonValue("visible", obj)!!,
-                behaviorId = getJsonValue("behaviorId", obj),
-                isAuto = isAuto
+                    behaviorId = getJsonValue("behaviorId", obj),
+                    isAuto = getJsonValue("isAuto", obj)!!,
+                    controlId = getJsonValue("controlId", obj)!!,
+                )
             )
         }
     }
 
     fun getBehaviors(
-        behaviorList: SnapshotStateList<Behavior>,
+        iBehaviors: SnapshotStateList<Behavior>,
         array: JSONArray
     ) {
         for (i in 0 until array.length()) {
@@ -50,11 +44,12 @@ class ReadItem {
             val type = ItemType.BehaviorType from getJsonValue("type", obj)!!
 
 
-            behaviorList.add(
+            iBehaviors.add(
                 Behavior(
                     name = getJsonValue("name", obj)!!,
                     id = getJsonValue("id", obj)!!,
                     type = type,
+
                     extension = when (type) {
                         ItemType.BehaviorType.I_B_FLAT -> getFlatBehavior(obj)
                         ItemType.BehaviorType.I_B_LINEAR -> getLinearBehavior(obj)
@@ -68,7 +63,7 @@ class ReadItem {
     }
 
     fun getSensors(
-        sensorItemList: SnapshotStateList<SensorItem>,
+        iSensors: SnapshotStateList<SensorItem>,
         array: JSONArray
     ) {
         for (i in 0 until array.length()) {
@@ -76,11 +71,12 @@ class ReadItem {
 
             val type = ItemType.SensorType from getJsonValue("type", obj)!!
 
-            sensorItemList.add(
+            iSensors.add(
                 SensorItem(
                     name = getJsonValue("name", obj)!!,
                     id = getJsonValue("id", obj)!!,
                     type = type,
+
                     extension = when (type) {
                         ItemType.SensorType.I_S_FAN -> getFan(obj)
                         ItemType.SensorType.I_S_TEMP -> getTemp(obj)

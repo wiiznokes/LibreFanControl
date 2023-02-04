@@ -6,10 +6,8 @@ import androidx.compose.runtime.*
 import model.ItemType
 import model.item.behavior.Behavior
 import model.item.behavior.Target
-import ui.component.managerAddItemListChoice
 import ui.component.managerExpandItem
 import ui.component.managerListChoice
-import ui.component.managerText
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
 import ui.screen.itemsList.behaviorList.linearAndTarget.linAndTarSuffixes
@@ -26,8 +24,7 @@ fun targetBody(
     index: Int
 ) {
     baseItemBody(
-        iconPainter = Resources.getIcon("items/my_location40"),
-        iconContentDescription = Resources.getString("ct/target"),
+        icon = Resources.getIcon("items/my_location24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
         item = behavior
@@ -35,14 +32,14 @@ fun targetBody(
 
         val target = behavior.extension as Target
 
-        val customTempList = viewModel.tempItemList.filter { it.type == ItemType.SensorType.I_S_CUSTOM_TEMP }
+        val customTempList = viewModel.iTemps.filter { it.type == ItemType.SensorType.I_S_CUSTOM_TEMP }
         managerListChoice(
             text = with(target.tempSensorId) {
                 when {
                     this == null -> null
-                    this > 0 -> viewModel.tempList.first {
+                    this > 0 -> viewModel.hTemps.first {
                         it.id == this
-                    }.libName
+                    }.name
 
                     this < 0 -> customTempList.first {
                         it.id == this
@@ -57,8 +54,8 @@ fun targetBody(
                     tempSensorId = it
                 )
             },
-            ids = viewModel.tempList.map { it.id } + customTempList.map { it.id },
-            names = viewModel.tempList.map { it.libName } + customTempList.map { it.name }
+            ids = viewModel.hTemps.map { it.id } + customTempList.map { it.id },
+            names = viewModel.hTemps.map { it.name } + customTempList.map { it.name }
         )
 
         val expanded = remember(
@@ -130,34 +127,10 @@ fun targetBody(
 @Composable
 fun targetAddItem() {
     baseItemAddItem(
-        iconPainter = Resources.getIcon("items/my_location40"),
-        iconContentDescription = Resources.getString("ct/target"),
+        icon = Resources.getIcon("items/my_location24"),
         name = Resources.getString("add_item/target_name"),
-        onEditClick = { viewModel.addBehavior(viewModel.defaultTarget()) },
-        type = ItemType.BehaviorType.I_B_TARGET
+        onEditClick = { viewModel.addBehavior(viewModel.defaultTarget()) }
     ) {
-        managerAddItemListChoice(
-            name = Resources.getString("add_item/temp_name")
-        )
 
-        managerExpandItem(
-            value = 50,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            enabled = false
-        )
-
-        for (i in 0..3) {
-            managerNumberChoice(
-                text = {
-                    managerText(
-                        text = targetValues[i],
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                },
-                prefix = targetPrefixes[i],
-                suffix = linAndTarSuffixes[i],
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
     }
 }

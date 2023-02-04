@@ -17,9 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
 import ui.screen.itemsList.behaviorList.behaviorAddItemList
-import ui.screen.itemsList.controlList.controlAddItem
-import ui.screen.itemsList.controlList.controlList
+import ui.screen.itemsList.controlList.controlAddItemList
 import ui.screen.itemsList.sensor.addItem.sensorAddItemList
+import ui.theme.LocalColors
 import ui.utils.Resources
 
 
@@ -31,13 +31,13 @@ fun addItem() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.inverseSurface)
+            .background(LocalColors.current.secondBackground)
     ) {
         addItemChoice(state)
 
         Divider(
             modifier = Modifier.padding(bottom = 10.dp),
-            color = MaterialTheme.colorScheme.onSecondary
+            color = LocalColors.current.onSecondBackground
         )
 
 
@@ -61,13 +61,7 @@ fun addItem() {
                     .fillMaxSize()
             ) {
                 when (it.current) {
-                    ChoiceType.CONTROL -> controlList({ !it.visible }) { index, control ->
-                        controlAddItem(
-                            control = control,
-                            index = index
-                        )
-                    }
-
+                    ChoiceType.CONTROL -> controlAddItemList()
                     ChoiceType.BEHAVIOR -> behaviorAddItemList()
                     ChoiceType.SENSOR -> sensorAddItemList()
                 }
@@ -83,7 +77,7 @@ private fun addItemChoice(state: MutableState<ChoiceState>) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.secondary),
+            .background(LocalColors.current.secondHeader),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -99,7 +93,7 @@ private fun addItemChoice(state: MutableState<ChoiceState>) {
             Icon(
                 painter = Resources.getIcon("arrow/notch/line_start_arrow_notch40"),
                 contentDescription = Resources.getString("ct/previous"),
-                tint = MaterialTheme.colorScheme.onSecondary
+                tint = LocalColors.current.onSecondHeader
             )
         }
 
@@ -121,7 +115,7 @@ private fun addItemChoice(state: MutableState<ChoiceState>) {
                 modifier = Modifier
                     .padding(horizontal = 20.dp),
                 text = it.title,
-                color = MaterialTheme.colorScheme.onSecondary
+                color = LocalColors.current.onSecondHeader
             )
         }
 
@@ -137,7 +131,7 @@ private fun addItemChoice(state: MutableState<ChoiceState>) {
             Icon(
                 painter = Resources.getIcon("arrow/notch/line_end_arrow_notch40"),
                 contentDescription = Resources.getString("ct/next"),
-                tint = MaterialTheme.colorScheme.onSecondary
+                tint = LocalColors.current.onSecondHeader
             )
         }
     }

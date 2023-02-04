@@ -1,62 +1,113 @@
 package ui.screen.itemsList.controlList
 
 
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
-import model.ItemType
-import model.item.control.Control
-import ui.component.managerAddItemListChoice
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import model.item.control.ControlItem
 import ui.component.managerListChoice
+import ui.component.managerText
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
+import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 import ui.utils.Resources
-import utils.filterWithPreviousIndexComposable
 
 
 private val viewModel: ControlVM = ControlVM()
 
+fun LazyListScope.controlAddItemList() {
+    item { controlAddItem() }
+}
 
-fun LazyListScope.controlList(
-    predicate: (Control) -> Boolean,
-    content: @Composable (Int, Control) -> Unit
-) {
-    filterWithPreviousIndexComposable(
-        list = viewModel.controlList,
-        predicate = predicate
-    ) { index, control ->
-        content(index, control)
+fun LazyListScope.controlBodyList() {
+
+    itemsIndexed(viewModel.iControls) { index, control ->
+        controlBody(
+            controlItem = control,
+            index = index
+        )
     }
+
 }
 
 
 @Composable
 fun controlBody(
-    control: Control,
+    controlItem: ControlItem,
     index: Int
 ) {
+
+    val control = if (controlItem.controlId != null) {
+        viewModel.hControls.find {
+            it.id == controlItem.controlId
+        }!!
+    } else null
+
+    val behavior = if (controlItem.behaviorId != null) {
+        viewModel.iBehaviors.find {
+            it.id == controlItem.behaviorId
+        }!!
+    } else null
+
+
     baseItemBody(
-        iconPainter = Resources.getIcon("items/alternate_email40"),
-        iconContentDescription = Resources.getString("ct/control"),
+        icon = Resources.getIcon("items/alternate_email24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
-        item = control
+        item = controlItem
     ) {
-        baseControl(
-            isAuto = control.isAuto,
-            switchEnabled = !viewModel.controlChangeList[index],
-            onSwitchClick = { checked -> viewModel.onSwitchClick(checked, index) },
-            value = control.value,
-            color = MaterialTheme.colorScheme.onSurface
+
+        managerListChoice(
+            text = control?.name,
+            onItemClick = { viewModel.setControl(index, it) },
+            ids = viewModel.hControls.map { it.id },
+            names = viewModel.hControls.map { it.name }
+        )
+
+        Spacer(Modifier.height(LocalSpaces.current.medium))
+
+        managerListChoice(
+            text = behavior?.name,
+            onItemClick = { viewModel.setBehavior(index, it) },
+            ids = viewModel.iBehaviors.map { it.id },
+            names = viewModel.iBehaviors.map { it.name }
+        )
+
+        Spacer(Modifier.height(LocalSpaces.current.medium))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            managerListChoice(
-                text = viewModel.behaviorList.firstOrNull {
-                    it.id == control.behaviorId
-                }?.name,
-                onItemClick = { viewModel.setBehavior(index, it) },
-                ids = viewModel.behaviorList.map { it.id },
-                names = viewModel.behaviorList.map { it.name },
-                enabled = !viewModel.controlChangeList[index]
+
+            managerText(
+                text = "${control?.value ?: 0} ${Resources.getString("unity/percent")}",
+                color = LocalColors.current.onMainContainer
+            )
+
+            Switch(
+                modifier = Modifier
+                    .scale(0.75f)
+                    .requiredSize(width = 45.dp, height = 20.dp),
+                checked = !controlItem.isAuto,
+                onCheckedChange = { viewModel.onSwitchClick(it, index) },
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = LocalColors.current.onInput,
+                    checkedTrackColor = LocalColors.current.input,
+                    uncheckedThumbColor = LocalColors.current.onMainSurface,
+                    uncheckedTrackColor = LocalColors.current.mainSurface,
+                )
             )
         }
     }
@@ -64,27 +115,12 @@ fun controlBody(
 
 
 @Composable
-fun controlAddItem(
-    control: Control,
-    index: Int
-) {
+fun controlAddItem() {
     baseItemAddItem(
-        iconPainter = Resources.getIcon("items/alternate_email40"),
-        iconContentDescription = Resources.getString("ct/control"),
-        name = control.name,
-        onEditClick = { viewModel.addControl(index) },
-        type = ItemType.ControlType.I_C_FAN
+        icon = Resources.getIcon("items/alternate_email24"),
+        name = "Control",
+        onEditClick = { viewModel.addControl() }
     ) {
-        baseControl(
-            isAuto = true,
-            switchEnabled = false,
-            onSwitchClick = {},
-            value = control.value,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        ) {
-            managerAddItemListChoice(
-                name = Resources.getString("add_item/choose_behavior")
-            )
-        }
+
     }
 }

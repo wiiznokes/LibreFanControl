@@ -44,11 +44,10 @@ private fun tempBody(
     } else null
 
     baseSensorBody(
-        iconPainter = Resources.getIcon("items/thermometer40"),
-        iconContentDescription = Resources.getString("ct/temp"),
+        icon = Resources.getIcon("items/thermometer24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
-        sensorName = sensor?.libName,
+        sensorName = sensor?.name,
         sensorValue = "${sensor?.value ?: 0} ${Resources.getString("unity/degree")}",
         sensorList = viewModel.tempList,
         onItemClick = { viewModel.setTemp(index, it) },

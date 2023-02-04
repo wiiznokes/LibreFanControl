@@ -17,7 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.delay
 import ui.component.managerButton
-import ui.component.managerNameOutlinedTextField
+import ui.component.managerNameTextField
+import ui.theme.LocalColors
 import ui.utils.Resources
 import utils.Id.Companion.getAvailableId
 import utils.Name.Companion.checkNameTaken
@@ -42,9 +43,9 @@ fun addConfiguration() {
         }
     ) {
         Icon(
-            painter = Resources.getIcon("sign/plus/add48"),
-            contentDescription = Resources.getString("ct/add_conf"),
-            tint = MaterialTheme.colorScheme.onPrimaryContainer
+            painter = Resources.getIcon("sign/plus/add40"),
+            contentDescription = null,
+            tint = LocalColors.current.onMainTopBar
         )
     }
 
@@ -100,11 +101,11 @@ private fun dialog(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.inverseSurface),
+                .background(LocalColors.current.secondContainer),
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            managerNameOutlinedTextField(
+            managerNameTextField(
                 value = text.value,
                 ids = Pair(id, null),
                 text = text,
@@ -120,7 +121,7 @@ private fun dialog(
                         name = it
                     )
                 },
-                label = Resources.getString("label/conf_name"),
+                placeholder = Resources.getString("label/conf_name"),
             )
 
             if (enabled.value) {
@@ -138,11 +139,8 @@ private fun dialog(
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 managerButton(
-                    modifier = Modifier
-                        .width(100.dp),
-                    onClick = {
-                        enabled.value = false
-                    },
+                    modifier = Modifier.width(100.dp),
+                    onClick = { enabled.value = false },
                     icon = Resources.getIcon("select/close/close24"),
                     text = Resources.getString("common/cancel")
                 )

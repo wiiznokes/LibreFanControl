@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -16,9 +18,11 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ui.screen.addItem.addItem
 import ui.screen.body.body
-import ui.screen.drawer.drawer
+import ui.screen.drawer.drawerContent
 import ui.screen.topBar.topBarAddItem
 import ui.screen.topBar.topBarBody
+import ui.theme.LocalColors
+import ui.theme.LocalShapes
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
@@ -32,15 +36,16 @@ fun home() {
     ModalNavigationDrawer(
         modifier = Modifier,
         drawerContent = {
-            drawer(
+            drawerContent(
                 drawerState = drawerState,
                 scope = scope
             )
         },
+        drawerShape = LocalShapes.current.drawer,
         drawerState = drawerState,
         gesturesEnabled = true,
-        drawerContainerColor = MaterialTheme.colorScheme.inverseSurface,
-        drawerContentColor = MaterialTheme.colorScheme.inverseOnSurface,
+        drawerContainerColor = LocalColors.current.secondBackground,
+        drawerContentColor = LocalColors.current.onSecondBackground,
 
         ) {
         val addItemExpanded = viewModel.addItemExpanded.collectAsState()

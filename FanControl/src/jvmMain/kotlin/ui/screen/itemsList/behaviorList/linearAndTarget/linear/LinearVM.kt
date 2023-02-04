@@ -24,21 +24,16 @@ enum class LinearParams : LinAndTarParams {
 
 
 class LinearVM(
-    val tempList: SnapshotStateList<Sensor> = State.sensorLists.tempList,
-    val tempItemList: SnapshotStateList<SensorItem> = State.tempItemList,
+    val hTemps: SnapshotStateList<Sensor> = State.hTemps,
+    val iTemps: SnapshotStateList<SensorItem> = State.iTemps,
 ) : BaseBehaviorVM() {
 
 
     fun setTemp(index: Int, tempSensorId: Long?) {
-        updateSafely(
-            index = index,
-            behaviorOperation = {
-                behaviorList[index] = behaviorList[index].copy(
-                    extension = (behaviorList[index].extension as Linear).copy(
-                        tempSensorId = tempSensorId
-                    )
-                )
-            }
+        iBehaviors[index] = iBehaviors[index].copy(
+            extension = (iBehaviors[index].extension as Linear).copy(
+                tempSensorId = tempSensorId
+            )
         )
     }
 
@@ -66,7 +61,7 @@ class LinearVM(
      */
     private fun updateValue(index: Int, type: LinearParams, value: (Int) -> Int): String {
         val finalValue: Int
-        val extension = with(behaviorList[index].extension as Linear) {
+        val extension = with(iBehaviors[index].extension as Linear) {
             when (type) {
                 LinearParams.MIN_TEMP -> {
                     finalValue = numberChoiceFinalValue(value(minTemp))
@@ -89,7 +84,7 @@ class LinearVM(
                 }
             }
         }
-        behaviorList[index] = behaviorList[index].copy(
+        iBehaviors[index] = iBehaviors[index].copy(
             extension = extension
         )
         return finalValue.toString()
@@ -97,7 +92,7 @@ class LinearVM(
 
     fun defaultLinear() = Behavior(
         name = Name.getAvailableName(
-            names = behaviorList.map { item ->
+            names = iBehaviors.map { item ->
                 item.name
             },
             prefix = Resources.getString("default/linear_name")
@@ -105,7 +100,7 @@ class LinearVM(
         type = ItemType.BehaviorType.I_B_LINEAR,
         extension = Linear(),
         id = Id.getAvailableId(
-            ids = behaviorList.map { item ->
+            ids = iBehaviors.map { item ->
                 item.id
             }
         )

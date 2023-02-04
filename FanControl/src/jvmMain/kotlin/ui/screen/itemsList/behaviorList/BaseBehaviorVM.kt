@@ -2,84 +2,45 @@ package ui.screen.itemsList.behaviorList
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.sync.Mutex
-import logicControl.isControlChange
 import model.item.behavior.Behavior
-import model.item.control.Control
+import model.item.control.ControlItem
 import utils.Name.Companion.checkNameTaken
 import utils.getIndexList
 
 open class BaseBehaviorVM(
-    val behaviorList: SnapshotStateList<Behavior> = State.behaviorList,
-    private val controlList: SnapshotStateList<Control> = State.controlList,
-    private val controlChangeList: SnapshotStateList<Boolean> = State.controlChangeList,
-    private val mutex: Mutex = State.controlChangeMutex
+    val iBehaviors: SnapshotStateList<Behavior> = State.iBehaviors,
+    private val iControls: SnapshotStateList<ControlItem> = State.iControls
 ) {
-
-    fun updateSafely(
-        index: Int,
-        behaviorOperation: () -> Unit,
-        controlOperation: ((Int) -> Unit)? = null,
-        controlShouldChange: ((Int, Control) -> Boolean)? = null
-    ) {
-        val behavior = behaviorList[index]
+    fun remove(index: Int) {
+        val behavior = iBehaviors[index]
 
         val indexList = getIndexList(
-            list = controlList,
+            list = iControls,
             predicate = { it.behaviorId == behavior.id }
         )
 
-        if (indexList.isEmpty()) {
-            behaviorOperation()
-            return
+        indexList.forEach {
+            iControls[it] = iControls[it].copy(behaviorId = null)
         }
-
-        if (!mutex.tryLock())
-            return
-
-        behaviorOperation()
-
-        for (controlIndex in indexList) {
-            val previousControl = controlList[controlIndex]
-            controlOperation?.invoke(controlIndex)
-            val shouldChange = when (controlShouldChange) {
-                null -> true
-                else -> controlShouldChange(controlIndex, previousControl)
-            }
-            if (shouldChange)
-                controlChangeList[controlIndex] = true
-        }
-
-        mutex.unlock()
-    }
-
-    fun remove(index: Int) {
-        updateSafely(
-            index = index,
-            behaviorOperation = { behaviorList.removeAt(index) },
-            controlOperation = { controlList[it] = controlList[it].copy(behaviorId = null) },
-            controlShouldChange = { controlIndex, previousControl ->
-                isControlChange(previousControl, controlList[controlIndex])
-            }
-        )
+        iBehaviors.removeAt(index)
     }
 
 
     fun setName(name: String, index: Int) {
         checkNameTaken(
-            names = behaviorList.map { item ->
+            names = iBehaviors.map { item ->
                 item.name
             },
             name = name,
             index = index
         )
-        behaviorList[index] = behaviorList[index].copy(
+        iBehaviors[index] = iBehaviors[index].copy(
             name = name
         )
     }
 
 
     fun addBehavior(behavior: Behavior) {
-        behaviorList.add(behavior)
+        iBehaviors.add(behavior)
     }
 }

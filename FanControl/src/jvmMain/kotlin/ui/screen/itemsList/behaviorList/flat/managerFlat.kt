@@ -3,7 +3,6 @@ package ui.screen.itemsList.behaviorList.flat
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import model.ItemType
 import model.item.behavior.Behavior
 import model.item.behavior.Flat
 import ui.screen.itemsList.baseItemAddItem
@@ -20,12 +19,12 @@ fun flatBody(
     val flat = behavior.extension as Flat
 
     baseItemBody(
-        iconPainter = Resources.getIcon("items/horizontal_rule40"),
-        iconContentDescription = Resources.getString("ct/flat"),
+        icon = Resources.getIcon("items/horizontal_rule24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
         item = behavior
     ) {
+
         baseFlat(
             value = flat.value,
             enabled = true,
@@ -41,16 +40,10 @@ fun flatBody(
 @Composable
 fun flatAddItem() {
     baseItemAddItem(
-        iconPainter = Resources.getIcon("items/horizontal_rule40"),
-        iconContentDescription = Resources.getString("ct/flat"),
+        icon = Resources.getIcon("items/horizontal_rule24"),
         name = Resources.getString("add_item/flat_name"),
-        onEditClick = { viewModel.addBehavior(viewModel.defaultFlat()) },
-        type = ItemType.BehaviorType.I_B_FLAT
+        onEditClick = { viewModel.addBehavior(viewModel.defaultFlat()) }
     ) {
-        baseFlat(
-            value = 50,
-            enabled = false,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+
     }
 }

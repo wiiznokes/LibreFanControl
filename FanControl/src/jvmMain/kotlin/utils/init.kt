@@ -1,9 +1,13 @@
 package utils
 
-import SensorLists
-import State
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import State.hControls
+import State.hFans
+import State.hTemps
+import State.iControls
+import State.iFans
+import State.iTemps
 import model.ItemType
+import model.item.control.ControlItem
 import model.item.sensor.Fan
 import model.item.sensor.SensorItem
 import model.item.sensor.Temp
@@ -14,34 +18,42 @@ import utils.Id.Companion.getAvailableId
  * init fan and temperature item list, used when there is no config at start.
  * Each sensor will be represented by one sensor item.
  */
-fun initSensor(
-    sensorLists: SensorLists = State.sensorLists,
-
-    fanItemList: SnapshotStateList<SensorItem> = State.fanItemList,
-    tempItemList: SnapshotStateList<SensorItem> = State.tempItemList
-) {
-    sensorLists.fanList.forEach { fanSensor ->
-        fanItemList.add(
-            SensorItem(
-                name = fanSensor.libName,
-                type = ItemType.SensorType.I_S_FAN,
+fun initSensor() {
+    hControls.forEach { hControl ->
+        iControls.add(
+            ControlItem(
+                name = hControl.name,
+                type = ItemType.ControlType.I_C_FAN,
                 id = getAvailableId(
-                    ids = fanItemList.map { it.id }
+                    ids = iControls.map { it.id }
                 ),
-                extension = Fan(fanSensor.id)
+                controlId = hControl.id
             )
         )
     }
 
-    sensorLists.tempList.forEach { tempSensor ->
-        tempItemList.add(
+    hFans.forEach { hFan ->
+        iFans.add(
             SensorItem(
-                name = tempSensor.libName,
+                name = hFan.name,
+                type = ItemType.SensorType.I_S_FAN,
+                id = getAvailableId(
+                    ids = iFans.map { it.id }
+                ),
+                extension = Fan(hFan.id)
+            )
+        )
+    }
+
+    hTemps.forEach { hTemp ->
+        iTemps.add(
+            SensorItem(
+                name = hTemp.name,
                 type = ItemType.SensorType.I_S_TEMP,
                 id = getAvailableId(
-                    ids = tempItemList.map { it.id }
+                    ids = iTemps.map { it.id }
                 ),
-                extension = Temp(tempSensor.id)
+                extension = Temp(hTemp.id)
             )
         )
     }
