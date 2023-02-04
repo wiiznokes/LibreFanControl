@@ -83,6 +83,8 @@ fun controlBody(
             names = viewModel.iBehaviors.map { it.name }
         )
 
+        Spacer(Modifier.height(LocalSpaces.current.medium))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -97,7 +99,7 @@ fun controlBody(
             Switch(
                 modifier = Modifier
                     .scale(0.75f)
-                    .wrapContentSize(),
+                    .requiredSize(width = 45.dp, height = 20.dp),
                 checked = !controlItem.isAuto,
                 onCheckedChange = { viewModel.onSwitchClick(it, index) },
                 colors = SwitchDefaults.colors(
