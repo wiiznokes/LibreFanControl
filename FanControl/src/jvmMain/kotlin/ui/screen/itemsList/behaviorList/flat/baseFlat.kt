@@ -6,9 +6,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import ui.component.managerText
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces
@@ -44,7 +41,7 @@ fun baseFlat(
                 Row {
                     Icon(
                         modifier = Modifier
-                            .clickable (onClick = onLess),
+                            .clickable(onClick = onLess),
                         painter = Resources.getIcon("sign/minus/remove24"),
                         contentDescription = null,
                         tint = LocalColors.current.onInputVariant
@@ -52,7 +49,7 @@ fun baseFlat(
 
                     Icon(
                         modifier = Modifier
-                            .clickable (onClick = onMore),
+                            .clickable(onClick = onMore),
                         painter = Resources.getIcon("sign/plus/add24"),
                         contentDescription = null,
                         tint = LocalColors.current.onInputVariant
@@ -69,6 +66,8 @@ fun baseFlat(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Slider(
+            modifier = Modifier
+                .fillMaxWidth(0.65f),
             value = value.toFloat(),
             steps = 100,
             valueRange = 0f..100f,

@@ -1,7 +1,6 @@
 package ui.screen.itemsList.behaviorList.flat
 
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import model.item.behavior.Behavior
 import model.item.behavior.Flat

@@ -8,11 +8,11 @@ import model.item.behavior.Behavior
 import model.item.behavior.Target
 import ui.component.managerExpandItem
 import ui.component.managerListChoice
+import ui.component.managerNumberTextField
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
 import ui.screen.itemsList.behaviorList.linearAndTarget.linAndTarSuffixes
 import ui.screen.itemsList.behaviorList.linearAndTarget.managerNumberChoice
-import ui.screen.itemsList.behaviorList.linearAndTarget.managerNumberTextField
 import ui.utils.Resources
 
 private val viewModel: TargetVM = TargetVM()

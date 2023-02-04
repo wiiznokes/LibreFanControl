@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.Text
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,7 +23,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ui.component.managerText
 import ui.screen.itemsList.behaviorList.behaviorBodyList
 import ui.screen.itemsList.controlList.controlBodyList
 import ui.screen.itemsList.sensor.body.fanList.fanBodyList

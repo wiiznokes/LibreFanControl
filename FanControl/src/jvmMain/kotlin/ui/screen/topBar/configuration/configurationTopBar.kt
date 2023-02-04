@@ -1,7 +1,10 @@
 package ui.screen.topBar.configuration
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
