@@ -56,7 +56,7 @@ val darkColors = CustomColors(
 
     input = LightCyan,
     onInput = Color.Black,
-    inputVariant = LightCyan,
+    inputVariant = Beige,
     onInputVariant = Color.Black,
     error = Beige,
     onError = Beige,

@@ -27,11 +27,9 @@ fun flatBody(
 
         baseFlat(
             value = flat.value,
-            enabled = true,
             onLess = { viewModel.onLess(index, flat.value) },
             onMore = { viewModel.onMore(index, flat.value) },
-            onValueChange = { viewModel.onValueChange(index, it.toInt()) },
-            color = MaterialTheme.colorScheme.onSurface
+            onValueChange = { viewModel.onValueChange(index, it.toInt()) }
         )
     }
 }
