@@ -41,7 +41,7 @@ fun managerNumberTextField(
             }
         },
         modifier = Modifier
-            .height(30.dp),
+            .size(width = 20.dp, height = 50.dp),
         color = LocalColors.current.input,
         onColor = LocalColors.current.onInput,
         shape = LocalShapes.current.small,

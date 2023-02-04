@@ -13,6 +13,7 @@ import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
 import ui.screen.itemsList.behaviorList.linearAndTarget.linAndTarSuffixes
 import ui.screen.itemsList.behaviorList.linearAndTarget.managerNumberChoice
+import ui.theme.LocalColors
 import ui.utils.Resources
 
 private val viewModel: LinearVM = LinearVM()
@@ -68,7 +69,6 @@ fun linearBody(
 
         managerExpandItem(
             value = linear.value,
-            color = MaterialTheme.colorScheme.onSurface,
             expanded = expanded
         ) {
             val linearValues = linearValues(linear)

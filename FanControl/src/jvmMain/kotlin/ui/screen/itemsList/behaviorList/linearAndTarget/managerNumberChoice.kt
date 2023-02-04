@@ -1,5 +1,6 @@
 package ui.screen.itemsList.behaviorList.linearAndTarget
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -53,28 +54,20 @@ fun managerNumberChoice(
             }
         }
         Column {
-            IconButton(
-                modifier = Modifier.size(20.dp),
-                onClick = increase
-            ) {
-                Icon(
-                    modifier = Modifier,
-                    painter = Resources.getIcon("sign/plus/add20"),
-                    contentDescription = Resources.getString("ct/increase"),
-                    tint = color
-                )
-            }
-            IconButton(
-                modifier = Modifier.size(20.dp),
-                onClick = decrease
-            ) {
-                Icon(
-                    modifier = Modifier,
-                    painter = Resources.getIcon("sign/minus/remove20"),
-                    contentDescription = Resources.getString("ct/decrease"),
-                    tint = color
-                )
-            }
+            Icon(
+                modifier = Modifier
+                    .clickable(onClick = increase),
+                painter = Resources.getIcon("sign/plus/add20"),
+                contentDescription = Resources.getString("ct/increase"),
+                tint = color
+            )
+            Icon(
+                modifier = Modifier
+                    .clickable(onClick = decrease),
+                painter = Resources.getIcon("sign/minus/remove20"),
+                contentDescription = Resources.getString("ct/decrease"),
+                tint = color
+            )
         }
     }
 }

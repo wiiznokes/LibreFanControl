@@ -28,6 +28,7 @@ import ui.screen.itemsList.controlList.controlBodyList
 import ui.screen.itemsList.sensor.body.fanList.fanBodyList
 import ui.screen.itemsList.sensor.body.tempList.tempBodyList
 import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 import ui.utils.Resources
 
 
@@ -61,16 +62,25 @@ fun body(
                 ) {
                     controlBodyList()
                 }
+
+                Spacer(Modifier.width(LocalSpaces.current.medium))
+
                 itemsList(
                     title = Resources.getString("title/behavior")
                 ) {
                     behaviorBodyList()
                 }
+
+                Spacer(Modifier.width(LocalSpaces.current.medium))
+
                 itemsList(
                     title = Resources.getString("title/fan")
                 ) {
                     fanBodyList()
                 }
+
+                Spacer(Modifier.width(LocalSpaces.current.medium))
+
                 itemsList(
                     title = Resources.getString("title/temp")
                 ) {
