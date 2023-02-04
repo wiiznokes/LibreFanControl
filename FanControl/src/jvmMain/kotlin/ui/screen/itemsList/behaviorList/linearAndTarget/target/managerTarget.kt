@@ -138,9 +138,8 @@ fun targetBody(
 fun targetAddItem() {
     baseItemAddItem(
         icon = Resources.getIcon("items/my_location24"),
-        name = Resources.getString("add_item/target_name"),
-        onEditClick = { viewModel.addBehavior(viewModel.defaultTarget()) }
-    ) {
-
-    }
+        name = Resources.getString("add_item/name/target"),
+        onEditClick = { viewModel.addBehavior(viewModel.defaultTarget()) },
+        text = Resources.getString("add_item/info/target")
+    )
 }

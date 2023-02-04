@@ -46,13 +46,24 @@
     "conf_name": "configuration name"
   },
   "add_item": {
-    "flat_name": "Flat",
-    "linear_name": "Linear",
-    "target_name": "Target",
-    "fan_name": "Fan",
-    "temp_name": "Temperature",
-    "choose_sensor": "Sensor name",
-    "choose_behavior": "Behavior name"
+    "name": {
+      "control": "Control",
+      "flat": "Flat",
+      "linear": "Linear",
+      "target": "Target",
+      "fan": "Fan",
+      "temp": "Temp",
+      "custom_temp": "Custom temp"
+    },
+    "info": {
+      "control": "Assigns a certain behavior to a certain hardware component.",
+      "flat": "Returns a fixed value.",
+      "linear": "Take 4 variables:\n- minimum temperature\n- maximum temperature\n- minimum speed\n- Maximum speed\nand a temperature sensor.\nif sensor < min temp -> min speed\nif sensor > max temp-> max speed\notherwise, an average is calculated (see icon).",
+      "target": "Take 4 variables:\n- ideal temperature\n- trigger temperature\n- ideal speed\n- trigger speed\nand a temperature sensor.\nIf the sensor exceeds the trigger temperature -> trigger speed until this sensor < ideal temperature.",
+      "fan": "Shows the speed of a certain fan.",
+      "temp": "Shows the temperature of a certain sensor.",
+      "custom_temp": "Combines several temperature sensors to apply certain function (average, max, min).\nCan be used in certain behaviors."
+    }
   },
   "default_value": {
     "control_name": "Control #",

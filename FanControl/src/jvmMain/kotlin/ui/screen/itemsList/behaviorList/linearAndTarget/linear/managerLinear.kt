@@ -137,9 +137,8 @@ fun linearBody(
 fun linearAddItem() {
     baseItemAddItem(
         icon = Resources.getIcon("items/linear24"),
-        name = Resources.getString("add_item/linear_name"),
-        onEditClick = { viewModel.addBehavior(viewModel.defaultLinear()) }
-    ) {
-
-    }
+        name = Resources.getString("add_item/name/linear"),
+        onEditClick = { viewModel.addBehavior(viewModel.defaultLinear()) },
+        text = Resources.getString("add_item/info/linear")
+    )
 }

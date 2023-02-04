@@ -38,9 +38,8 @@ fun flatBody(
 fun flatAddItem() {
     baseItemAddItem(
         icon = Resources.getIcon("items/horizontal_rule24"),
-        name = Resources.getString("add_item/flat_name"),
-        onEditClick = { viewModel.addBehavior(viewModel.defaultFlat()) }
-    ) {
-
-    }
+        name = Resources.getString("add_item/name/flat"),
+        onEditClick = { viewModel.addBehavior(viewModel.defaultFlat()) },
+        text = Resources.getString("add_item/info/flat")
+    )
 }

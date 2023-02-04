@@ -1,0 +1,37 @@
+Attribue un certain comportement à un certain composant hardware.
+
+Renvoie une valeur fixe.
+
+Prends 4 variables:
+- température minimale
+- température maximale
+- vitesse minimale
+- vitesse maximale
+et un capteur de température.
+si capteur < temp min -> vitesse min
+si capteur > temp max-> vitesse max
+sinon, une moyenne est calculée (voir icon).
+
+
+
+
+
+Prends 4 variables:
+- température idéale
+- température trigger
+- vitesse idéale
+- vitesse trigger
+et un capteur de température.
+Si le capteur dépasse la température de trigger -> vitesse trigger jusqu'a ce capteur < température idéale.
+
+
+
+
+Affiche la vitesse d'un certain ventilateur.
+
+
+Affiche la température d'un certain capteur.
+
+
+Combine plusieurs capteur de température pour appliquer certaine fonction (moyenne, max, min).
+Peut-être utilisé dans certains comportements.

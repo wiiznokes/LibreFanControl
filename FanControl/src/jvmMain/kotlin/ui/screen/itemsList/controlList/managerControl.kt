@@ -116,9 +116,8 @@ fun controlBody(
 fun controlAddItem() {
     baseItemAddItem(
         icon = Resources.getIcon("items/alternate_email24"),
-        name = "Control",
-        onEditClick = { viewModel.addControl() }
-    ) {
-
-    }
+        name = Resources.getString("add_item/name/control"),
+        onEditClick = { viewModel.addControl() },
+        text = Resources.getString("add_item/info/control")
+    )
 }

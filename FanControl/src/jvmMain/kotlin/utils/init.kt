@@ -62,30 +62,4 @@ fun initSensor() {
             )
         )
     }
-
-
-    iBehaviors.add(
-        Behavior(
-            name = "flat",
-            id = 0,
-            type = ItemType.BehaviorType.I_B_FLAT,
-            extension = Flat()
-        )
-    )
-    iBehaviors.add(
-        Behavior(
-            name = "linear",
-            id = 1,
-            type = ItemType.BehaviorType.I_B_LINEAR,
-            extension = Linear()
-        )
-    )
-    iBehaviors.add(
-        Behavior(
-            name = "target",
-            id = 2,
-            type = ItemType.BehaviorType.I_B_TARGET,
-            extension = Target()
-        )
-    )
 }

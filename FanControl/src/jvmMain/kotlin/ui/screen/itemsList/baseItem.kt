@@ -3,8 +3,10 @@ package ui.screen.itemsList
 
 import State
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Text
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +22,7 @@ import model.item.BaseItem
 import ui.component.managerNameTextField
 import ui.component.managerText
 import ui.theme.LocalColors
+import ui.theme.LocalShapes
 import ui.theme.LocalSpaces
 import ui.utils.Resources
 
@@ -64,7 +67,7 @@ fun baseItemAddItem(
     icon: Painter,
     name: String,
     onEditClick: () -> Unit,
-    content: @Composable ColumnScope.() -> Unit
+    text: String
 ) {
 
     baseItem(
@@ -72,7 +75,8 @@ fun baseItemAddItem(
         contentName = {
             managerText(
                 text = name,
-                color = LocalColors.current.onSecondContainer
+                color = LocalColors.current.onSecondContainer,
+                style = MaterialTheme.typography.bodyLarge
             )
         },
         color = LocalColors.current.secondContainer,
@@ -81,20 +85,40 @@ fun baseItemAddItem(
             Icon(
                 painter = Resources.getIcon("sign/plus/add24"),
                 contentDescription = null,
-                tint = Color.White
+                tint = Color.Black
             )
         },
         editIconContainerColor = Color.Green,
         editModeActivated = true,
         onEditClick = onEditClick,
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
-        content()
+
+        Spacer(Modifier.height(LocalSpaces.current.medium))
+
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(LocalSpaces.current.small)
+                .background(
+                    LocalColors.current.secondSurface,
+                    shape = LocalShapes.current.medium
+                )
+                .padding(LocalSpaces.current.small),
+        ) {
+            Text(
+                text = text
+            )
+        }
     }
 
 }
 
 @Composable
 private fun baseItem(
+    modifier: Modifier = Modifier
+        .width(200.dp),
     icon: Painter,
     contentName: @Composable RowScope.() -> Unit,
     color: Color,
@@ -107,9 +131,8 @@ private fun baseItem(
 ) {
     Box {
         Surface(
-            modifier = Modifier
-                .width(200.dp)
-                .padding(10.dp),
+            modifier = modifier
+                .padding(LocalSpaces.current.medium),
             shape = MaterialTheme.shapes.medium,
             color = color,
             border = BorderStroke(
@@ -122,7 +145,9 @@ private fun baseItem(
                     .padding(LocalSpaces.current.large)
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = LocalSpaces.current.medium),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
