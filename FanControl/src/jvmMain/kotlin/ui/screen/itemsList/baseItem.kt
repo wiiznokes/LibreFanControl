@@ -3,6 +3,7 @@ package ui.screen.itemsList
 
 import State
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
@@ -107,10 +108,11 @@ private fun baseItem(
 ) {
     Box(
         modifier = Modifier
-            .size(width = 200.dp, height = 250.dp)
+            .background(Color.Green)
     ) {
         Surface(
             modifier = Modifier
+                .size(width = 200.dp, height = 250.dp)
                 .padding(10.dp),
             shape = MaterialTheme.shapes.medium,
             color = color,

@@ -1,9 +1,12 @@
 package ui.screen.itemsList.sensor
 
 
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import model.hardware.Sensor
 import model.item.sensor.SensorItem
@@ -11,6 +14,7 @@ import ui.component.managerListChoice
 import ui.component.managerText
 import ui.screen.itemsList.baseItemBody
 import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 
 
 @Composable
@@ -38,6 +42,9 @@ fun baseSensorBody(
             ids = sensorList.map { it.id },
             names = sensorList.map { it.name }
         )
+
+        Spacer(Modifier.height(LocalSpaces.current.medium))
+
         managerText(
             text = sensorValue,
             color = LocalColors.current.onMainContainer,

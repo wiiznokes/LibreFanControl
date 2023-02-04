@@ -102,7 +102,7 @@ fun body(
         ) {
             FloatingActionButton(
                 modifier = Modifier
-                    .scale(0.8f)
+                    .scale(0.75f)
                     .padding(
                         end = floatingActionButtonPadding,
                         bottom = if (scrollBarShouldShow.value) scrollBarHeight + floatingActionButtonPadding
@@ -149,7 +149,7 @@ private fun itemsList(
         }
         content()
         item {
-            Spacer(Modifier.height(80.dp))
+            Spacer(Modifier.height(50.dp))
         }
     }
 }
@@ -172,22 +172,19 @@ private fun BoxScope.scrollableBox(
     Box(
         modifier = modifier
             .horizontalScroll(stateHorizontal)
-
     ) {
         content()
     }
 
     if (scrollBarShouldShow.value) {
         HorizontalScrollbar(
-            modifier = Modifier.align(Alignment.BottomStart)
-                .height(scrollBarHeight)
-                .background(LocalColors.current.inputVariant),
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .height(scrollBarHeight),
             adapter = rememberScrollbarAdapter(stateHorizontal),
             style = LocalScrollbarStyle.current.copy(
                 unhoverColor = LocalColors.current.inputVariant,
-                hoverColor = LocalColors.current.inputVariant.copy(
-                    alpha = 0.7f
-                ),
+                hoverColor = LocalColors.current.inputVariant
             )
         )
     }
