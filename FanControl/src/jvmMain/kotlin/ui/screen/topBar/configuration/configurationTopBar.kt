@@ -1,8 +1,7 @@
 package ui.screen.topBar.configuration
 
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -15,6 +14,7 @@ import ui.component.ListChoiceDefault
 import ui.component.managerListChoice
 import ui.component.managerNameTextField
 import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 import ui.utils.Resources
 import utils.Name.Companion.checkNameTaken
 
@@ -73,6 +73,8 @@ private fun configurationListChoice(
     currentIndex: Int,
     configList: SnapshotStateList<ConfigurationModel>
 ) {
+
+    val minWidth = 150.dp
     managerListChoice(
         text = text.value,
         textContent = {
@@ -90,7 +92,7 @@ private fun configurationListChoice(
                     )
                 },
                 modifier = Modifier
-                    .widthIn(200.dp, 250.dp)
+                    .widthIn(minWidth, 200.dp)
                     .height(35.dp),
                 placeholder = Resources.getString("label/conf_name"),
                 color = LocalColors.current.input,
@@ -104,19 +106,18 @@ private fun configurationListChoice(
             onBase = LocalColors.current.onMainTopBar
         ),
         baseModifier = Modifier,
-        itemModifier = Modifier.width(160.dp),
+        itemModifier = Modifier.size(width = minWidth, height = 35.dp),
         onItemClick = { viewModel.onChangeConfiguration(it) },
         size = 40,
         iconContent = { id, index ->
-            IconButton(
-                onClick = { viewModel.removeConfiguration(id, index) }
-            ) {
-                Icon(
-                    painter = Resources.getIcon("select/delete_forever40"),
-                    contentDescription = null,
-                    tint = LocalColors.current.onInputVariant
-                )
-            }
+            Icon(
+                modifier = Modifier
+                    .clickable { viewModel.removeConfiguration(id, index) }
+                    .padding(end = LocalSpaces.current.small),
+                painter = Resources.getIcon("select/delete_forever24"),
+                contentDescription = null,
+                tint = LocalColors.current.onInputVariant
+            )
         },
         ids = configList.map { it.id },
         names = configList.map { it.name }

@@ -3,18 +3,21 @@ package ui.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.IconButton
+import androidx.compose.material.Surface
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.DefaultShadowColor
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 import ui.utils.Resources
 
 
@@ -27,7 +30,7 @@ data class ListChoiceColors(
 
 
 @Immutable
-object ListChoiceDefault{
+object ListChoiceDefault {
 
     @Composable
     fun listChoiceColors(
@@ -36,7 +39,7 @@ object ListChoiceDefault{
         container: Color = LocalColors.current.inputVariant,
         onContainer: Color = LocalColors.current.onInputVariant,
 
-    ): ListChoiceColors =  ListChoiceColors(
+        ): ListChoiceColors = ListChoiceColors(
         base = base,
         onBase = onBase,
         container = container,
@@ -44,8 +47,6 @@ object ListChoiceDefault{
     )
 
 }
-
-
 
 
 @Composable
@@ -200,33 +201,35 @@ private fun <T> managerDropDownContent(
     colors: ListChoiceColors,
 ) {
     DropdownMenuItem(
-        modifier = Modifier
+        modifier = modifier
             .background(colors.container),
         onClick = {
             if (enabled) {
                 onItemClick(id)
                 expanded.value = false
             }
-        }
+        },
+        contentPadding = PaddingValues(0.dp)
     ) {
-        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-            Row(
-                modifier = modifier,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                    if (iconContent != null) {
-                        iconContent(id!!, index!!)
-                    }
+        Row(
+            modifier = modifier
+                .fillMaxSize(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-                    managerText(
-                        text = text,
-                        enabled = enabled,
-                        color = colors.onContainer
-                    )
-                }
-            }
+            managerText(
+                modifier = Modifier
+                    .padding(start = LocalSpaces.current.small),
+                text = text,
+                enabled = enabled,
+                color = colors.onContainer
+            )
+
+            if (iconContent != null)
+                iconContent(id!!, index!!)
+
         }
+
     }
 }
