@@ -3,10 +3,11 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    id("com.google.protobuf") version "0.9.2"
 }
 
 group = "com.example"
-version = "1.0.1"
+version = "0.1.0"
 
 repositories {
     google()
@@ -60,7 +61,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Msi, TargetFormat.AppImage, TargetFormat.Rpm)
             packageName = "FanControl"
-            packageVersion = "1.0.0"
+            packageVersion = "0.1.0"
             copyright = "© 2023 Wiiznokes. All rights reserved."
             vendor = "Wiiznokes"
             licenseFile.set(project.file("./../LICENSE"))
