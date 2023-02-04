@@ -44,7 +44,7 @@ fun addConfiguration() {
     ) {
         Icon(
             painter = Resources.getIcon("sign/plus/add40"),
-            contentDescription = Resources.getString("ct/add_conf"),
+            contentDescription = null,
             tint = LocalColors.current.onMainTopBar
         )
     }
@@ -101,7 +101,7 @@ private fun dialog(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.inverseSurface),
+                .background(LocalColors.current.secondContainer),
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -139,11 +139,8 @@ private fun dialog(
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 managerButton(
-                    modifier = Modifier
-                        .width(100.dp),
-                    onClick = {
-                        enabled.value = false
-                    },
+                    modifier = Modifier.width(100.dp),
+                    onClick = { enabled.value = false },
                     icon = Resources.getIcon("select/close/close24"),
                     text = Resources.getString("common/cancel")
                 )

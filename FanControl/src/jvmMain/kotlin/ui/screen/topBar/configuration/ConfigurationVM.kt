@@ -47,6 +47,7 @@ class ConfigurationVM(
     }
 
     fun onChangeConfiguration(id: Long?) {
+
         when (id) {
             null -> Settings.setSetting("config_id", JSONObject.NULL)
             else -> {

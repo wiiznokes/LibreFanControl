@@ -50,7 +50,7 @@ object ListChoiceDefault{
 
 @Composable
 fun <T> managerListChoice(
-    text: String?,
+    text: String? = null,
     enabled: Boolean = true,
     colors: ListChoiceColors = ListChoiceDefault.listChoiceColors(),
     textContent: @Composable (String) -> Unit = {
