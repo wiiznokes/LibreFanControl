@@ -20,6 +20,7 @@ import model.item.BaseItem
 import ui.component.managerNameTextField
 import ui.component.managerText
 import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 import ui.utils.Resources
 
 
@@ -120,7 +121,7 @@ private fun baseItem(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(15.dp)
+                    .padding(LocalSpaces.current.large)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -132,11 +133,12 @@ private fun baseItem(
                         contentDescription = null,
                         tint = onColor
                     )
-                    Spacer(Modifier.width(10.dp))
+                    Spacer(Modifier.width(LocalSpaces.current.medium))
 
                     contentName()
                 }
-                Spacer(Modifier.height(5.dp))
+
+                Spacer(Modifier.height(LocalSpaces.current.large))
 
                 Column {
                     content()

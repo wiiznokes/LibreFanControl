@@ -6,10 +6,12 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import model.item.control.ControlItem
 import ui.component.managerListChoice
@@ -17,6 +19,7 @@ import ui.component.managerText
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
 import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 import ui.utils.Resources
 
 
@@ -63,12 +66,15 @@ fun controlBody(
         onEditClick = { viewModel.remove(index) },
         item = controlItem
     ) {
+
         managerListChoice(
             text = control?.name,
             onItemClick = { viewModel.setControl(index, it) },
             ids = viewModel.hControls.map { it.id },
             names = viewModel.hControls.map { it.name }
         )
+
+        Spacer(Modifier.height(LocalSpaces.current.medium))
 
         managerListChoice(
             text = behavior?.name,
@@ -93,10 +99,15 @@ fun controlBody(
                     .scale(0.75f)
                     .wrapContentSize(),
                 checked = !controlItem.isAuto,
-                onCheckedChange = { viewModel.onSwitchClick(it, index) }
+                onCheckedChange = { viewModel.onSwitchClick(it, index) },
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = LocalColors.current.onInput,
+                    checkedTrackColor = LocalColors.current.input,
+                    uncheckedThumbColor = LocalColors.current.onMainSurface,
+                    uncheckedTrackColor = LocalColors.current.mainSurface,
+                )
             )
         }
-
     }
 }
 
