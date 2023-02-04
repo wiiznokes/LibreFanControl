@@ -21,26 +21,49 @@ class TempVM(
 ) {
 
 
+    private data class BehaviorInfo(
+        val index: Int,
+        val type: ItemType.BehaviorType
+    )
+
+
     fun remove(index: Int) {
 
         val itemp = iTemps[index]
 
-        getIndexList(
-            list = iBehaviors,
-            predicate = {
-                when (it.type) {
-                    ItemType.BehaviorType.I_B_FLAT -> {
-                        false
-                    }
+        /**
+         * only for custom sensor.
+         * we need to remove id in behaviors if necessary
+         */
+        if (itemp.id < 0) {
+            for (i in iBehaviors.indices) {
+                val behavior = iBehaviors[i]
+                when (behavior.type) {
                     ItemType.BehaviorType.I_B_LINEAR -> {
-                        (it.extension as Linear).hTempId == itemp.id
+                        if ((behavior.extension as Linear).hTempId == itemp.id) {
+                            iBehaviors[i] = behavior.copy(
+                                extension = behavior.extension.copy(
+                                    hTempId = null
+                                )
+                            )
+                        }
                     }
+
                     ItemType.BehaviorType.I_B_TARGET -> {
-                        (it.extension as Target).hTempId == itemp.id
+                        if ((behavior.extension as Target).hTempId == itemp.id) {
+                            iBehaviors[i] = behavior.copy(
+                                extension = behavior.extension.copy(
+                                    hTempId = null
+                                )
+                            )
+                        }
                     }
+
+                    else -> {}
                 }
             }
-        )
+        }
+
 
         iTemps.removeAt(index)
     }
