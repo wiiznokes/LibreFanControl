@@ -32,7 +32,7 @@ class TargetVM(
 
         iBehaviors[index] = iBehaviors[index].copy(
             extension = (iBehaviors[index].extension as Target).copy(
-                tempSensorId = tempSensorId
+                hTempId = tempSensorId
             )
         )
 

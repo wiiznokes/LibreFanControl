@@ -32,7 +32,7 @@ class LinearVM(
     fun setTemp(index: Int, tempSensorId: Long?) {
         iBehaviors[index] = iBehaviors[index].copy(
             extension = (iBehaviors[index].extension as Linear).copy(
-                tempSensorId = tempSensorId
+                hTempId = tempSensorId
             )
         )
     }

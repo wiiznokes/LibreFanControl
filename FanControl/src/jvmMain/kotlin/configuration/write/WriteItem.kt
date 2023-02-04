@@ -68,12 +68,12 @@ class WriteItem {
 
     private fun setTemp(temp: Temp, writer: JSONWriter) {
         writer.key("sensorId")
-        writer.value(temp.sensorId)
+        writer.value(temp.hTempId)
     }
 
     private fun setFan(fan: Fan, writer: JSONWriter) {
         writer.key("sensorId")
-        writer.value(fan.sensorId)
+        writer.value(fan.hFanId)
     }
 
     private fun setCustomTemp(customTemp: CustomTemp, writer: JSONWriter) {
@@ -111,7 +111,7 @@ class WriteItem {
         writer.key("maxFanSpeed")
         writer.value(linear.maxFanSpeed)
         writer.key("tempSensorId")
-        writer.value(linear.tempSensorId)
+        writer.value(linear.hTempId)
     }
 
 
@@ -125,6 +125,6 @@ class WriteItem {
         writer.key("loadFanSpeed")
         writer.value(target.loadFanSpeed)
         writer.key("tempSensorId")
-        writer.value(target.tempSensorId)
+        writer.value(target.hTempId)
     }
 }

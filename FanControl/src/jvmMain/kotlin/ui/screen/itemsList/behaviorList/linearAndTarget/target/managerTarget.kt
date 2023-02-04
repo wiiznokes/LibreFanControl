@@ -3,8 +3,6 @@ package ui.screen.itemsList.behaviorList.linearAndTarget.target
 import State
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import model.ItemType
@@ -40,7 +38,7 @@ fun targetBody(
 
         val customTempList = viewModel.iTemps.filter { it.type == ItemType.SensorType.I_S_CUSTOM_TEMP }
         managerListChoice(
-            text = with(target.tempSensorId) {
+            text = with(target.hTempId) {
                 when {
                     this == null -> null
                     this > 0 -> viewModel.hTemps.first {

@@ -19,7 +19,7 @@ class FanVM(
     fun setFan(index: Int, sensorId: Long?) {
         iFans[index] = iFans[index].copy(
             extension = (iFans[index].extension as Fan).copy(
-                sensorId = sensorId
+                hFanId = sensorId
             )
         )
     }

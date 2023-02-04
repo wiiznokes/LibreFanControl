@@ -66,7 +66,7 @@ fun controlBody(
     ) {
 
         val filterListControl = viewModel.hControls.filter { control ->
-            !viewModel.iControls.map {it.controlId }.contains(control.id)
+            !viewModel.iControls.map { it.controlId }.contains(control.id)
         }
 
         managerListChoice(

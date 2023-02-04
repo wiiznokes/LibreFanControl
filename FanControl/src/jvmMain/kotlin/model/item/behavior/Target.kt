@@ -6,10 +6,9 @@ data class Target(
     var idleFanSpeed: Int = 50,
     var loadFanSpeed: Int = 100,
 
-    var tempSensorId: Long? = null,
+    var hTempId: Long? = null,
 
-    override var value: Int = 0,
-    var idleHasBeenReach: Boolean = false
+    override var value: Int = 0
 ) : BehaviorExtension {
     override fun copyI(value: Int): BehaviorExtension = copy(
         value = value

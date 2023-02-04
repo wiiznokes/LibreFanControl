@@ -37,9 +37,9 @@ private fun tempBody(
 ) {
 
 
-    val sensor = if ((sensorItem.extension as Temp).sensorId != null) {
+    val sensor = if ((sensorItem.extension as Temp).hTempId != null) {
         viewModel.hTemps.find {
-            it.id == sensorItem.extension.sensorId
+            it.id == sensorItem.extension.hTempId
         }
     } else null
 

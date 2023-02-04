@@ -91,13 +91,13 @@ class ReadItem {
 
     private fun getFan(obj: JSONObject): Fan {
         return Fan(
-            sensorId = getJsonValue("sensorId", obj)
+            hFanId = getJsonValue("sensorId", obj)
         )
     }
 
     private fun getTemp(obj: JSONObject): Temp {
         return Temp(
-            sensorId = getJsonValue("sensorId", obj)
+            hTempId = getJsonValue("sensorId", obj)
         )
     }
 
@@ -128,7 +128,7 @@ class ReadItem {
             maxTemp = getJsonValue("maxTemp", obj)!!,
             minFanSpeed = getJsonValue("minFanSpeed", obj)!!,
             maxFanSpeed = getJsonValue("maxFanSpeed", obj)!!,
-            tempSensorId = getJsonValue("tempSensorId", obj)
+            hTempId = getJsonValue("tempSensorId", obj)
         )
     }
 
@@ -138,7 +138,7 @@ class ReadItem {
             loadTemp = getJsonValue("loadTemp", obj)!!,
             idleFanSpeed = getJsonValue("idleFanSpeed", obj)!!,
             loadFanSpeed = getJsonValue("loadFanSpeed", obj)!!,
-            tempSensorId = getJsonValue("tempSensorId", obj)
+            hTempId = getJsonValue("tempSensorId", obj)
         )
     }
 }

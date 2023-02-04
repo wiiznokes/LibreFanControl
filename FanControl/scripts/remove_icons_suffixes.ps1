@@ -27,7 +27,7 @@ foreach ($file in $files)
         $newName = $parts[0] + $size + '.svg'
 
         # Rename the file
-        Rename-Item -Path $file.FullName -NewName $newName
+        Rename-Item -Path $file.FullName -NewName $newName -Force
     }
 }
 

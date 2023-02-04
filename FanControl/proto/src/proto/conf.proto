@@ -1,0 +1,177 @@
+syntax = "proto3";
+package src.proto;
+
+option java_multiple_files = true;
+
+
+option csharp_namespace = "Proto.Conf";
+option java_package = "external.proto.conf";
+
+
+
+import "src/proto/setting.proto";
+
+
+
+message Conf {
+  ConfInfo Info = 1;
+
+  repeated Hsensor Hsensor = 2;
+  repeated Hcontrol Hcontrol = 3;
+
+  repeated Icontrol Icontrol = 4;
+  repeated Ibehavior Ibehavior = 5;
+  repeated Ifan Ifan = 6;
+  repeated Itemp Itemp = 7;
+}
+
+
+
+/*
+    type ***********************
+ */
+
+enum HcontrolType {
+  H_C_FAN = 0;
+}
+
+enum HsensorType {
+  H_S_FAN = 0;
+  H_S_TEMP = 1;
+}
+
+
+
+enum IcontrolType {
+  I_C_FAN = 0;
+}
+
+enum IbehaviorType {
+  I_B_FLAT = 0;
+  I_B_LINEAR = 1;
+  I_B_TARGET = 2;
+}
+
+enum IsensorType {
+  I_S_FAN = 0;
+  I_S_TEMP = 1;
+  I_S_CUSTOM_TEMP = 2;
+}
+
+/*
+    *************************
+ */
+
+
+
+/*
+    Hardware *****************
+ */
+
+
+message Hsensor {
+  sint64 Id = 1;
+  HsensorType Type = 2;
+}
+
+message Hcontrol {
+  int64 Id = 1;
+  HcontrolType Type = 2;
+}
+
+/*
+    ****************************
+ */
+
+
+
+message Icontrol {
+  string Name = 1;
+  int64 Id = 2;
+  Hcontrol Type = 3;
+  NullableId BehaviorId = 4;
+  bool IsAuto = 5;
+  NullableId ControlId = 6;
+}
+
+
+/*
+    Behavior **********************
+ */
+
+message Ibehavior {
+  string Name = 1;
+  int64 Id = 2;
+  IbehaviorType Type = 3;
+
+  oneof kind {
+    Linear Flat = 4;
+    Linear Linear = 5;
+    Linear Target = 6;
+  }
+}
+
+message Flat {
+
+}
+
+
+message Linear {
+  NullableId HtempId = 1;
+
+  int32 MinTemp = 2;
+  int32 MaxTemp = 3;
+  int32 MinFanSpeed = 4;
+  int32 MaxFanSpeed = 5;
+}
+
+
+message Target {
+  NullableId HtempId = 1;
+
+  int32 IdleTemp = 2;
+  int32 LoadTemp = 3;
+  int32 IdleFanSpeed = 4;
+  int32 LoadFanSpeed = 5;
+}
+
+/*
+    ***********************
+ */
+
+
+/*
+    Item Sensors
+ */
+
+
+message Isensor {
+  string Name = 1;
+  int64 Id = 2;
+  IsensorType Type = 3;
+
+  oneof kind {
+    Linear Ifan = 4;
+    Linear Itemp = 5;
+    Linear IcustomTemp = 6;
+  }
+}
+message Ifan {
+  NullableId HFanId = 1;
+}
+
+message Itemp {
+  NullableId HtempId = 1;
+}
+
+
+enum CustomTempType {
+  AVERAGE = 0;
+  MAX = 1;
+  MIN = 2;
+}
+
+message IcustomTemp {
+  CustomTempType Type = 1;
+  repeated int64 HtempId = 2;
+}

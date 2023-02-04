@@ -3,17 +3,18 @@ using System.Net.Sockets;
 using System.Text;
 using Google.Protobuf;
 using HardwareDaemon.Hardware;
-using Proto;
+using Proto.Device;
+using Proto.Update;
 
 namespace HardwareDaemon;
 
 public static class SocketListener
 {
+    private const int Port = 11000;
 
     private static Socket? _handler;
     private static readonly IPHostEntry Host = Dns.GetHostEntry("localhost");
     private static readonly IPAddress IpAddress = Host.AddressList[0];
-    private const int Port = 11000;
 
     public static void TryConnect()
     {
@@ -30,20 +31,18 @@ public static class SocketListener
 
     public static void SendDevice(
         List<BaseDevice> list,
-        DeviceList.Types.DeviceType type
+        DeviceType type
     )
     {
         var deviceList = new List<Device>();
         foreach (var item in list)
-        {
-            deviceList.Add(new Device {
+            deviceList.Add(new Device
+            {
                 Name = item.Name,
                 Index = item.Index,
-                Id = item.Id,
-                Value = item.Value
-            }); 
-        }
-        
+                Id = item.Id
+            });
+
         var sDeviceList = new DeviceList
         {
             Type = type,
@@ -60,21 +59,20 @@ public static class SocketListener
             throw;
         }
     }
-    
-    
+
+
     public static void SendUpdate(
         List<BaseDevice> list
     )
     {
         var updateList = new List<Update>();
         foreach (var device in list)
-        {
-            updateList.Add(new Update {
+            updateList.Add(new Update
+            {
                 Index = device.Index,
                 Value = device.Value
-            }); 
-        }
-        
+            });
+
         var sUpdateList = new UpdateList
         {
             Update = { updateList }
@@ -90,20 +88,19 @@ public static class SocketListener
             throw;
         }
     }
-    
-    
-    
+
+
     public static Command GetMessage()
     {
         var input = new NetworkStream(_handler!, true);
-        
+
         var buffer = new byte[1024];
         var bytesReceived = input.Read(buffer);
         input.Close();
 
         var message = Encoding.ASCII.GetString(buffer, 0, bytesReceived);
         Console.WriteLine("message = " + message);
-        
+
         return message switch
         {
             "GetInfo" => Command.GetInfo,

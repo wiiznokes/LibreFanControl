@@ -1,5 +1,5 @@
 package model.item.sensor
 
 data class Fan(
-    var sensorId: Long? = null
+    var hFanId: Long? = null
 ) : SensorExtension

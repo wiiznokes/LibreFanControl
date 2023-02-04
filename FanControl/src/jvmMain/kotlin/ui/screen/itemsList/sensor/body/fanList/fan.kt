@@ -27,9 +27,9 @@ private fun fanBody(
     sensorItem: SensorItem,
     index: Int
 ) {
-    val sensor = if ((sensorItem.extension as Fan).sensorId != null) {
+    val sensor = if ((sensorItem.extension as Fan).hFanId != null) {
         viewModel.hFans.find {
-            it.id == sensorItem.extension.sensorId
+            it.id == sensorItem.extension.hFanId
         }
     } else null
 

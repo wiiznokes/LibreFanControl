@@ -3,8 +3,6 @@ package ui.screen.itemsList.behaviorList.linearAndTarget.linear
 import State
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import model.ItemType
@@ -17,7 +15,6 @@ import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
 import ui.screen.itemsList.behaviorList.linearAndTarget.linAndTarSuffixes
 import ui.screen.itemsList.behaviorList.linearAndTarget.managerNumberChoice
-import ui.theme.LocalColors
 import ui.theme.LocalSpaces
 import ui.utils.Resources
 
@@ -41,7 +38,7 @@ fun linearBody(
         val customTempList = viewModel.iTemps.filter { it.type == ItemType.SensorType.I_S_CUSTOM_TEMP }
 
         managerListChoice(
-            text = with(linear.tempSensorId) {
+            text = with(linear.hTempId) {
                 when {
                     this == null -> null
                     this > 0 -> viewModel.hTemps.first {

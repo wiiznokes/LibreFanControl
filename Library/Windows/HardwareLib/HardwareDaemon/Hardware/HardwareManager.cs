@@ -5,10 +5,9 @@ namespace HardwareDaemon.Hardware;
 
 public static class HardwareManager
 {
-
     private static readonly Lhm Lhm = new();
-    
-    
+
+
     public static void Start(
         ref List<BaseControl> controls,
         ref List<BaseSensor> fans,
@@ -44,7 +43,7 @@ public static class HardwareManager
     {
         Lhm.Update();
         foreach (var control in controls) control.Update();
-        foreach (var fan in fans) fan.Update(); 
+        foreach (var fan in fans) fan.Update();
         foreach (var temp in temps) temp.Update();
     }
 
