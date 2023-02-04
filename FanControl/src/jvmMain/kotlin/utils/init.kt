@@ -3,15 +3,10 @@ package utils
 import State.hControls
 import State.hFans
 import State.hTemps
-import State.iBehaviors
 import State.iControls
 import State.iFans
 import State.iTemps
 import model.ItemType
-import model.item.behavior.Behavior
-import model.item.behavior.Flat
-import model.item.behavior.Linear
-import model.item.behavior.Target
 import model.item.control.ControlItem
 import model.item.sensor.Fan
 import model.item.sensor.SensorItem
