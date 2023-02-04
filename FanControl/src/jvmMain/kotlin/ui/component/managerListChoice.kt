@@ -2,6 +2,7 @@ package ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import ui.screen.topBar.configuration.viewModel
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces
 import ui.utils.Resources
@@ -56,6 +58,8 @@ fun <T> managerListChoice(
     colors: ListChoiceColors = ListChoiceDefault.listChoiceColors(),
     textContent: @Composable (String) -> Unit = {
         managerText(
+            modifier = Modifier
+                .padding(start = LocalSpaces.current.small),
             text = it,
             color = colors.onBase,
             enabled = enabled
@@ -65,7 +69,8 @@ fun <T> managerListChoice(
     size: Int = 24,
     baseModifier: Modifier = Modifier
         .fillMaxWidth(),
-    itemModifier: Modifier = Modifier,
+    itemModifier: Modifier = Modifier
+        .size(width = 130.dp, height = 30.dp),
     onItemClick: (T?) -> Unit,
     iconContent: @Composable ((T, Int) -> Unit)? = null,
     ids: List<T>,
@@ -138,33 +143,30 @@ private fun managerBaseDropdownMenu(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                    IconButton(
-                        modifier = Modifier,
-                        onClick = { expanded.value = true }
-                    ) {
-                        val painter = when (painterType) {
-                            PainterType.ADD -> {
-                                when (expanded.value) {
-                                    true -> Resources.getIcon("select/close/close24")
-                                    false -> Resources.getIcon("sign/plus/add24")
-                                }
-                            }
 
-                            PainterType.CHOOSE -> {
-                                when (expanded.value) {
-                                    true -> Resources.getIcon("arrow/dropDown/arrow_drop_up$size")
-                                    false -> Resources.getIcon("arrow/dropDown/arrow_drop_down$size")
-                                }
+                    val painter = when (painterType) {
+                        PainterType.ADD -> {
+                            when (expanded.value) {
+                                true -> Resources.getIcon("select/close/close$size")
+                                false -> Resources.getIcon("sign/plus/add$size")
                             }
                         }
 
-                        Icon(
-                            modifier = Modifier,
-                            painter = painter,
-                            contentDescription = Resources.getString("ct/choose"),
-                            tint = colors.onBase
-                        )
+                        PainterType.CHOOSE -> {
+                            when (expanded.value) {
+                                true -> Resources.getIcon("arrow/dropDown/arrow_drop_up$size")
+                                false -> Resources.getIcon("arrow/dropDown/arrow_drop_down$size")
+                            }
+                        }
                     }
+
+                    Icon(
+                        modifier = Modifier
+                            .clickable { expanded.value = true },
+                        painter = painter,
+                        contentDescription = null,
+                        tint = colors.onBase
+                    )
 
                     textContent(text)
                 }
