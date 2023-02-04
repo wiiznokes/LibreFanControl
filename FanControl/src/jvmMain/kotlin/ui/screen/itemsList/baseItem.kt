@@ -56,7 +56,8 @@ fun baseItemBody(
                 onValueChange = { onNameChange(it) },
                 placeholder = Resources.getString("label/name"),
             )
-        }
+        },
+        headerArrangement = Arrangement.SpaceBetween,
     ) {
         content()
     }
@@ -79,6 +80,7 @@ fun baseItemAddItem(
                 style = MaterialTheme.typography.bodyLarge
             )
         },
+        headerArrangement = Arrangement.SpaceAround,
         color = LocalColors.current.secondContainer,
         onColor = LocalColors.current.onSecondContainer,
         editIcon = {
@@ -119,6 +121,7 @@ fun baseItemAddItem(
 private fun baseItem(
     modifier: Modifier = Modifier
         .width(200.dp),
+    headerArrangement: Arrangement.Horizontal,
     icon: Painter,
     contentName: @Composable RowScope.() -> Unit,
     color: Color,
@@ -146,10 +149,9 @@ private fun baseItem(
             ) {
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = LocalSpaces.current.medium),
+                        .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = headerArrangement
                 ) {
                     Icon(
                         painter = icon,

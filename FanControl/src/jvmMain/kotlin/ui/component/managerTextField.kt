@@ -60,7 +60,8 @@ fun managerNameTextField(
     },
     onValueChange: ((String) -> Unit)? = null,
     modifier: Modifier = Modifier
-        .height(30.dp),
+        .height(30.dp)
+        .fillMaxWidth(),
     placeholder: String? = null,
     color: Color = LocalColors.current.input,
     onColor: Color = LocalColors.current.onInput,
@@ -105,8 +106,7 @@ private fun managerTextField(
         mutableStateOf(value)
     },
     onValueChange: ((String) -> Unit)? = null,
-    modifier: Modifier = Modifier
-        .height(30.dp),
+    modifier: Modifier,
     placeholder: String? = null,
     color: Color = LocalColors.current.input,
     onColor: Color = LocalColors.current.onInput,
