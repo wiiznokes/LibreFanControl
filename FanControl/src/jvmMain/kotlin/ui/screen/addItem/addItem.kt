@@ -115,7 +115,8 @@ private fun addItemChoice(state: MutableState<ChoiceState>) {
                 modifier = Modifier
                     .padding(horizontal = 20.dp),
                 text = it.title,
-                color = LocalColors.current.onSecondHeader
+                color = LocalColors.current.onSecondHeader,
+                style = MaterialTheme.typography.titleSmall
             )
         }
 

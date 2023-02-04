@@ -1,4 +1,3 @@
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.Window

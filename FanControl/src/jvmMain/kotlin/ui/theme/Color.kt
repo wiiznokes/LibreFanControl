@@ -14,7 +14,7 @@ val BlueGrey = Color(43, 72, 101)
 val LightBlack = Color(27, 36, 48)
 val Grey = Color(81, 85, 126)
 val MateGrey = Color(60, 64, 72)
-val LightBlue = Color(0xFF938BA1)
+val LightOrange = Color(0xFF938BA1)
 
 data class CustomColors(
 
@@ -22,6 +22,9 @@ data class CustomColors(
     val onInput: Color,
     val inputVariant: Color,
     val onInputVariant: Color,
+    val inactiveInput: Color,
+    val onInactiveInput: Color,
+
     val error: Color,
     val onError: Color,
 
@@ -38,8 +41,6 @@ data class CustomColors(
     val onMainBackground: Color,
     val mainContainer: Color,
     val onMainContainer: Color,
-    val mainSurface: Color,
-    val onMainSurface: Color,
 
 
     val secondHeader: Color,
@@ -56,10 +57,13 @@ val darkColors = CustomColors(
 
     input = LightCyan,
     onInput = Color.Black,
-    inputVariant = LightCyan,
+    inputVariant = LightOrange,
     onInputVariant = Color.Black,
+    inactiveInput = LightBlack,
+    onInactiveInput = LightOrange,
+
     error = Beige,
-    onError = Beige,
+    onError = Color.Black,
 
     mainTopBar = DarkPurple,
     onMainTopBar = Color.White,
@@ -73,8 +77,6 @@ val darkColors = CustomColors(
     onMainBackground = Color.White,
     mainContainer = BlueGrey,
     onMainContainer = Color.White,
-    mainSurface = LightBlue,
-    onMainSurface = Color.Black,
 
 
     secondHeader = Grey,
@@ -94,8 +96,11 @@ val lightColors = CustomColors(
     onInput = Color.Black,
     inputVariant = LightCyan,
     onInputVariant = Color.Black,
+    inactiveInput = LightBlack,
+    onInactiveInput = LightCyan,
+
     error = Beige,
-    onError = Beige,
+    onError = Color.Black,
 
     mainTopBar = DarkPurple,
     onMainTopBar = Color.White,
@@ -109,9 +114,6 @@ val lightColors = CustomColors(
     onMainBackground = Color.White,
     mainContainer = BlueGrey,
     onMainContainer = Color.White,
-    mainSurface = Color.White,
-    onMainSurface = Color.White,
-
 
     secondHeader = Grey,
     onSecondHeader = Color.White,

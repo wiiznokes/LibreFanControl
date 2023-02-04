@@ -13,7 +13,7 @@ import ui.utils.Resources
 private val viewModel: TempVM = TempVM()
 
 fun LazyListScope.tempBodyList() {
-    itemsIndexed(viewModel.tempItemList) { index, temp ->
+    itemsIndexed(viewModel.iTemps) { index, temp ->
         when (temp.type) {
             ItemType.SensorType.I_S_CUSTOM_TEMP -> customTempBody(
                 sensorItem = temp,
@@ -38,7 +38,7 @@ private fun tempBody(
 
 
     val sensor = if ((sensorItem.extension as Temp).sensorId != null) {
-        viewModel.tempList.find {
+        viewModel.hTemps.find {
             it.id == sensorItem.extension.sensorId
         }
     } else null
@@ -49,7 +49,7 @@ private fun tempBody(
         onEditClick = { viewModel.remove(index) },
         sensorName = sensor?.name,
         sensorValue = "${sensor?.value ?: 0} ${Resources.getString("unity/degree")}",
-        sensorList = viewModel.tempList,
+        sensorList = viewModel.hTemps,
         onItemClick = { viewModel.setTemp(index, it) },
         sensorItem = sensorItem
     )
@@ -63,7 +63,7 @@ private fun customTempBody(
     baseCustomTempBody(
         onEditClick = { viewModel.remove(index) },
         onNameChange = { viewModel.setName(it, index) },
-        sensorList = viewModel.tempList,
+        hTemps = viewModel.hTemps,
         sensorItem = sensorItem,
         onCustomTypeChange = { viewModel.setCustomType(it, index) },
         onAddTempSensor = { viewModel.addTempCustom(it, index) },

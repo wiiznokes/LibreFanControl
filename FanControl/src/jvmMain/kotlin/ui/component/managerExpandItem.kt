@@ -1,6 +1,7 @@
 package ui.component
 
 import androidx.compose.animation.*
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,14 +14,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import ui.theme.LocalColors
 import ui.utils.Resources
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun managerExpandItem(
     value: Int,
-    color: Color,
-    enabled: Boolean = true,
+    color: Color = LocalColors.current.onMainContainer,
     expanded: MutableState<Boolean> = mutableStateOf(true),
     suffix: String = Resources.getString("unity/percent"),
     content: @Composable (() -> Unit)? = null
@@ -35,28 +36,16 @@ fun managerExpandItem(
             color = color
         )
 
-        if (enabled) {
-            IconButton(
-                onClick = { expanded.value = !expanded.value }
-            ) {
-                val painter = when (expanded.value) {
-                    true -> Resources.getIcon("arrow/expand/expand_less24")
-                    false -> Resources.getIcon("arrow/expand/expand_more24")
-                }
-                Icon(
-                    painter = painter,
-                    contentDescription = null,
-                    tint = color
-                )
-            }
-        } else {
-            Icon(
-                modifier = Modifier,
-                painter = Resources.getIcon("arrow/expand/expand_less24"),
-                contentDescription = null,
-                tint = color
-            )
-        }
+        Icon(
+            modifier = Modifier
+                .clickable { expanded.value = !expanded.value },
+            painter = when (expanded.value) {
+                true -> Resources.getIcon("arrow/expand/expand_less24")
+                false -> Resources.getIcon("arrow/expand/expand_more24")
+            },
+            contentDescription = null,
+            tint = color
+        )
     }
 
 

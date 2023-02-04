@@ -12,21 +12,21 @@ import utils.Id.Companion.getAvailableId
 import utils.Name.Companion.getAvailableName
 
 class AddSensorVM(
-    private val fanItemList: SnapshotStateList<SensorItem> = State.iFans,
-    private val tempItemList: SnapshotStateList<SensorItem> = State.iTemps,
+    private val iFans: SnapshotStateList<SensorItem> = State.iFans,
+    private val iTemps: SnapshotStateList<SensorItem> = State.iTemps,
 ) {
     fun addFan() {
-        fanItemList.add(
+        iFans.add(
             SensorItem(
                 name = getAvailableName(
-                    names = fanItemList.map { item ->
+                    names = iFans.map { item ->
                         item.name
                     },
                     prefix = Resources.getString("default/fan_name")
                 ),
                 type = ItemType.SensorType.I_S_FAN,
                 id = getAvailableId(
-                    ids = fanItemList.map { item ->
+                    ids = iFans.map { item ->
                         item.id
                     }
                 ),
@@ -36,17 +36,17 @@ class AddSensorVM(
     }
 
     fun addTemp() {
-        tempItemList.add(
+        iTemps.add(
             SensorItem(
                 name = getAvailableName(
-                    names = tempItemList.map { item ->
+                    names = iTemps.map { item ->
                         item.name
                     },
                     prefix = Resources.getString("default/temp_name")
                 ),
                 type = ItemType.SensorType.I_S_TEMP,
                 id = getAvailableId(
-                    ids = tempItemList.map { item ->
+                    ids = iTemps.map { item ->
                         item.id
                     }
                 ),
@@ -56,17 +56,17 @@ class AddSensorVM(
     }
 
     fun addCustomTemp() {
-        tempItemList.add(
+        iTemps.add(
             SensorItem(
                 name = getAvailableName(
-                    names = tempItemList.map { item ->
+                    names = iTemps.map { item ->
                         item.name
                     },
                     prefix = Resources.getString("default/custom_temp_name")
                 ),
                 type = ItemType.SensorType.I_S_CUSTOM_TEMP,
                 id = getAvailableId(
-                    ids = tempItemList.map { item ->
+                    ids = iTemps.map { item ->
                         item.id
                     },
                     positive = false

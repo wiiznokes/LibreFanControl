@@ -46,13 +46,24 @@
     "conf_name": "nom configuration"
   },
   "add_item": {
-    "flat_name": "Plat",
-    "linear_name": "Linéaire",
-    "target_name": "Cible",
-    "fan_name": "Fan",
-    "temp_name": "Température",
-    "choose_sensor": "Nom capteur",
-    "choose_behavior": "Nom comportement"
+    "name": {
+      "control": "Control",
+      "flat": "Plat",
+      "linear": "Linéaire",
+      "target": "Cible",
+      "fan": "Fan",
+      "temp": "Temp",
+      "custom_temp": "Custom temp"
+    },
+    "info": {
+      "control": "Attribue un certain comportement à un certain composant hardware.",
+      "flat": "Renvoie une valeur fixe.",
+      "linear": "Prends 4 variables:\n- température minimale\n- température maximale\n- vitesse minimale\n- vitesse maximale\net un capteur de température.\nsi capteur < temp min -> vitesse min\nsi capteur > temp max-> vitesse max\nsinon, une moyenne est calculée (voir icon).",
+      "target": "Prends 4 variables:\n- température idéale\n- température trigger\n- vitesse idéale\n- vitesse trigger\net un capteur de température.\nSi le capteur dépasse la température de trigger -> vitesse trigger jusqu'a ce capteur < température idéale.",
+      "fan": "Affiche la vitesse d'un certain ventilateur.",
+      "temp": "Affiche la température d'un certain capteur.",
+      "custom_temp": "Combine plusieurs capteur de température pour appliquer certaine fonction (moyenne, max, min).\nPeut-être utilisé dans certains comportements."
+    }
   },
   "default_value": {
     "control_name": "Control #",

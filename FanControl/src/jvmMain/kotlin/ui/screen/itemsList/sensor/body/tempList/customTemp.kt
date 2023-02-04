@@ -1,18 +1,14 @@
 package ui.screen.itemsList.sensor.body.tempList
 
 import State
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.IconButton
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.unit.LayoutDirection
 import model.hardware.Sensor
 import model.item.sensor.CustomTemp
 import model.item.sensor.CustomTempType
@@ -22,6 +18,8 @@ import ui.component.managerExpandItem
 import ui.component.managerListChoice
 import ui.component.managerText
 import ui.screen.itemsList.baseItemBody
+import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 import ui.utils.Resources
 
 
@@ -32,7 +30,7 @@ fun baseCustomTempBody(
     sensorItem: SensorItem,
     onCustomTypeChange: (CustomTempType) -> Unit,
     onAddTempSensor: (Long) -> Unit,
-    sensorList: SnapshotStateList<Sensor>,
+    hTemps: SnapshotStateList<Sensor>,
     onRemoveTemp: (Long) -> Unit
 ) {
     val customTemp = sensorItem.extension as CustomTemp
@@ -61,15 +59,19 @@ fun baseCustomTempBody(
             mutableStateOf(false)
         }
 
+        Spacer(Modifier.height(LocalSpaces.current.medium))
+
         managerExpandItem(
             value = customTemp.value,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = LocalColors.current.onMainContainer,
             expanded = expanded,
             suffix = Resources.getString("unity/degree")
         ) {
-            val filterListSensor = sensorList.filter {
+            val filterListSensor = hTemps.filter {
                 !customTemp.sensorIdList.contains(it.id)
             }
+
+            Spacer(Modifier.height(LocalSpaces.current.small))
 
             managerListChoice(
                 text = Resources.getString("custom_temp/add_temp"),
@@ -82,7 +84,7 @@ fun baseCustomTempBody(
 
             customTemp.sensorIdList.forEach { id ->
                 selectedSensor(
-                    name = sensorList.first { it.id == id }.name,
+                    name = hTemps.first { it.id == id }.name,
                     id = id,
                     onRemove = onRemoveTemp
                 )
@@ -98,41 +100,26 @@ private fun selectedSensor(
     id: Long,
     onRemove: (Long) -> Unit
 ) {
-    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                IconButton(
-                    onClick = { onRemove(id) }
-                ) {
-                    Icon(
-                        modifier = Modifier,
-                        painter = Resources.getIcon("select/close/close24"),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface
-                    )
-                }
+    Spacer(Modifier.height(LocalSpaces.current.medium))
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Icon(
-                        modifier = Modifier,
-                        painter = Resources.getIcon("select/radio_button_unchecked24"),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface
-                    )
-                    managerText(
-                        text = name,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-            }
-        }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        managerText(
+            text = name,
+            color = LocalColors.current.onMainContainer,
+            style = MaterialTheme.typography.bodySmall
+        )
+
+        Icon(
+            modifier = Modifier
+                .clickable { onRemove(id) },
+            painter = Resources.getIcon("select/close/close20"),
+            contentDescription = null,
+            tint = LocalColors.current.onMainContainer
+        )
     }
 }

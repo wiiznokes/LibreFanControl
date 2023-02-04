@@ -1,18 +1,24 @@
 package ui.screen.itemsList.behaviorList.linearAndTarget.target
 
 import State
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import model.ItemType
 import model.item.behavior.Behavior
 import model.item.behavior.Target
 import ui.component.managerExpandItem
 import ui.component.managerListChoice
+import ui.component.managerNumberTextField
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
 import ui.screen.itemsList.behaviorList.linearAndTarget.linAndTarSuffixes
 import ui.screen.itemsList.behaviorList.linearAndTarget.managerNumberChoice
-import ui.screen.itemsList.behaviorList.linearAndTarget.managerNumberTextField
+import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 import ui.utils.Resources
 
 private val viewModel: TargetVM = TargetVM()
@@ -58,6 +64,8 @@ fun targetBody(
             names = viewModel.hTemps.map { it.name } + customTempList.map { it.name }
         )
 
+        Spacer(Modifier.height(LocalSpaces.current.medium))
+
         val expanded = remember(
             behavior.id,
             State.settings.collectAsState().value.configId
@@ -67,9 +75,11 @@ fun targetBody(
 
         managerExpandItem(
             value = target.value,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = LocalColors.current.onMainContainer,
             expanded = expanded
         ) {
+            Spacer(Modifier.height(LocalSpaces.current.small))
+
             val targetValues = targetValues(target)
 
             for (i in 0..3) {
@@ -116,7 +126,7 @@ fun targetBody(
                             type = targetTypes[i]
                         )
                     },
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = LocalColors.current.onMainContainer
                 )
             }
         }
@@ -128,9 +138,8 @@ fun targetBody(
 fun targetAddItem() {
     baseItemAddItem(
         icon = Resources.getIcon("items/my_location24"),
-        name = Resources.getString("add_item/target_name"),
-        onEditClick = { viewModel.addBehavior(viewModel.defaultTarget()) }
-    ) {
-
-    }
+        name = Resources.getString("add_item/name/target"),
+        onEditClick = { viewModel.addBehavior(viewModel.defaultTarget()) },
+        text = Resources.getString("add_item/info/target")
+    )
 }

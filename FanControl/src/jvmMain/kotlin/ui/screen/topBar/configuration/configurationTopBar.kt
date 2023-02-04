@@ -1,7 +1,10 @@
 package ui.screen.topBar.configuration
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -103,7 +106,9 @@ private fun configurationListChoice(
         },
         colors = ListChoiceDefault.listChoiceColors(
             base = LocalColors.current.mainTopBar,
-            onBase = LocalColors.current.onMainTopBar
+            onBase = LocalColors.current.onMainTopBar,
+            container = LocalColors.current.inputVariant,
+            onContainer = LocalColors.current.onInputVariant
         ),
         baseModifier = Modifier,
         itemModifier = Modifier.size(width = minWidth, height = 35.dp),

@@ -3,8 +3,10 @@ package ui.screen.itemsList
 
 import State
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Text
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +22,7 @@ import model.item.BaseItem
 import ui.component.managerNameTextField
 import ui.component.managerText
 import ui.theme.LocalColors
+import ui.theme.LocalShapes
 import ui.theme.LocalSpaces
 import ui.utils.Resources
 
@@ -53,7 +56,8 @@ fun baseItemBody(
                 onValueChange = { onNameChange(it) },
                 placeholder = Resources.getString("label/name"),
             )
-        }
+        },
+        headerArrangement = Arrangement.SpaceBetween,
     ) {
         content()
     }
@@ -64,7 +68,7 @@ fun baseItemAddItem(
     icon: Painter,
     name: String,
     onEditClick: () -> Unit,
-    content: @Composable ColumnScope.() -> Unit
+    text: String
 ) {
 
     baseItem(
@@ -72,29 +76,52 @@ fun baseItemAddItem(
         contentName = {
             managerText(
                 text = name,
-                color = LocalColors.current.onSecondContainer
+                color = LocalColors.current.onSecondContainer,
+                style = MaterialTheme.typography.bodyLarge
             )
         },
+        headerArrangement = Arrangement.SpaceAround,
         color = LocalColors.current.secondContainer,
         onColor = LocalColors.current.onSecondContainer,
         editIcon = {
             Icon(
                 painter = Resources.getIcon("sign/plus/add24"),
                 contentDescription = null,
-                tint = Color.White
+                tint = Color.Black
             )
         },
         editIconContainerColor = Color.Green,
         editModeActivated = true,
         onEditClick = onEditClick,
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
-        content()
+
+        Spacer(Modifier.height(LocalSpaces.current.medium))
+
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(LocalSpaces.current.small)
+                .background(
+                    LocalColors.current.secondSurface,
+                    shape = LocalShapes.current.medium
+                )
+                .padding(LocalSpaces.current.small),
+        ) {
+            Text(
+                text = text
+            )
+        }
     }
 
 }
 
 @Composable
 private fun baseItem(
+    modifier: Modifier = Modifier
+        .width(200.dp),
+    headerArrangement: Arrangement.Horizontal,
     icon: Painter,
     contentName: @Composable RowScope.() -> Unit,
     color: Color,
@@ -105,13 +132,10 @@ private fun baseItem(
     onEditClick: () -> Unit,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .size(width = 200.dp, height = 250.dp)
-    ) {
+    Box {
         Surface(
-            modifier = Modifier
-                .padding(10.dp),
+            modifier = modifier
+                .padding(LocalSpaces.current.medium),
             shape = MaterialTheme.shapes.medium,
             color = color,
             border = BorderStroke(
@@ -124,9 +148,10 @@ private fun baseItem(
                     .padding(LocalSpaces.current.large)
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = headerArrangement
                 ) {
                     Icon(
                         painter = icon,

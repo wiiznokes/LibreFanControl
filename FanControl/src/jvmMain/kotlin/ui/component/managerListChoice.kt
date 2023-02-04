@@ -6,10 +6,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import ui.screen.topBar.configuration.viewModel
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces
 import ui.utils.Resources
@@ -36,10 +34,10 @@ object ListChoiceDefault {
 
     @Composable
     fun listChoiceColors(
-        base: Color = LocalColors.current.mainSurface,
-        onBase: Color = LocalColors.current.onMainSurface,
-        container: Color = LocalColors.current.inputVariant,
-        onContainer: Color = LocalColors.current.onInputVariant,
+        base: Color = LocalColors.current.inputVariant,
+        onBase: Color = LocalColors.current.onInputVariant,
+        container: Color = LocalColors.current.input,
+        onContainer: Color = LocalColors.current.onInput,
 
         ): ListChoiceColors = ListChoiceColors(
         base = base,

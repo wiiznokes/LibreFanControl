@@ -9,10 +9,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 
 
-
-
-
-
 val typography = Typography(
     // items lists titles
     titleLarge = TextStyle(

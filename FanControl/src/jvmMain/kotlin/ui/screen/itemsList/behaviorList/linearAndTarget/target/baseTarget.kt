@@ -4,7 +4,6 @@ import model.item.behavior.Target
 import ui.utils.Resources
 
 
-
 fun targetValues(target: Target) = listOf(
     target.idleTemp,
     target.loadTemp,

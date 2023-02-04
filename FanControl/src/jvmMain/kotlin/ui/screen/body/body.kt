@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.Text
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,12 +23,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ui.component.managerText
 import ui.screen.itemsList.behaviorList.behaviorBodyList
 import ui.screen.itemsList.controlList.controlBodyList
 import ui.screen.itemsList.sensor.body.fanList.fanBodyList
 import ui.screen.itemsList.sensor.body.tempList.tempBodyList
 import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 import ui.utils.Resources
 
 
@@ -63,16 +62,25 @@ fun body(
                 ) {
                     controlBodyList()
                 }
+
+                Spacer(Modifier.width(LocalSpaces.current.medium))
+
                 itemsList(
                     title = Resources.getString("title/behavior")
                 ) {
                     behaviorBodyList()
                 }
+
+                Spacer(Modifier.width(LocalSpaces.current.medium))
+
                 itemsList(
                     title = Resources.getString("title/fan")
                 ) {
                     fanBodyList()
                 }
+
+                Spacer(Modifier.width(LocalSpaces.current.medium))
+
                 itemsList(
                     title = Resources.getString("title/temp")
                 ) {
@@ -102,19 +110,19 @@ fun body(
         ) {
             FloatingActionButton(
                 modifier = Modifier
-                    .scale(0.8f)
+                    .scale(0.75f)
                     .padding(
                         end = floatingActionButtonPadding,
                         bottom = if (scrollBarShouldShow.value) scrollBarHeight + floatingActionButtonPadding
                         else floatingActionButtonPadding
                     ),
-                containerColor = LocalColors.current.inputVariant,
+                containerColor = LocalColors.current.error,
                 onClick = { viewModel.expandAddItem() }
             ) {
                 Icon(
                     painter = Resources.getIcon("sign/plus/add40"),
                     contentDescription = Resources.getString("ct/open_add_item"),
-                    tint = LocalColors.current.onInputVariant
+                    tint = LocalColors.current.onError
                 )
             }
         }
@@ -149,7 +157,7 @@ private fun itemsList(
         }
         content()
         item {
-            Spacer(Modifier.height(80.dp))
+            Spacer(Modifier.height(70.dp))
         }
     }
 }
@@ -172,22 +180,19 @@ private fun BoxScope.scrollableBox(
     Box(
         modifier = modifier
             .horizontalScroll(stateHorizontal)
-
     ) {
         content()
     }
 
     if (scrollBarShouldShow.value) {
         HorizontalScrollbar(
-            modifier = Modifier.align(Alignment.BottomStart)
-                .height(scrollBarHeight)
-                .background(LocalColors.current.inputVariant),
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .height(scrollBarHeight),
             adapter = rememberScrollbarAdapter(stateHorizontal),
             style = LocalScrollbarStyle.current.copy(
                 unhoverColor = LocalColors.current.inputVariant,
-                hoverColor = LocalColors.current.inputVariant.copy(
-                    alpha = 0.7f
-                ),
+                hoverColor = LocalColors.current.inputVariant
             )
         )
     }

@@ -1,18 +1,24 @@
 package ui.screen.itemsList.behaviorList.linearAndTarget.linear
 
 import State
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import model.ItemType
 import model.item.behavior.Behavior
 import model.item.behavior.Linear
 import ui.component.managerExpandItem
 import ui.component.managerListChoice
+import ui.component.managerNumberTextField
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
 import ui.screen.itemsList.behaviorList.linearAndTarget.linAndTarSuffixes
 import ui.screen.itemsList.behaviorList.linearAndTarget.managerNumberChoice
-import ui.screen.itemsList.behaviorList.linearAndTarget.managerNumberTextField
+import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 import ui.utils.Resources
 
 private val viewModel: LinearVM = LinearVM()
@@ -66,11 +72,14 @@ fun linearBody(
             mutableStateOf(false)
         }
 
+        Spacer(Modifier.height(LocalSpaces.current.medium))
+
         managerExpandItem(
             value = linear.value,
-            color = MaterialTheme.colorScheme.onSurface,
             expanded = expanded
         ) {
+            Spacer(Modifier.height(LocalSpaces.current.small))
+
             val linearValues = linearValues(linear)
 
             for (i in 0..3) {
@@ -116,8 +125,7 @@ fun linearBody(
                             index = index,
                             type = linearTypes[i]
                         )
-                    },
-                    color = MaterialTheme.colorScheme.onSurface
+                    }
                 )
             }
         }
@@ -129,9 +137,8 @@ fun linearBody(
 fun linearAddItem() {
     baseItemAddItem(
         icon = Resources.getIcon("items/linear24"),
-        name = Resources.getString("add_item/linear_name"),
-        onEditClick = { viewModel.addBehavior(viewModel.defaultLinear()) }
-    ) {
-
-    }
+        name = Resources.getString("add_item/name/linear"),
+        onEditClick = { viewModel.addBehavior(viewModel.defaultLinear()) },
+        text = Resources.getString("add_item/info/linear")
+    )
 }
