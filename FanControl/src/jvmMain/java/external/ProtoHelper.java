@@ -1,9 +1,9 @@
 package external;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import external.windows.proto.DeviceList;
-import external.windows.proto.Update;
-import external.windows.proto.UpdateList;
+import external.proto.device.DeviceList;
+import external.proto.update.Update;
+import external.proto.update.UpdateList;
 
 import java.util.Arrays;
 import java.util.List;

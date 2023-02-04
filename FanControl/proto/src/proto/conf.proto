@@ -15,5 +15,33 @@ import "src/proto/setting.proto";
 message Conf {
     ConfInfo Info = 1;
 
-    
+
+}
+
+
+message Hsensor {
+    sint64 Id = 1;
+}
+
+message Hcontrol {
+    int64 Id = 1;
+}
+
+
+enum ControlType {
+    FAN = 0;
+    UNSPECIFIED = 1;
+}
+
+message Icontrol {
+    string Name = 1;
+    int64 Id = 2;
+    ControlType Type = 3;
+    NullableId BehaviorId = 4;
+    bool IsAuto = 5;
+    NullableId ControlId = 6;
+}
+
+message Ifan {
+
 }

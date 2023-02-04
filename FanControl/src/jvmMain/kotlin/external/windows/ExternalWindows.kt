@@ -76,6 +76,8 @@ class ExternalWindows : External {
         val bytesRead = inputStream?.read(byteArray)
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
+
+
         deviceList.deviceList.forEach {
             hControls.add(
                 Control(
