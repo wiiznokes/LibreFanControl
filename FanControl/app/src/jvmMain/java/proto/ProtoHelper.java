@@ -1,5 +1,5 @@
 package proto;
-
+/*
 import com.google.protobuf.InvalidProtocolBufferException;
 import external.proto.device.DeviceList;
 import external.proto.update.Update;
@@ -23,3 +23,5 @@ public class ProtoHelper {
         return list.getUpdateList();
     }
 }
+
+ */

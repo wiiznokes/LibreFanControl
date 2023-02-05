@@ -4,7 +4,6 @@ import State.hControls
 import State.hFans
 import State.hTemps
 import external.External
-import proto.ProtoHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import model.HardwareType
@@ -74,6 +73,7 @@ class ExternalWindows : External {
         makeRequest(External.Command.GetControlsInfo)
 
         val bytesRead = inputStream?.read(byteArray)
+        /*
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
 
@@ -87,12 +87,15 @@ class ExternalWindows : External {
             )
         }
 
+         */
+
     }
 
     override fun setFans() {
         makeRequest(External.Command.GetFansInfo)
 
         val bytesRead = inputStream?.read(byteArray)
+        /*
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
         deviceList.deviceList.forEach {
@@ -104,12 +107,15 @@ class ExternalWindows : External {
                 )
             )
         }
+
+         */
     }
 
     override fun setTemps() {
         makeRequest(External.Command.GetTempsInfo)
 
         val bytesRead = inputStream?.read(byteArray)
+        /*
         val deviceList = ProtoHelper.getDeviceList(byteArray, bytesRead!!)
 
         deviceList.deviceList.forEach {
@@ -121,12 +127,15 @@ class ExternalWindows : External {
                 )
             )
         }
+
+         */
     }
 
     override fun updateControls() {
         makeRequest(External.Command.GetUpdateControls)
 
         val bytesRead = inputStream?.read(byteArray)
+        /*
         val updateList = ProtoHelper.getUpdateList(byteArray, bytesRead!!)
 
         updateList.forEach {
@@ -134,12 +143,15 @@ class ExternalWindows : External {
                 value = it.value
             )
         }
+
+         */
     }
 
     override fun updateFans() {
         makeRequest(External.Command.GetUpdateFans)
 
         val bytesRead = inputStream?.read(byteArray)
+        /*
         val updateList = ProtoHelper.getUpdateList(byteArray, bytesRead!!)
 
         updateList.forEach {
@@ -147,11 +159,14 @@ class ExternalWindows : External {
                 value = it.value
             )
         }
+
+         */
     }
 
     override fun updateTemps() {
         makeRequest(External.Command.GetUpdateTemps)
 
+        /*
         val bytesRead = inputStream?.read(byteArray)
         val updateList = ProtoHelper.getUpdateList(byteArray, bytesRead!!)
 
@@ -160,5 +175,7 @@ class ExternalWindows : External {
                 value = it.value
             )
         }
+
+         */
     }
 }

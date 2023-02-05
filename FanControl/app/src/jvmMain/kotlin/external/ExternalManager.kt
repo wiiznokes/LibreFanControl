@@ -11,7 +11,7 @@ import external.windows.ExternalWindows
  */
 object ExternalManager : External {
 
-    private val external: External = when (getOS()) {
+    private val external: External = when (OS.linux) {
         OS.windows -> ExternalWindows()
         OS.linux -> ExternalLinux()
         OS.unsupported -> throw Exception("unsupported OS")
