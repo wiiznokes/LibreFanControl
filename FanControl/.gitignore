@@ -40,13 +40,3 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-
-
-
-include/windows/
-
-### Configuration folder ###
-conf/*
-
-### generated log files ###
-**.log

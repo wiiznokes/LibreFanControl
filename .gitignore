@@ -1,1 +1,19 @@
 Release/
+
+
+### generated log files ###
+**.log
+
+
+### csharp output
+FanControl/app/include/windows/
+
+### csharp shit
+Library/Windows/HardwareLib/.vs/
+Library/Windows/HardwareLib/HardwareDaemon/obj/
+Library/Windows/HardwareLib/HardwareDaemon/bin/
+
+
+### generated proto files ###
+FanControl/app/src/jvmMain/java/proto/genrated/
+Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated/
