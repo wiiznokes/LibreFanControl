@@ -1,6 +1,7 @@
 package ui.screen.drawer
 
 import State
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -84,7 +85,10 @@ private fun managerHeader(
     drawerState: DrawerState,
     scope: CoroutineScope,
 ) {
-    Column {
+    Column(
+        modifier = Modifier
+            .background(color = LocalColors.current.secondBackground)
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
