@@ -1,5 +1,5 @@
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform' apply true
+    id 'org.jetbrains.kotlin.jvm' apply true
     id 'org.jetbrains.compose' apply true
 }
 
@@ -26,25 +26,29 @@ kotlin {
         withJava()
     }
     sourceSets {
-        
-        def jvmMain = sourceSets.getByName("jvmMain")
-        jvmMain.resources.srcDirs("resources")
-        jvmMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation("org.jetbrains.compose.material3:material3-desktop:1.3.0")
-            implementation("org.json:json:20220924")
-            implementation("com.google.protobuf:protobuf-java:3.21.12")
-            // kotlin is not well-supported for now
-            //implementation("com.google.protobuf:protobuf-kotlin:3.21.12")
-            implementation("com.github.wiiznokes:setting-sliding-windows:2.0.1")
-            // use to debug the lib in locally
-            //implementation("com.example:setting-sliding-windows-jvm:2.0.1")
+
+        jvmMain {
+            resources.srcDirs('resources')
+
+            dependencies {
+                implementation(compose.desktop.currentOs)
+                implementation("org.jetbrains.compose.material3:material3-desktop:1.3.0")
+                implementation("org.json:json:20220924")
+                implementation("com.google.protobuf:protobuf-java:3.21.12")
+                // kotlin is not well-supported for now
+                //implementation("com.google.protobuf:protobuf-kotlin:3.21.12")
+                implementation("com.github.wiiznokes:setting-sliding-windows:2.0.1")
+                // use to debug the lib in locally
+                //implementation("com.example:setting-sliding-windows-jvm:2.0.1")
+            }
         }
 
-        def jvmTest = sourceSets.getByName("jvmTest")
-        jvmTest.dependencies {
-            implementation(kotlin("test"))
+        jvmTest {
+            dependencies {
+                implementation(kotlin("test"))
+            }
         }
+
     }
 }
 
