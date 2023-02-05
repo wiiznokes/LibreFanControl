@@ -16,6 +16,11 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
+### IDEA CUSTOM MODIF
+/shelf/
+.idea/workspace.xml
+artifacts/
+
 ### Eclipse ###
 .apt_generated
 .classpath
