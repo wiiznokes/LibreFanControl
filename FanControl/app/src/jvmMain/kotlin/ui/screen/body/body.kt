@@ -40,6 +40,8 @@ fun body(
     addItemAnimationState: MutableTransitionState<Boolean>
 ) {
 
+    println("body")
+
     val viewModel = BodyVM()
 
     // body + addItem button
@@ -62,6 +64,7 @@ fun body(
                 ) {
                     controlBodyList()
                 }
+                println("control")
 
                 Spacer(Modifier.width(LocalSpaces.current.medium))
 
@@ -86,6 +89,7 @@ fun body(
                 ) {
                     tempBodyList()
                 }
+                println("temp")
             }
         }
 

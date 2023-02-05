@@ -1,6 +1,5 @@
 package ui.screen.itemsList.behaviorList.flat
 
-import external.proto.conf.IsensorType
 import model.ItemType
 import model.item.behavior.Behavior
 import model.item.behavior.Flat

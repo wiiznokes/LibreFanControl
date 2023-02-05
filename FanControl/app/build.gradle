@@ -32,12 +32,12 @@ kotlin {
 
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation("org.jetbrains.compose.material3:material3-desktop:1.3.0")
-                implementation("org.json:json:20220924")
-                implementation("com.google.protobuf:protobuf-java:3.21.12")
+                implementation 'org.jetbrains.compose.material3:material3-desktop:1.2.1'
+                implementation 'org.json:json:20220924'
+                implementation 'com.google.protobuf:protobuf-java:3.21.12'
                 // kotlin is not well-supported for now
                 //implementation("com.google.protobuf:protobuf-kotlin:3.21.12")
-                implementation("com.github.wiiznokes:setting-sliding-windows:2.0.1")
+                implementation 'com.github.wiiznokes:setting-sliding-windows:2.0.1'
                 // use to debug the lib in locally
                 //implementation("com.example:setting-sliding-windows-jvm:2.0.1")
             }
@@ -56,14 +56,14 @@ compose.desktop {
     application {
         mainClass = "MainKt"
         nativeDistributions {
-            targetFormats(TargetFormat.Msi, TargetFormat.AppImage, TargetFormat.Rpm)
+
             packageName = "FanControl"
             packageVersion = "0.1.0"
             copyright = "© 2023 Wiiznokes. All rights reserved."
             vendor = "Wiiznokes"
             licenseFile = file("./../LICENSE")
 
-            appResourcesRootDir = file(project.layout.projectDirectory.dir("app/include"))
+            appResourcesRootDir = file(project.layout.projectDirectory.dir("include"))
 
             windows {
                 iconFile = file("app/drawable/app_icon.ico")

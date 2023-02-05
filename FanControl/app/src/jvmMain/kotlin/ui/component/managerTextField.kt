@@ -98,6 +98,7 @@ fun managerNameTextField(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun managerTextField(
     value: String,
@@ -115,17 +116,6 @@ private fun managerTextField(
     isError: Boolean
 ) {
 
-    val colors = TextFieldDefaults.outlinedTextFieldColors(
-        textColor = onColor,
-        containerColor = color,
-        focusedBorderColor = onColor,
-        focusedLabelColor = onColor,
-        unfocusedLabelColor = onColor,
-        cursorColor = onColor,
-        unfocusedBorderColor = onColor.copy(
-            alpha = 0.5f
-        )
-    )
 
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -136,11 +126,11 @@ private fun managerTextField(
         modifier = modifier
             .background(
                 shape = shape,
-                color = colors.containerColor(true).value
+                color = color
             ),
         onValueChange = { onValueChange?.invoke(it) },
         textStyle = MaterialTheme.typography.bodyMedium.copy(
-            color = colors.textColor(true).value
+            color = onColor
         ),
         singleLine = true,
         decorationBox = @Composable { innerTextField ->
@@ -153,25 +143,13 @@ private fun managerTextField(
                         managerText(
                             text = placeholder,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = colors.textColor(true).value
+                            color = onColor
                         )
                     }
                 },
                 singleLine = true,
                 isError = isError,
                 interactionSource = interactionSource,
-                colors = colors,
-                border = {
-                    TextFieldDefaults.BorderBox(
-                        enabled = true,
-                        isError = isError,
-                        interactionSource = interactionSource,
-                        colors = colors,
-                        focusedBorderThickness = 2.dp,
-                        unfocusedBorderThickness = 2.dp,
-                        shape = shape
-                    )
-                },
                 contentPadding = PaddingValues(horizontal = LocalSpaces.current.medium),
                 enabled = enabled
             )

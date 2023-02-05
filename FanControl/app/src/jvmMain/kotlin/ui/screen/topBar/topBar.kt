@@ -21,7 +21,7 @@ import ui.utils.Resources
 private val viewModel = TopBarVM()
 val topBarHeight = 45.dp
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun topBarBody(
     onNavigationIconClick: () -> Unit
@@ -140,6 +140,7 @@ fun topBarBody(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun topBarAddItem() {
     CenterAlignedTopAppBar(

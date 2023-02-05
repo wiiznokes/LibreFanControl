@@ -42,11 +42,8 @@ fun home() {
                 scope = scope
             )
         },
-        drawerShape = LocalShapes.current.drawer,
         drawerState = drawerState,
-        gesturesEnabled = true,
-        drawerContainerColor = LocalColors.current.secondBackground,
-        drawerContentColor = LocalColors.current.onSecondBackground,
+        gesturesEnabled = true
 
         ) {
         val addItemExpanded = viewModel.addItemExpanded.collectAsState()
