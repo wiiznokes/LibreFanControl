@@ -17,3 +17,8 @@ Library/Windows/HardwareLib/HardwareDaemon/bin
 ### generated proto files ###
 FanControl/app/src/jvmMain/java/proto/genrated
 Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated
+
+### idea custom modif
+/shelf/
+**/.idea/workspace.xml
+artifacts/
