@@ -18,11 +18,11 @@
 
 
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
-        <OutputPath>.\..\..\..\..\FanControl\include\windows\</OutputPath>
+        <OutputPath>.\..\..\..\..\FanControl\app\include\windows\</OutputPath>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
-        <OutputPath>.\..\..\..\..\FanControl\include\windows\</OutputPath>
+        <OutputPath>.\..\..\..\..\FanControl\app\include\windows\</OutputPath>
     </PropertyGroup>
 
     <ItemGroup>
