@@ -50,6 +50,3 @@ conf/*
 
 ### generated log files ###
 *.log
-
-### generated proto files ###
-src/jvmMain/java/external/proto/
