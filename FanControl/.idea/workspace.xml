@@ -4,24 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ef48b8bc-a4df-46d8-8fab-0fae344f1eed" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/include/common/conf/settings.sot.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/protoeditor.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/jvmMain/kotlin/ui/component/managerTextField.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/jvmMain/kotlin/ui/component/managerTextField.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/jvmMain/kotlin/ui/screen/body/body.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/jvmMain/kotlin/ui/screen/body/body.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/jvmMain/kotlin/ui/screen/home.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/jvmMain/kotlin/ui/screen/home.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/jvmMain/kotlin/ui/screen/itemsList/behaviorList/flat/FlatVM.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/jvmMain/kotlin/ui/screen/itemsList/behaviorList/flat/FlatVM.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/jvmMain/kotlin/ui/screen/topBar/topBar.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/jvmMain/kotlin/ui/screen/topBar/topBar.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-    </list>
+    <list default="true" id="ef48b8bc-a4df-46d8-8fab-0fae344f1eed" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
