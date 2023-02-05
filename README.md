@@ -63,7 +63,8 @@ I intend to produce a v2 with a service system, which will therefore be much lig
 
 > Github of [compose-desktop](https://github.com/JetBrains/compose-jb)
 
-> Video about grpc https://www.youtube.com/watch?v=8C-mRgffoFQ
+> Video about grpc https://www.youtube.com/watch?v=8C-mRgffoFQ 
+> grpc guide https://github.com/grpc-ecosystem/awesome-grpc#lang-java
 
 </details>
 
