@@ -49,4 +49,4 @@ include/windows/
 conf/*
 
 ### generated log files ###
-*.log
+**.log
