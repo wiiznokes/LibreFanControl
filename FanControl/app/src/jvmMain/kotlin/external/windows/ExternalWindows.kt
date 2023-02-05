@@ -4,7 +4,7 @@ import State.hControls
 import State.hFans
 import State.hTemps
 import external.External
-import external.ProtoHelper
+import proto.ProtoHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import model.HardwareType

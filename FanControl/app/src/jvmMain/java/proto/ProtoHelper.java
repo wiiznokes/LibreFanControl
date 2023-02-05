@@ -1,4 +1,4 @@
-package external;
+package proto;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import external.proto.device.DeviceList;
