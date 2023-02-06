@@ -16,6 +16,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
+
 ### Eclipse ###
 .apt_generated
 .classpath
@@ -40,16 +41,3 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-
-
-
-include/windows/
-
-### Configuration folder ###
-conf/*
-
-### generated log files ###
-*.log
-
-### generated proto files ###
-src/jvmMain/java/external/proto/

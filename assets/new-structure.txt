@@ -1,7 +1,7 @@
 structure:
 
 
-FanControl/app/src/jvmMain/java/generatedProto/files.java
+FanControl/app/src/jvmMain/java/proto/generated/files.java
 FanControl/app/src/jvmMain/kotlin/files.kt
 
 un fichier gradle pour le module jvmMain
@@ -15,8 +15,8 @@ un fichier gradle pour le module proto
 FanControl/proto/build.gradle
 
 build.gradle du module proto:
-java-output : FanControl/app/src/jvmMain/java/generatedProto/
-csharp-output : FanControl/../library/windows/HardwareLib/HardwareDaemon/GeneratedProto/
+java-output : FanControl/app/src/jvmMain/java/proto/generated/
+csharp-output : FanControl/../library/windows/HardwareLib/HardwareDaemon/Proto/Generated/
 
 les protos files contiendront des services et des messages.
 
