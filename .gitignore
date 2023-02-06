@@ -22,3 +22,4 @@ Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated
 /shelf/
 **/.idea/workspace.xml
 artifacts/
+**/.idea/gradle.xml
