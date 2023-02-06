@@ -13,9 +13,17 @@ repositories {
 }
 
 dependencies {
+    implementation("com.google.protobuf:protobuf-kotlin:${project.property("protobuf.version")}")
     implementation("io.grpc:grpc-kotlin-stub:${project.property("grpc.kotlin.version")}")
     implementation("io.grpc:grpc-protobuf:${project.property("grpc.version")}")
-    implementation("com.google.protobuf:protobuf-kotlin:${project.property("protobuf.version")}")
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir("src")
+        }
+    }
 }
 
 
@@ -33,6 +41,8 @@ protobuf {
     }
     generateProtoTasks {
         all().forEach {
+            ofSourceSet("main")
+
             it.plugins {
                 id("grpc")
                 id("grpckt")
