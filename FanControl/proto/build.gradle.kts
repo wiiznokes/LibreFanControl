@@ -1,4 +1,4 @@
-import com.google.protobuf.gradle.id
+import com.google.protobuf.gradle.*
 
 plugins {
     id("java")
