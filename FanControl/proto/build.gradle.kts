@@ -39,9 +39,13 @@ protobuf {
             artifact = "io.grpc:protoc-gen-grpc-kotlin:${project.property("grpc.kotlin.version")}:jdk8@jar"
         }
     }
+
     generateProtoTasks {
+
         all().forEach {
             ofSourceSet("main")
+
+
 
             it.plugins {
                 id("grpc")
@@ -49,6 +53,9 @@ protobuf {
             }
             it.builtins {
                 id("kotlin")
+                id("csharp") {
+
+                }
             }
         }
     }

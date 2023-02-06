@@ -5,7 +5,7 @@ option java_multiple_files = true;
 
 
 option csharp_namespace = "Proto.Conf";
-option java_package = "external.proto.conf";
+option java_package = "proto.generated.conf";
 
 
 

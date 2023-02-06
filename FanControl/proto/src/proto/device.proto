@@ -4,7 +4,7 @@ package proto;
 option java_multiple_files = true;
 
 option csharp_namespace = "Proto.Device";
-option java_package = "external.proto.device";
+option java_package = "proto.generated.device";
 
 
 
