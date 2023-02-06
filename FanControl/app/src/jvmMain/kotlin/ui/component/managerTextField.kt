@@ -11,12 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import model.item.BaseI
 import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.isError
 import ui.theme.LocalColors
 import ui.theme.LocalShapes
 import ui.theme.LocalSpaces
-import utils.NameException
 
 
 @Composable
@@ -53,11 +53,8 @@ fun managerNumberTextField(
 
 @Composable
 fun managerNameTextField(
-    value: String,
-    ids: Pair<Long?, Long?>,
-    text: MutableState<String> = remember(ids.first, ids.second) {
-        mutableStateOf(value)
-    },
+    text: MutableState<String>,
+    ids: Pair<String?, String?>,
     onValueChange: ((String) -> Unit)? = null,
     modifier: Modifier = Modifier
         .height(30.dp)
@@ -66,7 +63,7 @@ fun managerNameTextField(
     color: Color = LocalColors.current.input,
     onColor: Color = LocalColors.current.onInput,
     shape: Shape = LocalShapes.current.small,
-    enabled: Boolean = true
+    enabled: Boolean = true,
 ) {
 
     val isError = remember(ids.first, ids.second) {
@@ -74,7 +71,7 @@ fun managerNameTextField(
     }
 
     managerTextField(
-        value = value,
+        value = text.value,
         ids = ids,
         text = text,
         onValueChange = {
@@ -82,7 +79,7 @@ fun managerNameTextField(
             try {
                 onValueChange?.invoke(it)
                 isError.value = false
-            } catch (e: NameException) {
+            } catch (e: BaseI.Companion.NameException) {
                 isError.value = true
             }
         },
@@ -102,7 +99,7 @@ fun managerNameTextField(
 @Composable
 private fun managerTextField(
     value: String,
-    ids: Pair<Long?, Long?>,
+    ids: Pair<String?, String?>,
     text: MutableState<String> = remember(ids.first, ids.second) {
         mutableStateOf(value)
     },
@@ -113,7 +110,7 @@ private fun managerTextField(
     onColor: Color = LocalColors.current.onInput,
     shape: Shape = LocalShapes.current.small,
     enabled: Boolean = true,
-    isError: Boolean
+    isError: Boolean,
 ) {
 
 

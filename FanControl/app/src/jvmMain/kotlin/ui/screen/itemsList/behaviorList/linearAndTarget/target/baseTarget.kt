@@ -1,14 +1,14 @@
 package ui.screen.itemsList.behaviorList.linearAndTarget.target
 
-import model.item.behavior.Target
+import model.item.ITarget
 import ui.utils.Resources
 
 
-fun targetValues(target: Target) = listOf(
-    target.idleTemp,
-    target.loadTemp,
-    target.idleFanSpeed,
-    target.loadFanSpeed
+fun targetValues(target: ITarget) = listOf(
+    target.idleTemp.value,
+    target.loadTemp.value,
+    target.idleFanSpeed.value,
+    target.loadFanSpeed.value
 )
 
 val targetPrefixes = listOf(

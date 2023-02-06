@@ -10,7 +10,7 @@ import ui.screen.drawer.settings.Themes
 @Composable
 fun fanControlTheme(
     theme: Themes,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val darkTheme = when (theme) {
         Themes.system -> isSystemInDarkTheme()

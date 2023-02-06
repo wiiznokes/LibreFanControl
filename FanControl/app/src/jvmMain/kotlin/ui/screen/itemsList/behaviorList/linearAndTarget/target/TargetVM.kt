@@ -3,17 +3,14 @@ package ui.screen.itemsList.behaviorList.linearAndTarget.target
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.ItemType
-import model.hardware.Sensor
-import model.item.behavior.Behavior
-import model.item.behavior.Target
-import model.item.sensor.SensorItem
+import model.hardware.HTemp
+import model.item.BaseI
+import model.item.ITarget
+import model.item.BaseITemp
 import ui.screen.itemsList.behaviorList.BaseBehaviorVM
 import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.numberChoiceFinalValue
 import ui.utils.Resources
-import utils.Id
-import utils.Name
 
 
 enum class TargetParams : LinAndTarParams {
@@ -24,18 +21,12 @@ enum class TargetParams : LinAndTarParams {
 }
 
 class TargetVM(
-    val hTemps: SnapshotStateList<Sensor> = State.hTemps,
-    val iTemps: SnapshotStateList<SensorItem> = State.iTemps
+    val hTemps: SnapshotStateList<HTemp> = State.hTemps,
+    val iTemps: SnapshotStateList<BaseITemp> = State.iTemps,
 ) : BaseBehaviorVM() {
 
-    fun setTemp(index: Int, tempSensorId: Long?) {
-
-        iBehaviors[index] = iBehaviors[index].copy(
-            extension = (iBehaviors[index].extension as Target).copy(
-                hTempId = tempSensorId
-            )
-        )
-
+    fun setTemp(index: Int, hTempId: String?) {
+        (iBehaviors[index] as ITarget).hTempId.value = hTempId
     }
 
     fun increase(index: Int, type: TargetParams): String {
@@ -62,50 +53,46 @@ class TargetVM(
      */
     private fun updateValue(index: Int, type: TargetParams, value: (Int) -> Int): String {
         val finalValue: Int
-        val extension = with(iBehaviors[index].extension as Target) {
-            when (type) {
 
+        with(iBehaviors[index] as ITarget) {
+            when (type) {
                 TargetParams.IDLE_TEMP -> {
-                    finalValue = numberChoiceFinalValue(value(idleTemp))
-                    copy(idleTemp = finalValue)
+                    finalValue = numberChoiceFinalValue(value(this.idleTemp.value))
+                    this.idleTemp.value = finalValue
                 }
 
                 TargetParams.LOAD_TEMP -> {
-                    finalValue = numberChoiceFinalValue(value(loadTemp))
-                    copy(loadTemp = finalValue)
+                    finalValue = numberChoiceFinalValue(value(this.loadTemp.value))
+                    this.loadTemp.value = finalValue
                 }
 
                 TargetParams.IDLE_FAN_SPEED -> {
-                    finalValue = numberChoiceFinalValue(value(idleFanSpeed))
-                    copy(idleFanSpeed = finalValue)
+                    finalValue = numberChoiceFinalValue(value(this.idleFanSpeed.value))
+                    this.idleFanSpeed.value = finalValue
                 }
 
                 TargetParams.LOAD_FAN_SPEED -> {
-                    finalValue = numberChoiceFinalValue(value(loadFanSpeed))
-                    copy(loadFanSpeed = finalValue)
+                    finalValue = numberChoiceFinalValue(value(this.loadFanSpeed.value))
+                    this.loadFanSpeed.value = finalValue
                 }
             }
         }
-        iBehaviors[index] = iBehaviors[index].copy(
-            extension = extension
-        )
         return finalValue.toString()
     }
 
 
-    fun defaultTarget() = Behavior(
-        name = Name.getAvailableName(
-            names = iBehaviors.map { item ->
-                item.name
+    fun defaultTarget() = ITarget(
+        name = BaseI.getAvailableString(
+            list = iBehaviors.map { item ->
+                item.name.value
             },
             prefix = Resources.getString("default/target_name")
         ),
-        type = ItemType.BehaviorType.I_B_TARGET,
-        extension = Target(),
-        id = Id.getAvailableId(
-            ids = iBehaviors.map { item ->
+        id = BaseI.getAvailableString(
+            list = iBehaviors.map { item ->
                 item.id
-            }
+            },
+            prefix = BaseI.ITargetPrefix
         )
     )
 }

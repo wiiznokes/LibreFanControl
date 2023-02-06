@@ -37,10 +37,8 @@ private val scrollBarHeight = 20.dp
 
 @Composable
 fun body(
-    addItemAnimationState: MutableTransitionState<Boolean>
+    addItemAnimationState: MutableTransitionState<Boolean>,
 ) {
-
-    println("body")
 
     val viewModel = BodyVM()
 
@@ -64,7 +62,6 @@ fun body(
                 ) {
                     controlBodyList()
                 }
-                println("control")
 
                 Spacer(Modifier.width(LocalSpaces.current.medium))
 
@@ -89,7 +86,6 @@ fun body(
                 ) {
                     tempBodyList()
                 }
-                println("temp")
             }
         }
 
@@ -136,7 +132,7 @@ fun body(
 @Composable
 private fun itemsList(
     title: String,
-    content: LazyListScope.() -> Unit
+    content: LazyListScope.() -> Unit,
 ) {
     LazyColumn(
         horizontalAlignment = Alignment.Start
@@ -170,7 +166,7 @@ private fun itemsList(
 @Composable
 private fun BoxScope.scrollableBox(
     scrollBarShouldShow: MutableState<Boolean>,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val stateHorizontal = rememberScrollState(0)
 

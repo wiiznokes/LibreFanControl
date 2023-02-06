@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.settingSlidingWindows.Setting
@@ -24,11 +23,11 @@ private val viewModel = DrawerVM()
 @Composable
 fun drawerContent(
     drawerState: DrawerState,
-    scope: CoroutineScope
+    scope: CoroutineScope,
 ) {
 
     val settingState = rememberSettingState(key = drawerState.isOpen)
-    val settings = State.settings.collectAsState().value
+    val settings = State.settings
 
     Setting(
         settingState = settingState,
@@ -45,14 +44,14 @@ fun drawerContent(
         }
         updateDelay(
             onDelayChange = { viewModel.onUpdateDelay(it) },
-            updateDelay = settings.updateDelay
+            updateDelay = settings.updateDelay.value
         )
         language(
-            language = settings.language,
+            language = settings.language.value,
             onLanguageChange = { viewModel.onLanguageChange(it) }
         )
         theme(
-            theme = settings.theme,
+            theme = settings.theme.value,
             onThemeChange = { viewModel.onThemeChange(it) }
         )
 

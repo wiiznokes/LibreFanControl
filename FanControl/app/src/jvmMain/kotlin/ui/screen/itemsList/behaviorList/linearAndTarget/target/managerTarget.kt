@@ -3,11 +3,14 @@ package ui.screen.itemsList.behaviorList.linearAndTarget.target
 import State
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import model.ItemType
-import model.item.behavior.Behavior
-import model.item.behavior.Target
+import model.item.BaseI
+import model.item.ITarget
+import model.item.ICustomTemp
 import ui.component.managerExpandItem
 import ui.component.managerListChoice
 import ui.component.managerNumberTextField
@@ -24,55 +27,54 @@ private val viewModel: TargetVM = TargetVM()
 
 @Composable
 fun targetBody(
-    behavior: Behavior,
-    index: Int
+    target: ITarget,
+    index: Int,
 ) {
     baseItemBody(
         icon = Resources.getIcon("items/my_location24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
-        item = behavior
+        item = target
     ) {
 
-        val target = behavior.extension as Target
+        val customTempList = viewModel.iTemps.filterIsInstance<ICustomTemp>()
 
-        val customTempList = viewModel.iTemps.filter { it.type == ItemType.SensorType.I_S_CUSTOM_TEMP }
+        println(target.hTempId.value)
         managerListChoice(
-            text = with(target.hTempId) {
-                when {
-                    this == null -> null
-                    this > 0 -> viewModel.hTemps.first {
+            text = with(BaseI.getPrefix(target.hTempId.value)) {
+                when (this) {
+                    null -> null
+
+                    BaseI.ICustomTempPrefix -> customTempList.first {
+                        it.id == this
+                    }.name.value
+
+                    else -> viewModel.hTemps.first {
                         it.id == this
                     }.name
-
-                    this < 0 -> customTempList.first {
-                        it.id == this
-                    }.name
-
-                    else -> throw IllegalArgumentException()
                 }
             },
             onItemClick = {
                 viewModel.setTemp(
                     index = index,
-                    tempSensorId = it
+                    hTempId = it
                 )
             },
             ids = viewModel.hTemps.map { it.id } + customTempList.map { it.id },
-            names = viewModel.hTemps.map { it.name } + customTempList.map { it.name }
+            names = viewModel.hTemps.map { it.name } + customTempList.map { it.name.value }
         )
 
         Spacer(Modifier.height(LocalSpaces.current.medium))
 
         val expanded = remember(
-            behavior.id,
-            State.settings.collectAsState().value.configId
+            target.id,
+            State.settings.configId.value
         ) {
             mutableStateOf(false)
         }
 
         managerExpandItem(
-            value = target.value,
+            value = target.value.value,
             color = LocalColors.current.onMainContainer,
             expanded = expanded
         ) {
@@ -83,8 +85,8 @@ fun targetBody(
             for (i in 0..3) {
 
                 val text: MutableState<String> = remember(
-                    behavior.id,
-                    State.settings.collectAsState().value.configId
+                    target.id,
+                    State.settings.configId.value
                 ) {
                     mutableStateOf(targetValues[i].toString())
                 }

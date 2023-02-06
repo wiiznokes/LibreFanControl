@@ -1,15 +1,8 @@
 package external.windows
 
-import State.hControls
-import State.hFans
-import State.hTemps
 import external.External
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import model.HardwareType
-import model.hardware.Control
-import model.hardware.Sensor
-import utils.Id.Companion.getAvailableId
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream

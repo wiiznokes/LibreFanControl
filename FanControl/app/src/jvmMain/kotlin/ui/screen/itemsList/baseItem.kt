@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import model.item.BaseItem
+import model.item.BaseI
 import ui.component.managerNameTextField
 import ui.component.managerText
 import ui.theme.LocalColors
@@ -30,10 +30,10 @@ import ui.utils.Resources
 @Composable
 fun baseItemBody(
     icon: Painter,
-    item: BaseItem,
+    item: BaseI,
     onNameChange: (String) -> Unit,
     onEditClick: () -> Unit,
-    content: @Composable ColumnScope.() -> Unit
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     baseItem(
         color = LocalColors.current.mainContainer,
@@ -51,8 +51,8 @@ fun baseItemBody(
         onEditClick = onEditClick,
         contentName = {
             managerNameTextField(
-                value = item.name,
-                ids = Pair(item.id, State.settings.collectAsState().value.configId),
+                text = item.name,
+                ids = Pair(item.id, State.settings.configId.value),
                 onValueChange = { onNameChange(it) },
                 placeholder = Resources.getString("label/name"),
             )
@@ -68,7 +68,7 @@ fun baseItemAddItem(
     icon: Painter,
     name: String,
     onEditClick: () -> Unit,
-    text: String
+    text: String,
 ) {
 
     baseItem(
@@ -130,7 +130,7 @@ private fun baseItem(
     editIconContainerColor: Color,
     editModeActivated: Boolean,
     onEditClick: () -> Unit,
-    content: @Composable ColumnScope.() -> Unit
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     Box {
         Surface(

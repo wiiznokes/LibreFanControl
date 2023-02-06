@@ -8,45 +8,48 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.IconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import configuration.ConfigurationModel
+import model.item.BaseI.Companion.checkNameTaken
 import ui.component.ListChoiceDefault
 import ui.component.managerListChoice
 import ui.component.managerNameTextField
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces
 import ui.utils.Resources
-import utils.Name.Companion.checkNameTaken
 
 val viewModel = ConfigurationVM()
 
 @Composable
 fun configuration() {
-    if (viewModel.settings.value.configList.isNotEmpty()) {
+    if (viewModel.settings.configList.isNotEmpty()) {
 
-        val setting = viewModel.settings.collectAsState().value
+        val setting = viewModel.settings
 
-        val index = when (setting.configId) {
+        val index = when (setting.configId.value) {
             null -> -1
             else -> setting.configList.indexOfFirst {
-                it.id == setting.configId
+                it.id == setting.configId.value
             }
         }
 
         val text = remember(setting.configId) {
-            when (setting.configId) {
+            when (setting.configId.value) {
                 null -> mutableStateOf(Resources.getString("common/none"))
                 else -> mutableStateOf(setting.configList[index].name)
             }
         }
 
 
-        if (setting.configId != null) {
+        if (setting.configId.value != null) {
             IconButton(
-                onClick = { viewModel.saveConfiguration(text.value, index, setting.configId!!) }
+                onClick = { viewModel.saveConfiguration(text.value, index, setting.configId.value!!) }
             ) {
                 Icon(
                     painter = Resources.getIcon("topBar/save40"),
@@ -60,7 +63,7 @@ fun configuration() {
         configurationListChoice(
             text = text,
             configList = setting.configList,
-            currentId = setting.configId,
+            currentId = setting.configId.value,
             currentIndex = index,
         )
 
@@ -72,9 +75,9 @@ fun configuration() {
 @Composable
 private fun configurationListChoice(
     text: MutableState<String>,
-    currentId: Long?,
+    currentId: String?,
     currentIndex: Int,
-    configList: SnapshotStateList<ConfigurationModel>
+    configList: SnapshotStateList<ConfigurationModel>,
 ) {
 
     val minWidth = 150.dp
@@ -82,7 +85,6 @@ private fun configurationListChoice(
         text = text.value,
         textContent = {
             managerNameTextField(
-                value = it,
                 ids = Pair(null, currentId),
                 text = text,
                 onValueChange = { value ->

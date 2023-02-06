@@ -17,7 +17,7 @@ fun baseFlat(
     value: Int,
     onLess: () -> Unit,
     onMore: () -> Unit,
-    onValueChange: (Float) -> Unit
+    onValueChange: (Float) -> Unit,
 ) {
     Surface(
         color = LocalColors.current.inputVariant,

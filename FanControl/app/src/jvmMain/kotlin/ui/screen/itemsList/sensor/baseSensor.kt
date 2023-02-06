@@ -4,11 +4,10 @@ package ui.screen.itemsList.sensor
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import model.hardware.Sensor
-import model.item.sensor.SensorItem
+import model.hardware.BaseH
+import model.item.BaseISensor
 import ui.component.managerListChoice
 import ui.component.managerText
 import ui.screen.itemsList.baseItemBody
@@ -25,13 +24,13 @@ fun baseSensorBody(
     sensorName: String?,
     sensorValue: String,
 
-    sensorList: SnapshotStateList<Sensor>,
-    onItemClick: (Long?) -> Unit,
-    sensorItem: SensorItem
+    sensorList: List<BaseH>,
+    onItemClick: (String?) -> Unit,
+    iSensor: BaseISensor,
 ) {
     baseItemBody(
         icon = icon,
-        item = sensorItem,
+        item = iSensor,
         onNameChange = onNameChange,
         onEditClick = onEditClick
     ) {

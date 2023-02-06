@@ -32,7 +32,7 @@ enum class Themes {
 
 fun SettingScope.theme(
     theme: Themes,
-    onThemeChange: (Themes) -> Unit
+    onThemeChange: (Themes) -> Unit,
 ) {
     item(
         title = Resources.getString("settings/theme"),

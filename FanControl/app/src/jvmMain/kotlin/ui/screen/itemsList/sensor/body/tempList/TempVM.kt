@@ -2,29 +2,22 @@ package ui.screen.itemsList.sensor.body.tempList
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.ItemType
-import model.hardware.Sensor
-import model.item.behavior.Behavior
-import model.item.behavior.Linear
-import model.item.behavior.Target
-import model.item.sensor.CustomTemp
-import model.item.sensor.CustomTempType
-import model.item.sensor.SensorItem
-import model.item.sensor.Temp
-import utils.Name.Companion.checkNameTaken
-import utils.getIndexList
+import model.hardware.HTemp
+import model.item.BaseI
+import model.item.BaseI.Companion.checkNameTaken
+import model.item.BaseIBehavior
+import model.item.ILinear
+import model.item.ITarget
+import model.item.BaseITemp
+import model.item.CustomTempType
+import model.item.ICustomTemp
+import model.item.ITemp
 
 class TempVM(
-    val iTemps: SnapshotStateList<SensorItem> = State.iTemps,
-    val hTemps: SnapshotStateList<Sensor> = State.hTemps,
-    val iBehaviors: SnapshotStateList<Behavior> = State.iBehaviors
+    val iTemps: SnapshotStateList<BaseITemp> = State.iTemps,
+    val hTemps: SnapshotStateList<HTemp> = State.hTemps,
+    private val iBehaviors: SnapshotStateList<BaseIBehavior> = State.iBehaviors,
 ) {
-
-
-    private data class BehaviorInfo(
-        val index: Int,
-        val type: ItemType.BehaviorType
-    )
 
 
     fun remove(index: Int) {
@@ -35,74 +28,66 @@ class TempVM(
          * only for custom sensor.
          * we need to remove id in behaviors if necessary
          */
-        if (itemp.id < 0) {
+
+        if (BaseI.getPrefix(itemp.id) == BaseI.ICustomTempPrefix) {
             for (i in iBehaviors.indices) {
-                val behavior = iBehaviors[i]
-                when (behavior.type) {
-                    ItemType.BehaviorType.I_B_LINEAR -> {
-                        if ((behavior.extension as Linear).hTempId == itemp.id) {
-                            iBehaviors[i] = behavior.copy(
-                                extension = behavior.extension.copy(
-                                    hTempId = null
-                                )
-                            )
+                with(iBehaviors[i]) {
+                    when (this) {
+                        is ILinear -> {
+                            if (hTempId.value == itemp.id) {
+                                hTempId.value = null
+                            }
                         }
-                    }
 
-                    ItemType.BehaviorType.I_B_TARGET -> {
-                        if ((behavior.extension as Target).hTempId == itemp.id) {
-                            iBehaviors[i] = behavior.copy(
-                                extension = behavior.extension.copy(
-                                    hTempId = null
-                                )
-                            )
+                        is ITarget -> {
+                            if (hTempId.value == itemp.id) {
+                                hTempId.value = null
+                            }
                         }
-                    }
 
-                    else -> {}
+                        else -> {}
+                    }
                 }
+
             }
         }
-
 
         iTemps.removeAt(index)
     }
 
-    fun setTemp(index: Int, sensorId: Long?) {
-        iTemps[index] = iTemps[index].copy(
-            extension = (iTemps[index].extension as Temp).copy(
-                hTempId = sensorId
-            )
-        )
+    fun setTemp(index: Int, hTempId: String?) {
+        with(iTemps[index] as ITemp) {
+            this.hTempId.value = hTempId
+        }
     }
 
 
     fun setName(name: String, index: Int) {
         checkNameTaken(
             names = iTemps.map { item ->
-                item.name
+                item.name.value
             },
             name = name,
             index = index
         )
-        iTemps[index] = iTemps[index].copy(
-            name = name
-        )
+        iTemps[index].name.value = name
     }
 
     fun setCustomType(type: CustomTempType, index: Int) {
-        iTemps[index] = iTemps[index].copy(
-            extension = (iTemps[index].extension as CustomTemp).copy(
-                customTempType = type
-            )
-        )
+        with(iTemps[index] as ICustomTemp) {
+            customTempType.value = type
+        }
     }
 
-    fun addTempCustom(id: Long, index: Int) {
-        (iTemps[index].extension as CustomTemp).sensorIdList.add(id)
+    fun addTempCustom(hTempId: String, index: Int) {
+        with(iTemps[index] as ICustomTemp) {
+            hTempIds.add(hTempId)
+        }
     }
 
-    fun removeTempCustom(id: Long, index: Int) {
-        (iTemps[index].extension as CustomTemp).sensorIdList.remove(id)
+    fun removeTempCustom(hTempId: String, index: Int) {
+        with(iTemps[index] as ICustomTemp) {
+            hTempIds.remove(hTempId)
+        }
     }
 }

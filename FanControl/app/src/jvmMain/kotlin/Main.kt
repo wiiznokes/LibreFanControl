@@ -1,8 +1,6 @@
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import settings.Settings
 import ui.screen.home
 import ui.theme.fanControlTheme
 import ui.utils.Resources
@@ -13,18 +11,16 @@ fun main() {
 }
 
 class MainApp {
-    private val application: Application
+    private val application: Application = Application().apply {
+        onStart()
+    }
 
     init {
-        Settings()
-        application = Application().apply {
-            onStart()
-        }
 
         application(
             exitProcessOnExit = true
         ) {
-            val settings = State.settings.collectAsState().value
+            val settings = State.settings
             Window(
                 visible = true,
                 title = Resources.getString("title/app_name"),
@@ -32,7 +28,7 @@ class MainApp {
                 onCloseRequest = { exit() }
             ) {
                 fanControlTheme(
-                    settings.theme
+                    settings.theme.value
                 ) {
                     home()
                 }

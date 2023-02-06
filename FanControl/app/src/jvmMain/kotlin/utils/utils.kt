@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 fun <T> filterWithPreviousIndex(
     list: List<T>,
     predicate: (T) -> Boolean,
-    forEachFiltered: (Int, T) -> Unit
+    forEachFiltered: (Int, T) -> Unit,
 ) {
     val previousIndexList = mutableListOf<Int>()
 
@@ -31,7 +31,7 @@ fun <T> filterWithPreviousIndex(
 fun <T> LazyListScope.filterWithPreviousIndexComposable(
     list: List<T>,
     predicate: (T) -> Boolean,
-    content: @Composable (Int, T) -> Unit
+    content: @Composable (Int, T) -> Unit,
 ) {
     val previousIndexList = mutableListOf<Int>()
 
@@ -50,7 +50,7 @@ fun <T> LazyListScope.filterWithPreviousIndexComposable(
 
 fun <T> getIndexList(
     list: List<T>,
-    predicate: (T) -> Boolean
+    predicate: (T) -> Boolean,
 ): List<Int> {
 
     val previousIndexList = mutableListOf<Int>()

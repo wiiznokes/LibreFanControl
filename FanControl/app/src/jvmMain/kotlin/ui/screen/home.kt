@@ -22,8 +22,6 @@ import ui.screen.body.body
 import ui.screen.drawer.drawerContent
 import ui.screen.topBar.topBarAddItem
 import ui.screen.topBar.topBarBody
-import ui.theme.LocalColors
-import ui.theme.LocalShapes
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
@@ -45,7 +43,7 @@ fun home() {
         drawerState = drawerState,
         gesturesEnabled = true
 
-        ) {
+    ) {
         val addItemExpanded = viewModel.addItemExpanded.collectAsState()
 
 

@@ -1,7 +1,6 @@
 import logicControl.behavior.LinearLogic
 import model.HardwareType
 import model.hardware.Sensor
-import model.item.behavior.Linear
 import org.junit.Test
 
 class LinearTest {
