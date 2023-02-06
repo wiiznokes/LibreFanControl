@@ -66,20 +66,23 @@ fun baseCustomTempBody(
             expanded = expanded,
             suffix = Resources.getString("unity/degree")
         ) {
+
+            Spacer(Modifier.height(LocalSpaces.current.small))
+
             val filterListSensor = hTemps.filter {
                 !iCustomTemp.hTempIds.contains(it.id)
             }
 
-            Spacer(Modifier.height(LocalSpaces.current.small))
-
-            managerListChoice(
-                text = Resources.getString("custom_temp/add_temp"),
-                onItemClick = { onAddTempSensor(it!!) },
-                ids = filterListSensor.map { it.id },
-                names = filterListSensor.map { it.name },
-                painterType = PainterType.ADD,
-                addNoneItem = false
-            )
+            if (filterListSensor.isNotEmpty()) {
+                managerListChoice(
+                    text = Resources.getString("custom_temp/add_temp"),
+                    onItemClick = { onAddTempSensor(it!!) },
+                    ids = filterListSensor.map { it.id },
+                    names = filterListSensor.map { it.name },
+                    painterType = PainterType.ADD,
+                    addNoneItem = false
+                )
+            }
 
             iCustomTemp.hTempIds.forEach { id ->
                 selectedSensor(
