@@ -40,24 +40,16 @@ class Name {
 class Id {
 
     companion object {
-        private val rand = Random(0)
 
-        fun getAvailableId(ids: List<Long>, positive: Boolean = true): Long {
-            var id = generateId(positive)
-            while (isIdTaken(ids, id)) {
-                id = generateId(positive)
+        fun getAvailableId(ids: List<String>, prefix: String): String {
+            var nb = 0
+            var id = "$prefix$nb"
+            while (ids.contains(id)) {
+                nb++
+                id = "$prefix$nb"
             }
             return id
         }
-
-
-        private fun generateId(positive: Boolean): Long {
-            val nb = rand.nextLong(Long.MAX_VALUE) + 1
-            return if (positive) nb else nb * -1
-        }
-
-        private fun isIdTaken(ids: List<Long>, id: Long): Boolean =
-            ids.count { it == id } != 0
 
     }
 }

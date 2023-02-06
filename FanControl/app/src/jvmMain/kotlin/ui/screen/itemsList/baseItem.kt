@@ -51,8 +51,8 @@ fun baseItemBody(
         onEditClick = onEditClick,
         contentName = {
             managerNameTextField(
-                value = item.name,
-                ids = Pair(item.id, State.settings.collectAsState().value.configId),
+                text = item.name,
+                ids = Pair(item.id, State.settings.configId.value),
                 onValueChange = { onNameChange(it) },
                 placeholder = Resources.getString("label/name"),
             )

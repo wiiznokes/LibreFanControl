@@ -11,27 +11,30 @@ interface BaseH {
     val id: String
 }
 
-class HControl (
+class HControl(
     override val name: String,
-    override val id: String
-): BaseH {
-    override val value: MutableState<Int> = mutableStateOf(0)
+    override val id: String,
+    value: Int = 0
+) : BaseH {
+    override val value: MutableState<Int> = mutableStateOf(value)
     override val type: HardwareType.SensorType = HardwareType.SensorType.H_S_FAN
 }
 
-class HFan (
+class HFan(
     override val name: String,
-    override val id: String
-): BaseH {
-    override val value: MutableState<Int> = mutableStateOf(0)
+    override val id: String,
+    value: Int = 0
+) : BaseH {
+    override val value: MutableState<Int> = mutableStateOf(value)
     override val type: HardwareType.SensorType = HardwareType.SensorType.H_S_FAN
 }
 
 
-class HTemp (
+class HTemp(
     override val name: String,
-    override val id: String
-): BaseH {
-    override val value: MutableState<Int> = mutableStateOf(0)
+    override val id: String,
+    value: Int = 0
+) : BaseH {
+    override val value: MutableState<Int> = mutableStateOf(value)
     override val type: HardwareType.SensorType = HardwareType.SensorType.H_S_TEMP
 }

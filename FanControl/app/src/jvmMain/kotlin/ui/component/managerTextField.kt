@@ -53,11 +53,8 @@ fun managerNumberTextField(
 
 @Composable
 fun managerNameTextField(
-    value: String,
-    ids: Pair<Long?, Long?>,
-    text: MutableState<String> = remember(ids.first, ids.second) {
-        mutableStateOf(value)
-    },
+    text: MutableState<String>,
+    ids: Pair<String?, String?>,
     onValueChange: ((String) -> Unit)? = null,
     modifier: Modifier = Modifier
         .height(30.dp)
@@ -74,7 +71,7 @@ fun managerNameTextField(
     }
 
     managerTextField(
-        value = value,
+        value = text.value,
         ids = ids,
         text = text,
         onValueChange = {
@@ -102,7 +99,7 @@ fun managerNameTextField(
 @Composable
 private fun managerTextField(
     value: String,
-    ids: Pair<Long?, Long?>,
+    ids: Pair<String?, String?>,
     text: MutableState<String> = remember(ids.first, ids.second) {
         mutableStateOf(value)
     },

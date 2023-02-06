@@ -20,7 +20,7 @@ class Resources {
     companion object {
         private val _rootJsonObject: JSONObject
 
-        private val language = State.settings.asStateFlow().value.language
+        private val language = State.settings.language.value
 
         init {
             val string = useResource("values/$PREFIX_STRING$language$SUFFIX_STRING") {

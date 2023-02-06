@@ -6,13 +6,13 @@ import configuration.ConfigurationModel
 import external.ExternalManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.json.JSONObject
+import settings.SettingsHelper
 import settings.Settings
-import settings.SettingsModel
 import utils.Name.Companion.checkNameTaken
 import utils.NameException
 
 class ConfigurationVM(
-    val settings: MutableStateFlow<SettingsModel> = State.settings
+    val settings: MutableStateFlow<Settings> = State.settings
 ) {
 
     fun saveConfiguration(name: String, index: Int, id: Long) {
@@ -38,7 +38,7 @@ class ConfigurationVM(
         Configuration.saveConfig(
             configuration = settings.value.configList[index]
         )
-        Settings.setSetting(
+        SettingsHelper.setSetting(
             path = "config_list/$id",
             value = name
         )
@@ -49,9 +49,9 @@ class ConfigurationVM(
     fun onChangeConfiguration(id: Long?) {
 
         when (id) {
-            null -> Settings.setSetting("config_id", JSONObject.NULL)
+            null -> SettingsHelper.setSetting("config_id", JSONObject.NULL)
             else -> {
-                Settings.setSetting("config_id", id)
+                SettingsHelper.setSetting("config_id", id)
                 Configuration.loadConfig(id)
             }
         }
@@ -83,11 +83,11 @@ class ConfigurationVM(
 
         Configuration.saveConfig(newConfig)
 
-        Settings.setSetting(
+        SettingsHelper.setSetting(
             path = "config_id",
             value = id
         )
-        Settings.setSetting(
+        SettingsHelper.setSetting(
             path = "config_list/$id",
             value = name
         )
@@ -100,14 +100,14 @@ class ConfigurationVM(
         settings.value.configList.removeAt(index)
 
         Configuration.deleteConfig(id)
-        Settings.removeConfig(id)
+        SettingsHelper.removeConfig(id)
 
         // check if current config has been removed
         if (id == settings.value.configId) {
             settings.value = settings.value.copy(
                 configId = null
             )
-            Settings.setSetting("config_id", JSONObject.NULL)
+            SettingsHelper.setSetting("config_id", JSONObject.NULL)
             ExternalManager.reloadConfig(id)
         }
     }

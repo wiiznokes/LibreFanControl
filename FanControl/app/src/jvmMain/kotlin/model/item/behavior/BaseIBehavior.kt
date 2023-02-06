@@ -15,43 +15,66 @@ interface BaseIBehavior : BaseI {
 
 
 class IFlat(
-    override val name: MutableState<String>,
-    override val id: String
-): BaseIBehavior{
+    name: String,
+    override val id: String,
+    value: Int = 0,
+) : BaseIBehavior {
+    override val name: MutableState<String> = mutableStateOf(name)
     override val type: ItemType.BehaviorType = ItemType.BehaviorType.I_B_FLAT
-    override val value: MutableState<Int> = mutableStateOf(0)
+
+    override val value: MutableState<Int> = mutableStateOf(value)
 }
 
 
 class ILinear(
-    override val name: MutableState<String>,
-    override val id: String
-): BaseIBehavior{
+    name: String,
+    override val id: String,
+    value: Int = 0,
+
+
+    minTemp: Int = 25,
+    maxTemp: Int = 60,
+    minFanSpeed: Int = 10,
+    maxFanSpeed: Int = 100,
+
+    hTempId: String? = null,
+) : BaseIBehavior {
+    override val name: MutableState<String> = mutableStateOf(name)
     override val type: ItemType.BehaviorType = ItemType.BehaviorType.I_B_LINEAR
-    override val value: MutableState<Int> = mutableStateOf(0)
 
+    override val value: MutableState<Int> = mutableStateOf(value)
 
-    val minTemp: MutableState<Int> = mutableStateOf(25)
-    val maxTemp: MutableState<Int> = mutableStateOf(60)
-    val minFanSpeed: MutableState<Int> = mutableStateOf(10)
-    val maxFanSpeed: MutableState<Int> = mutableStateOf(100)
+    val minTemp: MutableState<Int> = mutableStateOf(minTemp)
+    val maxTemp: MutableState<Int> = mutableStateOf(maxTemp)
+    val minFanSpeed: MutableState<Int> = mutableStateOf(minFanSpeed)
+    val maxFanSpeed: MutableState<Int> = mutableStateOf(maxFanSpeed)
 
-    val hTempId: MutableState<String?> = mutableStateOf(null)
+    val hTempId: MutableState<String?> = mutableStateOf(hTempId)
 }
 
 
 class ITarget(
-    override val name: MutableState<String>,
-    override val id: String
-): BaseIBehavior{
-    override val type: ItemType.BehaviorType = ItemType.BehaviorType.I_B_LINEAR
-    override val value: MutableState<Int> = mutableStateOf(0)
+    name: String,
+    override val id: String,
+    value: Int = 0,
 
+    idleTemp: Int = 40,
+    loadTemp: Int = 60,
+    idleFanSpeed: Int = 50,
+    loadFanSpeed: Int = 100,
 
-    val idleTemp: MutableState<Int> = mutableStateOf(40)
-    val loadTemp: MutableState<Int> = mutableStateOf(60)
-    val idleFanSpeed: MutableState<Int> = mutableStateOf(50)
-    val loadFanSpeed: MutableState<Int> = mutableStateOf(100)
+    hTempId: String? = null,
 
-    val hTempId: MutableState<String?> = mutableStateOf(null)
+    ) : BaseIBehavior {
+    override val name: MutableState<String> = mutableStateOf(name)
+    override val type: ItemType.BehaviorType = ItemType.BehaviorType.I_B_TARGET
+
+    override val value: MutableState<Int> = mutableStateOf(value)
+
+    val idleTemp: MutableState<Int> = mutableStateOf(idleTemp)
+    val loadTemp: MutableState<Int> = mutableStateOf(loadTemp)
+    val idleFanSpeed: MutableState<Int> = mutableStateOf(idleFanSpeed)
+    val loadFanSpeed: MutableState<Int> = mutableStateOf(loadFanSpeed)
+
+    val hTempId: MutableState<String?> = mutableStateOf(hTempId)
 }

@@ -2,13 +2,13 @@ package ui.screen.itemsList.behaviorList
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.item.behavior.Behavior
+import model.item.behavior.BaseIBehavior
 import model.item.control.IControl
 import utils.Name.Companion.checkNameTaken
 import utils.getIndexList
 
 open class BaseBehaviorVM(
-    val iBehaviors: SnapshotStateList<Behavior> = State.iBehaviors,
+    val iBehaviors: SnapshotStateList<BaseIBehavior> = State.iBehaviors,
     private val iControls: SnapshotStateList<IControl> = State.iControls
 ) {
     fun remove(index: Int) {
@@ -16,11 +16,11 @@ open class BaseBehaviorVM(
 
         val indexList = getIndexList(
             list = iControls,
-            predicate = { it.behaviorId == behavior.id }
+            predicate = { it.behaviorId.value == behavior.id }
         )
 
         indexList.forEach {
-            iControls[it] = iControls[it].copy(behaviorId = null)
+            iControls[it].behaviorId.value = null
         }
         iBehaviors.removeAt(index)
     }
@@ -29,18 +29,16 @@ open class BaseBehaviorVM(
     fun setName(name: String, index: Int) {
         checkNameTaken(
             names = iBehaviors.map { item ->
-                item.name
+                item.name.value
             },
             name = name,
             index = index
         )
-        iBehaviors[index] = iBehaviors[index].copy(
-            name = name
-        )
+        iBehaviors[index].name.value = name
     }
 
 
-    fun addBehavior(behavior: Behavior) {
+    fun addBehavior(behavior: BaseIBehavior) {
         iBehaviors.add(behavior)
     }
 }

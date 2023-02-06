@@ -6,13 +6,17 @@ import model.ItemType
 import model.item.BaseI
 
 class IControl(
-    override val name: MutableState<String>,
-    override val id: String
-): BaseI{
+    name: String,
+    override val id: String,
+
+    controlId: String? = null,
+    isAuto: Boolean = true,
+    behaviorId: String? = null
+
+): BaseI {
+    override val name: MutableState<String> = mutableStateOf(name)
     override val type: ItemType.ControlType = ItemType.ControlType.I_C_FAN
-
-    val controlId: MutableState<String?> = mutableStateOf(null)
-    val isAuto: MutableState<Boolean> = mutableStateOf(true)
-    val behaviorId: MutableState<String?> = mutableStateOf(null)
-
+    val controlId: MutableState<String?> = mutableStateOf(controlId)
+    val isAuto: MutableState<Boolean> = mutableStateOf(isAuto)
+    val behaviorId: MutableState<String?> = mutableStateOf(behaviorId)
 }

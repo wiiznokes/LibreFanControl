@@ -8,9 +8,7 @@ import State.iFans
 import State.iTemps
 import model.ItemType
 import model.item.control.IControl
-import model.item.sensor.BaseIFan
-import model.item.sensor.SensorI
-import model.item.sensor.Temp
+import model.item.sensor.*
 import utils.Id.Companion.getAvailableId
 
 
@@ -23,9 +21,9 @@ fun initSensor() {
         iControls.add(
             IControl(
                 name = hControl.name,
-                type = ItemType.ControlType.I_C_FAN,
                 id = getAvailableId(
-                    ids = iControls.map { it.id }
+                    ids = iControls.map { it.id },
+                    prefix = "control"
                 ),
                 controlId = hControl.id
             )
@@ -34,26 +32,26 @@ fun initSensor() {
 
     hFans.forEach { hFan ->
         iFans.add(
-            SensorI(
+            IFan(
                 name = hFan.name,
-                type = ItemType.SensorType.I_S_FAN,
                 id = getAvailableId(
-                    ids = iFans.map { it.id }
+                    ids = iFans.map { it.id },
+                    prefix = "fan"
                 ),
-                extension = BaseIFan(hFan.id)
+                hFanId = hFan.id
             )
         )
     }
 
     hTemps.forEach { hTemp ->
         iTemps.add(
-            SensorI(
+            ITemp(
                 name = hTemp.name,
-                type = ItemType.SensorType.I_S_TEMP,
                 id = getAvailableId(
-                    ids = iTemps.map { it.id }
+                    ids = iTemps.map { it.id },
+                    prefix = "temp"
                 ),
-                extension = Temp(hTemp.id)
+                hTempId = hTemp.id
             )
         )
     }

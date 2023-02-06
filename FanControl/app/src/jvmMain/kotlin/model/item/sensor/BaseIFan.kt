@@ -7,11 +7,11 @@ import model.item.BaseI
 
 
 class IFan(
-    override val name: MutableState<String>,
-    override val id: String
-): BaseI{
+    name: String,
+    override val id: String,
+    hFanId: String? = null,
+) : BaseI {
+    override val name: MutableState<String> = mutableStateOf(name)
     override val type: ItemType.SensorType = ItemType.SensorType.I_S_FAN
-
-
-    val hFanId: MutableState<String?> = mutableStateOf(null)
+    val hFanId: MutableState<String?> = mutableStateOf(hFanId)
 }

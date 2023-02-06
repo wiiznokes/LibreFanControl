@@ -1,10 +1,7 @@
-import configuration.Configuration
+
 import external.ExternalManager
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import settings.Settings
-import settings.SettingsModel
 import utils.initSensor
 
 
@@ -12,20 +9,18 @@ import utils.initSensor
  * main logic of the app
  */
 class Application(
-    private val settings: StateFlow<SettingsModel> = State.settings.asStateFlow()
+    private val settings: Settings = State.settings
 ) {
 
     private lateinit var jobUpdate: Job
 
 
     fun onStart() {
-        val configId = settings.value.configId
+        val configId = settings.configId.value
         ExternalManager.start()
         when (configId) {
             null -> initSensor()
-            else -> {
-                Configuration.loadConfig(configId)
-            }
+            else -> {}
         }
         jobUpdate = CoroutineScope(Dispatchers.IO).launch { startUpdate() }
     }
@@ -35,10 +30,6 @@ class Application(
     fun onStop() {
         updateShouldStop = true
         runBlocking { jobUpdate.cancelAndJoin() }
-
-        if (settings.value.firstStart) {
-            Settings.setSetting("first_start", false)
-        }
     }
 
     private suspend fun startUpdate() {
@@ -48,7 +39,7 @@ class Application(
             ExternalManager.updateFans()
             ExternalManager.updateTemps()
 
-            delay(settings.value.updateDelay * 1000L)
+            delay(settings.updateDelay.value * 1000L)
         }
         ExternalManager.close()
     }

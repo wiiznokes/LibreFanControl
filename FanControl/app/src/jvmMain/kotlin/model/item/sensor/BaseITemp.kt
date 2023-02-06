@@ -17,13 +17,16 @@ interface BaseITemp : BaseI {
 
 
 class ITemp(
-    override val name: MutableState<String>,
-    override val id: String
+    name: String,
+    override val id: String,
+    hTempId: String? = null
 ): BaseITemp{
+    override val name: MutableState<String> = mutableStateOf(name)
+
     override val type: ItemType.SensorType = ItemType.SensorType.I_S_TEMP
 
+    val hTempId: MutableState<String?> = mutableStateOf(hTempId)
 
-    val hTempId: MutableState<String?> = mutableStateOf(null)
 }
 
 
@@ -47,13 +50,18 @@ enum class CustomTempType {
 }
 
 class ICustomTemp(
-    override val name: MutableState<String>,
-    override val id: String
+    name: String,
+    override val id: String,
+
+    customTempType: CustomTempType = CustomTempType.AVERAGE,
+    val sensorIdList: SnapshotStateList<String> = mutableStateListOf(),
+
+    value: Int = 0
 ): BaseITemp{
+    override val name: MutableState<String> = mutableStateOf(name)
     override val type: ItemType.SensorType = ItemType.SensorType.I_S_CUSTOM_TEMP
 
-    val customTempType: MutableState<CustomTempType> = mutableStateOf(CustomTempType.AVERAGE)
-    val sensorIdList: SnapshotStateList<String> = mutableStateListOf()
+    val customTempType: MutableState<CustomTempType> = mutableStateOf(customTempType)
 
-    val value: MutableState<Int> = mutableStateOf(0)
+    val value: MutableState<Int> = mutableStateOf(value)
 }

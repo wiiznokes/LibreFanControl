@@ -28,7 +28,7 @@ fun drawerContent(
 ) {
 
     val settingState = rememberSettingState(key = drawerState.isOpen)
-    val settings = State.settings.collectAsState().value
+    val settings = State.settings
 
     Setting(
         settingState = settingState,
@@ -45,14 +45,14 @@ fun drawerContent(
         }
         updateDelay(
             onDelayChange = { viewModel.onUpdateDelay(it) },
-            updateDelay = settings.updateDelay
+            updateDelay = settings.updateDelay.value
         )
         language(
-            language = settings.language,
+            language = settings.language.value,
             onLanguageChange = { viewModel.onLanguageChange(it) }
         )
         theme(
-            theme = settings.theme,
+            theme = settings.theme.value,
             onThemeChange = { viewModel.onThemeChange(it) }
         )
 

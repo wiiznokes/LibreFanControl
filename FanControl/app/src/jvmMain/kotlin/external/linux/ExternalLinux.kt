@@ -4,9 +4,9 @@ import State.hControls
 import State.hFans
 import State.hTemps
 import external.External
-import model.HardwareType
-import model.hardware.Control
-import model.hardware.Sensor
+import model.hardware.HControl
+import model.hardware.HFan
+import model.hardware.HTemp
 import utils.Id.Companion.getAvailableId
 import kotlin.random.Random
 
@@ -20,9 +20,9 @@ class ExternalLinux : External {
     override fun setControls() {
         for (i in 0..3) {
             hControls.add(
-                Control(
+                HControl(
                     name = "control lib${i + 1}",
-                    id = getAvailableId(hControls.map { it.id })
+                    id = getAvailableId(hControls.map { it.id }, "control")
                 )
             )
         }
@@ -32,10 +32,9 @@ class ExternalLinux : External {
     override fun setFans() {
         for (i in 0..3) {
             hFans.add(
-                Sensor(
+                HFan(
                     name = "fan lib${i + 1}",
-                    type = HardwareType.SensorType.H_S_FAN,
-                    id = getAvailableId(hFans.map { it.id })
+                    id = getAvailableId(hFans.map { it.id }, "fan")
                 )
             )
         }
@@ -44,10 +43,9 @@ class ExternalLinux : External {
     override fun setTemps() {
         for (i in 0..3) {
             hTemps.add(
-                Sensor(
+                HTemp(
                     name = "temp lib${i + 1}",
-                    type = HardwareType.SensorType.H_S_TEMP,
-                    id = getAvailableId(hTemps.map { it.id })
+                    id = getAvailableId(hTemps.map { it.id }, "temp")
                 )
             )
         }
@@ -56,27 +54,21 @@ class ExternalLinux : External {
 
     override fun updateControls() {
         for (i in hControls.indices) {
-            hControls[i] = hControls[i].copy(
-                value = UseForTest.newValue(hControls[i].value)
-            )
+            hControls[i].value.value = UseForTest.newValue(hControls[i].value.value)
         }
     }
 
 
     override fun updateFans() {
         for (i in hFans.indices) {
-            hFans[i] = hFans[i].copy(
-                value = Random.nextInt(0, 4000)
-            )
+            hFans[i].value.value = Random.nextInt(0, 4000)
         }
     }
 
 
     override fun updateTemps() {
         for (i in hTemps.indices) {
-            hTemps[i] = hTemps[i].copy(
-                value = UseForTest.newValue(hTemps[i].value)
-            )
+            hTemps[i].value.value = UseForTest.newValue(hTemps[i].value.value)
         }
     }
 
