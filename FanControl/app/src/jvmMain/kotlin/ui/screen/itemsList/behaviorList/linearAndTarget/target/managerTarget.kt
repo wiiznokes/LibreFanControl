@@ -23,17 +23,17 @@ private val viewModel: TargetVM = TargetVM()
 
 @Composable
 fun targetBody(
-    behavior: Behavior,
+    target: Behavior,
     index: Int
 ) {
     baseItemBody(
         icon = Resources.getIcon("items/my_location24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
-        item = behavior
+        item = target
     ) {
 
-        val target = behavior.extension as Target
+        val target = target.extension as Target
 
         val customTempList = viewModel.iTemps.filter { it.type == ItemType.SensorType.I_S_CUSTOM_TEMP }
         managerListChoice(
@@ -64,7 +64,7 @@ fun targetBody(
         Spacer(Modifier.height(LocalSpaces.current.medium))
 
         val expanded = remember(
-            behavior.id,
+            target.id,
             State.settings.collectAsState().value.configId
         ) {
             mutableStateOf(false)
@@ -82,7 +82,7 @@ fun targetBody(
             for (i in 0..3) {
 
                 val text: MutableState<String> = remember(
-                    behavior.id,
+                    target.id,
                     State.settings.collectAsState().value.configId
                 ) {
                     mutableStateOf(targetValues[i].toString())

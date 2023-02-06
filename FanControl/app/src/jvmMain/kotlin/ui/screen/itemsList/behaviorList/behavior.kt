@@ -2,7 +2,9 @@ package ui.screen.itemsList.behaviorList
 
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
-import model.ItemType
+import model.item.behavior.IFlat
+import model.item.behavior.ILinear
+import model.item.behavior.ITarget
 import ui.screen.itemsList.behaviorList.flat.flatAddItem
 import ui.screen.itemsList.behaviorList.flat.flatBody
 import ui.screen.itemsList.behaviorList.linearAndTarget.linear.linearAddItem
@@ -23,30 +25,25 @@ fun LazyListScope.behaviorAddItemList() {
 fun LazyListScope.behaviorBodyList() {
     itemsIndexed(bodyViewModel.iBehaviors) { index, behavior ->
 
-        when (behavior.type) {
-            ItemType.BehaviorType.I_B_FLAT -> {
+        when (behavior) {
+            is IFlat -> {
                 flatBody(
-                    behavior = behavior,
+                    flat = behavior,
                     index = index
                 )
             }
-
-            ItemType.BehaviorType.I_B_LINEAR -> {
+            is ILinear -> {
                 linearBody(
-                    behavior = behavior,
+                    linear = behavior,
                     index = index
                 )
             }
-
-            ItemType.BehaviorType.I_B_TARGET -> {
+            is ITarget -> {
                 targetBody(
-                    behavior = behavior,
+                    target = behavior,
                     index = index
                 )
             }
-
-            else -> throw Exception("unspecified item type")
         }
-
     }
 }

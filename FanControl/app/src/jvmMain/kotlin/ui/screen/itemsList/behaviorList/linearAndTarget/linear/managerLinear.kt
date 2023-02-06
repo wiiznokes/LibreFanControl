@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import model.ItemType
+import model.item.BaseI
 import model.item.behavior.Behavior
+import model.item.behavior.ILinear
 import ui.component.managerExpandItem
 import ui.component.managerListChoice
 import ui.component.managerNumberTextField
@@ -22,22 +24,22 @@ private val viewModel: LinearVM = LinearVM()
 
 @Composable
 fun linearBody(
-    behavior: Behavior,
+    linear: ILinear,
     index: Int
 ) {
     baseItemBody(
         icon = Resources.getIcon("items/linear24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
-        item = behavior
+        item = linear
     ) {
-
-        val linear = behavior.extension as Linear
 
         val customTempList = viewModel.iTemps.filter { it.type == ItemType.SensorType.I_S_CUSTOM_TEMP }
 
+
+
         managerListChoice(
-            text = with(linear.hTempId) {
+            text = with(linear.hTempId.value) {
                 when {
                     this == null -> null
                     this > 0 -> viewModel.hTemps.first {
@@ -62,7 +64,7 @@ fun linearBody(
         )
 
         val expanded = remember(
-            behavior.id,
+            linear.id,
             State.settings.collectAsState().value.configId
         ) {
             mutableStateOf(false)
@@ -81,7 +83,7 @@ fun linearBody(
             for (i in 0..3) {
 
                 val text: MutableState<String> = remember(
-                    behavior.id,
+                    linear.id,
                     State.settings.collectAsState().value.configId
                 ) {
                     mutableStateOf(linearValues[i].toString())

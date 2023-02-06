@@ -23,6 +23,7 @@ class IFlat(
     override val type: ItemType.BehaviorType = ItemType.BehaviorType.I_B_FLAT
 
     override val value: MutableState<Int> = mutableStateOf(value)
+
 }
 
 

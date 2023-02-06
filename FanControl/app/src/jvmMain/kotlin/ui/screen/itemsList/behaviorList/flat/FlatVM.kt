@@ -1,7 +1,7 @@
 package ui.screen.itemsList.behaviorList.flat
 
 import model.ItemType
-import model.item.behavior.Behavior
+import model.item.behavior.IFlat
 import ui.screen.itemsList.behaviorList.BaseBehaviorVM
 import ui.utils.Resources
 import utils.Id
@@ -10,11 +10,7 @@ import utils.Name
 class FlatVM : BaseBehaviorVM() {
 
     private fun updateValue(index: Int, value: Int) {
-        iBehaviors[index] = iBehaviors[index].copy(
-            extension = (iBehaviors[index].extension as Flat).copy(
-                value = value
-            )
-        )
+        iBehaviors[index].value.value = value
     }
 
     fun onMore(index: Int, value: Int) {
@@ -41,19 +37,18 @@ class FlatVM : BaseBehaviorVM() {
     }
 
 
-    fun defaultFlat() = Behavior(
+    fun defaultFlat() = IFlat(
         name = Name.getAvailableName(
             names = iBehaviors.map { item ->
-                item.name
+                item.name.value
             },
             prefix = Resources.getString("default/flat_name")
         ),
-        type = ItemType.BehaviorType.I_B_FLAT,
-        extension = Flat(),
         id = Id.getAvailableId(
             ids = iBehaviors.map { item ->
                 item.id
-            }
+            },
+            prefix = "flat"
         )
     )
 }
