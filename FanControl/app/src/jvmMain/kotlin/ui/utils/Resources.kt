@@ -7,7 +7,6 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.res.useResource
-import kotlinx.coroutines.flow.asStateFlow
 import org.json.JSONObject
 import org.json.JSONTokener
 

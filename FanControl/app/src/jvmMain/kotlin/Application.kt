@@ -1,4 +1,3 @@
-
 import external.ExternalManager
 import kotlinx.coroutines.*
 import settings.Settings
@@ -9,7 +8,7 @@ import utils.initSensor
  * main logic of the app
  */
 class Application(
-    private val settings: Settings = State.settings
+    private val settings: Settings = State.settings,
 ) {
 
     private lateinit var jobUpdate: Job

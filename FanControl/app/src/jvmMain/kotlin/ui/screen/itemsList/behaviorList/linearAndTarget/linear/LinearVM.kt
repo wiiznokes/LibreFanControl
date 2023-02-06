@@ -5,8 +5,8 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.HTemp
 import model.item.BaseI
 import model.item.BaseI.Companion.getAvailableString
-import model.item.behavior.ILinear
-import model.item.sensor.BaseITemp
+import model.item.ILinear
+import model.item.BaseITemp
 import ui.screen.itemsList.behaviorList.BaseBehaviorVM
 import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.numberChoiceFinalValue
@@ -62,14 +62,17 @@ class LinearVM(
                     finalValue = numberChoiceFinalValue(value(this.minTemp.value))
                     this.minTemp.value = finalValue
                 }
+
                 LinearParams.MAX_TEMP -> {
                     finalValue = numberChoiceFinalValue(value(this.maxTemp.value))
                     this.maxTemp.value = finalValue
                 }
+
                 LinearParams.MIN_FAN_SPEED -> {
                     finalValue = numberChoiceFinalValue(value(this.minFanSpeed.value))
                     this.minFanSpeed.value = finalValue
                 }
+
                 LinearParams.MAX_FAN_SPEED -> {
                     finalValue = numberChoiceFinalValue(value(this.maxFanSpeed.value))
                     this.maxFanSpeed.value = finalValue

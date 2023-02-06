@@ -5,8 +5,8 @@ import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.HTemp
 import model.item.BaseI
-import model.item.behavior.ITarget
-import model.item.sensor.BaseITemp
+import model.item.ITarget
+import model.item.BaseITemp
 import ui.screen.itemsList.behaviorList.BaseBehaviorVM
 import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.numberChoiceFinalValue
@@ -60,14 +60,17 @@ class TargetVM(
                     finalValue = numberChoiceFinalValue(value(this.idleTemp.value))
                     this.idleTemp.value = finalValue
                 }
+
                 TargetParams.LOAD_TEMP -> {
                     finalValue = numberChoiceFinalValue(value(this.loadTemp.value))
                     this.loadTemp.value = finalValue
                 }
+
                 TargetParams.IDLE_FAN_SPEED -> {
                     finalValue = numberChoiceFinalValue(value(this.idleFanSpeed.value))
                     this.idleFanSpeed.value = finalValue
                 }
+
                 TargetParams.LOAD_FAN_SPEED -> {
                     finalValue = numberChoiceFinalValue(value(this.loadFanSpeed.value))
                     this.loadFanSpeed.value = finalValue

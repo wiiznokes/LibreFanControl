@@ -2,7 +2,7 @@ package ui.screen.itemsList.behaviorList.flat
 
 import model.item.BaseI
 import model.item.BaseI.Companion.getAvailableString
-import model.item.behavior.IFlat
+import model.item.IFlat
 import ui.screen.itemsList.behaviorList.BaseBehaviorVM
 import ui.utils.Resources
 

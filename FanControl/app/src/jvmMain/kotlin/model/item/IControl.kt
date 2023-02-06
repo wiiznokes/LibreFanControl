@@ -1,4 +1,4 @@
-package model.item.control
+package model.item
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -11,12 +11,12 @@ class IControl(
 
     controlId: String? = null,
     isAuto: Boolean = true,
-    behaviorId: String? = null
+    behaviorId: String? = null,
 
-): BaseI {
+    ) : BaseI {
     override val name: MutableState<String> = mutableStateOf(name)
     override val type: ItemType.ControlType = ItemType.ControlType.I_C_FAN
-    val controlId: MutableState<String?> = mutableStateOf(controlId)
+    val hControlId: MutableState<String?> = mutableStateOf(controlId)
     val isAuto: MutableState<Boolean> = mutableStateOf(isAuto)
-    val behaviorId: MutableState<String?> = mutableStateOf(behaviorId)
+    val iBehaviorId: MutableState<String?> = mutableStateOf(behaviorId)
 }

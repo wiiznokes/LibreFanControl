@@ -18,5 +18,5 @@ class Settings(
     var launchAtStartUp: Boolean = false,
     var degree: Boolean = true,
     var exitOnCloseSet: Boolean = false,
-    var exitOnClose: Boolean = true
+    var exitOnClose: Boolean = true,
 )

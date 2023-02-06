@@ -24,7 +24,7 @@ val topBarHeight = 45.dp
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun topBarBody(
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
 ) {
     MediumTopAppBar(
         modifier = Modifier

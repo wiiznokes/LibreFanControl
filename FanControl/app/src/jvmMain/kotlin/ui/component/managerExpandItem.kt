@@ -23,7 +23,7 @@ fun managerExpandItem(
     color: Color = LocalColors.current.onMainContainer,
     expanded: MutableState<Boolean> = mutableStateOf(true),
     suffix: String = Resources.getString("unity/percent"),
-    content: @Composable (() -> Unit)? = null
+    content: @Composable (() -> Unit)? = null,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),

@@ -73,7 +73,7 @@ fun <T> managerListChoice(
     iconContent: @Composable ((T, Int) -> Unit)? = null,
     ids: List<T>,
     names: List<String>,
-    addNoneItem: Boolean = true
+    addNoneItem: Boolean = true,
 ) {
     val expanded = remember { mutableStateOf(false) }
 
@@ -128,7 +128,7 @@ private fun managerBaseDropdownMenu(
     colors: ListChoiceColors,
     painterType: PainterType,
     size: Int,
-    dropDownContent: @Composable ColumnScope.() -> Unit
+    dropDownContent: @Composable ColumnScope.() -> Unit,
 ) {
     Surface(
         color = colors.base,

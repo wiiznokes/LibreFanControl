@@ -2,7 +2,6 @@ package ui.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonColors
@@ -23,9 +22,9 @@ fun managerButton(
     icon: Painter? = null,
     colors: ButtonColors = ButtonDefaults.buttonColors(
         backgroundColor = LocalColors.current.inputVariant
-    )
+    ),
 
-) {
+    ) {
 
     Button(
         onClick = onClick,

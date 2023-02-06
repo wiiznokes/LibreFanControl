@@ -9,8 +9,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import model.item.BaseI
-import model.item.behavior.ITarget
-import model.item.sensor.ICustomTemp
+import model.item.ITarget
+import model.item.ICustomTemp
 import ui.component.managerExpandItem
 import ui.component.managerListChoice
 import ui.component.managerNumberTextField
@@ -28,7 +28,7 @@ private val viewModel: TargetVM = TargetVM()
 @Composable
 fun targetBody(
     target: ITarget,
-    index: Int
+    index: Int,
 ) {
     baseItemBody(
         icon = Resources.getIcon("items/my_location24"),
@@ -39,19 +39,19 @@ fun targetBody(
 
         val customTempList = viewModel.iTemps.filterIsInstance<ICustomTemp>()
 
+        println(target.hTempId.value)
         managerListChoice(
             text = with(BaseI.getPrefix(target.hTempId.value)) {
-                when(this) {
+                when (this) {
                     null -> null
-                    BaseI.ITempPrefix -> viewModel.hTemps.first {
-                        it.id == this
-                    }.name
 
                     BaseI.ICustomTempPrefix -> customTempList.first {
                         it.id == this
                     }.name.value
 
-                    else -> throw IllegalArgumentException()
+                    else -> viewModel.hTemps.first {
+                        it.id == this
+                    }.name
                 }
             },
             onItemClick = {

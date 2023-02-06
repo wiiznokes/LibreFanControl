@@ -2,76 +2,71 @@ package ui.screen.itemsList.sensor.addItem
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.ItemType
-import model.item.sensor.CustomTemp
-import model.item.sensor.BaseIFan
-import model.item.sensor.SensorI
-import model.item.sensor.Temp
+import model.item.BaseI
+import model.item.BaseI.Companion.getAvailableString
+import model.item.BaseITemp
+import model.item.ICustomTemp
+import model.item.IFan
+import model.item.ITemp
 import ui.utils.Resources
-import utils.Id.Companion.getAvailableId
-import utils.Name.Companion.getAvailableName
 
 class AddSensorVM(
-    private val iFans: SnapshotStateList<SensorI> = State.iFans,
-    private val iTemps: SnapshotStateList<SensorI> = State.iTemps,
+    private val iFans: SnapshotStateList<IFan> = State.iFans,
+    private val iTemps: SnapshotStateList<BaseITemp> = State.iTemps,
 ) {
     fun addFan() {
         iFans.add(
-            SensorI(
-                name = getAvailableName(
-                    names = iFans.map { item ->
-                        item.name
+            IFan(
+                name = getAvailableString(
+                    list = iFans.map { item ->
+                        item.name.value
                     },
                     prefix = Resources.getString("default/fan_name")
                 ),
-                type = ItemType.SensorType.I_S_FAN,
-                id = getAvailableId(
-                    ids = iFans.map { item ->
+                id = getAvailableString(
+                    list = iFans.map { item ->
                         item.id
-                    }
-                ),
-                extension = BaseIFan()
+                    },
+                    prefix = BaseI.IFanPrefix
+                )
             )
         )
     }
 
     fun addTemp() {
         iTemps.add(
-            SensorI(
-                name = getAvailableName(
-                    names = iTemps.map { item ->
-                        item.name
+            ITemp(
+                name = getAvailableString(
+                    list = iTemps.map { item ->
+                        item.name.value
                     },
                     prefix = Resources.getString("default/temp_name")
                 ),
-                type = ItemType.SensorType.I_S_TEMP,
-                id = getAvailableId(
-                    ids = iTemps.map { item ->
+                id = getAvailableString(
+                    list = iTemps.map { item ->
                         item.id
-                    }
-                ),
-                extension = Temp()
+                    },
+                    prefix = BaseI.ITempPrefix
+                )
             )
         )
     }
 
     fun addCustomTemp() {
         iTemps.add(
-            SensorI(
-                name = getAvailableName(
-                    names = iTemps.map { item ->
-                        item.name
+            ICustomTemp(
+                name = getAvailableString(
+                    list = iTemps.map { item ->
+                        item.name.value
                     },
                     prefix = Resources.getString("default/custom_temp_name")
                 ),
-                type = ItemType.SensorType.I_S_CUSTOM_TEMP,
-                id = getAvailableId(
-                    ids = iTemps.map { item ->
+                id = getAvailableString(
+                    list = iTemps.map { item ->
                         item.id
                     },
-                    positive = false
-                ),
-                extension = CustomTemp()
+                    prefix = BaseI.ICustomTempPrefix
+                )
             )
         )
     }

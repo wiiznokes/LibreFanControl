@@ -33,7 +33,7 @@ fun baseItemBody(
     item: BaseI,
     onNameChange: (String) -> Unit,
     onEditClick: () -> Unit,
-    content: @Composable ColumnScope.() -> Unit
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     baseItem(
         color = LocalColors.current.mainContainer,
@@ -68,7 +68,7 @@ fun baseItemAddItem(
     icon: Painter,
     name: String,
     onEditClick: () -> Unit,
-    text: String
+    text: String,
 ) {
 
     baseItem(
@@ -130,7 +130,7 @@ private fun baseItem(
     editIconContainerColor: Color,
     editModeActivated: Boolean,
     onEditClick: () -> Unit,
-    content: @Composable ColumnScope.() -> Unit
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     Box {
         Surface(

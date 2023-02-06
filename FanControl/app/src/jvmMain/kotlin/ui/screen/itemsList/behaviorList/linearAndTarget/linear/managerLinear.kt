@@ -3,11 +3,14 @@ package ui.screen.itemsList.behaviorList.linearAndTarget.linear
 import State
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import model.item.BaseI
-import model.item.behavior.ILinear
-import model.item.sensor.ICustomTemp
+import model.item.ILinear
+import model.item.ICustomTemp
 import ui.component.managerExpandItem
 import ui.component.managerListChoice
 import ui.component.managerNumberTextField
@@ -24,7 +27,7 @@ private val viewModel: LinearVM = LinearVM()
 @Composable
 fun linearBody(
     linear: ILinear,
-    index: Int
+    index: Int,
 ) {
     baseItemBody(
         icon = Resources.getIcon("items/linear24"),
@@ -38,17 +41,16 @@ fun linearBody(
 
         managerListChoice(
             text = with(BaseI.getPrefix(linear.hTempId.value)) {
-                when(this) {
+                when (this) {
                     null -> null
-                    BaseI.ITempPrefix -> viewModel.hTemps.first {
-                        it.id == this
-                    }.name
 
                     BaseI.ICustomTempPrefix -> customTempList.first {
                         it.id == this
                     }.name.value
 
-                    else -> throw IllegalArgumentException()
+                    else -> viewModel.hTemps.first {
+                        it.id == this
+                    }.name
                 }
             },
             onItemClick = {

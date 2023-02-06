@@ -15,12 +15,12 @@ data class ChoiceState(
     val animationSign: Int = 0,
     val title: String = Resources.getString("title/behavior"),
     val previous: ChoiceType = ChoiceType.CONTROL,
-    val next: ChoiceType = ChoiceType.SENSOR
+    val next: ChoiceType = ChoiceType.SENSOR,
 )
 
 
 fun updateChoiceState(
-    state: ChoiceState
+    state: ChoiceState,
 ): ChoiceState {
     val currentState = when (state.animationSign) {
         -1 -> state.previous
@@ -37,7 +37,7 @@ fun updateChoiceState(
 
 
 private fun behaviorChoice(
-    state: ChoiceState
+    state: ChoiceState,
 ): ChoiceState = state.copy(
     title = Resources.getString("title/behavior"),
     current = ChoiceType.BEHAVIOR,
@@ -46,7 +46,7 @@ private fun behaviorChoice(
 )
 
 private fun controlChoice(
-    state: ChoiceState
+    state: ChoiceState,
 ): ChoiceState = state.copy(
     title = Resources.getString("title/control"),
     current = ChoiceType.CONTROL,
@@ -55,7 +55,7 @@ private fun controlChoice(
 )
 
 private fun sensorChoice(
-    state: ChoiceState
+    state: ChoiceState,
 ): ChoiceState = state.copy(
     title = Resources.getString("title/sensor"),
     current = ChoiceType.SENSOR,

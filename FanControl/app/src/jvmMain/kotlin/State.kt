@@ -1,11 +1,13 @@
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
-import model.hardware.*
-import model.item.behavior.BaseIBehavior
-import model.item.control.IControl
-import model.item.sensor.BaseITemp
-import model.item.sensor.IFan
+import model.hardware.HControl
+import model.hardware.HFan
+import model.hardware.HTemp
+import model.item.BaseIBehavior
+import model.item.IControl
+import model.item.BaseITemp
+import model.item.IFan
 import settings.Settings
 
 

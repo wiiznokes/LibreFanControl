@@ -63,7 +63,7 @@ fun managerNameTextField(
     color: Color = LocalColors.current.input,
     onColor: Color = LocalColors.current.onInput,
     shape: Shape = LocalShapes.current.small,
-    enabled: Boolean = true
+    enabled: Boolean = true,
 ) {
 
     val isError = remember(ids.first, ids.second) {
@@ -110,7 +110,7 @@ private fun managerTextField(
     onColor: Color = LocalColors.current.onInput,
     shape: Shape = LocalShapes.current.small,
     enabled: Boolean = true,
-    isError: Boolean
+    isError: Boolean,
 ) {
 
 

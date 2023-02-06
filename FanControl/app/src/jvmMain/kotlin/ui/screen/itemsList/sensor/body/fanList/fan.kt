@@ -3,8 +3,7 @@ package ui.screen.itemsList.sensor.body.fanList
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import model.item.sensor.BaseIFan
-import model.item.sensor.SensorI
+import model.item.IFan
 import ui.screen.itemsList.sensor.baseSensorBody
 import ui.utils.Resources
 
@@ -13,9 +12,9 @@ private val viewModel: FanVM = FanVM()
 
 
 fun LazyListScope.fanBodyList() {
-    itemsIndexed(viewModel.iFans) { index, item ->
+    itemsIndexed(viewModel.iFans) { index, iFan ->
         fanBody(
-            sensorItem = item,
+            iFan = iFan,
             index = index
         )
     }
@@ -24,12 +23,12 @@ fun LazyListScope.fanBodyList() {
 
 @Composable
 private fun fanBody(
-    sensorItem: SensorI,
-    index: Int
+    iFan: IFan,
+    index: Int,
 ) {
-    val sensor = if ((sensorItem.extension as BaseIFan).hFanId != null) {
+    val sensor = if (iFan.hFanId.value != null) {
         viewModel.hFans.find {
-            it.id == sensorItem.extension.hFanId
+            it.id == iFan.hFanId.value
         }
     } else null
 
@@ -38,10 +37,10 @@ private fun fanBody(
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
         sensorName = sensor?.name,
-        sensorValue = "${sensor?.value ?: 0} ${Resources.getString("unity/rpm")}",
+        sensorValue = "${sensor?.value?.value ?: 0} ${Resources.getString("unity/rpm")}",
         sensorList = viewModel.hFans,
         onItemClick = { viewModel.setFan(index, it) },
-        sensorItem = sensorItem
+        iSensor = iFan
     )
 }
 

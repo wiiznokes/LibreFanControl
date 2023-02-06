@@ -31,7 +31,7 @@ enum class Languages {
 
 fun SettingScope.language(
     language: Languages,
-    onLanguageChange: (Languages) -> Unit
+    onLanguageChange: (Languages) -> Unit,
 ) {
     item(
         title = Resources.getString("settings/language"),

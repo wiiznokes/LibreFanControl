@@ -7,7 +7,7 @@ import external.External
 import model.hardware.HControl
 import model.hardware.HFan
 import model.hardware.HTemp
-import utils.Id.Companion.getAvailableId
+import model.item.BaseI
 import kotlin.random.Random
 
 class ExternalLinux : External {
@@ -22,7 +22,10 @@ class ExternalLinux : External {
             hControls.add(
                 HControl(
                     name = "control lib${i + 1}",
-                    id = getAvailableId(hControls.map { it.id }, "control")
+                    id = BaseI.getAvailableString(
+                        list = hControls.map { it.id },
+                        prefix = "controlLib"
+                    )
                 )
             )
         }
@@ -34,7 +37,10 @@ class ExternalLinux : External {
             hFans.add(
                 HFan(
                     name = "fan lib${i + 1}",
-                    id = getAvailableId(hFans.map { it.id }, "fan")
+                    id = BaseI.getAvailableString(
+                        list = hFans.map { it.id },
+                        prefix = "fanLib"
+                    )
                 )
             )
         }
@@ -45,7 +51,10 @@ class ExternalLinux : External {
             hTemps.add(
                 HTemp(
                     name = "temp lib${i + 1}",
-                    id = getAvailableId(hTemps.map { it.id }, "temp")
+                    id = BaseI.getAvailableString(
+                        list = hTemps.map { it.id },
+                        prefix = "tempLib"
+                    )
                 )
             )
         }

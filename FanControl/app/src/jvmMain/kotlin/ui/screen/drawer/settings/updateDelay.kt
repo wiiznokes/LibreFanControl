@@ -13,7 +13,7 @@ import ui.utils.Resources
 
 fun SettingScope.updateDelay(
     onDelayChange: (Int) -> Unit,
-    updateDelay: Int
+    updateDelay: Int,
 ) {
     item(
         icon = {

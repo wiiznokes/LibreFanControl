@@ -16,7 +16,7 @@ fun managerText(
     color: Color,
     enabled: Boolean = true,
     overflow: TextOverflow = TextOverflow.Ellipsis,
-    maxLines: Int = 1
+    maxLines: Int = 1,
 ) {
     Text(
         modifier = modifier,

@@ -6,10 +6,10 @@ import State.hTemps
 import State.iControls
 import State.iFans
 import State.iTemps
-import model.ItemType
-import model.item.control.IControl
-import model.item.sensor.*
-import utils.Id.Companion.getAvailableId
+import model.item.BaseI
+import model.item.IControl
+import model.item.IFan
+import model.item.ITemp
 
 
 /**
@@ -21,9 +21,9 @@ fun initSensor() {
         iControls.add(
             IControl(
                 name = hControl.name,
-                id = getAvailableId(
-                    ids = iControls.map { it.id },
-                    prefix = "control"
+                id = BaseI.getAvailableString(
+                    list = iControls.map { it.id },
+                    prefix = BaseI.IControlPrefix
                 ),
                 controlId = hControl.id
             )
@@ -34,9 +34,9 @@ fun initSensor() {
         iFans.add(
             IFan(
                 name = hFan.name,
-                id = getAvailableId(
-                    ids = iFans.map { it.id },
-                    prefix = "fan"
+                id = BaseI.getAvailableString(
+                    list = iFans.map { it.id },
+                    prefix = BaseI.IFanPrefix
                 ),
                 hFanId = hFan.id
             )
@@ -47,9 +47,9 @@ fun initSensor() {
         iTemps.add(
             ITemp(
                 name = hTemp.name,
-                id = getAvailableId(
-                    ids = iTemps.map { it.id },
-                    prefix = "temp"
+                id = BaseI.getAvailableString(
+                    list = iTemps.map { it.id },
+                    prefix = BaseI.ITempPrefix
                 ),
                 hTempId = hTemp.id
             )

@@ -2,60 +2,51 @@ package ui.screen.itemsList.controlList
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.hardware.Control
-import model.item.behavior.Behavior
-import model.item.control.IControl
+import model.hardware.HControl
+import model.item.BaseI
+import model.item.BaseI.Companion.checkNameTaken
+import model.item.BaseI.Companion.getAvailableString
+import model.item.BaseIBehavior
+import model.item.IControl
 import ui.utils.Resources
-import utils.Id
-import utils.Name
-import utils.Name.Companion.checkNameTaken
 
 class ControlVM(
     val iControls: SnapshotStateList<IControl> = State.iControls,
-    val iBehaviors: SnapshotStateList<Behavior> = State.iBehaviors,
-    val hControls: SnapshotStateList<Control> = State.hControls
+    val iBehaviors: SnapshotStateList<BaseIBehavior> = State.iBehaviors,
+    val hControls: SnapshotStateList<HControl> = State.hControls,
 ) {
     fun remove(index: Int) {
         iControls.removeAt(index)
     }
 
-    fun setControl(index: Int, controlId: Long?) {
-        iControls[index] = iControls[index].copy(
-            controlId = controlId
-        )
+    fun setControl(index: Int, hControlId: String?) {
+        iControls[index].hControlId.value = hControlId
     }
 
-    fun setBehavior(index: Int, behaviorId: Long?) {
-        iControls[index] = iControls[index].copy(
-            behaviorId = behaviorId
-        )
+    fun setBehavior(index: Int, iBehaviorId: String?) {
+        iControls[index].iBehaviorId.value = iBehaviorId
     }
 
     fun onSwitchClick(checked: Boolean, index: Int) {
-        iControls[index] = iControls[index].copy(
-            isAuto = !checked
-        )
-
+        iControls[index].isAuto.value = !checked
     }
 
 
     fun setName(name: String, index: Int) {
         checkNameTaken(
             names = iControls.map { item ->
-                item.name
+                item.name.value
             },
             name = name,
             index = index
         )
-        iControls[index] = iControls[index].copy(
-            name = name
-        )
+        iControls[index].name.value = name
     }
 
     fun addControl() {
-        val name = Name.getAvailableName(
-            names = iControls.map { item ->
-                item.name
+        val name = getAvailableString(
+            list = iControls.map { item ->
+                item.name.value
             },
             prefix = Resources.getString("default/control_name")
         )
@@ -63,10 +54,11 @@ class ControlVM(
         iControls.add(
             IControl(
                 name = name,
-                id = Id.getAvailableId(
-                    ids = iControls.map { item ->
+                id = getAvailableString(
+                    list = iControls.map { item ->
                         item.id
-                    }
+                    },
+                    prefix = BaseI.IControlPrefix
                 )
             )
         )

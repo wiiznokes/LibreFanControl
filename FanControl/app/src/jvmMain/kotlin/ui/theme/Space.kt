@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.dp
 data class CustomSpaces(
     val small: Dp = 5.dp,
     val medium: Dp = 10.dp,
-    val large: Dp = 15.dp
+    val large: Dp = 15.dp,
 )
 
 

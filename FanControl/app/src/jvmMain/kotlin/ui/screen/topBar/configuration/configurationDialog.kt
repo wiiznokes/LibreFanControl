@@ -16,12 +16,12 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.delay
+import model.item.BaseI
+import model.item.BaseI.Companion.checkNameTaken
 import ui.component.managerButton
 import ui.component.managerNameTextField
 import ui.theme.LocalColors
 import ui.utils.Resources
-import utils.Id.Companion.getAvailableId
-import utils.Name.Companion.checkNameTaken
 
 @Composable
 fun addConfiguration() {
@@ -62,12 +62,15 @@ fun addConfiguration() {
 @Composable
 private fun dialog(
     enabled: MutableState<Boolean>,
-    keyEnterPressed: MutableState<Boolean>
+    keyEnterPressed: MutableState<Boolean>,
 ) {
 
-    val configList = viewModel.settings.value.configList
+    val configList = viewModel.settings.configList
 
-    val id = getAvailableId(configList.map { it.id })
+    val id = BaseI.getAvailableString(
+        list = configList.map { it.id },
+        prefix = "conf"
+    )
     val text = remember(id) { mutableStateOf("") }
 
 
@@ -77,7 +80,7 @@ private fun dialog(
         onCloseRequest = {
             println("close dialog")
             enabled.value = false
-                         },
+        },
         title = Resources.getString("title/add_config"),
         focusable = enabled.value,
         onKeyEvent = {
@@ -110,9 +113,8 @@ private fun dialog(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             managerNameTextField(
-                value = text.value,
-                ids = Pair(id, null),
                 text = text,
+                ids = Pair(id, null),
                 modifier = Modifier
                     .focusRequester(focusRequester)
                     .widthIn(min = 160.dp, max = 250.dp)

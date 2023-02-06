@@ -2,7 +2,7 @@ package ui.screen.itemsList.behaviorList.flat
 
 
 import androidx.compose.runtime.Composable
-import model.item.behavior.IFlat
+import model.item.IFlat
 import ui.screen.itemsList.baseItemAddItem
 import ui.screen.itemsList.baseItemBody
 import ui.utils.Resources

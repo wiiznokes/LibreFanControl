@@ -2,9 +2,9 @@ package ui.screen.itemsList.behaviorList
 
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
-import model.item.behavior.IFlat
-import model.item.behavior.ILinear
-import model.item.behavior.ITarget
+import model.item.IFlat
+import model.item.ILinear
+import model.item.ITarget
 import ui.screen.itemsList.behaviorList.flat.flatAddItem
 import ui.screen.itemsList.behaviorList.flat.flatBody
 import ui.screen.itemsList.behaviorList.linearAndTarget.linear.linearAddItem
@@ -32,12 +32,14 @@ fun LazyListScope.behaviorBodyList() {
                     index = index
                 )
             }
+
             is ILinear -> {
                 linearBody(
                     linear = behavior,
                     index = index
                 )
             }
+
             is ITarget -> {
                 targetBody(
                     target = behavior,

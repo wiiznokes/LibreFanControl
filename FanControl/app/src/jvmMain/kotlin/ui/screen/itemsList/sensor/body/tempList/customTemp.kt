@@ -6,16 +6,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import model.hardware.Sensor
-import model.item.sensor.CustomTemp
-import model.item.sensor.CustomTempType
-import model.item.sensor.SensorI
+import model.hardware.HTemp
+import model.item.CustomTempType
+import model.item.ICustomTemp
 import ui.component.PainterType
 import ui.component.managerExpandItem
 import ui.component.managerListChoice
@@ -30,22 +27,21 @@ import ui.utils.Resources
 fun baseCustomTempBody(
     onEditClick: () -> Unit,
     onNameChange: (String) -> Unit,
-    sensorItem: SensorI,
+    iCustomTemp: ICustomTemp,
     onCustomTypeChange: (CustomTempType) -> Unit,
-    onAddTempSensor: (Long) -> Unit,
-    hTemps: SnapshotStateList<Sensor>,
-    onRemoveTemp: (Long) -> Unit
+    onAddTempSensor: (String) -> Unit,
+    hTemps: List<HTemp>,
+    onRemoveTemp: (String) -> Unit,
 ) {
-    val customTemp = sensorItem.extension as CustomTemp
 
     baseItemBody(
         icon = Resources.getIcon("items/thermostat24"),
         onNameChange = onNameChange,
         onEditClick = onEditClick,
-        item = sensorItem
+        item = iCustomTemp
     ) {
         managerListChoice(
-            text = Resources.getString("custom_temp/${customTemp.customTempType}"),
+            text = Resources.getString("custom_temp/${iCustomTemp.customTempType.value}"),
             onItemClick = { onCustomTypeChange(it!!) },
             ids = CustomTempType.values().toList(),
             names = CustomTempType.values().map {
@@ -56,8 +52,8 @@ fun baseCustomTempBody(
 
 
         val expanded = remember(
-            sensorItem.id,
-            State.settings.collectAsState().value.configId
+            iCustomTemp.id,
+            State.settings.configId.value
         ) {
             mutableStateOf(false)
         }
@@ -65,13 +61,13 @@ fun baseCustomTempBody(
         Spacer(Modifier.height(LocalSpaces.current.medium))
 
         managerExpandItem(
-            value = customTemp.value,
+            value = iCustomTemp.value.value,
             color = LocalColors.current.onMainContainer,
             expanded = expanded,
             suffix = Resources.getString("unity/degree")
         ) {
             val filterListSensor = hTemps.filter {
-                !customTemp.sensorIdList.contains(it.id)
+                !iCustomTemp.hTempIds.contains(it.id)
             }
 
             Spacer(Modifier.height(LocalSpaces.current.small))
@@ -85,7 +81,7 @@ fun baseCustomTempBody(
                 addNoneItem = false
             )
 
-            customTemp.sensorIdList.forEach { id ->
+            iCustomTemp.hTempIds.forEach { id ->
                 selectedSensor(
                     name = hTemps.first { it.id == id }.name,
                     id = id,
@@ -100,8 +96,8 @@ fun baseCustomTempBody(
 @Composable
 private fun selectedSensor(
     name: String,
-    id: Long,
-    onRemove: (Long) -> Unit
+    id: String,
+    onRemove: (String) -> Unit,
 ) {
     Spacer(Modifier.height(LocalSpaces.current.medium))
 

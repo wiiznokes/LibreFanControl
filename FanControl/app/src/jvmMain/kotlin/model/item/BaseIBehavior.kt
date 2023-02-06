@@ -1,15 +1,12 @@
-package model.item.behavior
+package model.item
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import model.ItemType
-import model.item.BaseI
 
 
 interface BaseIBehavior : BaseI {
-    override val name: MutableState<String>
     override val type: ItemType.BehaviorType
-    override val id: String
     val value: MutableState<Int>
 }
 

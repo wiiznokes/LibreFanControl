@@ -18,7 +18,7 @@ import java.net.URI
 
 private data class Donate(
     val title: String,
-    val uri: URI
+    val uri: URI,
 )
 
 private val donateList = listOf(

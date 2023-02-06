@@ -24,7 +24,7 @@ fun managerNumberChoice(
 
     increase: () -> Unit,
     decrease: () -> Unit,
-    color: Color = LocalColors.current.onMainContainer
+    color: Color = LocalColors.current.onMainContainer,
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         Row(
