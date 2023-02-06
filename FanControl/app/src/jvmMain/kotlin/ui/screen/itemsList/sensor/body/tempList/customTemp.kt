@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import model.hardware.Sensor
 import model.item.sensor.CustomTemp
 import model.item.sensor.CustomTempType
-import model.item.sensor.SensorItem
+import model.item.sensor.SensorI
 import ui.component.PainterType
 import ui.component.managerExpandItem
 import ui.component.managerListChoice
@@ -30,7 +30,7 @@ import ui.utils.Resources
 fun baseCustomTempBody(
     onEditClick: () -> Unit,
     onNameChange: (String) -> Unit,
-    sensorItem: SensorItem,
+    sensorItem: SensorI,
     onCustomTypeChange: (CustomTempType) -> Unit,
     onAddTempSensor: (Long) -> Unit,
     hTemps: SnapshotStateList<Sensor>,

@@ -5,17 +5,14 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.ItemType
 import model.hardware.Sensor
 import model.item.behavior.Behavior
-import model.item.behavior.Linear
-import model.item.behavior.Target
 import model.item.sensor.CustomTemp
 import model.item.sensor.CustomTempType
-import model.item.sensor.SensorItem
+import model.item.sensor.SensorI
 import model.item.sensor.Temp
 import utils.Name.Companion.checkNameTaken
-import utils.getIndexList
 
 class TempVM(
-    val iTemps: SnapshotStateList<SensorItem> = State.iTemps,
+    val iTemps: SnapshotStateList<SensorI> = State.iTemps,
     val hTemps: SnapshotStateList<Sensor> = State.hTemps,
     val iBehaviors: SnapshotStateList<Behavior> = State.iBehaviors
 ) {

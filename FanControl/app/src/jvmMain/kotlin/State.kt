@@ -4,17 +4,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import model.hardware.Control
 import model.hardware.Sensor
 import model.item.behavior.Behavior
-import model.item.control.ControlItem
-import model.item.sensor.SensorItem
+import model.item.control.IControl
+import model.item.sensor.SensorI
 import settings.SettingsModel
 
 
 object State {
 
-    val iControls: SnapshotStateList<ControlItem> = mutableStateListOf()
+    val iControls: SnapshotStateList<IControl> = mutableStateListOf()
     val iBehaviors: SnapshotStateList<Behavior> = mutableStateListOf()
-    val iFans: SnapshotStateList<SensorItem> = mutableStateListOf()
-    val iTemps: SnapshotStateList<SensorItem> = mutableStateListOf()
+    val iFans: SnapshotStateList<SensorI> = mutableStateListOf()
+    val iTemps: SnapshotStateList<SensorI> = mutableStateListOf()
 
     val hFans: SnapshotStateList<Sensor> = mutableStateListOf()
     val hTemps: SnapshotStateList<Sensor> = mutableStateListOf()

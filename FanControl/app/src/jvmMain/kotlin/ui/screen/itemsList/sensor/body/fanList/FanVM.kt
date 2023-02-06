@@ -3,12 +3,12 @@ package ui.screen.itemsList.sensor.body.fanList
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.Sensor
-import model.item.sensor.Fan
-import model.item.sensor.SensorItem
+import model.item.sensor.BaseIFan
+import model.item.sensor.SensorI
 import utils.Name.Companion.checkNameTaken
 
 class FanVM(
-    val iFans: SnapshotStateList<SensorItem> = State.iFans,
+    val iFans: SnapshotStateList<SensorI> = State.iFans,
     val hFans: SnapshotStateList<Sensor> = State.hFans
 ) {
 
@@ -18,7 +18,7 @@ class FanVM(
 
     fun setFan(index: Int, sensorId: Long?) {
         iFans[index] = iFans[index].copy(
-            extension = (iFans[index].extension as Fan).copy(
+            extension = (iFans[index].extension as BaseIFan).copy(
                 hFanId = sensorId
             )
         )

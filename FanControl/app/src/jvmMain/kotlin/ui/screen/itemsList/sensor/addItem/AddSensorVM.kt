@@ -4,20 +4,20 @@ import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.ItemType
 import model.item.sensor.CustomTemp
-import model.item.sensor.Fan
-import model.item.sensor.SensorItem
+import model.item.sensor.BaseIFan
+import model.item.sensor.SensorI
 import model.item.sensor.Temp
 import ui.utils.Resources
 import utils.Id.Companion.getAvailableId
 import utils.Name.Companion.getAvailableName
 
 class AddSensorVM(
-    private val iFans: SnapshotStateList<SensorItem> = State.iFans,
-    private val iTemps: SnapshotStateList<SensorItem> = State.iTemps,
+    private val iFans: SnapshotStateList<SensorI> = State.iFans,
+    private val iTemps: SnapshotStateList<SensorI> = State.iTemps,
 ) {
     fun addFan() {
         iFans.add(
-            SensorItem(
+            SensorI(
                 name = getAvailableName(
                     names = iFans.map { item ->
                         item.name
@@ -30,14 +30,14 @@ class AddSensorVM(
                         item.id
                     }
                 ),
-                extension = Fan()
+                extension = BaseIFan()
             )
         )
     }
 
     fun addTemp() {
         iTemps.add(
-            SensorItem(
+            SensorI(
                 name = getAvailableName(
                     names = iTemps.map { item ->
                         item.name
@@ -57,7 +57,7 @@ class AddSensorVM(
 
     fun addCustomTemp() {
         iTemps.add(
-            SensorItem(
+            SensorI(
                 name = getAvailableName(
                     names = iTemps.map { item ->
                         item.name

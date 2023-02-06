@@ -8,7 +8,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import model.hardware.Sensor
-import model.item.sensor.SensorItem
+import model.item.sensor.SensorI
 import ui.component.managerListChoice
 import ui.component.managerText
 import ui.screen.itemsList.baseItemBody
@@ -27,7 +27,7 @@ fun baseSensorBody(
 
     sensorList: SnapshotStateList<Sensor>,
     onItemClick: (Long?) -> Unit,
-    sensorItem: SensorItem
+    sensorItem: SensorI
 ) {
     baseItemBody(
         icon = icon,

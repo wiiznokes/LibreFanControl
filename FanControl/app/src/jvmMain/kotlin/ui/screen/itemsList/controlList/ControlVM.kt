@@ -4,14 +4,14 @@ import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.Control
 import model.item.behavior.Behavior
-import model.item.control.ControlItem
+import model.item.control.IControl
 import ui.utils.Resources
 import utils.Id
 import utils.Name
 import utils.Name.Companion.checkNameTaken
 
 class ControlVM(
-    val iControls: SnapshotStateList<ControlItem> = State.iControls,
+    val iControls: SnapshotStateList<IControl> = State.iControls,
     val iBehaviors: SnapshotStateList<Behavior> = State.iBehaviors,
     val hControls: SnapshotStateList<Control> = State.hControls
 ) {
@@ -61,7 +61,7 @@ class ControlVM(
         )
 
         iControls.add(
-            ControlItem(
+            IControl(
                 name = name,
                 id = Id.getAvailableId(
                     ids = iControls.map { item ->

@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import model.item.BaseItem
+import model.item.BaseI
 import ui.component.managerNameTextField
 import ui.component.managerText
 import ui.theme.LocalColors
@@ -30,7 +30,7 @@ import ui.utils.Resources
 @Composable
 fun baseItemBody(
     icon: Painter,
-    item: BaseItem,
+    item: BaseI,
     onNameChange: (String) -> Unit,
     onEditClick: () -> Unit,
     content: @Composable ColumnScope.() -> Unit
