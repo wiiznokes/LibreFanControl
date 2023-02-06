@@ -2,16 +2,15 @@ package ui.screen.itemsList.behaviorList.linearAndTarget.linear
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.ItemType
-import model.hardware.Sensor
-import model.item.behavior.Behavior
-import model.item.sensor.SensorI
+import model.hardware.HTemp
+import model.item.BaseI
+import model.item.BaseI.Companion.getAvailableString
+import model.item.behavior.ILinear
+import model.item.sensor.BaseITemp
 import ui.screen.itemsList.behaviorList.BaseBehaviorVM
 import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.numberChoiceFinalValue
 import ui.utils.Resources
-import utils.Id
-import utils.Name
 
 
 enum class LinearParams : LinAndTarParams {
@@ -23,17 +22,13 @@ enum class LinearParams : LinAndTarParams {
 
 
 class LinearVM(
-    val hTemps: SnapshotStateList<Sensor> = State.hTemps,
-    val iTemps: SnapshotStateList<SensorI> = State.iTemps,
+    val hTemps: SnapshotStateList<HTemp> = State.hTemps,
+    val iTemps: SnapshotStateList<BaseITemp> = State.iTemps,
 ) : BaseBehaviorVM() {
 
 
-    fun setTemp(index: Int, tempSensorId: Long?) {
-        iBehaviors[index] = iBehaviors[index].copy(
-            extension = (iBehaviors[index].extension as Linear).copy(
-                hTempId = tempSensorId
-            )
-        )
+    fun setTemp(index: Int, hTempId: String?) {
+        (iBehaviors[index] as ILinear).hTempId.value = hTempId
     }
 
     fun increase(index: Int, type: LinearParams): String {
@@ -60,48 +55,42 @@ class LinearVM(
      */
     private fun updateValue(index: Int, type: LinearParams, value: (Int) -> Int): String {
         val finalValue: Int
-        val extension = with(iBehaviors[index].extension as Linear) {
+
+        with(iBehaviors[index] as ILinear) {
             when (type) {
                 LinearParams.MIN_TEMP -> {
-                    finalValue = numberChoiceFinalValue(value(minTemp))
-                    copy(minTemp = finalValue)
+                    finalValue = numberChoiceFinalValue(value(this.minTemp.value))
+                    this.minTemp.value = finalValue
                 }
-
                 LinearParams.MAX_TEMP -> {
-                    finalValue = numberChoiceFinalValue(value(maxTemp))
-                    copy(maxTemp = finalValue)
+                    finalValue = numberChoiceFinalValue(value(this.maxTemp.value))
+                    this.maxTemp.value = finalValue
                 }
-
                 LinearParams.MIN_FAN_SPEED -> {
-                    finalValue = numberChoiceFinalValue(value(minFanSpeed))
-                    copy(minFanSpeed = finalValue)
+                    finalValue = numberChoiceFinalValue(value(this.minFanSpeed.value))
+                    this.minFanSpeed.value = finalValue
                 }
-
                 LinearParams.MAX_FAN_SPEED -> {
-                    finalValue = numberChoiceFinalValue(value(maxFanSpeed))
-                    copy(maxFanSpeed = finalValue)
+                    finalValue = numberChoiceFinalValue(value(this.maxFanSpeed.value))
+                    this.maxFanSpeed.value = finalValue
                 }
             }
         }
-        iBehaviors[index] = iBehaviors[index].copy(
-            extension = extension
-        )
         return finalValue.toString()
     }
 
-    fun defaultLinear() = Behavior(
-        name = Name.getAvailableName(
-            names = iBehaviors.map { item ->
-                item.name
+    fun defaultLinear() = ILinear(
+        name = getAvailableString(
+            list = iBehaviors.map { item ->
+                item.name.value
             },
             prefix = Resources.getString("default/linear_name")
         ),
-        type = ItemType.BehaviorType.I_B_LINEAR,
-        extension = Linear(),
-        id = Id.getAvailableId(
-            ids = iBehaviors.map { item ->
+        id = getAvailableString(
+            list = iBehaviors.map { item ->
                 item.id
-            }
+            },
+            prefix = BaseI.ILinearPrefix
         )
     )
 }

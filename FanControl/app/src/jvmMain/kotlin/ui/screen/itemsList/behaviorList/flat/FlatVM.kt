@@ -1,11 +1,10 @@
 package ui.screen.itemsList.behaviorList.flat
 
-import model.ItemType
+import model.item.BaseI
+import model.item.BaseI.Companion.getAvailableString
 import model.item.behavior.IFlat
 import ui.screen.itemsList.behaviorList.BaseBehaviorVM
 import ui.utils.Resources
-import utils.Id
-import utils.Name
 
 class FlatVM : BaseBehaviorVM() {
 
@@ -38,17 +37,17 @@ class FlatVM : BaseBehaviorVM() {
 
 
     fun defaultFlat() = IFlat(
-        name = Name.getAvailableName(
-            names = iBehaviors.map { item ->
+        name = getAvailableString(
+            list = iBehaviors.map { item ->
                 item.name.value
             },
             prefix = Resources.getString("default/flat_name")
         ),
-        id = Id.getAvailableId(
-            ids = iBehaviors.map { item ->
+        id = getAvailableString(
+            list = iBehaviors.map { item ->
                 item.id
             },
-            prefix = "flat"
+            prefix = BaseI.IFlatPrefix
         )
     )
 }

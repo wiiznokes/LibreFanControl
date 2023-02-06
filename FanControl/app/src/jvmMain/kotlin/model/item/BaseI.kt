@@ -2,8 +2,6 @@ package model.item
 
 import androidx.compose.runtime.MutableState
 import model.ItemType
-import utils.Name
-import utils.NameException
 
 interface BaseI {
     val name: MutableState<String>
@@ -11,13 +9,24 @@ interface BaseI {
     val id: String
 
     companion object {
-        val IControlPrefix = "iControl"
-        val IFlatPrefix = "iFlat"
-        val ILinearPrefix = "iLinear"
-        val ITargetPrefix = "iTarget"
-        val ITempPrefix = "iTemp"
-        val ICustomTempPrefix = "iCustomTemp"
-        val IFanPrefix = "iFan"
+        /**
+         * use for generate id
+         */
+        const val IControlPrefix = "iControl"
+        const val IFlatPrefix = "iFlat"
+        const val ILinearPrefix = "iLinear"
+        const val ITargetPrefix = "iTarget"
+        const val ITempPrefix = "iTemp"
+        const val ICustomTempPrefix = "iCustomTemp"
+        const val IFanPrefix = "iFan"
+
+
+        fun getPrefix(id: String?): String? {
+            if (id == null)
+                return null
+
+            return id.split("/")[0]
+        }
 
 
         fun getAvailableString(list: List<String>, prefix: String): String {

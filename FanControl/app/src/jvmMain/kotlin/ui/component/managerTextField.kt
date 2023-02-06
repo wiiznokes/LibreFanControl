@@ -11,12 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import model.item.BaseI
 import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.isError
 import ui.theme.LocalColors
 import ui.theme.LocalShapes
 import ui.theme.LocalSpaces
-import utils.NameException
 
 
 @Composable
@@ -79,7 +79,7 @@ fun managerNameTextField(
             try {
                 onValueChange?.invoke(it)
                 isError.value = false
-            } catch (e: NameException) {
+            } catch (e: BaseI.Companion.NameException) {
                 isError.value = true
             }
         },

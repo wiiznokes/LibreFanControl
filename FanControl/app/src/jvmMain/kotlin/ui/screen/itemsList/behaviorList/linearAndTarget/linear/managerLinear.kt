@@ -5,10 +5,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import model.ItemType
 import model.item.BaseI
-import model.item.behavior.Behavior
 import model.item.behavior.ILinear
+import model.item.sensor.ICustomTemp
 import ui.component.managerExpandItem
 import ui.component.managerListChoice
 import ui.component.managerNumberTextField
@@ -34,21 +33,20 @@ fun linearBody(
         item = linear
     ) {
 
-        val customTempList = viewModel.iTemps.filter { it.type == ItemType.SensorType.I_S_CUSTOM_TEMP }
-
+        val customTempList = viewModel.iTemps.filterIsInstance<ICustomTemp>()
 
 
         managerListChoice(
-            text = with(linear.hTempId.value) {
-                when {
-                    this == null -> null
-                    this > 0 -> viewModel.hTemps.first {
+            text = with(BaseI.getPrefix(linear.hTempId.value)) {
+                when(this) {
+                    null -> null
+                    BaseI.ITempPrefix -> viewModel.hTemps.first {
                         it.id == this
                     }.name
 
-                    this < 0 -> customTempList.first {
+                    BaseI.ICustomTempPrefix -> customTempList.first {
                         it.id == this
-                    }.name
+                    }.name.value
 
                     else -> throw IllegalArgumentException()
                 }
@@ -56,16 +54,16 @@ fun linearBody(
             onItemClick = {
                 viewModel.setTemp(
                     index = index,
-                    tempSensorId = it
+                    hTempId = it
                 )
             },
             ids = viewModel.hTemps.map { it.id } + customTempList.map { it.id },
-            names = viewModel.hTemps.map { it.name } + customTempList.map { it.name }
+            names = viewModel.hTemps.map { it.name } + customTempList.map { it.name.value }
         )
 
         val expanded = remember(
             linear.id,
-            State.settings.collectAsState().value.configId
+            State.settings.configId.value
         ) {
             mutableStateOf(false)
         }
@@ -73,7 +71,7 @@ fun linearBody(
         Spacer(Modifier.height(LocalSpaces.current.medium))
 
         managerExpandItem(
-            value = linear.value,
+            value = linear.value.value,
             expanded = expanded
         ) {
             Spacer(Modifier.height(LocalSpaces.current.small))
@@ -84,7 +82,7 @@ fun linearBody(
 
                 val text: MutableState<String> = remember(
                     linear.id,
-                    State.settings.collectAsState().value.configId
+                    State.settings.configId.value
                 ) {
                     mutableStateOf(linearValues[i].toString())
                 }
