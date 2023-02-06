@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
-import model.item.control.ControlItem
+import model.item.control.IControl
 import ui.component.managerListChoice
 import ui.component.managerText
 import ui.screen.itemsList.baseItemAddItem
@@ -31,7 +31,7 @@ fun LazyListScope.controlBodyList() {
 
     itemsIndexed(viewModel.iControls) { index, control ->
         controlBody(
-            controlItem = control,
+            itemControl = control,
             index = index
         )
     }
@@ -41,19 +41,19 @@ fun LazyListScope.controlBodyList() {
 
 @Composable
 fun controlBody(
-    controlItem: ControlItem,
+    itemControl: IControl,
     index: Int
 ) {
 
-    val control = if (controlItem.controlId != null) {
+    val control = if (itemControl.controlId != null) {
         viewModel.hControls.find {
-            it.id == controlItem.controlId
+            it.id == itemControl.controlId
         }!!
     } else null
 
-    val behavior = if (controlItem.behaviorId != null) {
+    val behavior = if (itemControl.behaviorId != null) {
         viewModel.iBehaviors.find {
-            it.id == controlItem.behaviorId
+            it.id == itemControl.behaviorId
         }!!
     } else null
 
@@ -62,7 +62,7 @@ fun controlBody(
         icon = Resources.getIcon("items/alternate_email24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
-        item = controlItem
+        item = itemControl
     ) {
 
         val filterListControl = viewModel.hControls.filter { control ->
@@ -102,7 +102,7 @@ fun controlBody(
                 modifier = Modifier
                     .scale(0.75f)
                     .requiredSize(width = 45.dp, height = 20.dp),
-                checked = !controlItem.isAuto,
+                checked = !itemControl.isAuto,
                 onCheckedChange = { viewModel.onSwitchClick(it, index) },
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = LocalColors.current.onInput,

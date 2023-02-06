@@ -1,6 +1,5 @@
 package ui.screen.itemsList.behaviorList.linearAndTarget.target
 
-import model.item.behavior.Target
 import ui.utils.Resources
 
 

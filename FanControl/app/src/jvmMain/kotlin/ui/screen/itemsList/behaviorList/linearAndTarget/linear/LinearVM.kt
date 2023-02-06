@@ -5,8 +5,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.ItemType
 import model.hardware.Sensor
 import model.item.behavior.Behavior
-import model.item.behavior.Linear
-import model.item.sensor.SensorItem
+import model.item.sensor.SensorI
 import ui.screen.itemsList.behaviorList.BaseBehaviorVM
 import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.numberChoiceFinalValue
@@ -25,7 +24,7 @@ enum class LinearParams : LinAndTarParams {
 
 class LinearVM(
     val hTemps: SnapshotStateList<Sensor> = State.hTemps,
-    val iTemps: SnapshotStateList<SensorItem> = State.iTemps,
+    val iTemps: SnapshotStateList<SensorI> = State.iTemps,
 ) : BaseBehaviorVM() {
 
 

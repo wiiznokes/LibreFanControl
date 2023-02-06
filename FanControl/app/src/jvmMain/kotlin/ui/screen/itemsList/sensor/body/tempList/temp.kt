@@ -4,7 +4,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import model.ItemType
-import model.item.sensor.SensorItem
+import model.item.sensor.SensorI
 import model.item.sensor.Temp
 import ui.screen.itemsList.sensor.baseSensorBody
 import ui.utils.Resources
@@ -32,7 +32,7 @@ fun LazyListScope.tempBodyList() {
 
 @Composable
 private fun tempBody(
-    sensorItem: SensorItem,
+    sensorItem: SensorI,
     index: Int,
 ) {
 
@@ -57,7 +57,7 @@ private fun tempBody(
 
 @Composable
 private fun customTempBody(
-    sensorItem: SensorItem,
+    sensorItem: SensorI,
     index: Int,
 ) {
     baseCustomTempBody(

@@ -2,7 +2,6 @@ package ui.screen.itemsList.behaviorList.flat
 
 import model.ItemType
 import model.item.behavior.Behavior
-import model.item.behavior.Flat
 import ui.screen.itemsList.behaviorList.BaseBehaviorVM
 import ui.utils.Resources
 import utils.Id
