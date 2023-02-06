@@ -10,6 +10,18 @@ Windows is currently the only supported OS. I will support Linux soon, but for n
 
 I intend to produce a v2 with a service system, which will therefore be much lighter on resources. The service will be in charge of fetching datas, calculate the % for fans controlling, based on the configuration made with the app and set controls values. Communication between the service and the app will be powered by gRPC, a powerfull protocol used in microservice.
 
+## v2 roadMap
+- generate kotlin code from .proto files
+- serialize, deserialize and store confs/setting using proto in Kotlin
+- implement setting and config management in Kotlin
+- generate C# code from .proto files
+- deserialize confs/setting in C#
+- communicate between C# and Kotlin (using "service" in .proto)
+- find a way to store conf file in Kotlin, and being able to find that path in C# (must work on Linux either)
+- find a way to start the service automatically
+- think about the structure of the service, and define the stable API
+- integrate the service with Kotlin
+
 ## Feature
 - Customize UI (data in real time, several kinds of items)
 - Control fans
@@ -19,8 +31,7 @@ I intend to produce a v2 with a service system, which will therefore be much lig
 
 
 ## Build
-- Compile the library (`dotnet build` doesn't work for some reason, so you'll need an editor)
-- `.\gradlew runDistributable` in FanControl folder ([JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html), [JDK 19](https://jdk.java.net/19/))
+- main branch don't build for now
 
 
 ## Next steps
