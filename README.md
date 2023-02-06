@@ -11,6 +11,8 @@ Windows is currently the only supported OS. I will support Linux soon, but for n
 I intend to produce a v2 with a service system, which will therefore be much lighter on resources. The service will be in charge of fetching datas, calculate the % for fans controlling, based on the configuration made with the app and set controls values. Communication between the service and the app will be powered by gRPC, a powerfull protocol used in microservice.
 
 ## v2 roadMap
+- upgrade setting apparence (switch to compose 1.3)
+- calcule % locally (in the app)
 - generate kotlin code from .proto files
 - serialize, deserialize and store confs/setting using proto in Kotlin
 - implement setting and config management in Kotlin
