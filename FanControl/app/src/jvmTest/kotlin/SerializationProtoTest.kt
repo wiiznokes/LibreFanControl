@@ -24,9 +24,9 @@ class SerializationProtoTest {
 
         val settings = Settings()
 
-        SettingsHelper.writeSetting(settings)
+        val pSettings = SettingsHelper.createPSetting(settings)
 
-        val settings2 = SettingsHelper.loadSetting()
+        val returnedSettings = SettingsHelper.parsePSetting(pSettings)
 
    }
 

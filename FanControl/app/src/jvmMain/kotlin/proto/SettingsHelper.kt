@@ -15,44 +15,55 @@ class SettingsHelper {
 
         fun checkSetting(): Boolean = getSettingsFile().exists()
 
+
         fun loadSetting(): Settings =
-            with(getSettingsFile()) { PSetting.parseFrom( readBytes()) }.let {
-                Settings(
-                    language = when (it.pLanguage) {
-                        PLanguages.EN -> Languages.en
-                        PLanguages.FR -> Languages.fr
-                        else -> {
-                            println("error, unknown language")
-                            Languages.en
-                        }
-                    },
-                    confId = it.pConfIdOrNull.let { id -> id?.pId },
-                    confInfoList = it.pConfInfosList.map { confInfo ->
-                        ConfInfo(
-                            id = confInfo.pId,
-                            name = confInfo.pName
-                        )
+            parsePSetting(with(getSettingsFile()) { PSetting.parseFrom( readBytes()) })
 
-                    },
-                    updateDelay = it.pUpdateDelay,
-                    theme = when (it.pTheme) {
-                        PThemes.DARK -> Themes.dark
-                        PThemes.LIGHT -> Themes.light
-                        PThemes.SYSTEM -> Themes.system
-                        else -> {
-                            println("error, unknown theme")
-                            Themes.system
-                        }
-                    },
-                    firstStart = it.pFirstStart,
-                    launchAtStartUp = it.pLaunchAtStartUp,
-                    degree = it.pDegree
 
-                )
+
+        fun parsePSetting(pSetting: PSetting): Settings =
+            Settings(
+                language = when (pSetting.pLanguage) {
+                    PLanguages.EN -> Languages.en
+                    PLanguages.FR -> Languages.fr
+                    else -> {
+                        println("error, unknown language")
+                        Languages.en
+                    }
+                },
+                confId = pSetting.pConfIdOrNull.let { id -> id?.pId },
+                confInfoList = pSetting.pConfInfosList.map { confInfo ->
+                    ConfInfo(
+                        id = confInfo.pId,
+                        name = confInfo.pName
+                    )
+
+                },
+                updateDelay = pSetting.pUpdateDelay,
+                theme = when (pSetting.pTheme) {
+                    PThemes.DARK -> Themes.dark
+                    PThemes.LIGHT -> Themes.light
+                    PThemes.SYSTEM -> Themes.system
+                    else -> {
+                        println("error, unknown theme")
+                        Themes.system
+                    }
+                },
+                firstStart = pSetting.pFirstStart,
+                launchAtStartUp = pSetting.pLaunchAtStartUp,
+                degree = pSetting.pDegree
+
+            )
+
+
+        fun writeSettings(settings: Settings) =
+            createPSetting(settings).let {
+                with(getSettingsFile()) {
+                    writeBytes(it.toByteArray())
+                }
             }
 
-
-        fun writeSetting(settings: Settings) {
+        fun createPSetting(settings: Settings): PSetting =
             pSetting {
                 pLanguage = when (settings.language.value) {
                     Languages.en -> PLanguages.EN
@@ -74,12 +85,7 @@ class SettingsHelper {
                 pFirstStart = settings.firstStart.value
                 pLaunchAtStartUp = settings.launchAtStartUp.value
                 pDegree = settings.degree.value
-            }.let {
-                with(getSettingsFile()) {
-                    writeBytes(it.toByteArray())
-                }
             }
-        }
 
 
         private fun getSettingsFile(): File = File(System.getProperty("compose.application.resources.dir"))
