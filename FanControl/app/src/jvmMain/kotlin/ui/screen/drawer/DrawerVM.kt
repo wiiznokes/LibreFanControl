@@ -1,7 +1,7 @@
 package ui.screen.drawer
 
-import ui.screen.drawer.settings.Languages
-import ui.screen.drawer.settings.Themes
+import model.Languages
+import model.Themes
 
 
 class DrawerVM(

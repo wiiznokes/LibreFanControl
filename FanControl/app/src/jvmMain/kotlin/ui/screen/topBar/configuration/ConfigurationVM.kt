@@ -3,7 +3,7 @@ package ui.screen.topBar.configuration
 import State
 import model.item.BaseI
 import model.item.BaseI.Companion.checkNameTaken
-import settings.Settings
+import model.Settings
 
 class ConfigurationVM(
     val settings: Settings = State.settings,
@@ -12,8 +12,8 @@ class ConfigurationVM(
     fun saveConfiguration(name: String, index: Int, id: String) {
         try {
             checkNameTaken(
-                names = settings.configList.map { item ->
-                    item.name
+                names = settings.confInfoList.map { item ->
+                    item.name.value
                 },
                 name = name,
                 index = index
@@ -22,9 +22,7 @@ class ConfigurationVM(
             return
         }
 
-        settings.configList[index] = settings.configList[index].copy(
-            name = name
-        )
+        settings.confInfoList[index].name.value = name
 
     }
 
@@ -36,8 +34,8 @@ class ConfigurationVM(
     fun addConfiguration(name: String, id: String): Boolean {
         try {
             checkNameTaken(
-                names = settings.configList.map { item ->
-                    item.name
+                names = settings.confInfoList.map { item ->
+                    item.name.value
                 },
                 name = name
             )
@@ -52,6 +50,6 @@ class ConfigurationVM(
     }
 
     fun removeConfiguration(id: String, index: Int) {
-        settings.configList.removeAt(index)
+        settings.confInfoList.removeAt(index)
     }
 }

@@ -1,25 +1,30 @@
 import external.ExternalManager
 import kotlinx.coroutines.*
-import settings.Settings
+import model.Settings
+import proto.SettingsHelper
 import utils.initSensor
 
 
-/**
- * main logic of the app
- */
+
 class Application(
-    private val settings: Settings = State.settings,
+    private val settings: Settings = State.settings
 ) {
 
     private lateinit var jobUpdate: Job
 
+    fun onCreate() {
+        if (SettingsHelper.checkSetting()) {
+            State.settings = SettingsHelper.loadSetting()
+        }
+    }
 
     fun onStart() {
-        val configId = settings.configId.value
         ExternalManager.start()
-        when (configId) {
+        when (settings.configId.value) {
             null -> initSensor()
-            else -> {}
+            else -> {
+                // load config
+            }
         }
         jobUpdate = CoroutineScope(Dispatchers.IO).launch { startUpdate() }
     }
@@ -29,6 +34,7 @@ class Application(
     fun onStop() {
         updateShouldStop = true
         runBlocking { jobUpdate.cancelAndJoin() }
+        SettingsHelper.writeSetting(settings)
     }
 
     private suspend fun startUpdate() {

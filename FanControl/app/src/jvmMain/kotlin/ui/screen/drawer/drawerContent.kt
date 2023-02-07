@@ -57,10 +57,7 @@ fun drawerContent(
 
         group(text = Resources.getString("settings/trans/lifecycle"))
 
-        exitOnClose(
-            exitOnClose = settings.exitOnClose,
-            onExitChange = { viewModel.onExitOnCloseChange(it) }
-        )
+
         /*
         launchAtStartUp(
             launchAtStartUp = settings.launchAtStartUp,

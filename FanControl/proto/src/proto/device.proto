@@ -8,12 +8,12 @@ option java_package = "proto.generated.device";
 
 
 
-message Device {
-  string Name = 1;
-  string Id = 3;
+message PDevice {
+  string PName = 1;
+  string PId = 3;
 }
 
-message DeviceList {
-  repeated Device deviceList = 2;
+message PDeviceList {
+  repeated PDevice PDevices = 2;
 }
 

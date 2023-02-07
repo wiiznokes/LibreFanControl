@@ -15,7 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import configuration.ConfigurationModel
+import model.ConfInfo
 import model.item.BaseI.Companion.checkNameTaken
 import ui.component.ListChoiceDefault
 import ui.component.managerListChoice
@@ -28,21 +28,21 @@ val viewModel = ConfigurationVM()
 
 @Composable
 fun configuration() {
-    if (viewModel.settings.configList.isNotEmpty()) {
+    if (viewModel.settings.confInfoList.isNotEmpty()) {
 
         val setting = viewModel.settings
 
         val index = when (setting.configId.value) {
             null -> -1
-            else -> setting.configList.indexOfFirst {
+            else -> setting.confInfoList.indexOfFirst {
                 it.id == setting.configId.value
             }
         }
 
-        val text = remember(setting.configId) {
+        val text = remember(setting.configId.value) {
             when (setting.configId.value) {
                 null -> mutableStateOf(Resources.getString("common/none"))
-                else -> mutableStateOf(setting.configList[index].name)
+                else -> mutableStateOf(setting.confInfoList[index].name.value)
             }
         }
 
@@ -62,7 +62,7 @@ fun configuration() {
 
         configurationListChoice(
             text = text,
-            configList = setting.configList,
+            confInfoList = setting.confInfoList,
             currentId = setting.configId.value,
             currentIndex = index,
         )
@@ -77,7 +77,7 @@ private fun configurationListChoice(
     text: MutableState<String>,
     currentId: String?,
     currentIndex: Int,
-    configList: SnapshotStateList<ConfigurationModel>,
+    confInfoList: SnapshotStateList<ConfInfo>,
 ) {
 
     val minWidth = 150.dp
@@ -89,8 +89,8 @@ private fun configurationListChoice(
                 text = text,
                 onValueChange = { value ->
                     checkNameTaken(
-                        names = configList.map { config ->
-                            config.name
+                        names = confInfoList.map { config ->
+                            config.name.value
                         },
                         name = value,
                         index = currentIndex
@@ -126,7 +126,7 @@ private fun configurationListChoice(
                 tint = LocalColors.current.onInputVariant
             )
         },
-        ids = configList.map { it.id },
-        names = configList.map { it.name }
+        ids = confInfoList.map { it.id },
+        names = confInfoList.map { it.name.value }
     )
 }

@@ -9,12 +9,12 @@ option java_package = "proto.generated.update";
 
 
 
-message Update {
-  int32 Index = 1;
-  int32 Value = 2;
+message PUpdate {
+  int32 PIndex = 1;
+  int32 PValue = 2;
 }
 
-message UpdateList {
-  repeated Update UpdateList = 1;
+message PUpdateList {
+  repeated PUpdate PUpdates = 1;
 }
 

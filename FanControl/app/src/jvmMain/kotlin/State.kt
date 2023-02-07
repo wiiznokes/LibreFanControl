@@ -8,7 +8,7 @@ import model.item.BaseIBehavior
 import model.item.IControl
 import model.item.BaseITemp
 import model.item.IFan
-import settings.Settings
+import model.Settings
 
 
 object State {
@@ -25,7 +25,7 @@ object State {
     val addItemExpanded: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val editModeActivated: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    val settings: Settings = Settings()
+    var settings: Settings = Settings()
 
 }
 

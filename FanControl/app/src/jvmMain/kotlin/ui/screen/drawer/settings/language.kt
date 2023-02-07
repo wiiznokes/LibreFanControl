@@ -10,23 +10,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.settingSlidingWindows.SettingScope
+import model.Languages
 import ui.component.managerText
 import ui.utils.Resources
 
 
-/**
- * name need to respect the format in
- * json string file and configuration
- */
-@Suppress("EnumEntryName")
-enum class Languages {
-    en,
-    fr;
 
-    companion object {
-        infix fun from(value: String): Languages = Languages.values().first { it.name == value }
-    }
-}
 
 
 fun SettingScope.language(

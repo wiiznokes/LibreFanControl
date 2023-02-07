@@ -65,7 +65,7 @@ private fun dialog(
     keyEnterPressed: MutableState<Boolean>,
 ) {
 
-    val configList = viewModel.settings.configList
+    val configList = viewModel.settings.confInfoList
 
     val id = BaseI.getAvailableString(
         list = configList.map { it.id },
@@ -122,7 +122,7 @@ private fun dialog(
                 onValueChange = {
                     checkNameTaken(
                         names = configList.map { config ->
-                            config.name
+                            config.name.value
                         },
                         name = it
                     )

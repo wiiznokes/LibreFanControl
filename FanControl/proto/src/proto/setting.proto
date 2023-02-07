@@ -12,39 +12,37 @@ import "google/protobuf/struct.proto";
 
 
 
-enum Languages {
+enum PLanguages {
   EN = 0;
   FR = 1;
 }
 
-enum Themes {
+enum PThemes {
   DARK = 0;
   LIGHT = 1;
   SYSTEM = 2;
 }
 
-message ConfInfo {
-  NullableId Id = 1;
-  string Name = 2;
+message PConfInfo {
+  string PId = 1;
+  string PName = 2;
 }
 
 message NullableId {
   oneof kind {
     google.protobuf.NullValue null = 1;
-    string Id = 2;
+    string PId = 2;
   }
 }
 
 
-message Setting {
-  Languages Language = 1;
-  repeated ConfInfo ConfInfoList = 2;
-  NullableId ConfigId = 3;
-  int32 UpdateDelay = 4;
-  Themes Theme = 5;
-  bool FirstStart = 6;
-  bool LaunchAtStartUp = 7;
-  bool Degree = 8;
-  bool ExitOnCloseSet = 9;
-  bool ExitOnClose = 10;
+message PSetting {
+  PLanguages PLanguage = 1;
+  NullableId PConfigId = 2;
+  repeated PConfInfo PConfInfos = 3;
+  int32 PUpdateDelay = 4;
+  PThemes PTheme = 5;
+  bool PFirstStart = 6;
+  bool PLaunchAtStartUp = 7;
+  bool PDegree = 8;
 }
