@@ -4,7 +4,7 @@ package proto;
 option java_multiple_files = true;
 
 
-option csharp_namespace = "Proto.Update";
+option csharp_namespace = "Proto.Generated.Update";
 option java_package = "proto.generated.update";
 
 

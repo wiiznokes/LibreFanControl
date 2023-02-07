@@ -15,7 +15,8 @@ Library/Windows/HardwareLib/HardwareDaemon/bin
 
 
 ### generated proto files ###
-FanControl/app/src/jvmMain/java/proto/genrated
+FanControl/app/src/jvmMain/java/proto/generated
+FanControl/app/src/jvmMain/kotlin/proto/generated
 Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated
 
 ### idea custom modif

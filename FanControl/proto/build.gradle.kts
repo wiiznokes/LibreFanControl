@@ -1,4 +1,5 @@
 import com.google.protobuf.gradle.*
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.include
 
 plugins {
     id("java")
@@ -58,5 +59,57 @@ protobuf {
                 }
             }
         }
+    }
+}
+
+tasks.register("copyJava") {
+    doLast {
+        val srcDir = file("build/generated/source/proto/main/java/")
+        val destDir = file("../app/src/jvmMain/java/")
+        copy {
+            from(srcDir)
+            into(destDir)
+        }
+    }
+}
+
+tasks.register("copyKotlin") {
+    doLast {
+        val srcDir = file("build/generated/source/proto/main/kotlin/")
+        val destDir = file("../app/src/jvmMain/kotlin/")
+        copy {
+            from(srcDir)
+            into(destDir)
+        }
+    }
+}
+
+tasks.register("copyCsharp") {
+    doLast {
+        val srcDir = file("build/generated/source/proto/main/csharp/")
+        val destDir = file("../../Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated")
+        copy {
+            from(srcDir)
+            into(destDir)
+        }
+    }
+}
+
+tasks.register("cleanJava") {
+    doLast {
+        val destDir = file("../app/src/jvmMain/java/proto/generated")
+        delete(destDir)
+    }
+}
+tasks.register("cleanKotlin") {
+    doLast {
+        val destDir = file("../app/src/jvmMain/kotlin/proto/generated")
+        delete(destDir)
+    }
+}
+tasks.register("cleanCsharp") {
+    doLast {
+        val destDir = file("../../Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated")
+        delete(destDir)
     }
 }

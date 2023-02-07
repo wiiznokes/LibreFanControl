@@ -4,7 +4,7 @@ package proto;
 option java_multiple_files = true;
 
 
-option csharp_namespace = "Proto.Conf";
+option csharp_namespace = "Proto.Generated.Conf";
 option java_package = "proto.generated.conf";
 
 
