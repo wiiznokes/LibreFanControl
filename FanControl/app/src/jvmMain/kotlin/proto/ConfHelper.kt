@@ -9,8 +9,6 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.ItemType
 import model.item.*
 import proto.generated.conf.*
-import proto.generated.setting.NullableId
-import proto.generated.setting.nullableId
 import java.io.File
 
 private const val CONF_DIR = "conf/conf"
@@ -67,9 +65,9 @@ class ConfHelper {
                             PIControlTypes.I_C_FAN -> ItemType.ControlType.I_C_FAN
                             else -> throw ProtoException("unknown control type")
                         },
-                        iBehaviorId = pControl.pIBehaviorIdOrNull.let { it?.pId },
+                        iBehaviorId = nullableToNull(pControl.piBehaviorId),
                         isAuto = pControl.pIsAuto,
-                        controlId = pControl.pHControlIdOrNull.let { it?.pId }
+                        controlId = nullableToNull(pControl.phControlId),
                     )
                 )
             }
@@ -88,7 +86,7 @@ class ConfHelper {
                             ILinear(
                                 name = pBehavior.pName,
                                 id = pBehavior.pId,
-                                tempId = it.pTempIdOrNull.let { id -> id?.pId },
+                                tempId = nullableToNull(it.pTempId),
                                 minTemp = it.pMinTemp,
                                 maxTemp = it.pMaxTemp,
                                 minFanSpeed = it.pMinFanSpeed,
@@ -101,7 +99,7 @@ class ConfHelper {
                             ITarget(
                                 name = pBehavior.pName,
                                 id = pBehavior.pId,
-                                tempId = it.pTempIdOrNull.let { id -> id?.pId },
+                                tempId = nullableToNull(it.pTempId),
                                 idleTemp = it.pIdleTemp,
                                 loadTemp = it.pLoadTemp,
                                 idleFanSpeed = it.pIdleFanSpeed,
@@ -120,7 +118,7 @@ class ConfHelper {
                         PITempTypes.I_S_TEMP -> ITemp(
                             name = pTemp.pName,
                             id = pTemp.pId,
-                            hTempId = pTemp.piSimpleTemp.pHTempIdOrNull.let { it?.pId }
+                            hTempId = nullableToNull(pTemp.piSimpleTemp.phTempId)
                         )
 
                         PITempTypes.I_S_CUSTOM_TEMP -> pTemp.piCustomTemp.let {
@@ -148,7 +146,7 @@ class ConfHelper {
                     IFan(
                         name = pFan.pName,
                         id = pFan.pId,
-                        hFanId = if (pFan.phFanId.kindCase == NullableId.KindCase.NULL) null else pFan.phFanId.pId
+                        hFanId = nullableToNull(pFan.phFanId)
                     )
                 )
             }
@@ -175,86 +173,94 @@ class ConfHelper {
         }
 
         fun createPConf(conf: Conf) = pConf {
-            iControls.forEachIndexed { index, iControl ->
-                pIControls[index] = pIControl {
+            iControls.forEach { iControl ->
+                pIControls.add(pIControl {
                     pName = iControl.name.value
                     pId = iControl.id
                     pType = PIControlTypes.I_C_FAN
-                    pIBehaviorId = nullableId { iControl.iBehaviorId.value }
+                    pIBehaviorId = nullToNullable(iControl.iBehaviorId.value)
                     pIsAuto = iControl.isAuto.value
-                    pHControlId = nullableId { iControl.hControlId.value }
+                    pHControlId = nullToNullable(iControl.hControlId.value)
                 }
+                )
             }
 
-            iBehaviors.forEachIndexed { index, iBehavior ->
-                pIBehaviors[index] = pIBehavior {
-                    pName = iBehavior.name.value
-                    pId = iBehavior.id
-                    when (iBehavior) {
-                        is IFlat -> {
-                            pType = PIBehaviorTypes.I_B_FLAT
-                            pFlat = pFlat {}
-                        }
-
-                        is ILinear -> {
-                            pType = PIBehaviorTypes.I_B_LINEAR
-                            pLinear = pLinear {
-                                pTempId = nullableId { iBehavior.hTempId }
-                                pMinTemp = iBehavior.minTemp.value
-                                pMaxTemp = iBehavior.maxTemp.value
-                                pMinFanSpeed = iBehavior.minFanSpeed.value
-                                pMaxFanSpeed = iBehavior.maxFanSpeed.value
+            iBehaviors.forEach { iBehavior ->
+                pIBehaviors.add(
+                    pIBehavior {
+                        pName = iBehavior.name.value
+                        pId = iBehavior.id
+                        when (iBehavior) {
+                            is IFlat -> {
+                                pType = PIBehaviorTypes.I_B_FLAT
+                                pFlat = pFlat {}
                             }
-                        }
 
-                        is ITarget -> {
-                            pType = PIBehaviorTypes.I_B_TARGET
-                            pTarget = pTarget {
-                                pTempId = nullableId { iBehavior.hTempId }
-                                pIdleTemp = iBehavior.idleTemp.value
-                                pLoadTemp = iBehavior.loadTemp.value
-                                pIdleFanSpeed = iBehavior.idleFanSpeed.value
-                                pLoadFanSpeed = iBehavior.loadFanSpeed.value
-                            }
-                        }
-                    }
-                }
-            }
-
-            iTemps.forEachIndexed { index, iTemp ->
-                pITemps[index] = pITemp {
-                    pName = iTemp.name.value
-                    pId = iTemp.id
-                    when (iTemp) {
-                        is ITemp -> {
-                            pISimpleTemp = pISimpleTemp {
-                                pHTempId = nullableId { iTemp.hTempId.value }
-                            }
-                        }
-
-                        is ICustomTemp -> {
-                            pICustomTemp = pIcustomTemp {
-                                pType = when (iTemp.customTempType.value) {
-                                    CustomTempType.average -> PCustomTempTypes.AVERAGE
-                                    CustomTempType.max -> PCustomTempTypes.MAX
-                                    CustomTempType.min -> PCustomTempTypes.MIN
+                            is ILinear -> {
+                                pType = PIBehaviorTypes.I_B_LINEAR
+                                pLinear = pLinear {
+                                    pTempId = nullToNullable(iBehavior.hTempId.value)
+                                    pMinTemp = iBehavior.minTemp.value
+                                    pMaxTemp = iBehavior.maxTemp.value
+                                    pMinFanSpeed = iBehavior.minFanSpeed.value
+                                    pMaxFanSpeed = iBehavior.maxFanSpeed.value
                                 }
-                                iTemp.hTempIds.forEachIndexed { index2, id ->
-                                    pHTempIds[index2] = id
+                            }
+
+                            is ITarget -> {
+                                pType = PIBehaviorTypes.I_B_TARGET
+                                pTarget = pTarget {
+                                    pTempId = nullToNullable(iBehavior.hTempId.value)
+                                    pIdleTemp = iBehavior.idleTemp.value
+                                    pLoadTemp = iBehavior.loadTemp.value
+                                    pIdleFanSpeed = iBehavior.idleFanSpeed.value
+                                    pLoadFanSpeed = iBehavior.loadFanSpeed.value
                                 }
                             }
                         }
                     }
-                }
+                )
             }
 
-            iFans.forEachIndexed { index, iFan ->
-                pIFans[index] = pIFan {
-                    pName = iFan.name.value
-                    pId = iFan.id
-                    pType = PIFanTypes.I_S_FAN
-                    pHFanId = nullableId { iFan.hFanId }
-                }
+            iTemps.forEach { iTemp ->
+                pITemps.add(
+                    pITemp {
+                        pName = iTemp.name.value
+                        pId = iTemp.id
+                        when (iTemp) {
+                            is ITemp -> {
+                                pISimpleTemp = pISimpleTemp {
+                                    pHTempId = nullToNullable(iTemp.hTempId.value)
+                                }
+                            }
+
+                            is ICustomTemp -> {
+                                pICustomTemp = pIcustomTemp {
+                                    pType = when (iTemp.customTempType.value) {
+                                        CustomTempType.average -> PCustomTempTypes.AVERAGE
+                                        CustomTempType.max -> PCustomTempTypes.MAX
+                                        CustomTempType.min -> PCustomTempTypes.MIN
+                                    }
+
+                                    iTemp.hTempIds.forEach { id ->
+                                        pHTempIds.add(id)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                )
+            }
+
+            iFans.forEach { iFan ->
+                pIFans.add(
+                    pIFan {
+                        pName = iFan.name.value
+                        pId = iFan.id
+                        pType = PIFanTypes.I_S_FAN
+                        pHFanId = nullToNullable(iFan.hFanId.value)
+                    }
+                )
             }
         }
 

@@ -18,8 +18,7 @@ class SettingsHelper {
 
 
         fun loadSetting(): Settings =
-            parsePSetting(with(getSettingsFile()) { PSetting.parseFrom( readBytes()) })
-
+            parsePSetting(with(getSettingsFile()) { PSetting.parseFrom(readBytes()) })
 
 
         fun parsePSetting(pSetting: PSetting): Settings =
@@ -32,11 +31,7 @@ class SettingsHelper {
                         Languages.en
                     }
                 },
-                confId = with(pSetting.pConfId) {
-                    if (kindCase == NullableId.KindCase.NULL)
-                        null
-                    else pId
-                },
+                confId = nullableToNull(pSetting.pConfId),
                 confInfoList = pSetting.pConfInfosList.map { confInfo ->
                     ConfInfo(
                         id = confInfo.pId,
@@ -74,12 +69,7 @@ class SettingsHelper {
                     Languages.en -> PLanguages.EN
                     Languages.fr -> PLanguages.FR
                 }
-                pConfId = nullableId {
-                    with(settings.confId.value) {
-                        if(this != null) pId = this
-                         else null_ = NullValue.NULL_VALUE
-                    }
-                }
+                pConfId = nullToNullable(settings.confId.value)
                 settings.confInfoList.forEach { confInfo ->
                     pConfInfos.add(
                         pConfInfo {
@@ -103,5 +93,19 @@ class SettingsHelper {
         private fun getSettingsFile(): File = File(System.getProperty("compose.application.resources.dir"))
             .resolve(SETTING_FILE)
     }
-
 }
+
+fun nullableToNull(nullableId: NullableId): String? =
+    when (nullableId.kindCase) {
+        NullableId.KindCase.PID -> nullableId.pId
+        NullableId.KindCase.NULL -> null
+        else -> throw ProtoException("Nullable id not set")
+    }
+
+fun nullToNullable(id: String?): NullableId =
+    nullableId {
+        when (id) {
+            null -> null_ = NullValue.NULL_VALUE
+            else -> pId = id
+        }
+    }
