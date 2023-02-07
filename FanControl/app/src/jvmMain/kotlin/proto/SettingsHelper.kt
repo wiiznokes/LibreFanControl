@@ -1,5 +1,6 @@
 package proto
 
+import com.google.protobuf.NullValue
 import model.ConfInfo
 import model.Languages
 import model.Settings
@@ -31,7 +32,11 @@ class SettingsHelper {
                         Languages.en
                     }
                 },
-                confId = pSetting.pConfIdOrNull.let { id -> id?.pId },
+                confId = when(pSetting.pConfId.kindCase) {
+                    NullableId.KindCase.NULL -> null
+                    NullableId.KindCase.PID -> pSetting.pConfId.pId
+                    else -> throw ProtoException("nullable kind not set")
+                },
                 confInfoList = pSetting.pConfInfosList.map { confInfo ->
                     ConfInfo(
                         id = confInfo.pId,
@@ -69,7 +74,12 @@ class SettingsHelper {
                     Languages.en -> PLanguages.EN
                     Languages.fr -> PLanguages.FR
                 }
-                pConfId = nullableId { settings.confId.value }
+                pConfId = nullableId {
+                    with(settings.confId.value) {
+                        if(this != null) pId = this
+                         else null_ = NullValue.NULL_VALUE
+                    }
+                }
                 settings.confInfoList.forEachIndexed { index, confInfo ->
                     pConfInfos[index] = pConfInfo {
                         pId = confInfo.id
