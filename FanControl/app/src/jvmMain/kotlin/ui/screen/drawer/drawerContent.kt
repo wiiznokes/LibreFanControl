@@ -30,6 +30,8 @@ fun drawerContent(
     val settings = State.settings
 
     Setting(
+        modifier = Modifier
+            .width(250.dp),
         settingState = settingState,
         settingColors = SettingDefaults.settingColors(
             container = LocalColors.current.secondContainer,

@@ -14,9 +14,9 @@ class Application(
     fun onCreate() {
         if (SettingsHelper.checkSetting()) {
             println("load setting")
-            SettingsHelper.loadSetting()
+            //SettingsHelper.loadSetting()
         } else {
-            SettingsHelper.writeSetting()
+            //SettingsHelper.writeSetting()
         }
     }
 
