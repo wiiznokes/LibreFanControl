@@ -1,8 +1,8 @@
 package proto
 
-import State
 import model.ConfInfo
 import model.Languages
+import model.Settings
 import model.Themes
 import proto.generated.setting.*
 import java.io.File
@@ -12,79 +12,77 @@ private const val SETTING_FILE = "conf/setting"
 class SettingsHelper {
 
     companion object {
-        private val setting = State.settings
 
-        fun checkSetting(): Boolean = getFile().exists()
+        fun checkSetting(): Boolean = getSettingsFile().exists()
 
-        fun loadSetting() {
-            val pSetting = with(getFile()) {
-                PSetting.parseFrom(readBytes())
-            }
+        fun loadSetting(): Settings =
+            with(getSettingsFile()) { PSetting.parseFrom( readBytes()) }.let {
+                Settings(
+                    language = when (it.pLanguage) {
+                        PLanguages.EN -> Languages.en
+                        PLanguages.FR -> Languages.fr
+                        else -> {
+                            println("error, unknown language")
+                            Languages.en
+                        }
+                    },
+                    confId = it.pConfIdOrNull.let { id -> id?.pId },
+                    confInfoList = it.pConfInfosList.map { confInfo ->
+                        ConfInfo(
+                            id = confInfo.pId,
+                            name = confInfo.pName
+                        )
 
-            setting.language.value = when (pSetting.pLanguage) {
-                PLanguages.EN -> Languages.en
-                PLanguages.FR -> Languages.fr
-                else -> {
-                    println("error, unknown language")
-                    Languages.en
-                }
-            }
-            setting.configId.value = pSetting.pConfigIdOrNull.let { it?.pId }
-            setting.confInfoList.clear()
-            pSetting.pConfInfosList.forEach {
-                setting.confInfoList.add(
-                    ConfInfo(
-                        id = it.pId,
-                        name = it.pName
-                    )
+                    },
+                    updateDelay = it.pUpdateDelay,
+                    theme = when (it.pTheme) {
+                        PThemes.DARK -> Themes.dark
+                        PThemes.LIGHT -> Themes.light
+                        PThemes.SYSTEM -> Themes.system
+                        else -> {
+                            println("error, unknown theme")
+                            Themes.system
+                        }
+                    },
+                    firstStart = it.pFirstStart,
+                    launchAtStartUp = it.pLaunchAtStartUp,
+                    degree = it.pDegree
+
                 )
             }
-            setting.updateDelay.value = pSetting.pUpdateDelay
-            setting.theme.value = when (pSetting.pTheme) {
-                PThemes.DARK -> Themes.dark
-                PThemes.LIGHT -> Themes.light
-                PThemes.SYSTEM -> Themes.system
-                else -> {
-                    println("error, unknown theme")
-                    Themes.system
-                }
-            }
-            setting.firstStart.value = pSetting.pFirstStart
-            setting.launchAtStartUp.value = pSetting.pLaunchAtStartUp
-            setting.degree.value = pSetting.pDegree
-        }
 
-        fun writeSetting() {
-            val pSetting = pSetting {
-                pLanguage = when (setting.language.value) {
+
+        fun writeSetting(settings: Settings) {
+            pSetting {
+                pLanguage = when (settings.language.value) {
                     Languages.en -> PLanguages.EN
                     Languages.fr -> PLanguages.FR
                 }
-                pConfigId = nullableId { setting.configId.value }
-                setting.confInfoList.forEachIndexed { index, confInfo ->
+                pConfId = nullableId { settings.configId.value }
+                settings.confInfoList.forEachIndexed { index, confInfo ->
                     pConfInfos[index] = pConfInfo {
                         pId = confInfo.id
                         pName = confInfo.name.value
                     }
                 }
-                pUpdateDelay = setting.updateDelay.value
-                pTheme = when (setting.theme.value) {
+                pUpdateDelay = settings.updateDelay.value
+                pTheme = when (settings.theme.value) {
                     Themes.system -> PThemes.SYSTEM
                     Themes.light -> PThemes.LIGHT
                     Themes.dark -> PThemes.DARK
                 }
-                pFirstStart = setting.firstStart.value
-                pLaunchAtStartUp = setting.launchAtStartUp.value
-                pDegree = setting.degree.value
-            }
-
-            with(getFile()) {
-                writeBytes(pSetting.toByteArray())
+                pFirstStart = settings.firstStart.value
+                pLaunchAtStartUp = settings.launchAtStartUp.value
+                pDegree = settings.degree.value
+            }.let {
+                with(getSettingsFile()) {
+                    writeBytes(it.toByteArray())
+                }
             }
         }
 
 
-        private fun getFile(): File = File(System.getProperty("compose.application.resources.dir"))
+        private fun getSettingsFile(): File = File(System.getProperty("compose.application.resources.dir"))
             .resolve(SETTING_FILE)
     }
 
