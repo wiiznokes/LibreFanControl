@@ -24,14 +24,14 @@ enum Themes {
 }
 
 message ConfInfo {
-  sint64 NullableId = 1;
+  NullableId Id = 1;
   string Name = 2;
 }
 
 message NullableId {
   oneof kind {
     google.protobuf.NullValue null = 1;
-    sint64 Id = 2;
+    string Id = 2;
   }
 }
 

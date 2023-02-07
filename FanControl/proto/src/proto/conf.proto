@@ -16,13 +16,14 @@ import "proto/setting.proto";
 message Conf {
   ConfInfo Info = 1;
 
-  repeated Hsensor Hsensor = 2;
-  repeated Hcontrol Hcontrol = 3;
+  repeated Hardware HControlList = 2;
+  repeated Hardware HTempList = 3;
+  repeated Hardware HFanList = 4;
 
-  repeated Icontrol Icontrol = 4;
-  repeated Ibehavior Ibehavior = 5;
-  repeated Ifan Ifan = 6;
-  repeated Itemp Itemp = 7;
+  repeated IControl IControlList = 5;
+  repeated IBehavior IBehaviorList = 6;
+  repeated ISensor IFanList = 7;
+  repeated ISensor ITempList = 8;
 }
 
 
@@ -31,28 +32,24 @@ message Conf {
     type ***********************
  */
 
-enum HcontrolType {
+enum HType {
   H_C_FAN = 0;
-}
-
-enum HsensorType {
-  H_S_FAN = 0;
-  H_S_TEMP = 1;
+  H_S_FAN = 1;
+  H_S_TEMP = 2;
 }
 
 
-
-enum IcontrolType {
+enum IControlType {
   I_C_FAN = 0;
 }
 
-enum IbehaviorType {
+enum IBehaviorType {
   I_B_FLAT = 0;
   I_B_LINEAR = 1;
   I_B_TARGET = 2;
 }
 
-enum IsensorType {
+enum ISensorType {
   I_S_FAN = 0;
   I_S_TEMP = 1;
   I_S_CUSTOM_TEMP = 2;
@@ -68,16 +65,11 @@ enum IsensorType {
     Hardware *****************
  */
 
-
-message Hsensor {
-  sint64 Id = 1;
-  HsensorType Type = 2;
+message Hardware {
+  string Id = 1;
+  HType Type = 2;
 }
 
-message Hcontrol {
-  int64 Id = 1;
-  HcontrolType Type = 2;
-}
 
 /*
     ****************************
@@ -85,13 +77,13 @@ message Hcontrol {
 
 
 
-message Icontrol {
+message IControl {
   string Name = 1;
-  int64 Id = 2;
-  Hcontrol Type = 3;
-  NullableId BehaviorId = 4;
+  string Id = 2;
+  IControlType Type = 3;
+  NullableId IBehaviorId = 4;
   bool IsAuto = 5;
-  NullableId ControlId = 6;
+  NullableId HControlId = 6;
 }
 
 
@@ -99,10 +91,10 @@ message Icontrol {
     Behavior **********************
  */
 
-message Ibehavior {
+message IBehavior {
   string Name = 1;
-  int64 Id = 2;
-  IbehaviorType Type = 3;
+  string Id = 2;
+  IBehaviorType Type = 3;
 
   oneof kind {
     Linear Flat = 4;
@@ -117,7 +109,7 @@ message Flat {
 
 
 message Linear {
-  NullableId HtempId = 1;
+  NullableId HTempId = 1;
 
   int32 MinTemp = 2;
   int32 MaxTemp = 3;
@@ -127,7 +119,7 @@ message Linear {
 
 
 message Target {
-  NullableId HtempId = 1;
+  NullableId HTempId = 1;
 
   int32 IdleTemp = 2;
   int32 LoadTemp = 3;
@@ -145,33 +137,34 @@ message Target {
  */
 
 
-message Isensor {
+message ISensor {
   string Name = 1;
-  int64 Id = 2;
-  IsensorType Type = 3;
+  string Id = 2;
+  ISensorType Type = 3;
 
   oneof kind {
-    Linear Ifan = 4;
-    Linear Itemp = 5;
-    Linear IcustomTemp = 6;
+    Linear IFan = 4;
+    Linear ITemp = 5;
+    Linear ICustomTemp = 6;
   }
 }
-message Ifan {
+
+message IFan {
   NullableId HFanId = 1;
 }
 
-message Itemp {
-  NullableId HtempId = 1;
+message ITemp {
+  NullableId HTempId = 1;
 }
 
+
+message IcustomTemp {
+  CustomTempType Type = 1;
+  repeated string HTempIdList = 2;
+}
 
 enum CustomTempType {
   AVERAGE = 0;
   MAX = 1;
   MIN = 2;
-}
-
-message IcustomTemp {
-  CustomTempType Type = 1;
-  repeated int64 HtempId = 2;
 }

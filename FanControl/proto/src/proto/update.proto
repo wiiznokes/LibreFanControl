@@ -15,5 +15,6 @@ message Update {
 }
 
 message UpdateList {
-  repeated Update Update = 1;
+  repeated Update UpdateList = 1;
 }
+
