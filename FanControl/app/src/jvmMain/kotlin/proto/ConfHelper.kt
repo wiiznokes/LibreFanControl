@@ -4,6 +4,7 @@ import State
 import model.ItemType
 import model.item.*
 import proto.generated.conf.*
+import proto.generated.setting.nullableId
 import java.io.File
 
 private const val CONF_DIR = "conf/conf"
@@ -119,7 +120,57 @@ class ConfHelper {
         }
 
         fun writeConf(confId: String) {
+            val pConf = pConf {
+                iControls.forEachIndexed { index, iControl ->
+                    pIControls[index] = pIControl {
+                        pName = iControl.name.value
+                        pId = iControl.id
+                        pType = PIControlTypes.I_C_FAN
+                        pIBehaviorId = nullableId { iControl.iBehaviorId.value }
+                        pIsAuto = iControl.isAuto.value
+                        pHControlId = nullableId { iControl.hControlId.value }
+                    }
+                }
 
+                iBehaviors.forEachIndexed { index, iBehavior ->
+                    pIBehaviors[index] = pIBehavior {
+                        pName = iBehavior.name.value
+                        pId = iBehavior.id
+                        when (iBehavior) {
+                            is IFlat -> {
+                                pType = PIBehaviorTypes.I_B_FLAT
+                                pFlat = pFlat {}
+                            }
+                            is ILinear -> {
+                                pType = PIBehaviorTypes.I_B_LINEAR
+                                pLinear = pLinear {
+                                    pTempId = nullableId { iBehavior.hTempId }
+                                    pMinTemp = iBehavior.minTemp.value
+                                    pMaxTemp = iBehavior.maxTemp.value
+                                    pMinFanSpeed = iBehavior.minFanSpeed.value
+                                    pMaxFanSpeed = iBehavior.maxFanSpeed.value
+                                }
+                            }
+                            is ITarget -> {
+                                pType = PIBehaviorTypes.I_B_TARGET
+                                pTarget = pTarget {
+                                    pTempId = nullableId { iBehavior.hTempId }
+                                    pIdleTemp = iBehavior.idleTemp.value
+                                    pLoadTemp = iBehavior.loadTemp.value
+                                    pIdleFanSpeed = iBehavior.idleFanSpeed.value
+                                    pLoadFanSpeed = iBehavior.loadFanSpeed.value
+                                }
+                            }
+                        }
+                    }
+                }
+
+                iTemps.forEachIndexed { index, iTemp ->
+                    pITemps[index] = pITemp {
+                        
+                    }
+                }
+            }
         }
 
 
