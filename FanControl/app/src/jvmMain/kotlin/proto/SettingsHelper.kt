@@ -8,19 +8,15 @@ import model.Themes
 import proto.generated.setting.*
 import java.io.File
 
-private const val SETTING_DIR = "setting/setting"
+private const val SETTING_DIR = "conf/setting"
 
-class SettingHelper {
+class SettingsHelper {
 
     companion object {
         fun checkSetting(): Boolean = getFile().exists()
 
-        fun getDefault(): Settings = Settings()
-
-
         fun loadSetting(): Settings {
-
-
+            println("loadSetting")
             val pSetting = with(getFile()) {
                 PSetting.parseFrom(readBytes())
             }
@@ -58,6 +54,7 @@ class SettingHelper {
         }
 
         fun writeSetting(setting: Settings) {
+            println("writeSetting")
             val pSetting = pSetting {
                 pLanguage = when (setting.language.value) {
                     Languages.en -> PLanguages.EN
@@ -80,7 +77,6 @@ class SettingHelper {
                 pLaunchAtStartUp = setting.launchAtStartUp.value
                 pDegree = setting.degree.value
             }
-
 
             with(getFile()) {
                 writeBytes(pSetting.toByteArray())

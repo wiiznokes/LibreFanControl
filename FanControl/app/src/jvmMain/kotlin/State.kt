@@ -25,7 +25,7 @@ object State {
     val addItemExpanded: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val editModeActivated: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    val settings: Settings = Settings()
+    var settings: Settings = Settings()
 
 }
 

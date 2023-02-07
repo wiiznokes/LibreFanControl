@@ -69,16 +69,16 @@ compose.desktop {
             packageVersion = "0.1.0"
             copyright = "© 2023 Wiiznokes. All rights reserved."
             vendor = "Wiiznokes"
-            licenseFile.set(project.file("./../LICENSE"))
+            licenseFile.set(project.file("./../../LICENSE"))
 
             appResourcesRootDir.set(project.layout.projectDirectory.dir("include"))
 
             windows {
-                iconFile.set(project.file("app/drawable/app_icon.ico"))
+                iconFile.set(project.file("drawable/app_icon.ico"))
             }
 
             linux {
-                iconFile.set(project.file("app/drawable/app_icon.png"))
+                iconFile.set(project.file("drawable/app_icon.png"))
             }
         }
     }

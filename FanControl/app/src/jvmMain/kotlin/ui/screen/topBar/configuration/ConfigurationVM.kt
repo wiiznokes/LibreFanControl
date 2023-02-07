@@ -13,7 +13,7 @@ class ConfigurationVM(
         try {
             checkNameTaken(
                 names = settings.confInfoList.map { item ->
-                    item.name
+                    item.name.value
                 },
                 name = name,
                 index = index
@@ -22,9 +22,7 @@ class ConfigurationVM(
             return
         }
 
-        settings.confInfoList[index] = settings.confInfoList[index].copy(
-            name = name
-        )
+        settings.confInfoList[index].name.value = name
 
     }
 
@@ -37,7 +35,7 @@ class ConfigurationVM(
         try {
             checkNameTaken(
                 names = settings.confInfoList.map { item ->
-                    item.name
+                    item.name.value
                 },
                 name = name
             )

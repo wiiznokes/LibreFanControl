@@ -59,7 +59,7 @@ class ICustomTemp(
     override val name: MutableState<String> = mutableStateOf(name)
     override val type: ItemType.SensorType = ItemType.SensorType.I_S_CUSTOM_TEMP
 
-    val hTempIds: List<String> = hTempIds.toMutableStateList()
+    val hTempIds: SnapshotStateList<String> = hTempIds.toMutableStateList()
     val customTempType: MutableState<CustomTempType> = mutableStateOf(customTempType)
 
     val value: MutableState<Int> = mutableStateOf(value)

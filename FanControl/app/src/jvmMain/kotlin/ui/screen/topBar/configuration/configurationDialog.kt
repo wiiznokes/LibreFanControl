@@ -122,7 +122,7 @@ private fun dialog(
                 onValueChange = {
                     checkNameTaken(
                         names = configList.map { config ->
-                            config.name
+                            config.name.value
                         },
                         name = it
                     )
