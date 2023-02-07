@@ -14,12 +14,10 @@ import "proto/setting.proto";
 
 
 message PConf {
-  PConfInfo PInfo = 1;
-
-  repeated PIControl PIControls = 5;
-  repeated PIBehavior PIBehaviors = 6;
-  repeated PITemp PITemps = 7;
-  repeated PIFan PIFans = 8;
+  repeated PIControl PIControls = 1;
+  repeated PIBehavior PIBehaviors = 2;
+  repeated PITemp PITemps = 3;
+  repeated PIFan PIFans = 4;
 }
 
 

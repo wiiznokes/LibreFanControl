@@ -1,11 +1,16 @@
 package proto
 
-import State
+import State.iBehaviors
+import State.iControls
+import State.iFans
+import State.iTemps
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.ItemType
 import model.item.*
 import proto.generated.conf.*
+import proto.generated.setting.NullableId
 import proto.generated.setting.nullableId
-import proto.generated.setting.pConfInfo
 import java.io.File
 
 private const val CONF_DIR = "conf/conf"
@@ -15,26 +20,46 @@ class ProtoException(msg: String) : Exception(msg)
 class ConfHelper {
 
     companion object {
-        private val settings = State.settings
 
-        private val iControls = State.iControls
-        private val iBehaviors = State.iBehaviors
-        private val iTemps = State.iTemps
-        private val iFans = State.iFans
-
+        data class Conf(
+            val iControls: SnapshotStateList<IControl> = mutableStateListOf(),
+            val iBehaviors: SnapshotStateList<BaseIBehavior> = mutableStateListOf(),
+            val iTemps: SnapshotStateList<BaseITemp> = mutableStateListOf(),
+            val iFans: SnapshotStateList<IFan> = mutableStateListOf(),
+        )
 
         fun loadConf(confId: String) {
-            val pConf = with(getFile(confId)) {
+            val pConf = with(getConfFile(confId)) {
                 PConf.parseFrom(readBytes())
             }
 
-            iControls.clear()
-            iBehaviors.clear()
-            iTemps.clear()
-            iFans.clear()
+            parsePConf(pConf).let {
+                iControls.apply {
+                    clear()
+                    addAll(it.iControls)
+                }
+                iBehaviors.apply {
+                    clear()
+                    addAll(it.iBehaviors)
+                }
+                iTemps.apply {
+                    clear()
+                    addAll(it.iTemps)
+                }
+                iFans.apply {
+                    clear()
+                    addAll(it.iFans)
+                }
+            }
+        }
+
+
+        fun parsePConf(pConf: PConf): Conf {
+
+            val conf = Conf()
 
             pConf.piControlsList.forEach { pControl ->
-                iControls.add(
+                conf.iControls.add(
                     IControl(
                         name = pControl.pName,
                         id = pControl.pId,
@@ -50,7 +75,7 @@ class ConfHelper {
             }
 
             pConf.piBehaviorsList.forEach { pBehavior ->
-                iBehaviors.add(
+                conf.iBehaviors.add(
                     when (pBehavior.pType) {
                         PIBehaviorTypes.I_B_FLAT ->
                             IFlat(
@@ -90,7 +115,7 @@ class ConfHelper {
             }
 
             pConf.piTempsList.forEach { pTemp ->
-                iTemps.add(
+                conf.iTemps.add(
                     when (pTemp.pType) {
                         PITempTypes.I_S_TEMP -> ITemp(
                             name = pTemp.pName,
@@ -118,111 +143,123 @@ class ConfHelper {
 
             }
 
+            pConf.piFansList.forEach { pFan ->
+                conf.iFans.add(
+                    IFan(
+                        name = pFan.pName,
+                        id = pFan.pId,
+                        hFanId = if (pFan.phFanId.kindCase == NullableId.KindCase.NULL) null else pFan.phFanId.pId
+                    )
+                )
+            }
+
+            return conf
         }
 
         /**
          * requirement: confInfo are set in settings
          */
-
         fun writeConf(confId: String) {
-
-            val pConf = pConf {
-
-                pInfo = pConfInfo {
-                    pId = confId
-                    pName = settings.confInfoList.find { it.id == confId }!!.name.value
+            createPConf(
+                Conf(
+                    iControls = iControls,
+                    iBehaviors = iBehaviors,
+                    iTemps = iTemps,
+                    iFans = iFans
+                )
+            ).let {
+                with(getConfFile(confId)) {
+                    writeBytes(it.toByteArray())
                 }
+            }
+        }
 
-                iControls.forEachIndexed { index, iControl ->
-                    pIControls[index] = pIControl {
-                        pName = iControl.name.value
-                        pId = iControl.id
-                        pType = PIControlTypes.I_C_FAN
-                        pIBehaviorId = nullableId { iControl.iBehaviorId.value }
-                        pIsAuto = iControl.isAuto.value
-                        pHControlId = nullableId { iControl.hControlId.value }
-                    }
+        fun createPConf(conf: Conf) = pConf {
+            iControls.forEachIndexed { index, iControl ->
+                pIControls[index] = pIControl {
+                    pName = iControl.name.value
+                    pId = iControl.id
+                    pType = PIControlTypes.I_C_FAN
+                    pIBehaviorId = nullableId { iControl.iBehaviorId.value }
+                    pIsAuto = iControl.isAuto.value
+                    pHControlId = nullableId { iControl.hControlId.value }
                 }
+            }
 
-                iBehaviors.forEachIndexed { index, iBehavior ->
-                    pIBehaviors[index] = pIBehavior {
-                        pName = iBehavior.name.value
-                        pId = iBehavior.id
-                        when (iBehavior) {
-                            is IFlat -> {
-                                pType = PIBehaviorTypes.I_B_FLAT
-                                pFlat = pFlat {}
-                            }
+            iBehaviors.forEachIndexed { index, iBehavior ->
+                pIBehaviors[index] = pIBehavior {
+                    pName = iBehavior.name.value
+                    pId = iBehavior.id
+                    when (iBehavior) {
+                        is IFlat -> {
+                            pType = PIBehaviorTypes.I_B_FLAT
+                            pFlat = pFlat {}
+                        }
 
-                            is ILinear -> {
-                                pType = PIBehaviorTypes.I_B_LINEAR
-                                pLinear = pLinear {
-                                    pTempId = nullableId { iBehavior.hTempId }
-                                    pMinTemp = iBehavior.minTemp.value
-                                    pMaxTemp = iBehavior.maxTemp.value
-                                    pMinFanSpeed = iBehavior.minFanSpeed.value
-                                    pMaxFanSpeed = iBehavior.maxFanSpeed.value
-                                }
-                            }
-
-                            is ITarget -> {
-                                pType = PIBehaviorTypes.I_B_TARGET
-                                pTarget = pTarget {
-                                    pTempId = nullableId { iBehavior.hTempId }
-                                    pIdleTemp = iBehavior.idleTemp.value
-                                    pLoadTemp = iBehavior.loadTemp.value
-                                    pIdleFanSpeed = iBehavior.idleFanSpeed.value
-                                    pLoadFanSpeed = iBehavior.loadFanSpeed.value
-                                }
+                        is ILinear -> {
+                            pType = PIBehaviorTypes.I_B_LINEAR
+                            pLinear = pLinear {
+                                pTempId = nullableId { iBehavior.hTempId }
+                                pMinTemp = iBehavior.minTemp.value
+                                pMaxTemp = iBehavior.maxTemp.value
+                                pMinFanSpeed = iBehavior.minFanSpeed.value
+                                pMaxFanSpeed = iBehavior.maxFanSpeed.value
                             }
                         }
-                    }
-                }
 
-                iTemps.forEachIndexed { index, iTemp ->
-                    pITemps[index] = pITemp {
-                        pName = iTemp.name.value
-                        pId = iTemp.id
-                        when (iTemp) {
-                            is ITemp -> {
-                                pISimpleTemp = pISimpleTemp {
-                                    pHTempId = nullableId { iTemp.hTempId.value }
-                                }
-                            }
-
-                            is ICustomTemp -> {
-                                pICustomTemp = pIcustomTemp {
-                                    pType = when (iTemp.customTempType.value) {
-                                        CustomTempType.average -> PCustomTempTypes.AVERAGE
-                                        CustomTempType.max -> PCustomTempTypes.MAX
-                                        CustomTempType.min -> PCustomTempTypes.MIN
-                                    }
-                                    iTemp.hTempIds.forEachIndexed { index2, id ->
-                                        pHTempIds[index2] = id
-                                    }
-                                }
+                        is ITarget -> {
+                            pType = PIBehaviorTypes.I_B_TARGET
+                            pTarget = pTarget {
+                                pTempId = nullableId { iBehavior.hTempId }
+                                pIdleTemp = iBehavior.idleTemp.value
+                                pLoadTemp = iBehavior.loadTemp.value
+                                pIdleFanSpeed = iBehavior.idleFanSpeed.value
+                                pLoadFanSpeed = iBehavior.loadFanSpeed.value
                             }
                         }
-                    }
-                }
-
-                iFans.forEachIndexed { index, iFan ->
-                    pIFans[index] = pIFan {
-                        pName = iFan.name.value
-                        pId = iFan.id
-                        pType = PIFanTypes.I_S_FAN
-                        pHFanId = nullableId { iFan.hFanId }
                     }
                 }
             }
 
-            with(getFile(confId)) {
-                writeBytes(pConf.toByteArray())
+            iTemps.forEachIndexed { index, iTemp ->
+                pITemps[index] = pITemp {
+                    pName = iTemp.name.value
+                    pId = iTemp.id
+                    when (iTemp) {
+                        is ITemp -> {
+                            pISimpleTemp = pISimpleTemp {
+                                pHTempId = nullableId { iTemp.hTempId.value }
+                            }
+                        }
+
+                        is ICustomTemp -> {
+                            pICustomTemp = pIcustomTemp {
+                                pType = when (iTemp.customTempType.value) {
+                                    CustomTempType.average -> PCustomTempTypes.AVERAGE
+                                    CustomTempType.max -> PCustomTempTypes.MAX
+                                    CustomTempType.min -> PCustomTempTypes.MIN
+                                }
+                                iTemp.hTempIds.forEachIndexed { index2, id ->
+                                    pHTempIds[index2] = id
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            iFans.forEachIndexed { index, iFan ->
+                pIFans[index] = pIFan {
+                    pName = iFan.name.value
+                    pId = iFan.id
+                    pType = PIFanTypes.I_S_FAN
+                    pHFanId = nullableId { iFan.hFanId }
+                }
             }
         }
 
 
-        private fun getFile(confId: String): File = File(System.getProperty("compose.application.resources.dir"))
+        private fun getConfFile(confId: String): File = File(System.getProperty("compose.application.resources.dir"))
             .resolve("$CONF_DIR$confId")
     }
 
