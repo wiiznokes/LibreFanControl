@@ -1,8 +1,6 @@
 package settings
 
 import proto.generated.setting.*
-import proto.generated.update.update
-import proto.generated.update.updateList
 import java.io.File
 
 class SettingHelper {
@@ -38,11 +36,13 @@ class SettingHelper {
 
         val setting = Setting.parseFrom(bytes)
 
-        println(setting.theme)
+        println(setting.theme.name)
     }
 
     private fun getFile(): File {
         val includeFolder = File(System.getProperty("compose.application.resources.dir"))
+
+        println(includeFolder)
 
         return includeFolder.resolve("conf/setting")
     }
