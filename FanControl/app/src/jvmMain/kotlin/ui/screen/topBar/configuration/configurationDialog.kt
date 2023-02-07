@@ -117,7 +117,7 @@ private fun dialog(
                 ids = Pair(id, null),
                 modifier = Modifier
                     .focusRequester(focusRequester)
-                    .widthIn(min = 160.dp, max = 250.dp)
+                    .widthIn(min = 200.dp, max = 250.dp)
                     .height(40.dp),
                 onValueChange = {
                     checkNameTaken(

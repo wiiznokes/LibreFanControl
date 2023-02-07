@@ -10,6 +10,7 @@ import java.io.File
 
 private const val SETTING_FILE = "conf/setting"
 
+
 class SettingsHelper {
 
     companion object {
@@ -19,6 +20,24 @@ class SettingsHelper {
 
         fun loadSetting(): Settings =
             parsePSetting(with(getSettingsFile()) { PSetting.parseFrom(readBytes()) })
+
+
+        fun writeSettings(settings: Settings) =
+            createPSetting(settings).let {
+                with(getSettingsFile()) {
+                    writeBytes(it.toByteArray())
+                }
+            }
+
+
+
+
+        private fun getSettingsFile(): File = File(System.getProperty("compose.application.resources.dir"))
+            .resolve(SETTING_FILE)
+
+
+
+        
 
 
         fun parsePSetting(pSetting: PSetting): Settings =
@@ -56,12 +75,6 @@ class SettingsHelper {
             )
 
 
-        fun writeSettings(settings: Settings) =
-            createPSetting(settings).let {
-                with(getSettingsFile()) {
-                    writeBytes(it.toByteArray())
-                }
-            }
 
         fun createPSetting(settings: Settings): PSetting =
             pSetting {
@@ -88,12 +101,11 @@ class SettingsHelper {
                 pLaunchAtStartUp = settings.launchAtStartUp.value
                 pDegree = settings.degree.value
             }
-
-
-        private fun getSettingsFile(): File = File(System.getProperty("compose.application.resources.dir"))
-            .resolve(SETTING_FILE)
     }
 }
+
+
+
 
 fun nullableToNull(nullableId: NullableId): String? =
     when (nullableId.kindCase) {

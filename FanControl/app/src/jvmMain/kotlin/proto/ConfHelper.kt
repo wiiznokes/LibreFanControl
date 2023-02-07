@@ -19,13 +19,6 @@ class ConfHelper {
 
     companion object {
 
-        data class Conf(
-            val iControls: SnapshotStateList<IControl> = mutableStateListOf(),
-            val iBehaviors: SnapshotStateList<BaseIBehavior> = mutableStateListOf(),
-            val iTemps: SnapshotStateList<BaseITemp> = mutableStateListOf(),
-            val iFans: SnapshotStateList<IFan> = mutableStateListOf(),
-        )
-
         fun loadConf(confId: String) {
             val pConf = with(getConfFile(confId)) {
                 PConf.parseFrom(readBytes())
@@ -50,6 +43,44 @@ class ConfHelper {
                 }
             }
         }
+
+
+
+        fun writeConf(confId: String) {
+            createPConf(
+                Conf(
+                    iControls = iControls,
+                    iBehaviors = iBehaviors,
+                    iTemps = iTemps,
+                    iFans = iFans
+                )
+            ).let {
+                with(getConfFile(confId)) {
+                    writeBytes(it.toByteArray())
+                }
+            }
+        }
+
+
+
+        private fun getConfFile(confId: String): File = File(System.getProperty("compose.application.resources.dir"))
+            .resolve("$CONF_DIR$confId")
+
+
+
+
+
+
+
+
+
+
+        data class Conf(
+            val iControls: SnapshotStateList<IControl> = mutableStateListOf(),
+            val iBehaviors: SnapshotStateList<BaseIBehavior> = mutableStateListOf(),
+            val iTemps: SnapshotStateList<BaseITemp> = mutableStateListOf(),
+            val iFans: SnapshotStateList<IFan> = mutableStateListOf(),
+        )
 
 
         fun parsePConf(pConf: PConf): Conf {
@@ -154,23 +185,6 @@ class ConfHelper {
             return conf
         }
 
-        /**
-         * requirement: confInfo are set in settings
-         */
-        fun writeConf(confId: String) {
-            createPConf(
-                Conf(
-                    iControls = iControls,
-                    iBehaviors = iBehaviors,
-                    iTemps = iTemps,
-                    iFans = iFans
-                )
-            ).let {
-                with(getConfFile(confId)) {
-                    writeBytes(it.toByteArray())
-                }
-            }
-        }
 
         fun createPConf(conf: Conf) = pConf {
             iControls.forEach { iControl ->
@@ -263,11 +277,5 @@ class ConfHelper {
                 )
             }
         }
-
-
-        private fun getConfFile(confId: String): File = File(System.getProperty("compose.application.resources.dir"))
-            .resolve("$CONF_DIR$confId")
     }
-
-
 }
