@@ -14,7 +14,7 @@ class Application(
 
     fun onCreate() {
         if (SettingsHelper.checkSetting()) {
-            State.settings = SettingsHelper.loadSetting()
+            SettingsHelper.loadSetting()
         }
     }
 
@@ -34,7 +34,7 @@ class Application(
     fun onStop() {
         updateShouldStop = true
         runBlocking { jobUpdate.cancelAndJoin() }
-        SettingsHelper.writeSetting(settings)
+        SettingsHelper.writeSetting()
     }
 
     private suspend fun startUpdate() {
