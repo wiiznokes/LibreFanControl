@@ -80,11 +80,13 @@ class SettingsHelper {
                          else null_ = NullValue.NULL_VALUE
                     }
                 }
-                settings.confInfoList.forEachIndexed { index, confInfo ->
-                    pConfInfos[index] = pConfInfo {
-                        pId = confInfo.id
-                        pName = confInfo.name.value
-                    }
+                settings.confInfoList.forEach { confInfo ->
+                    pConfInfos.add(
+                        pConfInfo {
+                            pId = confInfo.id
+                            pName = confInfo.name.value
+                        }
+                    )
                 }
                 pUpdateDelay = settings.updateDelay.value
                 pTheme = when (settings.theme.value) {
