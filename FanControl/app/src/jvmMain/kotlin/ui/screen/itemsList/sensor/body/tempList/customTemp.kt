@@ -53,7 +53,7 @@ fun baseCustomTempBody(
 
         val expanded = remember(
             iCustomTemp.id,
-            State.settings.configId.value
+            State.settings.confId.value
         ) {
             mutableStateOf(false)
         }

@@ -38,7 +38,7 @@ message NullableId {
 
 message PSetting {
   PLanguages PLanguage = 1;
-  NullableId PConfigId = 2;
+  NullableId PConfId = 2;
   repeated PConfInfo PConfInfos = 3;
   int32 PUpdateDelay = 4;
   PThemes PTheme = 5;

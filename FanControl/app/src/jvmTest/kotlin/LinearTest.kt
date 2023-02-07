@@ -1,3 +1,6 @@
+
+/*
+
 import logicControl.behavior.LinearLogic
 import model.HardwareType
 import model.hardware.Sensor
@@ -57,3 +60,5 @@ class LinearTest {
         tempList.add(0, temp)
     }
 }
+
+ */

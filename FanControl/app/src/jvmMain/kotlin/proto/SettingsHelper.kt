@@ -1,91 +1,123 @@
 package proto
 
-import State
+import com.google.protobuf.NullValue
 import model.ConfInfo
 import model.Languages
+import model.Settings
 import model.Themes
 import proto.generated.setting.*
 import java.io.File
 
 private const val SETTING_FILE = "conf/setting"
 
+
 class SettingsHelper {
 
     companion object {
-        private val setting = State.settings
 
-        fun checkSetting(): Boolean = getFile().exists()
+        fun checkSetting(): Boolean = getSettingsFile().exists()
 
-        fun loadSetting() {
-            val pSetting = with(getFile()) {
-                PSetting.parseFrom(readBytes())
-            }
 
-            setting.language.value = when (pSetting.pLanguage) {
-                PLanguages.EN -> Languages.en
-                PLanguages.FR -> Languages.fr
-                else -> {
-                    println("error, unknown language")
-                    Languages.en
+        fun loadSetting(): Settings =
+            parsePSetting(with(getSettingsFile()) { PSetting.parseFrom(readBytes()) })
+
+
+        fun writeSettings(settings: Settings) =
+            createPSetting(settings).let {
+                with(getSettingsFile()) {
+                    writeBytes(it.toByteArray())
                 }
             }
-            setting.configId.value = pSetting.pConfigIdOrNull.let { it?.pId }
-            setting.confInfoList.clear()
-            pSetting.pConfInfosList.forEach {
-                setting.confInfoList.add(
+
+
+
+
+        private fun getSettingsFile(): File = File(System.getProperty("compose.application.resources.dir"))
+            .resolve(SETTING_FILE)
+
+
+
+        
+
+
+        fun parsePSetting(pSetting: PSetting): Settings =
+            Settings(
+                language = when (pSetting.pLanguage) {
+                    PLanguages.EN -> Languages.en
+                    PLanguages.FR -> Languages.fr
+                    else -> {
+                        println("error, unknown language")
+                        Languages.en
+                    }
+                },
+                confId = nullableToNull(pSetting.pConfId),
+                confInfoList = pSetting.pConfInfosList.map { confInfo ->
                     ConfInfo(
-                        id = it.pId,
-                        name = it.pName
+                        id = confInfo.pId,
+                        name = confInfo.pName
                     )
-                )
-            }
-            setting.updateDelay.value = pSetting.pUpdateDelay
-            setting.theme.value = when (pSetting.pTheme) {
-                PThemes.DARK -> Themes.dark
-                PThemes.LIGHT -> Themes.light
-                PThemes.SYSTEM -> Themes.system
-                else -> {
-                    println("error, unknown theme")
-                    Themes.system
-                }
-            }
-            setting.firstStart.value = pSetting.pFirstStart
-            setting.launchAtStartUp.value = pSetting.pLaunchAtStartUp
-            setting.degree.value = pSetting.pDegree
-        }
 
-        fun writeSetting() {
-            val pSetting = pSetting {
-                pLanguage = when (setting.language.value) {
+                },
+                updateDelay = pSetting.pUpdateDelay,
+                theme = when (pSetting.pTheme) {
+                    PThemes.DARK -> Themes.dark
+                    PThemes.LIGHT -> Themes.light
+                    PThemes.SYSTEM -> Themes.system
+                    else -> {
+                        println("error, unknown theme")
+                        Themes.system
+                    }
+                },
+                firstStart = pSetting.pFirstStart,
+                launchAtStartUp = pSetting.pLaunchAtStartUp,
+                degree = pSetting.pDegree
+
+            )
+
+
+
+        fun createPSetting(settings: Settings): PSetting =
+            pSetting {
+                pLanguage = when (settings.language.value) {
                     Languages.en -> PLanguages.EN
                     Languages.fr -> PLanguages.FR
                 }
-                pConfigId = nullableId { setting.configId.value }
-                setting.confInfoList.forEachIndexed { index, confInfo ->
-                    pConfInfos[index] = pConfInfo {
-                        pId = confInfo.id
-                        pName = confInfo.name.value
-                    }
+                pConfId = nullToNullable(settings.confId.value)
+                settings.confInfoList.forEach { confInfo ->
+                    pConfInfos.add(
+                        pConfInfo {
+                            pId = confInfo.id
+                            pName = confInfo.name.value
+                        }
+                    )
                 }
-                pUpdateDelay = setting.updateDelay.value
-                pTheme = when (setting.theme.value) {
+                pUpdateDelay = settings.updateDelay.value
+                pTheme = when (settings.theme.value) {
                     Themes.system -> PThemes.SYSTEM
                     Themes.light -> PThemes.LIGHT
                     Themes.dark -> PThemes.DARK
                 }
-                pFirstStart = setting.firstStart.value
-                pLaunchAtStartUp = setting.launchAtStartUp.value
-                pDegree = setting.degree.value
+                pFirstStart = settings.firstStart.value
+                pLaunchAtStartUp = settings.launchAtStartUp.value
+                pDegree = settings.degree.value
             }
-
-            with(getFile()) {
-                writeBytes(pSetting.toByteArray())
-            }
-        }
+    }
+}
 
 
-        private fun getFile(): File = File(System.getProperty("compose.application.resources.dir"))
-            .resolve(SETTING_FILE)
+
+
+fun nullableToNull(nullableId: NullableId): String? =
+    when (nullableId.kindCase) {
+        NullableId.KindCase.PID -> nullableId.pId
+        NullableId.KindCase.NULL -> null
+        else -> throw ProtoException("Nullable id not set")
     }
 
-}
+fun nullToNullable(id: String?): NullableId =
+    nullableId {
+        when (id) {
+            null -> null_ = NullValue.NULL_VALUE
+            else -> pId = id
+        }
+    }

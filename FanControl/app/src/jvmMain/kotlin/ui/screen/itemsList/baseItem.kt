@@ -52,7 +52,7 @@ fun baseItemBody(
         contentName = {
             managerNameTextField(
                 text = item.name,
-                ids = Pair(item.id, State.settings.configId.value),
+                ids = Pair(item.id, State.settings.confId.value),
                 onValueChange = { onNameChange(it) },
                 placeholder = Resources.getString("label/name"),
             )

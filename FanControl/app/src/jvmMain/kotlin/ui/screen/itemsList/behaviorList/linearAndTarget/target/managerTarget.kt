@@ -68,7 +68,7 @@ fun targetBody(
 
         val expanded = remember(
             target.id,
-            State.settings.configId.value
+            State.settings.confId.value
         ) {
             mutableStateOf(false)
         }
@@ -86,7 +86,7 @@ fun targetBody(
 
                 val text: MutableState<String> = remember(
                     target.id,
-                    State.settings.configId.value
+                    State.settings.confId.value
                 ) {
                     mutableStateOf(targetValues[i].toString())
                 }

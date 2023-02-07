@@ -1,11 +1,14 @@
 package proto
 
-import State
+import State.iBehaviors
+import State.iControls
+import State.iFans
+import State.iTemps
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.ItemType
 import model.item.*
 import proto.generated.conf.*
-import proto.generated.setting.nullableId
-import proto.generated.setting.pConfInfo
 import java.io.File
 
 private const val CONF_DIR = "conf/conf"
@@ -15,26 +18,77 @@ class ProtoException(msg: String) : Exception(msg)
 class ConfHelper {
 
     companion object {
-        private val settings = State.settings
-
-        private val iControls = State.iControls
-        private val iBehaviors = State.iBehaviors
-        private val iTemps = State.iTemps
-        private val iFans = State.iFans
-
 
         fun loadConf(confId: String) {
-            val pConf = with(getFile(confId)) {
+            val pConf = with(getConfFile(confId)) {
                 PConf.parseFrom(readBytes())
             }
 
-            iControls.clear()
-            iBehaviors.clear()
-            iTemps.clear()
-            iFans.clear()
+            parsePConf(pConf).let {
+                iControls.apply {
+                    clear()
+                    addAll(it.iControls)
+                }
+                iBehaviors.apply {
+                    clear()
+                    addAll(it.iBehaviors)
+                }
+                iTemps.apply {
+                    clear()
+                    addAll(it.iTemps)
+                }
+                iFans.apply {
+                    clear()
+                    addAll(it.iFans)
+                }
+            }
+        }
+
+
+
+        fun writeConf(confId: String) {
+            createPConf(
+                Conf(
+                    iControls = iControls,
+                    iBehaviors = iBehaviors,
+                    iTemps = iTemps,
+                    iFans = iFans
+                )
+            ).let {
+                with(getConfFile(confId)) {
+                    writeBytes(it.toByteArray())
+                }
+            }
+        }
+
+
+
+        private fun getConfFile(confId: String): File = File(System.getProperty("compose.application.resources.dir"))
+            .resolve("$CONF_DIR$confId")
+
+
+
+
+
+
+
+
+
+
+        data class Conf(
+            val iControls: SnapshotStateList<IControl> = mutableStateListOf(),
+            val iBehaviors: SnapshotStateList<BaseIBehavior> = mutableStateListOf(),
+            val iTemps: SnapshotStateList<BaseITemp> = mutableStateListOf(),
+            val iFans: SnapshotStateList<IFan> = mutableStateListOf(),
+        )
+
+
+        fun parsePConf(pConf: PConf): Conf {
+
+            val conf = Conf()
 
             pConf.piControlsList.forEach { pControl ->
-                iControls.add(
+                conf.iControls.add(
                     IControl(
                         name = pControl.pName,
                         id = pControl.pId,
@@ -42,15 +96,15 @@ class ConfHelper {
                             PIControlTypes.I_C_FAN -> ItemType.ControlType.I_C_FAN
                             else -> throw ProtoException("unknown control type")
                         },
-                        iBehaviorId = pControl.pIBehaviorIdOrNull.let { it?.pId },
+                        iBehaviorId = nullableToNull(pControl.piBehaviorId),
                         isAuto = pControl.pIsAuto,
-                        controlId = pControl.pHControlIdOrNull.let { it?.pId }
+                        controlId = nullableToNull(pControl.phControlId),
                     )
                 )
             }
 
             pConf.piBehaviorsList.forEach { pBehavior ->
-                iBehaviors.add(
+                conf.iBehaviors.add(
                     when (pBehavior.pType) {
                         PIBehaviorTypes.I_B_FLAT ->
                             IFlat(
@@ -63,7 +117,7 @@ class ConfHelper {
                             ILinear(
                                 name = pBehavior.pName,
                                 id = pBehavior.pId,
-                                tempId = it.pTempIdOrNull.let { id -> id?.pId },
+                                tempId = nullableToNull(it.pTempId),
                                 minTemp = it.pMinTemp,
                                 maxTemp = it.pMaxTemp,
                                 minFanSpeed = it.pMinFanSpeed,
@@ -76,7 +130,7 @@ class ConfHelper {
                             ITarget(
                                 name = pBehavior.pName,
                                 id = pBehavior.pId,
-                                tempId = it.pTempIdOrNull.let { id -> id?.pId },
+                                tempId = nullableToNull(it.pTempId),
                                 idleTemp = it.pIdleTemp,
                                 loadTemp = it.pLoadTemp,
                                 idleFanSpeed = it.pIdleFanSpeed,
@@ -90,12 +144,12 @@ class ConfHelper {
             }
 
             pConf.piTempsList.forEach { pTemp ->
-                iTemps.add(
+                conf.iTemps.add(
                     when (pTemp.pType) {
                         PITempTypes.I_S_TEMP -> ITemp(
                             name = pTemp.pName,
                             id = pTemp.pId,
-                            hTempId = pTemp.piSimpleTemp.pHTempIdOrNull.let { it?.pId }
+                            hTempId = nullableToNull(pTemp.piSimpleTemp.phTempId)
                         )
 
                         PITempTypes.I_S_CUSTOM_TEMP -> pTemp.piCustomTemp.let {
@@ -118,34 +172,36 @@ class ConfHelper {
 
             }
 
+            pConf.piFansList.forEach { pFan ->
+                conf.iFans.add(
+                    IFan(
+                        name = pFan.pName,
+                        id = pFan.pId,
+                        hFanId = nullableToNull(pFan.phFanId)
+                    )
+                )
+            }
+
+            return conf
         }
 
-        /**
-         * requirement: confInfo are set in settings
-         */
 
-        fun writeConf(confId: String) {
-
-            val pConf = pConf {
-
-                pInfo = pConfInfo {
-                    pId = confId
-                    pName = settings.confInfoList.find { it.id == confId }!!.name.value
+        fun createPConf(conf: Conf) = pConf {
+            iControls.forEach { iControl ->
+                pIControls.add(pIControl {
+                    pName = iControl.name.value
+                    pId = iControl.id
+                    pType = PIControlTypes.I_C_FAN
+                    pIBehaviorId = nullToNullable(iControl.iBehaviorId.value)
+                    pIsAuto = iControl.isAuto.value
+                    pHControlId = nullToNullable(iControl.hControlId.value)
                 }
+                )
+            }
 
-                iControls.forEachIndexed { index, iControl ->
-                    pIControls[index] = pIControl {
-                        pName = iControl.name.value
-                        pId = iControl.id
-                        pType = PIControlTypes.I_C_FAN
-                        pIBehaviorId = nullableId { iControl.iBehaviorId.value }
-                        pIsAuto = iControl.isAuto.value
-                        pHControlId = nullableId { iControl.hControlId.value }
-                    }
-                }
-
-                iBehaviors.forEachIndexed { index, iBehavior ->
-                    pIBehaviors[index] = pIBehavior {
+            iBehaviors.forEach { iBehavior ->
+                pIBehaviors.add(
+                    pIBehavior {
                         pName = iBehavior.name.value
                         pId = iBehavior.id
                         when (iBehavior) {
@@ -157,7 +213,7 @@ class ConfHelper {
                             is ILinear -> {
                                 pType = PIBehaviorTypes.I_B_LINEAR
                                 pLinear = pLinear {
-                                    pTempId = nullableId { iBehavior.hTempId }
+                                    pTempId = nullToNullable(iBehavior.hTempId.value)
                                     pMinTemp = iBehavior.minTemp.value
                                     pMaxTemp = iBehavior.maxTemp.value
                                     pMinFanSpeed = iBehavior.minFanSpeed.value
@@ -168,7 +224,7 @@ class ConfHelper {
                             is ITarget -> {
                                 pType = PIBehaviorTypes.I_B_TARGET
                                 pTarget = pTarget {
-                                    pTempId = nullableId { iBehavior.hTempId }
+                                    pTempId = nullToNullable(iBehavior.hTempId.value)
                                     pIdleTemp = iBehavior.idleTemp.value
                                     pLoadTemp = iBehavior.loadTemp.value
                                     pIdleFanSpeed = iBehavior.idleFanSpeed.value
@@ -177,16 +233,18 @@ class ConfHelper {
                             }
                         }
                     }
-                }
+                )
+            }
 
-                iTemps.forEachIndexed { index, iTemp ->
-                    pITemps[index] = pITemp {
+            iTemps.forEach { iTemp ->
+                pITemps.add(
+                    pITemp {
                         pName = iTemp.name.value
                         pId = iTemp.id
                         when (iTemp) {
                             is ITemp -> {
                                 pISimpleTemp = pISimpleTemp {
-                                    pHTempId = nullableId { iTemp.hTempId.value }
+                                    pHTempId = nullToNullable(iTemp.hTempId.value)
                                 }
                             }
 
@@ -197,34 +255,27 @@ class ConfHelper {
                                         CustomTempType.max -> PCustomTempTypes.MAX
                                         CustomTempType.min -> PCustomTempTypes.MIN
                                     }
-                                    iTemp.hTempIds.forEachIndexed { index2, id ->
-                                        pHTempIds[index2] = id
+
+                                    iTemp.hTempIds.forEach { id ->
+                                        pHTempIds.add(id)
                                     }
                                 }
                             }
                         }
                     }
-                }
+                )
+            }
 
-                iFans.forEachIndexed { index, iFan ->
-                    pIFans[index] = pIFan {
+            iFans.forEach { iFan ->
+                pIFans.add(
+                    pIFan {
                         pName = iFan.name.value
                         pId = iFan.id
                         pType = PIFanTypes.I_S_FAN
-                        pHFanId = nullableId { iFan.hFanId }
+                        pHFanId = nullToNullable(iFan.hFanId.value)
                     }
-                }
-            }
-
-            with(getFile(confId)) {
-                writeBytes(pConf.toByteArray())
+                )
             }
         }
-
-
-        private fun getFile(confId: String): File = File(System.getProperty("compose.application.resources.dir"))
-            .resolve("$CONF_DIR$confId")
     }
-
-
 }
