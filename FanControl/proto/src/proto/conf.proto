@@ -13,17 +13,17 @@ import "proto/setting.proto";
 
 
 
-message Conf {
-  ConfInfo Info = 1;
+message PConf {
+  PConfInfo PInfo = 1;
 
-  repeated Hardware HControlList = 2;
-  repeated Hardware HTempList = 3;
-  repeated Hardware HFanList = 4;
+  repeated PHardware PHControls = 2;
+  repeated PHardware PHTemps = 3;
+  repeated PHardware PHFans = 4;
 
-  repeated IControl IControlList = 5;
-  repeated IBehavior IBehaviorList = 6;
-  repeated ISensor IFanList = 7;
-  repeated ISensor ITempList = 8;
+  repeated PIControl PIControls = 5;
+  repeated PIBehavior PIBehaviors = 6;
+  repeated PISensor PIFans = 7;
+  repeated PISensor PITemps = 8;
 }
 
 
@@ -32,24 +32,24 @@ message Conf {
     type ***********************
  */
 
-enum HType {
+enum PHTypes {
   H_C_FAN = 0;
   H_S_FAN = 1;
   H_S_TEMP = 2;
 }
 
 
-enum IControlType {
+enum PIControlTypes {
   I_C_FAN = 0;
 }
 
-enum IBehaviorType {
+enum PIBehaviorTypes {
   I_B_FLAT = 0;
   I_B_LINEAR = 1;
   I_B_TARGET = 2;
 }
 
-enum ISensorType {
+enum PISensorTypes {
   I_S_FAN = 0;
   I_S_TEMP = 1;
   I_S_CUSTOM_TEMP = 2;
@@ -65,9 +65,9 @@ enum ISensorType {
     Hardware *****************
  */
 
-message Hardware {
-  string Id = 1;
-  HType Type = 2;
+message PHardware {
+  string PId = 1;
+  PHTypes PType = 2;
 }
 
 
@@ -77,13 +77,13 @@ message Hardware {
 
 
 
-message IControl {
-  string Name = 1;
-  string Id = 2;
-  IControlType Type = 3;
-  NullableId IBehaviorId = 4;
-  bool IsAuto = 5;
-  NullableId HControlId = 6;
+message PIControl {
+  string PName = 1;
+  string PId = 2;
+  PIControlTypes PType = 3;
+  NullableId PIBehaviorId = 4;
+  bool PIsAuto = 5;
+  NullableId PHControlId = 6;
 }
 
 
@@ -91,40 +91,40 @@ message IControl {
     Behavior **********************
  */
 
-message IBehavior {
-  string Name = 1;
-  string Id = 2;
-  IBehaviorType Type = 3;
+message PIBehavior {
+  string PName = 1;
+  string PId = 2;
+  PIBehaviorTypes PType = 3;
 
-  oneof kind {
-    Linear Flat = 4;
-    Linear Linear = 5;
-    Linear Target = 6;
+  oneof kind{
+    PFlat PFlat = 4;
+    PLinear PLinear = 5;
+    PTarget PTarget = 6;
   }
 }
 
-message Flat {
+message PFlat {
 
 }
 
 
-message Linear {
-  NullableId HTempId = 1;
+message PLinear {
+  NullableId PHTempId = 1;
 
-  int32 MinTemp = 2;
-  int32 MaxTemp = 3;
-  int32 MinFanSpeed = 4;
-  int32 MaxFanSpeed = 5;
+  int32 PMinTemp = 2;
+  int32 PMaxTemp = 3;
+  int32 PMinFanSpeed = 4;
+  int32 PMaxFanSpeed = 5;
 }
 
 
-message Target {
-  NullableId HTempId = 1;
+message PTarget {
+  NullableId PHTempId = 1;
 
-  int32 IdleTemp = 2;
-  int32 LoadTemp = 3;
-  int32 IdleFanSpeed = 4;
-  int32 LoadFanSpeed = 5;
+  int32 PIdleTemp = 2;
+  int32 PLoadTemp = 3;
+  int32 PIdleFanSpeed = 4;
+  int32 PLoadFanSpeed = 5;
 }
 
 /*
@@ -137,33 +137,33 @@ message Target {
  */
 
 
-message ISensor {
-  string Name = 1;
-  string Id = 2;
-  ISensorType Type = 3;
+message PISensor {
+  string PName = 1;
+  string PId = 2;
+  PISensorTypes PType = 3;
 
   oneof kind {
-    Linear IFan = 4;
-    Linear ITemp = 5;
-    Linear ICustomTemp = 6;
+    PLinear PIFan = 4;
+    PLinear PITemp = 5;
+    PLinear PICustomTemp = 6;
   }
 }
 
-message IFan {
-  NullableId HFanId = 1;
+message PIFan {
+  NullableId PHFanId = 1;
 }
 
-message ITemp {
-  NullableId HTempId = 1;
+message PITemp {
+  NullableId PHTempId = 1;
 }
 
 
-message IcustomTemp {
-  CustomTempType Type = 1;
-  repeated string HTempIdList = 2;
+message PIcustomTemp {
+  PCustomTempTypes PType = 1;
+  repeated string PHTempIds = 2;
 }
 
-enum CustomTempType {
+enum PCustomTempTypes {
   AVERAGE = 0;
   MAX = 1;
   MIN = 2;

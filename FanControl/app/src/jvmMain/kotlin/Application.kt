@@ -1,6 +1,6 @@
 import external.ExternalManager
 import kotlinx.coroutines.*
-import settings.Settings
+import model.Settings
 import utils.initSensor
 
 

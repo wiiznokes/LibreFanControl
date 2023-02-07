@@ -28,13 +28,13 @@ val viewModel = ConfigurationVM()
 
 @Composable
 fun configuration() {
-    if (viewModel.settings.configList.isNotEmpty()) {
+    if (viewModel.settings.confInfoList.isNotEmpty()) {
 
         val setting = viewModel.settings
 
         val index = when (setting.configId.value) {
             null -> -1
-            else -> setting.configList.indexOfFirst {
+            else -> setting.confInfoList.indexOfFirst {
                 it.id == setting.configId.value
             }
         }
@@ -42,7 +42,7 @@ fun configuration() {
         val text = remember(setting.configId) {
             when (setting.configId.value) {
                 null -> mutableStateOf(Resources.getString("common/none"))
-                else -> mutableStateOf(setting.configList[index].name)
+                else -> mutableStateOf(setting.confInfoList[index].name)
             }
         }
 
@@ -62,7 +62,7 @@ fun configuration() {
 
         configurationListChoice(
             text = text,
-            configList = setting.configList,
+            configList = setting.confInfoList,
             currentId = setting.configId.value,
             currentIndex = index,
         )
