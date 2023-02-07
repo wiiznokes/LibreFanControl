@@ -6,26 +6,28 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.settingSlidingWindows.SettingScope
 import model.Languages
 import ui.component.managerText
+import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 import ui.utils.Resources
 
 
 fun SettingScope.language(
-    language: Languages,
+    language: MutableState<Languages>,
     onLanguageChange: (Languages) -> Unit,
 ) {
     item(
         title = Resources.getString("settings/language"),
-        subTitle = Resources.getString("language/${language}"),
+        subTitle = Resources.getString("language/${language.value}"),
         icon = {
             Icon(
-                painter = Resources.getIcon("settings/translate40"),
-                tint = MaterialTheme.colorScheme.inverseOnSurface,
+                painter = Resources.getIcon("settings/translate24"),
+                tint = LocalColors.current.onSecondContainer,
                 contentDescription = null
             )
         }
@@ -34,7 +36,7 @@ fun SettingScope.language(
 
         Divider(
             modifier = Modifier.fillMaxWidth(),
-            color = MaterialTheme.colorScheme.inverseOnSurface,
+            color = LocalColors.current.onSecondContainer,
             thickness = 2.dp
         )
 
@@ -50,13 +52,13 @@ fun SettingScope.language(
                     ) {
                         managerText(
                             text = Resources.getString("language/$it"),
-                            color = MaterialTheme.colorScheme.inverseOnSurface,
-                            modifier = Modifier.padding(16.dp)
+                            color = LocalColors.current.onSecondContainer,
+                            modifier = Modifier.padding(LocalSpaces.current.medium)
                         )
                     }
                     Divider(
                         modifier = Modifier.fillMaxWidth(),
-                        color = MaterialTheme.colorScheme.inverseOnSurface,
+                        color = LocalColors.current.onSecondContainer,
                         thickness = 2.dp
                     )
                 }

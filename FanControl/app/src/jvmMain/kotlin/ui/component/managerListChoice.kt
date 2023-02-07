@@ -136,7 +136,8 @@ private fun managerBaseDropdownMenu(
     ) {
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             Row(
-                modifier = modifier,
+                modifier = modifier
+                    .clickable { expanded.value = !expanded.value  },
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -160,7 +161,7 @@ private fun managerBaseDropdownMenu(
 
                     Icon(
                         modifier = Modifier
-                            .clickable { expanded.value = true },
+                            .clickable { expanded.value = !expanded.value  },
                         painter = painter,
                         contentDescription = null,
                         tint = colors.onBase
@@ -172,7 +173,7 @@ private fun managerBaseDropdownMenu(
         }
         DropdownMenu(
             expanded = expanded.value,
-            onDismissRequest = { expanded.value = false },
+            onDismissRequest = { expanded.value = !expanded.value },
             modifier = Modifier
                 .background(
                     color = colors.container

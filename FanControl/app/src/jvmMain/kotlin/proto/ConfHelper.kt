@@ -153,6 +153,7 @@ class ConfHelper {
                                 pType = PIBehaviorTypes.I_B_FLAT
                                 pFlat = pFlat {}
                             }
+
                             is ILinear -> {
                                 pType = PIBehaviorTypes.I_B_LINEAR
                                 pLinear = pLinear {
@@ -163,6 +164,7 @@ class ConfHelper {
                                     pMaxFanSpeed = iBehavior.maxFanSpeed.value
                                 }
                             }
+
                             is ITarget -> {
                                 pType = PIBehaviorTypes.I_B_TARGET
                                 pTarget = pTarget {
@@ -181,15 +183,16 @@ class ConfHelper {
                     pITemps[index] = pITemp {
                         pName = iTemp.name.value
                         pId = iTemp.id
-                        when(iTemp) {
+                        when (iTemp) {
                             is ITemp -> {
                                 pISimpleTemp = pISimpleTemp {
                                     pHTempId = nullableId { iTemp.hTempId.value }
                                 }
                             }
+
                             is ICustomTemp -> {
                                 pICustomTemp = pIcustomTemp {
-                                    pType = when(iTemp.customTempType.value) {
+                                    pType = when (iTemp.customTempType.value) {
                                         CustomTempType.average -> PCustomTempTypes.AVERAGE
                                         CustomTempType.max -> PCustomTempTypes.MAX
                                         CustomTempType.min -> PCustomTempTypes.MIN
@@ -219,7 +222,7 @@ class ConfHelper {
         }
 
 
-        private fun getFile(confId: String): File  = File(System.getProperty("compose.application.resources.dir"))
+        private fun getFile(confId: String): File = File(System.getProperty("compose.application.resources.dir"))
             .resolve("$CONF_DIR$confId")
     }
 

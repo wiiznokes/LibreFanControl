@@ -4,13 +4,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.settingSlidingWindows.SettingColors
 import com.example.settingSlidingWindows.SettingScope
 import ui.component.managerText
+import ui.theme.LocalColors
+import ui.theme.LocalSpaces
 import ui.utils.Resources
 import java.awt.Desktop
 import java.net.URI
@@ -32,15 +31,11 @@ private val donateList = listOf(
 fun SettingScope.donate() {
 
     item(
-        settingColors = SettingColors(
-            container = Color.Yellow,
-            onContainer = Color.Black
-        ),
         title = Resources.getString("settings/donate"),
         icon = {
             Icon(
-                painter = Resources.getIcon("settings/attach_money40"),
-                tint = Color.Black,
+                painter = Resources.getIcon("settings/attach_money24"),
+                tint = LocalColors.current.onSecondContainer,
                 contentDescription = null
             )
         },
@@ -50,7 +45,7 @@ fun SettingScope.donate() {
 
         Divider(
             modifier = Modifier.fillMaxWidth(),
-            color = MaterialTheme.colorScheme.inverseOnSurface,
+            color = LocalColors.current.onSecondContainer,
             thickness = 2.dp
         )
 
@@ -70,13 +65,13 @@ fun SettingScope.donate() {
             ) {
                 managerText(
                     text = it.title,
-                    color = MaterialTheme.colorScheme.inverseOnSurface,
-                    modifier = Modifier.padding(16.dp)
+                    color = LocalColors.current.onSecondContainer,
+                    modifier = Modifier.padding(LocalSpaces.current.medium)
                 )
             }
             Divider(
                 modifier = Modifier.fillMaxWidth(),
-                color = MaterialTheme.colorScheme.inverseOnSurface,
+                color = LocalColors.current.onSecondContainer,
                 thickness = 2.dp
             )
 
