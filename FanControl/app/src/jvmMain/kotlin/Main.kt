@@ -1,13 +1,20 @@
 import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import settings.SettingHelper
 import ui.screen.home
 import ui.theme.fanControlTheme
 import ui.utils.Resources
 
 
 fun main() {
+    val setting = SettingHelper()
+    setting.initSetting()
+    setting.getSetting()
+
     MainApp()
+
+
 }
 
 class MainApp {

@@ -17,7 +17,7 @@ class HControl(
     value: Int = 0,
 ) : BaseH {
     override val value: MutableState<Int> = mutableStateOf(value)
-    override val type: HardwareType.SensorType = HardwareType.SensorType.H_S_FAN
+    override val type: HardwareType.ControlType = HardwareType.ControlType.H_C_FAN
 }
 
 class HFan(
