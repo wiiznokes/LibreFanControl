@@ -3,7 +3,7 @@
 #>
 
 
-$drawablePath = $PSScriptRoot + "/../src/jvmMain/resources/drawable"
+$drawablePath = $PSScriptRoot + "/../app/src/jvmMain/resources/drawable"
 Set-Location $drawablePath
 
 # Get a list of files
