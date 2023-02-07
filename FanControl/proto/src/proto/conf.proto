@@ -22,8 +22,8 @@ message PConf {
 
   repeated PIControl PIControls = 5;
   repeated PIBehavior PIBehaviors = 6;
-  repeated PISensor PIFans = 7;
-  repeated PISensor PITemps = 8;
+  repeated PISensor PITemps = 7;
+  repeated PISensor PIFans = 8;
 }
 
 

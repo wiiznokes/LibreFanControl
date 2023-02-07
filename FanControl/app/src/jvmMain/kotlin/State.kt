@@ -13,19 +13,20 @@ import model.Settings
 
 object State {
 
+    val hControls: SnapshotStateList<HControl> = mutableStateListOf()
+    val hTemps: SnapshotStateList<HTemp> = mutableStateListOf()
+    val hFans: SnapshotStateList<HFan> = mutableStateListOf()
+
     val iControls: SnapshotStateList<IControl> = mutableStateListOf()
     val iBehaviors: SnapshotStateList<BaseIBehavior> = mutableStateListOf()
-    val iFans: SnapshotStateList<IFan> = mutableStateListOf()
     val iTemps: SnapshotStateList<BaseITemp> = mutableStateListOf()
+    val iFans: SnapshotStateList<IFan> = mutableStateListOf()
 
-    val hFans: SnapshotStateList<HFan> = mutableStateListOf()
-    val hTemps: SnapshotStateList<HTemp> = mutableStateListOf()
-    val hControls: SnapshotStateList<HControl> = mutableStateListOf()
 
     val addItemExpanded: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val editModeActivated: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    var settings: Settings = Settings()
+    val settings: Settings = Settings()
 
 }
 

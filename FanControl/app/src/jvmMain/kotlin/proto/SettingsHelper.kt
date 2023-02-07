@@ -1,60 +1,60 @@
 package proto
 
-import androidx.compose.runtime.toMutableStateList
+import State
 import model.ConfInfo
 import model.Languages
-import model.Settings
 import model.Themes
 import proto.generated.setting.*
 import java.io.File
 
-private const val SETTING_DIR = "conf/setting"
+private const val SETTING_FILE = "conf/setting"
 
 class SettingsHelper {
 
     companion object {
+        private val setting = State.settings
+
         fun checkSetting(): Boolean = getFile().exists()
 
-        fun loadSetting(): Settings {
-            println("loadSetting")
+        fun loadSetting() {
             val pSetting = with(getFile()) {
                 PSetting.parseFrom(readBytes())
             }
 
-            return Settings(
-                language = when (pSetting.pLanguage) {
-                    PLanguages.EN -> Languages.en
-                    PLanguages.FR -> Languages.fr
-                    else -> {
-                        println("error, unknown language")
-                        Languages.en
-                    }
-                },
-                confId = pSetting.pConfigIdOrNull.let { it?.pId },
-                confInfoList = pSetting.pConfInfosList.map {
+            setting.language.value = when (pSetting.pLanguage) {
+                PLanguages.EN -> Languages.en
+                PLanguages.FR -> Languages.fr
+                else -> {
+                    println("error, unknown language")
+                    Languages.en
+                }
+            }
+            setting.configId.value = pSetting.pConfigIdOrNull.let { it?.pId }
+            setting.confInfoList.clear()
+            pSetting.pConfInfosList.forEach {
+                setting.confInfoList.add(
                     ConfInfo(
                         id = it.pId,
                         name = it.pName
                     )
-                }.toMutableStateList(),
-                updateDelay = pSetting.pUpdateDelay,
-                theme = when(pSetting.pTheme) {
-                    PThemes.DARK -> Themes.dark
-                    PThemes.LIGHT -> Themes.light
-                    PThemes.SYSTEM -> Themes.system
-                    else -> {
-                        println("error, unknown theme")
-                        Themes.system
-                    }
-                },
-                firstStart = pSetting.pFirstStart,
-                launchAtStartUp = pSetting.pLaunchAtStartUp,
-                degree = pSetting.pDegree
-            )
+                )
+            }
+            setting.updateDelay.value = pSetting.pUpdateDelay
+            setting.theme.value = when(pSetting.pTheme) {
+                PThemes.DARK -> Themes.dark
+                PThemes.LIGHT -> Themes.light
+                PThemes.SYSTEM -> Themes.system
+                else -> {
+                    println("error, unknown theme")
+                    Themes.system
+                }
+            }
+            setting.firstStart.value = pSetting.pFirstStart
+            setting.launchAtStartUp.value = pSetting.pLaunchAtStartUp
+            setting.degree.value = pSetting.pDegree
         }
 
-        fun writeSetting(setting: Settings) {
-            println("writeSetting")
+        fun writeSetting() {
             val pSetting = pSetting {
                 pLanguage = when (setting.language.value) {
                     Languages.en -> PLanguages.EN
@@ -88,7 +88,7 @@ class SettingsHelper {
 
         private fun getFile(): File {
             val includeFolder = File(System.getProperty("compose.application.resources.dir"))
-            return includeFolder.resolve(SETTING_DIR)
+            return includeFolder.resolve(SETTING_FILE)
         }
     }
 
