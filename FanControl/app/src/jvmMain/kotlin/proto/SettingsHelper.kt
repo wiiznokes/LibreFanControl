@@ -84,10 +84,8 @@ class SettingsHelper {
         }
 
 
-        private fun getFile(): File {
-            val includeFolder = File(System.getProperty("compose.application.resources.dir"))
-            return includeFolder.resolve(SETTING_FILE)
-        }
+        private fun getFile(): File = File(System.getProperty("compose.application.resources.dir"))
+            .resolve(SETTING_FILE)
     }
 
 }

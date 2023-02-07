@@ -219,10 +219,8 @@ class ConfHelper {
         }
 
 
-        private fun getFile(confId: String): File {
-            val includeFolder = File(System.getProperty("compose.application.resources.dir"))
-            return includeFolder.resolve("$CONF_DIR$confId")
-        }
+        private fun getFile(confId: String): File  = File(System.getProperty("compose.application.resources.dir"))
+            .resolve("$CONF_DIR$confId")
     }
 
 
