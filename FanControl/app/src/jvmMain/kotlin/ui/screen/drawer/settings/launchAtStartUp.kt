@@ -3,7 +3,6 @@ package ui.screen.drawer.settings
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.runtime.MutableState
-import androidx.compose.ui.graphics.Color
 import com.example.settingSlidingWindows.SettingScope
 import ui.theme.LocalColors
 import ui.utils.Resources
