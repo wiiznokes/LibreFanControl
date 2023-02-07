@@ -47,7 +47,6 @@ protobuf {
             ofSourceSet("main")
 
 
-
             it.plugins {
                 id("grpc")
                 id("grpckt")
@@ -62,54 +61,50 @@ protobuf {
     }
 }
 
-tasks.register("copyJava") {
+
+/**
+ * copy of generated files
+ */
+
+data class CopyInfo(
+    val srcDir: File,
+    val destDir: File,
+    val removeDir: File
+)
+
+val infoList = listOf(
+    CopyInfo(
+        srcDir = file("build/generated/source/proto/main/java/"),
+        destDir = file("../app/src/jvmMain/java/"),
+        removeDir = file("../app/src/jvmMain/java/proto/generated")
+    ),
+    CopyInfo(
+        srcDir = file("build/generated/source/proto/main/kotlin/"),
+        destDir = file("../app/src/jvmMain/kotlin/"),
+        removeDir = file("../app/src/jvmMain/kotlin/proto/generated")
+    ),
+    CopyInfo(
+        srcDir = file("build/generated/source/proto/main/csharp/"),
+        destDir = file("../../Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated"),
+        removeDir = file("../../Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated")
+    )
+)
+
+tasks.register("copyGeneratedFiles") {
     doLast {
-        val srcDir = file("build/generated/source/proto/main/java/")
-        val destDir = file("../app/src/jvmMain/java/")
-        copy {
-            from(srcDir)
-            into(destDir)
+        infoList.forEach {
+            copy {
+                from(it.srcDir)
+                into(it.destDir)
+            }
         }
     }
 }
 
-tasks.register("copyKotlin") {
+tasks.register("cleanCopiedFiles") {
     doLast {
-        val srcDir = file("build/generated/source/proto/main/kotlin/")
-        val destDir = file("../app/src/jvmMain/kotlin/")
-        copy {
-            from(srcDir)
-            into(destDir)
+        infoList.forEach {
+            delete(it.removeDir)
         }
-    }
-}
-
-tasks.register("copyCsharp") {
-    doLast {
-        val srcDir = file("build/generated/source/proto/main/csharp/")
-        val destDir = file("../../Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated")
-        copy {
-            from(srcDir)
-            into(destDir)
-        }
-    }
-}
-
-tasks.register("cleanJava") {
-    doLast {
-        val destDir = file("../app/src/jvmMain/java/proto/generated")
-        delete(destDir)
-    }
-}
-tasks.register("cleanKotlin") {
-    doLast {
-        val destDir = file("../app/src/jvmMain/kotlin/proto/generated")
-        delete(destDir)
-    }
-}
-tasks.register("cleanCsharp") {
-    doLast {
-        val destDir = file("../../Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated")
-        delete(destDir)
     }
 }
