@@ -37,7 +37,7 @@ class SettingsHelper {
 
 
 
-        
+
 
 
         fun parsePSetting(pSetting: PSetting): Settings =

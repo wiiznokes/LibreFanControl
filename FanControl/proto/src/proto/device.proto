@@ -10,10 +10,10 @@ option java_package = "proto.generated.device";
 
 message PDevice {
   string PName = 1;
-  string PId = 3;
+  string PId = 2;
 }
 
 message PDeviceList {
-  repeated PDevice PDevices = 2;
+  repeated PDevice PDevices = 1;
 }
 
