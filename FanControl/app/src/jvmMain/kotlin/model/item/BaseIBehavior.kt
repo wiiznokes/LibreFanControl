@@ -35,7 +35,7 @@ class ILinear(
     minFanSpeed: Int = 10,
     maxFanSpeed: Int = 100,
 
-    hTempId: String? = null,
+    tempId: String? = null,
 ) : BaseIBehavior {
     override val name: MutableState<String> = mutableStateOf(name)
     override val type: ItemType.BehaviorType = ItemType.BehaviorType.I_B_LINEAR
@@ -47,7 +47,7 @@ class ILinear(
     val minFanSpeed: MutableState<Int> = mutableStateOf(minFanSpeed)
     val maxFanSpeed: MutableState<Int> = mutableStateOf(maxFanSpeed)
 
-    val hTempId: MutableState<String?> = mutableStateOf(hTempId)
+    val hTempId: MutableState<String?> = mutableStateOf(tempId)
 }
 
 
@@ -61,7 +61,7 @@ class ITarget(
     idleFanSpeed: Int = 50,
     loadFanSpeed: Int = 100,
 
-    hTempId: String? = null,
+    tempId: String? = null,
 
     ) : BaseIBehavior {
     override val name: MutableState<String> = mutableStateOf(name)
@@ -74,5 +74,5 @@ class ITarget(
     val idleFanSpeed: MutableState<Int> = mutableStateOf(idleFanSpeed)
     val loadFanSpeed: MutableState<Int> = mutableStateOf(loadFanSpeed)
 
-    val hTempId: MutableState<String?> = mutableStateOf(hTempId)
+    val hTempId: MutableState<String?> = mutableStateOf(tempId)
 }

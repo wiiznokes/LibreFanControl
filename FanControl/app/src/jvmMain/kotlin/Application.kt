@@ -5,16 +5,18 @@ import proto.SettingsHelper
 import utils.initSensor
 
 
-
 class Application(
-    private val settings: Settings = State.settings
+    private val settings: Settings = State.settings,
 ) {
 
     private lateinit var jobUpdate: Job
 
     fun onCreate() {
         if (SettingsHelper.checkSetting()) {
+            println("load setting")
             SettingsHelper.loadSetting()
+        } else {
+            SettingsHelper.writeSetting()
         }
     }
 
@@ -23,6 +25,7 @@ class Application(
         when (settings.configId.value) {
             null -> initSensor()
             else -> {
+                println("should load config ${settings.configId.value}")
                 // load config
             }
         }
@@ -34,7 +37,6 @@ class Application(
     fun onStop() {
         updateShouldStop = true
         runBlocking { jobUpdate.cancelAndJoin() }
-        SettingsHelper.writeSetting()
     }
 
     private suspend fun startUpdate() {

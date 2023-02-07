@@ -1,7 +1,6 @@
 package model.item
 
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
@@ -52,7 +51,7 @@ class ICustomTemp(
     override val id: String,
 
     customTempType: CustomTempType = CustomTempType.average,
-     hTempIds: List<String> = listOf(),
+    hTempIds: List<String> = listOf(),
 
     value: Int = 0,
 ) : BaseITemp {

@@ -40,7 +40,7 @@ class SettingsHelper {
                 )
             }
             setting.updateDelay.value = pSetting.pUpdateDelay
-            setting.theme.value = when(pSetting.pTheme) {
+            setting.theme.value = when (pSetting.pTheme) {
                 PThemes.DARK -> Themes.dark
                 PThemes.LIGHT -> Themes.light
                 PThemes.SYSTEM -> Themes.system
@@ -68,7 +68,7 @@ class SettingsHelper {
                     }
                 }
                 pUpdateDelay = setting.updateDelay.value
-                pTheme = when(setting.theme.value) {
+                pTheme = when (setting.theme.value) {
                     Themes.system -> PThemes.SYSTEM
                     Themes.light -> PThemes.LIGHT
                     Themes.dark -> PThemes.DARK
@@ -84,12 +84,8 @@ class SettingsHelper {
         }
 
 
-
-
-        private fun getFile(): File {
-            val includeFolder = File(System.getProperty("compose.application.resources.dir"))
-            return includeFolder.resolve(SETTING_FILE)
-        }
+        private fun getFile(): File = File(System.getProperty("compose.application.resources.dir"))
+            .resolve(SETTING_FILE)
     }
 
 }

@@ -5,8 +5,8 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.HTemp
 import model.item.BaseI
 import model.item.BaseI.Companion.getAvailableString
-import model.item.ILinear
 import model.item.BaseITemp
+import model.item.ILinear
 import ui.screen.itemsList.behaviorList.BaseBehaviorVM
 import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.numberChoiceFinalValue

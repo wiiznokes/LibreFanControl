@@ -15,9 +15,6 @@ import ui.component.managerText
 import ui.utils.Resources
 
 
-
-
-
 fun SettingScope.theme(
     theme: Themes,
     onThemeChange: (Themes) -> Unit,

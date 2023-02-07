@@ -1,5 +1,5 @@
-import com.google.protobuf.gradle.*
-import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.include
+import com.google.protobuf.gradle.id
+import com.google.protobuf.gradle.proto
 
 plugins {
     id("java")
@@ -69,7 +69,7 @@ protobuf {
 data class CopyInfo(
     val srcDir: File,
     val destDir: File,
-    val removeDir: File
+    val removeDir: File,
 )
 
 val infoList = listOf(

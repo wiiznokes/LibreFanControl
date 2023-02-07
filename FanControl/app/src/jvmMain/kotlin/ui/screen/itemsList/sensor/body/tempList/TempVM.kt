@@ -3,15 +3,8 @@ package ui.screen.itemsList.sensor.body.tempList
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.HTemp
-import model.item.BaseI
+import model.item.*
 import model.item.BaseI.Companion.checkNameTaken
-import model.item.BaseIBehavior
-import model.item.ILinear
-import model.item.ITarget
-import model.item.BaseITemp
-import model.item.CustomTempType
-import model.item.ICustomTemp
-import model.item.ITemp
 
 class TempVM(
     val iTemps: SnapshotStateList<BaseITemp> = State.iTemps,

@@ -43,8 +43,6 @@ kotlin {
 
                 // use to debug the lib locally
                 //implementation("com.example:setting-sliding-windows-jvm:2.0.1")
-
-                implementation(project(":proto"))
             }
         }
 

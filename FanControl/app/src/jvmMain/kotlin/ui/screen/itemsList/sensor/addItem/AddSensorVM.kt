@@ -2,12 +2,8 @@ package ui.screen.itemsList.sensor.addItem
 
 import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.item.BaseI
+import model.item.*
 import model.item.BaseI.Companion.getAvailableString
-import model.item.BaseITemp
-import model.item.ICustomTemp
-import model.item.IFan
-import model.item.ITemp
 import ui.utils.Resources
 
 class AddSensorVM(
