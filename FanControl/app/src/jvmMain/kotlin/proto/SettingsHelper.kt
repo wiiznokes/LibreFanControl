@@ -69,7 +69,7 @@ class SettingsHelper {
                     Languages.en -> PLanguages.EN
                     Languages.fr -> PLanguages.FR
                 }
-                pConfId = nullableId { settings.configId.value }
+                pConfId = nullableId { settings.confId.value }
                 settings.confInfoList.forEachIndexed { index, confInfo ->
                     pConfInfos[index] = pConfInfo {
                         pId = confInfo.id

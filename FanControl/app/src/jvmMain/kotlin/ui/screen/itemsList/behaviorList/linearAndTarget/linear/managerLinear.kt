@@ -65,7 +65,7 @@ fun linearBody(
 
         val expanded = remember(
             linear.id,
-            State.settings.configId.value
+            State.settings.confId.value
         ) {
             mutableStateOf(false)
         }
@@ -84,7 +84,7 @@ fun linearBody(
 
                 val text: MutableState<String> = remember(
                     linear.id,
-                    State.settings.configId.value
+                    State.settings.confId.value
                 ) {
                     mutableStateOf(linearValues[i].toString())
                 }

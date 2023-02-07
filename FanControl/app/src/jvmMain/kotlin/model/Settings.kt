@@ -16,7 +16,7 @@ class Settings(
     degree: Boolean = true,
 ) {
     val language: MutableState<Languages> = mutableStateOf(language)
-    val configId: MutableState<String?> = mutableStateOf(confId)
+    val confId: MutableState<String?> = mutableStateOf(confId)
     val confInfoList = confInfoList.toMutableStateList()
     val updateDelay: MutableState<Int> = mutableStateOf(updateDelay)
     val theme: MutableState<Themes> = mutableStateOf(theme)

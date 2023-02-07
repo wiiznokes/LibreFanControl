@@ -22,10 +22,10 @@ class Application(
 
     fun onStart() {
         ExternalManager.start()
-        when (settings.configId.value) {
+        when (settings.confId.value) {
             null -> initSensor()
             else -> {
-                println("should load config ${settings.configId.value}")
+                println("should load config ${settings.confId.value}")
                 // load config
             }
         }

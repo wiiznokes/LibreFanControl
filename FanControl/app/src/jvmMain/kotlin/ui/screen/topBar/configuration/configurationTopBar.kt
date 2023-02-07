@@ -32,24 +32,24 @@ fun configuration() {
 
         val setting = viewModel.settings
 
-        val index = when (setting.configId.value) {
+        val index = when (setting.confId.value) {
             null -> -1
             else -> setting.confInfoList.indexOfFirst {
-                it.id == setting.configId.value
+                it.id == setting.confId.value
             }
         }
 
-        val text = remember(setting.configId.value) {
-            when (setting.configId.value) {
+        val text = remember(setting.confId.value) {
+            when (setting.confId.value) {
                 null -> mutableStateOf(Resources.getString("common/none"))
                 else -> mutableStateOf(setting.confInfoList[index].name.value)
             }
         }
 
 
-        if (setting.configId.value != null) {
+        if (setting.confId.value != null) {
             IconButton(
-                onClick = { viewModel.saveConfiguration(text.value, index, setting.configId.value!!) }
+                onClick = { viewModel.saveConfiguration(text.value, index, setting.confId.value!!) }
             ) {
                 Icon(
                     painter = Resources.getIcon("topBar/save40"),
@@ -63,7 +63,7 @@ fun configuration() {
         configurationListChoice(
             text = text,
             confInfoList = setting.confInfoList,
-            currentId = setting.configId.value,
+            currentId = setting.confId.value,
             currentIndex = index,
         )
 
