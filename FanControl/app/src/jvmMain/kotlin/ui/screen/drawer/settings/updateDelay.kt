@@ -29,6 +29,7 @@ fun SettingScope.updateDelay(
             Column(
                 modifier = Modifier
                     .padding(end = LocalSpaces.current.large)
+                    .padding(vertical = LocalSpaces.current.small)
             ) {
                 Icon(
                     modifier = Modifier.clickable {
