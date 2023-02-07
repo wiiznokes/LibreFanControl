@@ -15,9 +15,6 @@ import ui.component.managerText
 import ui.utils.Resources
 
 
-
-
-
 fun SettingScope.language(
     language: Languages,
     onLanguageChange: (Languages) -> Unit,

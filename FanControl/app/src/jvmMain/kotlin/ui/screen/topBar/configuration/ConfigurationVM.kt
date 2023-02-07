@@ -1,9 +1,9 @@
 package ui.screen.topBar.configuration
 
 import State
+import model.Settings
 import model.item.BaseI
 import model.item.BaseI.Companion.checkNameTaken
-import model.Settings
 
 class ConfigurationVM(
     val settings: Settings = State.settings,

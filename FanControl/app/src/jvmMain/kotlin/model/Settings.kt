@@ -13,7 +13,7 @@ class Settings(
     theme: Themes = Themes.system,
     firstStart: Boolean = true,
     launchAtStartUp: Boolean = false,
-    degree: Boolean = true
+    degree: Boolean = true,
 ) {
     val language: MutableState<Languages> = mutableStateOf(language)
     val configId: MutableState<String?> = mutableStateOf(confId)
@@ -30,10 +30,8 @@ class ConfInfo(
     val id: String,
     name: String,
 ) {
-    var name= mutableStateOf(name)
+    var name = mutableStateOf(name)
 }
-
-
 
 
 // name need to respect the format in

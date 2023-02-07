@@ -40,7 +40,7 @@ class SettingsHelper {
                 )
             }
             setting.updateDelay.value = pSetting.pUpdateDelay
-            setting.theme.value = when(pSetting.pTheme) {
+            setting.theme.value = when (pSetting.pTheme) {
                 PThemes.DARK -> Themes.dark
                 PThemes.LIGHT -> Themes.light
                 PThemes.SYSTEM -> Themes.system
@@ -68,7 +68,7 @@ class SettingsHelper {
                     }
                 }
                 pUpdateDelay = setting.updateDelay.value
-                pTheme = when(setting.theme.value) {
+                pTheme = when (setting.theme.value) {
                     Themes.system -> PThemes.SYSTEM
                     Themes.light -> PThemes.LIGHT
                     Themes.dark -> PThemes.DARK
@@ -82,8 +82,6 @@ class SettingsHelper {
                 writeBytes(pSetting.toByteArray())
             }
         }
-
-
 
 
         private fun getFile(): File {

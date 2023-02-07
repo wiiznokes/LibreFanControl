@@ -5,9 +5,8 @@ import proto.SettingsHelper
 import utils.initSensor
 
 
-
 class Application(
-    private val settings: Settings = State.settings
+    private val settings: Settings = State.settings,
 ) {
 
     private lateinit var jobUpdate: Job

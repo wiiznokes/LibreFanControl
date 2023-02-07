@@ -16,14 +16,10 @@ import "proto/setting.proto";
 message PConf {
   PConfInfo PInfo = 1;
 
-  repeated PHardware PHControls = 2;
-  repeated PHardware PHTemps = 3;
-  repeated PHardware PHFans = 4;
-
   repeated PIControl PIControls = 5;
   repeated PIBehavior PIBehaviors = 6;
-  repeated PISensor PITemps = 7;
-  repeated PISensor PIFans = 8;
+  repeated PITemp PITemps = 7;
+  repeated PIFan PIFans = 8;
 }
 
 
@@ -31,12 +27,6 @@ message PConf {
 /*
     type ***********************
  */
-
-enum PHTypes {
-  H_C_FAN = 0;
-  H_S_FAN = 1;
-  H_S_TEMP = 2;
-}
 
 
 enum PIControlTypes {
@@ -49,30 +39,17 @@ enum PIBehaviorTypes {
   I_B_TARGET = 2;
 }
 
-enum PISensorTypes {
+enum PITempTypes {
+  I_S_TEMP = 0;
+  I_S_CUSTOM_TEMP = 1;
+}
+
+enum PIFanTypes {
   I_S_FAN = 0;
-  I_S_TEMP = 1;
-  I_S_CUSTOM_TEMP = 2;
 }
 
 /*
     *************************
- */
-
-
-
-/*
-    Hardware *****************
- */
-
-message PHardware {
-  string PId = 1;
-  PHTypes PType = 2;
-}
-
-
-/*
-    ****************************
  */
 
 
@@ -109,7 +86,7 @@ message PFlat {
 
 
 message PLinear {
-  NullableId PHTempId = 1;
+  NullableId PTempId = 1;
 
   int32 PMinTemp = 2;
   int32 PMaxTemp = 3;
@@ -119,7 +96,7 @@ message PLinear {
 
 
 message PTarget {
-  NullableId PHTempId = 1;
+  NullableId PTempId = 1;
 
   int32 PIdleTemp = 2;
   int32 PLoadTemp = 3;
@@ -137,23 +114,19 @@ message PTarget {
  */
 
 
-message PISensor {
+
+message PITemp {
   string PName = 1;
   string PId = 2;
-  PISensorTypes PType = 3;
-
+  PITempTypes PType = 3;
   oneof kind {
-    PLinear PIFan = 4;
-    PLinear PITemp = 5;
-    PLinear PICustomTemp = 6;
+    PISimpleTemp PISimpleTemp = 4;
+    PIcustomTemp PICustomTemp = 5;
   }
 }
 
-message PIFan {
-  NullableId PHFanId = 1;
-}
 
-message PITemp {
+message PISimpleTemp {
   NullableId PHTempId = 1;
 }
 
@@ -167,4 +140,14 @@ enum PCustomTempTypes {
   AVERAGE = 0;
   MAX = 1;
   MIN = 2;
+}
+
+
+
+message PIFan {
+  string PName = 1;
+  string PId = 2;
+  PIFanTypes PType = 3;
+
+  NullableId PHFanId = 4;
 }
