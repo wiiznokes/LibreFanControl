@@ -31,7 +31,9 @@ fun drawerContent(
 
     Setting(
         modifier = Modifier
-            .width(250.dp),
+            .width(250.dp)
+            .fillMaxHeight()
+            .background(LocalColors.current.secondBackground),
         settingState = settingState,
         settingColors = SettingDefaults.settingColors(
             container = LocalColors.current.secondContainer,
@@ -46,26 +48,23 @@ fun drawerContent(
         }
         updateDelay(
             onDelayChange = { viewModel.onUpdateDelay(it) },
-            updateDelay = settings.updateDelay.value
+            updateDelay = settings.updateDelay
         )
         language(
-            language = settings.language.value,
-            onLanguageChange = { viewModel.onLanguageChange(it) }
-        )
+            language = settings.language
+        ) { viewModel.onLanguageChange(it) }
         theme(
-            theme = settings.theme.value,
-            onThemeChange = { viewModel.onThemeChange(it) }
-        )
+            theme = settings.theme
+        ) { viewModel.onThemeChange(it) }
 
         group(text = Resources.getString("settings/trans/lifecycle"))
 
 
-        /*
+
         launchAtStartUp(
-            launchAtStartUp = settings.launchAtStartUp,
-            onLaunchAtStartUpChange = { viewModel.onLaunchAtStartUpChange(it) }
-        )
-        */
+            launchAtStartUp = settings.launchAtStartUp
+        ) { viewModel.onLaunchAtStartUpChange(it) }
+
 
         group(text = Resources.getString("settings/trans/donate"))
         donate()
@@ -94,7 +93,7 @@ private fun managerHeader(
         ) {
             managerText(
                 modifier = Modifier
-                    .padding(start = 25.dp, top = 40.dp, bottom = 50.dp),
+                    .padding(start = 25.dp, top = 40.dp, bottom = 40.dp),
                 text = Resources.getString("title/setting"),
                 color = LocalColors.current.onSecondBackground,
                 style = MaterialTheme.typography.titleLarge
