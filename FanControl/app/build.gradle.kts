@@ -37,7 +37,7 @@ kotlin {
                 implementation("com.github.wiiznokes:setting-sliding-windows:2.0.1")
 
                 implementation("org.json:json:20220924")
-                implementation("com.google.protobuf:protobuf-java:3.21.12")
+                implementation("com.google.protobuf:protobuf-java:${project.property("protobuf.version")}")
 
 
                 // use to debug the lib locally
