@@ -5,6 +5,7 @@ import model.ItemType
 import model.item.*
 import proto.generated.conf.*
 import proto.generated.setting.nullableId
+import proto.generated.setting.pConfInfo
 import java.io.File
 
 private const val CONF_DIR = "conf/conf"
@@ -119,8 +120,19 @@ class ConfHelper {
 
         }
 
+        /**
+         * requirement: confInfo are set in settings
+         */
+
         fun writeConf(confId: String) {
+
             val pConf = pConf {
+
+                pInfo = pConfInfo {
+                    pId = confId
+                    pName = settings.confInfoList.find { it.id == confId }!!.name.value
+                }
+
                 iControls.forEachIndexed { index, iControl ->
                     pIControls[index] = pIControl {
                         pName = iControl.name.value
@@ -167,9 +179,42 @@ class ConfHelper {
 
                 iTemps.forEachIndexed { index, iTemp ->
                     pITemps[index] = pITemp {
-                        
+                        pName = iTemp.name.value
+                        pId = iTemp.id
+                        when(iTemp) {
+                            is ITemp -> {
+                                pISimpleTemp = pISimpleTemp {
+                                    pHTempId = nullableId { iTemp.hTempId.value }
+                                }
+                            }
+                            is ICustomTemp -> {
+                                pICustomTemp = pIcustomTemp {
+                                    pType = when(iTemp.customTempType.value) {
+                                        CustomTempType.average -> PCustomTempTypes.AVERAGE
+                                        CustomTempType.max -> PCustomTempTypes.MAX
+                                        CustomTempType.min -> PCustomTempTypes.MIN
+                                    }
+                                    iTemp.hTempIds.forEachIndexed { index2, id ->
+                                        pHTempIds[index2] = id
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
+
+                iFans.forEachIndexed { index, iFan ->
+                    pIFans[index] = pIFan {
+                        pName = iFan.name.value
+                        pId = iFan.id
+                        pType = PIFanTypes.I_S_FAN
+                        pHFanId = nullableId { iFan.hFanId }
+                    }
+                }
+            }
+
+            with(getFile(confId)) {
+                writeBytes(pConf.toByteArray())
             }
         }
 
