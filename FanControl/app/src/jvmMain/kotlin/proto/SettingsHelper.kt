@@ -32,10 +32,10 @@ class SettingsHelper {
                         Languages.en
                     }
                 },
-                confId = when(pSetting.pConfId.kindCase) {
-                    NullableId.KindCase.NULL -> null
-                    NullableId.KindCase.PID -> pSetting.pConfId.pId
-                    else -> throw ProtoException("nullable kind not set")
+                confId = with(pSetting.pConfId) {
+                    if (kindCase == NullableId.KindCase.NULL)
+                        null
+                    else pId
                 },
                 confInfoList = pSetting.pConfInfosList.map { confInfo ->
                     ConfInfo(
