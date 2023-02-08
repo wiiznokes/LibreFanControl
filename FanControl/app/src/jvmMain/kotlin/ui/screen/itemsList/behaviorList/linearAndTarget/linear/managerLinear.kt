@@ -46,7 +46,7 @@ fun linearBody(
         managerListChoice(
             text = getNameIorH(
                 hTempId = linear.hTempId.value,
-                customTempList = customTempList
+                customTemps = customTempList
             ),
             onItemClick = {
                 viewModel.setTemp(

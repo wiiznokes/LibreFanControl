@@ -65,11 +65,14 @@ class ICustomTemp(
     val value: MutableState<Int> = mutableStateOf(value)
 
 
-    fun calcul(hTempList: List<HTemp>): Int? {
-        if(!isValid())
-            return null
 
-        return getTempListValues(hTempList.filterIsInstance<ICustomTemp>()).let {
+    fun calcAndSet(hTemps: List<HTemp>) {
+        if(!isValid()) {
+            value.value = 0
+            return
+        }
+
+        value.value = getTempListValues(hTemps).let {
             when (customTempType.value) {
                 CustomTempType.average -> it.average().toInt()
                 CustomTempType.max -> it.max()
@@ -81,7 +84,7 @@ class ICustomTemp(
 
     private fun isValid(): Boolean = hTempIds.isNotEmpty()
 
-    private fun getTempListValues(hTempList: List<ICustomTemp>): List<Int> {
+    private fun getTempListValues(hTempList: List<HTemp>): List<Int> {
         val valueList = mutableListOf<Int>()
         hTempIds.forEach { id ->
             valueList.add(

@@ -53,20 +53,30 @@ class ILinear(
     val hTempId: MutableState<String?> = mutableStateOf(tempId)
 
 
-    private fun isValid(): Boolean =
-        hTempId.value != null
 
 
-    fun calcul(hTempList: List<HTemp>): Int {
-        if (!isValid())
-            return 0
+    private fun isValid(): Boolean = hTempId.value != null
+
+
+
+    fun calcAndSet(hTemps: List<HTemp>, iCustomTemps: List<ICustomTemp>) {
+        if(!isValid()) {
+            value.value = 0
+            return
+        }
 
         val tempValue = getValueIorH(
             hTempId = hTempId.value,
-            customTempList = hTempList.filterIsInstance<ICustomTemp>()
-        ) ?: return 0
+            customTemps = iCustomTemps,
+            hTemps = hTemps
+        )
 
-        return getSpeed(
+        if (tempValue == null) {
+            value.value = 0
+            return
+        }
+
+        value.value = getSpeed(
             f = getAffine(),
             tempValue = tempValue
         )
@@ -141,23 +151,26 @@ class ITarget(
         hTempId.value != null
 
 
-    fun calcul(hTempList: List<HTemp>): Int {
+    fun calcAndSet(hTemps: List<HTemp>, iCustomTemps: List<ICustomTemp>) {
         if (!isValid()) {
             idleHasBeenReach = false
-            return 0
+            value.value = 0
+            return
         }
 
         val tempValue = getValueIorH(
             hTempId = hTempId.value,
-            customTempList = hTempList.filterIsInstance<ICustomTemp>()
+            customTemps = iCustomTemps,
+            hTemps = hTemps
         )
 
         if (tempValue == null) {
             idleHasBeenReach = false
-            return 0
+            value.value = 0
+            return
         }
 
-        return when (idleHasBeenReach) {
+        value.value =  when (idleHasBeenReach) {
             true -> {
                 if (tempValue < loadTemp.value) {
                     idleFanSpeed.value

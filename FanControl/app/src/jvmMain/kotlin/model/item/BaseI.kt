@@ -3,6 +3,7 @@ package model.item
 import State.hTemps
 import androidx.compose.runtime.MutableState
 import model.ItemType
+import model.hardware.HTemp
 
 class NameException : Exception()
 
@@ -77,20 +78,20 @@ interface BaseI {
 
 
 /**
- * centralize the constraint of having custom sensor inside
- * iTemps and hardware sensors inside hTemps
+ * centralize the constraint of having custom sensors inside
+ * iTemps and hardware temp sensors inside hTemps
  */
 class TempHelper {
     companion object {
 
         fun getNameIorH(
             hTempId: String?,
-            customTempList: List<ICustomTemp>,
+            customTemps: List<ICustomTemp>,
         ): String? = with(hTempId) {
             when (BaseI.getPrefix(this)) {
                 null -> null
 
-                BaseI.ICustomTempPrefix -> customTempList.first {
+                BaseI.ICustomTempPrefix -> customTemps.first {
                     it.id == this
                 }.name.value
 
@@ -102,12 +103,13 @@ class TempHelper {
 
 
         fun getValueIorH(
-        hTempId: String?,
-        customTempList: List<ICustomTemp>,
+            hTempId: String?,
+            hTemps: List<HTemp>,
+            customTemps: List<ICustomTemp>,
         ): Int? = with(hTempId) {
             when (BaseI.getPrefix(this)) {
                 null -> null
-                BaseI.ICustomTempPrefix -> customTempList.first {
+                BaseI.ICustomTempPrefix -> customTemps.first {
                     it.id == this
                 }.value.value
 
@@ -118,4 +120,3 @@ class TempHelper {
         }
     }
 }
-

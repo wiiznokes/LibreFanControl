@@ -10,7 +10,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import model.item.BaseI
 import model.item.ICustomTemp
 import model.item.ITarget
 import model.item.TempHelper
@@ -48,7 +47,7 @@ fun targetBody(
         managerListChoice(
             text = TempHelper.getNameIorH(
                 hTempId = target.hTempId.value,
-                customTempList = customTempList
+                customTemps = customTempList
             ),
             onItemClick = {
                 viewModel.setTemp(
