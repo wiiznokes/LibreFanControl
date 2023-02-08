@@ -74,6 +74,7 @@ fun <T> managerListChoice(
     ids: List<T>,
     names: List<String>,
     addNoneItem: Boolean = true,
+    contentNameClickable: Boolean = true,
 ) {
     val expanded = remember { mutableStateOf(false) }
 
@@ -84,7 +85,8 @@ fun <T> managerListChoice(
         painterType = painterType,
         size = size,
         modifier = baseModifier,
-        colors = colors
+        colors = colors,
+        contentNameClickable = contentNameClickable
     ) {
         if (addNoneItem) {
             managerDropDownContent(
@@ -128,6 +130,7 @@ private fun managerBaseDropdownMenu(
     colors: ListChoiceColors,
     painterType: PainterType,
     size: Int,
+    contentNameClickable: Boolean = true,
     dropDownContent: @Composable ColumnScope.() -> Unit,
 ) {
     Surface(
@@ -136,8 +139,10 @@ private fun managerBaseDropdownMenu(
     ) {
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             Row(
-                modifier = modifier
-                    .clickable { expanded.value = !expanded.value },
+                modifier = if (contentNameClickable)
+                    modifier
+                        .clickable { expanded.value = !expanded.value }
+                else modifier,
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {

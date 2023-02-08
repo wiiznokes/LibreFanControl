@@ -120,21 +120,14 @@ private fun managerTextField(
     BasicTextField(
         value = text.value,
         enabled = enabled,
-        modifier = modifier
-            .background(
-                shape = shape,
-                color = color
-            ),
+        modifier = modifier,
         onValueChange = { onValueChange?.invoke(it) },
         textStyle = MaterialTheme.typography.bodyMedium.copy(
             color = onColor
         ),
         singleLine = true,
         decorationBox = @Composable { innerTextField ->
-
-            
-
-            TextFieldDefaults.OutlinedTextFieldDecorationBox(
+            TextFieldDefaults.TextFieldDecorationBox(
                 value = text.value,
                 visualTransformation = VisualTransformation.None,
                 innerTextField = innerTextField,
@@ -147,11 +140,16 @@ private fun managerTextField(
                         )
                     }
                 },
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = color,
+                    errorIndicatorColor = LocalColors.current.error
+                ),
                 singleLine = true,
                 isError = isError,
                 interactionSource = interactionSource,
                 contentPadding = PaddingValues(horizontal = LocalSpaces.current.medium),
-                enabled = enabled
+                enabled = enabled,
+                shape = shape
             )
         }
     )

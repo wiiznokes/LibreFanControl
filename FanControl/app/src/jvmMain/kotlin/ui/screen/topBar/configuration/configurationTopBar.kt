@@ -127,6 +127,7 @@ private fun configurationListChoice(
             )
         },
         ids = confInfoList.map { it.id },
-        names = confInfoList.map { it.name.value }
+        names = confInfoList.map { it.name.value },
+        contentNameClickable = false
     )
 }
