@@ -62,6 +62,8 @@ interface BaseI {
 
                     if (names[index] == name)
                         return
+
+                    throw NameException()
                 }
 
                 else -> throw NameException()

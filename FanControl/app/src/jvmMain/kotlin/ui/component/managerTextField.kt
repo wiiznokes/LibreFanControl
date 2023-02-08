@@ -131,6 +131,9 @@ private fun managerTextField(
         ),
         singleLine = true,
         decorationBox = @Composable { innerTextField ->
+
+            
+
             TextFieldDefaults.OutlinedTextFieldDecorationBox(
                 value = text.value,
                 visualTransformation = VisualTransformation.None,
