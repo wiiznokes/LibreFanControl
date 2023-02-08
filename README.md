@@ -39,7 +39,7 @@ I intend to produce a v2 with a service system, which will therefore be much lig
 .\gradlew generateProto
 ```
 ```
-.\gradlew cleanCopiedFiles
+.\gradlew copyGeneratedFiles
 ```
 
 - Lib windows (don't work for now, need Dotnet7)
