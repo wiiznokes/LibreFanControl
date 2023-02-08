@@ -3,6 +3,8 @@ package external
 import java.util.*
 
 
+class OsException(msg: String): Exception(msg)
+
 @Suppress("EnumEntryName")
 enum class OS {
     windows, linux, unsupported;
