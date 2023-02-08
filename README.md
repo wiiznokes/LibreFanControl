@@ -12,7 +12,7 @@ I intend to produce a v2 with a service system, which will therefore be much lig
 
 ## v2 roadMap
 - [x] upgrade setting apparence (switch to compose 1.3)
-- [ ] calcule % locally (in the app)
+- [x] calcule % locally (in the app)
 - [x] generate kotlin code from .proto files
 - [x] serialize, deserialize and store confs/setting using proto in Kotlin
 - [x] implement setting and config management in Kotlin
