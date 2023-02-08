@@ -236,12 +236,14 @@ class ConfHelper {
                         pId = iTemp.id
                         when (iTemp) {
                             is ITemp -> {
+                                pType = PITempTypes.I_S_TEMP
                                 pISimpleTemp = pISimpleTemp {
                                     pHTempId = nullToNullable(iTemp.hTempId.value)
                                 }
                             }
 
                             is ICustomTemp -> {
+                                pType = PITempTypes.I_S_CUSTOM_TEMP
                                 pICustomTemp = pIcustomTemp {
                                     pType = when (iTemp.customTempType.value) {
                                         CustomTempType.average -> PCustomTempTypes.AVERAGE
