@@ -99,7 +99,8 @@ class ConfHelper {
                         PIBehaviorTypes.I_B_FLAT ->
                             IFlat(
                                 name = pBehavior.pName,
-                                id = pBehavior.pId
+                                id = pBehavior.pId,
+                                value = pBehavior.pFlat.pValue
                             )
 
 
@@ -177,7 +178,7 @@ class ConfHelper {
 
 
         fun createPConf(conf: Conf) = pConf {
-            iControls.forEach { iControl ->
+            conf.iControls.forEach { iControl ->
                 pIControls.add(pIControl {
                     pName = iControl.name.value
                     pId = iControl.id
@@ -189,7 +190,7 @@ class ConfHelper {
                 )
             }
 
-            iBehaviors.forEach { iBehavior ->
+            conf.iBehaviors.forEach { iBehavior ->
                 pIBehaviors.add(
                     pIBehavior {
                         pName = iBehavior.name.value
@@ -197,7 +198,9 @@ class ConfHelper {
                         when (iBehavior) {
                             is IFlat -> {
                                 pType = PIBehaviorTypes.I_B_FLAT
-                                pFlat = pFlat {}
+                                pFlat = pFlat {
+                                    pValue = iBehavior.value.value
+                                }
                             }
 
                             is ILinear -> {
@@ -226,7 +229,7 @@ class ConfHelper {
                 )
             }
 
-            iTemps.forEach { iTemp ->
+            conf.iTemps.forEach { iTemp ->
                 pITemps.add(
                     pITemp {
                         pName = iTemp.name.value
@@ -256,7 +259,7 @@ class ConfHelper {
                 )
             }
 
-            iFans.forEach { iFan ->
+            conf.iFans.forEach { iFan ->
                 pIFans.add(
                     pIFan {
                         pName = iFan.name.value
