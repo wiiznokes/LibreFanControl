@@ -11,7 +11,7 @@ import model.item.*
 import proto.generated.conf.*
 import java.io.File
 
-private const val CONF_DIR = "conf/conf"
+private const val CONF_DIR = "conf/"
 
 class ProtoException(msg: String) : Exception(msg)
 

@@ -55,6 +55,7 @@ class ConfigurationVM(
         settings.confInfoList.add(ConfInfo(id, name))
         SettingsHelper.writeSettings()
 
+        ConfHelper.writeConf(id)
 
         return true
     }
