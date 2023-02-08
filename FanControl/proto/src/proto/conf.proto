@@ -79,7 +79,7 @@ message PIBehavior {
 }
 
 message PFlat {
-
+  int32 PValue = 1;
 }
 
 
