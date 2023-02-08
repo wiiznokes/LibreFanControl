@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import model.item.BaseI
 import model.item.NameException
 import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.isError

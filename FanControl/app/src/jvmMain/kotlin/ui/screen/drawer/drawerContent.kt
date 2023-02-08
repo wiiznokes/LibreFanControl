@@ -1,6 +1,5 @@
 package ui.screen.drawer
 
-import State
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*

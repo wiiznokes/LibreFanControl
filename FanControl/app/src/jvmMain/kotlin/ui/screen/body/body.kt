@@ -129,6 +129,7 @@ fun body(
     }
 }
 
+
 @Composable
 private fun itemsList(
     title: String,
@@ -141,7 +142,7 @@ private fun itemsList(
             Text(
                 text = title,
                 modifier = Modifier
-                    .padding(20.dp),
+                    .padding(LocalSpaces.current.large),
                 maxLines = 1,
                 style = TextStyle(
                     textDecoration = TextDecoration.Underline,
@@ -154,6 +155,8 @@ private fun itemsList(
                 ),
                 color = LocalColors.current.onMainBackground
             )
+
+
         }
         content()
         item {

@@ -45,7 +45,6 @@ class ConfHelper {
         }
 
 
-
         fun writeConf(confId: String) {
             createPConf(
                 Conf(
@@ -62,17 +61,8 @@ class ConfHelper {
         }
 
 
-
         private fun getConfFile(confId: String): File = File(System.getProperty("compose.application.resources.dir"))
             .resolve("$CONF_DIR$confId")
-
-
-
-
-
-
-
-
 
 
         data class Conf(

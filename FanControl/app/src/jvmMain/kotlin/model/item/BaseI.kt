@@ -28,14 +28,14 @@ interface BaseI {
                 return null
 
             return id.split("#").let {
-                if(it.isEmpty()) "" else it[0]
+                if (it.isEmpty()) "" else it[0]
             }
         }
 
         fun getAvailableId(list: List<String>, prefix: String): String =
             getAvailableString(list, prefix, "#")
 
-        fun getAvailableName(list: List<String>, prefix: String): String  =
+        fun getAvailableName(list: List<String>, prefix: String): String =
             getAvailableString(list, prefix, " #")
 
 

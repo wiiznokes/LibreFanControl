@@ -3,11 +3,13 @@ package ui.screen.itemsList.behaviorList.linearAndTarget.linear
 import State
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import model.item.BaseI
 import model.item.ICustomTemp
 import model.item.ILinear
@@ -33,7 +35,9 @@ fun linearBody(
         icon = Resources.getIcon("items/linear24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
-        item = linear
+        item = linear,
+        modifier = Modifier
+            .width(220.dp)
     ) {
 
         val customTempList = viewModel.iTemps.filterIsInstance<ICustomTemp>()

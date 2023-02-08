@@ -28,7 +28,6 @@ class SettingsHelper {
         }
 
 
-
         fun writeSettings() {
             createPSetting(settings).let {
                 with(getSettingsFile()) {
@@ -38,15 +37,8 @@ class SettingsHelper {
         }
 
 
-
-
-
         private fun getSettingsFile(): File = File(System.getProperty("compose.application.resources.dir"))
             .resolve(SETTING_FILE)
-
-
-
-
 
 
         fun parsePSetting(pSetting: PSetting): Settings =
@@ -84,7 +76,6 @@ class SettingsHelper {
             )
 
 
-
         fun createPSetting(settings: Settings): PSetting =
             pSetting {
                 pLanguage = when (settings.language.value) {
@@ -112,8 +103,6 @@ class SettingsHelper {
             }
     }
 }
-
-
 
 
 fun nullableToNull(nullableId: NullableId): String? =

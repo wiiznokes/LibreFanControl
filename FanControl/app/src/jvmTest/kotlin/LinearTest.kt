@@ -1,4 +1,3 @@
-
 /*
 
 import logicControl.behavior.LinearLogic
