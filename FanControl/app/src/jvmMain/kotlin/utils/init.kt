@@ -21,7 +21,7 @@ fun initSensor() {
         iControls.add(
             IControl(
                 name = hControl.name,
-                id = BaseI.getAvailableString(
+                id = BaseI.getAvailableId(
                     list = iControls.map { it.id },
                     prefix = BaseI.IControlPrefix
                 ),
@@ -30,28 +30,28 @@ fun initSensor() {
         )
     }
 
-    hFans.forEach { hFan ->
-        iFans.add(
-            IFan(
-                name = hFan.name,
-                id = BaseI.getAvailableString(
-                    list = iFans.map { it.id },
-                    prefix = BaseI.IFanPrefix
-                ),
-                hFanId = hFan.id
-            )
-        )
-    }
-
     hTemps.forEach { hTemp ->
         iTemps.add(
             ITemp(
                 name = hTemp.name,
-                id = BaseI.getAvailableString(
+                id = BaseI.getAvailableId(
                     list = iTemps.map { it.id },
                     prefix = BaseI.ITempPrefix
                 ),
                 hTempId = hTemp.id
+            )
+        )
+    }
+
+    hFans.forEach { hFan ->
+        iFans.add(
+            IFan(
+                name = hFan.name,
+                id = BaseI.getAvailableId(
+                    list = iFans.map { it.id },
+                    prefix = BaseI.IFanPrefix
+                ),
+                hFanId = hFan.id
             )
         )
     }

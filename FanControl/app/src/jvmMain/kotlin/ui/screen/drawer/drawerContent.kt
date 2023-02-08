@@ -27,7 +27,7 @@ fun drawerContent(
 ) {
 
     val settingState = rememberSettingState(key = drawerState.isOpen)
-    val settings = State.settings
+    val settings = viewModel.settings
 
     Setting(
         modifier = Modifier

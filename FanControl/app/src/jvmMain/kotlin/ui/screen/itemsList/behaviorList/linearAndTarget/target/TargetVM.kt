@@ -82,13 +82,13 @@ class TargetVM(
 
 
     fun defaultTarget() = ITarget(
-        name = BaseI.getAvailableString(
+        name = BaseI.getAvailableName(
             list = iBehaviors.map { item ->
                 item.name.value
             },
             prefix = Resources.getString("default/target_name")
         ),
-        id = BaseI.getAvailableString(
+        id = BaseI.getAvailableId(
             list = iBehaviors.map { item ->
                 item.id
             },

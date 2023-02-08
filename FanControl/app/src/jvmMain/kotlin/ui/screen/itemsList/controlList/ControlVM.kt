@@ -5,7 +5,8 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.HControl
 import model.item.BaseI
 import model.item.BaseI.Companion.checkNameTaken
-import model.item.BaseI.Companion.getAvailableString
+import model.item.BaseI.Companion.getAvailableId
+import model.item.BaseI.Companion.getAvailableName
 import model.item.BaseIBehavior
 import model.item.IControl
 import ui.utils.Resources
@@ -44,17 +45,15 @@ class ControlVM(
     }
 
     fun addControl() {
-        val name = getAvailableString(
-            list = iControls.map { item ->
-                item.name.value
-            },
-            prefix = Resources.getString("default/control_name")
-        )
-
         iControls.add(
             IControl(
-                name = name,
-                id = getAvailableString(
+                name = getAvailableName(
+                    list = iControls.map { item ->
+                        item.name.value
+                    },
+                    prefix = Resources.getString("default/control_name")
+                ),
+                id = getAvailableId(
                     list = iControls.map { item ->
                         item.id
                     },

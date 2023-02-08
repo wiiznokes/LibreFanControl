@@ -22,7 +22,7 @@ class ExternalLinux : External {
             hControls.add(
                 HControl(
                     name = "control lib${i + 1}",
-                    id = BaseI.getAvailableString(
+                    id = BaseI.getAvailableId(
                         list = hControls.map { it.id },
                         prefix = "controlLib"
                     )
@@ -37,7 +37,7 @@ class ExternalLinux : External {
             hFans.add(
                 HFan(
                     name = "fan lib${i + 1}",
-                    id = BaseI.getAvailableString(
+                    id = BaseI.getAvailableId(
                         list = hFans.map { it.id },
                         prefix = "fanLib"
                     )
@@ -51,7 +51,7 @@ class ExternalLinux : External {
             hTemps.add(
                 HTemp(
                     name = "temp lib${i + 1}",
-                    id = BaseI.getAvailableString(
+                    id = BaseI.getAvailableId(
                         list = hTemps.map { it.id },
                         prefix = "tempLib"
                     )

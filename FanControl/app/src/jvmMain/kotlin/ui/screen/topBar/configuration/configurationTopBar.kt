@@ -49,7 +49,7 @@ fun configuration() {
 
         if (setting.confId.value != null) {
             IconButton(
-                onClick = { viewModel.saveConfiguration(text.value, index, setting.confId.value!!) }
+                onClick = { viewModel.saveConfiguration(text.value, index, setting.confId.value) }
             ) {
                 Icon(
                     painter = Resources.getIcon("topBar/save40"),

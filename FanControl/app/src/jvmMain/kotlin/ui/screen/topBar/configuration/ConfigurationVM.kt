@@ -1,15 +1,20 @@
 package ui.screen.topBar.configuration
 
 import State
+import model.ConfInfo
 import model.Settings
-import model.item.BaseI
 import model.item.BaseI.Companion.checkNameTaken
+import model.item.NameException
+import proto.ConfHelper
+import proto.SettingsHelper
 
 class ConfigurationVM(
     val settings: Settings = State.settings,
 ) {
 
-    fun saveConfiguration(name: String, index: Int, id: String) {
+    fun saveConfiguration(name: String, index: Int, id: String?) {
+        if (id == null) return
+
         try {
             checkNameTaken(
                 names = settings.confInfoList.map { item ->
@@ -18,17 +23,20 @@ class ConfigurationVM(
                 name = name,
                 index = index
             )
-        } catch (e: BaseI.Companion.NameException) {
+        } catch (e: NameException) {
             return
         }
 
         settings.confInfoList[index].name.value = name
+        SettingsHelper.writeSettings()
+        ConfHelper.writeConf(id)
 
     }
 
     fun onChangeConfiguration(id: String?) {
-
-
+        settings.confId.value = id
+        if (id != null)
+            ConfHelper.loadConf(id)
     }
 
     fun addConfiguration(name: String, id: String): Boolean {
@@ -39,11 +47,13 @@ class ConfigurationVM(
                 },
                 name = name
             )
-        } catch (e: BaseI.Companion.NameException) {
+        } catch (e: NameException) {
             return false
         }
 
-        //val newConfig = ConfigurationModel(id, name)
+        settings.confId.value = id
+        settings.confInfoList.add(ConfInfo(id, name))
+        SettingsHelper.writeSettings()
 
 
         return true
@@ -51,5 +61,9 @@ class ConfigurationVM(
 
     fun removeConfiguration(id: String, index: Int) {
         settings.confInfoList.removeAt(index)
+        if (settings.confId.value == id) {
+            settings.confId.value = null
+        }
+        SettingsHelper.writeSettings()
     }
 }

@@ -40,8 +40,8 @@ fun linearBody(
 
 
         managerListChoice(
-            text = with(BaseI.getPrefix(linear.hTempId.value)) {
-                when (this) {
+            text = with(linear.hTempId.value) {
+                when (BaseI.getPrefix(this)) {
                     null -> null
 
                     BaseI.ICustomTempPrefix -> customTempList.first {

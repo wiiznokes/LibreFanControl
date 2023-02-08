@@ -67,7 +67,7 @@ private fun dialog(
 
     val configList = viewModel.settings.confInfoList
 
-    val id = BaseI.getAvailableString(
+    val id = BaseI.getAvailableId(
         list = configList.map { it.id },
         prefix = "conf"
     )

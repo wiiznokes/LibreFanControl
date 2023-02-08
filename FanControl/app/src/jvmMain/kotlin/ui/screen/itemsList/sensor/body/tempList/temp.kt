@@ -44,7 +44,7 @@ private fun tempBody(
     baseSensorBody(
         icon = Resources.getIcon("items/thermometer24"),
         onNameChange = { viewModel.setName(it, index) },
-        onEditClick = { viewModel.remove(index) },
+        onEditClick = { viewModel.removeCustom(index) },
         sensorName = sensor?.name,
         sensorValue = "${sensor?.value?.value ?: 0} ${Resources.getString("unity/degree")}",
         sensorList = viewModel.hTemps,
@@ -59,7 +59,7 @@ private fun customTempBody(
     index: Int,
 ) {
     baseCustomTempBody(
-        onEditClick = { viewModel.remove(index) },
+        onEditClick = { viewModel.removeCustom(index) },
         onNameChange = { viewModel.setName(it, index) },
         hTemps = viewModel.hTemps,
         iCustomTemp = iCustomTemp,

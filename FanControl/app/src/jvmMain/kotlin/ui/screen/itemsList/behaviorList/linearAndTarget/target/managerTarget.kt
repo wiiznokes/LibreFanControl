@@ -41,8 +41,8 @@ fun targetBody(
 
         println(target.hTempId.value)
         managerListChoice(
-            text = with(BaseI.getPrefix(target.hTempId.value)) {
-                when (this) {
+            text = with(target.hTempId.value) {
+                when (BaseI.getPrefix(this)) {
                     null -> null
 
                     BaseI.ICustomTempPrefix -> customTempList.first {
