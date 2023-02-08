@@ -2,5 +2,6 @@
 
 public class IFlat
 {
-    
+    public string Id;
+    public int Value;
 }
