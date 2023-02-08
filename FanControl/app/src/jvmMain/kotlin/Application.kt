@@ -19,7 +19,7 @@ class Application(
     private lateinit var jobUpdate: Job
 
     fun onCreate() {
-        if (SettingsHelper.checkSetting()) {
+        if (SettingsHelper.isSettings()) {
             println("load setting")
             SettingsHelper.loadSettings()
         } else {

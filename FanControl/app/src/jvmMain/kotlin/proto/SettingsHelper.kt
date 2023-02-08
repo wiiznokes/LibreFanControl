@@ -16,14 +16,26 @@ class SettingsHelper {
 
     companion object {
 
-        fun checkSetting(): Boolean = getSettingsFile().exists()
+        fun isSettings(): Boolean = getSettingsFile().exists()
 
 
         fun loadSettings() {
-            settings = with(getSettingsFile()) {
-                PSetting.parseFrom(readBytes()).let {
-                    parsePSetting(it)
+            val pSettings = with(getSettingsFile()) {
+                PSetting.parseFrom(readBytes())
+            }
+
+            parsePSetting(pSettings).let {
+                settings.language.value = it.language.value
+                settings.confId.value = it.confId.value
+                settings.confInfoList.apply {
+                    clear()
+                    addAll(it.confInfoList)
                 }
+                settings.updateDelay.value = it.updateDelay.value
+                settings.theme.value = it.theme.value
+                settings.firstStart.value = it.firstStart.value
+                settings.launchAtStartUp.value = it.launchAtStartUp.value
+                settings.degree.value = it.degree.value
             }
         }
 
