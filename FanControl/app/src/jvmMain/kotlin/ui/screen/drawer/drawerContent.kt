@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.settingSlidingWindows.Setting
+import com.example.settingSlidingWindows.SettingColors
 import com.example.settingSlidingWindows.SettingDefaults
 import com.example.settingSlidingWindows.rememberSettingState
 import kotlinx.coroutines.CoroutineScope
@@ -31,12 +33,12 @@ fun drawerContent(
     Setting(
         modifier = Modifier
             .width(250.dp)
-            .fillMaxHeight()
-            .background(LocalColors.current.secondBackground),
+            .fillMaxHeight(),
         settingState = settingState,
         settingColors = SettingDefaults.settingColors(
             container = LocalColors.current.secondContainer,
-            onContainer = LocalColors.current.onSecondContainer
+            onContainer = LocalColors.current.onSecondContainer,
+            background = LocalColors.current.secondBackground
         )
     ) {
         header {
