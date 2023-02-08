@@ -1,5 +1,6 @@
 package proto
 
+import State.settings
 import com.google.protobuf.NullValue
 import model.ConfInfo
 import model.Languages
@@ -18,16 +19,24 @@ class SettingsHelper {
         fun checkSetting(): Boolean = getSettingsFile().exists()
 
 
-        fun loadSetting(): Settings =
-            parsePSetting(with(getSettingsFile()) { PSetting.parseFrom(readBytes()) })
+        fun loadSettings() {
+            settings = with(getSettingsFile()) {
+                PSetting.parseFrom(readBytes()).let {
+                    parsePSetting(it)
+                }
+            }
+        }
 
 
-        fun writeSettings(settings: Settings) =
+
+        fun writeSettings() {
             createPSetting(settings).let {
                 with(getSettingsFile()) {
                     writeBytes(it.toByteArray())
                 }
             }
+        }
+
 
 
 

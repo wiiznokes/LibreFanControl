@@ -1,6 +1,7 @@
 import external.ExternalManager
 import kotlinx.coroutines.*
 import model.Settings
+import proto.ConfHelper
 import proto.SettingsHelper
 import utils.initSensor
 
@@ -14,19 +15,22 @@ class Application(
     fun onCreate() {
         if (SettingsHelper.checkSetting()) {
             println("load setting")
-            //SettingsHelper.loadSetting()
+            SettingsHelper.loadSettings()
         } else {
-            //SettingsHelper.writeSetting()
+            SettingsHelper.writeSettings()
         }
     }
 
     fun onStart() {
         ExternalManager.start()
-        when (settings.confId.value) {
-            null -> initSensor()
-            else -> {
-                println("should load config ${settings.confId.value}")
-                // load config
+
+        settings.confId.value.let {
+            when (it) {
+                null -> initSensor()
+                else -> {
+                    println("load conf $it")
+                    ConfHelper.loadConf(it)
+                }
             }
         }
         jobUpdate = CoroutineScope(Dispatchers.IO).launch { startUpdate() }
