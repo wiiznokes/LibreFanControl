@@ -1,6 +1,5 @@
 package ui.screen.drawer
 
-import State
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -27,7 +26,7 @@ fun drawerContent(
 ) {
 
     val settingState = rememberSettingState(key = drawerState.isOpen)
-    val settings = State.settings
+    val settings = viewModel.settings
 
     Setting(
         modifier = Modifier

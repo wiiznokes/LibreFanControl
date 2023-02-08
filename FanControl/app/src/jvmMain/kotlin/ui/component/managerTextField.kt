@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import model.item.BaseI
+import model.item.NameException
 import ui.screen.itemsList.behaviorList.linearAndTarget.LinAndTarParams
 import ui.screen.itemsList.behaviorList.linearAndTarget.isError
 import ui.theme.LocalColors
@@ -79,7 +79,7 @@ fun managerNameTextField(
             try {
                 onValueChange?.invoke(it)
                 isError.value = false
-            } catch (e: BaseI.Companion.NameException) {
+            } catch (e: NameException) {
                 isError.value = true
             }
         },
@@ -120,18 +120,14 @@ private fun managerTextField(
     BasicTextField(
         value = text.value,
         enabled = enabled,
-        modifier = modifier
-            .background(
-                shape = shape,
-                color = color
-            ),
+        modifier = modifier,
         onValueChange = { onValueChange?.invoke(it) },
         textStyle = MaterialTheme.typography.bodyMedium.copy(
             color = onColor
         ),
         singleLine = true,
         decorationBox = @Composable { innerTextField ->
-            TextFieldDefaults.OutlinedTextFieldDecorationBox(
+            TextFieldDefaults.TextFieldDecorationBox(
                 value = text.value,
                 visualTransformation = VisualTransformation.None,
                 innerTextField = innerTextField,
@@ -144,11 +140,16 @@ private fun managerTextField(
                         )
                     }
                 },
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = color,
+                    errorIndicatorColor = LocalColors.current.error
+                ),
                 singleLine = true,
                 isError = isError,
                 interactionSource = interactionSource,
                 contentPadding = PaddingValues(horizontal = LocalSpaces.current.medium),
-                enabled = enabled
+                enabled = enabled,
+                shape = shape
             )
         }
     )

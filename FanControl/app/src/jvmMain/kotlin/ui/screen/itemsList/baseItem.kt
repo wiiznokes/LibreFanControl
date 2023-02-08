@@ -33,6 +33,8 @@ fun baseItemBody(
     item: BaseI,
     onNameChange: (String) -> Unit,
     onEditClick: () -> Unit,
+    modifier: Modifier = Modifier
+        .width(200.dp),
     content: @Composable ColumnScope.() -> Unit,
 ) {
     baseItem(
@@ -58,6 +60,7 @@ fun baseItemBody(
             )
         },
         headerArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
     ) {
         content()
     }
@@ -119,8 +122,7 @@ fun baseItemAddItem(
 
 @Composable
 private fun baseItem(
-    modifier: Modifier = Modifier
-        .width(200.dp),
+    modifier: Modifier,
     headerArrangement: Arrangement.Horizontal,
     icon: Painter,
     contentName: @Composable RowScope.() -> Unit,

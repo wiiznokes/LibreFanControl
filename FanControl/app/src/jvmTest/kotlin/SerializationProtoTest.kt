@@ -19,7 +19,7 @@ class SerializationProtoTest {
         degree = false,
     )
 
-    private fun makeTest (settings1: Settings) {
+    private fun makeTest(settings1: Settings) {
         val pSettings = SettingsHelper.createPSetting(settings1)
         val settings2 = SettingsHelper.parsePSetting(pSettings)
 

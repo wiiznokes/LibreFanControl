@@ -3,6 +3,8 @@ package model.item
 import androidx.compose.runtime.MutableState
 import model.ItemType
 
+class NameException : Exception()
+
 interface BaseI {
     val name: MutableState<String>
     val type: ItemType
@@ -25,21 +27,28 @@ interface BaseI {
             if (id == null)
                 return null
 
-            return id.split("/")[0]
+            return id.split("#").let {
+                if (it.isEmpty()) "" else it[0]
+            }
         }
 
+        fun getAvailableId(list: List<String>, prefix: String): String =
+            getAvailableString(list, prefix, "#")
 
-        fun getAvailableString(list: List<String>, prefix: String): String {
+        fun getAvailableName(list: List<String>, prefix: String): String =
+            getAvailableString(list, prefix, " #")
+
+
+        private fun getAvailableString(list: List<String>, prefix: String, separator: String): String {
             var nb = 1
-            var str = "$prefix$nb"
+            var str = "$prefix$separator$nb"
             while (list.contains(str)) {
                 nb++
-                str = "$prefix$nb"
+                str = "$prefix$separator$nb"
             }
             return str
         }
 
-        class NameException : Exception()
 
         fun checkNameTaken(names: List<String>, name: String, index: Int? = null) {
             if (name.isBlank())
@@ -53,6 +62,8 @@ interface BaseI {
 
                     if (names[index] == name)
                         return
+
+                    throw NameException()
                 }
 
                 else -> throw NameException()

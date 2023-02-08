@@ -1,5 +1,6 @@
 package proto
 
+import State.settings
 import com.google.protobuf.NullValue
 import model.ConfInfo
 import model.Languages
@@ -18,26 +19,26 @@ class SettingsHelper {
         fun checkSetting(): Boolean = getSettingsFile().exists()
 
 
-        fun loadSetting(): Settings =
-            parsePSetting(with(getSettingsFile()) { PSetting.parseFrom(readBytes()) })
+        fun loadSettings() {
+            settings = with(getSettingsFile()) {
+                PSetting.parseFrom(readBytes()).let {
+                    parsePSetting(it)
+                }
+            }
+        }
 
 
-        fun writeSettings(settings: Settings) =
+        fun writeSettings() {
             createPSetting(settings).let {
                 with(getSettingsFile()) {
                     writeBytes(it.toByteArray())
                 }
             }
-
-
+        }
 
 
         private fun getSettingsFile(): File = File(System.getProperty("compose.application.resources.dir"))
             .resolve(SETTING_FILE)
-
-
-
-        
 
 
         fun parsePSetting(pSetting: PSetting): Settings =
@@ -75,7 +76,6 @@ class SettingsHelper {
             )
 
 
-
         fun createPSetting(settings: Settings): PSetting =
             pSetting {
                 pLanguage = when (settings.language.value) {
@@ -103,8 +103,6 @@ class SettingsHelper {
             }
     }
 }
-
-
 
 
 fun nullableToNull(nullableId: NullableId): String? =

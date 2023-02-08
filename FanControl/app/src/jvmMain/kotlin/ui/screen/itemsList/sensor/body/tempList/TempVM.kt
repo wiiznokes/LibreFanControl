@@ -13,7 +13,7 @@ class TempVM(
 ) {
 
 
-    fun remove(index: Int) {
+    fun removeCustom(index: Int) {
 
         val itemp = iTemps[index]
 

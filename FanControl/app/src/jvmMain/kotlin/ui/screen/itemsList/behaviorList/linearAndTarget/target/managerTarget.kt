@@ -3,11 +3,13 @@ package ui.screen.itemsList.behaviorList.linearAndTarget.target
 import State
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import model.item.BaseI
 import model.item.ICustomTemp
 import model.item.ITarget
@@ -34,15 +36,17 @@ fun targetBody(
         icon = Resources.getIcon("items/my_location24"),
         onNameChange = { viewModel.setName(it, index) },
         onEditClick = { viewModel.remove(index) },
-        item = target
+        item = target,
+        modifier = Modifier
+            .width(220.dp)
     ) {
 
         val customTempList = viewModel.iTemps.filterIsInstance<ICustomTemp>()
 
         println(target.hTempId.value)
         managerListChoice(
-            text = with(BaseI.getPrefix(target.hTempId.value)) {
-                when (this) {
+            text = with(target.hTempId.value) {
+                when (BaseI.getPrefix(this)) {
                     null -> null
 
                     BaseI.ICustomTempPrefix -> customTempList.first {

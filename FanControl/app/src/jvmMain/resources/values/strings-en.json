@@ -66,13 +66,13 @@
     }
   },
   "default_value": {
-    "control_name": "Control #",
-    "flat_name": "Flat #",
-    "linear_name": "Linear #",
-    "target_name": "Target #",
-    "fan_name": "Fan #",
-    "temp_name": "Temp #",
-    "custom_temp_name": "Custom Temp #"
+    "control_name": "Control",
+    "flat_name": "Flat",
+    "linear_name": "Linear",
+    "target_name": "Target",
+    "fan_name": "Fan",
+    "temp_name": "Temp",
+    "custom_temp_name": "Custom Temp"
   },
   "linear": {
     "min_temp": "min temp",

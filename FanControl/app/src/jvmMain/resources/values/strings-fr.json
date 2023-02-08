@@ -66,25 +66,25 @@
     }
   },
   "default_value": {
-    "control_name": "Control #",
-    "flat_name": "Plat #",
-    "linear_name": "Linéaire #",
-    "target_name": "Cible #",
-    "fan_name": "Fan #",
-    "temp_name": "Temp #",
-    "custom_temp_name": "Custom Temp #"
+    "control_name": "Control",
+    "flat_name": "Plat",
+    "linear_name": "Linéaire",
+    "target_name": "Cible",
+    "fan_name": "Fan",
+    "temp_name": "Temp",
+    "custom_temp_name": "Custom Temp"
   },
   "linear": {
-    "min_temp": "min temp  :",
-    "max_temp": "max temp  :",
-    "min_fan_speed": "min vitesse :",
-    "max_fan_speed": "max vitesse :"
+    "min_temp": "min temp",
+    "max_temp": "max temp",
+    "min_fan_speed": "min vitesse",
+    "max_fan_speed": "max vitesse"
   },
   "target": {
-    "idle_temp": "temp idéale     :",
-    "load_temp": "temp trigger    :",
-    "idle_fan_speed": "vitesse idéale  :",
-    "load_fan_speed": "vitesse trigger :"
+    "idle_temp": "temp idéale",
+    "load_temp": "temp trigger",
+    "idle_fan_speed": "vitesse",
+    "load_fan_speed": "vitesse"
   },
   "settings": {
     "update_delay": "délai maj : ",

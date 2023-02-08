@@ -4,7 +4,8 @@ import State
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.HTemp
 import model.item.BaseI
-import model.item.BaseI.Companion.getAvailableString
+import model.item.BaseI.Companion.getAvailableId
+import model.item.BaseI.Companion.getAvailableName
 import model.item.BaseITemp
 import model.item.ILinear
 import ui.screen.itemsList.behaviorList.BaseBehaviorVM
@@ -83,13 +84,13 @@ class LinearVM(
     }
 
     fun defaultLinear() = ILinear(
-        name = getAvailableString(
+        name = getAvailableName(
             list = iBehaviors.map { item ->
                 item.name.value
             },
             prefix = Resources.getString("default/linear_name")
         ),
-        id = getAvailableString(
+        id = getAvailableId(
             list = iBehaviors.map { item ->
                 item.id
             },
