@@ -1,5 +1,6 @@
 package model.item
 
+import State.hTemps
 import androidx.compose.runtime.MutableState
 import model.ItemType
 
@@ -75,5 +76,46 @@ interface BaseI {
 }
 
 
+/**
+ * centralize the constraint of having custom sensor inside
+ * iTemps and hardware sensors inside hTemps
+ */
+class TempHelper {
+    companion object {
 
+        fun getNameIorH(
+            hTempId: String?,
+            customTempList: List<ICustomTemp>,
+        ): String? = with(hTempId) {
+            when (BaseI.getPrefix(this)) {
+                null -> null
+
+                BaseI.ICustomTempPrefix -> customTempList.first {
+                    it.id == this
+                }.name.value
+
+                else -> hTemps.first {
+                    it.id == this
+                }.name
+            }
+        }
+
+
+        fun getValueIorH(
+        hTempId: String?,
+        customTempList: List<ICustomTemp>,
+        ): Int? = with(hTempId) {
+            when (BaseI.getPrefix(this)) {
+                null -> null
+                BaseI.ICustomTempPrefix -> customTempList.first {
+                    it.id == this
+                }.value.value
+
+                else -> hTemps.first {
+                    it.id == this
+                }.value.value
+            }
+        }
+    }
+}
 

@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import model.ItemType
+import model.hardware.HTemp
 
 
 interface BaseISensor : BaseI {
@@ -62,4 +63,33 @@ class ICustomTemp(
     val customTempType: MutableState<CustomTempType> = mutableStateOf(customTempType)
 
     val value: MutableState<Int> = mutableStateOf(value)
+
+
+    fun calcul(hTempList: List<HTemp>): Int? {
+        if(!isValid())
+            return null
+
+        return getTempListValues(hTempList.filterIsInstance<ICustomTemp>()).let {
+            when (customTempType.value) {
+                CustomTempType.average -> it.average().toInt()
+                CustomTempType.max -> it.max()
+                CustomTempType.min -> it.min()
+            }
+        }
+    }
+
+
+    private fun isValid(): Boolean = hTempIds.isNotEmpty()
+
+    private fun getTempListValues(hTempList: List<ICustomTemp>): List<Int> {
+        val valueList = mutableListOf<Int>()
+        hTempIds.forEach { id ->
+            valueList.add(
+                hTempList.first {
+                    it.id == id
+                }.value.value
+            )
+        }
+        return valueList
+    }
 }

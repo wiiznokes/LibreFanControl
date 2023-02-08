@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import model.item.BaseI
 import model.item.ICustomTemp
 import model.item.ITarget
+import model.item.TempHelper
 import ui.component.managerExpandItem
 import ui.component.managerListChoice
 import ui.component.managerNumberTextField
@@ -45,19 +46,10 @@ fun targetBody(
 
         println(target.hTempId.value)
         managerListChoice(
-            text = with(target.hTempId.value) {
-                when (BaseI.getPrefix(this)) {
-                    null -> null
-
-                    BaseI.ICustomTempPrefix -> customTempList.first {
-                        it.id == this
-                    }.name.value
-
-                    else -> viewModel.hTemps.first {
-                        it.id == this
-                    }.name
-                }
-            },
+            text = TempHelper.getNameIorH(
+                hTempId = target.hTempId.value,
+                customTempList = customTempList
+            ),
             onItemClick = {
                 viewModel.setTemp(
                     index = index,
