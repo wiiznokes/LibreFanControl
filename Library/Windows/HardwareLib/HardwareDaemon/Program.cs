@@ -23,5 +23,13 @@ internal static class Program
 
         Console.WriteLine(_settings.ConfId);
         Console.WriteLine(_settings.UpdateDelay);
+
+        var confId = _settings.ConfId;
+        if (confId != null)
+        {
+            ConfHelper.LoadConfFile(confId, IControls, IBehaviors, ICustomTemps);
+
+            Console.WriteLine("hello");
+        }
     }
 }
