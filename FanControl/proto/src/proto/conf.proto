@@ -14,10 +14,15 @@ import "proto/setting.proto";
 
 
 message PConf {
-  repeated PIControl PIControls = 1;
-  repeated PIBehavior PIBehaviors = 2;
-  repeated PITemp PITemps = 3;
-  repeated PIFan PIFans = 4;
+
+  PConfInfo PConfInfo = 1;
+
+  POsTypes POsType = 2;
+
+  repeated PIControl PIControls = 3;
+  repeated PIBehavior PIBehaviors = 4;
+  repeated PITemp PITemps = 5;
+  repeated PIFan PIFans = 6;
 }
 
 
@@ -26,6 +31,11 @@ message PConf {
     type ***********************
  */
 
+
+enum POsTypes {
+  WINDOWS = 0;
+  LINUX = 1;
+}
 
 enum PIControlTypes {
   I_C_FAN = 0;

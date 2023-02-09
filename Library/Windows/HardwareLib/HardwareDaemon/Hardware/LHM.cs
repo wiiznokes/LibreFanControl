@@ -1,4 +1,4 @@
-﻿using HardwareDaemon.Hardware.Control;
+﻿using System.Collections;
 using HardwareDaemon.Hardware.Sensor;
 using LibreHardwareMonitor.Hardware;
 
@@ -58,114 +58,37 @@ public class Lhm : IVisitor
         _mComputer.Close();
     }
 
-    public void CreateControl(ref List<BaseControl> deviceList)
+
+    public void CreateDevice(ArrayList deviceList, SensorType sensorType)
     {
         var index = 0;
         var hardwareArray = _mComputer.Hardware;
-        foreach (var t in hardwareArray)
+        foreach (var hardware in hardwareArray)
         {
-            var sensorArray = t.Sensors;
-            foreach (var t1 in sensorArray)
+            var sensorArray = hardware.Sensors;
+            foreach (var sensor in sensorArray)
             {
-                if (t1.SensorType != SensorType.Control)
+                if (sensor.SensorType != sensorType)
                     continue;
 
-                var id = t1.Identifier.ToString();
-                var name = t1.Name.Length > 0 ? t1.Name : "Control";
-                var sensor = new LhmControl(id, t1, name, index);
-                deviceList.Add(sensor);
+                var id = sensor.Identifier.ToString();
+                var name = sensor.Name.Length > 0 ? sensor.Name : sensorType.ToString();
+                deviceList.Add(new LhmTemp(id, sensor, name, index));
                 index++;
             }
 
-            var subHardwareArray = t.SubHardware;
-            foreach (var t1 in subHardwareArray)
+            var subHardwareArray = hardware.SubHardware;
+            foreach (var subHardware in subHardwareArray)
             {
-                var subSensorList = t1.Sensors;
-                foreach (var t2 in subSensorList)
+                var subSensorArray = subHardware.Sensors;
+                foreach (var subSensor in subSensorArray)
                 {
-                    if (t2.SensorType != SensorType.Control)
+                    if (subSensor.SensorType != sensorType)
                         continue;
 
-                    var id = t2.Identifier.ToString();
-                    var name = t2.Name.Length > 0 ? t2.Name : "Control";
-                    var sensor = new LhmControl(id, t2, name, index);
-                    deviceList.Add(sensor);
-                    index++;
-                }
-            }
-        }
-    }
-
-    public void CreateFan(ref List<BaseSensor> deviceList)
-    {
-        var index = 0;
-        var hardwareArray = _mComputer.Hardware;
-        foreach (var t in hardwareArray)
-        {
-            var sensorArray = t.Sensors;
-            foreach (var t1 in sensorArray)
-            {
-                if (t1.SensorType != SensorType.Fan)
-                    continue;
-
-                var id = t1.Identifier.ToString();
-                var name = t1.Name.Length > 0 ? t1.Name : "Fan";
-                var sensor = new LhmFanSpeed(id, t1, name, index);
-                deviceList.Add(sensor);
-                index++;
-            }
-
-            var subHardwareArray = t.SubHardware;
-            foreach (var t1 in subHardwareArray)
-            {
-                var subSensorList = t1.Sensors;
-                foreach (var t2 in subSensorList)
-                {
-                    if (t2.SensorType != SensorType.Fan)
-                        continue;
-
-                    var id = t2.Identifier.ToString();
-                    var name = t2.Name.Length > 0 ? t2.Name : "Fan";
-                    var sensor = new LhmFanSpeed(id, t2, name, index);
-                    deviceList.Add(sensor);
-                    index++;
-                }
-            }
-        }
-    }
-
-    public void CreateTemp(ref List<BaseSensor> deviceList)
-    {
-        var index = 0;
-        var hardwareArray = _mComputer.Hardware;
-        foreach (var t in hardwareArray)
-        {
-            var sensorArray = t.Sensors;
-            foreach (var t1 in sensorArray)
-            {
-                if (t1.SensorType != SensorType.Temperature)
-                    continue;
-
-                var id = t1.Identifier.ToString();
-                var name = t1.Name.Length > 0 ? t1.Name : "Temperature";
-                var sensor = new LhmTemp(id, t1, name, index);
-                deviceList.Add(sensor);
-                index++;
-            }
-
-            var subHardwareArray = t.SubHardware;
-            foreach (var t1 in subHardwareArray)
-            {
-                var subSensorList = t1.Sensors;
-                for (var k = 0; k < subSensorList.Length; k++)
-                {
-                    if (subSensorList[k].SensorType != SensorType.Temperature)
-                        continue;
-
-                    var id = sensorArray[k].Identifier.ToString();
-                    var name = subSensorList[k].Name.Length > 0 ? subSensorList[k].Name : "Temperature";
-                    var sensor = new LhmTemp(id, subSensorList[k], name, index);
-                    deviceList.Add(sensor);
+                    var id = subSensor.Identifier.ToString();
+                    var name = subSensor.Name.Length > 0 ? subSensor.Name : sensorType.ToString();
+                    deviceList.Add(new LhmTemp(id, subSensor, name, index));
                     index++;
                 }
             }

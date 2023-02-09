@@ -1,6 +1,6 @@
 ﻿namespace HardwareDaemon.Hardware.Sensor;
 
-public class BaseSensor : BaseDevice
+public abstract class BaseSensor : BaseDevice
 {
     protected BaseSensor(string name, int index, string id) : base(name, index, id)
     {

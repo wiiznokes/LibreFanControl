@@ -9,7 +9,7 @@ import model.Themes
 import proto.generated.setting.*
 import java.io.File
 
-private const val SETTING_FILE = "conf/setting"
+private const val SETTINGS_FILE = "conf/settings"
 
 
 class SettingsHelper {
@@ -50,7 +50,7 @@ class SettingsHelper {
 
 
         private fun getSettingsFile(): File = File(System.getProperty("compose.application.resources.dir"))
-            .resolve(SETTING_FILE)
+            .resolve(SETTINGS_FILE)
 
 
         fun parsePSetting(pSetting: PSetting): Settings =

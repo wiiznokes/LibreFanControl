@@ -1,88 +1,35 @@
-﻿using HardwareDaemon.Hardware;
-using HardwareDaemon.Hardware.Control;
-using HardwareDaemon.Hardware.Sensor;
-using Proto.Device;
+﻿using System.Collections;
+using HardwareDaemon.Hardware;
+using HardwareDaemon.Model;
+using HardwareDaemon.Proto;
 
 namespace HardwareDaemon;
 
 internal static class Program
 {
-    private static List<BaseControl> _controls = new();
-    private static List<BaseSensor> _fans = new();
-    private static List<BaseSensor> _temps = new();
+    private static readonly ArrayList HControls = new();
+    private static readonly ArrayList HTemps = new();
+    private static readonly ArrayList HFans = new();
+
+    private static readonly ArrayList IControls = new();
+    private static readonly ArrayList IBehaviors = new();
+    private static readonly ArrayList ICustomTemps = new();
+
+    private static readonly Settings _settings = SettingsHelper.LoadSettingsFile();
 
     private static void Main()
     {
-        HardwareManager.Start(
-            ref _controls,
-            ref _fans,
-            ref _temps
-        );
-        SocketListener.TryConnect();
-        StartListening();
-    }
+        HardwareManager.Start(HControls, HTemps, HFans);
 
+        Console.WriteLine(_settings.ConfId);
+        Console.WriteLine(_settings.UpdateDelay);
 
-    private static void StartListening()
-    {
-        var updateShouldStop = false;
-        while (!updateShouldStop)
+        var confId = _settings.ConfId;
+        if (confId != null)
         {
-            var command = SocketListener.GetMessage();
-            switch (command)
-            {
-                case Command.GetInfo:
-                    SendInfo();
-                    break;
+            ConfHelper.LoadConfFile(confId, IControls, IBehaviors, ICustomTemps);
 
-                case Command.Controls:
-                    SocketListener.SendUpdate(
-                        _controls.Cast<BaseDevice>().ToList()
-                    );
-                    break;
-                case Command.Fans:
-                    SocketListener.SendUpdate(
-                        _fans.Cast<BaseDevice>().ToList()
-                    );
-                    break;
-                case Command.Temps:
-                    SocketListener.SendUpdate(
-                        _temps.Cast<BaseDevice>().ToList()
-                    );
-                    break;
-                case Command.Stop:
-                    SocketListener.Close();
-                    updateShouldStop = true;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            HardwareManager.Update(
-                ref _controls,
-                ref _fans,
-                ref _temps
-            );
-
-            Console.WriteLine("new update");
+            Console.WriteLine("hello");
         }
-    }
-
-    private static void SendInfo()
-    {
-        SocketListener.SendDevice(
-            _controls.Cast<BaseDevice>().ToList(),
-            DeviceType.Control
-        );
-        Thread.Sleep(500);
-        SocketListener.SendDevice(
-            _fans.Cast<BaseDevice>().ToList(),
-            DeviceType.Fan
-        );
-        Thread.Sleep(500);
-        SocketListener.SendDevice(
-            _temps.Cast<BaseDevice>().ToList(),
-            DeviceType.Temp
-        );
     }
 }
