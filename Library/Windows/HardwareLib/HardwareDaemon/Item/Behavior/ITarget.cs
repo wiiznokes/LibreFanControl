@@ -3,13 +3,13 @@
 public class ITarget
 {
     public string Id;
-    public int Value;
-
-    public string? TempId;
-    public int IdleTemp;
-    public int LoadTemp;
     public int IdleFanSpeed;
-    public int LoadFanSpeed;
 
     public bool IdleHasBeenReach;
+    public int IdleTemp;
+    public int LoadFanSpeed;
+    public int LoadTemp;
+
+    public string? TempId;
+    public int Value;
 }

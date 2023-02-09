@@ -1,5 +1,7 @@
-﻿using HardwareDaemon.Hardware.Control;
+﻿using System.Collections;
+using HardwareDaemon.Hardware.Control;
 using HardwareDaemon.Hardware.Sensor;
+using LibreHardwareMonitor.Hardware;
 
 namespace HardwareDaemon.Hardware;
 
@@ -9,22 +11,21 @@ public static class HardwareManager
 
 
     public static void Start(
-        ref List<BaseControl> controls,
-        ref List<BaseSensor> fans,
-        ref List<BaseSensor> temps
+        ArrayList controls,
+        ArrayList temps,
+        ArrayList fans
     )
     {
         Lhm.Start();
-
-        Lhm.CreateControl(ref controls);
-        Lhm.CreateFan(ref fans);
-        Lhm.CreateTemp(ref temps);
+        Lhm.CreateDevice(controls, SensorType.Control);
+        Lhm.CreateDevice(temps, SensorType.Temperature);
+        Lhm.CreateDevice(fans, SensorType.Fan);
     }
 
     public static void Stop(
-        ref List<BaseControl> controls,
-        ref List<BaseSensor> fans,
-        ref List<BaseSensor> temps
+        ArrayList controls,
+        ArrayList fans,
+        ArrayList temps
     )
     {
         Lhm.Stop();
@@ -36,25 +37,25 @@ public static class HardwareManager
 
 
     public static void Update(
-        ref List<BaseControl> controls,
-        ref List<BaseSensor> fans,
-        ref List<BaseSensor> temps
+        ArrayList controls,
+        ArrayList fans,
+        ArrayList temps
     )
     {
         Lhm.Update();
-        foreach (var control in controls) control.Update();
-        foreach (var fan in fans) fan.Update();
-        foreach (var temp in temps) temp.Update();
+        foreach (BaseControl control in controls) control.Update();
+        foreach (BaseSensor temp in temps) temp.Update();
+        foreach (BaseSensor fan  in fans) fan.Update();
     }
 
 
     public static bool SetControl(
-        ref List<BaseControl> controls,
+        ArrayList controls,
         int index, bool isAuto, int value)
     {
         try
         {
-            var control = controls[index];
+            var control = (BaseControl)controls[index]!;
             return isAuto ? control.SetAuto() : control.SetSpeed(value);
         }
         catch (Exception e)

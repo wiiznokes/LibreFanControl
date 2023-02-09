@@ -3,11 +3,11 @@
 public class ILinear
 {
     public string Id;
-    public int Value;
-
-    public string? TempId;
-    public int MinTemp;
+    public int MaxFanSpeed;
     public int MaxTemp;
     public int MinFanSpeed;
-    public int MaxFanSpeed;
+    public int MinTemp;
+
+    public string? TempId;
+    public int Value;
 }

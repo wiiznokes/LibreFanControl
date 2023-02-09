@@ -1,4 +1,5 @@
-﻿using HardwareDaemon.Hardware.Control;
+﻿using System.Collections;
+using HardwareDaemon.Hardware.Control;
 using HardwareDaemon.Hardware.Sensor;
 using LibreHardwareMonitor.Hardware;
 
@@ -167,6 +168,43 @@ public class Lhm : IVisitor
                     var sensor = new LhmTemp(id, subSensorList[k], name, index);
                     deviceList.Add(sensor);
                     index++;
+                }
+            }
+        }
+    }
+
+
+    public void CreateDevice(ArrayList deviceList, SensorType sensorType)
+    {
+        var index = 0;
+        var hardwareArray = _mComputer.Hardware;
+        foreach (var hardware in hardwareArray)
+        {
+            var sensorArray = hardware.Sensors;
+            foreach (var sensor in sensorArray)
+            {
+                if (sensor.SensorType != sensorType)
+                    continue;
+                
+                var id = sensor.Identifier.ToString();
+                var name = sensor.Name.Length > 0 ? sensor.Name : sensorType.ToString();
+                deviceList.Add(new LhmTemp(id, sensor, name, index));
+                index++;
+            }
+
+            var subHardwareArray = hardware.SubHardware;
+            foreach (var subHardware in subHardwareArray)
+            {
+                var subSensorArray = subHardware.Sensors;
+                foreach (var subSensor in subSensorArray)
+                {
+                    if (subSensor.SensorType != sensorType)
+                        continue;
+                    
+                    var id = subSensor.Identifier.ToString();
+                    var name = subSensor.Name.Length > 0 ? subSensor.Name : sensorType.ToString();
+                    deviceList.Add(new LhmTemp(id, subSensor, name, index));
+                    index++; 
                 }
             }
         }

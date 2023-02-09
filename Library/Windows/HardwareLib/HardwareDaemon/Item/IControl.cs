@@ -2,9 +2,9 @@
 
 public class IControl
 {
-    public string Id;
     public string? BehaviorId;
-    public bool IsAuto;
     public string? ControlId;
+    public string Id;
+    public bool IsAuto;
     public int Value;
 }
