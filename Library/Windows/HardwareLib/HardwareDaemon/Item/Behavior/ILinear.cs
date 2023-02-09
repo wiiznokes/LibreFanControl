@@ -10,4 +10,15 @@ public class ILinear
 
     public string? TempId;
     public int Value;
+
+    public ILinear(string id, int maxFanSpeed, int maxTemp, int minFanSpeed, int minTemp, string tempId, int value)
+    {
+        Id = id;
+        MaxFanSpeed = maxFanSpeed;
+        MaxTemp = maxTemp;
+        MinFanSpeed = minFanSpeed;
+        MinTemp = minTemp;
+        TempId = tempId;
+        Value = value;
+    }
 }

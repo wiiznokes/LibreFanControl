@@ -4,15 +4,23 @@ public class ICustomTemp
 {
     public enum CustomTempType
     {
-        Averrage,
+        Average,
         Max,
         Min
     }
 
-    public List<string> HTempIds;
-    public string Id;
+    public List<string> HTempIds { get; }
+    public string Id { get; }
 
-    public CustomTempType Type;
+    public CustomTempType Type { get; }
 
-    public int Value;
+    public int Value { get; }
+
+    public ICustomTemp(List<string> hTempIds, string id, CustomTempType type, int value)
+    {
+        HTempIds = hTempIds;
+        Id = id;
+        Type = type;
+        Value = value;
+    }
 }

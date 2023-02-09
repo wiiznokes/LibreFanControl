@@ -2,6 +2,12 @@
 
 public class IFlat
 {
-    public string Id;
-    public int Value;
+    public string Id { get; }
+    public int Value { get; }
+
+    public IFlat(string id, int value)
+    {
+        Id = id;
+        Value = value;
+    }
 }
