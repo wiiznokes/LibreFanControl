@@ -9,12 +9,12 @@ public class ICustomTemp
         Min
     }
 
-    public ICustomTemp(List<string> hTempIds, string id, CustomTempType type, int value)
+    public ICustomTemp(string id, List<string> hTempIds, CustomTempType type)
     {
-        HTempIds = hTempIds;
         Id = id;
+        HTempIds = hTempIds;
         Type = type;
-        Value = value;
+        Value = 0;
     }
 
     public List<string> HTempIds { get; }

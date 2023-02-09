@@ -6,19 +6,22 @@ public class ILinear
     public int MaxFanSpeed;
     public int MaxTemp;
     public int MinFanSpeed;
-    public int MinTemp;
 
+    public int MinTemp;
     public string? TempId;
+
     public int Value;
 
-    public ILinear(string id, int maxFanSpeed, int maxTemp, int minFanSpeed, int minTemp, string tempId, int value)
+    public ILinear(string id, string? tempId, int minTemp, int maxTemp, int minFanSpeed, int maxFanSpeed)
     {
         Id = id;
-        MaxFanSpeed = maxFanSpeed;
+        TempId = tempId;
+
+        MinTemp = minTemp;
         MaxTemp = maxTemp;
         MinFanSpeed = minFanSpeed;
-        MinTemp = minTemp;
-        TempId = tempId;
-        Value = value;
+        MaxFanSpeed = maxFanSpeed;
+
+        Value = 0;
     }
 }
