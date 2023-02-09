@@ -3,7 +3,6 @@ using Proto.Generated.Setting;
 
 namespace HardwareDaemon.Proto;
 
-
 public class ProtoException : Exception
 {
     public ProtoException(string msg) : base(msg)
@@ -11,31 +10,39 @@ public class ProtoException : Exception
     }
 }
 
-public class SettingsHelper
+public static class SettingsHelper
 {
+    private const string SettingsFile = "./conf/settings";
 
-    public static Settings ParseSettings(PSetting pSetting)
+    public static Settings LoadSettingsFile()
+    {
+        var pSettings = PSetting.Parser.ParseFrom(GetSettingsBytes());
+        return ParsePSettings(pSettings);
+    }
+
+    private static byte[] GetSettingsBytes()
+    {
+        var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsFile);
+        return File.ReadAllBytes(filePath);
+    }
+
+
+    public static Settings ParsePSettings(PSetting pSetting)
     {
         return new Settings(
-            NullableToNull(pSetting.PConfId), 
+            NullableToNull(pSetting.PConfId),
             pSetting.PUpdateDelay
         );
     }
-    
-    
-    
+
+
     public static string? NullableToNull(NullableId nullableId)
     {
-        switch (nullableId.KindCase)
+        return nullableId.KindCase switch
         {
-            case NullableId.KindOneofCase.PId:
-                return nullableId.PId;
-            case NullableId.KindOneofCase.Null:
-                return null;
-            default:
-                throw new ProtoException("Nullable id not set");
-        }
+            NullableId.KindOneofCase.PId => nullableId.PId,
+            NullableId.KindOneofCase.Null => null,
+            _ => throw new ProtoException("Nullable id not set")
+        };
     }
 }
-
-

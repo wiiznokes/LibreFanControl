@@ -2,6 +2,7 @@
 
 public class ITarget
 {
+    private bool _idleHasBeenReached = false;
     public string Id;
     public int IdleFanSpeed;
 
@@ -11,8 +12,6 @@ public class ITarget
 
     public string? TempId;
     public int Value;
-    
-    private bool _idleHasBeenReached = false;
 
     public ITarget(string id, int idleFanSpeed, int idleTemp, int loadFanSpeed, int loadTemp, string tempId, int value)
     {

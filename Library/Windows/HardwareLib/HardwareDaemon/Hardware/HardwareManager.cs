@@ -44,7 +44,7 @@ public static class HardwareManager
         Lhm.Update();
         foreach (BaseControl control in controls) control.Update();
         foreach (BaseSensor temp in temps) temp.Update();
-        foreach (BaseSensor fan  in fans) fan.Update();
+        foreach (BaseSensor fan in fans) fan.Update();
     }
 
 

@@ -91,37 +91,37 @@ class ConfHelper {
                 )
             )
 
-            pConf.piControlsList.forEach { pControl ->
+            pConf.piControlsList.forEach { pIControl ->
                 conf.iControls.add(
                     IControl(
-                        name = pControl.pName,
-                        id = pControl.pId,
-                        type = when (pControl.pType) {
+                        name = pIControl.pName,
+                        id = pIControl.pId,
+                        type = when (pIControl.pType) {
                             PIControlTypes.I_C_FAN -> ItemType.ControlType.I_C_FAN
                             else -> throw ProtoException("unknown control type")
                         },
-                        iBehaviorId = nullableToNull(pControl.piBehaviorId),
-                        isAuto = pControl.pIsAuto,
-                        controlId = nullableToNull(pControl.phControlId),
+                        iBehaviorId = nullableToNull(pIControl.piBehaviorId),
+                        isAuto = pIControl.pIsAuto,
+                        controlId = nullableToNull(pIControl.phControlId),
                     )
                 )
             }
 
-            pConf.piBehaviorsList.forEach { pBehavior ->
+            pConf.piBehaviorsList.forEach { pIBehavior ->
                 conf.iBehaviors.add(
-                    when (pBehavior.pType) {
+                    when (pIBehavior.pType) {
                         PIBehaviorTypes.I_B_FLAT ->
                             IFlat(
-                                name = pBehavior.pName,
-                                id = pBehavior.pId,
-                                value = pBehavior.pFlat.pValue
+                                name = pIBehavior.pName,
+                                id = pIBehavior.pId,
+                                value = pIBehavior.pFlat.pValue
                             )
 
 
-                        PIBehaviorTypes.I_B_LINEAR -> pBehavior.pLinear.let {
+                        PIBehaviorTypes.I_B_LINEAR -> pIBehavior.pLinear.let {
                             ILinear(
-                                name = pBehavior.pName,
-                                id = pBehavior.pId,
+                                name = pIBehavior.pName,
+                                id = pIBehavior.pId,
                                 tempId = nullableToNull(it.pTempId),
                                 minTemp = it.pMinTemp,
                                 maxTemp = it.pMaxTemp,
@@ -131,10 +131,10 @@ class ConfHelper {
                         }
 
 
-                        PIBehaviorTypes.I_B_TARGET -> pBehavior.pTarget.let {
+                        PIBehaviorTypes.I_B_TARGET -> pIBehavior.pTarget.let {
                             ITarget(
-                                name = pBehavior.pName,
-                                id = pBehavior.pId,
+                                name = pIBehavior.pName,
+                                id = pIBehavior.pId,
                                 tempId = nullableToNull(it.pTempId),
                                 idleTemp = it.pIdleTemp,
                                 loadTemp = it.pLoadTemp,
@@ -148,19 +148,19 @@ class ConfHelper {
                 )
             }
 
-            pConf.piTempsList.forEach { pTemp ->
+            pConf.piTempsList.forEach { pITemp ->
                 conf.iTemps.add(
-                    when (pTemp.pType) {
+                    when (pITemp.pType) {
                         PITempTypes.I_S_TEMP -> ITemp(
-                            name = pTemp.pName,
-                            id = pTemp.pId,
-                            hTempId = nullableToNull(pTemp.piSimpleTemp.phTempId)
+                            name = pITemp.pName,
+                            id = pITemp.pId,
+                            hTempId = nullableToNull(pITemp.piSimpleTemp.phTempId)
                         )
 
-                        PITempTypes.I_S_CUSTOM_TEMP -> pTemp.piCustomTemp.let {
+                        PITempTypes.I_S_CUSTOM_TEMP -> pITemp.piCustomTemp.let {
                             ICustomTemp(
-                                name = pTemp.pName,
-                                id = pTemp.pId,
+                                name = pITemp.pName,
+                                id = pITemp.pId,
                                 customTempType = when (it.pType) {
                                     PCustomTempTypes.AVERAGE -> CustomTempType.average
                                     PCustomTempTypes.MAX -> CustomTempType.max
@@ -177,12 +177,12 @@ class ConfHelper {
 
             }
 
-            pConf.piFansList.forEach { pFan ->
+            pConf.piFansList.forEach { pIFan ->
                 conf.iFans.add(
                     IFan(
-                        name = pFan.pName,
-                        id = pFan.pId,
-                        hFanId = nullableToNull(pFan.phFanId)
+                        name = pIFan.pName,
+                        id = pIFan.pId,
+                        hFanId = nullableToNull(pIFan.phFanId)
                     )
                 )
             }

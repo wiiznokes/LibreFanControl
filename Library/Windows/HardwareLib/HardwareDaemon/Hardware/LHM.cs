@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using HardwareDaemon.Hardware.Control;
 using HardwareDaemon.Hardware.Sensor;
 using LibreHardwareMonitor.Hardware;
 
@@ -71,7 +70,7 @@ public class Lhm : IVisitor
             {
                 if (sensor.SensorType != sensorType)
                     continue;
-                
+
                 var id = sensor.Identifier.ToString();
                 var name = sensor.Name.Length > 0 ? sensor.Name : sensorType.ToString();
                 deviceList.Add(new LhmTemp(id, sensor, name, index));
@@ -86,11 +85,11 @@ public class Lhm : IVisitor
                 {
                     if (subSensor.SensorType != sensorType)
                         continue;
-                    
+
                     var id = subSensor.Identifier.ToString();
                     var name = subSensor.Name.Length > 0 ? subSensor.Name : sensorType.ToString();
                     deviceList.Add(new LhmTemp(id, subSensor, name, index));
-                    index++; 
+                    index++;
                 }
             }
         }
