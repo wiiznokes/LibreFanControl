@@ -13,7 +13,10 @@ class ConfigurationVM(
 ) {
 
     fun saveConfiguration(name: String, index: Int, id: String?) {
-        if (id == null) return
+        if (id == null) {
+            println("save conf: id == null -> return")
+            return
+        }
 
         try {
             checkNameTaken(
@@ -24,9 +27,10 @@ class ConfigurationVM(
                 index = index
             )
         } catch (e: NameException) {
+            println("save conf: NameException -> return")
             return
         }
-
+        println("save conf: id = $id")
         settings.confInfoList[index].name.value = name
         SettingsHelper.writeSettings()
         ConfHelper.writeConf(id)
@@ -48,8 +52,10 @@ class ConfigurationVM(
                 name = name
             )
         } catch (e: NameException) {
+            println("add conf: NameException -> return false")
             return false
         }
+        println("add conf: id = $id")
 
         settings.confId.value = id
         settings.confInfoList.add(ConfInfo(id, name))
@@ -61,10 +67,12 @@ class ConfigurationVM(
     }
 
     fun removeConfiguration(id: String, index: Int) {
+        println("remove conf: id = $id")
         settings.confInfoList.removeAt(index)
         if (settings.confId.value == id) {
             settings.confId.value = null
         }
         SettingsHelper.writeSettings()
+        ConfHelper.removeConf(id)
     }
 }
