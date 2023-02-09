@@ -54,7 +54,7 @@ dotnet build
 ## Next steps
 
 - [x] Publish
-- [ ] Use strongly type resources, maybe Kotlin dataframe
+- [ ] Use strongly typed resources, maybe Kotlin dataframe
 - [ ] Add workflow to the project (CI/CD, ect...)
 - [ ] Add a program to automatically bind controls with his fan (may change the architecture so I will do it later)
 - [ ] Support Linux
