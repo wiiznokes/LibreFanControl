@@ -23,22 +23,22 @@ public static class HardwareManager
 
     public static void Stop(
         ArrayList controls,
-        ArrayList fans,
-        ArrayList temps
+        ArrayList temps,
+        ArrayList fans
     )
     {
         Lhm.Stop();
 
         controls.Clear();
-        fans.Clear();
         temps.Clear();
+        fans.Clear();
     }
 
 
     public static void Update(
         ArrayList controls,
-        ArrayList fans,
-        ArrayList temps
+        ArrayList temps,
+        ArrayList fans
     )
     {
         Lhm.Update();
