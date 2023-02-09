@@ -9,7 +9,6 @@ public static class HardwareManager
 {
     private static readonly Lhm Lhm = new();
 
-
     public static void Start(
         ArrayList controls,
         ArrayList temps,
