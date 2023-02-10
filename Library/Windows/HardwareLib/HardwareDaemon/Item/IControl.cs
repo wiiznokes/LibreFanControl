@@ -20,7 +20,7 @@ public class IControl
     
 
     private string? IBehaviorId { get; }
-    public IBehavior IBehavior { get; set; }
+    public IBehaviorWithTemp IBehavior { get; set; }
     
     public string Id { get; }
     private bool IsAuto { get; }

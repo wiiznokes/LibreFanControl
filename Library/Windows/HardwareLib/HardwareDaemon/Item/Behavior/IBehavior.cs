@@ -64,7 +64,7 @@ public abstract class IBehaviorWithTemp : IBehavior
 
     
 
-    public int? GetSensorValue()
+    private int GetSensorValue()
     {
         if (IsCustomTemp)
         {
@@ -76,8 +76,8 @@ public abstract class IBehaviorWithTemp : IBehavior
     }
     
 
-    public abstract int? GetValue();
-
+    public abstract int GetValue();
+    
 
     public void Init(ArrayList hTemps, ArrayList iCustomTemps)
     {

@@ -41,7 +41,7 @@ public class Update
             {
                 iControl.SetHControl(hControls);
                 iControl.SetValue((behavior as IFlat)!.Value);
-                continue; 
+                break; 
             }
 
             try
@@ -53,8 +53,17 @@ public class Update
                 break;
             }
             iControl.SetHControl(hControls);
-            iControl.IBehavior = behavior;
+            iControl.IBehavior = (behavior as IBehaviorWithTemp)!;
             updateList.Add(iControl);
+        }
+    }
+
+
+    public static void UpdateUpdateList(ArrayList updateList)
+    {
+        foreach (IControl iControl in updateList)
+        {
+            iControl.SetValue(iControl.IBehavior.GetValue());
         }
     }
 }

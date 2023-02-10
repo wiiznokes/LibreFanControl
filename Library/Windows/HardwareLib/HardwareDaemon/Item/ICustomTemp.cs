@@ -26,9 +26,9 @@ public class ICustomTemp
     public string Id { get; }
     private List<string> HTempIds { get; }
     private CustomTempType Type { get; }
-    
-    
-    public bool IsValid { get;  }
+
+
+    private bool IsValid { get;  }
 
     private List<BaseSensor> HTemps { get;  }
 
