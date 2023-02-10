@@ -1,4 +1,7 @@
-﻿namespace HardwareDaemon.Item;
+﻿using System.Collections;
+using HardwareDaemon.Hardware.Control;
+
+namespace HardwareDaemon.Item;
 
 public class IControl
 {
@@ -10,8 +13,34 @@ public class IControl
         IsAuto = isAuto;
     }
 
-    public string? IBehaviorId { get; }
-    public string? HControlId { get; }
+
+    public bool IsValid()
+    {
+        return HControlId != null && IsAuto == false && IBehaviorId != null;
+    }
+
+    private string? IBehaviorId { get; }
+    private string? HControlId { get; }
     public string Id { get; }
-    public bool IsAuto { get; }
+    private bool IsAuto { get; }
+
+    private BaseControl HControl { get; set; }
+
+    public void SetHControl(ArrayList hControls)
+    {
+        foreach (BaseControl hControl in hControls)
+        {
+            if (hControl.Id == HControlId)
+            {
+                HControl = hControl;
+            }
+        }
+        
+    }
+
+
+    public void SetValue(int value)
+    {
+        HControl.SetSpeed(value);
+    }
 }

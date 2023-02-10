@@ -1,13 +1,13 @@
 ﻿namespace HardwareDaemon.Item.Behavior;
 
-public class IFlat
+public class IFlat: IBehavior
 {
-    public IFlat(string id, int value)
+    public IFlat(string id, int value): base(id, BehaviorType.Flat)
     {
-        Id = id;
         Value = value;
     }
 
-    public string Id { get; }
     public int Value { get; }
+
+   
 }

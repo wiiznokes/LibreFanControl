@@ -14,6 +14,8 @@ internal static class Program
     private static readonly ArrayList IControls = new();
     private static readonly ArrayList IBehaviors = new();
     private static readonly ArrayList ICustomTemps = new();
+    
+    private static readonly ArrayList updateList = new();
 
     private static readonly Settings _settings = SettingsHelper.LoadSettingsFile();
 
