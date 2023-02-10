@@ -67,6 +67,10 @@ class ConfHelper {
             }
         }
 
+        fun removeConf(confId: String) {
+            getConfFile(confId).delete()
+        }
+
 
         private fun getConfFile(confId: String): File = File(System.getProperty("compose.application.resources.dir"))
             .resolve("$CONF_DIR$confId")

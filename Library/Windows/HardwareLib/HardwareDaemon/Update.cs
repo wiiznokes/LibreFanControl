@@ -1,0 +1,81 @@
+﻿using System.Collections;
+using HardwareDaemon.Hardware.Control;
+using HardwareDaemon.Hardware.Sensor;
+using HardwareDaemon.Item;
+using HardwareDaemon.Item.Behavior;
+
+namespace HardwareDaemon;
+
+public static class Update
+{
+    public static void CreateUpdateList(
+        ArrayList updateList,
+        ArrayList hControls,
+        ArrayList hTemps,
+        ArrayList iControls,
+        ArrayList iBehaviors,
+        ArrayList iCustomTemps)
+    {
+        updateList.Clear();
+
+        foreach (Control iControl in iControls)
+        {
+            if (!iControl.IsValid)
+                continue;
+
+            Behavior? behavior = null;
+
+            foreach (Behavior iBehavior in iBehaviors)
+            {
+                if (iBehavior.Id != iControl.BehaviorId) continue;
+                behavior = iBehavior;
+                break;
+            }
+
+            if (behavior == null) continue;
+
+            if (behavior.Type == BehaviorType.Flat)
+            {
+                iControl.SetHControl(hControls);
+                Control.SetSpeed((behavior as Flat)!.Value);
+                continue;
+            }
+
+            try
+            {
+                (behavior as BehaviorWithTemp)!.Init(hTemps, iCustomTemps);
+            }
+            catch (BehaviorException e)
+            {
+                Console.WriteLine(e.Message);
+                continue;
+            }
+
+            iControl.SetHControl(hControls);
+            iControl.Behavior = (behavior as BehaviorWithTemp)!;
+            updateList.Add(iControl);
+        }
+    }
+
+
+    public static void UpdateUpdateList(ArrayList updateList)
+    {
+        foreach (Control iControl in updateList) Control.SetSpeed(iControl.Behavior.GetSpeed());
+    }
+
+    public static void UpdateAllSensors(
+        ArrayList controls,
+        ArrayList temps,
+        ArrayList fans
+    )
+    {
+        foreach (BaseControl control in controls) control.Update();
+        foreach (BaseSensor temp in temps) temp.Update();
+        foreach (BaseSensor fan in fans) fan.Update();
+    }
+
+    public static void SetAutoAll(ArrayList hControls)
+    {
+        foreach (BaseControl hControl in hControls) hControl.SetAuto();
+    }
+}

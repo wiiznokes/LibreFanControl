@@ -5,31 +5,70 @@ using HardwareDaemon.Proto;
 
 namespace HardwareDaemon;
 
+internal enum ServiceState
+{
+    Open,
+    Close
+}
 internal static class Program
 {
     private static readonly ArrayList HControls = new();
     private static readonly ArrayList HTemps = new();
     private static readonly ArrayList HFans = new();
 
-    private static readonly ArrayList IControls = new();
-    private static readonly ArrayList IBehaviors = new();
-    private static readonly ArrayList ICustomTemps = new();
+    private static readonly ArrayList Controls = new();
+    private static readonly ArrayList Behaviors = new();
+    private static readonly ArrayList CustomTemps = new();
 
-    private static readonly Settings _settings = SettingsHelper.LoadSettingsFile();
+    private static readonly ArrayList UpdateList = new();
+
+    private static readonly Settings Settings = SettingsHelper.LoadSettingsFile();
+
+    private static bool IsOpen = false;
 
     private static void Main()
     {
         HardwareManager.Start(HControls, HTemps, HFans);
 
-        Console.WriteLine(_settings.ConfId);
-        Console.WriteLine(_settings.UpdateDelay);
-
-        var confId = _settings.ConfId;
-        if (confId != null)
+        var confId = Settings.ConfId;
+        
+        if (confId == null)
         {
-            ConfHelper.LoadConfFile(confId, IControls, IBehaviors, ICustomTemps);
+            Console.WriteLine("conf Id == null -> return");
+            return;
+        }
 
-            Console.WriteLine("hello");
+
+        ConfHelper.LoadConfFile(confId, Controls, Behaviors, CustomTemps);
+
+        Update.CreateUpdateList(
+            UpdateList,
+            HControls,
+            HTemps,
+            Controls,
+            Behaviors,
+            CustomTemps
+        );
+        
+        HardwareManager.Update();
+        Update.UpdateUpdateList(UpdateList);
+        UpdateJob();
+    }
+
+
+    public static bool ServiceShouldStop = false;
+    private static void UpdateJob()
+    {
+        while (!ServiceShouldStop)
+        {
+            HardwareManager.Update();
+            if (IsOpen)
+            {
+                Update.UpdateAllSensors(HControls, HTemps, HFans);
+            }
+            Update.UpdateUpdateList(UpdateList);
+            
+            Thread.Sleep(Settings.UpdateDelay * 1000);
         }
     }
 }

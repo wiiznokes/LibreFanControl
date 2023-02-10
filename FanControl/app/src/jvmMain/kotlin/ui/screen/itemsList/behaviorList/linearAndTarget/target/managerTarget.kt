@@ -43,7 +43,6 @@ fun targetBody(
 
         val customTempList = viewModel.iTemps.filterIsInstance<ICustomTemp>()
 
-        println(target.hTempId.value)
         managerListChoice(
             text = TempHelper.getNameIorH(
                 hTempId = target.hTempId.value,

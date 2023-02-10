@@ -5,7 +5,7 @@ using Proto.Generated.Conf;
 
 namespace HardwareDaemon.Proto;
 
-public class ConfHelper
+public static class ConfHelper
 {
     private const string ConfDir = "./conf/";
 
@@ -35,10 +35,9 @@ public class ConfHelper
         iCustomTemps.Clear();
 
         foreach (var pIControl in pConf.PIControls)
-            iControls.Add(new IControl(
+            iControls.Add(new Control(
                 SettingsHelper.NullableToNull(pIControl.PIBehaviorId),
                 SettingsHelper.NullableToNull(pIControl.PHControlId),
-                pIControl.PId,
                 pIControl.PIsAuto
             ));
 
@@ -46,9 +45,9 @@ public class ConfHelper
             iBehaviors.Add(
                 pIBehavior.KindCase switch
                 {
-                    PIBehavior.KindOneofCase.PFlat => new IFlat(pIBehavior.PId, pIBehavior.PFlat.PValue),
+                    PIBehavior.KindOneofCase.PFlat => new Flat(pIBehavior.PId, pIBehavior.PFlat.PValue),
 
-                    PIBehavior.KindOneofCase.PLinear => new ILinear(
+                    PIBehavior.KindOneofCase.PLinear => new Linear(
                         pIBehavior.PId,
                         SettingsHelper.NullableToNull(pIBehavior.PLinear.PTempId),
                         pIBehavior.PLinear.PMinTemp,
@@ -57,7 +56,7 @@ public class ConfHelper
                         pIBehavior.PLinear.PMaxFanSpeed
                     ),
 
-                    PIBehavior.KindOneofCase.PTarget => new ITarget(
+                    PIBehavior.KindOneofCase.PTarget => new Target(
                         pIBehavior.PId,
                         SettingsHelper.NullableToNull(pIBehavior.PTarget.PTempId),
                         pIBehavior.PTarget.PIdleTemp,
@@ -73,14 +72,14 @@ public class ConfHelper
         foreach (var pITemp in pConf.PITemps)
             if (pITemp.KindCase == PITemp.KindOneofCase.PICustomTemp)
                 iCustomTemps.Add(
-                    new ICustomTemp(
+                    new CustomTemp(
                         pITemp.PId,
                         pITemp.PICustomTemp.PHTempIds.ToList(),
                         pITemp.PICustomTemp.PType switch
                         {
-                            PCustomTempTypes.Average => ICustomTemp.CustomTempType.Average,
-                            PCustomTempTypes.Max => ICustomTemp.CustomTempType.Max,
-                            PCustomTempTypes.Min => ICustomTemp.CustomTempType.Min,
+                            PCustomTempTypes.Average => CustomTemp.CustomTempType.Average,
+                            PCustomTempTypes.Max => CustomTemp.CustomTempType.Max,
+                            PCustomTempTypes.Min => CustomTemp.CustomTempType.Min,
                             _ => throw new ProtoException("unknown custom temp type")
                         }
                     )
