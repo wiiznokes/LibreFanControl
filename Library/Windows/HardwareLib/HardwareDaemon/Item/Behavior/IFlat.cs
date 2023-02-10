@@ -1,8 +1,8 @@
 ﻿namespace HardwareDaemon.Item.Behavior;
 
-public class IFlat: IBehavior
+public class Flat: Behavior
 {
-    public IFlat(string id, int value): base(id, BehaviorType.Flat)
+    public Flat(string id, int value): base(id, BehaviorType.Flat)
     {
         Value = value;
     }

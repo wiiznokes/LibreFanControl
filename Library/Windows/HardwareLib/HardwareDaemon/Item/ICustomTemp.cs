@@ -4,7 +4,7 @@ using HardwareDaemon.Item.Behavior;
 
 namespace HardwareDaemon.Item;
 
-public class ICustomTemp
+public class CustomTemp
 {
     public enum CustomTempType
     {
@@ -13,7 +13,7 @@ public class ICustomTemp
         Min
     }
 
-    public ICustomTemp(string id, List<string> hTempIds, CustomTempType type)
+    public CustomTemp(string id, List<string> hTempIds, CustomTempType type)
     {
         Id = id;
         HTempIds = hTempIds;

@@ -19,14 +19,14 @@ public class Update
     {
         updateList.Clear();
 
-        foreach (IControl iControl in iControls)
+        foreach (Control iControl in iControls)
         {
             if (!iControl.IsValid)
                 continue;
             
-            IBehavior? behavior = null;
+            Behavior? behavior = null;
             
-            foreach (IBehavior iBehavior in iBehaviors)
+            foreach (Behavior iBehavior in iBehaviors)
             {
                 if (iBehavior.Id != iControl.Id) continue;
                 behavior = iBehavior;
@@ -40,20 +40,20 @@ public class Update
             if (behavior.Type == BehaviorType.Flat)
             {
                 iControl.SetHControl(hControls);
-                iControl.SetValue((behavior as IFlat)!.Value);
+                iControl.SetValue((behavior as Flat)!.Value);
                 break; 
             }
 
             try
             {
-                (behavior as IBehaviorWithTemp)!.Init(hTemps, iCustomTemps);
+                (behavior as BehaviorWithTemp)!.Init(hTemps, iCustomTemps);
             } catch (BehaviorException e)
             {
                 Console.WriteLine(e);
                 break;
             }
             iControl.SetHControl(hControls);
-            iControl.IBehavior = (behavior as IBehaviorWithTemp)!;
+            iControl.Behavior = (behavior as BehaviorWithTemp)!;
             updateList.Add(iControl);
         }
     }
@@ -61,9 +61,9 @@ public class Update
 
     public static void UpdateUpdateList(ArrayList updateList)
     {
-        foreach (IControl iControl in updateList)
+        foreach (Control iControl in updateList)
         {
-            iControl.SetValue(iControl.IBehavior.GetValue());
+            iControl.SetValue(iControl.Behavior.GetValue());
         }
     }
 }

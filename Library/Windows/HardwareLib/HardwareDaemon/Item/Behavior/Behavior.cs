@@ -20,9 +20,9 @@ public class BehaviorException : Exception
 
 
 
-public abstract class IBehavior
+public abstract class Behavior
 {
-    protected IBehavior(string id, BehaviorType type)
+    protected Behavior(string id, BehaviorType type)
     {
         Id = id;
         Type = type;
@@ -37,12 +37,12 @@ public abstract class IBehavior
 
 
 
-public abstract class IBehaviorWithTemp : IBehavior
+public abstract class BehaviorWithTemp : Behavior
 {
 
-    private const string ICustomTempPrefix = "iCustomTemp";
+    private const string CustomTempPrefix = "iCustomTemp";
     
-    protected IBehaviorWithTemp(string id, string? tempId, BehaviorType type): base(id, type)
+    protected BehaviorWithTemp(string id, string? tempId, BehaviorType type): base(id, type)
     {
         TempId = tempId;
         IsValid = TempId != null;
@@ -50,7 +50,7 @@ public abstract class IBehaviorWithTemp : IBehavior
         if (!IsValid) return;
         
         var parts = TempId!.Split('/');
-        IsCustomTemp = parts.Length > 0 && parts[0] == ICustomTempPrefix;
+        IsCustomTemp = parts.Length > 0 && parts[0] == CustomTempPrefix;
 
     }
     
@@ -60,7 +60,7 @@ public abstract class IBehaviorWithTemp : IBehavior
     public bool IsValid { get;  }
 
     public BaseSensor? Htemp { get; set; }
-    public ICustomTemp? ICustomTemp { get; set; }
+    public CustomTemp? CustomTemp { get; set; }
 
     
 
@@ -68,7 +68,7 @@ public abstract class IBehaviorWithTemp : IBehavior
     {
         if (IsCustomTemp)
         {
-            return ICustomTemp!.GetValue();
+            return CustomTemp!.GetValue();
         }
 
         Htemp!.Update();
@@ -86,12 +86,12 @@ public abstract class IBehaviorWithTemp : IBehavior
         
         if (IsCustomTemp)
         {
-            foreach (ICustomTemp iCustomTemp in iCustomTemps)
+            foreach (CustomTemp iCustomTemp in iCustomTemps)
             {
                 if (iCustomTemp.Id != TempId) continue;
                             
                 iCustomTemp.Init(hTemps);
-                ICustomTemp = iCustomTemp;
+                CustomTemp = iCustomTemp;
                 return;
             }
         }

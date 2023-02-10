@@ -1,6 +1,6 @@
 ﻿namespace HardwareDaemon.Item.Behavior;
 
-public class ITarget
+public class Target
 {
     private bool _idleHasBeenReached = false;
 
@@ -14,7 +14,7 @@ public class ITarget
 
     public int Value;
 
-    public ITarget(string id, string? tempId, int idleTemp, int loadTemp, int idleFanSpeed, int loadFanSpeed)
+    public Target(string id, string? tempId, int idleTemp, int loadTemp, int idleFanSpeed, int loadFanSpeed)
     {
         Id = id;
         TempId = tempId;

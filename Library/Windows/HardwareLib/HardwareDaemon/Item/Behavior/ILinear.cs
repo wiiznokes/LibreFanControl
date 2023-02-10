@@ -1,6 +1,6 @@
 ﻿namespace HardwareDaemon.Item.Behavior;
 
-public class ILinear: IBehaviorWithTemp
+public class Linear: BehaviorWithTemp
 {
     
     private int MinTemp { get; }
@@ -8,7 +8,7 @@ public class ILinear: IBehaviorWithTemp
     private int MinFanSpeed { get; }
     private int MaxFanSpeed { get; }
 
-    public ILinear(string id, string? tempId, int minTemp, int maxTemp, int minFanSpeed, int maxFanSpeed): base(id, tempId, BehaviorType.Linear)
+    public Linear(string id, string? tempId, int minTemp, int maxTemp, int minFanSpeed, int maxFanSpeed): base(id, tempId, BehaviorType.Linear)
     {
         MinTemp = minTemp;
         MaxTemp = maxTemp;
@@ -16,7 +16,7 @@ public class ILinear: IBehaviorWithTemp
         MaxFanSpeed = maxFanSpeed;
     }
 
-    public override int? GetValue()
+    public override int GetValue()
     {
         throw new NotImplementedException();
     }

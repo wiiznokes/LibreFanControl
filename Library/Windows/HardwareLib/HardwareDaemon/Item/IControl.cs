@@ -4,23 +4,23 @@ using HardwareDaemon.Item.Behavior;
 
 namespace HardwareDaemon.Item;
 
-public class IControl
+public class Control
 {
-    public IControl(string? iBehaviorId, string? hControlId, string id, bool isAuto)
+    public Control(string? iBehaviorId, string? hControlId, string id, bool isAuto)
     {
-        IBehaviorId = iBehaviorId;
+        BehaviorId = iBehaviorId;
         HControlId = hControlId;
         Id = id;
         IsAuto = isAuto;
-        IsValid = HControlId != null && IsAuto == false && IBehaviorId != null;
+        IsValid = HControlId != null && IsAuto == false && BehaviorId != null;
     }
 
     public bool IsValid { get; }
 
     
 
-    private string? IBehaviorId { get; }
-    public IBehaviorWithTemp IBehavior { get; set; }
+    private string? BehaviorId { get; }
+    public BehaviorWithTemp Behavior { get; set; }
     
     public string Id { get; }
     private bool IsAuto { get; }
