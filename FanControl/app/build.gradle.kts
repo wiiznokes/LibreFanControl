@@ -31,15 +31,31 @@ kotlin {
             resources.srcDirs("resources")
 
             dependencies {
+                // ui/kotlin
                 implementation(compose.desktop.currentOs)
-
                 implementation("org.jetbrains.compose.material3:material3-desktop:${project.property("compose.version")}")
                 implementation("com.github.wiiznokes:setting-sliding-windows:${project.property("settings.version")}")
 
+                // json, use for string (will be replaced in the future)
                 implementation("org.json:json:20220924")
+
+                // protobuf
                 implementation("com.google.protobuf:protobuf-java:${project.property("protobuf.version")}")
                 implementation("com.google.protobuf:protobuf-kotlin:${project.property("protobuf.version")}")
-                implementation("io.grpc:grpc-api:${project.property("grpc.version")}")
+
+                // grpc
+                implementation("io.grpc:grpc-stub:1.52.1")
+                implementation("io.grpc:grpc-protobuf:${project.property("grpc.version")}")
+                implementation("io.grpc:grpc-kotlin-stub:${project.property("grpc.kotlin.version")}")
+                if (JavaVersion.current().isJava9Compatible) {
+                    // Workaround for @javax.annotation.Generated
+                    // see: https://github.com/grpc/grpc-java/issues/3633
+                    implementation("javax.annotation:javax.annotation-api:1.3.1")
+                }
+
+
+
+
 
 
                 // use to debug the lib locally

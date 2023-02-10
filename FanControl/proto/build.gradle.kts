@@ -13,11 +13,6 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation("com.google.protobuf:protobuf-kotlin:${project.property("protobuf.version")}")
-    implementation("io.grpc:grpc-kotlin-stub:${project.property("grpc.kotlin.version")}")
-    implementation("io.grpc:grpc-protobuf:${project.property("grpc.version")}")
-}
 
 sourceSets {
     main {
@@ -53,7 +48,7 @@ protobuf {
             }
             it.builtins {
                 id("kotlin") {}
-                id("csharp") {}
+                //id("csharp") {}
             }
         }
     }
@@ -74,35 +69,40 @@ tasks.register("generateAllProto", DefaultTask::class.java) {
  */
 
 data class CopyInfo(
-    val srcDir: File,
+    val srcDirs: List<File>,
     val destDir: File,
     val removeDir: File,
 )
 
 val infoList = listOf(
     CopyInfo(
-        srcDir = file("build/generated/source/proto/main/java/"),
-        destDir = file("../app/src/jvmMain/java/"),
+        srcDirs = listOf(file("build/generated/source/proto/main/java"), file("build/generated/source/proto/main/grpc")),
+        destDir = file("../app/src/jvmMain/java"),
         removeDir = file("../app/src/jvmMain/java/proto/generated")
     ),
     CopyInfo(
-        srcDir = file("build/generated/source/proto/main/kotlin/"),
-        destDir = file("../app/src/jvmMain/kotlin/"),
+        srcDirs = listOf(file("build/generated/source/proto/main/kotlin"), file("build/generated/source/proto/main/grpckt")),
+        destDir = file("../app/src/jvmMain/kotlin"),
         removeDir = file("../app/src/jvmMain/kotlin/proto/generated")
     ),
+    /*
     CopyInfo(
-        srcDir = file("build/generated/source/proto/main/csharp/"),
+        srcDirs = listOf(file("build/generated/source/proto/main/csharp")),
         destDir = file("../../Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated"),
         removeDir = file("../../Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated")
     )
+
+     */
 )
 
 tasks.register("copyGeneratedFiles") {
     doLast {
         infoList.forEach {
-            copy {
-                from(it.srcDir)
-                into(it.destDir)
+            it.srcDirs.forEach { srcDir ->
+                copy {
+                    from(srcDir)
+                    into(it.destDir)
+                }
             }
         }
     }
