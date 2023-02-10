@@ -48,19 +48,26 @@ protobuf {
 
 
             it.plugins {
-                id("grpc")
-                id("grpckt")
+                id("grpc") {}
+                id("grpckt") {}
             }
             it.builtins {
-                id("kotlin")
-                id("csharp") {
-
-                }
+                id("kotlin") {}
+                id("csharp") {}
             }
         }
     }
 }
 
+
+tasks.register("generateAllProto", DefaultTask::class.java) {
+    dependsOn("cleanCopiedFiles")
+    dependsOn("generateProto")
+    dependsOn("copyGeneratedFiles")
+
+    mustRunAfter("cleanCopiedFiles")
+    mustRunAfter("generateProto")
+}
 
 /**
  * copy of generated files

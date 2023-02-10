@@ -39,6 +39,7 @@ kotlin {
                 implementation("org.json:json:20220924")
                 implementation("com.google.protobuf:protobuf-java:${project.property("protobuf.version")}")
                 implementation("com.google.protobuf:protobuf-kotlin:${project.property("protobuf.version")}")
+                implementation("io.grpc:grpc-api:${project.property("grpc.version")}")
 
 
                 // use to debug the lib locally

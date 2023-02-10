@@ -27,7 +27,6 @@ class Application(
     }
 
     fun onStart() {
-        ExternalManager.start()
 
         settings.confId.value.let {
             when (it) {
@@ -51,11 +50,6 @@ class Application(
     private suspend fun startUpdate() {
 
         while (!updateShouldStop) {
-            ExternalManager.updateControls()
-            ExternalManager.updateFans()
-            ExternalManager.updateTemps()
-
-
 
 
             val iCustomTemps = iTemps.filterIsInstance<ICustomTemp>()
@@ -83,6 +77,5 @@ class Application(
 
             delay(settings.updateDelay.value * 1000L)
         }
-        ExternalManager.close()
     }
 }
