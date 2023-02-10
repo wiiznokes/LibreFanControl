@@ -78,13 +78,13 @@ private fun dialog(
         visible = enabled.value,
         resizable = false,
         onCloseRequest = {
-            println("close dialog")
+            //println("close dialog")
             enabled.value = false
         },
         title = Resources.getString("title/add_config"),
         focusable = enabled.value,
         onKeyEvent = {
-            println("on key event, ${it.key}")
+            //println("on key event, ${it.key}")
             when (it.key) {
                 Key.Escape -> {
                     enabled.value = false
