@@ -3,21 +3,20 @@ package external.linux
 import State.hControls
 import State.hFans
 import State.hTemps
-import external.External
 import model.hardware.HControl
 import model.hardware.HFan
 import model.hardware.HTemp
 import model.item.BaseI
 import kotlin.random.Random
 
-class ExternalLinux : External {
+class ExternalLinux {
 
-    override fun start() {
+    fun start() {
     }
 
-    override fun close() {}
+    fun close() {}
 
-    override fun setControls() {
+    fun setControls() {
         for (i in 0..3) {
             hControls.add(
                 HControl(
@@ -32,7 +31,7 @@ class ExternalLinux : External {
     }
 
 
-    override fun setFans() {
+    fun setFans() {
         for (i in 0..3) {
             hFans.add(
                 HFan(
@@ -46,7 +45,7 @@ class ExternalLinux : External {
         }
     }
 
-    override fun setTemps() {
+    fun setTemps() {
         for (i in 0..3) {
             hTemps.add(
                 HTemp(
@@ -61,28 +60,28 @@ class ExternalLinux : External {
     }
 
 
-    override fun updateControls() {
+    fun updateControls() {
         for (i in hControls.indices) {
             hControls[i].value.value = UseForTest.newValue(hControls[i].value.value)
         }
     }
 
 
-    override fun updateFans() {
+    fun updateFans() {
         for (i in hFans.indices) {
             hFans[i].value.value = Random.nextInt(0, 4000)
         }
     }
 
 
-    override fun updateTemps() {
+    fun updateTemps() {
         for (i in hTemps.indices) {
             hTemps[i].value.value = UseForTest.newValue(hTemps[i].value.value)
         }
     }
 
-    override fun reloadSetting() {}
-    override fun reloadConfig(id: Long?) {}
+    fun reloadSetting() {}
+    fun reloadConfig(id: Long?) {}
 }
 
 

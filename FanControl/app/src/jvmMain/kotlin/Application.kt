@@ -1,7 +1,6 @@
 import State.hTemps
 import State.iBehaviors
 import State.iTemps
-import external.ExternalManager
 import kotlinx.coroutines.*
 import model.Settings
 import model.item.ICustomTemp

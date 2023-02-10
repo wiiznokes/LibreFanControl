@@ -1,6 +1,8 @@
 syntax = "proto3";
 package proto;
 
+import "google/protobuf/empty.proto";
+
 option java_multiple_files = true;
 
 
@@ -11,7 +13,46 @@ option java_package = "proto.generated.api";
 import "proto/conf.proto";
 import "proto/settings.proto";
 
+/**
+  API for communicate with the service
+ */
 
+
+service HelloService {
+  rpc POpen (google.protobuf.Empty) returns (google.protobuf.Empty);
+  rpc PClose (google.protobuf.Empty) returns (google.protobuf.Empty);
+
+  rpc PChangeConf (PConf) returns (google.protobuf.Empty);
+  rpc PChangeSetting (PSettings) returns (google.protobuf.Empty);
+
+  rpc SetControls (PDeviceList) returns (google.protobuf.Empty);
+  rpc SetFans (PDeviceList) returns (google.protobuf.Empty);
+  rpc SetTemps (PDeviceList) returns (google.protobuf.Empty);
+
+  rpc UpdateControls (PUpdateList) returns (google.protobuf.Empty);
+  rpc UpdateTemps (PUpdateList) returns (google.protobuf.Empty);
+  rpc UpdateFans (PUpdateList) returns (google.protobuf.Empty);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+  structure for fetch sensors info (controls/temps/fans)
+ */
 
 message PDevice {
   string PName = 1;
@@ -22,7 +63,9 @@ message PDeviceList {
   repeated PDevice PDevices = 1;
 }
 
-
+/**
+  structure for fetch sensors value (controls/temps/fans)
+ */
 
 message PUpdate {
   int32 PIndex = 1;
