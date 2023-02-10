@@ -18,20 +18,20 @@ import "proto/settings.proto";
  */
 
 
-service HelloService {
+service PHardwareService {
   rpc POpen (google.protobuf.Empty) returns (google.protobuf.Empty);
   rpc PClose (google.protobuf.Empty) returns (google.protobuf.Empty);
 
   rpc PChangeConf (PConf) returns (google.protobuf.Empty);
   rpc PChangeSetting (PSettings) returns (google.protobuf.Empty);
 
-  rpc SetControls (PDeviceList) returns (google.protobuf.Empty);
-  rpc SetFans (PDeviceList) returns (google.protobuf.Empty);
-  rpc SetTemps (PDeviceList) returns (google.protobuf.Empty);
+  rpc PSetControls (PDeviceList) returns (google.protobuf.Empty);
+  rpc PSetFans (PDeviceList) returns (google.protobuf.Empty);
+  rpc PSetTemps (PDeviceList) returns (google.protobuf.Empty);
 
-  rpc UpdateControls (PUpdateList) returns (google.protobuf.Empty);
-  rpc UpdateTemps (PUpdateList) returns (google.protobuf.Empty);
-  rpc UpdateFans (PUpdateList) returns (google.protobuf.Empty);
+  rpc PUpdateControls (PUpdateList) returns (google.protobuf.Empty);
+  rpc PUpdateTemps (PUpdateList) returns (google.protobuf.Empty);
+  rpc PUpdateFans (PUpdateList) returns (google.protobuf.Empty);
 
 }
 
