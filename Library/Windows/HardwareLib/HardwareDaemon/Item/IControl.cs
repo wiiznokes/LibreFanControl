@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using HardwareDaemon.Hardware.Control;
+using HardwareDaemon.Item.Behavior;
 
 namespace HardwareDaemon.Item;
 
@@ -19,10 +20,12 @@ public class IControl
     
 
     private string? IBehaviorId { get; }
-    private string? HControlId { get; }
+    public IBehavior IBehavior { get; set; }
+    
     public string Id { get; }
     private bool IsAuto { get; }
 
+    private string? HControlId { get; }
     private BaseControl HControl { get; set; }
 
     public void SetHControl(ArrayList hControls)

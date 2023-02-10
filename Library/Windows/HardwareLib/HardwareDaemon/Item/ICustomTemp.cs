@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using HardwareDaemon.Hardware.Sensor;
+using HardwareDaemon.Item.Behavior;
 
 namespace HardwareDaemon.Item;
 
@@ -31,8 +32,11 @@ public class ICustomTemp
 
     private List<BaseSensor> HTemps { get;  }
 
-    public void SetSensors(ArrayList sensorList)
+    public void Init(ArrayList sensorList)
     {
+        if (!IsValid)
+            throw new BehaviorException("custom temp not valid");
+        
         foreach (BaseSensor hTemp in sensorList)
         {
             if (!HTempIds.Contains(hTemp.Id)) continue;
@@ -42,6 +46,7 @@ public class ICustomTemp
             if (HTemps.Count == HTempIds.Count)
                 return;
         }
+        throw new BehaviorException("custom temp haven't found all hTemp");
     }
 
     public int GetValue()

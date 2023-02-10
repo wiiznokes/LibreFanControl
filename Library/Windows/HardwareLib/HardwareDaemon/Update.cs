@@ -3,12 +3,13 @@ using HardwareDaemon.Hardware.Control;
 using HardwareDaemon.Hardware.Sensor;
 using HardwareDaemon.Item;
 using HardwareDaemon.Item.Behavior;
+using HardwareDaemon.Proto;
 
 namespace HardwareDaemon;
 
 public class Update
 {
-    public static ArrayList CreateUpdateList(
+    public static void CreateUpdateList(
         ArrayList updateList,
         ArrayList hControls,
         ArrayList hTemps,
@@ -35,45 +36,25 @@ public class Update
             {
                 throw new Exception("behavior should not be null");
             }
-            
-            switch (behavior.Type)
-            {
-                case BehaviorType.Flat:
-                    iControl.SetHControl(hControls);
-                    iControl.SetValue((behavior as IFlat)!.Value);
-                    continue;
-                
-                case BehaviorType.Linear:
-                    var linear = (behavior as ILinear)!;
-                    if (!linear.IsValid)
-                        continue;
-                    if (linear.IsCustomTemp)
-                    {
-                        foreach (ICustomTemp iCustomTemp in iCustomTemps)
-                        {
-                            if (iCustomTemp.Id != linear.TempId) continue;
-                            
-                            if (!iCustomTemp.IsValid) break;
-                            linear.ICustomTemp = iCustomTemp;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        foreach (BaseSensor hTemp in hTemps)
-                        {
-                            if (hTemp.Id != linear.TempId) continue;
 
-                            linear.Htemp = hTemp;
-                            break;
-                        }
-                    }
-                    
-                case BehaviorType.Target:
-                    break;
-                default:
-                    throw new Exception("unknown behavior type");
+            if (behavior.Type == BehaviorType.Flat)
+            {
+                iControl.SetHControl(hControls);
+                iControl.SetValue((behavior as IFlat)!.Value);
+                continue; 
             }
+
+            try
+            {
+                (behavior as IBehaviorWithTemp)!.Init(hTemps, iCustomTemps);
+            } catch (BehaviorException e)
+            {
+                Console.WriteLine(e);
+                break;
+            }
+            iControl.SetHControl(hControls);
+            iControl.IBehavior = behavior;
+            updateList.Add(iControl);
         }
     }
 }

@@ -11,6 +11,14 @@ public enum BehaviorType
     Target
 }
 
+public class BehaviorException : Exception
+{
+    public BehaviorException(string msg) : base(msg)
+    {
+    }
+}
+
+
 
 public abstract class IBehavior
 {
@@ -25,6 +33,8 @@ public abstract class IBehavior
 
     
 }
+
+
 
 
 public abstract class IBehaviorWithTemp : IBehavior
@@ -53,30 +63,6 @@ public abstract class IBehaviorWithTemp : IBehavior
     public ICustomTemp? ICustomTemp { get; set; }
 
     
-    
-
-    public void SetSensor(ArrayList sensorList)
-    {
-        if (IsCustomTemp)
-        {
-            foreach (ICustomTemp customTemp in sensorList)
-            {
-                if (customTemp.Id != TempId) continue;
-                ICustomTemp = customTemp;
-                break;
-            } 
-        }
-        else
-        {
-            foreach (BaseSensor hTemp in sensorList)
-            {
-                if (hTemp.Id != TempId) continue;
-                Htemp = hTemp;
-                break;
-            } 
-        }
-       
-    }
 
     public int? GetSensorValue()
     {
@@ -92,5 +78,34 @@ public abstract class IBehaviorWithTemp : IBehavior
 
     public abstract int? GetValue();
 
+
+    public void Init(ArrayList hTemps, ArrayList iCustomTemps)
+    {
+        if (!IsValid)
+            throw new BehaviorException("behavior not valid");
+        
+        if (IsCustomTemp)
+        {
+            foreach (ICustomTemp iCustomTemp in iCustomTemps)
+            {
+                if (iCustomTemp.Id != TempId) continue;
+                            
+                iCustomTemp.Init(hTemps);
+                ICustomTemp = iCustomTemp;
+                return;
+            }
+        }
+        else
+        {
+            foreach (BaseSensor hTemp in hTemps)
+            {
+                if (hTemp.Id != TempId) continue;
+
+                Htemp = hTemp;
+                return;
+            }
+        }
+        throw new BehaviorException("no sensor found (should not happened)");
+    }
 
 }
