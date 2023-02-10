@@ -18,6 +18,36 @@ public class Linear : BehaviorWithTemp
 
     public override int GetValue()
     {
-        throw new NotImplementedException();
+        var tempValue = GetSensorValue();
+
+        if (tempValue <= MinTemp) return MinFanSpeed;
+
+        if (tempValue >= MaxTemp) return MaxFanSpeed;
+
+        var affine = GetAffine();
+
+        return (int)Math.Round(affine.A * tempValue + affine.B);
+    }
+
+
+    private Affine GetAffine()
+    {
+        var a = (MaxFanSpeed - MinFanSpeed) / (float)(MaxTemp - MinTemp);
+        return new Affine(
+            a,
+            MinFanSpeed - a * MinTemp
+        );
+    }
+
+    private class Affine
+    {
+        public Affine(float a, float b)
+        {
+            A = a;
+            B = b;
+        }
+
+        public float A { get; }
+        public float B { get; }
     }
 }

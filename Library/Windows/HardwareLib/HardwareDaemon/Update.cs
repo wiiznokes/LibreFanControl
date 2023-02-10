@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using HardwareDaemon.Hardware.Control;
+using HardwareDaemon.Hardware.Sensor;
 using HardwareDaemon.Item;
 using HardwareDaemon.Item.Behavior;
 
@@ -30,7 +32,7 @@ public class Update
                 break;
             }
 
-            if (behavior == null) throw new Exception("behavior should not be null");
+            if (behavior == null) continue;
 
             if (behavior.Type == BehaviorType.Flat)
             {
@@ -59,5 +61,21 @@ public class Update
     public static void UpdateUpdateList(ArrayList updateList)
     {
         foreach (Control iControl in updateList) iControl.SetValue(iControl.Behavior.GetValue());
+    }
+
+    public static void UpdateAllSensors(
+        ArrayList controls,
+        ArrayList temps,
+        ArrayList fans
+    )
+    {
+        foreach (BaseControl control in controls) control.Update();
+        foreach (BaseSensor temp in temps) temp.Update();
+        foreach (BaseSensor fan in fans) fan.Update();
+    }
+
+    public static void SetAutoAll(ArrayList hControls)
+    {
+        foreach (BaseControl hControl in hControls) hControl.SetAuto();
     }
 }

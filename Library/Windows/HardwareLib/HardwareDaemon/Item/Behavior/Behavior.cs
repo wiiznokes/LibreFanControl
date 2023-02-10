@@ -53,7 +53,7 @@ public abstract class BehaviorWithTemp : Behavior
     public CustomTemp? CustomTemp { get; set; }
 
 
-    private int GetSensorValue()
+    protected int GetSensorValue()
     {
         if (IsCustomTemp) return CustomTemp!.GetValue();
 

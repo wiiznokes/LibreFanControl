@@ -1,28 +1,39 @@
 ﻿namespace HardwareDaemon.Item.Behavior;
 
-public class Target
+public class Target : BehaviorWithTemp
 {
-    private bool _idleHasBeenReached = false;
+    private bool _idleHasBeenReached;
 
-    public string Id;
-
-    public int IdleFanSpeed;
-    public int IdleTemp;
-    public int LoadFanSpeed;
-    public int LoadTemp;
-    public string? TempId;
-
-    public int Value;
-
-    public Target(string id, string? tempId, int idleTemp, int loadTemp, int idleFanSpeed, int loadFanSpeed)
+    public Target(string id, string? tempId, int idleTemp, int loadTemp, int idleFanSpeed, int loadFanSpeed) : base(id,
+        tempId, BehaviorType.Linear)
     {
-        Id = id;
-        TempId = tempId;
-
         IdleTemp = idleTemp;
         LoadTemp = loadTemp;
         IdleFanSpeed = idleFanSpeed;
         LoadFanSpeed = loadFanSpeed;
-        Value = 0;
+    }
+
+
+    private int IdleTemp { get; }
+    private int LoadTemp { get; }
+    private int IdleFanSpeed { get; }
+    private int LoadFanSpeed { get; }
+
+    public override int GetValue()
+    {
+        var tempValue = GetSensorValue();
+
+        if (_idleHasBeenReached)
+        {
+            if (tempValue < LoadTemp) return IdleFanSpeed;
+
+            _idleHasBeenReached = false;
+            return LoadFanSpeed;
+        }
+
+        if (tempValue > IdleTemp) return LoadFanSpeed;
+
+        _idleHasBeenReached = true;
+        return IdleFanSpeed;
     }
 }
