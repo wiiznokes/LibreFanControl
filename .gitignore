@@ -1,8 +1,5 @@
 Release
 
-### generated conf files
-FanControl/app/include/common
-!FanControl/app/include/common/.keep
 
 ### generated log files ###
 **.log
