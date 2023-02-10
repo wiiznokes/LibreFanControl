@@ -17,27 +17,21 @@ public class Control
 
     public bool IsValid { get; }
 
-    
 
     private string? BehaviorId { get; }
-    public BehaviorWithTemp Behavior { get; set; }
-    
+    public BehaviorWithTemp Behavior { get; set; } = null!;
+
     public string Id { get; }
     private bool IsAuto { get; }
 
     private string? HControlId { get; }
-    private BaseControl HControl { get; set; }
+    private BaseControl HControl { get; set; } = null!;
 
     public void SetHControl(ArrayList hControls)
     {
         foreach (BaseControl hControl in hControls)
-        {
             if (hControl.Id == HControlId)
-            {
                 HControl = hControl;
-            }
-        }
-        
     }
 
 

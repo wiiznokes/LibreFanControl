@@ -22,30 +22,31 @@ public class CustomTemp
 
         IsValid = HTempIds.Count > 0;
     }
-    
+
     public string Id { get; }
     private List<string> HTempIds { get; }
     private CustomTempType Type { get; }
 
 
-    private bool IsValid { get;  }
+    private bool IsValid { get; }
 
-    private List<BaseSensor> HTemps { get;  }
+    private List<BaseSensor> HTemps { get; }
 
     public void Init(ArrayList sensorList)
     {
         if (!IsValid)
             throw new BehaviorException("custom temp not valid");
-        
+
         foreach (BaseSensor hTemp in sensorList)
         {
             if (!HTempIds.Contains(hTemp.Id)) continue;
-            
+
             HTemps.Add(hTemp);
-            
+
             if (HTemps.Count == HTempIds.Count)
                 return;
         }
+
         throw new BehaviorException("custom temp haven't found all hTemp");
     }
 
