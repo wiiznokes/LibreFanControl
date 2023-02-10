@@ -1,0 +1,34 @@
+syntax = "proto3";
+package proto;
+
+option java_multiple_files = true;
+
+
+option csharp_namespace = "Proto.Generated.Api";
+option java_package = "proto.generated.api";
+
+
+import "proto/conf.proto";
+import "proto/settings.proto";
+
+
+
+message PDevice {
+  string PName = 1;
+  string PId = 2;
+}
+
+message PDeviceList {
+  repeated PDevice PDevices = 1;
+}
+
+
+
+message PUpdate {
+  int32 PIndex = 1;
+  int32 PValue = 2;
+}
+
+message PUpdateList {
+  repeated PUpdate PUpdates = 1;
+}

@@ -9,7 +9,7 @@ option java_package = "proto.generated.conf";
 
 
 
-import "proto/setting.proto";
+import "proto/settings.proto";
 
 
 

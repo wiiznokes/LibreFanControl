@@ -1,5 +1,5 @@
 ﻿using HardwareDaemon.Model;
-using Proto.Generated.Setting;
+using Proto.Generated.Settings;
 
 namespace HardwareDaemon.Proto;
 
@@ -16,7 +16,7 @@ public static class SettingsHelper
 
     public static Settings LoadSettingsFile()
     {
-        var pSettings = PSetting.Parser.ParseFrom(GetSettingsBytes());
+        var pSettings = PSettings.Parser.ParseFrom(GetSettingsBytes());
         return ParsePSettings(pSettings);
     }
 
@@ -27,7 +27,7 @@ public static class SettingsHelper
     }
 
 
-    public static Settings ParsePSettings(PSetting pSetting)
+    public static Settings ParsePSettings(PSettings pSetting)
     {
         return new Settings(
             NullableToNull(pSetting.PConfId),

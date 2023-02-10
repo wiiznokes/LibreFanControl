@@ -3,8 +3,8 @@ package proto;
 
 option java_multiple_files = true;
 
-option csharp_namespace = "Proto.Generated.Setting";
-option java_package = "proto.generated.setting";
+option csharp_namespace = "Proto.Generated.Settings";
+option java_package = "proto.generated.settings";
 
 
 import "google/protobuf/struct.proto";
@@ -36,7 +36,7 @@ message NullableId {
 }
 
 
-message PSetting {
+message PSettings {
   PLanguages PLanguage = 1;
   NullableId PConfId = 2;
   repeated PConfInfo PConfInfos = 3;
