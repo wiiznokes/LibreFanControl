@@ -29,23 +29,31 @@ public abstract class IBehavior
 
 public abstract class IBehaviorWithTemp : IBehavior
 {
+
+    private const string ICustomTempPrefix = "iCustomTemp";
     
     protected IBehaviorWithTemp(string id, string? tempId, BehaviorType type): base(id, type)
     {
         TempId = tempId;
-        IsCustomTemp = 
+        IsValid = TempId != null;
+
+        if (!IsValid) return;
+        
+        var parts = TempId!.Split('/');
+        IsCustomTemp = parts.Length > 0 && parts[0] == ICustomTempPrefix;
+
     }
     
-    private string? TempId { get; }
+    public string? TempId { get; }
     public bool IsCustomTemp { get; }
+    
+    public bool IsValid { get;  }
 
-    private BaseSensor? _hTemp = null;
-    private ICustomTemp? _customTemp = null;
+    public BaseSensor? Htemp { get; set; }
+    public ICustomTemp? ICustomTemp { get; set; }
 
-    public bool IsValid()
-    {
-        return TempId != null;
-    }
+    
+    
 
     public void SetSensor(ArrayList sensorList)
     {
@@ -54,7 +62,7 @@ public abstract class IBehaviorWithTemp : IBehavior
             foreach (ICustomTemp customTemp in sensorList)
             {
                 if (customTemp.Id != TempId) continue;
-                _customTemp = customTemp;
+                ICustomTemp = customTemp;
                 break;
             } 
         }
@@ -63,7 +71,7 @@ public abstract class IBehaviorWithTemp : IBehavior
             foreach (BaseSensor hTemp in sensorList)
             {
                 if (hTemp.Id != TempId) continue;
-                _hTemp = hTemp;
+                Htemp = hTemp;
                 break;
             } 
         }
@@ -74,13 +82,11 @@ public abstract class IBehaviorWithTemp : IBehavior
     {
         if (IsCustomTemp)
         {
-            return _customTemp!
+            return ICustomTemp!.GetValue();
         }
-        else
-        {
-            _hTemp!.Update();
-            return _hTemp.Value;
-        }
+
+        Htemp!.Update();
+        return Htemp.Value;
     }
     
 

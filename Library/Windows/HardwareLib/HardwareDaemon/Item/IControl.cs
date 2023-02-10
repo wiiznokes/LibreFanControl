@@ -11,13 +11,12 @@ public class IControl
         HControlId = hControlId;
         Id = id;
         IsAuto = isAuto;
+        IsValid = HControlId != null && IsAuto == false && IBehaviorId != null;
     }
 
+    public bool IsValid { get; }
 
-    public bool IsValid()
-    {
-        return HControlId != null && IsAuto == false && IBehaviorId != null;
-    }
+    
 
     private string? IBehaviorId { get; }
     private string? HControlId { get; }
