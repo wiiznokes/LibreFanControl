@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using HardwareDaemon.Hardware.Control;
 using HardwareDaemon.Hardware.Sensor;
 using LibreHardwareMonitor.Hardware;
 
@@ -73,7 +74,15 @@ public class Lhm : IVisitor
 
                 var id = sensor.Identifier.ToString();
                 var name = sensor.Name.Length > 0 ? sensor.Name : sensorType.ToString();
-                deviceList.Add(new LhmTemp(id, sensor, name, index));
+                deviceList.Add(
+                    sensorType switch
+                    {
+                        SensorType.Control => new LhmControl(id, sensor, name, index),
+                        SensorType.Temperature => new LhmTemp(id, sensor, name, index),
+                        SensorType.Fan => new LhmFanSpeed(id, sensor, name, index),
+                        _ => throw new Exception("wrong sensor type")
+                    }
+                );
                 index++;
             }
 
@@ -88,7 +97,15 @@ public class Lhm : IVisitor
 
                     var id = subSensor.Identifier.ToString();
                     var name = subSensor.Name.Length > 0 ? subSensor.Name : sensorType.ToString();
-                    deviceList.Add(new LhmTemp(id, subSensor, name, index));
+                    deviceList.Add(
+                        sensorType switch
+                        {
+                            SensorType.Control => new LhmControl(id, subSensor, name, index),
+                            SensorType.Temperature => new LhmTemp(id, subSensor, name, index),
+                            SensorType.Fan => new LhmFanSpeed(id, subSensor, name, index),
+                            _ => throw new Exception("wrong sensor type")
+                        }
+                    );
                     index++;
                 }
             }

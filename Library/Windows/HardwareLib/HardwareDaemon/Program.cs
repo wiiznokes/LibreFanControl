@@ -29,7 +29,8 @@ internal static class Program
 
         ConfHelper.LoadConfFile(confId, Controls, Behaviors, CustomTemps);
 
-        Update.CreateUpdateList(UpdateList,
+        Update.CreateUpdateList(
+            UpdateList,
             HControls,
             HTemps,
             Controls,
