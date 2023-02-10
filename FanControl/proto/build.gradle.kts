@@ -13,6 +13,11 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    implementation("com.google.protobuf:protobuf-kotlin:${project.property("protobuf.version")}")
+    implementation("io.grpc:grpc-kotlin-stub:${project.property("grpc.kotlin.version")}")
+    implementation("io.grpc:grpc-protobuf:${project.property("grpc.version")}")
+}
 
 sourceSets {
     main {
