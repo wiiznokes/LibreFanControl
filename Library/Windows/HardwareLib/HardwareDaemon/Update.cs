@@ -6,7 +6,7 @@ using HardwareDaemon.Item.Behavior;
 
 namespace HardwareDaemon;
 
-public class Update
+public static class Update
 {
     public static void CreateUpdateList(
         ArrayList updateList,
@@ -27,7 +27,7 @@ public class Update
 
             foreach (Behavior iBehavior in iBehaviors)
             {
-                if (iBehavior.Id != iControl.Id) continue;
+                if (iBehavior.Id != iControl.BehaviorId) continue;
                 behavior = iBehavior;
                 break;
             }
@@ -37,7 +37,7 @@ public class Update
             if (behavior.Type == BehaviorType.Flat)
             {
                 iControl.SetHControl(hControls);
-                iControl.SetValue((behavior as Flat)!.Value);
+                Control.SetSpeed((behavior as Flat)!.Value);
                 break;
             }
 
@@ -60,7 +60,7 @@ public class Update
 
     public static void UpdateUpdateList(ArrayList updateList)
     {
-        foreach (Control iControl in updateList) iControl.SetValue(iControl.Behavior.GetValue());
+        foreach (Control iControl in updateList) Control.SetSpeed(iControl.Behavior.GetSpeed());
     }
 
     public static void UpdateAllSensors(

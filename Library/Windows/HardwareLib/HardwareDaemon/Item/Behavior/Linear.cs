@@ -16,7 +16,7 @@ public class Linear : BehaviorWithTemp
     private int MinFanSpeed { get; }
     private int MaxFanSpeed { get; }
 
-    public override int GetValue()
+    public override int GetSpeed()
     {
         var tempValue = GetSensorValue();
 

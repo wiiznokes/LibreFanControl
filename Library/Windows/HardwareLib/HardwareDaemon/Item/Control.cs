@@ -6,11 +6,10 @@ namespace HardwareDaemon.Item;
 
 public class Control
 {
-    public Control(string? iBehaviorId, string? hControlId, string id, bool isAuto)
+    public Control(string? iBehaviorId, string? hControlId, bool isAuto)
     {
         BehaviorId = iBehaviorId;
         HControlId = hControlId;
-        Id = id;
         IsAuto = isAuto;
         IsValid = HControlId != null && IsAuto == false && BehaviorId != null;
     }
@@ -18,10 +17,9 @@ public class Control
     public bool IsValid { get; }
 
 
-    private string? BehaviorId { get; }
+    public string? BehaviorId { get; }
     public BehaviorWithTemp Behavior { get; set; } = null!;
 
-    public string Id { get; }
     private bool IsAuto { get; }
 
     private string? HControlId { get; }
@@ -35,8 +33,9 @@ public class Control
     }
 
 
-    public void SetValue(int value)
+    public static void SetSpeed(int value)
     {
-        HControl.SetSpeed(value);
+        Console.WriteLine("set control: " + value);
+        //HControl.SetSpeed(value);
     }
 }

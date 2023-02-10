@@ -5,7 +5,7 @@ using Proto.Generated.Conf;
 
 namespace HardwareDaemon.Proto;
 
-public class ConfHelper
+public static class ConfHelper
 {
     private const string ConfDir = "./conf/";
 
@@ -38,7 +38,6 @@ public class ConfHelper
             iControls.Add(new Control(
                 SettingsHelper.NullableToNull(pIControl.PIBehaviorId),
                 SettingsHelper.NullableToNull(pIControl.PHControlId),
-                pIControl.PId,
                 pIControl.PIsAuto
             ));
 

@@ -23,9 +23,6 @@ internal static class Program
     {
         HardwareManager.Start(HControls, HTemps, HFans);
 
-        Console.WriteLine(Settings.ConfId);
-        Console.WriteLine(Settings.UpdateDelay);
-
         var confId = Settings.ConfId;
         if (confId == null) return;
 
@@ -39,7 +36,7 @@ internal static class Program
             Behaviors,
             CustomTemps
         );
-        
+
         Update.UpdateUpdateList(UpdateList);
     }
 }

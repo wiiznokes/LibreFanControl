@@ -44,13 +44,13 @@ public abstract class BehaviorWithTemp : Behavior
         IsCustomTemp = parts.Length > 0 && parts[0] == CustomTempPrefix;
     }
 
-    public string? TempId { get; }
-    public bool IsCustomTemp { get; }
+    private string? TempId { get; }
+    private bool IsCustomTemp { get; }
 
-    public bool IsValid { get; }
+    private bool IsValid { get; }
 
-    public BaseSensor? Htemp { get; set; }
-    public CustomTemp? CustomTemp { get; set; }
+    private BaseSensor? Htemp { get; set; }
+    private CustomTemp? CustomTemp { get; set; }
 
 
     protected int GetSensorValue()
@@ -62,7 +62,7 @@ public abstract class BehaviorWithTemp : Behavior
     }
 
 
-    public abstract int GetValue();
+    public abstract int GetSpeed();
 
 
     public void Init(ArrayList hTemps, ArrayList iCustomTemps)

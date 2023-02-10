@@ -5,7 +5,7 @@ public class Target : BehaviorWithTemp
     private bool _idleHasBeenReached;
 
     public Target(string id, string? tempId, int idleTemp, int loadTemp, int idleFanSpeed, int loadFanSpeed) : base(id,
-        tempId, BehaviorType.Linear)
+        tempId, BehaviorType.Target)
     {
         IdleTemp = idleTemp;
         LoadTemp = loadTemp;
@@ -19,7 +19,7 @@ public class Target : BehaviorWithTemp
     private int IdleFanSpeed { get; }
     private int LoadFanSpeed { get; }
 
-    public override int GetValue()
+    public override int GetSpeed()
     {
         var tempValue = GetSensorValue();
 
