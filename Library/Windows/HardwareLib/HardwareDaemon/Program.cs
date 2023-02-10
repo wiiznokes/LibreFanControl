@@ -5,6 +5,11 @@ using HardwareDaemon.Proto;
 
 namespace HardwareDaemon;
 
+internal enum ServiceState
+{
+    Open,
+    Close
+}
 internal static class Program
 {
     private static readonly ArrayList HControls = new();
@@ -19,12 +24,19 @@ internal static class Program
 
     private static readonly Settings Settings = SettingsHelper.LoadSettingsFile();
 
+    private static bool IsOpen = false;
+
     private static void Main()
     {
         HardwareManager.Start(HControls, HTemps, HFans);
 
         var confId = Settings.ConfId;
-        if (confId == null) return;
+        
+        if (confId == null)
+        {
+            Console.WriteLine("conf Id == null -> return");
+            return;
+        }
 
 
         ConfHelper.LoadConfFile(confId, Controls, Behaviors, CustomTemps);
@@ -37,7 +49,26 @@ internal static class Program
             Behaviors,
             CustomTemps
         );
-
+        
+        HardwareManager.Update();
         Update.UpdateUpdateList(UpdateList);
+        UpdateJob();
+    }
+
+
+    public static bool ServiceShouldStop = false;
+    private static void UpdateJob()
+    {
+        while (!ServiceShouldStop)
+        {
+            HardwareManager.Update();
+            if (IsOpen)
+            {
+                Update.UpdateAllSensors(HControls, HTemps, HFans);
+            }
+            Update.UpdateUpdateList(UpdateList);
+            
+            Thread.Sleep(Settings.UpdateDelay * 1000);
+        }
     }
 }

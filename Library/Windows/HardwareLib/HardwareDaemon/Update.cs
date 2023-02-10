@@ -38,7 +38,7 @@ public static class Update
             {
                 iControl.SetHControl(hControls);
                 Control.SetSpeed((behavior as Flat)!.Value);
-                break;
+                continue;
             }
 
             try
@@ -47,8 +47,8 @@ public static class Update
             }
             catch (BehaviorException e)
             {
-                Console.WriteLine(e);
-                break;
+                Console.WriteLine(e.Message);
+                continue;
             }
 
             iControl.SetHControl(hControls);
