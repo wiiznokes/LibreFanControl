@@ -10,11 +10,13 @@ import ui.utils.Resources
 
 
 fun main() {
-    /*
+
     val channel = ManagedChannelBuilder.forAddress("localhost", 8980).usePlaintext().build()
-    val api = Cr
-    ossApi(channel)
-     */
+    val api = CrossApi(channel)
+    runBlocking {
+        api.ee()
+    }
+
 
 
     /**

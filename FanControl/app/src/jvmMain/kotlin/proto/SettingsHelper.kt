@@ -6,7 +6,7 @@ import model.ConfInfo
 import model.Languages
 import model.Settings
 import model.Themes
-import proto.generated.settings.*
+import proto.generated.pSettings.*
 import java.io.File
 
 private const val SETTINGS_FILE = "conf/settings"

@@ -2,7 +2,7 @@ package proto
 
 import com.google.protobuf.Empty
 import io.grpc.ManagedChannel
-import proto.generated.api.PCrossApiGrpcKt
+import proto.generated.pCrossApi.PCrossApiGrpcKt
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
 
@@ -13,7 +13,9 @@ class CrossApi(
 
 
      suspend fun ee() {
-         val response = stub.pOpen(Empty.getDefaultInstance())
+         println("try request")
+         stub.pOpen(Empty.getDefaultInstance())
+         println("request done")
      }
 
 
