@@ -12,7 +12,7 @@ class CrossApi(
     private val stub: PCrossApiGrpcKt.PCrossApiCoroutineStub  = PCrossApiGrpcKt.PCrossApiCoroutineStub(channel)
 
 
-     suspend fun ee() {
+     suspend fun open() {
          println("try request")
          stub.pOpen(Empty.getDefaultInstance())
          println("request done")

@@ -1,5 +1,7 @@
 ﻿using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Grpc.Core.Logging;
+using Microsoft.Extensions.Logging;
 using Proto.Generated.PCrossApi;
 
 namespace HardwareDaemon.Proto;
@@ -7,10 +9,16 @@ namespace HardwareDaemon.Proto;
 
 public class CrossApi: PCrossApi.PCrossApiBase
 {
-
-    public Task<Empty> SayHelloAsync(Empty request)
+    private readonly ILogger<CrossApi> _logger;
+    public CrossApi(ILogger<CrossApi> logger)
     {
-        
-        return Task.FromResult(new Empty());
+        _logger = logger;
+    }
+
+
+    public override Task<Empty> POpen(Empty request, ServerCallContext context)
+    {
+        Console.WriteLine("service open");
+        return base.POpen(request, context);
     }
 }

@@ -3,6 +3,7 @@ using HardwareDaemon.Hardware;
 using HardwareDaemon.Model;
 using HardwareDaemon.Proto;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HardwareDaemon;
@@ -31,12 +32,15 @@ internal static class Program
     private static void Main()
     {
         var builder = WebApplication.CreateBuilder();
+      
         builder.Services.AddGrpc();
         var app = builder.Build();
         app.MapGrpcService<CrossApi>();
 
         app.Run();
-        
+
+
+
         HardwareManager.Start(HControls, HTemps, HFans);
 
         var confId = Settings.ConfId;
