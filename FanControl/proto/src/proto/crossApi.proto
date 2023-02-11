@@ -18,7 +18,7 @@ import "proto/settings.proto";
  */
 
 
-service PHardwareService {
+service PCrossApi {
   rpc POpen (google.protobuf.Empty) returns (google.protobuf.Empty);
   rpc PClose (google.protobuf.Empty) returns (google.protobuf.Empty);
 
