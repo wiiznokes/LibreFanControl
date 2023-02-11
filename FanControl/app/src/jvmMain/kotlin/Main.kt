@@ -11,7 +11,7 @@ import ui.utils.Resources
 
 fun main() {
 
-    val channel = ManagedChannelBuilder.forAddress("localhost", 5000).usePlaintext().build()
+    val channel = ManagedChannelBuilder.forAddress("localhost", 5002).usePlaintext().build()
     val api = CrossApi(channel)
     runBlocking {
         api.open()

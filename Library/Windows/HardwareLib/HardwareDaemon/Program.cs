@@ -40,7 +40,7 @@ internal static class Program
         var builder = WebApplication.CreateBuilder();
         builder.WebHost.ConfigureKestrel(options =>
         {
-            options.Listen(IPAddress.Parse("127.0.0.1"), 5000, listenOptions =>
+            options.Listen(IPAddress.Parse("127.0.0.1"), 5002, listenOptions =>
             {
                 listenOptions.Protocols = HttpProtocols.Http2;
             });
