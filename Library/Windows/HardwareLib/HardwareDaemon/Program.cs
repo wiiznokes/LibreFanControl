@@ -1,9 +1,13 @@
 ﻿using System.Collections;
+using System.Net;
 using HardwareDaemon.Hardware;
 using HardwareDaemon.Model;
 using HardwareDaemon.Proto;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HardwareDaemon;
@@ -29,15 +33,22 @@ internal static class Program
 
     private static bool IsOpen = false;
 
+ 
+
     private static void Main()
     {
         var builder = WebApplication.CreateBuilder();
+        builder.WebHost.ConfigureKestrel(options =>
+        {
+            options.Listen(IPAddress.Parse("127.0.0.1"), 5000, listenOptions =>
+            {
+                listenOptions.Protocols = HttpProtocols.Http2;
+            });
+        });
       
         builder.Services.AddGrpc();
         var app = builder.Build();
         app.MapGrpcService<CrossApi>();
-        app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
-
         app.Run();
 
 

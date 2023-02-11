@@ -26,8 +26,8 @@ service PCrossApi {
   rpc PChangeSetting (PSettings) returns (google.protobuf.Empty);
 
   rpc PSetControls (PDeviceList) returns (google.protobuf.Empty);
-  rpc PSetFans (PDeviceList) returns (google.protobuf.Empty);
   rpc PSetTemps (PDeviceList) returns (google.protobuf.Empty);
+  rpc PSetFans (PDeviceList) returns (google.protobuf.Empty);
 
   rpc PUpdateControls (PUpdateList) returns (google.protobuf.Empty);
   rpc PUpdateTemps (PUpdateList) returns (google.protobuf.Empty);
