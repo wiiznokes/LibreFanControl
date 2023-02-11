@@ -90,14 +90,11 @@ val infoList = listOf(
         destDir = file("../app/src/jvmMain/kotlin"),
         removeDir = file("../app/src/jvmMain/kotlin/proto/generated")
     ),
-    /*
     CopyInfo(
         srcDirs = listOf(file("build/generated/source/proto/main/csharp")),
         destDir = file("../../Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated"),
         removeDir = file("../../Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated")
     )
-
-     */
 )
 
 tasks.register("copyGeneratedFiles") {
