@@ -12,7 +12,7 @@ import model.ConfInfo
 import model.ItemType
 import model.item.*
 import proto.generated.conf.*
-import proto.generated.setting.pConfInfo
+import proto.generated.settings.pConfInfo
 import java.io.File
 
 private const val CONF_DIR = "conf/"

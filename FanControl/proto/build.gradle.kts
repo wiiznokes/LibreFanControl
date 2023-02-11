@@ -48,54 +48,57 @@ protobuf {
 
 
             it.plugins {
-                id("grpc")
-                id("grpckt")
+                id("grpc") {}
+                id("grpckt") {}
             }
             it.builtins {
-                id("kotlin")
-                id("csharp") {
-
-                }
+                id("kotlin") {}
             }
         }
     }
 }
 
 
+tasks.register("generateAllProto", DefaultTask::class.java) {
+    dependsOn("cleanCopiedFiles")
+    dependsOn("generateProto")
+    dependsOn("copyGeneratedFiles")
+
+    mustRunAfter("cleanCopiedFiles")
+    mustRunAfter("generateProto")
+}
+
 /**
  * copy of generated files
  */
 
 data class CopyInfo(
-    val srcDir: File,
+    val srcDirs: List<File>,
     val destDir: File,
     val removeDir: File,
 )
 
 val infoList = listOf(
     CopyInfo(
-        srcDir = file("build/generated/source/proto/main/java/"),
-        destDir = file("../app/src/jvmMain/java/"),
+        srcDirs = listOf(file("build/generated/source/proto/main/java"), file("build/generated/source/proto/main/grpc")),
+        destDir = file("../app/src/jvmMain/java"),
         removeDir = file("../app/src/jvmMain/java/proto/generated")
     ),
     CopyInfo(
-        srcDir = file("build/generated/source/proto/main/kotlin/"),
-        destDir = file("../app/src/jvmMain/kotlin/"),
+        srcDirs = listOf(file("build/generated/source/proto/main/kotlin"), file("build/generated/source/proto/main/grpckt")),
+        destDir = file("../app/src/jvmMain/kotlin"),
         removeDir = file("../app/src/jvmMain/kotlin/proto/generated")
-    ),
-    CopyInfo(
-        srcDir = file("build/generated/source/proto/main/csharp/"),
-        destDir = file("../../Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated"),
-        removeDir = file("../../Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated")
     )
 )
 
 tasks.register("copyGeneratedFiles") {
     doLast {
         infoList.forEach {
-            copy {
-                from(it.srcDir)
-                into(it.destDir)
+            it.srcDirs.forEach { srcDir ->
+                copy {
+                    from(srcDir)
+                    into(it.destDir)
+                }
             }
         }
     }

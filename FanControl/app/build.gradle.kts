@@ -31,14 +31,25 @@ kotlin {
             resources.srcDirs("resources")
 
             dependencies {
-                implementation(compose.desktop.currentOs)
+                // TODO: add specific dependencies for windows and linux, in order to remove implementation(compose.desktop.currentOs)
+                //  and make cross compilation
 
+                implementation(compose.desktop.currentOs)
                 implementation("org.jetbrains.compose.material3:material3-desktop:${project.property("compose.version")}")
                 implementation("com.github.wiiznokes:setting-sliding-windows:${project.property("settings.version")}")
 
+                // json, use for string (will be replaced in the future)
                 implementation("org.json:json:20220924")
-                implementation("com.google.protobuf:protobuf-java:${project.property("protobuf.version")}")
+
+                // protobuf
                 implementation("com.google.protobuf:protobuf-kotlin:${project.property("protobuf.version")}")
+
+                // grpc
+                implementation("io.grpc:grpc-stub:${project.property("grpc.version")}")
+                implementation("io.grpc:grpc-protobuf:${project.property("grpc.version")}")
+                implementation("io.grpc:grpc-kotlin-stub:${project.property("grpc.kotlin.version")}")
+
+
 
 
                 // use to debug the lib locally

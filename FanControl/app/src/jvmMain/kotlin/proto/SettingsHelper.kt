@@ -6,7 +6,7 @@ import model.ConfInfo
 import model.Languages
 import model.Settings
 import model.Themes
-import proto.generated.setting.*
+import proto.generated.settings.*
 import java.io.File
 
 private const val SETTINGS_FILE = "conf/settings"
@@ -21,7 +21,7 @@ class SettingsHelper {
 
         fun loadSettings() {
             val pSettings = with(getSettingsFile()) {
-                PSetting.parseFrom(readBytes())
+                PSettings.parseFrom(readBytes())
             }
 
             parsePSetting(pSettings).let {
@@ -53,7 +53,7 @@ class SettingsHelper {
             .resolve(SETTINGS_FILE)
 
 
-        fun parsePSetting(pSetting: PSetting): Settings =
+        fun parsePSetting(pSetting: PSettings): Settings =
             Settings(
                 language = when (pSetting.pLanguage) {
                     PLanguages.EN -> Languages.en
@@ -88,8 +88,8 @@ class SettingsHelper {
             )
 
 
-        fun createPSetting(settings: Settings): PSetting =
-            pSetting {
+        fun createPSetting(settings: Settings): PSettings =
+            pSettings {
                 pLanguage = when (settings.language.value) {
                     Languages.en -> PLanguages.EN
                     Languages.fr -> PLanguages.FR
