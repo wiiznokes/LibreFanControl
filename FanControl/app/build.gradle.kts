@@ -48,7 +48,7 @@ kotlin {
                 implementation("io.grpc:grpc-stub:${project.property("grpc.version")}")
                 implementation("io.grpc:grpc-protobuf:${project.property("grpc.version")}")
                 implementation("io.grpc:grpc-kotlin-stub:${project.property("grpc.kotlin.version")}")
-
+                implementation("io.grpc:grpc-okhttp:${project.property("grpc.version")}")
 
 
 

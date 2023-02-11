@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using HardwareDaemon.Item;
 using HardwareDaemon.Item.Behavior;
-using Proto.Generated.Conf;
+using Proto.Generated.PConf;
 
 namespace HardwareDaemon.Proto;
 

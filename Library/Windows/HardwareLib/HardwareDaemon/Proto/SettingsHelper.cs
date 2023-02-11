@@ -1,5 +1,5 @@
 ﻿using HardwareDaemon.Model;
-using Proto.Generated.Settings;
+using Proto.Generated.PSettings;
 
 namespace HardwareDaemon.Proto;
 

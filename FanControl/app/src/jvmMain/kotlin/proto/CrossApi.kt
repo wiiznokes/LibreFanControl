@@ -1,5 +1,6 @@
 package proto
 
+import com.google.protobuf.Empty
 import io.grpc.ManagedChannel
 import proto.generated.api.PCrossApiGrpcKt
 import java.io.Closeable
@@ -8,8 +9,12 @@ import java.util.concurrent.TimeUnit
 class CrossApi(
     private val channel: ManagedChannel
 ) : Closeable{
-    private val stub: PCrossApiGrpcKt.PCrossApiCoroutineStub  = GreeterCoroutineStub(channel)
+    private val stub: PCrossApiGrpcKt.PCrossApiCoroutineStub  = PCrossApiGrpcKt.PCrossApiCoroutineStub(channel)
 
+
+     suspend fun ee() {
+         val response = stub.pOpen(Empty.getDefaultInstance())
+     }
 
 
     override fun close() {
