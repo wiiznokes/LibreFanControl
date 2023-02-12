@@ -10,10 +10,36 @@ namespace HardwareDaemon;
 
 internal static class Program
 {
-    public static bool ServiceShouldStop = false;
+    public static bool ServiceShouldStop;
 
-    private static void Main()
+    private static Task _chatJob;
+
+    private static void Main(string [] args)
     {
+        HardwareManager.Start();
+
+        var confId = State.Settings.ConfId;
+
+        if (confId == null)
+        {
+            Console.WriteLine("conf Id == null");
+            if (args[0] == "app")
+            {
+                Console.WriteLine("no config, start service for the app"); 
+            }
+            else
+            {
+                Console.WriteLine("no config -> stop service"); 
+                return;
+            }
+        }
+        else
+        {
+            ConfHelper.LoadConfFile(confId);
+            Update.CreateUpdateList();
+        }
+        
+        
         var builder = WebApplication.CreateBuilder();
         builder.WebHost.ConfigureKestrel(options =>
         {
@@ -24,36 +50,20 @@ internal static class Program
         builder.Services.AddGrpc();
         var app = builder.Build();
         app.MapGrpcService<CrossApi>();
-
-
-        app.Run();
-
-/*
-        var t = new Task(delegate { app.Run(); });
-
-        t.Start();
-
+        
+        
+        _chatJob = new Task(delegate
+        {
+            app.Run();
+        });
         
 
-        HardwareManager.Start();
-
-        var confId = State.Settings.ConfId;
-
-        if (confId == null)
-        {
-            Console.WriteLine("conf Id == null -> return");
-            return;
-        }
-
-
-        ConfHelper.LoadConfFile(confId);
-
-        Update.CreateUpdateList();
+        _chatJob.Start();
 
         HardwareManager.Update();
         Update.UpdateUpdateList();
         UpdateJob();
-        */
+        
     }
 
     private static void UpdateJob()
@@ -61,10 +71,11 @@ internal static class Program
         while (!ServiceShouldStop)
         {
             HardwareManager.Update();
-            if (State.IsOpen) Update.UpdateAllSensors();
+            
             Update.UpdateUpdateList();
 
             Thread.Sleep(State.Settings.UpdateDelay * 1000);
         }
+        Update.SetAutoAll();
     }
 }
