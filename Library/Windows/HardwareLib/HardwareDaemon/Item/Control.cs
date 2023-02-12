@@ -4,7 +4,7 @@ using HardwareDaemon.Item.Behavior;
 
 namespace HardwareDaemon.Item;
 
-public class Control
+public class Control: IBaseItem
 {
     public Control(string? iBehaviorId, string? hControlId, bool isAuto)
     {

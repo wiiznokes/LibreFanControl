@@ -31,7 +31,7 @@ internal static class Program
 
     private static readonly Settings Settings = SettingsHelper.LoadSettingsFile();
 
-    private static bool IsOpen = false;
+    public static bool IsOpen = false;
 
  
 
@@ -49,7 +49,12 @@ internal static class Program
         builder.Services.AddGrpc();
         var app = builder.Build();
         app.MapGrpcService<CrossApi>();
-        app.Run();
+        
+        
+        Task t = new Task(delegate { app.Run(); });
+        
+        t.Start();
+        
 
 
 
@@ -90,6 +95,7 @@ internal static class Program
             if (IsOpen)
             {
                 Update.UpdateAllSensors(HControls, HTemps, HFans);
+                
             }
             Update.UpdateUpdateList(UpdateList);
             

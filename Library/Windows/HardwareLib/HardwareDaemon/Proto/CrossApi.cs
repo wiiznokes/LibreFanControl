@@ -21,60 +21,62 @@ public class CrossApi: PCrossApi.PCrossApiBase
     {
         Console.WriteLine("service open");
 
+        Program.IsOpen = true;
+        
         return Task.FromResult(request);
     }
 
     public override Task<Empty> PClose(Empty request, ServerCallContext context)
     {
         Console.WriteLine("service open");
-        return base.PClose(request, context);
+        return Task.FromResult(request);
     }
 
     public override Task<Empty> PChangeConf(PConf request, ServerCallContext context)
     {
         Console.WriteLine("service PChangeConf");
-        return base.PChangeConf(request, context);
+        return Task.FromResult(new Empty());
     }
 
     public override Task<Empty> PChangeSetting(PSettings request, ServerCallContext context)
     {
         Console.WriteLine("service PChangeSetting");
-        return base.PChangeSetting(request, context);
+        return Task.FromResult(new Empty());
     }
 
     public override Task<Empty> PSetControls(PDeviceList request, ServerCallContext context)
     {
         Console.WriteLine("service PSetControls");
-        return base.PSetControls(request, context);
+        return Task.FromResult(new Empty());
     }
 
     public override Task<Empty> PSetFans(PDeviceList request, ServerCallContext context)
     {
         Console.WriteLine("service PSetFans");
-        return base.PSetFans(request, context);
+        return Task.FromResult(new Empty());
     }
 
     public override Task<Empty> PSetTemps(PDeviceList request, ServerCallContext context)
     {
         Console.WriteLine("service PSetTemps");
-        return base.PSetTemps(request, context);
+        return Task.FromResult(new Empty());
     }
 
     public override Task<Empty> PUpdateControls(PUpdateList request, ServerCallContext context)
     {
         Console.WriteLine("service PUpdateControls");
-        return base.PUpdateControls(request, context);
+        return Task.FromResult(new Empty());
     }
 
     public override Task<Empty> PUpdateTemps(PUpdateList request, ServerCallContext context)
     {
         Console.WriteLine("service PUpdateTemps");
-        return base.PUpdateTemps(request, context);
+        return Task.FromResult(new Empty());
     }
 
     public override Task<Empty> PUpdateFans(PUpdateList request, ServerCallContext context)
     {
         Console.WriteLine("service PUpdateFans");
-        return base.PUpdateFans(request, context);
+        return Task.FromResult(new Empty());
     }
 }

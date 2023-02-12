@@ -4,7 +4,7 @@ using HardwareDaemon.Item.Behavior;
 
 namespace HardwareDaemon.Item;
 
-public class CustomTemp
+public class CustomTemp: IBaseItem
 {
     public enum CustomTempType
     {

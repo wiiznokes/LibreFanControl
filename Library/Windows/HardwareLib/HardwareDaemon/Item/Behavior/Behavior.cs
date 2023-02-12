@@ -17,7 +17,7 @@ public class BehaviorException : Exception
     }
 }
 
-public abstract class Behavior
+public abstract class Behavior: IBaseItem
 {
     protected Behavior(string id, BehaviorType type)
     {

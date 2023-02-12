@@ -1,6 +1,6 @@
 ﻿namespace HardwareDaemon.Hardware.Control;
 
-public class BaseControl : BaseDevice
+public class BaseControl : BaseHardware
 {
     protected BaseControl(string name, int index, string id) : base(name, index, id)
     {
