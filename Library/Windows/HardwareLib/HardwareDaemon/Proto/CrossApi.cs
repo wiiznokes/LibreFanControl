@@ -7,10 +7,10 @@ using Proto.Generated.PSettings;
 
 namespace HardwareDaemon.Proto;
 
-
-public class CrossApi: PCrossApi.PCrossApiBase
+public class CrossApi : PCrossApi.PCrossApiBase
 {
     private readonly ILogger<CrossApi> _logger;
+
     public CrossApi(ILogger<CrossApi> logger)
     {
         _logger = logger;
@@ -21,8 +21,7 @@ public class CrossApi: PCrossApi.PCrossApiBase
     {
         Console.WriteLine("service open");
 
-        Program.IsOpen = true;
-        
+
         return Task.FromResult(request);
     }
 

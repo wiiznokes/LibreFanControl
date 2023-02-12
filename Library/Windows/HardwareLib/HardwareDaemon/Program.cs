@@ -12,56 +12,31 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace HardwareDaemon;
 
-internal enum ServiceState
-{
-    Open,
-    Close
-}
 internal static class Program
 {
-    private static readonly ArrayList HControls = new();
-    private static readonly ArrayList HTemps = new();
-    private static readonly ArrayList HFans = new();
-
-    private static readonly ArrayList Controls = new();
-    private static readonly ArrayList Behaviors = new();
-    private static readonly ArrayList CustomTemps = new();
-
-    private static readonly ArrayList UpdateList = new();
-
-    private static readonly Settings Settings = SettingsHelper.LoadSettingsFile();
-
-    public static bool IsOpen = false;
-
- 
-
     private static void Main()
     {
         var builder = WebApplication.CreateBuilder();
         builder.WebHost.ConfigureKestrel(options =>
         {
-            options.Listen(IPAddress.Parse("127.0.0.1"), 5002, listenOptions =>
-            {
-                listenOptions.Protocols = HttpProtocols.Http2;
-            });
+            options.Listen(IPAddress.Parse("127.0.0.1"), 5002,
+                listenOptions => { listenOptions.Protocols = HttpProtocols.Http2; });
         });
-      
+
         builder.Services.AddGrpc();
         var app = builder.Build();
         app.MapGrpcService<CrossApi>();
-        
-        
-        Task t = new Task(delegate { app.Run(); });
-        
+
+
+        var t = new Task(delegate { app.Run(); });
+
         t.Start();
-        
 
 
+        HardwareManager.Start();
 
-        HardwareManager.Start(HControls, HTemps, HFans);
+        var confId = State.Settings.ConfId;
 
-        var confId = Settings.ConfId;
-        
         if (confId == null)
         {
             Console.WriteLine("conf Id == null -> return");
@@ -69,37 +44,27 @@ internal static class Program
         }
 
 
-        ConfHelper.LoadConfFile(confId, Controls, Behaviors, CustomTemps);
+        ConfHelper.LoadConfFile(confId);
 
-        Update.CreateUpdateList(
-            UpdateList,
-            HControls,
-            HTemps,
-            Controls,
-            Behaviors,
-            CustomTemps
-        );
-        
+        Update.CreateUpdateList();
+
         HardwareManager.Update();
-        Update.UpdateUpdateList(UpdateList);
+        Update.UpdateUpdateList();
         UpdateJob();
     }
 
 
     public static bool ServiceShouldStop = false;
+
     private static void UpdateJob()
     {
         while (!ServiceShouldStop)
         {
             HardwareManager.Update();
-            if (IsOpen)
-            {
-                Update.UpdateAllSensors(HControls, HTemps, HFans);
-                
-            }
-            Update.UpdateUpdateList(UpdateList);
-            
-            Thread.Sleep(Settings.UpdateDelay * 1000);
+            if (State.IsOpen) Update.UpdateAllSensors();
+            Update.UpdateUpdateList();
+
+            Thread.Sleep(State.Settings.UpdateDelay * 1000);
         }
     }
 }

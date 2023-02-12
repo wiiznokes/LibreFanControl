@@ -9,13 +9,10 @@ public static class ConfHelper
 {
     private const string ConfDir = "./conf/";
 
-    public static void LoadConfFile(string confId,
-        ArrayList iControls,
-        ArrayList iBehaviors,
-        ArrayList iCustomTemps)
+    public static void LoadConfFile(string confId)
     {
         var pConf = PConf.Parser.ParseFrom(GetConfBytes(confId));
-        ParsePConf(pConf, iControls, iBehaviors, iCustomTemps);
+        ParsePConf(pConf);
     }
 
     private static byte[] GetConfBytes(string confId)
@@ -25,24 +22,21 @@ public static class ConfHelper
     }
 
 
-    public static void ParsePConf(PConf pConf,
-        ArrayList iControls,
-        ArrayList iBehaviors,
-        ArrayList iCustomTemps)
+    public static void ParsePConf(PConf pConf)
     {
-        iControls.Clear();
-        iBehaviors.Clear();
-        iCustomTemps.Clear();
+        State.Controls.Clear();
+        State.Behaviors.Clear();
+        State.CustomTemps.Clear();
 
         foreach (var pIControl in pConf.PIControls)
-            iControls.Add(new Control(
+            State.Controls.TryAdd(State.Controls.Count, new Control(
                 SettingsHelper.NullableToNull(pIControl.PIBehaviorId),
                 SettingsHelper.NullableToNull(pIControl.PHControlId),
                 pIControl.PIsAuto
             ));
 
         foreach (var pIBehavior in pConf.PIBehaviors)
-            iBehaviors.Add(
+            State.Behaviors.TryAdd(State.Behaviors.Count,
                 pIBehavior.KindCase switch
                 {
                     PIBehavior.KindOneofCase.PFlat => new Flat(pIBehavior.PId, pIBehavior.PFlat.PValue),
@@ -71,7 +65,7 @@ public static class ConfHelper
 
         foreach (var pITemp in pConf.PITemps)
             if (pITemp.KindCase == PITemp.KindOneofCase.PICustomTemp)
-                iCustomTemps.Add(
+                State.CustomTemps.TryAdd(State.CustomTemps.Count,
                     new CustomTemp(
                         pITemp.PId,
                         pITemp.PICustomTemp.PHTempIds.ToList(),

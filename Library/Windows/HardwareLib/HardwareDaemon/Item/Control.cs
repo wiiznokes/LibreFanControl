@@ -4,7 +4,7 @@ using HardwareDaemon.Item.Behavior;
 
 namespace HardwareDaemon.Item;
 
-public class Control: IBaseItem
+public class Control
 {
     public Control(string? iBehaviorId, string? hControlId, bool isAuto)
     {
@@ -25,9 +25,9 @@ public class Control: IBaseItem
     private string? HControlId { get; }
     private BaseControl HControl { get; set; } = null!;
 
-    public void SetHControl(ArrayList hControls)
+    public void SetHControl()
     {
-        foreach (BaseControl hControl in hControls)
+        foreach (var hControl in State.HControls.Values)
             if (hControl.Id == HControlId)
                 HControl = hControl;
     }

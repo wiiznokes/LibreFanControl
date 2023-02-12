@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using HardwareDaemon.Hardware.Control;
 using LibreHardwareMonitor.Hardware;
 
 namespace HardwareDaemon.Hardware;
@@ -7,16 +8,10 @@ public static class HardwareManager
 {
     private static readonly Lhm Lhm = new();
 
-    public static void Start(
-        ArrayList controls,
-        ArrayList temps,
-        ArrayList fans
-    )
+    public static void Start()
     {
         Lhm.Start();
-        Lhm.CreateDevice(controls, SensorType.Control);
-        Lhm.CreateDevice(temps, SensorType.Temperature);
-        Lhm.CreateDevice(fans, SensorType.Fan);
+        Lhm.CreateHardware();
     }
 
     public static void Stop()

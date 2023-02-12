@@ -4,7 +4,7 @@ using HardwareDaemon.Item.Behavior;
 
 namespace HardwareDaemon.Item;
 
-public class CustomTemp: IBaseItem
+public class CustomTemp
 {
     public enum CustomTempType
     {
@@ -32,12 +32,12 @@ public class CustomTemp: IBaseItem
 
     private List<BaseSensor> HTemps { get; }
 
-    public void Init(ArrayList sensorList)
+    public void Init()
     {
         if (!IsValid)
             throw new BehaviorException("custom temp not valid");
 
-        foreach (BaseSensor hTemp in sensorList)
+        foreach (var hTemp in State.HTemps.Values)
         {
             if (!HTempIds.Contains(hTemp.Id)) continue;
 
