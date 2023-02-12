@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using HardwareDaemon.Hardware.Control;
+﻿using HardwareDaemon.Hardware.Control;
 using HardwareDaemon.Item.Behavior;
 
 namespace HardwareDaemon.Item;

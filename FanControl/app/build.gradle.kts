@@ -51,7 +51,6 @@ kotlin {
                 implementation("io.grpc:grpc-okhttp:${project.property("grpc.version")}")
 
 
-
                 // use to debug the lib locally
                 //implementation("com.example:setting-sliding-windows-jvm:${project.property("settings.version")}")
             }

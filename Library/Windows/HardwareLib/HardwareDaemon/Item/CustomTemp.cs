@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using HardwareDaemon.Hardware.Sensor;
+﻿using HardwareDaemon.Hardware.Sensor;
 using HardwareDaemon.Item.Behavior;
 
 namespace HardwareDaemon.Item;

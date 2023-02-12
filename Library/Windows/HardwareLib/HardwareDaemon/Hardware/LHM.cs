@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using HardwareDaemon.Hardware.Control;
+﻿using HardwareDaemon.Hardware.Control;
 using HardwareDaemon.Hardware.Sensor;
 using LibreHardwareMonitor.Hardware;
 

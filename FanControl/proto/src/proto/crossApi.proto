@@ -46,7 +46,7 @@ enum PHardwareType {
 }
 
 message PHardwareTypeMessage {
-    PHardwareType PType = 1;
+  PHardwareType PType = 1;
 }
 
 

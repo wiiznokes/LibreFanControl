@@ -1,6 +1,5 @@
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.runBlocking
 import proto.CrossApi
@@ -16,7 +15,6 @@ fun main() {
     runBlocking {
         api.open()
     }
-
 
 
     /**

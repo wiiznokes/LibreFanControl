@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using HardwareDaemon.Hardware.Control;
-using LibreHardwareMonitor.Hardware;
-
-namespace HardwareDaemon.Hardware;
+﻿namespace HardwareDaemon.Hardware;
 
 public static class HardwareManager
 {

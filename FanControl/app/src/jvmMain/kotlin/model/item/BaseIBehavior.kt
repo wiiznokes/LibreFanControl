@@ -53,14 +53,11 @@ class ILinear(
     val hTempId: MutableState<String?> = mutableStateOf(tempId)
 
 
-
-
     private fun isValid(): Boolean = hTempId.value != null
 
 
-
     fun calcAndSet(hTemps: List<HTemp>, iCustomTemps: List<ICustomTemp>) {
-        if(!isValid()) {
+        if (!isValid()) {
             value.value = 0
             return
         }
@@ -170,7 +167,7 @@ class ITarget(
             return
         }
 
-        value.value =  when (idleHasBeenReach) {
+        value.value = when (idleHasBeenReach) {
             true -> {
                 if (tempValue < loadTemp.value) {
                     idleFanSpeed.value

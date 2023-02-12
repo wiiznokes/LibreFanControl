@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using HardwareDaemon.Item;
+﻿using HardwareDaemon.Item;
 using HardwareDaemon.Item.Behavior;
 using Proto.Generated.PConf;
 

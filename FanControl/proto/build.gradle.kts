@@ -80,12 +80,18 @@ data class CopyInfo(
 
 val infoList = listOf(
     CopyInfo(
-        srcDirs = listOf(file("build/generated/source/proto/main/java"), file("build/generated/source/proto/main/grpc")),
+        srcDirs = listOf(
+            file("build/generated/source/proto/main/java"),
+            file("build/generated/source/proto/main/grpc")
+        ),
         destDir = file("../app/src/jvmMain/java"),
         removeDir = file("../app/src/jvmMain/java/proto/generated")
     ),
     CopyInfo(
-        srcDirs = listOf(file("build/generated/source/proto/main/kotlin"), file("build/generated/source/proto/main/grpckt")),
+        srcDirs = listOf(
+            file("build/generated/source/proto/main/kotlin"),
+            file("build/generated/source/proto/main/grpckt")
+        ),
         destDir = file("../app/src/jvmMain/kotlin"),
         removeDir = file("../app/src/jvmMain/kotlin/proto/generated")
     )

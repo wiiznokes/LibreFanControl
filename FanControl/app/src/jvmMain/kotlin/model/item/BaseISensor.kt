@@ -65,9 +65,8 @@ class ICustomTemp(
     val value: MutableState<Int> = mutableStateOf(value)
 
 
-
     fun calcAndSet(hTemps: List<HTemp>) {
-        if(!isValid()) {
+        if (!isValid()) {
             value.value = 0
             return
         }

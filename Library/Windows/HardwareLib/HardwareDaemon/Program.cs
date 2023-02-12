@@ -1,19 +1,17 @@
-﻿using System.Collections;
-using System.Net;
+﻿using System.Net;
 using HardwareDaemon.Hardware;
-using HardwareDaemon.Model;
 using HardwareDaemon.Proto;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HardwareDaemon;
 
 internal static class Program
 {
+    public static bool ServiceShouldStop = false;
+
     private static void Main()
     {
         var builder = WebApplication.CreateBuilder();
@@ -28,10 +26,14 @@ internal static class Program
         app.MapGrpcService<CrossApi>();
 
 
+        app.Run();
+
+/*
         var t = new Task(delegate { app.Run(); });
 
         t.Start();
 
+        
 
         HardwareManager.Start();
 
@@ -51,10 +53,8 @@ internal static class Program
         HardwareManager.Update();
         Update.UpdateUpdateList();
         UpdateJob();
+        */
     }
-
-
-    public static bool ServiceShouldStop = false;
 
     private static void UpdateJob()
     {

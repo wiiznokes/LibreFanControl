@@ -25,6 +25,10 @@ public static class State
     private static readonly object SettingLock = new();
     private static Settings _setting = SettingsHelper.LoadSettingsFile();
 
+
+    private static readonly object IsOpenLock = new();
+    private static bool _isOpen;
+
     public static Settings Settings
     {
         get
@@ -42,10 +46,6 @@ public static class State
             }
         }
     }
-
-
-    private static readonly object IsOpenLock = new();
-    private static bool _isOpen;
 
     public static bool IsOpen
     {
