@@ -34,7 +34,7 @@ public class Control
 
     public static void SetSpeed(int value)
     {
-        Console.WriteLine("set control: " + value);
+        Console.WriteLine("[SERVICE] set control: " + value);
         //HControl.SetSpeed(value);
     }
 }

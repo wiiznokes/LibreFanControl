@@ -9,14 +9,6 @@ import ui.utils.Resources
 
 
 fun main() {
-
-    val channel = ManagedChannelBuilder.forAddress("localhost", 5002).usePlaintext().build()
-    val api = CrossApi(channel)
-    runBlocking {
-        api.open()
-    }
-
-
     /**
      * need onCreate for initialization on setting/conf ect...
      */
