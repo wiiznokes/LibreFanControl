@@ -1,6 +1,6 @@
 $installPath = "C:\Program Files\FanControlService"
 $serviceName = "FanControlService"
-$exeName = "FanControlService.exe"
+$exeName = "HardwareDaemon.exe"
 $startMode = $args[0]
 $buildPath = "$PSScriptRoot/../build"
 
