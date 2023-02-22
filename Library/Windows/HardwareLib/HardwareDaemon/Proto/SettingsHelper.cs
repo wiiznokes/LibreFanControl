@@ -14,10 +14,12 @@ public static class SettingsHelper
 {
     private const string SettingsFile = "./conf/settings";
 
-    public static Settings LoadSettingsFile()
+    public static void LoadSettingsFile(Settings settingsState)
     {
         var pSettings = PSettings.Parser.ParseFrom(GetSettingsBytes());
-        return ParsePSettings(pSettings);
+        var settings =  ParsePSettings(pSettings);
+        settingsState.UpdateDelay = settings.UpdateDelay;
+        settingsState.ConfId = settings.ConfId;
     }
 
     private static byte[] GetSettingsBytes()

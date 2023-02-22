@@ -23,7 +23,7 @@ public static class State
 
 
     private static readonly object SettingLock = new();
-    private static Settings _setting = SettingsHelper.LoadSettingsFile();
+    private static Settings _setting = new(null, 2);
 
 
     private static readonly object IsOpenLock = new();

@@ -9,110 +9,114 @@ namespace HardwareDaemon;
 
 public class Worker : BackgroundService
 {
-    public static bool ServiceShouldStop = false;
-
-    private static Task _chatJob = null!;
-    private static readonly CancellationTokenSource CancellationTokenSource = new();
-    private static readonly CancellationToken CancellationToken = CancellationTokenSource.Token;
     
+    private readonly ILogger<Worker> _logger;
+    private readonly IHostApplicationLifetime _appLifetime;
+
+    public Worker(ILogger<Worker> logger, IHostApplicationLifetime appLifetime)
+    {
+        _logger = logger;
+        _appLifetime = appLifetime;
+    }
+
+    private  Task _chatJob = null!;
+    private static readonly CancellationTokenSource CancellationTokenSource = new();
+    private  readonly CancellationToken _cancellationToken = CancellationTokenSource.Token;
+
     private const int Port = 5002;
-    private static readonly IPAddress Ip = IPAddress.Parse("127.0.0.1");
-    private static WebApplication _app = null!;
+    private readonly IPAddress _ip = IPAddress.Parse("127.0.0.1");
+    private  WebApplication _grpcApp = null!;
     
     private const int MaxDelay = 5000;
     private const int Delay = 500;
 
-    
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        throw new NotImplementedException();
-    }
-    
-    
-    private static void Main(string [] args)
-    {
-        HardwareManager.Start();
 
-        var confId = State.Settings.ConfId;
-
-        if (confId == null)
+    private bool StartService()
+    {
+        SettingsHelper.LoadSettingsFile(State.Settings);
+        StartGrpc();
+        
+        if (State.Settings.ConfId == null)
         {
-            Console.WriteLine("[SERVICE] conf Id == null");
-            if (args[0] == "app")
+            var totalDelay = 0;
+            while (!State.IsOpen && totalDelay < MaxDelay)
             {
-                Console.WriteLine("[SERVICE] no config, start service for the app");
-                StartGrpc();
-                var totalDelay = 0;
-                while (!State.IsOpen && totalDelay < MaxDelay)
-                {
-                    Thread.Sleep(Delay);
-                    totalDelay += Delay;
-                }
-
-                if (!State.IsOpen)
-                {
-                    Console.WriteLine("[SERVICE] delay before open passed -> stop service");
-                    _app.StopAsync();
-                    return;
-                }
+                Thread.Sleep(Delay);
+                totalDelay += Delay;
             }
-            else
+            if (!State.IsOpen)
             {
-                Console.WriteLine("[SERVICE] no config -> stop service"); 
-                return;
+                Console.WriteLine("[SERVICE] delay before open passed");
+                return false;
             }
         }
         else
         {
-            StartGrpc();
-            ConfHelper.LoadConfFile(confId);
-            //Update.CreateUpdateList();
+            ConfHelper.LoadConfFile(State.Settings.ConfId);
+        }
+        
+        HardwareManager.Start();
+        return true;
+    }
+    
+   
+
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        if (!StartService())
+        {
+            _appLifetime.StopApplication();
+            return;
         }
 
-
-        _chatJob = new Task(() =>
+        while (!stoppingToken.IsCancellationRequested)
         {
-            _app.Run();
-        }, CancellationToken);
-        
-
-        _chatJob.Start();
-
-        HardwareManager.Update();
-        //Update.UpdateUpdateList();
-        UpdateJob();
+            HardwareManager.Update();
+            
+            Console.WriteLine("[SERVICE] update");
+            
+            await Task.Delay(1000, stoppingToken);
+        }
         
     }
 
-    private static void StartGrpc()
+    public override Task StopAsync(CancellationToken cancellationToken)
+    {
+        StopGrpc();
+        Update.SetAutoAll();
+        HardwareManager.Stop();
+        
+        Console.WriteLine("[SERVICE] StopAsync");
+        return base.StopAsync(cancellationToken);
+    }
+
+    private  void StartGrpc()
     {
         var builder = WebApplication.CreateBuilder();
         builder.WebHost.ConfigureKestrel(options =>
         {
-            options.Listen(Ip, Port,
+            options.Listen(_ip, Port,
                 listenOptions => { listenOptions.Protocols = HttpProtocols.Http2; });
         });
 
         builder.Services.AddGrpc();
-        _app = builder.Build();
-        _app.MapGrpcService<CrossApi>();
+        _grpcApp = builder.Build();
+        _grpcApp.MapGrpcService<CrossApi>();
+        
+        _chatJob = new Task(() =>
+        {
+            _grpcApp.Run();
+        }, _cancellationToken);
+
+        _chatJob.Start();
     }
 
-    private static void UpdateJob()
-    {
-        while (!ServiceShouldStop)
-        {
-            HardwareManager.Update();
-            
-            //Update.UpdateUpdateList();
 
-            Thread.Sleep(State.Settings.UpdateDelay * 1000);
-        }
-        Update.SetAutoAll();
-        _app.StopAsync();
+    private  void StopGrpc()
+    {
+        _grpcApp.StopAsync(_cancellationToken);
         CancellationTokenSource.Cancel();
-        _chatJob.Wait();
+        _chatJob.Wait(_cancellationToken);
         _chatJob.Dispose();
-        Console.WriteLine("[SERVICE] ServiceShouldStop -> stop service"); 
     }
 }
