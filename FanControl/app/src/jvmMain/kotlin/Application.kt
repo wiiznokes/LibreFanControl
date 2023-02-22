@@ -129,7 +129,7 @@ class Application(
             "powershell.exe",
             "-File",
             initScript,
-            startMode
+            "debug"
         )
         val process = ProcessBuilder(command)
             .redirectOutput(ProcessBuilder.Redirect.INHERIT)
