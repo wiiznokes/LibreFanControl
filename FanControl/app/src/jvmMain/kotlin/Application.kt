@@ -10,6 +10,7 @@ import model.item.ILinear
 import model.item.ITarget
 import proto.ConfHelper
 import proto.CrossApi
+import proto.SettingsDir.createDirs
 import proto.SettingsHelper
 import proto.generated.pCrossApi.pOk
 import utils.initSensor
@@ -41,6 +42,7 @@ class Application(
             SettingsHelper.writeSettings()
         }
 
+        /*
         scope.launch {
             try {
                 tryOpenService()
@@ -50,6 +52,8 @@ class Application(
                 tryOpenService()
             }
         }
+
+         */
     }
 
     fun onStart() {

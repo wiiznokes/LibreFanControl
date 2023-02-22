@@ -6,23 +6,46 @@ import model.ConfInfo
 import model.Languages
 import model.Settings
 import model.Themes
+import proto.SettingsDir.createDirs
+import proto.SettingsDir.settingsFile
 import proto.generated.pSettings.*
 import java.io.File
 
-private const val SETTINGS_FILE = "conf/settings"
+object SettingsDir {
+    private val dir = File(System.getProperty("user.home"))
+        .resolve(".FanControl")
+
+    private val confDir = dir.resolve("conf")
+
+    fun createDirs() {
+        if (!dir.exists()) {
+            dir.mkdir()
+        }
+        if (!confDir.exists()) {
+            confDir.mkdir()
+        }
+    }
+
+    val settingsFile = dir.resolve("settings")
+
+    fun getConfFile(confId: String): File = confDir
+        .resolve(confId)
+}
+
 
 
 class SettingsHelper {
 
     companion object {
 
-        fun isSettings(): Boolean = getSettingsFile().exists()
+        fun isSettings(): Boolean {
+            createDirs()
+            return settingsFile.exists()
+        }
 
 
         fun loadSettings() {
-            val pSettings = with(getSettingsFile()) {
-                PSettings.parseFrom(readBytes())
-            }
+            val pSettings = PSettings.parseFrom(settingsFile.readBytes())
 
             parsePSetting(pSettings).let {
                 settings.language.value = it.language.value
@@ -42,15 +65,11 @@ class SettingsHelper {
 
         fun writeSettings() {
             createPSetting(settings).let {
-                with(getSettingsFile()) {
-                    writeBytes(it.toByteArray())
-                }
+                settingsFile.writeBytes(it.toByteArray())
             }
         }
 
 
-        private fun getSettingsFile(): File = File(System.getProperty("compose.application.resources.dir"))
-            .resolve(SETTINGS_FILE)
 
 
         fun parsePSetting(pSetting: PSettings): Settings =

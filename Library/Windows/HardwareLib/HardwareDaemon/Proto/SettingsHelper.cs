@@ -12,7 +12,7 @@ public class ProtoException : Exception
 
 public static class SettingsHelper
 {
-    private const string SettingsFile = "./conf/settings";
+    private const string SettingsFile = "./.FanControl/settings";
 
     public static void LoadSettingsFile(Settings settingsState)
     {
@@ -24,7 +24,10 @@ public static class SettingsHelper
 
     private static byte[] GetSettingsBytes()
     {
-        var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsFile);
+        var filePath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+            SettingsFile
+        );
         return File.ReadAllBytes(filePath);
     }
 
