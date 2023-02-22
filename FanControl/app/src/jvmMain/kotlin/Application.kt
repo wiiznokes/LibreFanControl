@@ -1,7 +1,6 @@
 import State.hTemps
 import State.iBehaviors
 import State.iTemps
-import androidx.compose.ui.window.ApplicationScope
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.*
 import model.Settings
@@ -11,7 +10,6 @@ import model.item.ITarget
 import proto.ConfHelper
 import proto.CrossApi
 import proto.SettingsHelper
-import proto.generated.pCrossApi.pOk
 import ui.screen.drawer.settings.getStartMode
 import utils.initSensor
 import java.io.File
@@ -29,7 +27,8 @@ class Application(
         .build()
     private val api = CrossApi(channel)
 
-    private lateinit var jobUpdate: Job
+    private lateinit var calculateValueJob: Job
+    private lateinit var fetchSensorValueJob: Job
 
     fun onCreate() {
 
@@ -40,19 +39,16 @@ class Application(
             SettingsHelper.writeSettings()
         }
 
-
-
         scope.launch {
             startService()
             delay(500L)
-            tryOpenService()
+            if (!api.open()) {
+                println("can't open service, exit app")
+            }
         }
-
-
     }
 
     fun onStart() {
-
         settings.confId.value.let {
             when (it) {
                 null -> initSensor()
@@ -62,14 +58,23 @@ class Application(
                 }
             }
         }
-        jobUpdate = scope.launch { startUpdate() }
+
+        calculateValueJob = scope.launch {
+            startUpdate()
+        }
+        fetchSensorValueJob = scope.launch {
+            api.update()
+        }
     }
 
 
     private var updateShouldStop = false
     fun onStop() {
         updateShouldStop = true
-        runBlocking { jobUpdate.cancelAndJoin() }
+        runBlocking {
+            calculateValueJob.cancelAndJoin()
+            fetchSensorValueJob.cancelAndJoin()
+        }
     }
 
     private suspend fun startUpdate() {
@@ -105,19 +110,6 @@ class Application(
         }
     }
 
-
-    private suspend fun tryOpenService(): Boolean {
-        try {
-            val res = api.open()
-            if (res != pOk { pIsSuccess = true }) {
-                throw IllegalArgumentException("open service failed")
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return false
-        }
-        return true
-    }
 
     private fun startService(): Boolean {
         val initScript = File(System.getProperty("compose.application.resources.dir"))
