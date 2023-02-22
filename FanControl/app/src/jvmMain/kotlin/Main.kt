@@ -1,8 +1,5 @@
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import io.grpc.ManagedChannelBuilder
-import kotlinx.coroutines.runBlocking
-import proto.CrossApi
 import ui.screen.home
 import ui.theme.fanControlTheme
 import ui.utils.Resources

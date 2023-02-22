@@ -1,6 +1,5 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using Microsoft.Extensions.Logging;
 using Proto.Generated.PCrossApi;
 
 namespace HardwareDaemon.Proto;

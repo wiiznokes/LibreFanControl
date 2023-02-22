@@ -33,7 +33,6 @@ object SettingsDir {
 }
 
 
-
 class SettingsHelper {
 
     companion object {
@@ -68,8 +67,6 @@ class SettingsHelper {
                 settingsFile.writeBytes(it.toByteArray())
             }
         }
-
-
 
 
         fun parsePSetting(pSetting: PSettings): Settings =

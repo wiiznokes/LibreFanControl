@@ -2,8 +2,10 @@
 
 $startMode = $args[0]
 
-if(!(checkInstall)) {
-    if(!(checkAdmin)) {
+if (!(checkInstall))
+{
+    if (!(checkAdmin))
+    {
         exit 3
     }
     deleteService

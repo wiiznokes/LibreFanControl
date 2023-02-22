@@ -4,7 +4,6 @@ using HardwareDaemon.Hardware.Sensor;
 using HardwareDaemon.Item;
 using HardwareDaemon.Item.Behavior;
 using HardwareDaemon.Model;
-using HardwareDaemon.Proto;
 
 namespace HardwareDaemon;
 

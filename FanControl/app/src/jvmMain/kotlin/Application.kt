@@ -2,7 +2,6 @@ import State.hTemps
 import State.iBehaviors
 import State.iTemps
 import io.grpc.ManagedChannelBuilder
-import io.grpc.StatusException
 import kotlinx.coroutines.*
 import model.Settings
 import model.item.ICustomTemp
@@ -10,19 +9,17 @@ import model.item.ILinear
 import model.item.ITarget
 import proto.ConfHelper
 import proto.CrossApi
-import proto.SettingsDir.createDirs
 import proto.SettingsHelper
 import proto.generated.pCrossApi.pOk
 import ui.screen.drawer.settings.getStartMode
 import utils.initSensor
 import java.io.File
-import javax.swing.JOptionPane
 
 
 class Application(
     private val settings: Settings = State.settings,
 ) {
-    
+
 
     private val scope = CoroutineScope(Dispatchers.IO)
 

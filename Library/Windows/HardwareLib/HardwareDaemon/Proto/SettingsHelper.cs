@@ -17,7 +17,7 @@ public static class SettingsHelper
     public static void LoadSettingsFile(Settings settingsState)
     {
         var pSettings = PSettings.Parser.ParseFrom(GetSettingsBytes());
-        var settings =  ParsePSettings(pSettings);
+        var settings = ParsePSettings(pSettings);
         settingsState.UpdateDelay = settings.UpdateDelay;
         settingsState.ConfId = settings.ConfId;
     }
