@@ -115,7 +115,6 @@ public class Worker : BackgroundService
     private  void StopGrpc()
     {
         _grpcApp.StopAsync(_cancellationToken);
-        CancellationTokenSource.Cancel();
         _chatJob.Wait(_cancellationToken);
         _chatJob.Dispose();
     }
