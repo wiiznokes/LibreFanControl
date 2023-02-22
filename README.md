@@ -20,7 +20,7 @@ I intend to produce a v2 with a service system, which will therefore be much lig
 - [x] deserialize confs/setting in C#
 - [ ] communicate between C# and Kotlin (using "service" in .proto)
 - [x] find a way to store conf file in Kotlin, and being able to find that path in C# (must work on Linux either)
-- [ ] find a way to start the service automatically
+- [x] find a way to start the service automatically
 - [ ] think about the structure of the service, and define the stable API
 - [ ] integrate the service with Kotlin
 
@@ -33,18 +33,14 @@ I intend to produce a v2 with a service system, which will therefore be much lig
 
 
 
-## Build
-- proto
-```
-.\gradlew generateProto
-```
-```
-.\gradlew copyGeneratedFiles
-```
-
+## Build (in this order)
 - Lib windows (dotnet7)
 ```
 dotnet build
+```
+- proto
+```
+.\gradlew generateAllProto
 ```
 - App
 ```
