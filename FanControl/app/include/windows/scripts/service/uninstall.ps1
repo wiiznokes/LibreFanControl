@@ -1,4 +1,4 @@
-. .\ServiceManagement.ps1
+. .\Manager.ps1
 
 deleteService
 removeInstallFolder

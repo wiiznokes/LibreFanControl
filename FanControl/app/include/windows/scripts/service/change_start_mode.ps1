@@ -1,6 +1,10 @@
-. .\ServiceManagement.ps1
+. .\Manager.ps1
 
 $startMode = $args[0]
+
+if(!(checkAdmin)) {
+    exit 3
+}
 
 if(!(checkInstall)) {
     exit 2
@@ -11,4 +15,4 @@ if($startMode -eq "auto") {
 }
 
 Set-Service -Name $serviceName -StartupType $startMode
-Write-Output "$serviceName set to $startMode"
+Write-Host "$serviceName set to $startMode"

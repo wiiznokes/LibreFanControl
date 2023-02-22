@@ -1,7 +1,7 @@
 $installPath = "C:\Program Files\FanControlService"
 $serviceName = "FanControlService"
 $exeName = "HardwareDaemon.exe"
-$buildPath = "$PSScriptRoot/../build/"
+$buildPath = "$PSScriptRoot/../../build/"
 
 
 function checkInstall {
