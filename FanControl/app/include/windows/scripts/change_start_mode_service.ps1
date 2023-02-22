@@ -11,8 +11,8 @@ if ($startMode -eq "manual") {
 
 Set-Service -Name $serviceName -StartupType $startMode
 
-$serviceStatus = (Get-Service -Name $serviceName).Status
-Write-Output "$serviceName status: $serviceStatus"
+
+Write-Output "$serviceName set to $startMode"
 
 
 

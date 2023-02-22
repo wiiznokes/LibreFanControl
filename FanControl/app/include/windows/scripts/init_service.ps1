@@ -2,7 +2,7 @@ $installPath = "C:\Program Files\FanControlService"
 $serviceName = "FanControlService"
 $exeName = "HardwareDaemon.exe"
 $startMode = $args[0]
-$buildPath = "$PSScriptRoot/../build"
+$buildPath = "$PSScriptRoot/../build/"
 
 
 if (-not (Get-Service -Name $serviceName -ErrorAction SilentlyContinue)) {
@@ -13,11 +13,16 @@ if (-not (Get-Service -Name $serviceName -ErrorAction SilentlyContinue)) {
         Write-Output "remove previous install folder $installPath"
     }
 
-    # Créer le dossier d'installation
-    New-Item -ItemType Directory -Path $installPath -Force | Out-Null
+    if (Test-Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName") {
+        Remove-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName" -Force -Recurse
+        Write-Output "remove previous registry key for $serviceName"
+    }
 
-    # Copier les fichiers du service dans le dossier d'installation
-    Copy-Item -Path $buildPath -Destination $installPath -Recurse -Force
+
+    New-Item -ItemType Directory -Path $installPath -Force | Out-Null
+    Write-Output "$installPath created"
+    Copy-Item -Path "$buildPath\*" -Destination $installPath -Recurse -Force
+    Write-Output "copy of $buildPath in $installPath finished"
 
     if (Test-Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName") {
         Remove-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName" -Force -Recurse
@@ -25,11 +30,12 @@ if (-not (Get-Service -Name $serviceName -ErrorAction SilentlyContinue)) {
     }
 
     if ($startMode -eq "auto") {
-        # Créer une clé de registre pour le démarrage automatique du service
         New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName" -Force | Out-Null
         Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName" -Name "ImagePath" -Value "$installPath\$exeName"
         Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName" -Name "DisplayName" -Value $serviceName
         Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName" -Name "Start" -Value "2"
+
+        Write-Output "Registry key for $serviceName has been added"
 
         sc.exe create $serviceName binPath= "$installPath\$exeName" start= auto | Out-Null
 

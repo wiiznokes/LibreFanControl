@@ -13,11 +13,9 @@ import proto.CrossApi
 import proto.SettingsDir.createDirs
 import proto.SettingsHelper
 import proto.generated.pCrossApi.pOk
+import ui.screen.drawer.settings.getStartMode
 import utils.initSensor
 import java.io.File
-
-
-private const val SERVICE_FILE = "HardwareDaemon.exe"
 
 
 class Application(
@@ -42,18 +40,13 @@ class Application(
             SettingsHelper.writeSettings()
         }
 
-        /*
-        scope.launch {
-            try {
-                tryOpenService()
-            } catch (e: Exception) {
-                startService()
-                delay(500L)
-                tryOpenService()
-            }
-        }
 
-         */
+
+        scope.launch {
+            startService()
+            delay(500L)
+            tryOpenService()
+        }
     }
 
     fun onStart() {
@@ -120,10 +113,12 @@ class Application(
 
     private fun startService() {
         val command = listOf(
+            "powershell.exe",
+            "-File",
             File(System.getProperty("compose.application.resources.dir"))
-                .resolve(SERVICE_FILE)
+                .resolve("scripts/init_service.ps1")
                 .absolutePath,
-            "app"
+            getStartMode(settings.launchAtStartUp.value)
         )
         ProcessBuilder(command)
             .redirectOutput(ProcessBuilder.Redirect.INHERIT)

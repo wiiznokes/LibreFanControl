@@ -8,6 +8,13 @@ import ui.theme.LocalColors
 import ui.utils.Resources
 
 
+fun getStartMode(launchAtStartUp: Boolean): String {
+    return when (launchAtStartUp) {
+        true -> "auto"
+        false -> "manual"
+    }
+}
+
 fun SettingScope.launchAtStartUp(
     launchAtStartUp: MutableState<Boolean>,
     onLaunchAtStartUpChange: (Boolean) -> Unit,
