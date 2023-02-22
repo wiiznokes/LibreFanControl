@@ -43,7 +43,7 @@ class Application(
 
 
         scope.launch {
-            //startService()
+            startService()
             delay(500L)
             tryOpenService()
         }
@@ -106,15 +106,20 @@ class Application(
     }
 
 
-    private suspend fun tryOpenService() {
-        val res = api.open()
-        if (res != pOk { pIsSuccess = true }) {
-            exit()
-            throw IllegalArgumentException("open service failed")
+    private suspend fun tryOpenService(): Boolean {
+        try {
+            val res = api.open()
+            if (res != pOk { pIsSuccess = true }) {
+                throw IllegalArgumentException("open service failed")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
         }
+        return true
     }
 
-    private fun startService() {
+    private fun startService(): Boolean {
         val initScript = File(System.getProperty("compose.application.resources.dir"))
             .resolve("scripts/service/init.ps1")
             .absolutePath
@@ -135,7 +140,9 @@ class Application(
 
         if (exitCode == 3) {
             println("need admin, exit app")
-            exit()
+            return false
         }
+
+        return true
     }
 }

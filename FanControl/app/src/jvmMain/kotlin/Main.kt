@@ -27,7 +27,6 @@ fun main() {
     application(
         exitProcessOnExit = true
     ) {
-        context = this
         Window(
             visible = true,
             title = Resources.getString("title/app_name"),
@@ -48,6 +47,4 @@ fun main() {
 }
 
 
-fun exit() {
-    context!!.exitApplication()
-}
+
