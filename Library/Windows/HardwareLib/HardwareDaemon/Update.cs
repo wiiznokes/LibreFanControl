@@ -1,31 +1,22 @@
-﻿using System.Collections;
-using HardwareDaemon.Hardware.Control;
-using HardwareDaemon.Hardware.Sensor;
-using HardwareDaemon.Item;
+﻿using HardwareDaemon.Item;
 using HardwareDaemon.Item.Behavior;
 
 namespace HardwareDaemon;
 
 public static class Update
 {
-    public static void CreateUpdateList(
-        ArrayList updateList,
-        ArrayList hControls,
-        ArrayList hTemps,
-        ArrayList iControls,
-        ArrayList iBehaviors,
-        ArrayList iCustomTemps)
+    public static void CreateUpdateList()
     {
-        updateList.Clear();
+        State.UpdateList.Clear();
 
-        foreach (Control iControl in iControls)
+        foreach (var iControl in State.Controls.Values)
         {
             if (!iControl.IsValid)
                 continue;
 
             Behavior? behavior = null;
 
-            foreach (Behavior iBehavior in iBehaviors)
+            foreach (var iBehavior in State.Behaviors.Values)
             {
                 if (iBehavior.Id != iControl.BehaviorId) continue;
                 behavior = iBehavior;
@@ -36,14 +27,14 @@ public static class Update
 
             if (behavior.Type == BehaviorType.Flat)
             {
-                iControl.SetHControl(hControls);
+                iControl.SetHControl();
                 Control.SetSpeed((behavior as Flat)!.Value);
                 continue;
             }
 
             try
             {
-                (behavior as BehaviorWithTemp)!.Init(hTemps, iCustomTemps);
+                (behavior as BehaviorWithTemp)!.Init();
             }
             catch (BehaviorException e)
             {
@@ -51,31 +42,27 @@ public static class Update
                 continue;
             }
 
-            iControl.SetHControl(hControls);
+            iControl.SetHControl();
             iControl.Behavior = (behavior as BehaviorWithTemp)!;
-            updateList.Add(iControl);
+            State.UpdateList.TryAdd(State.UpdateList.Count, iControl);
         }
     }
 
 
-    public static void UpdateUpdateList(ArrayList updateList)
+    public static void UpdateUpdateList()
     {
-        foreach (Control iControl in updateList) Control.SetSpeed(iControl.Behavior.GetSpeed());
+        foreach (var iControl in State.UpdateList.Values) Control.SetSpeed(iControl.Behavior.GetSpeed());
     }
 
-    public static void UpdateAllSensors(
-        ArrayList controls,
-        ArrayList temps,
-        ArrayList fans
-    )
+    public static void UpdateAllSensors()
     {
-        foreach (BaseControl control in controls) control.Update();
-        foreach (BaseSensor temp in temps) temp.Update();
-        foreach (BaseSensor fan in fans) fan.Update();
+        foreach (var control in State.HControls.Values) control.Update();
+        foreach (var temp in State.HTemps.Values) temp.Update();
+        foreach (var fan in State.HFans.Values) fan.Update();
     }
 
-    public static void SetAutoAll(ArrayList hControls)
+    public static void SetAutoAll()
     {
-        foreach (BaseControl hControl in hControls) hControl.SetAuto();
+        foreach (var control in State.HControls.Values) control.SetAuto();
     }
 }

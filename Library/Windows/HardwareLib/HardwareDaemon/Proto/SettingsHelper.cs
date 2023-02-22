@@ -1,5 +1,5 @@
 ﻿using HardwareDaemon.Model;
-using Proto.Generated.Settings;
+using Proto.Generated.PSettings;
 
 namespace HardwareDaemon.Proto;
 
@@ -12,17 +12,22 @@ public class ProtoException : Exception
 
 public static class SettingsHelper
 {
-    private const string SettingsFile = "./conf/settings";
+    private const string SettingsFile = "./.FanControl/settings";
 
-    public static Settings LoadSettingsFile()
+    public static void LoadSettingsFile(Settings settingsState)
     {
         var pSettings = PSettings.Parser.ParseFrom(GetSettingsBytes());
-        return ParsePSettings(pSettings);
+        var settings = ParsePSettings(pSettings);
+        settingsState.UpdateDelay = settings.UpdateDelay;
+        settingsState.ConfId = settings.ConfId;
     }
 
     private static byte[] GetSettingsBytes()
     {
-        var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsFile);
+        var filePath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+            SettingsFile
+        );
         return File.ReadAllBytes(filePath);
     }
 

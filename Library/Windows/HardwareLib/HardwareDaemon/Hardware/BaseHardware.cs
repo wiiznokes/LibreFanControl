@@ -1,8 +1,8 @@
 namespace HardwareDaemon.Hardware;
 
-public abstract class BaseDevice
+public abstract class BaseHardware
 {
-    protected BaseDevice(string name, int index, string id)
+    protected BaseHardware(string name, int index, string id)
     {
         Name = name;
         Index = index;

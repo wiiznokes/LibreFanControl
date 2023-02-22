@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using HardwareDaemon.Hardware.Sensor;
+﻿using HardwareDaemon.Hardware.Sensor;
 
 namespace HardwareDaemon.Item.Behavior;
 
@@ -65,22 +64,22 @@ public abstract class BehaviorWithTemp : Behavior
     public abstract int GetSpeed();
 
 
-    public void Init(ArrayList hTemps, ArrayList iCustomTemps)
+    public void Init()
     {
         if (!IsValid)
             throw new BehaviorException("behavior not valid");
 
         if (IsCustomTemp)
-            foreach (CustomTemp iCustomTemp in iCustomTemps)
+            foreach (var iCustomTemp in State.CustomTemps.Values)
             {
                 if (iCustomTemp.Id != TempId) continue;
 
-                iCustomTemp.Init(hTemps);
+                iCustomTemp.Init();
                 CustomTemp = iCustomTemp;
                 return;
             }
         else
-            foreach (BaseSensor hTemp in hTemps)
+            foreach (var hTemp in State.HTemps.Values)
             {
                 if (hTemp.Id != TempId) continue;
 

@@ -6,7 +6,7 @@ Release
 
 
 ### csharp output
-FanControl/app/include/windows
+FanControl/app/include/windows/build
 
 ### csharp shit
 Library/Windows/HardwareLib/.vs
@@ -24,3 +24,8 @@ Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated
 **/.idea/workspace.xml
 artifacts/
 **/.idea/gradle.xml
+
+
+
+
+service_test.ps1

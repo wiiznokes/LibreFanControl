@@ -11,11 +11,10 @@ import external.getOS
 import model.ConfInfo
 import model.ItemType
 import model.item.*
-import proto.generated.conf.*
-import proto.generated.settings.pConfInfo
-import java.io.File
+import proto.SettingsDir.getConfFile
+import proto.generated.pConf.*
+import proto.generated.pSettings.pConfInfo
 
-private const val CONF_DIR = "conf/"
 
 class ProtoException(msg: String) : Exception(msg)
 
@@ -24,9 +23,7 @@ class ConfHelper {
     companion object {
 
         fun loadConf(confId: String) {
-            val pConf = with(getConfFile(confId)) {
-                PConf.parseFrom(readBytes())
-            }
+            val pConf = PConf.parseFrom(getConfFile(confId).readBytes())
 
             parsePConf(pConf).let {
                 iControls.apply {
@@ -70,10 +67,6 @@ class ConfHelper {
         fun removeConf(confId: String) {
             getConfFile(confId).delete()
         }
-
-
-        private fun getConfFile(confId: String): File = File(System.getProperty("compose.application.resources.dir"))
-            .resolve("$CONF_DIR$confId")
 
 
         data class Conf(

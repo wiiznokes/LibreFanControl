@@ -1,0 +1,80 @@
+syntax = "proto3";
+package proto;
+
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+
+
+option csharp_namespace = "Proto.Generated.PCrossApi";
+option java_package = "proto.generated.pCrossApi";
+
+
+import "proto/conf.proto";
+import "proto/settings.proto";
+
+/**
+  API for communicate with the service
+ */
+
+
+service PCrossApi {
+  rpc POpen (google.protobuf.Empty) returns (POk);
+  rpc PClose (google.protobuf.Empty) returns (google.protobuf.Empty);
+
+  rpc PChangeConf (PConf) returns (POk);
+  rpc PChangeSetting (PSettings) returns (POk);
+
+  rpc PGetHardware (PHardwareTypeMessage) returns (PHardwareList);
+
+  rpc PUpdate (google.protobuf.Empty) returns (stream PUpdateList);
+
+}
+
+
+
+
+message POk {
+  bool PIsSuccess = 1;
+}
+
+
+enum PHardwareType {
+  CONTROL = 0;
+  TEMP = 1;
+  FAN = 2;
+}
+
+message PHardwareTypeMessage {
+  PHardwareType PType = 1;
+}
+
+
+
+
+/**
+  structure for fetch sensors info (controls/temps/fans)
+ */
+
+message PHardware {
+  string PName = 1;
+  string PId = 2;
+}
+
+message PHardwareList {
+  repeated PHardware PHardwares = 1;
+}
+
+/**
+  structure for fetch sensors value (controls/temps/fans)
+ */
+
+message PUpdate {
+  int32 PIndex = 1;
+  int32 PValue = 2;
+}
+
+message PUpdateList {
+  PHardwareType PType = 1;
+  repeated PUpdate PUpdates = 2;
+}

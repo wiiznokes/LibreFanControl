@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using HardwareDaemon.Hardware.Control;
+﻿using HardwareDaemon.Hardware.Control;
 using HardwareDaemon.Item.Behavior;
 
 namespace HardwareDaemon.Item;
@@ -25,9 +24,9 @@ public class Control
     private string? HControlId { get; }
     private BaseControl HControl { get; set; } = null!;
 
-    public void SetHControl(ArrayList hControls)
+    public void SetHControl()
     {
-        foreach (BaseControl hControl in hControls)
+        foreach (var hControl in State.HControls.Values)
             if (hControl.Id == HControlId)
                 HControl = hControl;
     }
@@ -35,7 +34,7 @@ public class Control
 
     public static void SetSpeed(int value)
     {
-        Console.WriteLine("set control: " + value);
+        Console.WriteLine("[SERVICE] set control: " + value);
         //HControl.SetSpeed(value);
     }
 }
