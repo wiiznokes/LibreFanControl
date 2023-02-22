@@ -12,8 +12,8 @@ import proto.generated.pSettings.*
 import java.io.File
 
 object SettingsDir {
-    private val dir = File(System.getProperty("user.home"))
-        .resolve(".FanControl")
+
+    private val dir = File("C:\\ProgramData\\FanControl")
 
     private val confDir = dir.resolve("conf")
 

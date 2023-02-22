@@ -1,3 +1,5 @@
+import Main.Companion.context
+import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import ui.screen.home
@@ -5,11 +7,19 @@ import ui.theme.fanControlTheme
 import ui.utils.Resources
 
 
+class Main {
+    companion object {
+        var context: ApplicationScope? = null
+    }
+}
+
+val app: Application = Application()
+
 fun main() {
     /**
      * need onCreate for initialization on setting/conf ect...
      */
-    val app = Application().apply {
+    app.apply {
         onCreate()
         onStart()
     }
@@ -35,4 +45,6 @@ fun main() {
         }
     }
 }
+
+
 

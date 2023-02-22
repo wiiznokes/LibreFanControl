@@ -1,11 +1,10 @@
-. .\Manager.ps1
+. $PSScriptRoot/Manager.ps1
+
 
 $startMode = $args[0]
 
-if (!(checkInstall))
-{
-    if (!(checkAdmin))
-    {
+if(!(checkInstall)) {
+    if(!(checkAdmin)) {
         exit 3
     }
     deleteService

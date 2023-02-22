@@ -6,7 +6,6 @@ namespace HardwareDaemon.Proto;
 
 public static class ConfHelper
 {
-    private const string ConfDir = "./.FanControl/conf/";
 
     public static void LoadConfFile(string confId)
     {
@@ -16,11 +15,7 @@ public static class ConfHelper
 
     private static byte[] GetConfBytes(string confId)
     {
-        var filePath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            ConfDir + confId
-        );
-        return File.ReadAllBytes(filePath);
+        return File.ReadAllBytes(SettingsDir.GetConfFile(confId));
     }
 
 

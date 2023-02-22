@@ -1,4 +1,4 @@
-. .\Manager.ps1
+. $PSScriptRoot/Manager.ps1
 
 deleteService
 removeInstallFolder

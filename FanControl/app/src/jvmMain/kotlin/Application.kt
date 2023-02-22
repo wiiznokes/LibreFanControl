@@ -1,6 +1,7 @@
 import State.hTemps
 import State.iBehaviors
 import State.iTemps
+import androidx.compose.ui.window.ApplicationScope
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.*
 import model.Settings
@@ -39,7 +40,7 @@ class Application(
             SettingsHelper.writeSettings()
         }
 
-        /*
+
 
         scope.launch {
             startService()
@@ -47,7 +48,7 @@ class Application(
             tryOpenService()
         }
 
-         */
+
     }
 
     fun onStart() {
@@ -105,25 +106,43 @@ class Application(
     }
 
 
-    private suspend fun tryOpenService() {
-        val res = api.open()
-        if (res != pOk { pIsSuccess = false }) {
-            throw IllegalArgumentException("open service failed")
+    private suspend fun tryOpenService(): Boolean {
+        try {
+            val res = api.open()
+            if (res != pOk { pIsSuccess = true }) {
+                throw IllegalArgumentException("open service failed")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
         }
+        return true
     }
 
-    private fun startService() {
+    private fun startService(): Boolean {
+        val initScript = File(System.getProperty("compose.application.resources.dir"))
+            .resolve("scripts/service/init.ps1")
+            .absolutePath
+        val startMode = getStartMode(settings.launchAtStartUp.value)
+
         val command = listOf(
             "powershell.exe",
             "-File",
-            File(System.getProperty("compose.application.resources.dir"))
-                .resolve("scripts/init_service.ps1")
-                .absolutePath,
-            getStartMode(settings.launchAtStartUp.value)
+            initScript,
+            startMode
         )
-        ProcessBuilder(command)
+        val process = ProcessBuilder(command)
             .redirectOutput(ProcessBuilder.Redirect.INHERIT)
             .redirectError(ProcessBuilder.Redirect.INHERIT)
             .start()
+
+        val exitCode = process.waitFor()
+
+        if (exitCode == 3) {
+            println("need admin, exit app")
+            return false
+        }
+
+        return true
     }
 }

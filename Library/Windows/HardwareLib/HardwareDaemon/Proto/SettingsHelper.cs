@@ -10,9 +10,38 @@ public class ProtoException : Exception
     }
 }
 
+public static class SettingsDir
+{
+    private const string Dir = "C:\\ProgramData\\FanControl";
+
+    private static readonly string ConfDir = Path.Combine(
+        Dir,
+        "conf"
+    );
+    
+    public static readonly string SettingsFile = Path.Combine(
+        Dir,
+        "settings"
+    );
+    
+    
+    public static string GetConfFile(string confId)
+    {
+        return Path.Combine(
+            ConfDir,
+            confId
+        );
+    }
+
+    public static bool CheckFiles()
+    {
+        return File.Exists(SettingsFile);
+    }
+}
+
+
 public static class SettingsHelper
 {
-    private const string SettingsFile = "./.FanControl/settings";
 
     public static void LoadSettingsFile(Settings settingsState)
     {
@@ -24,11 +53,7 @@ public static class SettingsHelper
 
     private static byte[] GetSettingsBytes()
     {
-        var filePath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            SettingsFile
-        );
-        return File.ReadAllBytes(filePath);
+        return File.ReadAllBytes(SettingsDir.SettingsFile);
     }
 
 
