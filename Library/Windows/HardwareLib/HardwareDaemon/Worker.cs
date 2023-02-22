@@ -32,6 +32,11 @@ public class Worker : BackgroundService
 
     private bool StartService()
     {
+        if (!SettingsDir.CheckFiles())
+        {
+            Console.WriteLine("[SERVICE] settings file don't exist");
+            return false;
+        }
         SettingsHelper.LoadSettingsFile(State.Settings);
         StartGrpc();
 
@@ -80,11 +85,12 @@ public class Worker : BackgroundService
 
     public override Task StopAsync(CancellationToken cancellationToken)
     {
+        Console.WriteLine("[SERVICE] StopAsync");
+        
         StopGrpc();
         Update.SetAutoAll();
         HardwareManager.Stop();
-
-        Console.WriteLine("[SERVICE] StopAsync");
+        
         return base.StopAsync(cancellationToken);
     }
 
@@ -109,8 +115,23 @@ public class Worker : BackgroundService
 
     private void StopGrpc()
     {
-        _grpcApp.StopAsync(_cancellationToken);
-        _chatJob.Wait(_cancellationToken);
-        _chatJob.Dispose();
+
+        RunSafely(() => _grpcApp.StopAsync(_cancellationToken));
+        // ReSharper disable once AccessToDisposedClosure
+        RunSafely(() => _chatJob.Wait(_cancellationToken));
+        // ReSharper disable once AccessToDisposedClosure
+        RunSafely(() => _chatJob.Dispose());
+    }
+
+    private static void RunSafely(Action fun)
+    {
+        try
+        {
+            fun();
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
     }
 }

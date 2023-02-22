@@ -1,19 +1,16 @@
-. .\Manager.ps1
+. $PSScriptRoot/Manager.ps1
 
 $startMode = $args[0]
 
-if (!(checkAdmin))
-{
+if(!(checkAdmin)) {
     exit 3
 }
 
-if (!(checkInstall))
-{
+if(!(checkInstall)) {
     exit 2
 }
 
-if ($startMode -eq "auto")
-{
+if($startMode -eq "auto") {
     addRegistry
 }
 

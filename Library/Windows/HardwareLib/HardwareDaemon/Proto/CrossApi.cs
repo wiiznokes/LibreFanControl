@@ -18,6 +18,8 @@ public class CrossApi : PCrossApi.PCrossApiBase
     {
         Console.WriteLine("service open");
 
+        State.IsOpen = true;
+        
         var response = new POk
         {
             PIsSuccess = true
