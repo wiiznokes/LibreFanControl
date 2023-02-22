@@ -16,6 +16,7 @@ import proto.generated.pCrossApi.pOk
 import ui.screen.drawer.settings.getStartMode
 import utils.initSensor
 import java.io.File
+import javax.swing.JOptionPane
 
 
 class Application(
@@ -33,6 +34,9 @@ class Application(
     private lateinit var jobUpdate: Job
 
     fun onCreate() {
+        println("admin : ${isAdminMode()}")
+
+
         if (SettingsHelper.isSettings()) {
             println("load setting")
             SettingsHelper.loadSettings()
@@ -125,4 +129,11 @@ class Application(
             .redirectError(ProcessBuilder.Redirect.INHERIT)
             .start()
     }
+}
+
+
+fun isAdminMode(): Boolean {
+    val groups = System.getenv("USERDOMAIN").split("\\").toTypedArray()
+    val principals = java.security.Principal::class.java.getMethod("getGroups").invoke(System.getProperty("user.name")) as Array<*>
+    return principals.any { principal -> groups.contains(principal.toString()) }
 }
