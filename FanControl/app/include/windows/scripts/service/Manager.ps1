@@ -67,7 +67,7 @@ function stopService {
         return $false
     }
 
-    if (!(isRunning)) {
+    if (isRunning) {
         Stop-Service -Name $serviceName
         Write-Host "$serviceName has been stopped"
     }
