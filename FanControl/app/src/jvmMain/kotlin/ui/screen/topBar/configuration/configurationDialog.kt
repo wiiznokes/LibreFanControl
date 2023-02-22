@@ -156,7 +156,6 @@ private fun dialog(
                     onClick = {
                         if (viewModel.addConfiguration(text.value, id))
                             enabled.value = false
-                        println("add conf")
                     },
                     icon = Resources.getIcon("select/check24"),
                     text = Resources.getString("common/add"),
