@@ -1,19 +1,16 @@
 package ui.screen.dialog
 
-import State
+import FState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -35,7 +32,7 @@ private fun baseDialog(
     onEnterKey: () -> Unit,
     topContent: @Composable ColumnScope.() -> Unit,
     bottomContent: @Composable RowScope.() -> Unit,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.SpaceAround
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.SpaceAround,
 ) {
     Dialog(
         visible = enabled.value,
@@ -139,10 +136,10 @@ fun baseDialogButton(
 @Composable
 fun needAdminDialog() {
     baseDialog(
-        enabled = State.ui.adminDialogExpanded,
+        enabled = FState.ui.adminDialogExpanded,
         title = Resources.getString("dialog/title/need_admin"),
         onEnterKey = {
-            State.ui.adminDialogExpanded.value = false
+            FState.ui.adminDialogExpanded.value = false
         },
         topContent = {
             baseDialogText(
@@ -152,7 +149,7 @@ fun needAdminDialog() {
         bottomContent = {
             baseDialogButton(
                 onClick = {
-                    State.ui.adminDialogExpanded.value = false
+                    FState.ui.adminDialogExpanded.value = false
                 },
                 icon = Resources.getIcon("select/check24"),
                 text = Resources.getString("common/ok")
@@ -166,15 +163,15 @@ fun needAdminDialog() {
 @Composable
 fun errorDialog() {
     baseDialog(
-        enabled = State.ui.errorDialogExpanded,
+        enabled = FState.ui.errorDialogExpanded,
         title = Resources.getString("dialog/title/error"),
         onEnterKey = {
-            State.ui.errorDialogExpanded.value = false
-            State.ui.errorDialogContent.value = ""
+            FState.ui.errorDialogExpanded.value = false
+            FState.ui.errorDialogContent.value = ""
         },
         topContent = {
             baseDialogText(
-                text = State.ui.errorDialogContent.value
+                text = FState.ui.errorDialogContent.value
             )
         },
         bottomContent = {
@@ -186,8 +183,8 @@ fun errorDialog() {
             )
             baseDialogButton(
                 onClick = {
-                    State.ui.errorDialogExpanded.value = false
-                    State.ui.errorDialogContent.value = ""
+                    FState.ui.errorDialogExpanded.value = false
+                    FState.ui.errorDialogContent.value = ""
                 },
                 text = Resources.getString("common/copy")
             )

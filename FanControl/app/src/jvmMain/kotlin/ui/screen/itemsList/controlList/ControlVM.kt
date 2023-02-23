@@ -1,6 +1,6 @@
 package ui.screen.itemsList.controlList
 
-import State
+import FState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.HControl
 import model.item.BaseI
@@ -12,9 +12,9 @@ import model.item.IControl
 import ui.utils.Resources
 
 class ControlVM(
-    val iControls: SnapshotStateList<IControl> = State.iControls,
-    val iBehaviors: SnapshotStateList<BaseIBehavior> = State.iBehaviors,
-    val hControls: SnapshotStateList<HControl> = State.hControls,
+    val iControls: SnapshotStateList<IControl> = FState.iControls,
+    val iBehaviors: SnapshotStateList<BaseIBehavior> = FState.iBehaviors,
+    val hControls: SnapshotStateList<HControl> = FState.hControls,
 ) {
     fun remove(index: Int) {
         iControls.removeAt(index)

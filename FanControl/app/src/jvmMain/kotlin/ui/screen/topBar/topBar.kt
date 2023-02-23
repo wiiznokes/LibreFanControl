@@ -1,6 +1,6 @@
 package ui.screen.topBar
 
-import State
+import FState
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.IconButton
@@ -123,7 +123,7 @@ fun topBarBody(
 
                 IconButton(
                     onClick = {
-                        State.ui.editModeActivated.value = !State.ui.editModeActivated.value
+                        FState.ui.editModeActivated.value = !FState.ui.editModeActivated.value
                     }
                 ) {
                     Icon(
@@ -165,7 +165,7 @@ fun topBarAddItem() {
         navigationIcon = {
             IconButton(
                 onClick = {
-                    State.ui.addItemExpanded.value = false
+                    FState.ui.addItemExpanded.value = false
                 }
             ) {
                 Icon(

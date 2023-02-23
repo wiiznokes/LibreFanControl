@@ -1,6 +1,6 @@
 package model.item
 
-import State.hTemps
+import FState.hTemps
 import androidx.compose.runtime.MutableState
 import model.ItemType
 import model.hardware.HTemp

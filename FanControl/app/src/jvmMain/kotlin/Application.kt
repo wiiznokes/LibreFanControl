@@ -1,8 +1,8 @@
 import Application.Api.api
 import Application.Api.scope
-import State.hTemps
-import State.iBehaviors
-import State.iTemps
+import FState.hTemps
+import FState.iBehaviors
+import FState.iTemps
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.*
 import model.Settings
@@ -18,7 +18,7 @@ import java.io.File
 
 
 class Application(
-    private val settings: Settings = State.settings,
+    private val settings: Settings = FState.settings,
 ) {
 
     object Api {
@@ -32,7 +32,6 @@ class Application(
 
     private var calculateValueJob: Job? = null
     private var fetchSensorValueJob: Job? = null
-
 
 
     fun onStart() {
@@ -141,7 +140,7 @@ class Application(
             startMode
         )
 
-        val res =  ProcessBuilder(command)
+        val res = ProcessBuilder(command)
             .redirectOutput(ProcessBuilder.Redirect.INHERIT)
             .redirectError(ProcessBuilder.Redirect.INHERIT)
             .start()
@@ -150,9 +149,10 @@ class Application(
         return when (res) {
             0 -> true
             3 -> {
-                State.ui.adminDialogExpanded.value = true
+                FState.ui.adminDialogExpanded.value = true
                 false
             }
+
             else -> false
         }
     }

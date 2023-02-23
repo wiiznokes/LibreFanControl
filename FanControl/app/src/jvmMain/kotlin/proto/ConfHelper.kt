@@ -2,11 +2,11 @@ package proto
 
 import Application.Api.api
 import Application.Api.scope
-import State.iBehaviors
-import State.iControls
-import State.iFans
-import State.iTemps
-import State.settings
+import FState.iBehaviors
+import FState.iControls
+import FState.iFans
+import FState.iTemps
+import FState.settings
 import external.OS
 import external.OsException
 import external.getOS

@@ -1,6 +1,6 @@
 package ui.screen.topBar.configuration
 
-import State
+import FState
 import model.ConfInfo
 import model.Settings
 import model.item.BaseI.Companion.checkNameTaken
@@ -9,7 +9,7 @@ import proto.ConfHelper
 import proto.SettingsHelper
 
 class ConfigurationVM(
-    val settings: Settings = State.settings,
+    val settings: Settings = FState.settings,
 ) {
 
     fun saveConfiguration(name: String, index: Int, id: String?) {

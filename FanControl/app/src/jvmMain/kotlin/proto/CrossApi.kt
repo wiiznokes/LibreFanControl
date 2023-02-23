@@ -1,7 +1,7 @@
 package proto
 
-import State
-import State.showError
+import FState
+import FState.showError
 import com.google.protobuf.Empty
 import io.grpc.ManagedChannel
 import kotlinx.coroutines.flow.Flow
@@ -9,9 +9,11 @@ import kotlinx.coroutines.runBlocking
 import model.hardware.HControl
 import model.hardware.HFan
 import model.hardware.HTemp
-import proto.generated.pCrossApi.*
+import proto.generated.pCrossApi.PCrossApiGrpcKt
+import proto.generated.pCrossApi.PHardwareType
+import proto.generated.pCrossApi.PUpdateList
+import proto.generated.pCrossApi.pHardwareTypeMessage
 import java.io.Closeable
-import java.lang.IllegalStateException
 import java.util.concurrent.TimeUnit
 
 class CrossApi(
@@ -44,6 +46,7 @@ class CrossApi(
                     println("open success")
                     true
                 }
+
                 false -> {
                     println("open service returned false")
                     false
@@ -59,7 +62,7 @@ class CrossApi(
         if (!isActive()) return
 
         val pControls = stub.pGetHardware(pHardwareTypeMessage { pType = PHardwareType.CONTROL })
-        State.hControls.addAll(pControls.pHardwaresList.map {
+        FState.hControls.addAll(pControls.pHardwaresList.map {
             HControl(
                 name = it.pName,
                 id = it.pId
@@ -67,7 +70,7 @@ class CrossApi(
         })
 
         val pTemps = stub.pGetHardware(pHardwareTypeMessage { pType = PHardwareType.TEMP })
-        State.hTemps.addAll(pTemps.pHardwaresList.map {
+        FState.hTemps.addAll(pTemps.pHardwaresList.map {
             HTemp(
                 name = it.pName,
                 id = it.pId
@@ -75,7 +78,7 @@ class CrossApi(
         })
 
         val pFans = stub.pGetHardware(pHardwareTypeMessage { pType = PHardwareType.FAN })
-        State.hFans.addAll(pFans.pHardwaresList.map {
+        FState.hFans.addAll(pFans.pHardwaresList.map {
             HFan(
                 name = it.pName,
                 id = it.pId
@@ -83,7 +86,6 @@ class CrossApi(
         })
         println("getHardware success")
     }
-
 
 
     suspend fun startUpdate() {
@@ -96,19 +98,22 @@ class CrossApi(
                 when (updateList.pType) {
                     PHardwareType.CONTROL -> {
                         updateList.pUpdatesList.forEach {
-                            State.hControls[it.pIndex].value.value = it.pValue
+                            FState.hControls[it.pIndex].value.value = it.pValue
                         }
                     }
+
                     PHardwareType.TEMP -> {
                         updateList.pUpdatesList.forEach {
-                            State.hTemps[it.pIndex].value.value = it.pValue
+                            FState.hTemps[it.pIndex].value.value = it.pValue
                         }
                     }
+
                     PHardwareType.FAN -> {
                         updateList.pUpdatesList.forEach {
-                            State.hFans[it.pIndex].value.value = it.pValue
+                            FState.hFans[it.pIndex].value.value = it.pValue
                         }
                     }
+
                     else -> throw ProtoException("unknown control type")
                 }
             }
@@ -139,7 +144,6 @@ class CrossApi(
         }
 
     }
-
 
 
     suspend fun settingsAndConfChange() {

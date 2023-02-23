@@ -1,7 +1,6 @@
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.flow.MutableStateFlow
 import model.Settings
 import model.hardware.HControl
 import model.hardware.HFan
@@ -12,7 +11,7 @@ import model.item.IControl
 import model.item.IFan
 
 
-object State {
+object FState {
 
     val hControls: SnapshotStateList<HControl> = mutableStateListOf()
     val hTemps: SnapshotStateList<HTemp> = mutableStateListOf()
@@ -25,7 +24,7 @@ object State {
 
     var settings: Settings = Settings()
 
-    val ui  = UiState()
+    val ui = UiState()
 
     fun showError(error: Exception) {
         if (!error.message.isNullOrBlank()) {

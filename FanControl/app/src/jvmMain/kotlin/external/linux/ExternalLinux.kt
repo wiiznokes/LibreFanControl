@@ -1,8 +1,8 @@
 package external.linux
 
-import State.hControls
-import State.hFans
-import State.hTemps
+import FState.hControls
+import FState.hFans
+import FState.hTemps
 import model.hardware.HControl
 import model.hardware.HFan
 import model.hardware.HTemp

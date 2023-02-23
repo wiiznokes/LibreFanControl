@@ -1,6 +1,6 @@
 package ui.screen.itemsList.behaviorList.linearAndTarget.target
 
-import State
+import FState
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -62,7 +62,7 @@ fun targetBody(
 
         val expanded = remember(
             target.id,
-            State.settings.confId.value
+            FState.settings.confId.value
         ) {
             mutableStateOf(false)
         }
@@ -80,7 +80,7 @@ fun targetBody(
 
                 val text: MutableState<String> = remember(
                     target.id,
-                    State.settings.confId.value
+                    FState.settings.confId.value
                 ) {
                     mutableStateOf(targetValues[i].toString())
                 }

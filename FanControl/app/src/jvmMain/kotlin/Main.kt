@@ -22,7 +22,7 @@ fun main() {
             }
         ) {
             fanControlTheme(
-                State.settings.theme.value
+                FState.settings.theme.value
             ) {
                 app.onStart()
 

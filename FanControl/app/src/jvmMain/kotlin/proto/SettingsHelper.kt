@@ -1,9 +1,8 @@
 package proto
 
-import Application
 import Application.Api.api
 import Application.Api.scope
-import State.settings
+import FState.settings
 import com.google.protobuf.NullValue
 import kotlinx.coroutines.launch
 import model.ConfInfo
