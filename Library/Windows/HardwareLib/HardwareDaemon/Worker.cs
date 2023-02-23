@@ -11,7 +11,7 @@ public class Worker : BackgroundService
 {
     private const int Port = 5002;
 
-    private const int MaxDelay = 5000;
+    private const int MaxDelay = 10000;
     private const int Delay = 500;
     private static readonly CancellationTokenSource CancellationTokenSource = new();
     private readonly IHostApplicationLifetime _appLifetime;
@@ -37,7 +37,9 @@ public class Worker : BackgroundService
             Console.WriteLine("[SERVICE] settings file don't exist");
             return false;
         }
+        HardwareManager.Start();
         SettingsHelper.LoadSettingsFile(State.Settings);
+
         StartGrpc();
 
         if (State.Settings.ConfId == null)
@@ -49,18 +51,14 @@ public class Worker : BackgroundService
                 totalDelay += Delay;
             }
 
-            if (!State.IsOpen)
-            {
-                Console.WriteLine("[SERVICE] delay before open passed");
-                return false;
-            }
+            if (State.IsOpen) return true;
+            
+            Console.WriteLine("[SERVICE] delay before open passed");
+            return false;
         }
-        else
-        {
-            ConfHelper.LoadConfFile(State.Settings.ConfId);
-        }
-
-        HardwareManager.Start();
+        
+        ConfHelper.LoadConfFile(State.Settings.ConfId);
+        
         return true;
     }
 
@@ -69,19 +67,30 @@ public class Worker : BackgroundService
     {
         if (!StartService())
         {
-            _appLifetime.StopApplication();
-            return;
+            AutoStopService();
         }
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            HardwareManager.Update();
-
+            if (State.Settings.ConfId == null && !State.IsOpen)
+            {
+                Console.WriteLine("[SERVICE] service close and config id == null -> stop service");
+                break;
+            }
+            
             Console.WriteLine("[SERVICE] update");
-
-            await Task.Delay(1000, stoppingToken);
+            
+            await Task.Delay(State.Settings.UpdateDelay * 1000, stoppingToken);
         }
+        
+        AutoStopService();
     }
+
+    private void AutoStopService()
+    {
+        _appLifetime.StopApplication();
+    }
+    
 
     public override Task StopAsync(CancellationToken cancellationToken)
     {

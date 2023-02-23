@@ -20,7 +20,6 @@ fun main() {
      * need onCreate for initialization on setting/conf ect...
      */
     app.apply {
-        onCreate()
         onStart()
     }
 
