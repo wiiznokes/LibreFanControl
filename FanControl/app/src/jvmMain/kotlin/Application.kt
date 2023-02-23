@@ -65,12 +65,11 @@ class Application(
             startUpdate()
         }
 
-        /*
-        fetchSensorValueJob = scope.launch {
-            api.update()
-        }
 
-         */
+        fetchSensorValueJob = scope.launch {
+            startJob.join()
+            api.startUpdate()
+        }
     }
 
 
@@ -80,7 +79,7 @@ class Application(
         updateShouldStop = true
         runBlocking {
             calculateValueJob.cancelAndJoin()
-            //fetchSensorValueJob.cancelAndJoin()
+            fetchSensorValueJob.cancelAndJoin()
         }
     }
 

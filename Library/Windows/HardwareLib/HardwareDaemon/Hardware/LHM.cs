@@ -61,7 +61,9 @@ public class Lhm : IVisitor
 
     public void CreateHardware()
     {
-        var index = 0;
+        var controlsIndex = 0;
+        var tempsIndex = 0;
+        var fansIndex = 0;
         var hardwareArray = _mComputer.Hardware;
         foreach (var hardware in hardwareArray)
         {
@@ -78,19 +80,20 @@ public class Lhm : IVisitor
                 switch (sensor.SensorType)
                 {
                     case SensorType.Control:
-                        State.HControls.TryAdd(State.HControls.Count, new LhmControl(id, sensor, name, index));
+                        State.HControls.TryAdd(State.HControls.Count, new LhmControl(id, sensor, name, controlsIndex));
+                        controlsIndex++;
                         break;
                     case SensorType.Temperature:
-                        State.HTemps.TryAdd(State.HTemps.Count, new LhmTemp(id, sensor, name, index));
+                        State.HTemps.TryAdd(State.HTemps.Count, new LhmTemp(id, sensor, name, tempsIndex));
+                        tempsIndex++;
                         break;
                     case SensorType.Fan:
-                        State.HFans.TryAdd(State.HFans.Count, new LhmFanSpeed(id, sensor, name, index));
+                        State.HFans.TryAdd(State.HFans.Count, new LhmFanSpeed(id, sensor, name, fansIndex));
+                        fansIndex++;
                         break;
 
                     default: throw new Exception("wrong sensor type");
                 }
-
-                index++;
             }
 
             var subHardwareArray = hardware.SubHardware;
@@ -108,19 +111,20 @@ public class Lhm : IVisitor
                     switch (subSensor.SensorType)
                     {
                         case SensorType.Control:
-                            State.HControls.TryAdd(State.HControls.Count, new LhmControl(id, subSensor, name, index));
+                            State.HControls.TryAdd(State.HControls.Count, new LhmControl(id, subSensor, name, controlsIndex));
+                            controlsIndex++;
                             break;
                         case SensorType.Temperature:
-                            State.HTemps.TryAdd(State.HTemps.Count, new LhmTemp(id, subSensor, name, index));
+                            State.HTemps.TryAdd(State.HTemps.Count, new LhmTemp(id, subSensor, name, tempsIndex));
+                            tempsIndex++;
                             break;
                         case SensorType.Fan:
-                            State.HFans.TryAdd(State.HFans.Count, new LhmFanSpeed(id, subSensor, name, index));
+                            State.HFans.TryAdd(State.HFans.Count, new LhmFanSpeed(id, subSensor, name, fansIndex));
+                            fansIndex++;
                             break;
 
                         default: throw new Exception("wrong sensor type");
                     }
-
-                    index++;
                 }
             }
         }
