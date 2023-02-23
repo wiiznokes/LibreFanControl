@@ -83,26 +83,29 @@ public class CrossApi : PCrossApi.PCrossApiBase
         return updateList;
     }
 
-    public override Task PUpdate(Empty request, IServerStreamWriter<PUpdateList> responseStream, ServerCallContext context)
+    public override async Task PStartStream(Empty request, IServerStreamWriter<PUpdateList> responseStream, ServerCallContext context)
     {
-        HardwareManager.Update();
-        Update.UpdateAllSensors();
+        while (!context.CancellationToken.IsCancellationRequested && State.IsOpen)
+        {
+            HardwareManager.Update();
+            Update.UpdateAllSensors();
 
-        var updateList = CreatePUpdate(PHardwareType.Control, State.HControls.Values);
-        responseStream.WriteAsync(updateList);
+            var updateList = CreatePUpdate(PHardwareType.Control, State.HControls.Values);
+            
+            await responseStream.WriteAsync(updateList, context.CancellationToken);
         
-        updateList = CreatePUpdate(PHardwareType.Temp, State.HTemps.Values);
-        responseStream.WriteAsync(updateList);
+            updateList = CreatePUpdate(PHardwareType.Temp, State.HTemps.Values);
+            await responseStream.WriteAsync(updateList, context.CancellationToken);
         
-        updateList = CreatePUpdate(PHardwareType.Fan, State.HFans.Values);
-        responseStream.WriteAsync(updateList);
-        
-        
-        return Task.FromResult(responseStream.WriteAsync(updateList));
+            updateList = CreatePUpdate(PHardwareType.Fan, State.HFans.Values);
+            await responseStream.WriteAsync(updateList, context.CancellationToken);
+            
+            await Task.Delay(State.Settings.UpdateDelay * 1000, context.CancellationToken);
+        }
     }
 
 
-    public override Task<Empty> PClose(Empty request, ServerCallContext context)
+    public override Task<Empty> PCloseStream(Empty request, ServerCallContext context)
     {
         Console.WriteLine("[SERVICE] close");
         State.IsOpen = false;

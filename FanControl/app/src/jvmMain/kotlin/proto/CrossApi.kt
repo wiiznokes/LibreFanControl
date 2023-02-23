@@ -67,8 +67,8 @@ class CrossApi(
 
 
 
-    suspend fun update() {
-        val stream: Flow<PUpdateList> = stub.pUpdate(Empty.getDefaultInstance())
+    suspend fun startUpdate() {
+        val stream: Flow<PUpdateList> = stub.pStartStream(Empty.getDefaultInstance())
 
         stream.collect { updateList ->
             when (updateList.pType) {
@@ -97,7 +97,7 @@ class CrossApi(
     override fun close() {
         try {
             runBlocking{
-                stub.pClose(Empty.getDefaultInstance())
+                stub.pCloseStream(Empty.getDefaultInstance())
             }
         } catch (e: Exception) {
             e.printStackTrace()

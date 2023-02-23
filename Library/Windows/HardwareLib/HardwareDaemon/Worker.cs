@@ -51,16 +51,13 @@ public class Worker : BackgroundService
                 totalDelay += Delay;
             }
 
-            if (!State.IsOpen)
-            {
-                Console.WriteLine("[SERVICE] delay before open passed");
-                return false;
-            }
+            if (State.IsOpen) return true;
+            
+            Console.WriteLine("[SERVICE] delay before open passed");
+            return false;
         }
-        else
-        {
-            ConfHelper.LoadConfFile(State.Settings.ConfId);
-        }
+        
+        ConfHelper.LoadConfFile(State.Settings.ConfId);
         
         return true;
     }
@@ -70,17 +67,30 @@ public class Worker : BackgroundService
     {
         if (!StartService())
         {
-            _appLifetime.StopApplication();
-            return;
+            AutoStopService();
         }
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            //Console.WriteLine("[SERVICE] update");
-
-            await Task.Delay(1000, stoppingToken);
+            if (State.Settings.ConfId == null && !State.IsOpen)
+            {
+                Console.WriteLine("[SERVICE] service close and config id == null -> stop service");
+                break;
+            }
+            
+            Console.WriteLine("[SERVICE] update");
+            
+            await Task.Delay(State.Settings.UpdateDelay * 1000, stoppingToken);
         }
+        
+        AutoStopService();
     }
+
+    private void AutoStopService()
+    {
+        _appLifetime.StopApplication();
+    }
+    
 
     public override Task StopAsync(CancellationToken cancellationToken)
     {
