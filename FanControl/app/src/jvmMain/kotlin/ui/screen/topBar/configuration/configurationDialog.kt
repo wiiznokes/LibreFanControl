@@ -18,8 +18,8 @@ import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.delay
 import model.item.BaseI
 import model.item.BaseI.Companion.checkNameTaken
-import ui.component.managerButton
 import ui.component.managerNameTextField
+import ui.screen.dialog.baseDialogButton
 import ui.theme.LocalColors
 import ui.utils.Resources
 
@@ -144,7 +144,7 @@ private fun dialog(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                managerButton(
+                baseDialogButton(
                     onClick = {
                         enabled.value = false
                         println("cancel conf")
@@ -152,7 +152,7 @@ private fun dialog(
                     icon = Resources.getIcon("select/close/close24"),
                     text = Resources.getString("common/cancel")
                 )
-                managerButton(
+                baseDialogButton(
                     onClick = {
                         if (viewModel.addConfiguration(text.value, id))
                             enabled.value = false

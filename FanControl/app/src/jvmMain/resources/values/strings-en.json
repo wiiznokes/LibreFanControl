@@ -119,11 +119,13 @@
   },
   "fan_speed": "fan speed",
   "common": {
+    "ok": "Ok",
     "add": "Add",
     "cancel": "Cancel",
     "none": "None",
     "open": "Open",
-    "exit": "Exit"
+    "exit": "Exit",
+    "copy": "Copy"
   },
   "exit": {
     "title": "Exit setting",
@@ -138,6 +140,9 @@
       "launch_at_start_up": "Launch at start up",
       "conf_not_save": "Config is not save",
       "error": "Error"
-    }
+    },
+    "admin": "The app need to be admin to create/modify the service. Please restart the app with admin privilege",
+    "launch_at_start_up": "Do you want to automatically start FanControl at start up ? You will not be disturbed, a service will be launched in the background.",
+    "conf_not_save": "The current configuration is not save, what do you want to do ?"
   }
 }

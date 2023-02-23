@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ui.screen.addItem.addItem
 import ui.screen.body.body
+import ui.screen.dialog.errorDialog
+import ui.screen.dialog.needAdminDialog
 import ui.screen.drawer.drawerContent
 import ui.screen.topBar.topBarAddItem
 import ui.screen.topBar.topBarBody
@@ -108,12 +110,8 @@ fun home() {
 
 
 
-
-
-
-
-
-
-
-
-
+@Composable
+fun initDialogs() {
+    needAdminDialog()
+    errorDialog()
+}

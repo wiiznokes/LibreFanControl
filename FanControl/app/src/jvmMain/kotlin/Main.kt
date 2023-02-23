@@ -1,6 +1,7 @@
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import ui.screen.home
+import ui.screen.initDialogs
 import ui.theme.fanControlTheme
 import ui.utils.Resources
 
@@ -25,9 +26,9 @@ fun main() {
             ) {
                 app.onStart()
 
+                initDialogs()
                 home()
             }
-
         }
     }
 }
