@@ -68,34 +68,19 @@ public class Worker : BackgroundService
     {
         if (!StartService())
         {
-            AutoStopService();
+            AutoCancel();
         }
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            if (SettingsHasChange)
-            {
-                SettingsHelper.LoadSettingsFile(State.Settings);
-                SettingsHasChange = false;
-            }
-
-            if (SettingsAndConfHasChange)
-            {
-                SettingsHelper.LoadSettingsFile(State.Settings);
-                
-                if (State.Settings.ConfId != null)
-                {
-                    ConfHelper.LoadConfFile(State.Settings.ConfId);
-                }
-                
-                SettingsAndConfHasChange = false;
-            }
+            CheckChange();
 
             if (State.Settings.ConfId == null && !IsOpen)
             {
                 Console.WriteLine("[SERVICE] service close and config id == null -> stop service");
                 break;
             }
+            
 
             if (State.Settings.ConfId != null)
             {
@@ -109,25 +94,33 @@ public class Worker : BackgroundService
             await Task.Delay(State.Settings.UpdateDelay * 1000, stoppingToken);
         }
         
-        AutoStopService();
+        AutoCancel();
     }
 
-    private void AutoStopService()
-    {
-        _appLifetime.StopApplication();
-    }
-    
 
-    public override Task StopAsync(CancellationToken cancellationToken)
+    private void CheckChange()
     {
-        Console.WriteLine("[SERVICE] StopAsync");
-        
-        StopGrpc();
-        Update.SetAutoAll();
-        HardwareManager.Stop();
-        
-        return base.StopAsync(cancellationToken);
+        if (SettingsHasChange)
+        {
+            SettingsHelper.LoadSettingsFile(State.Settings);
+            SettingsHasChange = false;
+        }
+
+        if (SettingsAndConfHasChange)
+        {
+            SettingsHelper.LoadSettingsFile(State.Settings);
+                
+            if (State.Settings.ConfId != null)
+            {
+                ConfHelper.LoadConfFile(State.Settings.ConfId);
+            }
+                
+            SettingsAndConfHasChange = false;
+        }
     }
+
+
+
 
     private void StartGrpc()
     {
@@ -157,7 +150,25 @@ public class Worker : BackgroundService
         // ReSharper disable once AccessToDisposedClosure
         RunSafely(() => _chatJob.Dispose());
     }
+    
+    private void AutoCancel()
+    {
+        _appLifetime.StopApplication();
+    }
 
+    
+    
+    public override Task StopAsync(CancellationToken cancellationToken)
+    {
+        Console.WriteLine("[SERVICE] StopAsync");
+        
+        StopGrpc();
+        Update.SetAutoAll();
+        HardwareManager.Stop();
+        
+        return base.StopAsync(cancellationToken);
+    }
+    
     private static void RunSafely(Action fun)
     {
         try
