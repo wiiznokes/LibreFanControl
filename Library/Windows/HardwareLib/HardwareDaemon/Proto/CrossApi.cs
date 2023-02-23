@@ -85,6 +85,9 @@ public class CrossApi : PCrossApi.PCrossApiBase
 
     public override Task PUpdate(Empty request, IServerStreamWriter<PUpdateList> responseStream, ServerCallContext context)
     {
+        HardwareManager.Update();
+        Update.UpdateAllSensors();
+
         var updateList = CreatePUpdate(PHardwareType.Control, State.HControls.Values);
         responseStream.WriteAsync(updateList);
         
