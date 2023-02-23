@@ -7,8 +7,7 @@
     "behavior": "Behavior",
     "sensor": "Sensor",
     "fan": "Fan",
-    "temp": "Temperature",
-    "add_config": "Add configuration"
+    "temp": "Temperature"
   },
   "icon_content_description": {
     "open_drawer": "open setting",
@@ -91,7 +90,7 @@
     "language": "Language",
     "theme": "Theme",
     "exit_on_close": "Quit when closing",
-    "launch_at_startup": "Launch at startup",
+    "launch_at_start_up": "Launch at startup",
     "donate": "Support",
     "info": "Info",
     "info_sub_title": "Dive into app working",
@@ -131,5 +130,14 @@
     "remember_choice": "Remember choice",
     "exit": "Exit app",
     "background": "Keep in background"
+  },
+  "dialog": {
+    "title": {
+      "need_admin": "need admin",
+      "add_config": "Add config",
+      "launch_at_start_up": "Launch at start up",
+      "conf_not_save": "Config is not save",
+      "error": "Error"
+    }
   }
 }

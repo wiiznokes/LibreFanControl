@@ -40,7 +40,7 @@ fun baseItemBody(
     baseItem(
         color = LocalColors.current.mainContainer,
         onColor = LocalColors.current.onMainContainer,
-        editModeActivated = State.editModeActivated.collectAsState().value,
+        editModeActivated = State.ui.addItemExpanded.value,
         icon = icon,
         editIcon = {
             Icon(

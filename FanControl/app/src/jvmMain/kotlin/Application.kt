@@ -30,28 +30,31 @@ class Application(
     }
 
 
-
-
-
-    private lateinit var calculateValueJob: Job
-    private lateinit var fetchSensorValueJob: Job
+    private var calculateValueJob: Job? = null
+    private var fetchSensorValueJob: Job? = null
 
 
 
     fun onStart() {
-
         if (SettingsHelper.isSettings()) {
-            println("load setting")
             SettingsHelper.loadSettings()
         } else {
             SettingsHelper.writeSettings()
         }
 
+        var startServiceSuccess = false
+
         val startJob = scope.launch {
-            startService()
+
+            if (!startService()) {
+                startServiceSuccess = false
+                return@launch
+            }
+
             delay(500L)
             if (!api.open()) {
-                println("can't open service, exit app")
+                startServiceSuccess = false
+                return@launch
             }
             api.getHardware()
 
@@ -64,17 +67,18 @@ class Application(
                     }
                 }
             }
+            startServiceSuccess = true
         }
 
         calculateValueJob = scope.launch {
             startJob.join()
-            startUpdate()
+            if (startServiceSuccess) startUpdate()
         }
 
 
         fetchSensorValueJob = scope.launch {
             startJob.join()
-            api.startUpdate()
+            if (startServiceSuccess) api.startUpdate()
         }
     }
 
@@ -85,8 +89,8 @@ class Application(
         api.close()
         updateShouldStop = true
         runBlocking {
-            calculateValueJob.cancelAndJoin()
-            fetchSensorValueJob.cancelAndJoin()
+            calculateValueJob?.cancelAndJoin()
+            fetchSensorValueJob?.cancelAndJoin()
         }
     }
 
@@ -134,20 +138,22 @@ class Application(
             "powershell.exe",
             "-File",
             initScript,
-            "debug"
+            startMode
         )
-        val process = ProcessBuilder(command)
+
+        val res =  ProcessBuilder(command)
             .redirectOutput(ProcessBuilder.Redirect.INHERIT)
             .redirectError(ProcessBuilder.Redirect.INHERIT)
             .start()
+            .waitFor()
 
-        val exitCode = process.waitFor()
-
-        if (exitCode == 3) {
-            println("need admin, exit app")
-            return false
+        return when (res) {
+            0 -> true
+            3 -> {
+                State.ui.adminDialogExpanded.value = true
+                false
+            }
+            else -> false
         }
-
-        return true
     }
 }

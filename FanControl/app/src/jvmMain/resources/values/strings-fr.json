@@ -7,8 +7,7 @@
     "behavior": "Comportement",
     "sensor": "Capteur",
     "fan": "Fan",
-    "temp": "Température",
-    "add_config": "Ajouter configuration"
+    "temp": "Température"
   },
   "icon_content_description": {
     "open_drawer": "ouvrir paramètre",
@@ -91,7 +90,7 @@
     "language": "Langue",
     "theme": "Thème",
     "exit_on_close": "Quitter à la fermeture",
-    "launch_at_startup": "Lancer au démarrage",
+    "launch_at_start_up": "Lancer au démarrage",
     "donate": "Support",
     "info": "Information",
     "info_sub_title": "Plonger dans le fonctionnement",
@@ -131,5 +130,14 @@
     "remember_choice": "Sauvegarder le choix",
     "exit": "Quitter l'application",
     "background": "Garder en arrière-plan"
+  },
+  "dialog": {
+    "title": {
+      "need_admin": "Besoin admin",
+      "add_config": "Ajouter configuration",
+      "launch_at_start_up": "Lancer au démarage",
+      "conf_not_save": "Config is not save",
+      "error": "Error"
+    }
   }
 }

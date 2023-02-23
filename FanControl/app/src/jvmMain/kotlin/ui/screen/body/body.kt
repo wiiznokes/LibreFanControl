@@ -1,5 +1,6 @@
 package ui.screen.body
 
+import State
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
@@ -39,8 +40,6 @@ private val scrollBarHeight = 20.dp
 fun body(
     addItemAnimationState: MutableTransitionState<Boolean>,
 ) {
-
-    val viewModel = BodyVM()
 
     // body + addItem button
     Box(
@@ -89,7 +88,8 @@ fun body(
             }
         }
 
-        val addItemExpanded = viewModel.addItemExpanded.collectAsState()
+        val addItemExpanded = State.ui.addItemExpanded
+
 
         val visibleState = remember { MutableTransitionState(!addItemExpanded.value) }
         // visible only when add item transition has finish to avoid icon show to early
@@ -117,7 +117,10 @@ fun body(
                         else floatingActionButtonPadding
                     ),
                 containerColor = LocalColors.current.error,
-                onClick = { viewModel.expandAddItem() }
+                onClick = {
+                    State.ui.editModeActivated.value = false
+                    addItemExpanded.value = true
+                }
             ) {
                 Icon(
                     painter = Resources.getIcon("sign/plus/add40"),

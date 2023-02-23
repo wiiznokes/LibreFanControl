@@ -81,7 +81,7 @@ private fun dialog(
             //println("close dialog")
             enabled.value = false
         },
-        title = Resources.getString("title/add_config"),
+        title = Resources.getString("dialog/title/add_config"),
         focusable = enabled.value,
         onKeyEvent = {
             //println("on key event, ${it.key}")

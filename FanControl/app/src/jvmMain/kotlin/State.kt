@@ -1,4 +1,5 @@
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.MutableStateFlow
 import model.Settings
@@ -22,16 +23,27 @@ object State {
     val iTemps: SnapshotStateList<BaseITemp> = mutableStateListOf()
     val iFans: SnapshotStateList<IFan> = mutableStateListOf()
 
-
-    val addItemExpanded: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val editModeActivated: MutableStateFlow<Boolean> = MutableStateFlow(false)
-
     var settings: Settings = Settings()
 
+    val ui  = UiState()
+
+    fun showError(error: Exception) {
+        if (!error.message.isNullOrBlank()) {
+            ui.errorDialogContent.value = error.message.toString()
+            ui.errorDialogExpanded.value = true
+        }
+    }
 }
 
+class UiState {
+    val addItemExpanded = mutableStateOf(false)
+    val editModeActivated = mutableStateOf(false)
 
-enum class Source {
-    ADD,
-    BODY
+    val saveConfDialogExpanded = mutableStateOf(false)
+    val adminDialogExpanded = mutableStateOf(false)
+    val errorDialogExpanded = mutableStateOf(false)
+    val launchAtStartUpDialogExpanded = mutableStateOf(false)
+    val confIsNotSaveDialogExpanded = mutableStateOf(false)
+
+    val errorDialogContent = mutableStateOf("")
 }

@@ -1,6 +1,7 @@
 package proto
 
 import State
+import State.showError
 import com.google.protobuf.Empty
 import io.grpc.ManagedChannel
 import kotlinx.coroutines.flow.Flow
@@ -49,7 +50,7 @@ class CrossApi(
                 }
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            showError(e)
             false
         }
     }
