@@ -1,3 +1,5 @@
+import Application.Api.api
+import Application.Api.scope
 import State.hTemps
 import State.iBehaviors
 import State.iTemps
@@ -19,13 +21,17 @@ class Application(
     private val settings: Settings = State.settings,
 ) {
 
+    object Api {
+        private val channel = ManagedChannelBuilder.forAddress("localhost", 5002)
+            .usePlaintext()
+            .build()
+        val api = CrossApi(channel)
+        val scope = CoroutineScope(Dispatchers.IO)
+    }
 
-    private val scope = CoroutineScope(Dispatchers.IO)
 
-    private val channel = ManagedChannelBuilder.forAddress("localhost", 5002)
-        .usePlaintext()
-        .build()
-    private val api = CrossApi(channel)
+
+
 
     private lateinit var calculateValueJob: Job
     private lateinit var fetchSensorValueJob: Job
@@ -74,6 +80,7 @@ class Application(
 
 
     private var updateShouldStop = false
+
     fun onStop() {
         api.close()
         updateShouldStop = true

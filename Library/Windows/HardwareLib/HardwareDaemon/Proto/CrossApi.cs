@@ -1,7 +1,10 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using HardwareDaemon.Hardware;
+using Proto.Generated.PConf;
 using Proto.Generated.PCrossApi;
+using Proto.Generated.PSettings;
+using static HardwareDaemon.State.ServiceState;
 
 namespace HardwareDaemon.Proto;
 
@@ -19,7 +22,7 @@ public class CrossApi : PCrossApi.PCrossApiBase
     {
         Console.WriteLine("[SERVICE] open");
 
-        State.IsOpen = true;
+        IsOpen = true;
         
         var response = new POk
         {
@@ -85,7 +88,7 @@ public class CrossApi : PCrossApi.PCrossApiBase
 
     public override async Task PStartStream(Empty request, IServerStreamWriter<PUpdateList> responseStream, ServerCallContext context)
     {
-        while (!context.CancellationToken.IsCancellationRequested && State.IsOpen)
+        while (!context.CancellationToken.IsCancellationRequested && IsOpen)
         {
             HardwareManager.Update();
             Update.UpdateAllSensors();
@@ -108,8 +111,36 @@ public class CrossApi : PCrossApi.PCrossApiBase
     public override Task<Empty> PCloseStream(Empty request, ServerCallContext context)
     {
         Console.WriteLine("[SERVICE] close");
-        State.IsOpen = false;
+        IsOpen = false;
         
         return Task.FromResult(new Empty());
+    }
+
+    public override Task<POk> PSettingsAndConfChange(Empty request, ServerCallContext context)
+    {
+        Console.WriteLine("[SERVICE] confChange");
+
+        SettingsAndConfHasChange = true;
+        
+        var response = new POk
+        {
+            PIsSuccess = true
+        };
+
+        return Task.FromResult(response);
+    }
+
+    public override Task<POk> PSettingsChange(Empty request, ServerCallContext context)
+    {
+        Console.WriteLine("[SERVICE] settings Change");
+
+        SettingsHasChange = true;
+        
+        var response = new POk
+        {
+            PIsSuccess = true
+        };
+
+        return Task.FromResult(response);
     }
 }

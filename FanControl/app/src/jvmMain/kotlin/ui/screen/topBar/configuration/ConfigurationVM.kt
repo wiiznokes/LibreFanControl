@@ -32,15 +32,16 @@ class ConfigurationVM(
         }
         println("save conf: id = $id")
         settings.confInfoList[index].name.value = name
-        SettingsHelper.writeSettings()
+        SettingsHelper.writeSettings(false)
         ConfHelper.writeConf(id)
-
     }
 
     fun onChangeConfiguration(id: String?) {
-        settings.confId.value = id
         if (id != null)
             ConfHelper.loadConf(id)
+
+        settings.confId.value = id
+        SettingsHelper.writeSettings()
     }
 
     fun addConfiguration(name: String, id: String): Boolean {
@@ -59,8 +60,7 @@ class ConfigurationVM(
 
         settings.confId.value = id
         settings.confInfoList.add(ConfInfo(id, name))
-        SettingsHelper.writeSettings()
-
+        SettingsHelper.writeSettings(false)
         ConfHelper.writeConf(id)
 
         return true
@@ -68,11 +68,13 @@ class ConfigurationVM(
 
     fun removeConfiguration(id: String, index: Int) {
         println("remove conf: id = $id")
+
+        ConfHelper.removeConf(id)
+
         settings.confInfoList.removeAt(index)
         if (settings.confId.value == id) {
             settings.confId.value = null
+            SettingsHelper.writeSettings()
         }
-        SettingsHelper.writeSettings()
-        ConfHelper.removeConf(id)
     }
 }

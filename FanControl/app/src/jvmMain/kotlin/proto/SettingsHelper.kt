@@ -1,7 +1,11 @@
 package proto
 
+import Application
+import Application.Api.api
+import Application.Api.scope
 import State.settings
 import com.google.protobuf.NullValue
+import kotlinx.coroutines.launch
 import model.ConfInfo
 import model.Languages
 import model.Settings
@@ -62,9 +66,14 @@ class SettingsHelper {
         }
 
 
-        fun writeSettings() {
+        fun writeSettings(notifyService: Boolean = true) {
             createPSetting(settings).let {
                 settingsFile.writeBytes(it.toByteArray())
+            }
+            if (notifyService) {
+                scope.launch {
+                    api.settingsChange()
+                }
             }
         }
 

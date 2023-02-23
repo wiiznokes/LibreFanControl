@@ -4,6 +4,7 @@ using HardwareDaemon.Proto;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using static HardwareDaemon.State.ServiceState;
 
 namespace HardwareDaemon;
 
@@ -45,13 +46,13 @@ public class Worker : BackgroundService
         if (State.Settings.ConfId == null)
         {
             var totalDelay = 0;
-            while (!State.IsOpen && totalDelay < MaxDelay)
+            while (!IsOpen && totalDelay < MaxDelay)
             {
                 Thread.Sleep(Delay);
                 totalDelay += Delay;
             }
 
-            if (State.IsOpen) return true;
+            if (IsOpen) return true;
             
             Console.WriteLine("[SERVICE] delay before open passed");
             return false;
@@ -72,13 +73,38 @@ public class Worker : BackgroundService
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            if (State.Settings.ConfId == null && !State.IsOpen)
+            if (SettingsHasChange)
+            {
+                SettingsHelper.LoadSettingsFile(State.Settings);
+                SettingsHasChange = false;
+            }
+
+            if (SettingsAndConfHasChange)
+            {
+                SettingsHelper.LoadSettingsFile(State.Settings);
+                
+                if (State.Settings.ConfId != null)
+                {
+                    ConfHelper.LoadConfFile(State.Settings.ConfId);
+                }
+                
+                SettingsAndConfHasChange = false;
+            }
+
+            if (State.Settings.ConfId == null && !IsOpen)
             {
                 Console.WriteLine("[SERVICE] service close and config id == null -> stop service");
                 break;
             }
-            
-            Console.WriteLine("[SERVICE] update");
+
+            if (State.Settings.ConfId != null)
+            {
+                Console.WriteLine("[SERVICE] update");
+            }
+            else
+            {
+                Console.WriteLine("[SERVICE] no update");
+            }
             
             await Task.Delay(State.Settings.UpdateDelay * 1000, stoppingToken);
         }

@@ -1,5 +1,7 @@
 package proto
 
+import Application.Api.api
+import Application.Api.scope
 import State.iBehaviors
 import State.iControls
 import State.iFans
@@ -8,6 +10,7 @@ import State.settings
 import external.OS
 import external.OsException
 import external.getOS
+import kotlinx.coroutines.launch
 import model.ConfInfo
 import model.ItemType
 import model.item.*
@@ -46,20 +49,15 @@ class ConfHelper {
         }
 
 
-        fun writeConf(confId: String) {
-            createPConf(
-                Conf(
-                    confInfo = settings.confInfoList.first {
-                        it.id == confId
-                    },
-                    iControls = iControls,
-                    iBehaviors = iBehaviors,
-                    iTemps = iTemps,
-                    iFans = iFans
-                )
-            ).let {
+        fun writeConf(confId: String, notifyService: Boolean = true) {
+            createPConf(getConf(confId)).let {
                 with(getConfFile(confId)) {
                     writeBytes(it.toByteArray())
+                }
+            }
+            if (notifyService) {
+                scope.launch {
+                    api.settingsAndConfChange()
                 }
             }
         }
@@ -76,6 +74,16 @@ class ConfHelper {
             val iBehaviors: MutableList<BaseIBehavior> = mutableListOf(),
             val iTemps: MutableList<BaseITemp> = mutableListOf(),
             val iFans: MutableList<IFan> = mutableListOf(),
+        )
+
+        fun getConf(confId: String): Conf = Conf(
+            confInfo = settings.confInfoList.first {
+                it.id == confId
+            },
+            iControls = iControls,
+            iBehaviors = iBehaviors,
+            iTemps = iTemps,
+            iFans = iFans
         )
 
 
