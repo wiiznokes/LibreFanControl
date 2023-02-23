@@ -13,11 +13,10 @@ I intend to produce a v2 with a service system, which will therefore be much lig
 
 ## V2 road map
 - [ ] Implement dialogs
-- [ ] Implement streams functions
-- [ ] Upgrade app update
+- [x] Implement streams functions
 - [ ] Upgrade service update
 - [ ] add light color theme
-- [ ] Finalize App and Service lifecycle
+- [x] Finalize App and Service lifecycle
 
 
 ## Feature
