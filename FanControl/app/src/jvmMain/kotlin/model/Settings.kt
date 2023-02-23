@@ -1,5 +1,6 @@
 package model
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
@@ -23,6 +24,14 @@ class Settings(
     val firstStart = mutableStateOf(firstStart)
     val launchAtStartUp = mutableStateOf(launchAtStartUp)
     val degree = mutableStateOf(degree)
+
+
+    fun getIndexInfo(_confId: String? = confId.value) = when(_confId) {
+        null -> null
+        else -> confInfoList.indexOfFirst {
+            it.id == confId.value
+        }
+    }
 }
 
 

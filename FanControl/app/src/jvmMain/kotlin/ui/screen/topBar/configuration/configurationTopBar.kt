@@ -1,5 +1,6 @@
 package ui.screen.topBar.configuration
 
+import FState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,26 +31,20 @@ val viewModel = ConfigurationVM()
 fun configuration() {
     if (viewModel.settings.confInfoList.isNotEmpty()) {
 
-        val setting = viewModel.settings
+        val settings = viewModel.settings
+        val index = FState.settings.getIndexInfo()
 
-        val index = when (setting.confId.value) {
-            null -> null
-            else -> setting.confInfoList.indexOfFirst {
-                it.id == setting.confId.value
-            }
-        }
-
-        val text = remember(setting.confId.value) {
-            when (setting.confId.value) {
+        val text = remember(settings.confId.value) {
+            when (index) {
                 null -> mutableStateOf(Resources.getString("common/none"))
-                else -> mutableStateOf(setting.confInfoList[index!!].name.value)
+                else -> mutableStateOf(settings.confInfoList[index].name.value)
             }
         }
 
 
-        if (setting.confId.value != null) {
+        if (settings.confId.value != null) {
             IconButton(
-                onClick = { viewModel.saveConfiguration(text.value, index!!, setting.confId.value) }
+                onClick = { viewModel.saveConfiguration(text.value) }
             ) {
                 Icon(
                     painter = Resources.getIcon("topBar/save40"),
@@ -62,8 +57,8 @@ fun configuration() {
 
         configurationListChoice(
             text = text,
-            confInfoList = setting.confInfoList,
-            currentId = setting.confId.value,
+            confInfoList = settings.confInfoList,
+            currentId = settings.confId.value,
             currentIndex = index,
         )
 

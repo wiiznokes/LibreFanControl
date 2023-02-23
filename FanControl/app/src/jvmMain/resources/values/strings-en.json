@@ -125,7 +125,10 @@
     "none": "None",
     "open": "Open",
     "exit": "Exit",
-    "copy": "Copy"
+    "copy": "Copy",
+    "new": "New",
+    "override": "Override",
+    "quit": "Quit"
   },
   "exit": {
     "title": "Exit setting",

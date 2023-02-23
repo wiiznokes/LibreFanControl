@@ -1,5 +1,6 @@
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import ui.screen.dialog.confNotSaveDialog
 import ui.screen.home
 import ui.screen.initDialogs
 import ui.theme.fanControlTheme
@@ -17,6 +18,10 @@ fun main() {
             title = Resources.getString("title/app_name"),
             icon = Resources.getIcon("app/toys_fan48"),
             onCloseRequest = {
+                if ()
+
+
+
                 app.onStop()
                 exitApplication()
             }
@@ -26,8 +31,14 @@ fun main() {
             ) {
                 app.onStart()
 
-                initDialogs()
                 home()
+
+                confNotSaveDialog(
+                    onQuit =  {
+                        exitApplication()
+                    },
+                    confName = ""
+                )
             }
         }
     }

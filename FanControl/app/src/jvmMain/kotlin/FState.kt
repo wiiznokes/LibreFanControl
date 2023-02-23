@@ -1,5 +1,7 @@
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.Settings
 import model.hardware.HControl
@@ -26,23 +28,37 @@ object FState {
 
     val ui = UiState()
 
-    fun showError(error: Exception) {
-        if (!error.message.isNullOrBlank()) {
-            ui.errorDialogContent.value = error.message.toString()
-            ui.errorDialogExpanded.value = true
-        }
-    }
 }
+
+
 
 class UiState {
     val addItemExpanded = mutableStateOf(false)
     val editModeActivated = mutableStateOf(false)
 
-    val saveConfDialogExpanded = mutableStateOf(false)
-    val adminDialogExpanded = mutableStateOf(false)
-    val errorDialogExpanded = mutableStateOf(false)
-    val launchAtStartUpDialogExpanded = mutableStateOf(false)
-    val confIsNotSaveDialogExpanded = mutableStateOf(false)
+    fun showError(error: Exception) {
+        if (!error.message.isNullOrBlank()) {
+            errorDialogContent.value = error.message.toString()
+            dialogExpanded.value = Dialog.SHOW_ERROR
+        }
+    }
+    fun closeShowError() {
+        errorDialogContent.value = ""
+        dialogExpanded.value = Dialog.NONE
+    }
+
+    enum class Dialog {
+        NONE,
+        SAVE_CONF,
+        NEED_ADMIN,
+        SHOW_ERROR,
+        LAUNCH_AT_START_UP,
+        CONF_IS_NOT_SAVE
+    }
+    val dialogExpanded = mutableStateOf(Dialog.NONE)
 
     val errorDialogContent = mutableStateOf("")
+
+    @get:Composable
+    val confName = remember { mutableStateOf(FState.settings.getIndexInfo()) }
 }

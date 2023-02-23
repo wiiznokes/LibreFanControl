@@ -12,10 +12,13 @@ class ConfigurationVM(
     val settings: Settings = FState.settings,
 ) {
 
-    fun saveConfiguration(name: String, index: Int, id: String?) {
-        if (id == null) {
+    fun saveConfiguration(name: String): Boolean {
+        val confId = FState.settings.confId.value
+        val index = FState.settings.getIndexInfo(confId)
+
+        if (confId == null || index == null) {
             println("save conf: id == null -> return")
-            return
+            return false
         }
 
         try {
@@ -28,12 +31,13 @@ class ConfigurationVM(
             )
         } catch (e: NameException) {
             println("save conf: NameException -> return")
-            return
+            return false
         }
-        println("save conf: id = $id")
+        println("save conf: id = $confId")
         settings.confInfoList[index].name.value = name
         SettingsHelper.writeSettings(false)
-        ConfHelper.writeConf(id)
+        ConfHelper.writeConf(confId)
+        return true
     }
 
     fun onChangeConfiguration(id: String?) {

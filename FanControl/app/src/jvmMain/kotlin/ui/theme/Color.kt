@@ -41,6 +41,8 @@ data class CustomColors(
     val onMainBackground: Color,
     val mainContainer: Color,
     val onMainContainer: Color,
+    val mainSurface: Color,
+    val onMainSurface: Color,
 
 
     val secondHeader: Color,
@@ -77,6 +79,8 @@ val darkColors = CustomColors(
     onMainBackground = Color.White,
     mainContainer = BlueGrey,
     onMainContainer = Color.White,
+    mainSurface = Color.Black,
+    onMainSurface = Color.White,
 
 
     secondHeader = Grey,
@@ -114,6 +118,8 @@ val lightColors = CustomColors(
     onMainBackground = Color.White,
     mainContainer = BlueGrey,
     onMainContainer = Color.White,
+    mainSurface = MateGrey,
+    onMainSurface = Color.White,
 
     secondHeader = Grey,
     onSecondHeader = Color.White,
