@@ -30,7 +30,9 @@ class Application(
     private lateinit var calculateValueJob: Job
     private lateinit var fetchSensorValueJob: Job
 
-    fun onCreate() {
+
+
+    fun onStart() {
 
         if (SettingsHelper.isSettings()) {
             println("load setting")
@@ -39,41 +41,46 @@ class Application(
             SettingsHelper.writeSettings()
         }
 
-        scope.launch {
+        val startJob = scope.launch {
             startService()
             delay(500L)
             if (!api.open()) {
                 println("can't open service, exit app")
             }
-        }
-    }
+            api.getHardware()
 
-    fun onStart() {
-        settings.confId.value.let {
-            when (it) {
-                null -> initSensor()
-                else -> {
-                    println("load conf $it")
-                    ConfHelper.loadConf(it)
+            settings.confId.value.let {
+                when (it) {
+                    null -> initSensor()
+                    else -> {
+                        println("load conf $it")
+                        ConfHelper.loadConf(it)
+                    }
                 }
             }
         }
 
         calculateValueJob = scope.launch {
+            startJob.join()
             startUpdate()
         }
+
+        /*
         fetchSensorValueJob = scope.launch {
             api.update()
         }
+
+         */
     }
 
 
     private var updateShouldStop = false
     fun onStop() {
+        api.close()
         updateShouldStop = true
         runBlocking {
             calculateValueJob.cancelAndJoin()
-            fetchSensorValueJob.cancelAndJoin()
+            //fetchSensorValueJob.cancelAndJoin()
         }
     }
 

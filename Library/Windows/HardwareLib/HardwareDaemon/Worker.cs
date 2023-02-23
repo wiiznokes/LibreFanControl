@@ -11,7 +11,7 @@ public class Worker : BackgroundService
 {
     private const int Port = 5002;
 
-    private const int MaxDelay = 5000;
+    private const int MaxDelay = 10000;
     private const int Delay = 500;
     private static readonly CancellationTokenSource CancellationTokenSource = new();
     private readonly IHostApplicationLifetime _appLifetime;
@@ -37,7 +37,9 @@ public class Worker : BackgroundService
             Console.WriteLine("[SERVICE] settings file don't exist");
             return false;
         }
+        HardwareManager.Start();
         SettingsHelper.LoadSettingsFile(State.Settings);
+
         StartGrpc();
 
         if (State.Settings.ConfId == null)
@@ -59,8 +61,7 @@ public class Worker : BackgroundService
         {
             ConfHelper.LoadConfFile(State.Settings.ConfId);
         }
-
-        HardwareManager.Start();
+        
         return true;
     }
 
@@ -75,9 +76,7 @@ public class Worker : BackgroundService
 
         while (!stoppingToken.IsCancellationRequested)
         {
-            HardwareManager.Update();
-
-            Console.WriteLine("[SERVICE] update");
+            //Console.WriteLine("[SERVICE] update");
 
             await Task.Delay(1000, stoppingToken);
         }

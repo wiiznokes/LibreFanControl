@@ -22,13 +22,11 @@ service PCrossApi {
   rpc POpen (google.protobuf.Empty) returns (POk);
   rpc PClose (google.protobuf.Empty) returns (google.protobuf.Empty);
 
-  rpc PChangeConf (PConf) returns (POk);
-  rpc PChangeSetting (PSettings) returns (POk);
-
   rpc PGetHardware (PHardwareTypeMessage) returns (PHardwareList);
-
   rpc PUpdate (google.protobuf.Empty) returns (stream PUpdateList);
 
+  rpc PChangeConf (PConf) returns (POk);
+  rpc PChangeSetting (PSettings) returns (POk);
 }
 
 

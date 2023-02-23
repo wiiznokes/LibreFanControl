@@ -5,6 +5,9 @@ import com.google.protobuf.Empty
 import io.grpc.ManagedChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
+import model.hardware.HControl
+import model.hardware.HFan
+import model.hardware.HTemp
 import proto.generated.pCrossApi.*
 import java.io.Closeable
 import java.util.concurrent.TimeUnit
@@ -20,7 +23,10 @@ class CrossApi(
             val res = stub.pOpen(Empty.getDefaultInstance())
 
             when (res.pIsSuccess) {
-                true -> true
+                true -> {
+                    println("open success")
+                    true
+                }
                 false -> {
                     println("open service returned false")
                     false
@@ -32,6 +38,32 @@ class CrossApi(
         }
     }
 
+    suspend fun getHardware() {
+        val pControls = stub.pGetHardware(pHardwareTypeMessage { pType = PHardwareType.CONTROL })
+        State.hControls.addAll(pControls.pHardwaresList.map {
+            HControl(
+                name = it.pName,
+                id = it.pId
+            )
+        })
+
+        val pTemps = stub.pGetHardware(pHardwareTypeMessage { pType = PHardwareType.TEMP })
+        State.hTemps.addAll(pTemps.pHardwaresList.map {
+            HTemp(
+                name = it.pName,
+                id = it.pId
+            )
+        })
+
+        val pFans = stub.pGetHardware(pHardwareTypeMessage { pType = PHardwareType.FAN })
+        State.hFans.addAll(pFans.pHardwaresList.map {
+            HFan(
+                name = it.pName,
+                id = it.pId
+            )
+        })
+        println("getHardware success")
+    }
 
 
 
