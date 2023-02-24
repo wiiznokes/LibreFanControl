@@ -25,6 +25,7 @@ import ui.screen.addItem.addItem
 import ui.screen.body.body
 import ui.screen.dialog.confNotSaveDialog
 import ui.screen.dialog.errorDialog
+import ui.screen.dialog.launchAtStartUpDialog
 import ui.screen.dialog.needAdminDialog
 import ui.screen.drawer.drawerContent
 import ui.screen.topBar.topBarAddItem
@@ -118,4 +119,5 @@ fun initDialogs() {
     needAdminDialog()
     errorDialog()
     confNotSaveDialog()
+    launchAtStartUpDialog()
 }

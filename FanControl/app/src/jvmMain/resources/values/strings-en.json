@@ -128,7 +128,9 @@
     "copy": "Copy",
     "new": "New",
     "override": "Override",
-    "quit": "Quit"
+    "quit": "Quit",
+    "yes": "Yes",
+    "no":"No"
   },
   "exit": {
     "title": "Exit setting",

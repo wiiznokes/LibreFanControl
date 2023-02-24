@@ -26,7 +26,9 @@ fun main() {
             icon = Resources.getIcon("app/toys_fan48"),
             onCloseRequest = {
                 CoroutineScope(Dispatchers.Default).launch {
+                    println("stop: ${FState.ui.dialogExpanded.value}")
                     if (FState.settings.firstStart.value) {
+                        println("LAUNCH_AT_START_UP")
                         FState.settings.firstStart.value = false
                         SettingsHelper.writeSettings(false)
                         FState.ui.dialogExpanded.value = UiState.Dialog.LAUNCH_AT_START_UP
@@ -36,7 +38,10 @@ fun main() {
                         delay(200L)
                     }
 
-                    if (ConfHelper.isConfSave(FState.settings.confId.value, FState.ui.confName.value)) {
+                    println("stop: ${FState.ui.dialogExpanded.value}")
+
+                    if (!ConfHelper.isConfSave(FState.settings.confId.value, FState.ui.confName.value)) {
+                        println("CONF_IS_NOT_SAVE")
                         FState.ui.dialogExpanded.value = UiState.Dialog.CONF_IS_NOT_SAVE
                     }
 
