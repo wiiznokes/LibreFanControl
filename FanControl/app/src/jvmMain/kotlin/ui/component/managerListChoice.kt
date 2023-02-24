@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces
-import ui.utils.Resources
+import utils.Resources
 
 
 data class ListChoiceColors(

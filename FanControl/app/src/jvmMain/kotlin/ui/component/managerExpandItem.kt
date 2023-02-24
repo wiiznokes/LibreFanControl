@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import ui.theme.LocalColors
-import ui.utils.Resources
+import utils.Resources
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

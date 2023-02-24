@@ -8,10 +8,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import proto.ConfHelper
 import proto.SettingsHelper
-import ui.screen.home
-import ui.screen.initDialogs
+import ui.container.home
 import ui.theme.fanControlTheme
-import ui.utils.Resources
+import utils.Resources
+import utils.initDialogs
 
 
 val app: Application = Application()
