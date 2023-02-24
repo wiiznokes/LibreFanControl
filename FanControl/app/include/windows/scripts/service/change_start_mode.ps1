@@ -1,11 +1,13 @@
 . $PSScriptRoot/Manager.ps1
 
 
-if ($args.Count -ne 1) {
+if ($args.Count -ne 1)
+{
     Write-Output "Error: need one argument, Manual or Automatic"
     exit 1
 }
-elseif ($args[0] -ne "Manual" -and $args[0] -ne "Automatic") {
+elseif ($args[0] -ne "Manual" -and $args[0] -ne "Automatic")
+{
     Write-Output "Error: need one argument, Manual or Automatic"
     exit 1
 }
