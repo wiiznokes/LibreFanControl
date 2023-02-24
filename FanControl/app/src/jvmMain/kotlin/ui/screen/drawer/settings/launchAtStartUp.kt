@@ -10,8 +10,8 @@ import ui.utils.Resources
 
 fun getStartMode(launchAtStartUp: Boolean): String {
     return when (launchAtStartUp) {
-        true -> "auto"
-        false -> "manual"
+        true -> "Automatic"
+        false -> "Manual"
     }
 }
 

@@ -1,7 +1,11 @@
-$installPath = "C:\Program Files\FanControlService"
 $serviceName = "FanControlService"
+$DisplayName = "Fan control service"
+$Description = "Update fan speed and send sensors value to Fan control app"
 $exeName = "HardwareDaemon.exe"
+
+$installPath = "C:\Program Files\$serviceName"
 $buildPath = "$PSScriptRoot/../../build/"
+
 
 
 function checkInstall
@@ -23,8 +27,6 @@ function checkInstall
 }
 
 
-
-
 function checkAdmin
 {
     if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
@@ -44,7 +46,7 @@ function copyServiceFiles
     New-Item -ItemType Directory -Path $installPath -Force | Out-Null
     Write-Host "$installPath created"
     Copy-Item -Path "$buildPath\*" -Destination $installPath -Recurse -Force
-    Write-Host "copy of $buildPath in $installPath finished"
+    Write-Host "copy in $installPath finished"
 }
 
 function isRunning
@@ -55,7 +57,6 @@ function isRunning
         $status = $info.Status
         if ($status -eq "Running")
         {
-            Write-Host "$serviceName is Running"
             return $true
         }
     }
@@ -73,11 +74,6 @@ function removeInstallFolder
 
 function stopService
 {
-    if (!(checkInstall))
-    {
-        return $false
-    }
-
     if (isRunning)
     {
         Stop-Service -Name $serviceName
@@ -86,54 +82,35 @@ function stopService
     return $true
 }
 
-function removeRegistry
-{
-    if (Test-Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName")
-    {
-        Remove-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName" -Force -Recurse
-        Write-Host "Registry key for $serviceName has been removed."
-    }
-}
 
 function deleteService
 {
     stopService
-    removeRegistry
     if (Get-Service -Name $serviceName -ErrorAction SilentlyContinue)
     {
+        # only if powershell v6
+        #Remove-Service -Name $serviceName
         sc.exe delete $serviceName
     }
-
-}
-
-
-function addRegistry
-{
-    New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName" -Force | Out-Null
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName" -Name "ImagePath" -Value "$installPath\$exeName"
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName" -Name "DisplayName" -Value $serviceName
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName" -Name "Start" -Value "2"
-    Write-Host "Registry key for $serviceName has been added"
 }
 
 
 function createService
 {
     param([string]$startMode)
+
     deleteService
 
-    if ($startMode -eq "auto")
-    {
-        addRegistry
+    $params = @{
+        Name = $serviceName
+        BinaryPathName = "$installPath\$exeName"
+        DisplayName = $DisplayName
+        StartupType = $startMode
+        Description = $Description
+    }
 
-        sc.exe create $serviceName binPath = "$installPath\$exeName" start = auto | Out-Null
-        Write-Host "service created with auto mode"
-    }
-    else
-    {
-        sc.exe create $serviceName binPath = "$installPath\$exeName" | Out-Null
-        Write-Host "service created with manuel mode"
-    }
+    New-Service @params
+    Write-Host "$serviceName created"
 }
 
 
@@ -142,6 +119,7 @@ function startService
 {
     if (!(checkInstall))
     {
+        Write-Host "start service canceled"
         return $false
     }
 
