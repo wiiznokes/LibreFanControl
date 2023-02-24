@@ -12,7 +12,7 @@ import model.item.ITarget
 import proto.ConfHelper
 import proto.CrossApi
 import proto.SettingsHelper
-import ui.screen.drawer.settings.getStartMode
+import ui.drawer.settings.getStartMode
 import utils.initSensor
 import java.io.File
 

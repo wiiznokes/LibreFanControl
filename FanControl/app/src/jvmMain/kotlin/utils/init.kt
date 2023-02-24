@@ -6,10 +6,15 @@ import FState.hTemps
 import FState.iControls
 import FState.iFans
 import FState.iTemps
+import androidx.compose.runtime.Composable
 import model.item.BaseI
 import model.item.IControl
 import model.item.IFan
 import model.item.ITemp
+import ui.configuration.confDialogs.confNotSaveDialog
+import ui.configuration.confDialogs.newConfDialog
+import ui.dialogs.errorDialog
+import ui.dialogs.needAdminDialog
 
 
 /**
@@ -55,4 +60,12 @@ fun initSensor() {
             )
         )
     }
+}
+
+@Composable
+fun initDialogs() {
+    needAdminDialog()
+    errorDialog()
+    confNotSaveDialog()
+    newConfDialog()
 }
