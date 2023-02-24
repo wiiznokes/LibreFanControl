@@ -35,7 +35,7 @@ class UiState {
 
     fun showError(error: Exception) {
         if (!error.message.isNullOrBlank()) {
-            errorDialogContent.value = error.message.toString()
+            errorDialogContent.value = error.stackTrace.contentToString()
             dialogExpanded.value = Dialog.SHOW_ERROR
         }
     }
