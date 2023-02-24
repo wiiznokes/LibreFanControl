@@ -5,6 +5,8 @@ import model.Languages
 import model.Settings
 import model.Themes
 import proto.SettingsHelper
+import ui.screen.drawer.settings.getStartMode
+import java.io.File
 
 class DrawerVM(
     val settings: Settings = FState.settings,
@@ -29,7 +31,32 @@ class DrawerVM(
 
 
     fun onLaunchAtStartUpChange(launchAtStartUp: Boolean) {
-        settings.launchAtStartUp.value = launchAtStartUp
-        SettingsHelper.writeSettings()
+        val initScript = File(System.getProperty("compose.application.resources.dir"))
+            .resolve("scripts/service/change_start_mode.ps1")
+            .absolutePath
+
+        val startMode = getStartMode(launchAtStartUp)
+
+        val command = listOf(
+            "powershell.exe",
+            "-File",
+            initScript,
+            startMode
+        )
+        val res = ProcessBuilder(command)
+            .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+            .redirectError(ProcessBuilder.Redirect.INHERIT)
+            .start()
+            .waitFor()
+
+        when (res) {
+            0 -> {
+                settings.launchAtStartUp.value = launchAtStartUp
+                SettingsHelper.writeSettings(false)
+            }
+            3 -> FState.ui.dialogExpanded.value = UiState.Dialog.NEED_ADMIN
+
+            else -> println("Error: can't set launchAtStartUp to $startMode")
+        }
     }
 }

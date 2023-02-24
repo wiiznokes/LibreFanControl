@@ -26,6 +26,10 @@ fun drawerContent(
 ) {
 
     val settingState = rememberSettingState(key = drawerState.isOpen)
+    if (drawerState.isOpen) {
+        FState.ui.editModeActivated.value = false
+    }
+
     val settings = viewModel.settings
 
     Setting(

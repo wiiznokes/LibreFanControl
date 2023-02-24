@@ -39,7 +39,7 @@ fun baseItemBody(
     baseItem(
         color = LocalColors.current.mainContainer,
         onColor = LocalColors.current.onMainContainer,
-        editModeActivated = FState.ui.addItemExpanded.value,
+        editModeActivated = FState.ui.editModeActivated.value,
         icon = icon,
         editIcon = {
             Icon(
