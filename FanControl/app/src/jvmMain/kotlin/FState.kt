@@ -26,6 +26,7 @@ object FState {
 
     val ui = UiState()
 
+    var isServiceRunning = false
 }
 
 
