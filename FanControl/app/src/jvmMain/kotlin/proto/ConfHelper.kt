@@ -49,8 +49,8 @@ class ConfHelper {
         }
 
 
-        fun writeConf(confId: String, notifyService: Boolean = true) {
-            createPConf(getConf(confId)).let {
+        fun writeConf(confId: String, confName: String, notifyService: Boolean = true) {
+            createPConf(getConf(confId, confName)).let {
                 with(getConfFile(confId)) {
                     writeBytes(it.toByteArray())
                 }
@@ -66,6 +66,10 @@ class ConfHelper {
             getConfFile(confId).delete()
         }
 
+        fun isConfDifferent(confId: String, confName: String): Boolean {
+            return createPConf(getConf(confId, confName)) != PConf.parseFrom(getConfFile(confId).readBytes())
+        }
+
 
         data class Conf(
             val confInfo: ConfInfo,
@@ -76,10 +80,11 @@ class ConfHelper {
             val iFans: MutableList<IFan> = mutableListOf(),
         )
 
-        fun getConf(confId: String): Conf = Conf(
-            confInfo = settings.confInfoList.first {
-                it.id == confId
-            },
+        fun getConf(confId: String, confName: String): Conf = Conf(
+            confInfo = ConfInfo(
+                id = confId,
+                name = confName
+            ),
             iControls = iControls,
             iBehaviors = iBehaviors,
             iTemps = iTemps,

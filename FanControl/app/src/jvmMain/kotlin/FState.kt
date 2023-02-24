@@ -11,6 +11,7 @@ import model.item.BaseIBehavior
 import model.item.BaseITemp
 import model.item.IControl
 import model.item.IFan
+import ui.utils.Resources
 
 
 object FState {
@@ -59,6 +60,5 @@ class UiState {
 
     val errorDialogContent = mutableStateOf("")
 
-    @get:Composable
-    val confName = remember { mutableStateOf(FState.settings.getIndexInfo()) }
+    val confName = mutableStateOf("")
 }

@@ -34,6 +34,9 @@ fun configuration() {
         val settings = viewModel.settings
         val index = FState.settings.getIndexInfo()
 
+        remember {
+
+        }
         val text = remember(settings.confId.value) {
             when (index) {
                 null -> mutableStateOf(Resources.getString("common/none"))
