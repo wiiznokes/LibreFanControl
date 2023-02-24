@@ -1,3 +1,4 @@
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
@@ -16,11 +17,12 @@ import ui.utils.Resources
 val app: Application = Application()
 
 fun main() {
+    val visible = mutableStateOf(true)
     application(
         exitProcessOnExit = true
     ) {
         Window(
-            visible = true,
+            visible = visible.value,
             title = Resources.getString("title/app_name"),
             icon = Resources.getIcon("app/toys_fan48"),
             onCloseRequest = {
@@ -47,6 +49,7 @@ fun main() {
                     while (FState.ui.dialogExpanded.value != UiState.Dialog.NONE) {
                         delay(200L)
                     }
+                    visible.value = false
 
                     app.onStop()
                     exitApplication()
