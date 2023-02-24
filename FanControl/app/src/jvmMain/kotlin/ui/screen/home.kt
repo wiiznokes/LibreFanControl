@@ -23,7 +23,11 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ui.screen.addItem.addItem
 import ui.screen.body.body
-import ui.screen.dialog.*
+import ui.screen.dialogs.confDialogs.confNotSaveDialog
+import ui.screen.dialogs.confDialogs.newConfDialog
+import ui.screen.dialogs.errorDialog
+import ui.screen.dialogs.launchAtStartUpDialog
+import ui.screen.dialogs.needAdminDialog
 import ui.screen.drawer.drawerContent
 import ui.screen.topBar.topBarAddItem
 import ui.screen.topBar.topBarBody

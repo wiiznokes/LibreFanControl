@@ -14,7 +14,6 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
-import ui.screen.topBar.configuration.configuration
 import ui.theme.LocalColors
 import ui.utils.Resources
 
@@ -111,7 +110,7 @@ fun topBarBody(
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                configuration()
+                confTopBar()
 
                 Divider(
                     modifier = Modifier

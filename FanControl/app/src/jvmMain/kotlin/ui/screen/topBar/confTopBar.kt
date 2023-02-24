@@ -1,6 +1,7 @@
-package ui.screen.topBar.configuration
+package ui.screen.topBar
 
 import FState
+import UiState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,15 +22,15 @@ import model.item.BaseI.Companion.checkNameTaken
 import ui.component.ListChoiceDefault
 import ui.component.managerListChoice
 import ui.component.managerNameTextField
-import ui.screen.dialog.ConfigurationVM
+import ui.screen.dialogs.confDialogs.ConfVM
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces
 import ui.utils.Resources
 
-val viewModel = ConfigurationVM()
+val viewModel = ConfVM()
 
 @Composable
-fun configuration() {
+fun confTopBar() {
     if (viewModel.settings.confInfoList.isNotEmpty()) {
 
         val settings = viewModel.settings

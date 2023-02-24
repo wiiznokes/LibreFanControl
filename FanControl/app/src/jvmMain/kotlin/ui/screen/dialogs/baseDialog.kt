@@ -1,4 +1,4 @@
-package ui.screen.dialog
+package ui.screen.dialogs
 
 import FState
 import UiState
@@ -12,22 +12,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import proto.ConfHelper
-import proto.SettingsHelper
 import ui.component.managerText
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces
-import ui.utils.Resources
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -146,88 +141,4 @@ fun baseDialogButton(
             }
         }
     }
-}
-
-
-@Composable
-fun needAdminDialog() {
-    baseDialog(
-        enabled = FState.ui.dialogExpanded.value == UiState.Dialog.NEED_ADMIN,
-        title = Resources.getString("dialog/title/need_admin"),
-        onEnterKey = {
-            FState.ui.dialogExpanded.value = UiState.Dialog.NONE
-        },
-        topContent = {
-            baseDialogText(
-                text = Resources.getString("dialog/admin")
-            )
-        },
-        bottomContent = {
-            baseDialogButton(
-                onClick = {
-                    FState.ui.dialogExpanded.value = UiState.Dialog.NONE
-                },
-                icon = Resources.getIcon("select/check24"),
-                text = Resources.getString("common/ok")
-            )
-        },
-        horizontalArrangement = Arrangement.End
-    )
-}
-
-
-@Composable
-fun errorDialog() {
-    baseDialog(
-        enabled = FState.ui.dialogExpanded.value == UiState.Dialog.SHOW_ERROR,
-        title = Resources.getString("dialog/title/error"),
-        onEnterKey = { FState.ui.closeShowError() },
-        topContent = {
-            baseDialogText(
-                text = FState.ui.errorDialogContent.value
-            )
-        },
-        bottomContent = {
-            baseDialogButton(
-                onClick = {
-                    println("copy")
-                },
-                text = Resources.getString("common/copy")
-            )
-            baseDialogButton(
-                onClick = {FState.ui.closeShowError() },
-                text = Resources.getString("common/ok")
-            )
-        }
-    )
-}
-
-@Composable
-fun launchAtStartUpDialog() {
-    baseDialog(
-        enabled = FState.ui.dialogExpanded.value == UiState.Dialog.LAUNCH_AT_START_UP,
-        title = Resources.getString("dialog/title/launch_at_start_up"),
-        onEnterKey = {
-            FState.ui.dialogExpanded.value = UiState.Dialog.NONE
-        },
-        topContent = {
-            baseDialogText(
-                text = Resources.getString("dialog/launch_at_start_up")
-            )
-        },
-        bottomContent = {
-            baseDialogButton(
-                onClick = {
-                    FState.ui.dialogExpanded.value = UiState.Dialog.NONE
-                },
-                text = Resources.getString("common/no")
-            )
-            baseDialogButton(
-                onClick = {
-                    FState.ui.dialogExpanded.value = UiState.Dialog.NONE
-                },
-                text = Resources.getString("common/yes")
-            )
-        }
-    )
 }

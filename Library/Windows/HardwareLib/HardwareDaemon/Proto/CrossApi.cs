@@ -1,9 +1,7 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using HardwareDaemon.Hardware;
-using Proto.Generated.PConf;
 using Proto.Generated.PCrossApi;
-using Proto.Generated.PSettings;
 using static HardwareDaemon.State.ServiceState;
 
 namespace HardwareDaemon.Proto;
@@ -23,7 +21,7 @@ public class CrossApi : PCrossApi.PCrossApiBase
         Console.WriteLine("[SERVICE] open");
 
         IsOpen = true;
-        
+
         var response = new POk
         {
             PIsSuccess = true
@@ -59,9 +57,9 @@ public class CrossApi : PCrossApi.PCrossApiBase
             PHardwareType.Fan => CreatePHardwareList(State.HFans.Values),
             _ => throw new ProtoException("unknown pHardware type")
         };
-        
+
         Console.WriteLine("[SERVICE] " + hardwareList.PHardwares.Count);
-        
+
         return Task.FromResult(hardwareList);
     }
 
@@ -72,7 +70,7 @@ public class CrossApi : PCrossApi.PCrossApiBase
         {
             PType = type
         };
-        
+
         foreach (var hardware in list)
         {
             var update = new PUpdate
@@ -86,7 +84,8 @@ public class CrossApi : PCrossApi.PCrossApiBase
         return updateList;
     }
 
-    public override async Task PStartStream(Empty request, IServerStreamWriter<PUpdateList> responseStream, ServerCallContext context)
+    public override async Task PStartStream(Empty request, IServerStreamWriter<PUpdateList> responseStream,
+        ServerCallContext context)
     {
         while (!context.CancellationToken.IsCancellationRequested && IsOpen)
         {
@@ -94,15 +93,15 @@ public class CrossApi : PCrossApi.PCrossApiBase
             Update.UpdateAllSensors();
 
             var updateList = CreatePUpdate(PHardwareType.Control, State.HControls.Values);
-            
+
             await responseStream.WriteAsync(updateList, context.CancellationToken);
-        
+
             updateList = CreatePUpdate(PHardwareType.Temp, State.HTemps.Values);
             await responseStream.WriteAsync(updateList, context.CancellationToken);
-        
+
             updateList = CreatePUpdate(PHardwareType.Fan, State.HFans.Values);
             await responseStream.WriteAsync(updateList, context.CancellationToken);
-            
+
             await Task.Delay(State.Settings.UpdateDelay * 1000, context.CancellationToken);
         }
     }
@@ -112,7 +111,7 @@ public class CrossApi : PCrossApi.PCrossApiBase
     {
         Console.WriteLine("[SERVICE] close");
         IsOpen = false;
-        
+
         return Task.FromResult(new Empty());
     }
 
@@ -121,7 +120,7 @@ public class CrossApi : PCrossApi.PCrossApiBase
         Console.WriteLine("[SERVICE] confChange");
 
         SettingsAndConfHasChange = true;
-        
+
         var response = new POk
         {
             PIsSuccess = true
@@ -135,7 +134,7 @@ public class CrossApi : PCrossApi.PCrossApiBase
         Console.WriteLine("[SERVICE] settings Change");
 
         SettingsHasChange = true;
-        
+
         var response = new POk
         {
             PIsSuccess = true

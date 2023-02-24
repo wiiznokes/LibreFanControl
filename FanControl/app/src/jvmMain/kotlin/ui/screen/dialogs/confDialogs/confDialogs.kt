@@ -1,4 +1,4 @@
-package ui.screen.dialog
+package ui.screen.dialogs.confDialogs
 
 import FState
 import UiState
@@ -15,10 +15,13 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import model.item.BaseI
 import ui.component.managerNameTextField
+import ui.screen.dialogs.baseDialog
+import ui.screen.dialogs.baseDialogButton
+import ui.screen.dialogs.baseDialogText
 import ui.utils.Resources
 
 
-private val viewModel = ConfigurationVM()
+private val viewModel = ConfVM()
 
 @Composable
 fun confNotSaveDialog() {

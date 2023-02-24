@@ -29,7 +29,6 @@ object FState {
 }
 
 
-
 class UiState {
     val addItemExpanded = mutableStateOf(false)
     val editModeActivated = mutableStateOf(false)
@@ -40,6 +39,7 @@ class UiState {
             dialogExpanded.value = Dialog.SHOW_ERROR
         }
     }
+
     fun closeShowError() {
         errorDialogContent.value = ""
         dialogExpanded.value = Dialog.NONE
@@ -53,6 +53,7 @@ class UiState {
         LAUNCH_AT_START_UP,
         CONF_IS_NOT_SAVE
     }
+
     val dialogExpanded = mutableStateOf(Dialog.NONE)
 
     val errorDialogContent = mutableStateOf("")

@@ -1,4 +1,4 @@
-package ui.screen.dialog
+package ui.screen.dialogs.confDialogs
 
 import FState
 import model.ConfInfo
@@ -8,8 +8,8 @@ import model.item.NameException
 import proto.ConfHelper
 import proto.SettingsHelper
 
-class ConfigurationVM(
-    val settings: Settings = FState.settings
+class ConfVM(
+    val settings: Settings = FState.settings,
 ) {
 
     fun saveConfiguration(name: String): Boolean {

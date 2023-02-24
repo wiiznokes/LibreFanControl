@@ -6,7 +6,6 @@ namespace HardwareDaemon.Proto;
 
 public static class ConfHelper
 {
-
     public static void LoadConfFile(string confId)
     {
         var pConf = PConf.Parser.ParseFrom(GetConfBytes(confId));

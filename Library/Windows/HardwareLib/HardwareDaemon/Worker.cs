@@ -38,6 +38,7 @@ public class Worker : BackgroundService
             Console.WriteLine("[SERVICE] settings file don't exist");
             return false;
         }
+
         HardwareManager.Start();
         SettingsHelper.LoadSettingsFile(State.Settings);
 
@@ -53,23 +54,20 @@ public class Worker : BackgroundService
             }
 
             if (IsOpen) return true;
-            
+
             Console.WriteLine("[SERVICE] delay before open passed");
             return false;
         }
-        
+
         ConfHelper.LoadConfFile(State.Settings.ConfId);
-        
+
         return true;
     }
 
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        if (!StartService())
-        {
-            AutoCancel();
-        }
+        if (!StartService()) AutoCancel();
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -80,20 +78,16 @@ public class Worker : BackgroundService
                 Console.WriteLine("[SERVICE] service close and config id == null -> stop service");
                 break;
             }
-            
+
 
             if (State.Settings.ConfId != null)
-            {
                 Console.WriteLine("[SERVICE] update");
-            }
             else
-            {
                 Console.WriteLine("[SERVICE] no update");
-            }
-            
+
             await Task.Delay(State.Settings.UpdateDelay * 1000, stoppingToken);
         }
-        
+
         AutoCancel();
     }
 
@@ -109,17 +103,12 @@ public class Worker : BackgroundService
         if (SettingsAndConfHasChange)
         {
             SettingsHelper.LoadSettingsFile(State.Settings);
-                
-            if (State.Settings.ConfId != null)
-            {
-                ConfHelper.LoadConfFile(State.Settings.ConfId);
-            }
-                
+
+            if (State.Settings.ConfId != null) ConfHelper.LoadConfFile(State.Settings.ConfId);
+
             SettingsAndConfHasChange = false;
         }
     }
-
-
 
 
     private void StartGrpc()
@@ -143,32 +132,30 @@ public class Worker : BackgroundService
 
     private void StopGrpc()
     {
-
         RunSafely(() => _grpcApp.StopAsync(_cancellationToken));
         // ReSharper disable once AccessToDisposedClosure
         RunSafely(() => _chatJob.Wait(_cancellationToken));
         // ReSharper disable once AccessToDisposedClosure
         RunSafely(() => _chatJob.Dispose());
     }
-    
+
     private void AutoCancel()
     {
         _appLifetime.StopApplication();
     }
 
-    
-    
+
     public override Task StopAsync(CancellationToken cancellationToken)
     {
         Console.WriteLine("[SERVICE] StopAsync");
-        
+
         StopGrpc();
         Update.SetAutoAll();
         HardwareManager.Stop();
-        
+
         return base.StopAsync(cancellationToken);
     }
-    
+
     private static void RunSafely(Action fun)
     {
         try

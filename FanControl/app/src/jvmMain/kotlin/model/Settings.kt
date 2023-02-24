@@ -25,7 +25,7 @@ class Settings(
     val degree = mutableStateOf(degree)
 
 
-    fun getIndexInfo(_confId: String? = confId.value) = when(_confId) {
+    fun getIndexInfo(_confId: String? = confId.value) = when (_confId) {
         null -> null
         else -> confInfoList.indexOfFirst {
             it.id == confId.value

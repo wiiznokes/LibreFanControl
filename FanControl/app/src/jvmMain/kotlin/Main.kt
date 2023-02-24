@@ -7,7 +7,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import proto.ConfHelper
 import proto.SettingsHelper
-import ui.screen.dialog.confNotSaveDialog
 import ui.screen.home
 import ui.screen.initDialogs
 import ui.theme.fanControlTheme
