@@ -11,7 +11,7 @@ elseif ($args.Count -eq 0)
 {
     $startMode = "Manual"
 }
-elseif ($args.Count -eq 1 -and ($args[0] -eq "Manual" -or $args[0] -eq "Automatic"))
+elseif ($args.Count -eq 1 -and ($args[0] -eq "Manual" -or $args[0] -eq "Automatic" -or $args[0] -eq "Debug"))
 {
     $startMode = $args[0]
 }
@@ -21,16 +21,19 @@ else
     exit 1
 }
 
-
 Write-Output "Start mode: $startMode"
 
-
-
-if ($startMode -eq "debug")
+if ($startMode -eq "Debug")
 {
-    Write-Host "service debug mode"
     return 0
 }
+
+
+if (!(isRunning) -and !(checkAdmin))
+{
+    exit 3
+}
+
 
 if (!(checkInstall))
 {
@@ -43,4 +46,6 @@ if (!(checkInstall))
     copyServiceFiles
     createService($startMode)
 }
+
+
 startService

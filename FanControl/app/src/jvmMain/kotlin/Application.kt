@@ -147,7 +147,10 @@ class Application(
             .waitFor()
 
         return when (res) {
-            0 -> true
+            0 -> {
+                FState.isServiceRunning = true
+                true
+            }
             3 -> {
                 FState.ui.dialogExpanded.value = UiState.Dialog.NEED_ADMIN
                 false

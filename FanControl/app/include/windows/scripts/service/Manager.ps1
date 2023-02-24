@@ -117,20 +117,26 @@ function createService
 
 function startService
 {
+    if (isRunning)
+    {
+        Write-Host "$serviceName already running."
+        return $true
+    }
+
     if (!(checkInstall))
     {
         Write-Host "start service canceled"
         return $false
     }
 
-    if (!(isRunning))
+    if (!(checkAdmin))
     {
-        Start-Service $serviceName
-        Write-Host "$serviceName started"
+        Write-Host "need admin, start service canceled"
+        return $false
     }
-    else
-    {
-        Write-Host "$serviceName already running."
-    }
+
+    Start-Service $serviceName
+    Write-Host "$serviceName started"
+
     return $true
 }
