@@ -25,7 +25,4 @@ Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated
 artifacts/
 **/.idea/gradle.xml
 
-
-
-
-service_test.ps1
+FanControl/wix311/
