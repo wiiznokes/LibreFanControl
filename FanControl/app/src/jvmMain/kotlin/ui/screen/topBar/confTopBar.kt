@@ -1,5 +1,7 @@
-package ui.screen.topBar.configuration
+package ui.screen.topBar
 
+import FState
+import UiState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,36 +22,34 @@ import model.item.BaseI.Companion.checkNameTaken
 import ui.component.ListChoiceDefault
 import ui.component.managerListChoice
 import ui.component.managerNameTextField
+import ui.screen.dialogs.confDialogs.ConfVM
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces
 import ui.utils.Resources
 
-val viewModel = ConfigurationVM()
+val viewModel = ConfVM()
 
 @Composable
-fun configuration() {
+fun confTopBar() {
     if (viewModel.settings.confInfoList.isNotEmpty()) {
 
-        val setting = viewModel.settings
+        val settings = viewModel.settings
+        val index = FState.settings.getIndexInfo()
 
-        val index = when (setting.confId.value) {
-            null -> null
-            else -> setting.confInfoList.indexOfFirst {
-                it.id == setting.confId.value
-            }
+        remember {
+
         }
-
-        val text = remember(setting.confId.value) {
-            when (setting.confId.value) {
+        val text = remember(settings.confId.value) {
+            when (index) {
                 null -> mutableStateOf(Resources.getString("common/none"))
-                else -> mutableStateOf(setting.confInfoList[index!!].name.value)
+                else -> mutableStateOf(settings.confInfoList[index].name.value)
             }
         }
 
 
-        if (setting.confId.value != null) {
+        if (settings.confId.value != null) {
             IconButton(
-                onClick = { viewModel.saveConfiguration(text.value, index!!, setting.confId.value) }
+                onClick = { viewModel.saveConfiguration(text.value) }
             ) {
                 Icon(
                     painter = Resources.getIcon("topBar/save40"),
@@ -62,13 +62,35 @@ fun configuration() {
 
         configurationListChoice(
             text = text,
-            confInfoList = setting.confInfoList,
-            currentId = setting.confId.value,
+            confInfoList = settings.confInfoList,
+            currentId = settings.confId.value,
             currentIndex = index,
         )
 
     }
-    addConfiguration()
+
+
+    /*
+        used to know if add conf button should trigger
+        because when the dialog appears, this button is
+        still focused, and will trigger if Enter is pressed
+    */
+    val keyEnterPressed = remember { mutableStateOf(false) }
+
+    IconButton(
+        onClick = {
+            if (keyEnterPressed.value)
+                keyEnterPressed.value = false
+            else
+                FState.ui.dialogExpanded.value = UiState.Dialog.NEW_CONF
+        }
+    ) {
+        Icon(
+            painter = Resources.getIcon("sign/plus/add40"),
+            contentDescription = null,
+            tint = LocalColors.current.onMainTopBar
+        )
+    }
 }
 
 

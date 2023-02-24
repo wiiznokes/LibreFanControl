@@ -1,15 +1,15 @@
 package ui.screen.itemsList.sensor.body.tempList
 
-import State
+import FState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.HTemp
 import model.item.*
 import model.item.BaseI.Companion.checkNameTaken
 
 class TempVM(
-    val iTemps: SnapshotStateList<BaseITemp> = State.iTemps,
-    val hTemps: SnapshotStateList<HTemp> = State.hTemps,
-    private val iBehaviors: SnapshotStateList<BaseIBehavior> = State.iBehaviors,
+    val iTemps: SnapshotStateList<BaseITemp> = FState.iTemps,
+    val hTemps: SnapshotStateList<HTemp> = FState.hTemps,
+    private val iBehaviors: SnapshotStateList<BaseIBehavior> = FState.iBehaviors,
 ) {
 
 

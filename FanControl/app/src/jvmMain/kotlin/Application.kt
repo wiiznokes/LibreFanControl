@@ -1,6 +1,8 @@
-import State.hTemps
-import State.iBehaviors
-import State.iTemps
+import Application.Api.api
+import Application.Api.scope
+import FState.hTemps
+import FState.iBehaviors
+import FState.iTemps
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.*
 import model.Settings
@@ -16,36 +18,42 @@ import java.io.File
 
 
 class Application(
-    private val settings: Settings = State.settings,
+    private val settings: Settings = FState.settings,
 ) {
 
+    object Api {
+        private val channel = ManagedChannelBuilder.forAddress("localhost", 5002)
+            .usePlaintext()
+            .build()
+        val api = CrossApi(channel)
+        val scope = CoroutineScope(Dispatchers.IO)
+    }
 
-    private val scope = CoroutineScope(Dispatchers.IO)
 
-    private val channel = ManagedChannelBuilder.forAddress("localhost", 5002)
-        .usePlaintext()
-        .build()
-    private val api = CrossApi(channel)
-
-    private lateinit var calculateValueJob: Job
-    private lateinit var fetchSensorValueJob: Job
-
+    private var calculateValueJob: Job? = null
+    private var fetchSensorValueJob: Job? = null
 
 
     fun onStart() {
-
         if (SettingsHelper.isSettings()) {
-            println("load setting")
             SettingsHelper.loadSettings()
         } else {
             SettingsHelper.writeSettings()
         }
 
+        var startServiceSuccess = false
+
         val startJob = scope.launch {
-            startService()
+
+            if (!startService()) {
+                startServiceSuccess = false
+                return@launch
+            }
+
             delay(500L)
             if (!api.open()) {
-                println("can't open service, exit app")
+                startServiceSuccess = false
+                return@launch
             }
             api.getHardware()
 
@@ -58,28 +66,30 @@ class Application(
                     }
                 }
             }
+            startServiceSuccess = true
         }
 
         calculateValueJob = scope.launch {
             startJob.join()
-            startUpdate()
+            if (startServiceSuccess) startUpdate()
         }
 
 
         fetchSensorValueJob = scope.launch {
             startJob.join()
-            api.startUpdate()
+            if (startServiceSuccess) api.startUpdate()
         }
     }
 
 
     private var updateShouldStop = false
+
     fun onStop() {
         api.close()
         updateShouldStop = true
         runBlocking {
-            calculateValueJob.cancelAndJoin()
-            fetchSensorValueJob.cancelAndJoin()
+            calculateValueJob?.cancelAndJoin()
+            fetchSensorValueJob?.cancelAndJoin()
         }
     }
 
@@ -127,20 +137,23 @@ class Application(
             "powershell.exe",
             "-File",
             initScript,
-            "debug"
+            startMode
         )
-        val process = ProcessBuilder(command)
+
+        val res = ProcessBuilder(command)
             .redirectOutput(ProcessBuilder.Redirect.INHERIT)
             .redirectError(ProcessBuilder.Redirect.INHERIT)
             .start()
+            .waitFor()
 
-        val exitCode = process.waitFor()
+        return when (res) {
+            0 -> true
+            3 -> {
+                FState.ui.dialogExpanded.value = UiState.Dialog.NEED_ADMIN
+                false
+            }
 
-        if (exitCode == 3) {
-            println("need admin, exit app")
-            return false
+            else -> false
         }
-
-        return true
     }
 }

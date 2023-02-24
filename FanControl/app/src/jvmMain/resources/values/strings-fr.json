@@ -7,8 +7,7 @@
     "behavior": "Comportement",
     "sensor": "Capteur",
     "fan": "Fan",
-    "temp": "Température",
-    "add_config": "Ajouter configuration"
+    "temp": "Température"
   },
   "icon_content_description": {
     "open_drawer": "ouvrir paramètre",
@@ -91,7 +90,7 @@
     "language": "Langue",
     "theme": "Thème",
     "exit_on_close": "Quitter à la fermeture",
-    "launch_at_startup": "Lancer au démarrage",
+    "launch_at_start_up": "Lancer au démarrage",
     "donate": "Support",
     "info": "Information",
     "info_sub_title": "Plonger dans le fonctionnement",
@@ -120,16 +119,35 @@
   },
   "fan_speed": "vitesse fan",
   "common": {
+    "ok": "Ok",
     "add": "Ajouter",
     "cancel": "Annuler",
     "none": "Aucun",
     "open": "Ouvrir",
-    "exit": "Fermer"
+    "exit": "Fermer",
+    "copy": "Copy",
+    "new": "New",
+    "override": "Override",
+    "quit": "Quit",
+    "yes": "Yes",
+    "no": "No"
   },
   "exit": {
     "title": "Quitter Paramètre",
     "remember_choice": "Sauvegarder le choix",
     "exit": "Quitter l'application",
     "background": "Garder en arrière-plan"
+  },
+  "dialog": {
+    "title": {
+      "need_admin": "Besoin admin",
+      "new_conf": "Nouvelle configuration",
+      "launch_at_start_up": "Lancer au démarage",
+      "conf_not_save": "Config is not save",
+      "error": "Error"
+    },
+    "admin": "The app need to be admin to create/modify the service. Please restart the app with admin privilege",
+    "launch_at_start_up": "Do you want to automatically start FanControl at start up ? You will not be disturbed, a service will be launched in the background.",
+    "conf_not_save": "The current configuration is not save, what do you want to do ?"
   }
 }

@@ -1,6 +1,6 @@
-package ui.screen.topBar.configuration
+package ui.screen.dialogs.confDialogs
 
-import State
+import FState
 import model.ConfInfo
 import model.Settings
 import model.item.BaseI.Companion.checkNameTaken
@@ -8,14 +8,17 @@ import model.item.NameException
 import proto.ConfHelper
 import proto.SettingsHelper
 
-class ConfigurationVM(
-    val settings: Settings = State.settings,
+class ConfVM(
+    val settings: Settings = FState.settings,
 ) {
 
-    fun saveConfiguration(name: String, index: Int, id: String?) {
-        if (id == null) {
+    fun saveConfiguration(name: String): Boolean {
+        val confId = FState.settings.confId.value
+        val index = FState.settings.getIndexInfo(confId)
+
+        if (confId == null || index == null) {
             println("save conf: id == null -> return")
-            return
+            return false
         }
 
         try {
@@ -28,19 +31,21 @@ class ConfigurationVM(
             )
         } catch (e: NameException) {
             println("save conf: NameException -> return")
-            return
+            return false
         }
-        println("save conf: id = $id")
+        println("save conf: id = $confId")
         settings.confInfoList[index].name.value = name
-        SettingsHelper.writeSettings()
-        ConfHelper.writeConf(id)
-
+        SettingsHelper.writeSettings(false)
+        ConfHelper.writeConf(confId, name)
+        return true
     }
 
     fun onChangeConfiguration(id: String?) {
-        settings.confId.value = id
         if (id != null)
             ConfHelper.loadConf(id)
+
+        settings.confId.value = id
+        SettingsHelper.writeSettings()
     }
 
     fun addConfiguration(name: String, id: String): Boolean {
@@ -59,20 +64,21 @@ class ConfigurationVM(
 
         settings.confId.value = id
         settings.confInfoList.add(ConfInfo(id, name))
-        SettingsHelper.writeSettings()
-
-        ConfHelper.writeConf(id)
+        SettingsHelper.writeSettings(false)
+        ConfHelper.writeConf(id, name)
 
         return true
     }
 
     fun removeConfiguration(id: String, index: Int) {
         println("remove conf: id = $id")
+
+        ConfHelper.removeConf(id)
+
         settings.confInfoList.removeAt(index)
         if (settings.confId.value == id) {
             settings.confId.value = null
+            SettingsHelper.writeSettings()
         }
-        SettingsHelper.writeSettings()
-        ConfHelper.removeConf(id)
     }
 }

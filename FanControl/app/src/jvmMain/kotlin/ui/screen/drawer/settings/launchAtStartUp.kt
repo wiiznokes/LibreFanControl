@@ -20,7 +20,7 @@ fun SettingScope.launchAtStartUp(
     onLaunchAtStartUpChange: (Boolean) -> Unit,
 ) {
     item(
-        title = Resources.getString("settings/launch_at_startup"),
+        title = Resources.getString("settings/launch_at_start_up"),
         advanceIconButton = {
             Checkbox(
                 checked = launchAtStartUp.value,

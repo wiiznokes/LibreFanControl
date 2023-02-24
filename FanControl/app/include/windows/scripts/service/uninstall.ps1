@@ -1,6 +1,7 @@
 . $PSScriptRoot/Manager.ps1
 
-if(!(checkAdmin)) {
+if (!(checkAdmin))
+{
     exit 3
 }
 

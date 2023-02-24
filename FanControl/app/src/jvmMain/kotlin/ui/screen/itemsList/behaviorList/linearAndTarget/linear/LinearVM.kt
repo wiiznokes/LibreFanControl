@@ -1,6 +1,6 @@
 package ui.screen.itemsList.behaviorList.linearAndTarget.linear
 
-import State
+import FState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.HTemp
 import model.item.BaseI
@@ -23,8 +23,8 @@ enum class LinearParams : LinAndTarParams {
 
 
 class LinearVM(
-    val hTemps: SnapshotStateList<HTemp> = State.hTemps,
-    val iTemps: SnapshotStateList<BaseITemp> = State.iTemps,
+    val hTemps: SnapshotStateList<HTemp> = FState.hTemps,
+    val iTemps: SnapshotStateList<BaseITemp> = FState.iTemps,
 ) : BaseBehaviorVM() {
 
 

@@ -1,13 +1,15 @@
 package proto
 
-import State.iBehaviors
-import State.iControls
-import State.iFans
-import State.iTemps
-import State.settings
+import Application.Api.api
+import Application.Api.scope
+import FState.iBehaviors
+import FState.iControls
+import FState.iFans
+import FState.iTemps
 import external.OS
 import external.OsException
 import external.getOS
+import kotlinx.coroutines.launch
 import model.ConfInfo
 import model.ItemType
 import model.item.*
@@ -46,26 +48,26 @@ class ConfHelper {
         }
 
 
-        fun writeConf(confId: String) {
-            createPConf(
-                Conf(
-                    confInfo = settings.confInfoList.first {
-                        it.id == confId
-                    },
-                    iControls = iControls,
-                    iBehaviors = iBehaviors,
-                    iTemps = iTemps,
-                    iFans = iFans
-                )
-            ).let {
+        fun writeConf(confId: String, confName: String, notifyService: Boolean = true) {
+            createPConf(getConf(confId, confName)).let {
                 with(getConfFile(confId)) {
                     writeBytes(it.toByteArray())
+                }
+            }
+            if (notifyService) {
+                scope.launch {
+                    api.settingsAndConfChange()
                 }
             }
         }
 
         fun removeConf(confId: String) {
             getConfFile(confId).delete()
+        }
+
+        fun isConfSave(confId: String?, confName: String): Boolean {
+            return confId != null
+            // return createPConf(getConf(confId, confName)) != PConf.parseFrom(getConfFile(confId).readBytes())
         }
 
 
@@ -76,6 +78,17 @@ class ConfHelper {
             val iBehaviors: MutableList<BaseIBehavior> = mutableListOf(),
             val iTemps: MutableList<BaseITemp> = mutableListOf(),
             val iFans: MutableList<IFan> = mutableListOf(),
+        )
+
+        fun getConf(confId: String, confName: String): Conf = Conf(
+            confInfo = ConfInfo(
+                id = confId,
+                name = confName
+            ),
+            iControls = iControls,
+            iBehaviors = iBehaviors,
+            iTemps = iTemps,
+            iFans = iFans
         )
 
 

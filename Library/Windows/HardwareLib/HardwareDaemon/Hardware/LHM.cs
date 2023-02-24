@@ -111,7 +111,8 @@ public class Lhm : IVisitor
                     switch (subSensor.SensorType)
                     {
                         case SensorType.Control:
-                            State.HControls.TryAdd(State.HControls.Count, new LhmControl(id, subSensor, name, controlsIndex));
+                            State.HControls.TryAdd(State.HControls.Count,
+                                new LhmControl(id, subSensor, name, controlsIndex));
                             controlsIndex++;
                             break;
                         case SensorType.Temperature:

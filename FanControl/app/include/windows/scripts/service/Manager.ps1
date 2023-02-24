@@ -4,14 +4,15 @@ $exeName = "HardwareDaemon.exe"
 $buildPath = "$PSScriptRoot/../../build/"
 
 
-function checkInstall {
-    if (-not (Get-Service -Name $serviceName -ErrorAction SilentlyContinue))
+function checkInstall
+{
+    if (-not(Get-Service -Name $serviceName -ErrorAction SilentlyContinue))
     {
         Write-Host "the service don't exist"
         return $false
     }
 
-    if (-not (Test-Path $installPath -PathType Container))
+    if (-not(Test-Path $installPath -PathType Container))
     {
         Write-Host "install folder don't exist"
         return $false
@@ -24,8 +25,10 @@ function checkInstall {
 
 
 
-function checkAdmin {
-    if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+function checkAdmin
+{
+    if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
+    {
         Write-Host "not in admin mode"
         return $false
     }
@@ -34,7 +37,8 @@ function checkAdmin {
 
 
 
-function copyServiceFiles {
+function copyServiceFiles
+{
     removeInstallFolder
 
     New-Item -ItemType Directory -Path $installPath -Force | Out-Null
@@ -43,11 +47,14 @@ function copyServiceFiles {
     Write-Host "copy of $buildPath in $installPath finished"
 }
 
-function isRunning {
+function isRunning
+{
     $info = Get-Service -Name $serviceName -ErrorAction SilentlyContinue
-    if ($info) {
+    if ($info)
+    {
         $status = $info.Status
-        if ($status -eq "Running") {
+        if ($status -eq "Running")
+        {
             Write-Host "$serviceName is Running"
             return $true
         }
@@ -55,33 +62,41 @@ function isRunning {
     return $false
 }
 
-function removeInstallFolder {
-    if (Test-Path $installPath -PathType Container) {
+function removeInstallFolder
+{
+    if (Test-Path $installPath -PathType Container)
+    {
         Remove-Item $installPath -Recurse -Force
         Write-Host "$installPath folder has been removed"
     }
 }
 
-function stopService {
-    if(!(checkInstall)) {
+function stopService
+{
+    if (!(checkInstall))
+    {
         return $false
     }
 
-    if (isRunning) {
+    if (isRunning)
+    {
         Stop-Service -Name $serviceName
         Write-Host "$serviceName has been stopped"
     }
     return $true
 }
 
-function removeRegistry {
-    if (Test-Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName") {
+function removeRegistry
+{
+    if (Test-Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName")
+    {
         Remove-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName" -Force -Recurse
         Write-Host "Registry key for $serviceName has been removed."
     }
 }
 
-function deleteService {
+function deleteService
+{
     stopService
     removeRegistry
     if (Get-Service -Name $serviceName -ErrorAction SilentlyContinue)
@@ -92,7 +107,8 @@ function deleteService {
 }
 
 
-function addRegistry {
+function addRegistry
+{
     New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName" -Force | Out-Null
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName" -Name "ImagePath" -Value "$installPath\$exeName"
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\$serviceName" -Name "DisplayName" -Value $serviceName
@@ -101,33 +117,41 @@ function addRegistry {
 }
 
 
-function createService {
+function createService
+{
     param([string]$startMode)
     deleteService
 
-    if($startMode -eq "auto") {
+    if ($startMode -eq "auto")
+    {
         addRegistry
 
-        sc.exe create $serviceName binPath= "$installPath\$exeName" start= auto | Out-Null
+        sc.exe create $serviceName binPath = "$installPath\$exeName" start = auto | Out-Null
         Write-Host "service created with auto mode"
     }
-    else {
-        sc.exe create $serviceName binPath= "$installPath\$exeName" | Out-Null
+    else
+    {
+        sc.exe create $serviceName binPath = "$installPath\$exeName" | Out-Null
         Write-Host "service created with manuel mode"
     }
 }
 
 
 
-function startService {
-    if(!(checkInstall)) {
+function startService
+{
+    if (!(checkInstall))
+    {
         return $false
     }
 
-    if (!(isRunning)) {
+    if (!(isRunning))
+    {
         Start-Service $serviceName
         Write-Host "$serviceName started"
-    } else {
+    }
+    else
+    {
         Write-Host "$serviceName already running."
     }
     return $true

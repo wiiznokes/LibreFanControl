@@ -7,8 +7,7 @@
     "behavior": "Behavior",
     "sensor": "Sensor",
     "fan": "Fan",
-    "temp": "Temperature",
-    "add_config": "Add configuration"
+    "temp": "Temperature"
   },
   "icon_content_description": {
     "open_drawer": "open setting",
@@ -91,7 +90,7 @@
     "language": "Language",
     "theme": "Theme",
     "exit_on_close": "Quit when closing",
-    "launch_at_startup": "Launch at startup",
+    "launch_at_start_up": "Launch at startup",
     "donate": "Support",
     "info": "Info",
     "info_sub_title": "Dive into app working",
@@ -120,16 +119,35 @@
   },
   "fan_speed": "fan speed",
   "common": {
+    "ok": "Ok",
     "add": "Add",
     "cancel": "Cancel",
     "none": "None",
     "open": "Open",
-    "exit": "Exit"
+    "exit": "Exit",
+    "copy": "Copy",
+    "new": "New",
+    "override": "Override",
+    "quit": "Quit",
+    "yes": "Yes",
+    "no": "No"
   },
   "exit": {
     "title": "Exit setting",
     "remember_choice": "Remember choice",
     "exit": "Exit app",
     "background": "Keep in background"
+  },
+  "dialog": {
+    "title": {
+      "need_admin": "need admin",
+      "new_conf": "New configuration",
+      "launch_at_start_up": "Launch at start up",
+      "conf_not_save": "Config is not save",
+      "error": "Error"
+    },
+    "admin": "The app need to be admin to create/modify the service. Please restart the app with admin privilege",
+    "launch_at_start_up": "Do you want to automatically start FanControl at start up ? You will not be disturbed, a service will be launched in the background.",
+    "conf_not_save": "The current configuration is not save, what do you want to do ?"
   }
 }

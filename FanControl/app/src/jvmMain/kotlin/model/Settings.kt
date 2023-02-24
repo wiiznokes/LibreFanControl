@@ -23,6 +23,14 @@ class Settings(
     val firstStart = mutableStateOf(firstStart)
     val launchAtStartUp = mutableStateOf(launchAtStartUp)
     val degree = mutableStateOf(degree)
+
+
+    fun getIndexInfo(_confId: String? = confId.value) = when (_confId) {
+        null -> null
+        else -> confInfoList.indexOfFirst {
+            it.id == confId.value
+        }
+    }
 }
 
 

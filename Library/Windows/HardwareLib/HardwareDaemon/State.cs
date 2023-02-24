@@ -24,10 +24,6 @@ public static class State
     private static readonly object SettingLock = new();
     private static Settings _setting = new(null, 2);
 
-
-    private static readonly object IsOpenLock = new();
-    private static bool _isOpen;
-
     public static Settings Settings
     {
         get
@@ -46,20 +42,64 @@ public static class State
         }
     }
 
-    public static bool IsOpen
+    public static class ServiceState
     {
-        get
+        private static bool _isOpen;
+        private static bool _confHasChange;
+        private static bool _settingsHasChange;
+        private static readonly object LockObject = new();
+
+        public static bool IsOpen
         {
-            lock (IsOpenLock)
+            get
             {
-                return _isOpen;
+                lock (LockObject)
+                {
+                    return _isOpen;
+                }
+            }
+            set
+            {
+                lock (LockObject)
+                {
+                    _isOpen = value;
+                }
             }
         }
-        set
+
+        public static bool SettingsAndConfHasChange
         {
-            lock (IsOpenLock)
+            get
             {
-                _isOpen = value;
+                lock (LockObject)
+                {
+                    return _confHasChange;
+                }
+            }
+            set
+            {
+                lock (LockObject)
+                {
+                    _confHasChange = value;
+                }
+            }
+        }
+
+        public static bool SettingsHasChange
+        {
+            get
+            {
+                lock (LockObject)
+                {
+                    return _settingsHasChange;
+                }
+            }
+            set
+            {
+                lock (LockObject)
+                {
+                    _settingsHasChange = value;
+                }
             }
         }
     }

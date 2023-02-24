@@ -1,6 +1,6 @@
 package ui.screen.itemsList.behaviorList
 
-import State
+import FState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.item.BaseI.Companion.checkNameTaken
 import model.item.BaseIBehavior
@@ -8,8 +8,8 @@ import model.item.IControl
 import utils.getIndexList
 
 open class BaseBehaviorVM(
-    val iBehaviors: SnapshotStateList<BaseIBehavior> = State.iBehaviors,
-    private val iControls: SnapshotStateList<IControl> = State.iControls,
+    val iBehaviors: SnapshotStateList<BaseIBehavior> = FState.iBehaviors,
+    private val iControls: SnapshotStateList<IControl> = FState.iControls,
 ) {
     fun remove(index: Int) {
         val behavior = iBehaviors[index]

@@ -1,5 +1,6 @@
 package ui.screen.topBar
 
+import FState
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.IconButton
@@ -13,12 +14,10 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
 import ui.component.managerText
-import ui.screen.topBar.configuration.configuration
 import ui.theme.LocalColors
 import ui.utils.Resources
 
 
-private val viewModel = TopBarVM()
 val topBarHeight = 45.dp
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
@@ -111,7 +110,7 @@ fun topBarBody(
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                configuration()
+                confTopBar()
 
                 Divider(
                     modifier = Modifier
@@ -123,7 +122,7 @@ fun topBarBody(
 
                 IconButton(
                     onClick = {
-                        viewModel.edit()
+                        FState.ui.editModeActivated.value = !FState.ui.editModeActivated.value
                     }
                 ) {
                     Icon(
@@ -164,7 +163,9 @@ fun topBarAddItem() {
         ),
         navigationIcon = {
             IconButton(
-                onClick = { viewModel.closeAddItem() }
+                onClick = {
+                    FState.ui.addItemExpanded.value = false
+                }
             ) {
                 Icon(
                     painter = Resources.getIcon("topBar/forward40"),

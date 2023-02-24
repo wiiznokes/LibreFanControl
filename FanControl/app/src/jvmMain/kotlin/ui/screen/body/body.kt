@@ -1,5 +1,6 @@
 package ui.screen.body
 
+import FState
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
@@ -12,7 +13,10 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.Text
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -39,8 +43,6 @@ private val scrollBarHeight = 20.dp
 fun body(
     addItemAnimationState: MutableTransitionState<Boolean>,
 ) {
-
-    val viewModel = BodyVM()
 
     // body + addItem button
     Box(
@@ -89,7 +91,8 @@ fun body(
             }
         }
 
-        val addItemExpanded = viewModel.addItemExpanded.collectAsState()
+        val addItemExpanded = FState.ui.addItemExpanded
+
 
         val visibleState = remember { MutableTransitionState(!addItemExpanded.value) }
         // visible only when add item transition has finish to avoid icon show to early
@@ -117,7 +120,10 @@ fun body(
                         else floatingActionButtonPadding
                     ),
                 containerColor = LocalColors.current.error,
-                onClick = { viewModel.expandAddItem() }
+                onClick = {
+                    FState.ui.editModeActivated.value = false
+                    addItemExpanded.value = true
+                }
             ) {
                 Icon(
                     painter = Resources.getIcon("sign/plus/add40"),

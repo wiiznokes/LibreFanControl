@@ -1,14 +1,14 @@
 package ui.screen.itemsList.sensor.body.fanList
 
-import State
+import FState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.HFan
 import model.item.BaseI.Companion.checkNameTaken
 import model.item.IFan
 
 class FanVM(
-    val iFans: SnapshotStateList<IFan> = State.iFans,
-    val hFans: SnapshotStateList<HFan> = State.hFans,
+    val iFans: SnapshotStateList<IFan> = FState.iFans,
+    val hFans: SnapshotStateList<HFan> = FState.hFans,
 ) {
 
     fun remove(index: Int) {

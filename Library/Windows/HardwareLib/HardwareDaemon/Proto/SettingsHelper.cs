@@ -18,13 +18,13 @@ public static class SettingsDir
         Dir,
         "conf"
     );
-    
+
     public static readonly string SettingsFile = Path.Combine(
         Dir,
         "settings"
     );
-    
-    
+
+
     public static string GetConfFile(string confId)
     {
         return Path.Combine(
@@ -39,10 +39,8 @@ public static class SettingsDir
     }
 }
 
-
 public static class SettingsHelper
 {
-
     public static void LoadSettingsFile(Settings settingsState)
     {
         var pSettings = PSettings.Parser.ParseFrom(GetSettingsBytes());

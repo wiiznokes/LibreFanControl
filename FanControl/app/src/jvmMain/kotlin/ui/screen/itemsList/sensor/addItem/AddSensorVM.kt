@@ -1,6 +1,6 @@
 package ui.screen.itemsList.sensor.addItem
 
-import State
+import FState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.item.*
 import model.item.BaseI.Companion.getAvailableId
@@ -8,8 +8,8 @@ import model.item.BaseI.Companion.getAvailableName
 import ui.utils.Resources
 
 class AddSensorVM(
-    private val iFans: SnapshotStateList<IFan> = State.iFans,
-    private val iTemps: SnapshotStateList<BaseITemp> = State.iTemps,
+    private val iFans: SnapshotStateList<IFan> = FState.iFans,
+    private val iTemps: SnapshotStateList<BaseITemp> = FState.iTemps,
 ) {
     fun addFan() {
         iFans.add(
