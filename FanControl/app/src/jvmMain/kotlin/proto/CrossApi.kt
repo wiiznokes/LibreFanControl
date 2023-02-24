@@ -1,7 +1,6 @@
 package proto
 
 import FState
-import FState.showError
 import com.google.protobuf.Empty
 import io.grpc.ManagedChannel
 import kotlinx.coroutines.flow.Flow
@@ -53,7 +52,7 @@ class CrossApi(
                 }
             }
         } catch (e: Exception) {
-            showError(e)
+            FState.ui.showError(e)
             false
         }
     }

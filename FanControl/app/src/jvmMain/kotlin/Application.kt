@@ -149,7 +149,7 @@ class Application(
         return when (res) {
             0 -> true
             3 -> {
-                FState.ui.adminDialogExpanded.value = true
+                FState.ui.dialogExpanded.value = UiState.Dialog.NEED_ADMIN
                 false
             }
 

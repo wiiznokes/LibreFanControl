@@ -1,9 +1,8 @@
 package ui.screen.dialog
 
+import FState
 import UiState
 import androidx.compose.runtime.Composable
-import proto.ConfHelper
-import proto.SettingsHelper
 import ui.screen.topBar.configuration.ConfigurationVM
 import ui.utils.Resources
 
@@ -11,10 +10,7 @@ import ui.utils.Resources
 private val viewModel = ConfigurationVM()
 
 @Composable
-fun confNotSaveDialog(
-    onQuit: () -> Unit,
-    confName: String
-) {
+fun confNotSaveDialog() {
     baseDialog(
         enabled = FState.ui.dialogExpanded.value == UiState.Dialog.CONF_IS_NOT_SAVE,
         title = Resources.getString("dialog/title/conf_not_save"),
@@ -26,7 +22,7 @@ fun confNotSaveDialog(
         },
         bottomContent = {
             baseDialogButton(
-                onClick = { onQuit() },
+                onClick = { },
                 text = Resources.getString("common/quit")
             )
 
@@ -35,10 +31,13 @@ fun confNotSaveDialog(
             if (confId != null) {
                 baseDialogButton(
                     onClick = {
-                        if (!viewModel.saveConfiguration(confName))
+                        if (!viewModel.saveConfiguration(FState.ui.confName.value)) {
+                            println("ERROR: can't save config")
+                            FState.ui.dialogExpanded.value = UiState.Dialog.SAVE_CONF
+                            return@baseDialogButton
+                        }
 
-                        FState.ui.confIsNotSaveDialogExpanded.value = false
-                        onQuit()
+                        FState.ui.dialogExpanded.value = UiState.Dialog.NONE
                     },
                     text = Resources.getString("common/override")
                 )
@@ -47,8 +46,7 @@ fun confNotSaveDialog(
 
             baseDialogButton(
                 onClick = {
-                    FState.ui.confIsNotSaveDialogExpanded.value = false
-                    FState.ui.saveConfDialogExpanded.value = true
+                    FState.ui.dialogExpanded.value = UiState.Dialog.SAVE_CONF
                 },
                 text = Resources.getString("common/new")
             )

@@ -1,8 +1,11 @@
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import proto.ConfHelper
 import proto.SettingsHelper
 import ui.screen.dialog.confNotSaveDialog
 import ui.screen.home
@@ -22,21 +25,28 @@ fun main() {
             title = Resources.getString("title/app_name"),
             icon = Resources.getIcon("app/toys_fan48"),
             onCloseRequest = {
-                if (FState.settings.firstStart.value) {
-                    FState.settings.firstStart.value = false
-                    SettingsHelper.writeSettings(false)
-                    FState.ui.dialogExpanded.value = UiState.Dialog.LAUNCH_AT_START_UP
+                CoroutineScope(Dispatchers.Default).launch {
+                    if (FState.settings.firstStart.value) {
+                        FState.settings.firstStart.value = false
+                        SettingsHelper.writeSettings(false)
+                        FState.ui.dialogExpanded.value = UiState.Dialog.LAUNCH_AT_START_UP
+                    }
+
+                    while (FState.ui.dialogExpanded.value != UiState.Dialog.NONE) {
+                        delay(200L)
+                    }
+
+                    if (ConfHelper.isConfSave(FState.settings.confId.value, FState.ui.confName.value)) {
+                        FState.ui.dialogExpanded.value = UiState.Dialog.CONF_IS_NOT_SAVE
+                    }
+
+                    while (FState.ui.dialogExpanded.value != UiState.Dialog.NONE) {
+                        delay(200L)
+                    }
+
+                    app.onStop()
+                    exitApplication()
                 }
-
-                while (FState.ui.dialogExpanded.value != UiState.Dialog.NONE) {
-                    delay()
-                }
-
-
-
-
-                app.onStop()
-                exitApplication()
             }
         ) {
             // tricks to have confName value all over the app
@@ -54,17 +64,8 @@ fun main() {
                 app.onStart()
 
                 home()
-
-                confNotSaveDialog(
-                    onQuit =  {
-                        exitApplication()
-                    },
-                    confName = ""
-                )
+                initDialogs()
             }
         }
     }
 }
-
-
-

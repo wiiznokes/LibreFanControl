@@ -6,7 +6,6 @@ import FState.iBehaviors
 import FState.iControls
 import FState.iFans
 import FState.iTemps
-import FState.settings
 import external.OS
 import external.OsException
 import external.getOS
@@ -66,8 +65,9 @@ class ConfHelper {
             getConfFile(confId).delete()
         }
 
-        fun isConfDifferent(confId: String, confName: String): Boolean {
-            return createPConf(getConf(confId, confName)) != PConf.parseFrom(getConfFile(confId).readBytes())
+        fun isConfSave(confId: String?, confName: String): Boolean {
+            return confId != null
+           // return createPConf(getConf(confId, confName)) != PConf.parseFrom(getConfFile(confId).readBytes())
         }
 
 

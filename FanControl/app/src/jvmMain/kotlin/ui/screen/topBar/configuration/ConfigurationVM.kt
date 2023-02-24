@@ -9,7 +9,7 @@ import proto.ConfHelper
 import proto.SettingsHelper
 
 class ConfigurationVM(
-    val settings: Settings = FState.settings,
+    val settings: Settings = FState.settings
 ) {
 
     fun saveConfiguration(name: String): Boolean {
@@ -36,7 +36,7 @@ class ConfigurationVM(
         println("save conf: id = $confId")
         settings.confInfoList[index].name.value = name
         SettingsHelper.writeSettings(false)
-        ConfHelper.writeConf(confId)
+        ConfHelper.writeConf(confId, name)
         return true
     }
 
@@ -65,7 +65,7 @@ class ConfigurationVM(
         settings.confId.value = id
         settings.confInfoList.add(ConfInfo(id, name))
         SettingsHelper.writeSettings(false)
-        ConfHelper.writeConf(id)
+        ConfHelper.writeConf(id, name)
 
         return true
     }
