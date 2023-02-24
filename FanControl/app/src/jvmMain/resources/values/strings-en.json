@@ -141,7 +141,7 @@
   "dialog": {
     "title": {
       "need_admin": "need admin",
-      "add_config": "Add config",
+      "new_conf": "New configuration",
       "launch_at_start_up": "Launch at start up",
       "conf_not_save": "Config is not save",
       "error": "Error"

@@ -23,10 +23,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ui.screen.addItem.addItem
 import ui.screen.body.body
-import ui.screen.dialog.confNotSaveDialog
-import ui.screen.dialog.errorDialog
-import ui.screen.dialog.launchAtStartUpDialog
-import ui.screen.dialog.needAdminDialog
+import ui.screen.dialog.*
 import ui.screen.drawer.drawerContent
 import ui.screen.topBar.topBarAddItem
 import ui.screen.topBar.topBarBody
@@ -120,4 +117,5 @@ fun initDialogs() {
     errorDialog()
     confNotSaveDialog()
     launchAtStartUpDialog()
+    newConfDialog()
 }

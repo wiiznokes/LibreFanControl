@@ -1,4 +1,4 @@
-package ui.screen.topBar.configuration
+package ui.screen.dialog
 
 import FState
 import model.ConfInfo

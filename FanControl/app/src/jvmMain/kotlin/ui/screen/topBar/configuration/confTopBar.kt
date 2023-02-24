@@ -21,6 +21,7 @@ import model.item.BaseI.Companion.checkNameTaken
 import ui.component.ListChoiceDefault
 import ui.component.managerListChoice
 import ui.component.managerNameTextField
+import ui.screen.dialog.ConfigurationVM
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces
 import ui.utils.Resources
@@ -66,7 +67,29 @@ fun configuration() {
         )
 
     }
-    addConfiguration()
+
+
+    /*
+        used to know if add conf button should trigger
+        because when the dialog appears, this button is
+        still focused, and will trigger if Enter is pressed
+    */
+    val keyEnterPressed = remember { mutableStateOf(false) }
+
+    IconButton(
+        onClick = {
+            if (keyEnterPressed.value)
+                keyEnterPressed.value = false
+            else
+                FState.ui.dialogExpanded.value = UiState.Dialog.NEW_CONF
+        }
+    ) {
+        Icon(
+            painter = Resources.getIcon("sign/plus/add40"),
+            contentDescription = null,
+            tint = LocalColors.current.onMainTopBar
+        )
+    }
 }
 
 

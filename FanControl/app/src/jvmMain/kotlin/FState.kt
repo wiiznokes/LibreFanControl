@@ -1,7 +1,5 @@
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.Settings
 import model.hardware.HControl
@@ -11,7 +9,6 @@ import model.item.BaseIBehavior
 import model.item.BaseITemp
 import model.item.IControl
 import model.item.IFan
-import ui.utils.Resources
 
 
 object FState {
@@ -50,7 +47,7 @@ class UiState {
 
     enum class Dialog {
         NONE,
-        SAVE_CONF,
+        NEW_CONF,
         NEED_ADMIN,
         SHOW_ERROR,
         LAUNCH_AT_START_UP,

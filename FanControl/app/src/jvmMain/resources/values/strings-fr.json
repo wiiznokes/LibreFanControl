@@ -119,11 +119,18 @@
   },
   "fan_speed": "vitesse fan",
   "common": {
+    "ok": "Ok",
     "add": "Ajouter",
     "cancel": "Annuler",
     "none": "Aucun",
     "open": "Ouvrir",
-    "exit": "Fermer"
+    "exit": "Fermer",
+    "copy": "Copy",
+    "new": "New",
+    "override": "Override",
+    "quit": "Quit",
+    "yes": "Yes",
+    "no":"No"
   },
   "exit": {
     "title": "Quitter Paramètre",
@@ -134,10 +141,13 @@
   "dialog": {
     "title": {
       "need_admin": "Besoin admin",
-      "add_config": "Ajouter configuration",
+      "new_conf": "Nouvelle configuration",
       "launch_at_start_up": "Lancer au démarage",
       "conf_not_save": "Config is not save",
       "error": "Error"
-    }
+    },
+    "admin": "The app need to be admin to create/modify the service. Please restart the app with admin privilege",
+    "launch_at_start_up": "Do you want to automatically start FanControl at start up ? You will not be disturbed, a service will be launched in the background.",
+    "conf_not_save": "The current configuration is not save, what do you want to do ?"
   }
 }
