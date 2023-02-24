@@ -12,7 +12,7 @@ I intend to produce a v2 with a service system, which will therefore be much lig
 
 
 ## V2 road map
-- [ ] Implement dialogs
+- [x] Implement dialogs
 - [x] Implement streams functions
 - [ ] Upgrade service update
 - [ ] add light color theme
