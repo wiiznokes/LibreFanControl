@@ -2,10 +2,18 @@
 
 public class Flat : Behavior
 {
-    public Flat(string id, int value) : base(id, BehaviorType.Flat)
+    public Flat(string id, int value) : base(id)
     {
         Value = value;
+        IsValid = true;
+        SetOneTime = true;
     }
 
-    public int Value { get; }
+
+    private int Value { get; }
+
+    public override int GetSpeed()
+    {
+        return Value;
+    }
 }

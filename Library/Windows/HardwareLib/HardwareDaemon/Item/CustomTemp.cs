@@ -1,5 +1,4 @@
-﻿using HardwareDaemon.Hardware.Sensor;
-using HardwareDaemon.Item.Behavior;
+﻿using HardwareDaemon.Utils;
 
 namespace HardwareDaemon.Item;
 
@@ -17,9 +16,13 @@ public class CustomTemp
         Id = id;
         HTempIds = hTempIds;
         Type = type;
-        HTemps = new List<BaseSensor>();
+        HTempsIndexList = new List<int>();
 
         IsValid = HTempIds.Count > 0;
+
+        if (!IsValid) return;
+
+        if (!SetHTempsIndexList()) IsValid = false;
     }
 
     public string Id { get; }
@@ -27,26 +30,26 @@ public class CustomTemp
     private CustomTempType Type { get; }
 
 
-    private bool IsValid { get; }
+    public bool IsValid { get; }
 
-    private List<BaseSensor> HTemps { get; }
+    private List<int> HTempsIndexList { get; }
 
-    public void Init()
+    private bool SetHTempsIndexList()
     {
-        if (!IsValid)
-            throw new BehaviorException("custom temp not valid");
-
-        foreach (var hTemp in State.HTemps.Values)
+        foreach (var hTempId in HTempIds)
+        foreach (var (hTemp, index) in State.HTemps.Values.WithIndex())
         {
-            if (!HTempIds.Contains(hTemp.Id)) continue;
+            if (hTemp.Id != hTempId) continue;
 
-            HTemps.Add(hTemp);
-
-            if (HTemps.Count == HTempIds.Count)
-                return;
+            HTempsIndexList.Add(index);
+            break;
         }
 
-        throw new BehaviorException("custom temp haven't found all hTemp");
+        if (HTempIds.Count == HTempsIndexList.Count) return true;
+
+
+        Console.WriteLine("Error: set index for custom temp " + Id + ", not all index was found");
+        return false;
     }
 
     public int GetValue()
@@ -63,8 +66,9 @@ public class CustomTemp
     private IEnumerable<int> GetTempValues()
     {
         List<int> values = new();
-        foreach (var hTemp in HTemps)
+        foreach (var index in HTempsIndexList)
         {
+            var hTemp = State.HTemps[index];
             hTemp.Update();
             values.Add(hTemp.Value);
         }

@@ -1,92 +1,83 @@
-﻿using HardwareDaemon.Hardware.Sensor;
+﻿using HardwareDaemon.Utils;
 
 namespace HardwareDaemon.Item.Behavior;
 
-public enum BehaviorType
-{
-    Flat,
-    Linear,
-    Target
-}
-
-public class BehaviorException : Exception
-{
-    public BehaviorException(string msg) : base(msg)
-    {
-    }
-}
-
 public abstract class Behavior
 {
-    protected Behavior(string id, BehaviorType type)
+    protected Behavior(string id)
     {
         Id = id;
-        Type = type;
     }
 
     public string Id { get; }
-    public BehaviorType Type { get; }
+
+    public bool IsValid { get; protected init; }
+    public bool SetOneTime { get; protected init; }
+
+    public abstract int GetSpeed();
 }
 
 public abstract class BehaviorWithTemp : Behavior
 {
     private const string CustomTempPrefix = "iCustomTemp";
 
-    protected BehaviorWithTemp(string id, string? tempId, BehaviorType type) : base(id, type)
+    protected BehaviorWithTemp(string id, string? tempId) : base(id)
     {
         TempId = tempId;
+        SetOneTime = false;
+
         IsValid = TempId != null;
 
         if (!IsValid) return;
 
         var parts = TempId!.Split('/');
         IsCustomTemp = parts.Length > 0 && parts[0] == CustomTempPrefix;
+
+        if (!SetTempIndex()) IsValid = false;
     }
+
 
     private string? TempId { get; }
     private bool IsCustomTemp { get; }
 
-    private bool IsValid { get; }
 
-    private BaseSensor? Htemp { get; set; }
-    private CustomTemp? CustomTemp { get; set; }
+    // either hTemp or iCustomTemp
+    private int TempIndex { get; set; }
 
 
     protected int GetSensorValue()
     {
-        if (IsCustomTemp) return CustomTemp!.GetValue();
+        if (IsCustomTemp) return State.CustomTemps[TempIndex].GetValue();
 
-        Htemp!.Update();
-        return Htemp.Value;
+        State.HTemps[TempIndex].Update();
+        return State.HTemps[TempIndex].Value;
     }
 
 
-    public abstract int GetSpeed();
-
-
-    public void Init()
+    /**
+     * return -1 if there is an error
+     */
+    private bool SetTempIndex()
     {
-        if (!IsValid)
-            throw new BehaviorException("behavior not valid");
-
         if (IsCustomTemp)
-            foreach (var iCustomTemp in State.CustomTemps.Values)
+            foreach (var (iCustomTemp, index) in State.CustomTemps.Values.WithIndex())
             {
                 if (iCustomTemp.Id != TempId) continue;
 
-                iCustomTemp.Init();
-                CustomTemp = iCustomTemp;
-                return;
+
+                if (!iCustomTemp.IsValid) return false;
+                TempIndex = index;
             }
         else
-            foreach (var hTemp in State.HTemps.Values)
+            foreach (var (hTemp, index) in State.HTemps.Values.WithIndex())
             {
                 if (hTemp.Id != TempId) continue;
 
-                Htemp = hTemp;
-                return;
+                TempIndex = index;
+                return true;
             }
 
-        throw new BehaviorException("no sensor found (should not happened)");
+        Console.WriteLine("Error: behavior " + Id + ", none temp id was found");
+        return false;
     }
 }

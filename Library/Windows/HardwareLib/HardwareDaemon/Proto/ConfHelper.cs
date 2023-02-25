@@ -1,5 +1,6 @@
 ﻿using HardwareDaemon.Item;
 using HardwareDaemon.Item.Behavior;
+using HardwareDaemon.Utils;
 using Proto.Generated.PConf;
 
 namespace HardwareDaemon.Proto;
@@ -18,18 +19,29 @@ public static class ConfHelper
     }
 
 
-    public static void ParsePConf(PConf pConf)
+    // the order is important here (for initialization)
+    private static void ParsePConf(PConf pConf)
     {
         State.Controls.Clear();
         State.Behaviors.Clear();
         State.CustomTemps.Clear();
 
-        foreach (var pIControl in pConf.PIControls)
-            State.Controls.TryAdd(State.Controls.Count, new Control(
-                SettingsHelper.NullableToNull(pIControl.PIBehaviorId),
-                SettingsHelper.NullableToNull(pIControl.PHControlId),
-                pIControl.PIsAuto
-            ));
+
+        foreach (var pITemp in pConf.PITemps)
+            if (pITemp.KindCase == PITemp.KindOneofCase.PICustomTemp)
+                State.CustomTemps.TryAdd(State.CustomTemps.Count,
+                    new CustomTemp(
+                        pITemp.PId,
+                        pITemp.PICustomTemp.PHTempIds.ToList(),
+                        pITemp.PICustomTemp.PType switch
+                        {
+                            PCustomTempTypes.Average => CustomTemp.CustomTempType.Average,
+                            PCustomTempTypes.Max => CustomTemp.CustomTempType.Max,
+                            PCustomTempTypes.Min => CustomTemp.CustomTempType.Min,
+                            _ => throw new ProtoException("unknown custom temp type")
+                        }
+                    )
+                );
 
         foreach (var pIBehavior in pConf.PIBehaviors)
             State.Behaviors.TryAdd(State.Behaviors.Count,
@@ -59,20 +71,13 @@ public static class ConfHelper
                 }
             );
 
-        foreach (var pITemp in pConf.PITemps)
-            if (pITemp.KindCase == PITemp.KindOneofCase.PICustomTemp)
-                State.CustomTemps.TryAdd(State.CustomTemps.Count,
-                    new CustomTemp(
-                        pITemp.PId,
-                        pITemp.PICustomTemp.PHTempIds.ToList(),
-                        pITemp.PICustomTemp.PType switch
-                        {
-                            PCustomTempTypes.Average => CustomTemp.CustomTempType.Average,
-                            PCustomTempTypes.Max => CustomTemp.CustomTempType.Max,
-                            PCustomTempTypes.Min => CustomTemp.CustomTempType.Min,
-                            _ => throw new ProtoException("unknown custom temp type")
-                        }
-                    )
-                );
+
+        foreach (var (pIControl, index) in pConf.PIControls.WithIndex())
+            State.Controls.TryAdd(State.Controls.Count, new Control(
+                SettingsHelper.NullableToNull(pIControl.PIBehaviorId),
+                SettingsHelper.NullableToNull(pIControl.PHControlId),
+                pIControl.PIsAuto,
+                index
+            ));
     }
 }

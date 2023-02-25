@@ -18,7 +18,7 @@ public static class State
 
     public static readonly ConcurrentDictionary<int, CustomTemp> CustomTemps = new();
 
-    public static readonly ConcurrentDictionary<int, Control> UpdateList = new();
+    public static readonly ConcurrentDictionary<int, int> UpdateList = new();
 
 
     private static readonly object SettingLock = new();

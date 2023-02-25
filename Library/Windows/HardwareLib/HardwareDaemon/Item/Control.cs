@@ -1,40 +1,81 @@
-﻿using HardwareDaemon.Hardware.Control;
-using HardwareDaemon.Item.Behavior;
-
-namespace HardwareDaemon.Item;
+﻿namespace HardwareDaemon.Item;
 
 public class Control
 {
-    public Control(string? iBehaviorId, string? hControlId, bool isAuto)
+    public Control(string? iBehaviorId, string? hControlId, bool isAuto, int index)
     {
         BehaviorId = iBehaviorId;
         HControlId = hControlId;
         IsAuto = isAuto;
+        Index = index;
         IsValid = HControlId != null && IsAuto == false && BehaviorId != null;
+
+        if (!IsValid) return;
+
+        if (!SetBehaviorIndex() || !SetHControlIndex()) IsValid = false;
+
+        SetOneTime = State.Behaviors[BehaviorIndex].SetOneTime;
     }
+
+    public int Index { get; }
+    public bool SetOneTime { get; }
+
+    private string? HControlId { get; }
+    private bool IsAuto { get; }
+    private string? BehaviorId { get; }
 
     public bool IsValid { get; }
 
 
-    public string? BehaviorId { get; }
-    public BehaviorWithTemp Behavior { get; set; } = null!;
+    private int BehaviorIndex { get; set; }
 
-    private bool IsAuto { get; }
 
-    private string? HControlId { get; }
-    private BaseControl HControl { get; set; } = null!;
+    private int HControlIndex { get; set; }
 
-    public void SetHControl()
+    private bool SetHControlIndex()
     {
+        var i = 0;
         foreach (var hControl in State.HControls.Values)
+        {
             if (hControl.Id == HControlId)
-                HControl = hControl;
+            {
+                HControlIndex = i;
+                return true;
+            }
+
+            i++;
+        }
+
+        return false;
     }
 
 
-    public static void SetSpeed(int value)
+    private bool SetBehaviorIndex()
     {
-        Console.WriteLine("[SERVICE] set control: " + value);
-        //HControl.SetSpeed(value);
+        var i = 0;
+        foreach (var behavior in State.Behaviors.Values)
+        {
+            if (behavior.Id == BehaviorId)
+            {
+                if (!behavior.IsValid) return false;
+
+                BehaviorIndex = i;
+                return true;
+            }
+
+            i++;
+        }
+
+        return false;
+    }
+
+
+    public void SetSpeed()
+    {
+        var value = State.Behaviors[BehaviorIndex].GetSpeed();
+
+        Console.WriteLine("[SERVICE] set control: " + Index + " = " + value);
+
+        //State.HControls[HControlIndex].SetSpeed(value);
     }
 }

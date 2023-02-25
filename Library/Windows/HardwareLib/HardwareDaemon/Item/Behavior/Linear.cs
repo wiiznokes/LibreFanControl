@@ -3,7 +3,7 @@
 public class Linear : BehaviorWithTemp
 {
     public Linear(string id, string? tempId, int minTemp, int maxTemp, int minFanSpeed, int maxFanSpeed) : base(id,
-        tempId, BehaviorType.Linear)
+        tempId)
     {
         MinTemp = minTemp;
         MaxTemp = maxTemp;

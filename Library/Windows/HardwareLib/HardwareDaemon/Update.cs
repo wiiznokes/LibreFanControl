@@ -1,7 +1,4 @@
-﻿using HardwareDaemon.Item;
-using HardwareDaemon.Item.Behavior;
-
-namespace HardwareDaemon;
+﻿namespace HardwareDaemon;
 
 public static class Update
 {
@@ -14,44 +11,24 @@ public static class Update
             if (!iControl.IsValid)
                 continue;
 
-            Behavior? behavior = null;
+            Console.WriteLine("control valid: " + iControl.Index);
 
-            foreach (var iBehavior in State.Behaviors.Values)
+            if (iControl.SetOneTime)
             {
-                if (iBehavior.Id != iControl.BehaviorId) continue;
-                behavior = iBehavior;
-                break;
+                Console.WriteLine("set one time");
+                iControl.SetSpeed();
             }
-
-            if (behavior == null) continue;
-
-            if (behavior.Type == BehaviorType.Flat)
+            else
             {
-                iControl.SetHControl();
-                Control.SetSpeed((behavior as Flat)!.Value);
-                continue;
+                State.UpdateList.TryAdd(State.UpdateList.Count, iControl.Index);
             }
-
-            try
-            {
-                (behavior as BehaviorWithTemp)!.Init();
-            }
-            catch (BehaviorException e)
-            {
-                Console.WriteLine(e.Message);
-                continue;
-            }
-
-            iControl.SetHControl();
-            iControl.Behavior = (behavior as BehaviorWithTemp)!;
-            State.UpdateList.TryAdd(State.UpdateList.Count, iControl);
         }
     }
 
 
     public static void UpdateUpdateList()
     {
-        foreach (var iControl in State.UpdateList.Values) Control.SetSpeed(iControl.Behavior.GetSpeed());
+        foreach (var index in State.UpdateList.Values) State.Controls[index].SetSpeed();
     }
 
     public static void UpdateAllSensors()

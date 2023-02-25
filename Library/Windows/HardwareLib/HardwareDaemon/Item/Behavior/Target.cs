@@ -5,7 +5,7 @@ public class Target : BehaviorWithTemp
     private bool _idleHasBeenReached;
 
     public Target(string id, string? tempId, int idleTemp, int loadTemp, int idleFanSpeed, int loadFanSpeed) : base(id,
-        tempId, BehaviorType.Target)
+        tempId)
     {
         IdleTemp = idleTemp;
         LoadTemp = loadTemp;

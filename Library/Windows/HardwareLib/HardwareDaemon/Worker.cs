@@ -60,6 +60,7 @@ public class Worker : BackgroundService
         }
 
         ConfHelper.LoadConfFile(State.Settings.ConfId);
+        Update.CreateUpdateList();
 
         return true;
     }
@@ -71,6 +72,8 @@ public class Worker : BackgroundService
 
         while (!stoppingToken.IsCancellationRequested)
         {
+            await Task.Delay(State.Settings.UpdateDelay * 1000, stoppingToken);
+
             CheckChange();
 
             if (State.Settings.ConfId == null && !IsOpen)
@@ -80,19 +83,19 @@ public class Worker : BackgroundService
             }
 
 
-            if (State.Settings.ConfId != null)
-                Console.WriteLine("[SERVICE] update");
-            else
-                Console.WriteLine("[SERVICE] no update");
+            if (State.Settings.ConfId == null)
+                continue;
 
-            await Task.Delay(State.Settings.UpdateDelay * 1000, stoppingToken);
+            Console.WriteLine("[SERVICE] update");
+
+            Update.UpdateUpdateList();
         }
 
         AutoCancel();
     }
 
 
-    private void CheckChange()
+    private static void CheckChange()
     {
         if (SettingsHasChange)
         {
@@ -102,9 +105,15 @@ public class Worker : BackgroundService
 
         if (SettingsAndConfHasChange)
         {
+            Update.CreateUpdateList();
+            Update.SetAutoAll();
             SettingsHelper.LoadSettingsFile(State.Settings);
 
-            if (State.Settings.ConfId != null) ConfHelper.LoadConfFile(State.Settings.ConfId);
+            if (State.Settings.ConfId != null)
+            {
+                ConfHelper.LoadConfFile(State.Settings.ConfId);
+                Update.CreateUpdateList();
+            }
 
             SettingsAndConfHasChange = false;
         }
