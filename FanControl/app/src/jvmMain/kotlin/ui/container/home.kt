@@ -12,15 +12,13 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import ui.addItem.ChoiceState
 import ui.addItem.addItem
 import ui.drawer.drawerContent
 
@@ -57,6 +55,7 @@ fun home() {
                     val visibleState = remember { MutableTransitionState(FState.ui.addItemExpanded.value) }
                     visibleState.targetState = FState.ui.addItemExpanded.value
 
+                    val choiceState = remember { mutableStateOf(ChoiceState()) }
 
                     AnimatedContent(
                         targetState = visibleState.targetState,
@@ -86,7 +85,7 @@ fun home() {
                                     .width(260.dp)
                             ) {
                                 topBarAddItem()
-                                addItem()
+                                addItem(choiceState)
                             }
                         }
                     }

@@ -10,8 +10,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -25,15 +23,14 @@ import utils.Resources
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun addItem() {
-    val state = remember { mutableStateOf(ChoiceState()) }
-
+fun addItem(choiceState: MutableState<ChoiceState>) {
+    
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(LocalColors.current.secondBackground)
     ) {
-        addItemChoice(state)
+        addItemChoice(choiceState)
 
         Divider(
             modifier = Modifier.padding(bottom = 10.dp),
@@ -43,7 +40,7 @@ fun addItem() {
 
 
         AnimatedContent(
-            targetState = state.value,
+            targetState = choiceState.value,
             transitionSpec = {
                 slideInHorizontally(
                     initialOffsetX = {

@@ -79,7 +79,7 @@ class ConfHelper {
 
             val currentPConf = createPConf(getConf(confId, confName))
             val stored =  PConf.parseFrom(getConfFile(confId).readBytes())
-            
+
             return currentPConf == stored
         }
 

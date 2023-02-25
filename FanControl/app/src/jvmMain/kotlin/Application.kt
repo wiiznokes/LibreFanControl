@@ -99,7 +99,7 @@ class Application(
                             settings.confId.value = null
                             SettingsHelper.writeSettings(false)
                         }
-                        println("load conf $it sucess")
+                        println("load conf $it success")
                     }
                 }
             }
