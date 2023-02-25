@@ -119,7 +119,7 @@ fun body(
                         bottom = if (scrollBarShouldShow.value) scrollBarHeight + floatingActionButtonPadding
                         else floatingActionButtonPadding
                     ),
-                containerColor = LocalColors.current.error,
+                containerColor = LocalColors.current.inputMain,
                 onClick = {
                     FState.ui.editModeActivated.value = false
                     addItemExpanded.value = true
@@ -128,7 +128,7 @@ fun body(
                 Icon(
                     painter = Resources.getIcon("sign/plus/add40"),
                     contentDescription = Resources.getString("ct/open_add_item"),
-                    tint = LocalColors.current.onError
+                    tint = LocalColors.current.onInputMain
                 )
             }
         }

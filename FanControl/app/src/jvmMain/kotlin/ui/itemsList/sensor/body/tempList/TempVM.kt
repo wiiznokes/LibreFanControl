@@ -4,7 +4,7 @@ import FState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.HTemp
 import model.item.*
-import model.item.BaseI.Companion.checkNameTaken
+import model.item.BaseI.Companion.checkNameValid
 
 class TempVM(
     val iTemps: SnapshotStateList<BaseITemp> = FState.iTemps,
@@ -56,7 +56,7 @@ class TempVM(
 
 
     fun setName(name: String, index: Int) {
-        checkNameTaken(
+        checkNameValid(
             names = iTemps.map { item ->
                 item.name.value
             },

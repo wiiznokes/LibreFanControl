@@ -2,15 +2,12 @@ package ui.dialogs
 
 import FState
 import UiState
+import androidx.compose.material3.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonColors
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Surface
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
@@ -46,7 +44,7 @@ fun baseDialog(
             FState.ui.dialogExpanded.value = UiState.Dialog.NONE
         },
         title = title,
-        focusable = enabled,
+        focusable = true,
         onKeyEvent = {
             //println("on key event, ${it.key}")
             when (it.key) {
@@ -115,16 +113,20 @@ fun baseDialogButton(
     onClick: () -> Unit,
     text: String,
     icon: Painter? = null,
-    colors: ButtonColors = ButtonDefaults.buttonColors(
-        backgroundColor = LocalColors.current.inputVariant
-    ),
+    containerColor: Color = LocalColors.current.inputVariant,
+    contentColor: Color = LocalColors.current.onInputVariant,
 ) {
+
+
 
     Button(
         modifier = Modifier
             .padding(LocalSpaces.current.medium),
         onClick = onClick,
-        colors = colors
+        colors = ButtonDefaults.buttonColors(
+            containerColor = containerColor,
+        contentColor = contentColor,
+        )
     ) {
 
         Row(
@@ -133,14 +135,14 @@ fun baseDialogButton(
         ) {
             managerText(
                 text = text,
-                color = LocalColors.current.onInputVariant
+                color = contentColor
             )
 
             if (icon != null) {
                 Icon(
                     painter = icon,
                     contentDescription = null,
-                    tint = LocalColors.current.onInputVariant
+                    tint = contentColor
                 )
             }
         }

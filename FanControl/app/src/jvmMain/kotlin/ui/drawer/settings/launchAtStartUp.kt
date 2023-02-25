@@ -72,7 +72,9 @@ fun launchAtStartUpDialog(
                 onClick = {
                     onLaunchAtStartUpChange(true)
                 },
-                text = Resources.getString("common/yes")
+                text = Resources.getString("common/yes"),
+                containerColor = LocalColors.current.inputMain,
+                contentColor = LocalColors.current.onInputMain,
             )
         }
     )

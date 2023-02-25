@@ -1,9 +1,10 @@
 package ui.configuration.confDialogs
 
 import FState
+import androidx.compose.runtime.MutableState
 import model.ConfInfo
 import model.Settings
-import model.item.BaseI.Companion.checkNameTaken
+import model.item.BaseI.Companion.checkNameValid
 import model.item.NameException
 import proto.ConfHelper
 import proto.SettingsHelper
@@ -22,7 +23,7 @@ class ConfVM(
         }
 
         try {
-            checkNameTaken(
+            checkNameValid(
                 names = settings.confInfoList.map { item ->
                     item.name.value
                 },
@@ -51,13 +52,15 @@ class ConfVM(
         SettingsHelper.writeSettings()
     }
 
-    fun addConfiguration(name: String, id: String): Boolean {
+    fun addConfiguration(name: MutableState<String>, id: String): Boolean {
+        val actualName = name.value
+        println("addConfiguration: $id, $actualName")
         try {
-            checkNameTaken(
+            checkNameValid(
                 names = settings.confInfoList.map { item ->
                     item.name.value
                 },
-                name = name
+                name = actualName
             )
         } catch (e: NameException) {
             println("add conf: NameException -> return false")
@@ -66,9 +69,9 @@ class ConfVM(
         println("add conf: id = $id")
 
         settings.confId.value = id
-        settings.confInfoList.add(ConfInfo(id, name))
+        settings.confInfoList.add(ConfInfo(id, actualName))
         SettingsHelper.writeSettings(false)
-        ConfHelper.writeConf(id, name)
+        ConfHelper.writeConf(id, actualName)
 
         return true
     }

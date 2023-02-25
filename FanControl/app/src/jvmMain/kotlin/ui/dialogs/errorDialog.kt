@@ -3,6 +3,7 @@ package ui.dialogs
 import FState
 import UiState
 import androidx.compose.runtime.Composable
+import ui.theme.LocalColors
 import utils.Resources
 
 @Composable
@@ -25,7 +26,9 @@ fun errorDialog() {
             )
             baseDialogButton(
                 onClick = { FState.ui.closeShowError() },
-                text = Resources.getString("common/ok")
+                text = Resources.getString("common/ok"),
+                containerColor = LocalColors.current.inputMain,
+                contentColor = LocalColors.current.onInputMain,
             )
         }
     )

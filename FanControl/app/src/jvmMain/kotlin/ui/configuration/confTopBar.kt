@@ -18,7 +18,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import model.ConfInfo
-import model.item.BaseI.Companion.checkNameTaken
+import model.item.BaseI.Companion.checkNameValid
 import ui.component.ListChoiceDefault
 import ui.component.managerListChoice
 import ui.component.managerNameTextField
@@ -70,19 +70,10 @@ fun confTopBar() {
     }
 
 
-    /*
-        used to know if add conf button should trigger
-        because when the dialog appears, this button is
-        still focused, and will trigger if Enter is pressed
-    */
-    val keyEnterPressed = remember { mutableStateOf(false) }
-
     IconButton(
         onClick = {
-            if (keyEnterPressed.value)
-                keyEnterPressed.value = false
-            else
-                FState.ui.dialogExpanded.value = UiState.Dialog.NEW_CONF
+            println("on click: new conf top bar")
+            FState.ui.dialogExpanded.value = UiState.Dialog.NEW_CONF
         }
     ) {
         Icon(
@@ -110,7 +101,7 @@ private fun configurationListChoice(
                 ids = Pair(null, currentId),
                 text = text,
                 onValueChange = { value ->
-                    checkNameTaken(
+                    checkNameValid(
                         names = confInfoList.map { config ->
                             config.name.value
                         },

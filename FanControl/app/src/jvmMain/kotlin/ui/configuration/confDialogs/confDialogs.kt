@@ -18,6 +18,7 @@ import ui.component.managerNameTextField
 import ui.dialogs.baseDialog
 import ui.dialogs.baseDialogButton
 import ui.dialogs.baseDialogText
+import ui.theme.LocalColors
 import utils.Resources
 
 
@@ -64,7 +65,9 @@ fun confNotSaveDialog() {
                 onClick = {
                     FState.ui.dialogExpanded.value = UiState.Dialog.NEW_CONF
                 },
-                text = Resources.getString("common/new")
+                text = Resources.getString("common/new"),
+                containerColor = LocalColors.current.inputMain,
+                contentColor = LocalColors.current.onInputMain,
             )
         }
     )
@@ -80,13 +83,14 @@ fun newConfDialog() {
         list = configList.map { it.id },
         prefix = "conf"
     )
-    val text = remember(id) { mutableStateOf("") }
+    val text =  mutableStateOf("")
 
     baseDialog(
         enabled = enabled,
         title = Resources.getString("dialog/title/new_conf"),
         onEnterKey = {
-            if (viewModel.addConfiguration(text.value, id))
+            println("onEnterKey: new conf dialog")
+            if (viewModel.addConfiguration(text, id))
                 FState.ui.dialogExpanded.value = UiState.Dialog.NONE
         },
         topContent = {
@@ -100,7 +104,7 @@ fun newConfDialog() {
                     .widthIn(min = 200.dp, max = 250.dp)
                     .height(40.dp),
                 onValueChange = {
-                    BaseI.checkNameTaken(
+                    BaseI.checkNameValid(
                         names = configList.map { config ->
                             config.name.value
                         },
@@ -109,13 +113,11 @@ fun newConfDialog() {
                 },
                 placeholder = Resources.getString("label/conf_name"),
             )
-            if (enabled) {
-                LaunchedEffect(
-                    Unit
-                ) {
-                    delay(500L)
-                    focusRequester.requestFocus()
-                }
+            LaunchedEffect(
+                Unit
+            ) {
+                delay(500L)
+                focusRequester.requestFocus()
             }
         },
         bottomContent = {
@@ -129,11 +131,13 @@ fun newConfDialog() {
 
             baseDialogButton(
                 onClick = {
-                    if (viewModel.addConfiguration(text.value, id))
+                    if (viewModel.addConfiguration(text, id))
                         FState.ui.dialogExpanded.value = UiState.Dialog.NONE
                 },
                 icon = Resources.getIcon("select/check24"),
-                text = Resources.getString("common/add")
+                text = Resources.getString("common/add"),
+                containerColor = LocalColors.current.inputMain,
+                contentColor = LocalColors.current.onInputMain,
             )
         }
     )

@@ -2,7 +2,7 @@ package ui.screen.itemsList.behaviorList
 
 import FState
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.item.BaseI.Companion.checkNameTaken
+import model.item.BaseI.Companion.checkNameValid
 import model.item.BaseIBehavior
 import model.item.IControl
 import utils.getIndexList
@@ -27,7 +27,7 @@ open class BaseBehaviorVM(
 
 
     fun setName(name: String, index: Int) {
-        checkNameTaken(
+        checkNameValid(
             names = iBehaviors.map { item ->
                 item.name.value
             },

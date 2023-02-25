@@ -20,7 +20,7 @@ fun fanControlTheme(
 
     val colors = when {
         darkTheme -> darkColors
-        else -> lightColors
+        else -> CustomColors()
     }
 
     CompositionLocalProvider(

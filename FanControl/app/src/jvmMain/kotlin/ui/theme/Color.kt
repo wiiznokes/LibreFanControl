@@ -4,7 +4,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 
-val LocalColors = compositionLocalOf { lightColors }
+val LocalColors = compositionLocalOf { CustomColors() }
 
 val Beige = Color(0xFFdfa9a9)
 val DarkPurple = Color(63, 59, 108)
@@ -16,43 +16,46 @@ val Grey = Color(81, 85, 126)
 val MateGrey = Color(60, 64, 72)
 val LightOrange = Color(0xFF938BA1)
 
+// default: Light theme
 data class CustomColors(
 
-    val input: Color,
-    val onInput: Color,
-    val inputVariant: Color,
-    val onInputVariant: Color,
-    val inactiveInput: Color,
-    val onInactiveInput: Color,
+    val input: Color= LightCyan,
+    val onInput: Color=Color.Black,
+    val inputVariant: Color=LightCyan,
+    val onInputVariant: Color=Color.Black,
+    val inputMain: Color=Beige,
+    val onInputMain: Color=Color.Black,
+    val inactiveInput: Color=LightBlack,
+    val onInactiveInput: Color=LightCyan,
 
-    val error: Color,
-    val onError: Color,
-
-
-    val mainTopBar: Color,
-    val onMainTopBar: Color,
-    val secondTopBar: Color,
-    val onSecondTopBar: Color,
+    val error: Color=Beige,
+    val onError: Color=Color.Black,
 
 
-    val mainHeader: Color,
-    val onMainHeader: Color,
-    val mainBackground: Color,
-    val onMainBackground: Color,
-    val mainContainer: Color,
-    val onMainContainer: Color,
-    val mainSurface: Color,
-    val onMainSurface: Color,
+    val mainTopBar: Color=DarkPurple,
+    val onMainTopBar: Color=Color.White,
+    val secondTopBar: Color=LightPurple,
+    val onSecondTopBar: Color=Color.White,
 
 
-    val secondHeader: Color,
-    val onSecondHeader: Color,
-    val secondBackground: Color,
-    val onSecondBackground: Color,
-    val secondContainer: Color,
-    val onSecondContainer: Color,
-    val secondSurface: Color,
-    val onSecondSurface: Color,
+    val mainHeader: Color=Grey,
+    val onMainHeader: Color=Color.White,
+    val mainBackground: Color=Color.Black,
+    val onMainBackground: Color=Color.White,
+    val mainContainer: Color=BlueGrey,
+    val onMainContainer: Color=Color.White,
+    val mainSurface: Color=MateGrey,
+    val onMainSurface: Color=Color.White,
+
+
+    val secondHeader: Color=Grey,
+    val onSecondHeader: Color=Color.White,
+    val secondBackground: Color=LightBlack,
+    val onSecondBackground: Color=Color.White,
+    val secondContainer: Color=MateGrey,
+    val onSecondContainer: Color=Color.White,
+    val secondSurface: Color=Color.White,
+    val onSecondSurface: Color=Color.White,
 )
 
 val darkColors = CustomColors(
@@ -61,6 +64,8 @@ val darkColors = CustomColors(
     onInput = Color.Black,
     inputVariant = LightOrange,
     onInputVariant = Color.Black,
+    inputMain = Beige,
+    onInputMain = Color.Black,
     inactiveInput = LightBlack,
     onInactiveInput = LightOrange,
 
@@ -82,44 +87,6 @@ val darkColors = CustomColors(
     mainSurface = Color.Black,
     onMainSurface = Color.White,
 
-
-    secondHeader = Grey,
-    onSecondHeader = Color.White,
-    secondBackground = LightBlack,
-    onSecondBackground = Color.White,
-    secondContainer = MateGrey,
-    onSecondContainer = Color.White,
-    secondSurface = Color.White,
-    onSecondSurface = Color.White,
-)
-
-
-val lightColors = CustomColors(
-
-    input = LightCyan,
-    onInput = Color.Black,
-    inputVariant = LightCyan,
-    onInputVariant = Color.Black,
-    inactiveInput = LightBlack,
-    onInactiveInput = LightCyan,
-
-    error = Beige,
-    onError = Color.Black,
-
-    mainTopBar = DarkPurple,
-    onMainTopBar = Color.White,
-    secondTopBar = LightPurple,
-    onSecondTopBar = Color.White,
-
-
-    mainHeader = Grey,
-    onMainHeader = Color.White,
-    mainBackground = Color.Black,
-    onMainBackground = Color.White,
-    mainContainer = BlueGrey,
-    onMainContainer = Color.White,
-    mainSurface = MateGrey,
-    onMainSurface = Color.White,
 
     secondHeader = Grey,
     onSecondHeader = Color.White,
