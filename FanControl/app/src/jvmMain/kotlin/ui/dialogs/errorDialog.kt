@@ -5,6 +5,9 @@ import UiState
 import androidx.compose.runtime.Composable
 import ui.theme.LocalColors
 import utils.Resources
+import java.awt.Toolkit
+import java.awt.datatransfer.Clipboard
+import java.awt.datatransfer.StringSelection
 
 @Composable
 fun errorDialog() {
@@ -21,6 +24,7 @@ fun errorDialog() {
             baseDialogButton(
                 onClick = {
                     println("copy")
+                    setClipboard(FState.ui.errorDialogContent.value)
                 },
                 text = Resources.getString("common/copy")
             )
@@ -32,4 +36,11 @@ fun errorDialog() {
             )
         }
     )
+}
+
+
+private fun setClipboard(s: String) {
+    val selection = StringSelection(s)
+    val clipboard: Clipboard = Toolkit.getDefaultToolkit().systemClipboard
+    clipboard.setContents(selection, selection)
 }
