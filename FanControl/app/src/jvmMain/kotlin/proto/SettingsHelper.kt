@@ -65,7 +65,7 @@ class SettingsHelper {
         }
 
 
-        fun writeSettings(notifyService: Boolean = true) {
+        fun writeSettings(notifyService: Boolean = false) {
             createPSetting(settings).let {
                 settingsFile.writeBytes(it.toByteArray())
             }

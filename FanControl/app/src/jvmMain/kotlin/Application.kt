@@ -98,7 +98,7 @@ class Application(
                     else -> {
                         if (!ConfHelper.loadConf(it)) {
                             settings.confId.value = null
-                            SettingsHelper.writeSettings(false)
+                            SettingsHelper.writeSettings()
                         }
                         println("load conf $it success")
                     }

@@ -17,7 +17,7 @@ class DrawerVM(
             return
         }
         settings.updateDelay.value = delay
-        SettingsHelper.writeSettings()
+        SettingsHelper.writeSettings(true)
     }
 
     fun onLanguageChange(language: Languages) {
@@ -53,7 +53,7 @@ class DrawerVM(
         when (res) {
             0 -> {
                 settings.launchAtStartUp.value = launchAtStartUp
-                SettingsHelper.writeSettings(false)
+                SettingsHelper.writeSettings()
             }
 
             3 -> FState.ui.dialogExpanded.value = UiState.Dialog.NEED_ADMIN

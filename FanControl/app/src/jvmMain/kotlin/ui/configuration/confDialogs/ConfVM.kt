@@ -36,7 +36,7 @@ class ConfVM(
         }
         println("save conf: id = $confId")
         settings.confInfoList[index].name.value = name
-        SettingsHelper.writeSettings(false)
+        SettingsHelper.writeSettings()
         ConfHelper.writeConf(confId, name)
         return true
     }
@@ -68,7 +68,7 @@ class ConfVM(
 
         settings.confId.value = id
         settings.confInfoList.add(ConfInfo(id, name))
-        SettingsHelper.writeSettings(false)
+        SettingsHelper.writeSettings()
         ConfHelper.writeConf(id, name)
 
         return true
