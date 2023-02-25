@@ -66,8 +66,9 @@ class ConfHelper {
         }
 
         fun isConfSave(confId: String?, confName: String): Boolean {
-            return confId != null
-            // return createPConf(getConf(confId, confName)) != PConf.parseFrom(getConfFile(confId).readBytes())
+            if (confId == null) return false
+
+            return createPConf(getConf(confId, confName)) != PConf.parseFrom(getConfFile(confId).readBytes())
         }
 
 

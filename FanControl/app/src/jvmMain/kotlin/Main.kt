@@ -18,6 +18,9 @@ val app: Application = Application()
 
 fun main() {
     val visible = mutableStateOf(true)
+
+    app.onStart()
+
     application(
         exitProcessOnExit = true
     ) {
@@ -68,8 +71,6 @@ fun main() {
             fanControlTheme(
                 FState.settings.theme.value
             ) {
-                app.onStart()
-
                 home()
                 initDialogs()
             }
