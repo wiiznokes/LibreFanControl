@@ -15,6 +15,7 @@ I intend to produce a v2 with a service system, which will therefore be much lig
 - [x] Implement dialogs
 - [x] Implement streams functions
 - [ ] Upgrade service update
+- [ ] fix proguard
 - [x] add light color theme
 - [x] Finalize App and Service lifecycle
 
