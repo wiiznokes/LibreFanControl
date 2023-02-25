@@ -4,10 +4,7 @@ import FState
 import UiState
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -100,9 +97,11 @@ fun newConfDialog() {
             edit: it doesn't work either when exited, I think this function
             is stored and remembered somehow, maybe but with Dialog impl
 
-             */
+
             if (viewModel.addConfiguration(text.value, id))
                 FState.ui.dialogExpanded.value = UiState.Dialog.NONE
+
+             */
         },
         topContent = {
             val focusRequester = remember { FocusRequester() }
@@ -124,12 +123,19 @@ fun newConfDialog() {
                 },
                 placeholder = Resources.getString("label/conf_name"),
             )
+
+            /*
+                work only one time for now
+             */
+            var i by remember { mutableStateOf(false) }
+            i = !i
             LaunchedEffect(
-                Unit
+                i
             ) {
                 delay(500L)
                 focusRequester.requestFocus()
             }
+            
         },
         bottomContent = {
             baseDialogButton(
