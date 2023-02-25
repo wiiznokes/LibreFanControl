@@ -1,12 +1,12 @@
 package ui.configuration.confDialogs
 
 import FState
-import ui.settings.ConfInfo
-import ui.settings.Settings
 import model.item.BaseI.Companion.checkNameValid
 import model.item.NameException
 import proto.ConfHelper
 import proto.SettingsHelper
+import ui.settings.ConfInfo
+import ui.settings.Settings
 
 class ConfVM(
     val settings: Settings = FState.settings,

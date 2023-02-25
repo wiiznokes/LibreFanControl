@@ -11,7 +11,7 @@ class IControl(
     isAuto: Boolean = true,
     iBehaviorId: String? = null
 
-    ) : BaseI {
+) : BaseI {
     override val name: MutableState<String> = mutableStateOf(name)
     val hControlId: MutableState<String?> = mutableStateOf(controlId)
     val isAuto: MutableState<Boolean> = mutableStateOf(isAuto)

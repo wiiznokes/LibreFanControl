@@ -80,7 +80,7 @@ fun newConfDialog() {
         list = configList.map { it.id },
         prefix = "conf"
     )
-    val text =  mutableStateOf("")
+    val text = mutableStateOf("")
 
     baseDialog(
         enabled = enabled,

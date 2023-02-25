@@ -24,7 +24,7 @@ import utils.Resources
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun addItem(choiceState: MutableState<ChoiceState>) {
-    
+
     Column(
         modifier = Modifier
             .fillMaxSize()

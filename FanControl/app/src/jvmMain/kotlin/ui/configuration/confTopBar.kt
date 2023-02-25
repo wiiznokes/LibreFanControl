@@ -17,12 +17,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ui.settings.ConfInfo
 import model.item.BaseI.Companion.checkNameValid
 import ui.component.ListChoiceDefault
 import ui.component.managerListChoice
 import ui.component.managerNameTextField
 import ui.configuration.confDialogs.ConfVM
+import ui.settings.ConfInfo
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces
 import utils.Resources
