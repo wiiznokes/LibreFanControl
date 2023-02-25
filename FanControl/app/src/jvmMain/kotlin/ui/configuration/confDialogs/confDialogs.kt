@@ -96,6 +96,10 @@ fun newConfDialog() {
             -> newConfDialog is re expanded
             -> the recomposition set text to ""
             but when we exit the app, this lambda should work.
+
+            edit: it doesn't work either when exited, I think this function
+            is stored and remembered somehow, maybe but with Dialog impl
+
              */
             if (viewModel.addConfiguration(text.value, id))
                 FState.ui.dialogExpanded.value = UiState.Dialog.NONE

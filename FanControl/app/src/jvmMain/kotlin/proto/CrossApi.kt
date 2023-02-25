@@ -53,6 +53,7 @@ class CrossApi(
                 }
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             FState.ui.showError(e.stackTrace.contentToString())
             false
         }
