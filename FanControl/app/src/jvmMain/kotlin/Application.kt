@@ -34,6 +34,43 @@ class Application(
     private var fetchSensorValueJob: Job? = null
 
 
+    private fun startService(): Boolean {
+        val initScript = File(System.getProperty("compose.application.resources.dir"))
+            .resolve("scripts/service/init.ps1")
+            .absolutePath
+        val startMode = getStartMode(settings.launchAtStartUp.value)
+
+        val command = listOf(
+            "powershell.exe",
+            "-File",
+            initScript,
+            startMode
+        )
+
+        val res = ProcessBuilder(command)
+            .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+            .redirectError(ProcessBuilder.Redirect.INHERIT)
+            .start()
+            .waitFor()
+
+        return when (res) {
+            0 -> {
+                println("startService: success")
+                true
+            }
+            3 -> {
+                println("startService: failed")
+                FState.ui.dialogExpanded.value = UiState.Dialog.NEED_ADMIN
+                false
+            }
+
+            else -> {
+                println("startService: failed")
+                false
+            }
+        }
+    }
+
     fun onStart() {
         if (SettingsHelper.isSettings()) {
             SettingsHelper.loadSettings()
@@ -44,14 +81,13 @@ class Application(
 
         val startJob = scope.launch {
 
-
             if (startService()) {
                 delay(500L)
+                if (api.open()) {
+                    FState.isServiceOpenned = true
+                }
             }
 
-            if (api.open()) {
-                FState.isServiceOpenned = true
-            }
 
             api.getHardware()
 
@@ -84,15 +120,6 @@ class Application(
 
 
     private var updateShouldStop = false
-
-    fun onStop() {
-        api.close()
-        updateShouldStop = true
-        runBlocking {
-            calculateValueJob?.cancelAndJoin()
-            fetchSensorValueJob?.cancelAndJoin()
-        }
-    }
 
     private suspend fun startCalculate() {
 
@@ -128,35 +155,13 @@ class Application(
     }
 
 
-    private fun startService(): Boolean {
-        val initScript = File(System.getProperty("compose.application.resources.dir"))
-            .resolve("scripts/service/init.ps1")
-            .absolutePath
-        val startMode = getStartMode(settings.launchAtStartUp.value)
 
-        val command = listOf(
-            "powershell.exe",
-            "-File",
-            initScript,
-            startMode
-        )
-
-        val res = ProcessBuilder(command)
-            .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-            .redirectError(ProcessBuilder.Redirect.INHERIT)
-            .start()
-            .waitFor()
-
-        return when (res) {
-            0 -> {
-                true
-            }
-            3 -> {
-                FState.ui.dialogExpanded.value = UiState.Dialog.NEED_ADMIN
-                false
-            }
-
-            else -> false
+    fun onStop() {
+        api.close()
+        updateShouldStop = true
+        runBlocking {
+            calculateValueJob?.cancelAndJoin()
+            fetchSensorValueJob?.cancelAndJoin()
         }
     }
 }

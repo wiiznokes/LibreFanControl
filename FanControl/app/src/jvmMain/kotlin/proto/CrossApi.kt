@@ -33,7 +33,8 @@ class CrossApi(
     }
 
     suspend fun open(): Boolean {
-        if (!isActive()) {
+        if (channel.isShutdown || channel.isTerminated) {
+            println("api open: failed, channel is not valid")
             return false
         }
 
