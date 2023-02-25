@@ -22,6 +22,8 @@ import ui.dialogs.needAdminDialog
  * Each sensor will be represented by one sensor item.
  */
 fun initSensor() {
+    println("initItem, no config")
+
     hControls.forEach { hControl ->
         iControls.add(
             IControl(

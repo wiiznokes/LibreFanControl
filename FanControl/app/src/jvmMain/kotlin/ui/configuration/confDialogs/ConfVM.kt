@@ -41,8 +41,11 @@ class ConfVM(
     }
 
     fun onChangeConfiguration(id: String?) {
-        if (id != null)
-            ConfHelper.loadConf(id)
+        if (id != null) {
+            if (!ConfHelper.loadConf(id)) {
+                return
+            }
+        }
 
         settings.confId.value = id
         SettingsHelper.writeSettings()

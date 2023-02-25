@@ -41,43 +41,44 @@ class Application(
             SettingsHelper.writeSettings()
         }
 
-        var startServiceSuccess = false
 
         val startJob = scope.launch {
 
-            if (!startService()) {
-                startServiceSuccess = false
-                return@launch
+
+            if (startService()) {
+                delay(500L)
             }
 
-            delay(500L)
-            if (!api.open()) {
-                startServiceSuccess = false
-                return@launch
+            if (api.open()) {
+                FState.isServiceOpenned = true
             }
+
             api.getHardware()
 
             settings.confId.value.let {
                 when (it) {
                     null -> initSensor()
                     else -> {
-                        println("load conf $it")
-                        ConfHelper.loadConf(it)
+                        if (!ConfHelper.loadConf(it)) {
+                            settings.confId.value = null
+                            SettingsHelper.writeSettings(false)
+                        }
+                        println("load conf $it sucess")
                     }
                 }
             }
-            startServiceSuccess = true
         }
 
-        calculateValueJob = scope.launch {
-            startJob.join()
-            if (startServiceSuccess) startUpdate()
-        }
+        if (FState.isServiceOpenned) {
+            calculateValueJob = scope.launch {
+                startJob.join()
+                startCalculate()
+            }
 
-
-        fetchSensorValueJob = scope.launch {
-            startJob.join()
-            if (startServiceSuccess) api.startUpdate()
+            fetchSensorValueJob = scope.launch {
+                startJob.join()
+                api.startUpdate()
+            }
         }
     }
 
@@ -93,7 +94,7 @@ class Application(
         }
     }
 
-    private suspend fun startUpdate() {
+    private suspend fun startCalculate() {
 
         while (!updateShouldStop) {
 
@@ -148,7 +149,6 @@ class Application(
 
         return when (res) {
             0 -> {
-                FState.isServiceRunning = true
                 true
             }
             3 -> {

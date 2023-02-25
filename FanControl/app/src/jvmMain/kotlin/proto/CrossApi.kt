@@ -23,7 +23,7 @@ class CrossApi(
 
     // don't always relevant
     private fun isActive(): Boolean {
-        val isActive = FState.isServiceRunning && !channel.isShutdown && !channel.isTerminated
+        val isActive = FState.isServiceOpenned && !channel.isShutdown && !channel.isTerminated
 
         if (!isActive) {
             println("service is not active")
@@ -52,7 +52,7 @@ class CrossApi(
                 }
             }
         } catch (e: Exception) {
-            FState.ui.showError(e)
+            FState.ui.showError(e.stackTrace.contentToString())
             false
         }
     }
