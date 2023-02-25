@@ -2,6 +2,7 @@ package proto
 
 import Application.Api.api
 import Application.Api.scope
+import FState
 import FState.iBehaviors
 import FState.iControls
 import FState.iFans
@@ -16,6 +17,7 @@ import model.item.*
 import proto.SettingsDir.getConfFile
 import proto.generated.pConf.*
 import proto.generated.pSettings.pConfInfo
+import java.util.*
 
 
 class ProtoException(msg: String) : Exception(msg)
@@ -24,7 +26,13 @@ class ConfHelper {
 
     companion object {
 
-        fun loadConf(confId: String) {
+        fun loadConf(confId: String): Boolean {
+            if (!FState.isServiceOpenned) {
+                println("load conf: service not running")
+                FState.ui.showError("The service need to be started to load the configuration")
+                return false
+            }
+
             val pConf = PConf.parseFrom(getConfFile(confId).readBytes())
 
             parsePConf(pConf).let {
@@ -45,6 +53,7 @@ class ConfHelper {
                     addAll(it.iFans)
                 }
             }
+            return true
         }
 
 
@@ -66,8 +75,12 @@ class ConfHelper {
         }
 
         fun isConfSave(confId: String?, confName: String): Boolean {
-            return confId != null
-            // return createPConf(getConf(confId, confName)) != PConf.parseFrom(getConfFile(confId).readBytes())
+            if (confId == null) return false
+
+            val currentPConf = createPConf(getConf(confId, confName))
+            val stored =  PConf.parseFrom(getConfFile(confId).readBytes())
+
+            return currentPConf == stored
         }
 
 

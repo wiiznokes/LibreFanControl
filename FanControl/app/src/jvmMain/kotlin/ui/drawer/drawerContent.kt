@@ -43,7 +43,8 @@ fun drawerContent(
         settingColors = SettingDefaults.settingColors(
             container = LocalColors.current.secondContainer,
             onContainer = LocalColors.current.onSecondContainer,
-            background = LocalColors.current.secondBackground
+            background = LocalColors.current.secondBackground,
+            onBackground = LocalColors.current.onSecondBackground
         )
     ) {
         header {

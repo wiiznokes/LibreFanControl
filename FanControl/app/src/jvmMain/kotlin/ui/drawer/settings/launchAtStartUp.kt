@@ -53,6 +53,7 @@ fun launchAtStartUpDialog(
         enabled = FState.ui.dialogExpanded.value == UiState.Dialog.LAUNCH_AT_START_UP,
         title = Resources.getString("dialog/title/launch_at_start_up"),
         onEnterKey = {
+            onLaunchAtStartUpChange(true)
             FState.ui.dialogExpanded.value = UiState.Dialog.NONE
         },
         topContent = {
@@ -71,7 +72,9 @@ fun launchAtStartUpDialog(
                 onClick = {
                     onLaunchAtStartUpChange(true)
                 },
-                text = Resources.getString("common/yes")
+                text = Resources.getString("common/yes"),
+                containerColor = LocalColors.current.inputMain,
+                contentColor = LocalColors.current.onInputMain,
             )
         }
     )

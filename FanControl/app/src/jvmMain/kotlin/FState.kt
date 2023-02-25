@@ -26,7 +26,7 @@ object FState {
 
     val ui = UiState()
 
-    var isServiceRunning = false
+    var isServiceOpenned = false
 }
 
 
@@ -34,9 +34,9 @@ class UiState {
     val addItemExpanded = mutableStateOf(false)
     val editModeActivated = mutableStateOf(false)
 
-    fun showError(error: Exception) {
-        if (!error.message.isNullOrBlank()) {
-            errorDialogContent.value = error.stackTrace.contentToString()
+    fun showError(error: String?) {
+        if (!error.isNullOrBlank()) {
+            errorDialogContent.value = error
             dialogExpanded.value = Dialog.SHOW_ERROR
         }
     }

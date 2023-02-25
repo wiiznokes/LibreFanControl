@@ -4,7 +4,7 @@ import FState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.HControl
 import model.item.BaseI
-import model.item.BaseI.Companion.checkNameTaken
+import model.item.BaseI.Companion.checkNameValid
 import model.item.BaseI.Companion.getAvailableId
 import model.item.BaseI.Companion.getAvailableName
 import model.item.BaseIBehavior
@@ -34,7 +34,7 @@ class ControlVM(
 
 
     fun setName(name: String, index: Int) {
-        checkNameTaken(
+        checkNameValid(
             names = iControls.map { item ->
                 item.name.value
             },

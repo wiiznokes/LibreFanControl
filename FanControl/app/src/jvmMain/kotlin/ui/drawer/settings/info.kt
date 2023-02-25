@@ -19,6 +19,6 @@ fun SettingScope.info() {
         },
         showTopLine = true
     ) {
-        Header(null, null)
+        header(null, null)
     }
 }

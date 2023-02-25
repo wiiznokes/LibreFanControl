@@ -4,6 +4,7 @@ import FState
 import UiState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
+import ui.theme.LocalColors
 import utils.Resources
 
 @Composable
@@ -25,7 +26,9 @@ fun needAdminDialog() {
                     FState.ui.dialogExpanded.value = UiState.Dialog.NONE
                 },
                 icon = Resources.getIcon("select/check24"),
-                text = Resources.getString("common/ok")
+                text = Resources.getString("common/ok"),
+                containerColor = LocalColors.current.inputMain,
+                contentColor = LocalColors.current.onInputMain,
             )
         },
         horizontalArrangement = Arrangement.End

@@ -52,7 +52,7 @@ interface BaseI {
         }
 
 
-        fun checkNameTaken(names: List<String>, name: String, index: Int? = null) {
+        fun checkNameValid(names: List<String>, name: String, index: Int? = null) {
             if (name.isBlank())
                 throw NameException()
 

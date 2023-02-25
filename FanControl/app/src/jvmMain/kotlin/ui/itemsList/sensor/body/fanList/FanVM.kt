@@ -3,7 +3,7 @@ package ui.screen.itemsList.sensor.body.fanList
 import FState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import model.hardware.HFan
-import model.item.BaseI.Companion.checkNameTaken
+import model.item.BaseI.Companion.checkNameValid
 import model.item.IFan
 
 class FanVM(
@@ -20,7 +20,7 @@ class FanVM(
     }
 
     fun setName(name: String, index: Int) {
-        checkNameTaken(
+        checkNameValid(
             names = iFans.map { item ->
                 item.name.value
             },

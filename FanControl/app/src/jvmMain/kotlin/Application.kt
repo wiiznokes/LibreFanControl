@@ -34,6 +34,43 @@ class Application(
     private var fetchSensorValueJob: Job? = null
 
 
+    private fun startService(): Boolean {
+        val initScript = File(System.getProperty("compose.application.resources.dir"))
+            .resolve("scripts/service/init.ps1")
+            .absolutePath
+        val startMode = getStartMode(settings.launchAtStartUp.value)
+
+        val command = listOf(
+            "powershell.exe",
+            "-File",
+            initScript,
+            startMode
+        )
+
+        val res = ProcessBuilder(command)
+            .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+            .redirectError(ProcessBuilder.Redirect.INHERIT)
+            .start()
+            .waitFor()
+
+        return when (res) {
+            0 -> {
+                println("startService: success")
+                true
+            }
+            3 -> {
+                println("startService: failed")
+                FState.ui.dialogExpanded.value = UiState.Dialog.NEED_ADMIN
+                false
+            }
+
+            else -> {
+                println("startService: failed")
+                false
+            }
+        }
+    }
+
     fun onStart() {
         if (SettingsHelper.isSettings()) {
             SettingsHelper.loadSettings()
@@ -41,59 +78,50 @@ class Application(
             SettingsHelper.writeSettings()
         }
 
-        var startServiceSuccess = false
 
         val startJob = scope.launch {
 
-            if (!startService()) {
-                startServiceSuccess = false
-                return@launch
+            if (startService()) {
+                delay(500L)
+                if (api.open()) {
+                    FState.isServiceOpenned = true
+                }
             }
 
-            delay(500L)
-            if (!api.open()) {
-                startServiceSuccess = false
-                return@launch
-            }
+
             api.getHardware()
 
             settings.confId.value.let {
                 when (it) {
                     null -> initSensor()
                     else -> {
-                        println("load conf $it")
-                        ConfHelper.loadConf(it)
+                        if (!ConfHelper.loadConf(it)) {
+                            settings.confId.value = null
+                            SettingsHelper.writeSettings(false)
+                        }
+                        println("load conf $it success")
                     }
                 }
             }
-            startServiceSuccess = true
         }
 
-        calculateValueJob = scope.launch {
-            startJob.join()
-            if (startServiceSuccess) startUpdate()
-        }
+        if (FState.isServiceOpenned) {
+            calculateValueJob = scope.launch {
+                startJob.join()
+                startCalculate()
+            }
 
-
-        fetchSensorValueJob = scope.launch {
-            startJob.join()
-            if (startServiceSuccess) api.startUpdate()
+            fetchSensorValueJob = scope.launch {
+                startJob.join()
+                api.startUpdate()
+            }
         }
     }
 
 
     private var updateShouldStop = false
 
-    fun onStop() {
-        api.close()
-        updateShouldStop = true
-        runBlocking {
-            calculateValueJob?.cancelAndJoin()
-            fetchSensorValueJob?.cancelAndJoin()
-        }
-    }
-
-    private suspend fun startUpdate() {
+    private suspend fun startCalculate() {
 
         while (!updateShouldStop) {
 
@@ -127,36 +155,13 @@ class Application(
     }
 
 
-    private fun startService(): Boolean {
-        val initScript = File(System.getProperty("compose.application.resources.dir"))
-            .resolve("scripts/service/init.ps1")
-            .absolutePath
-        val startMode = getStartMode(settings.launchAtStartUp.value)
 
-        val command = listOf(
-            "powershell.exe",
-            "-File",
-            initScript,
-            startMode
-        )
-
-        val res = ProcessBuilder(command)
-            .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-            .redirectError(ProcessBuilder.Redirect.INHERIT)
-            .start()
-            .waitFor()
-
-        return when (res) {
-            0 -> {
-                FState.isServiceRunning = true
-                true
-            }
-            3 -> {
-                FState.ui.dialogExpanded.value = UiState.Dialog.NEED_ADMIN
-                false
-            }
-
-            else -> false
+    fun onStop() {
+        api.close()
+        updateShouldStop = true
+        runBlocking {
+            calculateValueJob?.cancelAndJoin()
+            fetchSensorValueJob?.cancelAndJoin()
         }
     }
 }

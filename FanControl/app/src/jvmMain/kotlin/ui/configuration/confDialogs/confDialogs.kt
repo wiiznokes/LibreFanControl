@@ -4,10 +4,7 @@ import FState
 import UiState
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -18,6 +15,7 @@ import ui.component.managerNameTextField
 import ui.dialogs.baseDialog
 import ui.dialogs.baseDialogButton
 import ui.dialogs.baseDialogText
+import ui.theme.LocalColors
 import utils.Resources
 
 
@@ -64,7 +62,9 @@ fun confNotSaveDialog() {
                 onClick = {
                     FState.ui.dialogExpanded.value = UiState.Dialog.NEW_CONF
                 },
-                text = Resources.getString("common/new")
+                text = Resources.getString("common/new"),
+                containerColor = LocalColors.current.inputMain,
+                contentColor = LocalColors.current.onInputMain,
             )
         }
     )
@@ -80,14 +80,28 @@ fun newConfDialog() {
         list = configList.map { it.id },
         prefix = "conf"
     )
-    val text = remember(id) { mutableStateOf("") }
+    val text =  mutableStateOf("")
 
     baseDialog(
         enabled = enabled,
         title = Resources.getString("dialog/title/new_conf"),
         onEnterKey = {
+            /*
+            key enter don't work because it's propagated to the +
+            top bar button,
+            -> witch is click
+            -> newConfDialog is re expanded
+            -> the recomposition set text to ""
+            but when we exit the app, this lambda should work.
+
+            edit: it doesn't work either when exited, I think this function
+            is stored and remembered somehow, maybe but with Dialog impl
+
+
             if (viewModel.addConfiguration(text.value, id))
                 FState.ui.dialogExpanded.value = UiState.Dialog.NONE
+
+             */
         },
         topContent = {
             val focusRequester = remember { FocusRequester() }
@@ -100,7 +114,7 @@ fun newConfDialog() {
                     .widthIn(min = 200.dp, max = 250.dp)
                     .height(40.dp),
                 onValueChange = {
-                    BaseI.checkNameTaken(
+                    BaseI.checkNameValid(
                         names = configList.map { config ->
                             config.name.value
                         },
@@ -109,14 +123,19 @@ fun newConfDialog() {
                 },
                 placeholder = Resources.getString("label/conf_name"),
             )
-            if (enabled) {
-                LaunchedEffect(
-                    Unit
-                ) {
-                    delay(500L)
-                    focusRequester.requestFocus()
-                }
+
+            /*
+                work only one time for now
+             */
+            var i by remember { mutableStateOf(false) }
+            i = !i
+            LaunchedEffect(
+                i
+            ) {
+                delay(500L)
+                focusRequester.requestFocus()
             }
+
         },
         bottomContent = {
             baseDialogButton(
@@ -133,7 +152,9 @@ fun newConfDialog() {
                         FState.ui.dialogExpanded.value = UiState.Dialog.NONE
                 },
                 icon = Resources.getIcon("select/check24"),
-                text = Resources.getString("common/add")
+                text = Resources.getString("common/add"),
+                containerColor = LocalColors.current.inputMain,
+                contentColor = LocalColors.current.onInputMain,
             )
         }
     )
