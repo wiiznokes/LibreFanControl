@@ -2,7 +2,6 @@ package model.item
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import model.ItemType
 
 class IControl(
     name: String,
@@ -10,8 +9,7 @@ class IControl(
 
     controlId: String? = null,
     isAuto: Boolean = true,
-    iBehaviorId: String? = null,
-    override val type: ItemType.ControlType = ItemType.ControlType.I_C_FAN,
+    iBehaviorId: String? = null
 
     ) : BaseI {
     override val name: MutableState<String> = mutableStateOf(name)

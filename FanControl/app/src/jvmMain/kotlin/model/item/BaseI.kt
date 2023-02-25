@@ -2,14 +2,12 @@ package model.item
 
 import FState.hTemps
 import androidx.compose.runtime.MutableState
-import model.ItemType
 import model.hardware.HTemp
 
 class NameException : Exception()
 
 interface BaseI {
     val name: MutableState<String>
-    val type: ItemType
     val id: String
 
     companion object {

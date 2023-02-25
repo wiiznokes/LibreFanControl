@@ -2,14 +2,12 @@ package model.item
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import model.ItemType
 import model.hardware.HTemp
 import model.item.TempHelper.Companion.getValueIorH
 import kotlin.math.roundToInt
 
 
 interface BaseIBehavior : BaseI {
-    override val type: ItemType.BehaviorType
     val value: MutableState<Int>
 }
 
@@ -20,7 +18,6 @@ class IFlat(
     value: Int = 0,
 ) : BaseIBehavior {
     override val name: MutableState<String> = mutableStateOf(name)
-    override val type: ItemType.BehaviorType = ItemType.BehaviorType.I_B_FLAT
 
     override val value: MutableState<Int> = mutableStateOf(value)
 
@@ -41,7 +38,6 @@ class ILinear(
     tempId: String? = null,
 ) : BaseIBehavior {
     override val name: MutableState<String> = mutableStateOf(name)
-    override val type: ItemType.BehaviorType = ItemType.BehaviorType.I_B_LINEAR
 
     override val value: MutableState<Int> = mutableStateOf(value)
 
@@ -129,7 +125,6 @@ class ITarget(
 
     ) : BaseIBehavior {
     override val name: MutableState<String> = mutableStateOf(name)
-    override val type: ItemType.BehaviorType = ItemType.BehaviorType.I_B_TARGET
 
     override val value: MutableState<Int> = mutableStateOf(value)
 

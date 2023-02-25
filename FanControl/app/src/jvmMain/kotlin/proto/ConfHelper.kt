@@ -12,7 +12,6 @@ import external.OsException
 import external.getOS
 import kotlinx.coroutines.launch
 import model.ConfInfo
-import model.ItemType
 import model.item.*
 import proto.SettingsDir.getConfFile
 import proto.generated.pConf.*
@@ -119,10 +118,6 @@ class ConfHelper {
                     IControl(
                         name = pIControl.pName,
                         id = pIControl.pId,
-                        type = when (pIControl.pType) {
-                            PIControlTypes.I_C_FAN -> ItemType.ControlType.I_C_FAN
-                            else -> throw ProtoException("unknown control type")
-                        },
                         iBehaviorId = nullableToNull(pIControl.piBehaviorId),
                         isAuto = pIControl.pIsAuto,
                         controlId = nullableToNull(pIControl.phControlId),
