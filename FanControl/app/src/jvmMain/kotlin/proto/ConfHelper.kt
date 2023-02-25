@@ -77,24 +77,10 @@ class ConfHelper {
         fun isConfSave(confId: String?, confName: String): Boolean {
             if (confId == null) return false
 
-            val currentConf = getConf(confId, confName)
-
-            val currentPConf: PConf = createPConf(currentConf)
-            val stored: PConf = PConf.parseFrom(getConfFile(confId).readBytes())
-
-
-            val currentPConfBytes= currentPConf.toByteArray()
-
-            val storedBytes = stored.toByteArray()
-
-
-            var res: Boolean = currentPConf == stored
-            println("equals: $res")
-
-            res = Arrays.equals(currentPConfBytes, storedBytes)
-            println("Arrays: $res")
-
-            return createPConf(getConf(confId, confName)) != PConf.parseFrom(getConfFile(confId).readBytes())
+            val currentPConf = createPConf(getConf(confId, confName))
+            val stored =  PConf.parseFrom(getConfFile(confId).readBytes())
+            
+            return currentPConf == stored
         }
 
 
