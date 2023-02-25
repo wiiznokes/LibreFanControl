@@ -105,7 +105,6 @@ public class Worker : BackgroundService
 
         if (SettingsAndConfHasChange)
         {
-            Update.CreateUpdateList();
             Update.SetAutoAll();
             SettingsHelper.LoadSettingsFile(State.Settings);
 

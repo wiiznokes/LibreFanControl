@@ -73,11 +73,13 @@ public static class ConfHelper
 
 
         foreach (var (pIControl, index) in pConf.PIControls.WithIndex())
+        {
             State.Controls.TryAdd(State.Controls.Count, new Control(
                 SettingsHelper.NullableToNull(pIControl.PIBehaviorId),
                 SettingsHelper.NullableToNull(pIControl.PHControlId),
                 pIControl.PIsAuto,
                 index
             ));
+        }
     }
 }

@@ -62,12 +62,12 @@ class ICustomTemp(
     val hTempIds: SnapshotStateList<String> = hTempIds.toMutableStateList()
     val customTempType: MutableState<CustomTempType> = mutableStateOf(customTempType)
 
-    val value: MutableState<Int> = mutableStateOf(value)
+    val value: MutableState<Int?> = mutableStateOf(value)
 
 
     fun calcAndSet(hTemps: List<HTemp>) {
         if (!isValid()) {
-            value.value = 0
+            value.value = null
             return
         }
 

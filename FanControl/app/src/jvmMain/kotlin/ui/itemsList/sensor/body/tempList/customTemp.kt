@@ -61,7 +61,7 @@ fun baseCustomTempBody(
         Spacer(Modifier.height(LocalSpaces.current.medium))
 
         managerExpandItem(
-            value = iCustomTemp.value.value,
+            value = iCustomTemp.value.value ?: 0,
             color = LocalColors.current.onMainContainer,
             expanded = expanded,
             suffix = Resources.getString("unity/degree")

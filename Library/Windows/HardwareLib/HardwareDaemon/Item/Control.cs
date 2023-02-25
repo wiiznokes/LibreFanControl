@@ -8,7 +8,7 @@ public class Control
         HControlId = hControlId;
         IsAuto = isAuto;
         Index = index;
-        IsValid = HControlId != null && IsAuto == false && BehaviorId != null;
+        IsValid = HControlId != null && !IsAuto && BehaviorId != null;
 
         if (!IsValid) return;
 
@@ -74,7 +74,7 @@ public class Control
     {
         var value = State.Behaviors[BehaviorIndex].GetSpeed();
 
-        Console.WriteLine("[SERVICE] set control: " + Index + " = " + value);
+        Console.WriteLine("[SERVICE] set control: " + HControlIndex + " = " + value);
 
         //State.HControls[HControlIndex].SetSpeed(value);
     }

@@ -58,6 +58,7 @@ class Application(
                 println("startService: success")
                 true
             }
+
             3 -> {
                 println("startService: failed")
                 FState.ui.dialogExpanded.value = UiState.Dialog.NEED_ADMIN
@@ -105,17 +106,21 @@ class Application(
             }
         }
 
-        if (FState.isServiceOpenned) {
-            calculateValueJob = scope.launch {
-                startJob.join()
+        calculateValueJob = scope.launch {
+            startJob.join()
+            if (FState.isServiceOpenned) {
                 startCalculate()
             }
+        }
 
-            fetchSensorValueJob = scope.launch {
-                startJob.join()
+        fetchSensorValueJob = scope.launch {
+            startJob.join()
+
+            if (FState.isServiceOpenned) {
                 api.startUpdate()
             }
         }
+
     }
 
 
@@ -153,7 +158,6 @@ class Application(
             delay(settings.updateDelay.value * 1000L)
         }
     }
-
 
 
     fun onStop() {
