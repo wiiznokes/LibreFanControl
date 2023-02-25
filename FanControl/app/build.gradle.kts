@@ -1,4 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.plugin.extraProperties
 
 plugins {
     kotlin("multiplatform")
@@ -17,6 +18,8 @@ repositories {
 }
 
 kotlin {
+
+
     jvm {
         compilations.configureEach {
             kotlinOptions {
@@ -73,6 +76,14 @@ compose.desktop {
         nativeDistributions {
 
             targetFormats(TargetFormat.Msi, TargetFormat.AppImage, TargetFormat.Rpm)
+
+            buildTypes.release {
+                proguard {
+                    // because it causes problem with com.squareup.okhttp package
+                    // https://github.com/square/okhttp/issues/3355
+                    isEnabled.set(false)
+                }
+            }
 
             packageName = "FanControl"
             packageVersion = "0.1.0"
