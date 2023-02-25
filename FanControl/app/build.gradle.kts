@@ -85,7 +85,7 @@ compose.desktop {
             }
 
             packageName = "FanControl"
-            packageVersion = "0.1.0"
+            packageVersion = version.toString()
             copyright = "© 2023 Wiiznokes. All rights reserved."
             vendor = "Wiiznokes"
             licenseFile.set(project.file("./../../LICENSE"))
