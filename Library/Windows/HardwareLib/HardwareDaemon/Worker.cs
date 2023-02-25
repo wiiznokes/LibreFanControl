@@ -76,9 +76,9 @@ public class Worker : BackgroundService
 
             CheckChange();
 
-            if (State.Settings.ConfId == null && !IsOpen)
+            if (!IsOpen && State.Settings.ConfId == null && State.UpdateList.IsEmpty)
             {
-                Console.WriteLine("[SERVICE] service close and config id == null -> stop service");
+                Console.WriteLine("[SERVICE] stop service");
                 break;
             }
 

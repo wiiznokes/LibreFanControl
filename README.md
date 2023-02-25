@@ -1,31 +1,16 @@
 # LibreFanControl (Alpha)
 
-<img src="assets/mainPage.png" alt="app image">
-
 ------
 
-
 ## Notes
-Windows is currently the only supported OS. I will support Linux soon, but for now, I'm not able to control the fans of my pc.
+- Linux is not supported for now
 
-I intend to produce a v2 with a service system, which will therefore be much lighter on resources. The service will be in charge of fetching datas, calculate the % for fans controlling, based on the configuration made with the app and set controls values. Communication between the service and the app will be powered by gRPC, a powerfull protocol used in microservice.
-
-
-## V2 road map
-- [x] Implement dialogs
-- [x] Implement streams functions
-- [x] Upgrade service update
-- [x] fix proguard
-- [x] add light color theme
-- [x] Finalize App and Service lifecycle
-- [ ] Fix bugs
-
-## Feature
-- Customize UI (data in real time, several kinds of items)
-- Control fans
-- Linear and Target behavior
-- Custom sensor (average, max, ...)
-- Save configuration
+## Why you should use it
+- open source
+- service very low on ressource (~30mb)
+- display sensor data on real time
+- control fans based with custom behavior
+- save configuration
 
 
 
@@ -43,23 +28,13 @@ dotnet build
 .\gradlew run 
 ```
 
-## Next steps
+## Plans
 
-- [x] Publish
 - [ ] Use strongly typed resources, maybe Kotlin dataframe
 - [ ] Add workflow to the project (CI/CD, ect...)
 - [ ] Support Linux
-- [ ] UI
-  - [ ] Implement settings (info, help, launch at start up)
-  - [x] Implement controls just like the rest of the app
-  - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
-  - [x] Change the size of items, upgrade settings and add items looks
-  - [x] Add animations
-- [ ] Add tests
-  - [ ] UI
-  - [ ] Update
-- [ ] Use expect/acutal functions of Kotlin instead of the current External interface (Kotlin don't support it for now)
-- [ ] Support water cooling
+- [ ] Implement settings (info, help)
+- [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
 
 
 ## Library used
@@ -81,10 +56,6 @@ dotnet build
 > LibreHardwareMonitor [implementation](https://github.com/lich426/FanCtrl) in C#
 
 > Github of [compose-desktop](https://github.com/JetBrains/compose-jb)
-
-> Video about grpc https://www.youtube.com/watch?v=8C-mRgffoFQ 
-
-> grpc guide https://github.com/grpc-ecosystem/awesome-grpc#lang-java
 
 </details>
 
