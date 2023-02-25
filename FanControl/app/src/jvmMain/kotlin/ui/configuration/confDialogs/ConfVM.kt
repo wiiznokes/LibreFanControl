@@ -52,26 +52,24 @@ class ConfVM(
         SettingsHelper.writeSettings()
     }
 
-    fun addConfiguration(name: MutableState<String>, id: String): Boolean {
-        val actualName = name.value
-        println("addConfiguration: $id, $actualName")
+    fun addConfiguration(name: String, id: String): Boolean {
+        println("addConfiguration: $id, $name")
         try {
             checkNameValid(
                 names = settings.confInfoList.map { item ->
                     item.name.value
                 },
-                name = actualName
+                name = name
             )
         } catch (e: NameException) {
             println("add conf: NameException -> return false")
             return false
         }
-        println("add conf: id = $id")
 
         settings.confId.value = id
-        settings.confInfoList.add(ConfInfo(id, actualName))
+        settings.confInfoList.add(ConfInfo(id, name))
         SettingsHelper.writeSettings(false)
-        ConfHelper.writeConf(id, actualName)
+        ConfHelper.writeConf(id, name)
 
         return true
     }

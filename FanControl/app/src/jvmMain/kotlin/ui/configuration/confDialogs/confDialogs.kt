@@ -89,8 +89,15 @@ fun newConfDialog() {
         enabled = enabled,
         title = Resources.getString("dialog/title/new_conf"),
         onEnterKey = {
-            println("onEnterKey: new conf dialog")
-            if (viewModel.addConfiguration(text, id))
+            /*
+            key enter don't work because it's propagated to the +
+            top bar button,
+            -> witch is click
+            -> newConfDialog is re expanded
+            -> the recomposition set text to ""
+            but when we exit the app, this lambda should work.
+             */
+            if (viewModel.addConfiguration(text.value, id))
                 FState.ui.dialogExpanded.value = UiState.Dialog.NONE
         },
         topContent = {
@@ -131,7 +138,7 @@ fun newConfDialog() {
 
             baseDialogButton(
                 onClick = {
-                    if (viewModel.addConfiguration(text, id))
+                    if (viewModel.addConfiguration(text.value, id))
                         FState.ui.dialogExpanded.value = UiState.Dialog.NONE
                 },
                 icon = Resources.getIcon("select/check24"),
