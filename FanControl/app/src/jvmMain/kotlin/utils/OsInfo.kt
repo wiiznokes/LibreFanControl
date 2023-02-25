@@ -1,4 +1,4 @@
-package external
+package utils
 
 import java.util.*
 
@@ -7,11 +7,9 @@ class OsException(msg: String) : Exception(msg)
 
 @Suppress("EnumEntryName")
 enum class OS {
-    windows, linux, unsupported;
-
-    companion object {
-        infix fun from(value: String): OS = OS.values().first { it.name == value }
-    }
+    windows,
+    linux,
+    unsupported;
 }
 
 fun getOS(): OS {

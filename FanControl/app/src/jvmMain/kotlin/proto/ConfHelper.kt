@@ -7,16 +7,15 @@ import FState.iBehaviors
 import FState.iControls
 import FState.iFans
 import FState.iTemps
-import external.OS
-import external.OsException
-import external.getOS
+import utils.OS
+import utils.OsException
+import utils.getOS
 import kotlinx.coroutines.launch
 import model.ConfInfo
 import model.item.*
 import proto.SettingsDir.getConfFile
 import proto.generated.pConf.*
 import proto.generated.pSettings.pConfInfo
-import java.util.*
 
 
 class ProtoException(msg: String) : Exception(msg)
