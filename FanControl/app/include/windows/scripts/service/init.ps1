@@ -21,7 +21,7 @@ else
     exit 1
 }
 
-Write-Output "Start mode: $startMode"
+Write-Output "init: start mode: $startMode"
 
 if ($startMode -eq "Debug")
 {
