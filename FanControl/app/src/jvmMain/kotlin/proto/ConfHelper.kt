@@ -7,15 +7,15 @@ import FState.iBehaviors
 import FState.iControls
 import FState.iFans
 import FState.iTemps
-import utils.OS
-import utils.OsException
-import utils.getOS
 import kotlinx.coroutines.launch
-import ui.settings.ConfInfo
 import model.item.*
 import proto.SettingsDir.getConfFile
 import proto.generated.pConf.*
 import proto.generated.pSettings.pConfInfo
+import ui.settings.ConfInfo
+import utils.OS
+import utils.OsException
+import utils.getOS
 
 
 class ProtoException(msg: String) : Exception(msg)
@@ -76,7 +76,7 @@ class ConfHelper {
             if (confId == null) return false
 
             val currentPConf = createPConf(getConf(confId, confName))
-            val stored =  PConf.parseFrom(getConfFile(confId).readBytes())
+            val stored = PConf.parseFrom(getConfFile(confId).readBytes())
 
             return currentPConf == stored
         }

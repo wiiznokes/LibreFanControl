@@ -23,7 +23,7 @@ val Grey = Color(0xFFB0BEC5)
 val MateGrey = Color(0xFF546E7A)
 val LightBlack = Color(0xFF212121)
 val LightCyan = Color(0xFFE0F7FA)
-val LightCyan2 =Color(163, 199, 214)
+val LightCyan2 = Color(163, 199, 214)
 val Beige = Color(0xFFdfa9a9)
 
 val OffWhite = Color(0xFFF2F2F2)
@@ -63,6 +63,7 @@ data class CustomColors(
     val secondSurface: Color = Color.White,
     val onSecondSurface: Color = Color.Black
 )
+
 val darkColors = CustomColors(
 
     input = LightCyan2,

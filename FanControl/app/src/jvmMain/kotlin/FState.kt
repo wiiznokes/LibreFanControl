@@ -1,7 +1,6 @@
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import ui.settings.Settings
 import model.hardware.HControl
 import model.hardware.HFan
 import model.hardware.HTemp
@@ -9,6 +8,7 @@ import model.item.BaseIBehavior
 import model.item.BaseITemp
 import model.item.IControl
 import model.item.IFan
+import ui.settings.Settings
 
 
 object FState {

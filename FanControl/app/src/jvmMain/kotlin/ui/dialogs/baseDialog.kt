@@ -2,15 +2,12 @@ package ui.dialogs
 
 import FState
 import UiState
-import androidx.compose.material3.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -118,14 +115,13 @@ fun baseDialogButton(
 ) {
 
 
-
     Button(
         modifier = Modifier
             .padding(LocalSpaces.current.medium),
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,
-        contentColor = contentColor,
+            contentColor = contentColor,
         )
     ) {
 
