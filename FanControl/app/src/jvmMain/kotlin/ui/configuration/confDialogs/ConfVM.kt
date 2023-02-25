@@ -1,9 +1,8 @@
 package ui.configuration.confDialogs
 
 import FState
-import androidx.compose.runtime.MutableState
-import model.ConfInfo
-import model.Settings
+import ui.settings.ConfInfo
+import ui.settings.Settings
 import model.item.BaseI.Companion.checkNameValid
 import model.item.NameException
 import proto.ConfHelper

@@ -11,7 +11,7 @@ import utils.OS
 import utils.OsException
 import utils.getOS
 import kotlinx.coroutines.launch
-import model.ConfInfo
+import ui.settings.ConfInfo
 import model.item.*
 import proto.SettingsDir.getConfFile
 import proto.generated.pConf.*

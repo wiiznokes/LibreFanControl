@@ -1,4 +1,4 @@
-package ui.drawer.settings
+package ui.settings
 
 import androidx.compose.material3.Icon
 import com.example.settingSlidingWindows.SettingScope

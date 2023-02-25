@@ -1,4 +1,4 @@
-package ui.drawer.settings
+package ui.settings
 
 import FState
 import UiState

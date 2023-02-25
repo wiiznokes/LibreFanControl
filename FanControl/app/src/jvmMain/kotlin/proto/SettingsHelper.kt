@@ -5,10 +5,10 @@ import Application.Api.scope
 import FState.settings
 import com.google.protobuf.NullValue
 import kotlinx.coroutines.launch
-import model.ConfInfo
-import model.Languages
-import model.Settings
-import model.Themes
+import ui.settings.ConfInfo
+import ui.settings.Languages
+import ui.settings.Settings
+import ui.settings.Themes
 import proto.SettingsDir.createDirs
 import proto.SettingsDir.settingsFile
 import proto.generated.pSettings.*

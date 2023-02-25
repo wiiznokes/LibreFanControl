@@ -1,7 +1,7 @@
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import model.Settings
+import ui.settings.Settings
 import model.hardware.HControl
 import model.hardware.HFan
 import model.hardware.HTemp

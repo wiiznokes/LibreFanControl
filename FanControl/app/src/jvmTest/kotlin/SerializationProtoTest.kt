@@ -1,7 +1,7 @@
-import model.ConfInfo
-import model.Languages
-import model.Settings
-import model.Themes
+import ui.settings.ConfInfo
+import ui.settings.Languages
+import ui.settings.Settings
+import ui.settings.Themes
 import proto.SettingsHelper
 import kotlin.test.Test
 import kotlin.test.assertEquals

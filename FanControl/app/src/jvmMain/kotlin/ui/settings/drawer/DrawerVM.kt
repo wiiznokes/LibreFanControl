@@ -1,12 +1,12 @@
-package ui.drawer
+package ui.settings.drawer
 
 import FState
 import UiState
-import model.Languages
-import model.Settings
-import model.Themes
 import proto.SettingsHelper
-import ui.drawer.settings.getStartMode
+import ui.settings.Languages
+import ui.settings.Settings
+import ui.settings.Themes
+import ui.settings.getStartMode
 import java.io.File
 
 class DrawerVM(

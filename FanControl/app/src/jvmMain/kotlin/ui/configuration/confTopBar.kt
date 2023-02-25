@@ -17,7 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import model.ConfInfo
+import ui.settings.ConfInfo
 import model.item.BaseI.Companion.checkNameValid
 import ui.component.ListChoiceDefault
 import ui.component.managerListChoice

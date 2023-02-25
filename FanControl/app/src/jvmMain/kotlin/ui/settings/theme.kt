@@ -1,4 +1,4 @@
-package ui.drawer.settings
+package ui.settings
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,23 +11,22 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.settingSlidingWindows.SettingScope
-import model.Languages
 import ui.component.managerText
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces
 import utils.Resources
 
 
-fun SettingScope.language(
-    language: MutableState<Languages>,
-    onLanguageChange: (Languages) -> Unit,
+fun SettingScope.theme(
+    theme: MutableState<Themes>,
+    onThemeChange: (Themes) -> Unit,
 ) {
     item(
-        title = Resources.getString("settings/language"),
-        subTitle = Resources.getString("language/${language.value}"),
+        title = Resources.getString("settings/theme"),
+        subTitle = Resources.getString("theme/${theme.value}"),
         icon = {
             Icon(
-                painter = Resources.getIcon("settings/translate24"),
+                painter = Resources.getIcon("settings/dark_mode24"),
                 tint = LocalColors.current.onSecondContainer,
                 contentDescription = null
             )
@@ -40,28 +39,25 @@ fun SettingScope.language(
             color = LocalColors.current.onSecondContainer,
             thickness = 2.dp
         )
-
         LazyColumn {
-            items(Languages.values()) {
-                Column {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { onLanguageChange(it) }
-                            .background(color = LocalColors.current.secondContainer)
-                    ) {
-                        managerText(
-                            text = Resources.getString("language/$it"),
-                            color = LocalColors.current.onSecondContainer,
-                            modifier = Modifier.padding(LocalSpaces.current.medium)
-                        )
-                    }
-                    Divider(
-                        modifier = Modifier.fillMaxWidth(),
+            items(Themes.values()) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onThemeChange(it) }
+                        .background(color = LocalColors.current.secondContainer)
+                ) {
+                    managerText(
+                        text = Resources.getString("theme/$it"),
                         color = LocalColors.current.onSecondContainer,
-                        thickness = 2.dp
+                        modifier = Modifier.padding(LocalSpaces.current.medium)
                     )
                 }
+                Divider(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = LocalColors.current.onSecondContainer,
+                    thickness = 2.dp
+                )
             }
 
             item {
@@ -69,5 +65,4 @@ fun SettingScope.language(
             }
         }
     }
-
 }

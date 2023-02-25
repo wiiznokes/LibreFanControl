@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import ui.addItem.ChoiceState
 import ui.addItem.addItem
-import ui.drawer.drawerContent
+import ui.settings.drawer.drawerContent
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)

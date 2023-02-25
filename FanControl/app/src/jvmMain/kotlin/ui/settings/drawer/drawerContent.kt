@@ -1,4 +1,4 @@
-package ui.drawer
+package ui.settings.drawer
 
 import FState
 import androidx.compose.foundation.background
@@ -13,7 +13,7 @@ import com.example.settingSlidingWindows.rememberSettingState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ui.component.managerText
-import ui.drawer.settings.*
+import ui.settings.*
 import ui.theme.LocalColors
 import utils.Resources
 

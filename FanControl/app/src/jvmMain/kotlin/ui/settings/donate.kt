@@ -1,4 +1,4 @@
-package ui.drawer.settings
+package ui.settings
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

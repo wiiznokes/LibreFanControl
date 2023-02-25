@@ -1,4 +1,4 @@
-package model
+package ui.settings
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

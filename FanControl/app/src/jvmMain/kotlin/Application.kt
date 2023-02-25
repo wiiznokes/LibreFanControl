@@ -5,14 +5,14 @@ import FState.iBehaviors
 import FState.iTemps
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.*
-import model.Settings
+import ui.settings.Settings
 import model.item.ICustomTemp
 import model.item.ILinear
 import model.item.ITarget
 import proto.ConfHelper
 import proto.CrossApi
 import proto.SettingsHelper
-import ui.drawer.settings.getStartMode
+import ui.settings.getStartMode
 import utils.initSensor
 import java.io.File
 
