@@ -30,7 +30,7 @@ public abstract class BehaviorWithTemp : Behavior
 
         if (!IsValid) return;
 
-        var parts = TempId!.Split('/');
+        var parts = TempId!.Split('#');
         IsCustomTemp = parts.Length > 0 && parts[0] == CustomTempPrefix;
 
         if (!SetTempIndex()) IsValid = false;
@@ -67,6 +67,7 @@ public abstract class BehaviorWithTemp : Behavior
 
                 if (!iCustomTemp.IsValid) return false;
                 TempIndex = index;
+                return true;
             }
         else
             foreach (var (hTemp, index) in State.HTemps.Values.WithIndex())
