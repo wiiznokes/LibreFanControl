@@ -18,6 +18,6 @@ fun SettingScope.help() {
             )
         }
     ) {
-        Header(null, null)
+        header(null, null)
     }
 }

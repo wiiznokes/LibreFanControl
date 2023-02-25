@@ -1,5 +1,6 @@
 package ui.drawer.settings
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,7 +33,7 @@ fun SettingScope.language(
             )
         }
     ) {
-        Header(null, null)
+        header(null, null)
 
         Divider(
             modifier = Modifier.fillMaxWidth(),
@@ -46,9 +47,8 @@ fun SettingScope.language(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable {
-                                onLanguageChange(it)
-                            }
+                            .clickable { onLanguageChange(it) }
+                            .background(color = LocalColors.current.secondContainer)
                     ) {
                         managerText(
                             text = Resources.getString("language/$it"),

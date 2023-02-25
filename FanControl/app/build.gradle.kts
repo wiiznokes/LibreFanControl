@@ -34,9 +34,9 @@ kotlin {
                 // TODO: add specific dependencies for windows and linux, in order to remove implementation(compose.desktop.currentOs)
                 //  and make cross compilation
 
+                // ui
                 implementation(compose.desktop.currentOs)
                 implementation("org.jetbrains.compose.material3:material3-desktop:${project.property("compose.version")}")
-                implementation("com.github.wiiznokes:setting-sliding-windows:${project.property("settings.version")}")
 
                 // json, use for string (will be replaced in the future)
                 implementation("org.json:json:20220924")
@@ -51,6 +51,7 @@ kotlin {
                 implementation("io.grpc:grpc-okhttp:${project.property("grpc.version")}")
 
 
+                implementation("com.github.wiiznokes:setting-sliding-windows:${project.property("settings.version")}")
                 // use to debug the lib locally
                 //implementation("com.example:setting-sliding-windows-jvm:${project.property("settings.version")}")
             }

@@ -1,5 +1,6 @@
 package ui.drawer.settings
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,7 +33,7 @@ fun SettingScope.theme(
             )
         }
     ) {
-        Header(null, null)
+        header(null, null)
 
         Divider(
             modifier = Modifier.fillMaxWidth(),
@@ -45,6 +46,7 @@ fun SettingScope.theme(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable { onThemeChange(it) }
+                        .background(color = LocalColors.current.secondContainer)
                 ) {
                     managerText(
                         text = Resources.getString("theme/$it"),

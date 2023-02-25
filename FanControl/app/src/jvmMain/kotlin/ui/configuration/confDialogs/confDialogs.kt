@@ -135,7 +135,7 @@ fun newConfDialog() {
                 delay(500L)
                 focusRequester.requestFocus()
             }
-            
+
         },
         bottomContent = {
             baseDialogButton(

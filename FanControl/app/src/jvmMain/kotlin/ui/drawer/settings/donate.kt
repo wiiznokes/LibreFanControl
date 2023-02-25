@@ -41,7 +41,7 @@ fun SettingScope.donate() {
         },
         showTopLine = true
     ) {
-        Header(null, null)
+        header(null, null)
 
         Divider(
             modifier = Modifier.fillMaxWidth(),
