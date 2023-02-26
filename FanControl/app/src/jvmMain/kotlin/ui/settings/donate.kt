@@ -1,7 +1,10 @@
 package ui.settings
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.ui.Modifier
@@ -48,35 +51,36 @@ fun SettingScope.donate() {
             color = LocalColors.current.onSecondContainer,
             thickness = 2.dp
         )
+        LazyColumn {
+            items(donateList) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = LocalColors.current.secondContainer)
+                        .clickable {
+                            val desktop = Desktop.getDesktop()
 
-        donateList.forEach {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        val desktop = Desktop.getDesktop()
-
-                        try {
-                            desktop.browse(it.uri)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
+                            try {
+                                desktop.browse(it.uri)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
                         }
-                    }
-            ) {
-                managerText(
-                    text = it.title,
+                ) {
+                    managerText(
+                        text = it.title,
+                        color = LocalColors.current.onSecondContainer,
+                        modifier = Modifier.padding(LocalSpaces.current.medium)
+                    )
+                }
+                Divider(
+                    modifier = Modifier.fillMaxWidth(),
                     color = LocalColors.current.onSecondContainer,
-                    modifier = Modifier.padding(LocalSpaces.current.medium)
+                    thickness = 2.dp
                 )
             }
-            Divider(
-                modifier = Modifier.fillMaxWidth(),
-                color = LocalColors.current.onSecondContainer,
-                thickness = 2.dp
-            )
-
         }
+
         Spacer(Modifier.height(80.dp))
     }
-
 }
