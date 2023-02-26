@@ -45,7 +45,7 @@ public class LhmControl : BaseControl
         }
 
         Value = value;
-        
+
         Console.WriteLine("[SERVICE] set control: " + Name + " = " + value);
         return true;
     }

@@ -1,5 +1,4 @@
-﻿using HardwareDaemon.Model;
-using Proto.Generated.PSettings;
+﻿using Proto.Generated.PSettings;
 
 namespace HardwareDaemon.Proto;
 
@@ -41,12 +40,10 @@ public static class SettingsDir
 
 public static class SettingsHelper
 {
-    public static void LoadSettingsFile(Settings settingsState)
+    public static void LoadSettingsFile()
     {
         var pSettings = PSettings.Parser.ParseFrom(GetSettingsBytes());
-        var settings = ParsePSettings(pSettings);
-        settingsState.UpdateDelay = settings.UpdateDelay;
-        settingsState.ConfId = settings.ConfId;
+        ParsePSettings(pSettings);
     }
 
     private static byte[] GetSettingsBytes()
@@ -55,12 +52,10 @@ public static class SettingsHelper
     }
 
 
-    public static Settings ParsePSettings(PSettings pSetting)
+    private static void ParsePSettings(PSettings pSetting)
     {
-        return new Settings(
-            NullableToNull(pSetting.PConfId),
-            pSetting.PUpdateDelay
-        );
+        State.Settings.UpdateDelay = pSetting.PUpdateDelay;
+        State.Settings.ConfId = NullableToNull(pSetting.PConfId);
     }
 
 

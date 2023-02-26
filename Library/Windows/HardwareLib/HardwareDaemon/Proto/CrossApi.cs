@@ -52,9 +52,9 @@ public class CrossApi : PCrossApi.PCrossApiBase
 
         var hardwareList = request.PType switch
         {
-            PHardwareType.Control => CreatePHardwareList(State.HControls.Values),
-            PHardwareType.Temp => CreatePHardwareList(State.HTemps.Values),
-            PHardwareType.Fan => CreatePHardwareList(State.HFans.Values),
+            PHardwareType.Control => CreatePHardwareList(State.HControls),
+            PHardwareType.Temp => CreatePHardwareList(State.HTemps),
+            PHardwareType.Fan => CreatePHardwareList(State.HFans),
             _ => throw new ProtoException("unknown pHardware type")
         };
 
@@ -92,14 +92,14 @@ public class CrossApi : PCrossApi.PCrossApiBase
             HardwareManager.Update();
             Update.UpdateAllSensors();
 
-            var updateList = CreatePUpdate(PHardwareType.Control, State.HControls.Values);
+            var updateList = CreatePUpdate(PHardwareType.Control, State.HControls);
 
             await responseStream.WriteAsync(updateList, context.CancellationToken);
 
-            updateList = CreatePUpdate(PHardwareType.Temp, State.HTemps.Values);
+            updateList = CreatePUpdate(PHardwareType.Temp, State.HTemps);
             await responseStream.WriteAsync(updateList, context.CancellationToken);
 
-            updateList = CreatePUpdate(PHardwareType.Fan, State.HFans.Values);
+            updateList = CreatePUpdate(PHardwareType.Fan, State.HFans);
             await responseStream.WriteAsync(updateList, context.CancellationToken);
 
             await Task.Delay(State.Settings.UpdateDelay * 1000, context.CancellationToken);

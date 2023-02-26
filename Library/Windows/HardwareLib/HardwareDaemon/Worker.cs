@@ -21,6 +21,10 @@ public class Worker : BackgroundService
 
     private readonly ILogger<Worker> _logger;
 
+    // use because sometime, we stay in the while loop even if
+    // stoppingToken.IsCancellationRequested = true
+    private bool _cancellationRequested;
+
     private Task _chatJob = null!;
     private WebApplication _grpcApp = null!;
 
@@ -40,7 +44,7 @@ public class Worker : BackgroundService
         }
 
         HardwareManager.Start();
-        SettingsHelper.LoadSettingsFile(State.Settings);
+        SettingsHelper.LoadSettingsFile();
 
         StartGrpc();
 
@@ -64,10 +68,6 @@ public class Worker : BackgroundService
 
         return true;
     }
-    
-    // use because sometime, we stay in the while loop even if
-    // stoppingToken.IsCancellationRequested = true
-    private bool _cancellationRequested;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -93,7 +93,7 @@ public class Worker : BackgroundService
 
             Update.UpdateUpdateList();
         }
-        
+
         if (!_cancellationRequested)
             AutoCancel();
     }
@@ -103,14 +103,14 @@ public class Worker : BackgroundService
     {
         if (SettingsHasChange)
         {
-            SettingsHelper.LoadSettingsFile(State.Settings);
+            SettingsHelper.LoadSettingsFile();
             SettingsHasChange = false;
         }
 
         if (SettingsAndConfHasChange)
         {
             Update.SetAutoAll();
-            SettingsHelper.LoadSettingsFile(State.Settings);
+            SettingsHelper.LoadSettingsFile();
 
             if (State.Settings.ConfId != null)
             {

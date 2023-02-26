@@ -35,7 +35,7 @@ public class Control
     private bool SetHControlIndex()
     {
         var i = 0;
-        foreach (var hControl in State.HControls.Values)
+        foreach (var hControl in State.HControls)
         {
             if (hControl.Id == HControlId)
             {
@@ -53,7 +53,7 @@ public class Control
     private bool SetBehaviorIndex()
     {
         var i = 0;
-        foreach (var behavior in State.Behaviors.Values)
+        foreach (var behavior in State.Behaviors)
         {
             if (behavior.Id == BehaviorId)
             {

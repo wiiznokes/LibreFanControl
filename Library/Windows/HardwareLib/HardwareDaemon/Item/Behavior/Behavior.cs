@@ -54,11 +54,10 @@ public abstract class BehaviorWithTemp : Behavior
     }
 
 
-    
     private bool SetTempIndex()
     {
         if (IsCustomTemp)
-            foreach (var (iCustomTemp, index) in State.CustomTemps.Values.WithIndex())
+            foreach (var (iCustomTemp, index) in State.CustomTemps.WithIndex())
             {
                 if (iCustomTemp.Id != TempId) continue;
 
@@ -68,7 +67,7 @@ public abstract class BehaviorWithTemp : Behavior
                 return true;
             }
         else
-            foreach (var (hTemp, index) in State.HTemps.Values.WithIndex())
+            foreach (var (hTemp, index) in State.HTemps.WithIndex())
             {
                 if (hTemp.Id != TempId) continue;
 

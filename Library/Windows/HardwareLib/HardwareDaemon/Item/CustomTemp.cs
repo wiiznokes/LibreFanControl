@@ -37,7 +37,7 @@ public class CustomTemp
     private bool SetHTempsIndexList()
     {
         foreach (var hTempId in HTempIds)
-        foreach (var (hTemp, index) in State.HTemps.Values.WithIndex())
+        foreach (var (hTemp, index) in State.HTemps.WithIndex())
         {
             if (hTemp.Id != hTempId) continue;
 

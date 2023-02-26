@@ -80,15 +80,15 @@ public class Lhm : IVisitor
                 switch (sensor.SensorType)
                 {
                     case SensorType.Control:
-                        State.HControls.TryAdd(State.HControls.Count, new LhmControl(id, sensor, name, controlsIndex));
+                        State.HControls.Add(new LhmControl(id, sensor, name, controlsIndex));
                         controlsIndex++;
                         break;
                     case SensorType.Temperature:
-                        State.HTemps.TryAdd(State.HTemps.Count, new LhmTemp(id, sensor, name, tempsIndex));
+                        State.HTemps.Add(new LhmTemp(id, sensor, name, tempsIndex));
                         tempsIndex++;
                         break;
                     case SensorType.Fan:
-                        State.HFans.TryAdd(State.HFans.Count, new LhmFanSpeed(id, sensor, name, fansIndex));
+                        State.HFans.Add(new LhmFanSpeed(id, sensor, name, fansIndex));
                         fansIndex++;
                         break;
 
@@ -111,16 +111,15 @@ public class Lhm : IVisitor
                     switch (subSensor.SensorType)
                     {
                         case SensorType.Control:
-                            State.HControls.TryAdd(State.HControls.Count,
-                                new LhmControl(id, subSensor, name, controlsIndex));
+                            State.HControls.Add(new LhmControl(id, subSensor, name, controlsIndex));
                             controlsIndex++;
                             break;
                         case SensorType.Temperature:
-                            State.HTemps.TryAdd(State.HTemps.Count, new LhmTemp(id, subSensor, name, tempsIndex));
+                            State.HTemps.Add(new LhmTemp(id, subSensor, name, tempsIndex));
                             tempsIndex++;
                             break;
                         case SensorType.Fan:
-                            State.HFans.TryAdd(State.HFans.Count, new LhmFanSpeed(id, subSensor, name, fansIndex));
+                            State.HFans.Add(new LhmFanSpeed(id, subSensor, name, fansIndex));
                             fansIndex++;
                             break;
 

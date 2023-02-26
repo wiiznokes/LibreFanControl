@@ -1,46 +1,29 @@
-﻿using System.Collections.Concurrent;
-using HardwareDaemon.Hardware.Control;
+﻿using HardwareDaemon.Hardware.Control;
 using HardwareDaemon.Hardware.Sensor;
 using HardwareDaemon.Item;
 using HardwareDaemon.Item.Behavior;
-using HardwareDaemon.Model;
 
 namespace HardwareDaemon;
 
 public static class State
 {
-    public static readonly ConcurrentDictionary<int, BaseControl> HControls = new();
-    public static readonly ConcurrentDictionary<int, BaseSensor> HTemps = new();
-    public static readonly ConcurrentDictionary<int, BaseSensor> HFans = new();
+    public static readonly List<BaseControl> HControls = new();
+    public static readonly List<BaseSensor> HTemps = new();
+    public static readonly List<BaseSensor> HFans = new();
 
-    public static readonly ConcurrentDictionary<int, Control> Controls = new();
-    public static readonly ConcurrentDictionary<int, Behavior> Behaviors = new();
+    public static readonly List<Control> Controls = new();
+    public static readonly List<Behavior> Behaviors = new();
+    public static readonly List<CustomTemp> CustomTemps = new();
 
-    public static readonly ConcurrentDictionary<int, CustomTemp> CustomTemps = new();
-
-    public static readonly ConcurrentDictionary<int, int> UpdateList = new();
+    public static readonly List<int> UpdateList = new();
 
 
-    private static readonly object SettingLock = new();
-    private static Settings _setting = new(null, 2);
-
-    public static Settings Settings
+    public static class Settings
     {
-        get
-        {
-            lock (SettingLock)
-            {
-                return _setting;
-            }
-        }
-        set
-        {
-            lock (SettingLock)
-            {
-                _setting = value;
-            }
-        }
+        public static string? ConfId { get; set; }
+        public static int UpdateDelay { get; set; }
     }
+
 
     public static class ServiceState
     {

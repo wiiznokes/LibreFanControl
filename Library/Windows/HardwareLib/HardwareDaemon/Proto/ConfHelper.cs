@@ -29,7 +29,7 @@ public static class ConfHelper
 
         foreach (var pITemp in pConf.PITemps)
             if (pITemp.KindCase == PITemp.KindOneofCase.PICustomTemp)
-                State.CustomTemps.TryAdd(State.CustomTemps.Count,
+                State.CustomTemps.Add(
                     new CustomTemp(
                         pITemp.PId,
                         pITemp.PICustomTemp.PHTempIds.ToList(),
@@ -44,7 +44,7 @@ public static class ConfHelper
                 );
 
         foreach (var pIBehavior in pConf.PIBehaviors)
-            State.Behaviors.TryAdd(State.Behaviors.Count,
+            State.Behaviors.Add(
                 pIBehavior.KindCase switch
                 {
                     PIBehavior.KindOneofCase.PFlat => new Flat(pIBehavior.PId, pIBehavior.PFlat.PValue),
@@ -73,11 +73,12 @@ public static class ConfHelper
 
 
         foreach (var (pIControl, index) in pConf.PIControls.WithIndex())
-            State.Controls.TryAdd(State.Controls.Count, new Control(
-                SettingsHelper.NullableToNull(pIControl.PIBehaviorId),
-                SettingsHelper.NullableToNull(pIControl.PHControlId),
-                pIControl.PIsAuto,
-                index
-            ));
+            State.Controls.Add(
+                new Control(
+                    SettingsHelper.NullableToNull(pIControl.PIBehaviorId),
+                    SettingsHelper.NullableToNull(pIControl.PHControlId),
+                    pIControl.PIsAuto,
+                    index
+                ));
     }
 }
