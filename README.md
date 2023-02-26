@@ -7,30 +7,30 @@
 ## Why you should use it
 - open source
 - service very low on ressource (~30mb)
-- display sensor data on real time
+- display sensors data on real time
 - control fans based on custom behaviors
 - save configuration
 
 
 
 ## Build (in this order)
-- Lib windows (dotnet7)
+
 ```
-dotnet build
-```
-- proto
-```
+dotnet build .\Library\Windows\HardwareLib
+
+cd .\FanControl\
+
 .\gradlew generateAllProto
-```
-- App
-```
-.\gradlew run 
+
+.\gradlew run
+or
+.\gradlew packageReleaseMsi
 ```
 
 ## Plans (not in this order)
 
-- [ ] Use strongly typed string resources
-- [ ] Add a system to automatically receive update
+- [ ] Use strongly typed resources for strings and icons
+- [ ] Add a system to automatically receive updates
 - [ ] Add workflow to the project (CI/CD, ect...) (docker ?)
 - [ ] Support Linux (maybe reuse some parts of C# ?)
 - [ ] Implement settings (info, help)
