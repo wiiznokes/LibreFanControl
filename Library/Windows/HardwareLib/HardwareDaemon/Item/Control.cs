@@ -73,9 +73,6 @@ public class Control
     public void SetSpeed()
     {
         var value = State.Behaviors[BehaviorIndex].GetSpeed();
-
-        Console.WriteLine("[SERVICE] set control: " + HControlIndex + " = " + value);
-
-        //State.HControls[HControlIndex].SetSpeed(value);
+        State.HControls[HControlIndex].SetSpeed(value);
     }
 }

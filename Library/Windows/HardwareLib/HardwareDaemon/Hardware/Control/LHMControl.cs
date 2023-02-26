@@ -45,6 +45,8 @@ public class LhmControl : BaseControl
         }
 
         Value = value;
+        
+        Console.WriteLine("[SERVICE] set control: " + Name + " = " + value);
         return true;
     }
 
@@ -57,6 +59,7 @@ public class LhmControl : BaseControl
 
         _mSensor.Control.SetDefault();
         IsSetSpeed = false;
+        Console.WriteLine("[SERVICE] set control to auto: " + Name);
         return true;
     }
 }

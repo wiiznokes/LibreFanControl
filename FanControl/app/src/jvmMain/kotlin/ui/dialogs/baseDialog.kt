@@ -106,7 +106,7 @@ fun baseDialogText(
 @Composable
 fun baseDialogButton(
     modifier: Modifier = Modifier
-        .width(80.dp),
+        .width(60.dp),
     onClick: () -> Unit,
     text: String,
     icon: Painter? = null,
