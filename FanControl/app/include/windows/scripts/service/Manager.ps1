@@ -7,7 +7,7 @@ $exeName = "HardwareDaemon.exe"
 $installPath = "C:\Program Files\$serviceName"
 $buildPath = "$PSScriptRoot/../../build/"
 
-$confPath = "C:\Program Files\$appName"
+$confPath = "C:\ProgramData\$appName"
 
 
 function checkInstall
