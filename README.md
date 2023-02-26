@@ -27,35 +27,23 @@ dotnet build
 .\gradlew run 
 ```
 
-## Plans
+## Plans (not in this order)
 
 - [ ] Use strongly typed string resources
 - [ ] Add a system to automatically receive update
-- [ ] Add workflow to the project (CI/CD, ect...)
-- [ ] Support Linux
+- [ ] Add workflow to the project (CI/CD, ect...) (docker ?)
+- [ ] Support Linux (maybe reuse some parts of C# ?)
 - [ ] Implement settings (info, help)
 - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
-
+- [ ] Write an intelligent program to bind controls to their fans, and make a nice first config
 
 ## Library used
 
-#### UI
+### UI
 - [Compose Multiplatform Desktop](https://www.jetbrains.com/lp/compose-mpp/)
 - [setting-sliding-windows](https://github.com/wiiznokes/setting-sliding-windows)
-#### SENSORS
+### SENSORS
 ##### Windows
 - [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor)
 ##### Linux
 - [lm-sensor](https://github.com/lm-sensors/lm-sensors)
-
-  
-<details>
-<summary>Help to develop</summary>
-<br/>
-  
-> LibreHardwareMonitor [implementation](https://github.com/lich426/FanCtrl) in C#
-
-> Github of [compose-desktop](https://github.com/JetBrains/compose-jb)
-
-</details>
-
