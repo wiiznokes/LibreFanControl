@@ -31,6 +31,14 @@ class Settings(
             it.id == confId.value
         }
     }
+
+
+    fun getConfName(_confId: String? = confId.value): String? {
+        return when (val index = getIndexInfo(_confId)) {
+            null -> return null
+            else -> confInfoList[index].name.value
+        }
+    }
 }
 
 

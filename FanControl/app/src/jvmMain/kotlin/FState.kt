@@ -58,6 +58,4 @@ class UiState {
     val dialogExpanded = mutableStateOf(Dialog.NONE)
 
     val errorDialogContent = mutableStateOf("")
-
-    val confName = mutableStateOf("")
 }

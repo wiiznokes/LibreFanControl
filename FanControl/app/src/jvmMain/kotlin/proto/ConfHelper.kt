@@ -72,10 +72,14 @@ class ConfHelper {
             getConfFile(confId).delete()
         }
 
-        fun isConfSave(confId: String?, confName: String): Boolean {
+        fun isConfSave(confId: String?): Boolean {
+            println("isConfSave, id = $confId")
+
             if (confId == null) return false
 
-            val currentPConf = createPConf(getConf(confId, confName))
+            val name = FState.settings.getConfName() ?: return false
+
+            val currentPConf = createPConf(getConf(confId, name))
             val stored = PConf.parseFrom(getConfFile(confId).readBytes())
 
             return currentPConf == stored
@@ -91,7 +95,7 @@ class ConfHelper {
             val iFans: MutableList<IFan> = mutableListOf(),
         )
 
-        fun getConf(confId: String, confName: String): Conf = Conf(
+        private fun getConf(confId: String, confName: String): Conf = Conf(
             confInfo = ConfInfo(
                 id = confId,
                 name = confName
@@ -103,7 +107,7 @@ class ConfHelper {
         )
 
 
-        fun parsePConf(pConf: PConf): Conf {
+        private fun parsePConf(pConf: PConf): Conf {
 
             val conf = Conf(
                 confInfo = ConfInfo(
@@ -208,7 +212,7 @@ class ConfHelper {
         }
 
 
-        fun createPConf(conf: Conf) = pConf {
+        private fun createPConf(conf: Conf) = pConf {
 
             pConfInfo = pConfInfo {
                 pId = conf.confInfo.id

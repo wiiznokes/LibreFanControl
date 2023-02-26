@@ -45,7 +45,9 @@ fun confNotSaveDialog() {
             if (confId != null) {
                 baseDialogButton(
                     onClick = {
-                        if (!viewModel.saveConfiguration(FState.ui.confName.value)) {
+                        val name = FState.settings.getConfName() ?: return@baseDialogButton
+
+                        if (!viewModel.saveConfiguration(name)) {
                             println("ERROR: can't save config")
                             FState.ui.dialogExpanded.value = UiState.Dialog.NEW_CONF
                             return@baseDialogButton

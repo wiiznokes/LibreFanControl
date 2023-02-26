@@ -44,7 +44,9 @@ fun main() {
                     }
 
 
-                    if (!ConfHelper.isConfSave(FState.settings.confId.value, FState.ui.confName.value)) {
+
+
+                    if (!ConfHelper.isConfSave(FState.settings.confId.value)) {
                         println("CONF_IS_NOT_SAVE")
                         FState.ui.dialogExpanded.value = UiState.Dialog.CONF_IS_NOT_SAVE
                     }
@@ -59,15 +61,6 @@ fun main() {
                 }
             }
         ) {
-            // tricks to have confName value all over the app
-            FState.ui.confName.value = remember(FState.settings.confId.value) {
-                when (val index = FState.settings.getIndexInfo()) {
-                    null -> Resources.getString("common/none")
-                    else -> FState.settings.confInfoList[index].name.value
-                }
-            }
-
-
             fanControlTheme(
                 FState.settings.theme.value
             ) {

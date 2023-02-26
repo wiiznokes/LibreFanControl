@@ -9,13 +9,17 @@ import proto.ConfHelper
 import proto.SettingsHelper
 import ui.settings.ConfInfo
 import ui.settings.Settings
+import utils.Resources
 
 class ConfVM(
     val settings: Settings = FState.settings,
 ) {
 
     fun saveConfiguration(name: String): Boolean {
+
         val confId = FState.settings.confId.value
+        println("try save conf: id = $confId, name = $name")
+
         val index = FState.settings.getIndexInfo(confId)
 
         if (confId == null || index == null) {
@@ -35,10 +39,11 @@ class ConfVM(
             println("save conf: NameException -> return")
             return false
         }
-        println("save conf: id = $confId")
         settings.confInfoList[index].name.value = name
         SettingsHelper.writeSettings()
         ConfHelper.writeConf(confId, name)
+
+        println("save conf: success")
         return true
     }
 
