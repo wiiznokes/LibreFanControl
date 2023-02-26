@@ -44,7 +44,7 @@ class Application(
             "powershell.exe",
             "-File",
             initScript,
-            "Debug"
+            startMode
         )
 
         val res = ProcessBuilder(command)

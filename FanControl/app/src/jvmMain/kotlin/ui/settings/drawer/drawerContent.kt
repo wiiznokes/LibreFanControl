@@ -17,7 +17,7 @@ import ui.settings.*
 import ui.theme.LocalColors
 import utils.Resources
 
-private val viewModel = DrawerVM()
+private val viewModel = SettingsVM()
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

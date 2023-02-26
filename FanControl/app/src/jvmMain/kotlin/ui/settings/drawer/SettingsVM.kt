@@ -2,6 +2,7 @@ package ui.settings.drawer
 
 import FState
 import UiState
+import kotlinx.coroutines.delay
 import proto.SettingsHelper
 import ui.settings.Languages
 import ui.settings.Settings
@@ -9,7 +10,7 @@ import ui.settings.Themes
 import ui.settings.getStartMode
 import java.io.File
 
-class DrawerVM(
+class SettingsVM(
     val settings: Settings = FState.settings,
 ) {
     fun onUpdateDelay(delay: Int) {
@@ -54,11 +55,15 @@ class DrawerVM(
             0 -> {
                 settings.launchAtStartUp.value = launchAtStartUp
                 SettingsHelper.writeSettings()
+                FState.ui.dialogExpanded.value = UiState.Dialog.NONE
             }
 
             3 -> FState.ui.dialogExpanded.value = UiState.Dialog.NEED_ADMIN
 
-            else -> println("Error: can't set launchAtStartUp to $startMode")
+            else -> {
+                println("Error: can't set launchAtStartUp to $startMode")
+                FState.ui.showError("Error: can't set launchAtStartUp to $startMode")
+            }
         }
     }
 }
