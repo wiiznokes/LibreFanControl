@@ -88,7 +88,7 @@ class Application(
         val startJob = scope.launch {
 
             if (startService()) {
-                val maxDelay = 5000L
+                val maxDelay = 7000L
                 var delay = 0L
                 while (!FState.isServiceOpenned && delay < maxDelay) {
                     delay += 500L

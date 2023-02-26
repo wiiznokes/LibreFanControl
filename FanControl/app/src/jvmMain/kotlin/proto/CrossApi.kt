@@ -3,6 +3,7 @@ package proto
 import FState
 import com.google.protobuf.Empty
 import io.grpc.ManagedChannel
+import io.grpc.StatusException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 import model.hardware.HControl
@@ -52,7 +53,11 @@ class CrossApi(
                     false
                 }
             }
-        } catch (e: Exception) {
+        } catch (e: StatusException) {
+            println("Error: can't open, service status = ${e.status.code}")
+            false
+        }
+        catch (e: Exception) {
             e.printStackTrace()
             false
         }
