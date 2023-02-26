@@ -8,7 +8,7 @@
 - open source
 - service very low on ressource (~30mb)
 - display sensor data on real time
-- control fans based with custom behavior
+- control fans based on custom behaviors
 - save configuration
 
 
