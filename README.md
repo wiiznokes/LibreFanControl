@@ -1,11 +1,7 @@
-# LibreFanControl (Alpha)
-
-
-
-
-------
+# LibreFanControl (Beta)
 
 ## Notes
+- You can see a screenshot of the app [here](https://github.com/wiiznokes/LibreFanControl/blob/main/assets/mainPageV1.png)
 - Linux is not supported for now
 
 ## Why you should use it
