@@ -132,7 +132,6 @@ class Application(
                 api.startUpdate()
             }
         }
-
     }
 
 
