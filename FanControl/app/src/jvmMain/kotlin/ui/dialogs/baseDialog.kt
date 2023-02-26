@@ -16,8 +16,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.rememberDialogState
 import ui.component.managerText
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces
@@ -34,8 +36,11 @@ fun baseDialog(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.SpaceAround,
 ) {
     Dialog(
+        state = rememberDialogState(
+            size = DpSize(width = 500.dp, height = 350.dp)
+        ),
         visible = enabled,
-        resizable = false,
+        resizable = true,
         onCloseRequest = {
             //println("close dialog")
             FState.ui.dialogExpanded.value = UiState.Dialog.NONE
@@ -106,7 +111,7 @@ fun baseDialogText(
 @Composable
 fun baseDialogButton(
     modifier: Modifier = Modifier
-        .width(60.dp),
+        .width(80.dp),
     onClick: () -> Unit,
     text: String,
     icon: Painter? = null,

@@ -64,13 +64,16 @@ public class Worker : BackgroundService
 
         return true;
     }
-
+    
+    // use because sometime, we stay in the while loop even if
+    // stoppingToken.IsCancellationRequested = true
+    private bool _cancellationRequested;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         if (!StartService()) AutoCancel();
 
-        while (!stoppingToken.IsCancellationRequested)
+        while (!stoppingToken.IsCancellationRequested && !_cancellationRequested)
         {
             await Task.Delay(State.Settings.UpdateDelay * 1000, stoppingToken);
 
@@ -90,8 +93,9 @@ public class Worker : BackgroundService
 
             Update.UpdateUpdateList();
         }
-
-        AutoCancel();
+        
+        if (!_cancellationRequested)
+            AutoCancel();
     }
 
 
@@ -155,6 +159,7 @@ public class Worker : BackgroundService
 
     public override Task StopAsync(CancellationToken cancellationToken)
     {
+        _cancellationRequested = true;
         Console.WriteLine("[SERVICE] StopAsync");
 
         StopGrpc();
