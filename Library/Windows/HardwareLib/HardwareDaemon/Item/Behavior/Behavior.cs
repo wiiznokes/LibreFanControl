@@ -54,9 +54,7 @@ public abstract class BehaviorWithTemp : Behavior
     }
 
 
-    /**
-     * return -1 if there is an error
-     */
+    
     private bool SetTempIndex()
     {
         if (IsCustomTemp)
