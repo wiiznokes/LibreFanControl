@@ -1,4 +1,5 @@
 $serviceName = "FanControlService"
+$appName = "FanControl"
 $DisplayName = "Fan control service"
 $Description = "Update fan speed and send sensors value to Fan control app"
 $exeName = "HardwareDaemon.exe"
@@ -6,6 +7,7 @@ $exeName = "HardwareDaemon.exe"
 $installPath = "C:\Program Files\$serviceName"
 $buildPath = "$PSScriptRoot/../../build/"
 
+$confPath = "C:\Program Files\$appName"
 
 
 function checkInstall
@@ -69,6 +71,15 @@ function removeInstallFolder
     {
         Remove-Item $installPath -Recurse -Force
         Write-Host "$installPath folder has been removed"
+    }
+}
+
+function removeConfFolder
+{
+    if (Test-Path $confPath -PathType Container)
+    {
+        Remove-Item $confPath -Recurse -Force
+        Write-Host "$confPath folder has been removed"
     }
 }
 

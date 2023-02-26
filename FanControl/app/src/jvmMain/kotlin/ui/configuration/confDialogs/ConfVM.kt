@@ -1,6 +1,8 @@
 package ui.configuration.confDialogs
 
+import Application
 import FState
+import kotlinx.coroutines.launch
 import model.item.BaseI.Companion.checkNameValid
 import model.item.NameException
 import proto.ConfHelper
@@ -49,6 +51,10 @@ class ConfVM(
 
         settings.confId.value = id
         SettingsHelper.writeSettings()
+
+        Application.Api.scope.launch {
+            Application.Api.api.settingsAndConfChange()
+        }
     }
 
     fun addConfiguration(name: String, id: String): Boolean {
@@ -79,9 +85,16 @@ class ConfVM(
         ConfHelper.removeConf(id)
 
         settings.confInfoList.removeAt(index)
-        if (settings.confId.value == id) {
+
+        if (settings.confId.value == id)
             settings.confId.value = null
-            SettingsHelper.writeSettings()
+
+        SettingsHelper.writeSettings()
+
+        if (settings.confId.value == id) {
+            Application.Api.scope.launch {
+                Application.Api.api.settingsAndConfChange()
+            }
         }
     }
 }

@@ -17,6 +17,8 @@ import utils.initSensor
 import java.io.File
 
 
+private const val DEBUG_SERVICE = false
+
 class Application(
     private val settings: Settings = FState.settings,
 ) {
@@ -38,7 +40,10 @@ class Application(
         val initScript = File(System.getProperty("compose.application.resources.dir"))
             .resolve("scripts/service/init.ps1")
             .absolutePath
-        val startMode = getStartMode(settings.launchAtStartUp.value)
+
+        val startMode = if (DEBUG_SERVICE) "Debug"
+        else
+            getStartMode(settings.launchAtStartUp.value)
 
         val command = listOf(
             "powershell.exe",
@@ -83,9 +88,16 @@ class Application(
         val startJob = scope.launch {
 
             if (startService()) {
-                delay(500L)
-                if (api.open()) {
-                    FState.isServiceOpenned = true
+                val maxDelay = 5000L
+                var delay = 0L
+                while (!FState.isServiceOpenned && delay < maxDelay) {
+                    delay += 500L
+                    delay(delay)
+
+                    if (api.open()) FState.isServiceOpenned = true
+                }
+                if (!FState.isServiceOpenned) {
+                    FState.ui.showError("service can't be opened for some reason")
                 }
             }
 
