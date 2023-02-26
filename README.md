@@ -33,7 +33,8 @@ dotnet build
 
 ## Plans
 
-- [ ] Use strongly typed resources, maybe Kotlin dataframe
+- [ ] Use strongly typed string resources
+- [ ] Add a system to automatically receive update
 - [ ] Add workflow to the project (CI/CD, ect...)
 - [ ] Support Linux
 - [ ] Implement settings (info, help)
