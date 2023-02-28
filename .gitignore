@@ -24,5 +24,8 @@ Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated
 **/.idea/workspace.xml
 artifacts/
 **/.idea/gradle.xml
+**/.idea/misc.xml
+
+
 
 FanControl/wix311/

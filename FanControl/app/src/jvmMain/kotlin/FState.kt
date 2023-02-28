@@ -26,7 +26,7 @@ object FState {
 
     val ui = UiState()
 
-    var isServiceOpenned = false
+    var isServiceOpened = false
 }
 
 

@@ -12,11 +12,12 @@ import ui.settings.ConfInfo
 import ui.settings.Languages
 import ui.settings.Settings
 import ui.settings.Themes
+import utils.OsSpecific
 import java.io.File
 
 object SettingsDir {
 
-    private val dir = File("C:\\ProgramData\\FanControl")
+    private val dir = OsSpecific.os.settingsDir
 
     private val confDir = dir.resolve("conf")
 

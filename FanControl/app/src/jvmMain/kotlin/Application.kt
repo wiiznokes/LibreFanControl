@@ -12,12 +12,9 @@ import proto.ConfHelper
 import proto.CrossApi
 import proto.SettingsHelper
 import ui.settings.Settings
-import ui.settings.getStartMode
+import utils.OsSpecific
 import utils.initSensor
-import java.io.File
 
-
-private const val DEBUG_SERVICE = false
 
 class Application(
     private val settings: Settings = FState.settings,
@@ -37,28 +34,9 @@ class Application(
 
 
     private fun startService(): Boolean {
-        val initScript = File(System.getProperty("compose.application.resources.dir"))
-            .resolve("scripts/service/init.ps1")
-            .absolutePath
 
-        val startMode = if (DEBUG_SERVICE) "Debug"
-        else
-            getStartMode(settings.launchAtStartUp.value)
 
-        val command = listOf(
-            "powershell.exe",
-            "-File",
-            initScript,
-            startMode
-        )
-
-        val res = ProcessBuilder(command)
-            .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-            .redirectError(ProcessBuilder.Redirect.INHERIT)
-            .start()
-            .waitFor()
-
-        return when (res) {
+        return when (OsSpecific.os.startService()) {
             0 -> {
                 println("startService: success")
                 true
@@ -90,13 +68,13 @@ class Application(
             if (startService()) {
                 val maxDelay = 7000L
                 var delay = 0L
-                while (!FState.isServiceOpenned && delay < maxDelay) {
+                while (!FState.isServiceOpened && delay < maxDelay) {
                     delay += 500L
                     delay(delay)
 
-                    if (api.open()) FState.isServiceOpenned = true
+                    if (api.open()) FState.isServiceOpened = true
                 }
-                if (!FState.isServiceOpenned) {
+                if (!FState.isServiceOpened) {
                     FState.ui.showError("service can't be opened for some reason")
                 }
             }
@@ -120,7 +98,7 @@ class Application(
 
         calculateValueJob = scope.launch {
             startJob.join()
-            if (FState.isServiceOpenned) {
+            if (FState.isServiceOpened) {
                 startCalculate()
             }
         }
@@ -128,7 +106,7 @@ class Application(
         fetchSensorValueJob = scope.launch {
             startJob.join()
 
-            if (FState.isServiceOpenned) {
+            if (FState.isServiceOpened) {
                 api.startUpdate()
             }
         }
