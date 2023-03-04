@@ -1,4 +1,4 @@
-# LibreFanControl (Beta)
+# LibreFanControl
 
 ## Notes
 - You can see a screenshot of the app [here](https://github.com/wiiznokes/LibreFanControl/blob/main/assets/mainPageV1.png)
