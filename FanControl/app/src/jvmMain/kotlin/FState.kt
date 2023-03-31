@@ -1,3 +1,4 @@
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -34,22 +35,29 @@ class UiState {
     val addItemExpanded = mutableStateOf(false)
     val editModeActivated = mutableStateOf(false)
 
-    fun showError(error: String?) {
-        if (!error.isNullOrBlank()) {
-            errorDialogContent.value = error
-            dialogExpanded.value = Dialog.SHOW_ERROR
+    fun showError(error: CustomError, copy: Boolean = true) {
+
+        var finalError = error
+        if (copy) {
+            if (error.copyContent == null) {
+                finalError = error.copy(
+                    copyContent = error.content
+                )
+            }
         }
+
+        errorDialog.value = finalError
+        dialogExpanded.value = Dialog.SHOW_ERROR
     }
 
     fun closeShowError() {
-        errorDialogContent.value = ""
+        errorDialog.value = null
         dialogExpanded.value = Dialog.NONE
     }
 
     enum class Dialog {
         NONE,
         NEW_CONF,
-        NEED_ADMIN,
         SHOW_ERROR,
         LAUNCH_AT_START_UP,
         CONF_IS_NOT_SAVE
@@ -57,5 +65,11 @@ class UiState {
 
     val dialogExpanded = mutableStateOf(Dialog.NONE)
 
-    val errorDialogContent = mutableStateOf("")
+    val errorDialog: MutableState<CustomError?> = mutableStateOf(null)
 }
+
+
+data class CustomError(
+    val content: String,
+    val copyContent: String? = null
+)

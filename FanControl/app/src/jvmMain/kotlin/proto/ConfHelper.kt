@@ -2,6 +2,7 @@ package proto
 
 import Application.Api.api
 import Application.Api.scope
+import CustomError
 import FState
 import FState.iBehaviors
 import FState.iControls
@@ -27,7 +28,7 @@ class ConfHelper {
         fun loadConf(confId: String): Boolean {
             if (!FState.isServiceOpened) {
                 println("load conf: service not running")
-                FState.ui.showError("The service need to be started to load the configuration")
+                FState.ui.showError(CustomError("The service need to be started to load the configuration"), false)
                 return false
             }
 

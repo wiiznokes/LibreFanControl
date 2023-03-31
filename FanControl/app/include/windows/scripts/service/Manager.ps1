@@ -10,28 +10,40 @@ $buildPath = "$PSScriptRoot/../../build/"
 $confPath = "C:\ProgramData\$appName"
 
 
+# 1 is already taken by ExecutionPolicy execption (can't run script on the machine)
+$defaultErrorCode = 2
+$needAdminErrorCode = 3
+$notInstalledErrorCode = 4
+$needRuntimeErrorCode = 5
+
 function checkInstall
 {
-    if (-not(Get-Service -Name $serviceName -ErrorAction SilentlyContinue))
+
+    if (!(Get-Service -Name $serviceName -ErrorAction SilentlyContinue))
     {
         Write-Host "the service don't exist"
-        return $false
+        return $notInstalledErrorCode
     }
 
-    if (-not(Test-Path $installPath -PathType Container))
+    if (!(Test-Path $installPath -PathType Container))
     {
         Write-Host "install folder don't exist"
-        return $false
+        return $notInstalledErrorCode
     }
 
-    Write-Host "all good"
-    return $true
+    if (!(checkRuntime))
+    {
+        return $needRuntimeErrorCode
+    }
+
+
+    return 0
 }
 
 
 function checkAdmin
 {
-    if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
+    if (!([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
     {
         Write-Host "not in admin mode"
         return $false
@@ -59,10 +71,18 @@ function isRunning
         $status = $info.Status
         if ($status -eq "Running")
         {
+            Write-Host "service is running"
             return $true
         }
+        else
+        {
+            return $false
+        }
     }
-    return $false
+    else
+    {
+        return $false
+    }
 }
 
 function removeInstallFolder
@@ -90,7 +110,6 @@ function stopService
         Stop-Service -Name $serviceName
         Write-Host "$serviceName has been stopped"
     }
-    return $true
 }
 
 
@@ -99,7 +118,7 @@ function deleteService
     stopService
     if (Get-Service -Name $serviceName -ErrorAction SilentlyContinue)
     {
-        # only if powershell v6
+        # only on powershell 6
         #Remove-Service -Name $serviceName
         sc.exe delete $serviceName
     }
@@ -130,24 +149,40 @@ function startService
 {
     if (isRunning)
     {
-        Write-Host "$serviceName already running."
-        return $true
+        return 0
     }
 
-    if (!(checkInstall))
+    $isInstalled = checkInstall
+    if ($isInstalled -ne 0)
     {
-        Write-Host "start service canceled"
-        return $false
+        return $isInstalled
     }
 
     if (!(checkAdmin))
     {
-        Write-Host "need admin, start service canceled"
-        return $false
+        return $needAdminErrorCode
     }
 
     Start-Service $serviceName
     Write-Host "$serviceName started"
 
-    return $true
+    return 0
+}
+
+
+
+function checkRuntime
+{
+    $runtimes = dotnet --list-runtimes
+    $isAspNetCore7Installed = $runtimes | Select-String -Pattern "Microsoft.AspNetCore.App 7\.\d+\.\d+" -Quiet
+
+    if ($isAspNetCore7Installed)
+    {
+        return $true
+    }
+    else
+    {
+        Write-Host "Microsoft.AspNetCore.App 7.x is not installed."
+        return $false
+    }
 }

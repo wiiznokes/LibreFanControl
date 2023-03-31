@@ -9,7 +9,6 @@ import proto.ConfHelper
 import proto.SettingsHelper
 import ui.settings.ConfInfo
 import ui.settings.Settings
-import utils.Resources
 
 class ConfVM(
     val settings: Settings = FState.settings,

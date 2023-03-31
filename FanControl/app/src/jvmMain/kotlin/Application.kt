@@ -34,25 +34,7 @@ class Application(
 
 
     private fun startService(): Boolean {
-
-
-        return when (OsSpecific.os.startService()) {
-            0 -> {
-                println("startService: success")
-                true
-            }
-
-            3 -> {
-                println("startService: failed")
-                FState.ui.dialogExpanded.value = UiState.Dialog.NEED_ADMIN
-                false
-            }
-
-            else -> {
-                println("startService: failed")
-                false
-            }
-        }
+        return OsSpecific.os.startService()
     }
 
     fun onStart() {
@@ -75,7 +57,7 @@ class Application(
                     if (api.open()) FState.isServiceOpened = true
                 }
                 if (!FState.isServiceOpened) {
-                    FState.ui.showError("service can't be opened for some reason")
+                    FState.ui.showError(CustomError("service can't be opened for some reason"))
                 }
             }
 

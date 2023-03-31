@@ -1,14 +1,11 @@
 package ui.settings.drawer
 
 import FState
-import UiState
-import kotlinx.coroutines.delay
 import proto.SettingsHelper
 import ui.settings.Languages
 import ui.settings.Settings
 import ui.settings.Themes
-import ui.settings.getStartMode
-import java.io.File
+import utils.OsSpecific
 
 class SettingsVM(
     val settings: Settings = FState.settings,
@@ -33,37 +30,6 @@ class SettingsVM(
 
 
     fun onLaunchAtStartUpChange(launchAtStartUp: Boolean) {
-        val initScript = File(System.getProperty("compose.application.resources.dir"))
-            .resolve("scripts/service/change_start_mode.ps1")
-            .absolutePath
-
-        val startMode = getStartMode(launchAtStartUp)
-
-        val command = listOf(
-            "powershell.exe",
-            "-File",
-            initScript,
-            startMode
-        )
-        val res = ProcessBuilder(command)
-            .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-            .redirectError(ProcessBuilder.Redirect.INHERIT)
-            .start()
-            .waitFor()
-
-        when (res) {
-            0 -> {
-                settings.launchAtStartUp.value = launchAtStartUp
-                SettingsHelper.writeSettings()
-                FState.ui.dialogExpanded.value = UiState.Dialog.NONE
-            }
-
-            3 -> FState.ui.dialogExpanded.value = UiState.Dialog.NEED_ADMIN
-
-            else -> {
-                println("Error: can't set launchAtStartUp to $startMode")
-                FState.ui.showError("Error: can't set launchAtStartUp to $startMode")
-            }
-        }
+        OsSpecific.os.changeServiceStartMode(launchAtStartUp)
     }
 }

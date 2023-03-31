@@ -5,7 +5,7 @@
 if ($args.Count -gt 1)
 {
     Write-Output "Error: need one argument, Manual or Automatic"
-    exit 1
+    exit $defaultErrorCode
 }
 elseif ($args.Count -eq 0)
 {
@@ -18,29 +18,40 @@ elseif ($args.Count -eq 1 -and ($args[0] -eq "Manual" -or $args[0] -eq "Automati
 else
 {
     Write-Output "Error: need one argument, Manual or Automatic"
-    exit 1
+    exit $defaultErrorCode
 }
 
 Write-Output "init: start mode: $startMode"
 
 if ($startMode -eq "Debug")
 {
-    return 0
+    exit 0
 }
 
 
-if (!(isRunning) -and !(checkAdmin))
+$isInstalled = checkInstall
+
+if (isRunning -and $isInstalled -eq 0)
 {
-    exit 3
+    exit 0
 }
 
 
-if (!(checkInstall))
+if (!(checkAdmin))
 {
-    if (!(checkAdmin))
+    exit $needAdminErrorCode
+}
+
+
+
+
+if ($isInstalled -ne 0)
+{
+    if ($isInstalled -eq $needRuntimeErrorCode)
     {
-        exit 3
+        exit $needRuntimeErrorCode
     }
+
     deleteService
     removeInstallFolder
     copyServiceFiles

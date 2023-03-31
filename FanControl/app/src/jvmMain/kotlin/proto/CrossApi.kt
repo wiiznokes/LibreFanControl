@@ -56,8 +56,7 @@ class CrossApi(
         } catch (e: StatusException) {
             println("Error: can't open, service status = ${e.status.code}")
             false
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
             false
         }

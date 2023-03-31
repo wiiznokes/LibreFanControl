@@ -140,13 +140,17 @@
   },
   "dialog": {
     "title": {
-      "need_admin": "need admin",
       "new_conf": "New configuration",
       "launch_at_start_up": "Launch at start up",
       "conf_not_save": "Config is not save",
       "error": "Error"
     },
-    "admin": "The app need to be admin to create/modify/start the service. Please restart the app with admin privilege",
+    "error_content": {
+      "unspecified": "Windows seems to prevent script execution. Try running this command with Powershell as admin:\nSet-ExecutionPolicy -ExecutionPolicy RemoteSigned\n\nIf it still doesn't work, leave an issue on GitHub.\n\n More info: https://learn.microsoft.com/fr-fr/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.3",
+      "need_admin": "The app need to be admin to create/modify/start the service. Please restart the app with admin privilege",
+      "not_installed": "The background service is not installed. Maybe restart the app could solve this problem.",
+      "need_runtime": "You need to install the ASP.NET Core 7.0 Runtime to run the background service."
+    },
     "launch_at_start_up": "Do you want to automatically start FanControl at start up ? You will not be disturbed, a service will be launched in the background.",
     "conf_not_save": "The current configuration is not save, what do you want to do ?"
   }

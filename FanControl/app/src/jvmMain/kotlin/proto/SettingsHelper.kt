@@ -17,20 +17,20 @@ import java.io.File
 
 object SettingsDir {
 
-    private val dir = OsSpecific.os.settingsDir
+    private val settingsDir = OsSpecific.os.settingsDir
 
-    private val confDir = dir.resolve("conf")
+    private val confDir = settingsDir.resolve("conf")
 
     fun createDirs() {
-        if (!dir.exists()) {
-            dir.mkdir()
+        if (!settingsDir.exists()) {
+            settingsDir.mkdir()
         }
         if (!confDir.exists()) {
             confDir.mkdir()
         }
     }
 
-    val settingsFile = dir.resolve("settings")
+    val settingsFile = settingsDir.resolve("settings")
 
     fun getConfFile(confId: String): File = confDir
         .resolve(confId)

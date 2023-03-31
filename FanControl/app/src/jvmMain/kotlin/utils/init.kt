@@ -14,7 +14,6 @@ import model.item.ITemp
 import ui.configuration.confDialogs.confNotSaveDialog
 import ui.configuration.confDialogs.newConfDialog
 import ui.dialogs.errorDialog
-import ui.dialogs.needAdminDialog
 
 
 /**
@@ -66,7 +65,6 @@ fun initSensor() {
 
 @Composable
 fun initDialogs() {
-    needAdminDialog()
     errorDialog()
     confNotSaveDialog()
     newConfDialog()

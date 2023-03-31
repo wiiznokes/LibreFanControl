@@ -11,25 +11,37 @@ import java.awt.datatransfer.StringSelection
 
 @Composable
 fun errorDialog() {
+    val error = FState.ui.errorDialog.value
+
+
     baseDialog(
         enabled = FState.ui.dialogExpanded.value == UiState.Dialog.SHOW_ERROR,
         title = Resources.getString("dialog/title/error"),
         onEnterKey = { FState.ui.closeShowError() },
         topContent = {
-            baseDialogText(
-                text = FState.ui.errorDialogContent.value
-            )
+
+            if (error != null) {
+                baseDialogText(
+                    text = error.content
+                )
+            }
+
         },
         bottomContent = {
-            baseDialogButton(
-                onClick = {
-                    println("copy")
-                    setClipboard(FState.ui.errorDialogContent.value)
-                },
-                text = Resources.getString("common/copy")
-            )
+
+            if (error?.copyContent != null) {
+                baseDialogButton(
+                    onClick = {
+                        println("copy")
+                        setClipboard(error.copyContent)
+                    },
+                    text = Resources.getString("common/copy")
+                )
+            }
+
             baseDialogButton(
                 onClick = { FState.ui.closeShowError() },
+                icon = Resources.getIcon("select/check24"),
                 text = Resources.getString("common/ok"),
                 containerColor = LocalColors.current.inputMain,
                 contentColor = LocalColors.current.onInputMain,
