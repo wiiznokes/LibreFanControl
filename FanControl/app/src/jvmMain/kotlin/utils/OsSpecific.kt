@@ -7,7 +7,7 @@ import proto.SettingsHelper
 import ui.settings.getStartMode
 import java.io.File
 
-private const val DEBUG_SERVICE = false
+private const val DEBUG_SERVICE = true
 
 interface IOsSpecific {
 
@@ -168,7 +168,11 @@ private class Linux : IOsSpecific {
 
     override val settingsDir: File = File(System.getProperty("user.home"), ".FanControl")
     override fun startService(): Boolean {
-        return false
+        return if (DEBUG_SERVICE) {
+            true
+        } else {
+            TODO("Not yet implemented")
+        }
     }
 
     override fun changeServiceStartMode(launchAtStartUp: Boolean): Boolean {
