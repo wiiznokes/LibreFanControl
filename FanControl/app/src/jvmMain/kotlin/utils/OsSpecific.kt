@@ -166,7 +166,7 @@ private class Windows : IOsSpecific {
 
 private class Linux : IOsSpecific {
 
-    override val settingsDir: File = File("/etc/libreFanControl")
+    override val settingsDir: File = File(System.getProperty("user.home"), ".FanControl")
     override fun startService(): Boolean {
         return false
     }
