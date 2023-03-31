@@ -22,11 +22,9 @@ object SettingsDir {
     private val confDir = settingsDir.resolve("conf")
 
     fun createDirs() {
-        if (!settingsDir.exists()) {
-            settingsDir.mkdir()
-        }
         if (!confDir.exists()) {
-            confDir.mkdir()
+            confDir.mkdirs()
+            println("${confDir.absolutePath} created: ${confDir.exists()}")
         }
     }
 
