@@ -7,7 +7,7 @@ import proto.SettingsHelper
 import ui.settings.getStartMode
 import java.io.File
 
-private const val DEBUG_SERVICE = false
+private const val DEBUG_SERVICE = true
 
 interface IOsSpecific {
     val settingsDir: File
