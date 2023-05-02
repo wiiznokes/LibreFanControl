@@ -7,7 +7,7 @@ import proto.SettingsHelper
 import ui.settings.getStartMode
 import java.io.File
 
-private const val DEBUG_SERVICE = true
+private const val DEBUG_SERVICE = false
 
 interface IOsSpecific {
     val settingsDir: File
@@ -44,7 +44,7 @@ private class Windows : IOsSpecific {
         return execScriptHelper(
             scriptName = "change_start_mode.ps1",
             params = mutableListOf("powershell.exe", "-File"),
-            onSucces = {
+            onSuccess = {
                 settings.launchAtStartUp.value = launchAtStartUp
                 SettingsHelper.writeSettings()
             }
@@ -71,7 +71,7 @@ private class Linux : IOsSpecific {
         return execScriptHelper(
             scriptName = "change_start_mode.sh",
             params = mutableListOf("bash"),
-            onSucces = {
+            onSuccess = {
                 settings.launchAtStartUp.value = launchAtStartUp
                 SettingsHelper.writeSettings()
             }
@@ -84,7 +84,7 @@ private fun execScriptHelper(
     scriptName: String,
     debug: Boolean = false,
     params: MutableList<String>,
-    onSucces: (() -> Unit)? = null
+    onSuccess: (() -> Unit)? = null
 ): Boolean {
     val initScript = File(System.getProperty("compose.application.resources.dir"))
         .resolve("scripts/service/$scriptName")
@@ -110,7 +110,7 @@ private fun execScriptHelper(
         .waitFor()
 
     if (res == ErrorCode.SUCCESS.code) {
-        onSucces?.invoke()
+        onSuccess?.invoke()
     }
 
     return handleErrorCode(res)

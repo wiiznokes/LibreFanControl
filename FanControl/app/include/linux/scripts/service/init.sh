@@ -24,10 +24,10 @@ if [ "$startMode" = "Debug" ]; then
 fi
 
 
-if ! checkRuntime; then
-    echo "dotnet runtime not found, please install it"
-    exit "$needRuntimeErrorCode"
-fi
+#if ! checkRuntime; then
+#    echo "dotnet runtime not found, please install it"
+#    exit "$needRuntimeErrorCode"
+#fi
 
 
 if ! checkServiceFile; then
