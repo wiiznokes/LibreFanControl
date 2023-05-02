@@ -11,8 +11,12 @@ public class ProtoException : Exception
 
 public static class SettingsDir
 {
-    private const string Dir = "/home/lenaic/.FanControl";
-
+    #if WINDOWS
+        private const string Dir = "C:\\ProgramData\\FanControl";
+    #else
+        private const string Dir = "/home/lenaic/.FanControl";
+    #endif
+    
     private static readonly string ConfDir = Path.Combine(
         Dir,
         "conf"
