@@ -3,4 +3,5 @@
 Linux
 
 - sudo dnf install dotnet-sdk-7.0
-- chmod +x /usr/local/bin/FanControlService/FanControlService
+- chmod u+x /usr/local/bin/FanControlService/FanControlService
+- chmod u+x FanControl/app/build/compose/binaries/main-release/app/FanControl/lib/app/resources/scripts/service/init2.sh
