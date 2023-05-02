@@ -97,6 +97,8 @@ class CrossApi(
 
         val stream: Flow<PUpdateList> = stub.pStartStream(Empty.getDefaultInstance())
 
+        println("streaming has started")
+
         try {
             stream.collect { updateList ->
                 when (updateList.pType) {
