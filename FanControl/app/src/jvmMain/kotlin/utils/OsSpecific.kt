@@ -34,8 +34,7 @@ private class Windows : IOsSpecific {
 
         return execScriptHelper(
             scriptName = "init.ps1",
-            params = mutableListOf("powershell.exe", "-File"),
-            debug = true
+            params = mutableListOf("powershell.exe", "-File")
         )
     }
 
@@ -61,8 +60,7 @@ private class Linux : IOsSpecific {
 
         return execScriptHelper(
             scriptName = "init.sh",
-            params = mutableListOf("bash"),
-            debug = true
+            params = mutableListOf("bash")
         )
     }
 
@@ -82,7 +80,6 @@ private class Linux : IOsSpecific {
 
 private fun execScriptHelper(
     scriptName: String,
-    debug: Boolean = false,
     params: MutableList<String>,
     onSuccess: (() -> Unit)? = null
 ): Boolean {
@@ -90,13 +87,9 @@ private fun execScriptHelper(
         .resolve("scripts/service/$scriptName")
         .absolutePath
 
-    val startMode = if (debug) {
-        if (DEBUG_SERVICE) "Debug"
-        else
-            getStartMode(settings.launchAtStartUp.value)
-    } else {
-        getStartMode(settings.launchAtStartUp.value)
-    }
+    val startMode = if (DEBUG_SERVICE) "Debug"
+        else getStartMode(settings.launchAtStartUp.value)
+
 
     params.apply {
         add(initScript)
