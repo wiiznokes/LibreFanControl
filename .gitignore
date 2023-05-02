@@ -9,10 +9,6 @@ Release
 FanControl/app/include/windows/build
 
 ### csharp shit
-Library/Windows/HardwareLib/.vs
-Library/Windows/HardwareLib/*/obj
-Library/Windows/HardwareLib/*/bin
-
 HardwareLib/.vs
 HardwareLib/FanControlService/obj
 HardwareLib/FanControlService/bin
@@ -21,7 +17,6 @@ HardwareLib/FanControlService/bin
 ### generated proto files ###
 FanControl/app/src/jvmMain/java/proto/generated
 FanControl/app/src/jvmMain/kotlin/proto/generated
-Library/Windows/HardwareLib/HardwareDaemon/Proto/Generated
 
 ### idea custom modif
 /shelf/
