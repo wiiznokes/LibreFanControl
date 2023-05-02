@@ -10,8 +10,12 @@ FanControl/app/include/windows/build
 
 ### csharp shit
 Library/Windows/HardwareLib/.vs
-Library/Windows/HardwareLib/HardwareDaemon/obj
-Library/Windows/HardwareLib/HardwareDaemon/bin
+Library/Windows/HardwareLib/*/obj
+Library/Windows/HardwareLib/*/bin
+
+HardwareLib/.vs
+HardwareLib/FanControlService/obj
+HardwareLib/FanControlService/bin
 
 
 ### generated proto files ###
