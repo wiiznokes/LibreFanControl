@@ -18,31 +18,14 @@ fi
 echo "init: start mode: $startMode"
 
 
-
 if [ "$startMode" = "Debug" ]; then
     exit 0
 fi
 
 
-#if ! checkRuntime; then
-#    echo "dotnet runtime not found, please install it"
-#    exit "$needRuntimeErrorCode"
-#fi
 
-
-if ! checkServiceFile; then
-    copyServiceFile
+if ! checkServiceFile || ! checkExecutableCopy || ! checkRunning; then
+    init_second_script="$scriptRoot"init2.sh
+    pkexec bash -c "$init_second_script $startMode"
 fi
 
-
-if ! checkExecutableCopy; then
-    copyExecutable
-fi
-
-setServiceMode "$startMode"
-
-
-if ! checkRunning; then
-    echo "Service is not active"
-    startService
-fi

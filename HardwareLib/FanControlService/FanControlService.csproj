@@ -21,6 +21,7 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug Windows' ">
+        <DefineConstants>DEBUG,WINDOWS</DefineConstants>
         <OutputPath>.\..\..\FanControl\app\include\windows\build\</OutputPath>
         <DebugSymbols Condition=" '$(DebugSymbols)' == '' ">true</DebugSymbols>
         <Optimize Condition=" '$(Optimize)' == '' ">false</Optimize>
@@ -28,6 +29,7 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug Linux' ">
+        <DefineConstants>DEBUG,LINUX</DefineConstants>
         <OutputPath>.\..\..\FanControl\app\include\linux\build\</OutputPath>
         <DebugSymbols Condition=" '$(DebugSymbols)' == '' ">true</DebugSymbols>
         <Optimize Condition=" '$(Optimize)' == '' ">false</Optimize>
@@ -35,6 +37,7 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release Windows' ">
+        <DefineConstants>RELEASE,WINDOWS</DefineConstants>
         <OutputPath>.\..\..\FanControl\app\include\windows\build\</OutputPath>
         <Optimize Condition=" '$(Optimize)' == '' ">true</Optimize>
         <DebugSymbols>false</DebugSymbols>
@@ -43,6 +46,7 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release Linux' ">
+        <DefineConstants>RELEASE,LINUX</DefineConstants>
         <OutputPath>.\..\..\FanControl\app\include\linux\build\</OutputPath>
         <Optimize Condition=" '$(Optimize)' == '' ">true</Optimize>
         <DebugSymbols>false</DebugSymbols>

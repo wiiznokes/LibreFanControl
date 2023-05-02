@@ -84,7 +84,7 @@ copyServiceFile(){
     if ! checkAdmin; then
         exit $needAdminErrorCode
     fi
-    cp -f "$scriptRoot"$serviceFileName $systemdDir
+    pkexec cp -f "$scriptRoot"$serviceFileName $systemdDir
     systemctl daemon-reload
     echo "Service file up to date"
 }
@@ -164,3 +164,4 @@ checkAdmin() {
     fi
     return 0
 }
+
