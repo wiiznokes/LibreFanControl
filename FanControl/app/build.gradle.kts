@@ -23,6 +23,9 @@ kotlin {
         compilations.configureEach {
             kotlinOptions {
                 jvmTarget = "17"
+                freeCompilerArgs += listOf(
+                    "-Xopt-in=kotlin.RequiresOptIn"
+                )
             }
         }
         withJava()
@@ -38,7 +41,8 @@ kotlin {
 
                 // ui
                 implementation(compose.desktop.currentOs)
-                implementation("org.jetbrains.compose.material3:material3-desktop:${project.property("compose.version")}")
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.material3)
 
                 // json, use for string (will be replaced in the future)
                 implementation("org.json:json:20220924")
