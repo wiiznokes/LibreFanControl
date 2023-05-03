@@ -24,7 +24,7 @@ kotlin {
             kotlinOptions {
                 jvmTarget = "17"
                 freeCompilerArgs += listOf(
-                    "-Xopt-in=kotlin.RequiresOptIn"
+                    "-opt-in=kotlin.RequiresOptIn"
                 )
             }
         }
@@ -36,9 +36,6 @@ kotlin {
             resources.srcDirs("resources")
 
             dependencies {
-                // TODO: add specific dependencies for windows and linux, in order to remove implementation(compose.desktop.currentOs)
-                //  and make cross compilation
-
                 // ui
                 implementation(compose.desktop.currentOs)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
