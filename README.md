@@ -13,7 +13,7 @@
 
 
 
-## requirements
+## Requirements
 You will need some component of [dotnet 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 
 - `ASP.NET Core Runtime`
