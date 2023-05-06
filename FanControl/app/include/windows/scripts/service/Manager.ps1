@@ -2,7 +2,7 @@ $serviceName = "FanControlService"
 $appName = "FanControl"
 $DisplayName = "Fan control service"
 $Description = "Update fan speed and send sensors value to Fan control app"
-$exeName = "HardwareDaemon.exe"
+$exeName = "FanControlService.exe"
 
 $installPath = "C:\Program Files\$serviceName"
 $buildPath = "$PSScriptRoot/../../build/"
