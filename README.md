@@ -13,19 +13,13 @@
 
 
 
-## Build (in this order)
+## requirements
+You will need some component of [dotnet 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 
-```
-dotnet build .\Library\Windows\HardwareLib
+- `ASP.NET Core Runtime`
+- `.NET Runtime`
 
-cd .\FanControl\
-
-.\gradlew generateAllProto
-
-.\gradlew run
-or
-.\gradlew packageReleaseMsi
-```
+If you want to build the project, you will just need the SDK.
 
 ## Plans (not in this order)
 
