@@ -103,6 +103,9 @@ compose.desktop {
 
             linux {
                 iconFile.set(project.file("drawable/app_icon.png"))
+                menuGroup = "Utility"
+                shortcut = true
+                appCategory = "Utility"
             }
         }
     }
