@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+rm -rf publish
 
 dotnet build ./HardwareLib/FanControlService -c "Release Windows"
 
@@ -11,7 +11,6 @@ cd ./FanControl
 
 cd ..
 
-rm -rf publish
 
 mkdir publish
 

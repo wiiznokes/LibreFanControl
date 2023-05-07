@@ -75,7 +75,7 @@ compose.desktop {
         mainClass = "MainKt"
         nativeDistributions {
 
-            targetFormats(TargetFormat.Msi, TargetFormat.AppImage, TargetFormat.Rpm)
+            targetFormats(TargetFormat.Exe, TargetFormat.Msi, TargetFormat.AppImage, TargetFormat.Rpm, TargetFormat.Deb)
 
             buildTypes.release {
                 proguard {
