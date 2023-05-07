@@ -1,30 +1,21 @@
-publish
+publish/
+
+.vscode/
+.idea/
+.vs/
+
+.gradle/
+
+*.so
+*.o
+
+build/
+obj/
+bin/
 
 
-### generated log files ###
-**.log
+generated/
 
+*.log
+wix311/
 
-### csharp output
-FanControl/app/include/windows/build
-
-### csharp shit
-HardwareLib/.vs
-HardwareLib/FanControlService/obj
-HardwareLib/FanControlService/bin
-
-
-### generated proto files ###
-FanControl/app/src/jvmMain/java/proto/generated
-FanControl/app/src/jvmMain/kotlin/proto/generated
-
-### idea custom modif
-/shelf/
-**/.idea/workspace.xml
-artifacts/
-**/.idea/gradle.xml
-**/.idea/misc.xml
-
-
-
-FanControl/wix311/
