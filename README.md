@@ -13,13 +13,13 @@
 
 
 
-## requirements
+## Requirements
 You will need some component of [dotnet 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 
 - `ASP.NET Core Runtime`
 - `.NET Runtime`
 
-If you want to build the project, you will just need the SDK.
+If you want to build the project, you will just need the `SDK`.
 
 ## Plans (not in this order)
 
