@@ -33,7 +33,6 @@ class Application(
     private var fetchSensorValueJob: Job? = null
 
 
-
     fun onStart() {
         if (SettingsHelper.isSettings()) {
             SettingsHelper.loadSettings()

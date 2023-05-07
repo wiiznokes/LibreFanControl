@@ -14,7 +14,6 @@ import ui.theme.LocalColors
 import utils.Resources
 
 
-
 fun SettingScope.launchAtStartUp(
     launchAtStartUp: MutableState<Boolean>,
     onLaunchAtStartUpChange: (Boolean) -> Unit,
@@ -66,7 +65,6 @@ fun launchAtStartUpDialog(
         }
     )
 }
-
 
 
 fun SettingScope.removeService(

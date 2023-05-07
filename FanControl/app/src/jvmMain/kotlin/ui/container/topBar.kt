@@ -1,6 +1,7 @@
 package ui.container
 
 import FState
+import ServiceState
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.IconButton
@@ -9,7 +10,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
@@ -141,6 +141,7 @@ fun topBarBody(
                             tint = LocalColors.current.onMainTopBar
                         )
                     }
+
                     ServiceState.ERROR -> {
                         Icon(
                             modifier = Modifier,
@@ -149,6 +150,7 @@ fun topBarBody(
                             tint = LocalColors.current.error
                         )
                     }
+
                     ServiceState.OPEN -> {}
                 }
                 if (FState.serviceState.value != ServiceState.OPEN) {

@@ -3,6 +3,7 @@ package utils
 import CustomError
 import FState
 import FState.settings
+import ServiceState
 import proto.SettingsHelper
 import java.io.File
 
@@ -11,10 +12,10 @@ private const val DEBUG_SERVICE = false
 
 fun getStartMode(launchAtStartUp: Boolean = settings.launchAtStartUp.value): String {
     return if (DEBUG_SERVICE) "Debug"
-        else when (launchAtStartUp) {
-            true -> "Automatic"
-            false -> "Manual"
-        }
+    else when (launchAtStartUp) {
+        true -> "Automatic"
+        false -> "Manual"
+    }
 }
 
 
@@ -23,7 +24,6 @@ fun getScript(scriptName: String): String {
         .resolve("scripts/service/$scriptName")
         .absolutePath
 }
-
 
 
 interface IOsSpecific {
@@ -58,7 +58,12 @@ private class Windows : IOsSpecific {
     override fun changeServiceStartMode(launchAtStartUp: Boolean): Boolean {
 
         return execScriptHelper(
-            params = mutableListOf("powershell.exe", "-File", getScript("change_start_mode.ps1"), getStartMode(launchAtStartUp)),
+            params = mutableListOf(
+                "powershell.exe",
+                "-File",
+                getScript("change_start_mode.ps1"),
+                getStartMode(launchAtStartUp)
+            ),
             onSuccess = {
                 settings.launchAtStartUp.value = launchAtStartUp
                 SettingsHelper.writeSettings()

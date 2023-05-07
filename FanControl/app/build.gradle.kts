@@ -13,7 +13,7 @@ repositories {
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     maven("https://jitpack.io")
-    mavenLocal()
+    //mavenLocal()
 }
 
 kotlin {
@@ -54,9 +54,9 @@ kotlin {
                 implementation("io.grpc:grpc-okhttp:${project.property("grpc.version")}")
 
 
-                //implementation("com.github.wiiznokes:setting-sliding-windows:${project.property("settings.version")}")
-                // use to debug the lib locally
-                implementation("com.example:setting-sliding-windows-jvm:${project.property("settings.version")}")
+                implementation("com.github.wiiznokes:setting-sliding-windows:${project.property("settings.version")}")
+                // use to debug the lib locally, need to comment ^ or v
+                //implementation("com.example:setting-sliding-windows-jvm:${project.property("settings.version")}")
             }
         }
 

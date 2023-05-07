@@ -1,6 +1,7 @@
 package proto
 
 import FState
+import ServiceState
 import com.google.protobuf.Empty
 import io.grpc.ManagedChannel
 import io.grpc.StatusException
