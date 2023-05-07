@@ -1,5 +1,9 @@
 #!/bin/bash
 
+scriptRoot="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/"
+cd scriptRoot/..
+
+
 rm -rf publish
 
 dotnet build ./HardwareLib/FanControlService -c "Release Windows"
