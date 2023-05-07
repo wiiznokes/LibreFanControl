@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
@@ -111,6 +112,56 @@ fun topBarBody(
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                when (FState.serviceState.value) {
+                    ServiceState.UNKNOWN -> {
+
+                        /*
+                        CircularProgressIndicator(
+                            color = LocalColors.current.onMainTopBar
+                        )
+                        */
+
+                        val infiniteTransition = rememberInfiniteTransition()
+
+                        val angle by infiniteTransition.animateFloat(
+                            initialValue = 0f,
+                            targetValue = 360f,
+                            animationSpec = infiniteRepeatable(
+                                animation = tween(1000, easing = LinearEasing),
+                                repeatMode = RepeatMode.Restart
+                            )
+                        )
+
+                        Icon(
+                            modifier = Modifier
+                                .padding(bottom = 5.dp, top = 1.dp)
+                                .graphicsLayer { rotationZ = angle },
+                            painter = Resources.getIcon("topBar/forward_media40"),
+                            contentDescription = Resources.getString("ct/service_is_loading"),
+                            tint = LocalColors.current.onMainTopBar
+                        )
+                    }
+                    ServiceState.ERROR -> {
+                        Icon(
+                            modifier = Modifier,
+                            painter = Resources.getIcon("topBar/error40"),
+                            contentDescription = Resources.getString("ct/service_error"),
+                            tint = LocalColors.current.error
+                        )
+                    }
+                    ServiceState.OPEN -> {}
+                }
+                if (FState.serviceState.value != ServiceState.OPEN) {
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxHeight(0.8f)
+                            .padding(horizontal = 10.dp)
+                            .width(2.dp),
+                        color = LocalColors.current.onMainTopBar
+                    )
+                }
+
+
                 confTopBar()
 
                 Divider(

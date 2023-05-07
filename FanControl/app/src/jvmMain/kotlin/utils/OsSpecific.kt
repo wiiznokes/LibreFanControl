@@ -4,15 +4,33 @@ import CustomError
 import FState
 import FState.settings
 import proto.SettingsHelper
-import ui.settings.getStartMode
 import java.io.File
 
 private const val DEBUG_SERVICE = false
+
+
+fun getStartMode(launchAtStartUp: Boolean = settings.launchAtStartUp.value): String {
+    return if (DEBUG_SERVICE) "Debug"
+        else when (launchAtStartUp) {
+            true -> "Automatic"
+            false -> "Manual"
+        }
+}
+
+
+fun getScript(scriptName: String): String {
+    return File(System.getProperty("compose.application.resources.dir"))
+        .resolve("scripts/service/$scriptName")
+        .absolutePath
+}
+
+
 
 interface IOsSpecific {
     val settingsDir: File
     fun startService(): Boolean
     fun changeServiceStartMode(launchAtStartUp: Boolean): Boolean
+    fun removeService(): Boolean
 }
 
 
@@ -33,18 +51,27 @@ private class Windows : IOsSpecific {
     override fun startService(): Boolean {
 
         return execScriptHelper(
-            scriptName = "init.ps1",
-            params = mutableListOf("powershell.exe", "-File")
+            params = mutableListOf("powershell.exe", "-File", getScript("init.ps1"), getStartMode())
         )
     }
 
     override fun changeServiceStartMode(launchAtStartUp: Boolean): Boolean {
 
         return execScriptHelper(
-            scriptName = "change_start_mode.ps1",
-            params = mutableListOf("powershell.exe", "-File"),
+            params = mutableListOf("powershell.exe", "-File", getScript("change_start_mode.ps1"), getStartMode(launchAtStartUp)),
             onSuccess = {
                 settings.launchAtStartUp.value = launchAtStartUp
+                SettingsHelper.writeSettings()
+            }
+        )
+    }
+
+    override fun removeService(): Boolean {
+        return execScriptHelper(
+            params = mutableListOf("powershell.exe", "-File", getScript("uninstall.ps1")),
+            onSuccess = {
+                FState.serviceState.value = ServiceState.ERROR
+                settings.confId.value = null
                 SettingsHelper.writeSettings()
             }
         )
@@ -59,18 +86,27 @@ private class Linux : IOsSpecific {
     override fun startService(): Boolean {
 
         return execScriptHelper(
-            scriptName = "init.sh",
-            params = mutableListOf("bash")
+            params = mutableListOf("bash", getScript("init.sh"), getStartMode())
         )
     }
 
     override fun changeServiceStartMode(launchAtStartUp: Boolean): Boolean {
 
         return execScriptHelper(
-            scriptName = "change_start_mode.sh",
-            params = mutableListOf("bash"),
+            params = mutableListOf("bash", getScript("change_start_mode.sh"), getStartMode(launchAtStartUp)),
             onSuccess = {
                 settings.launchAtStartUp.value = launchAtStartUp
+                SettingsHelper.writeSettings()
+            }
+        )
+    }
+
+    override fun removeService(): Boolean {
+        return execScriptHelper(
+            params = mutableListOf("bash", getScript("uninstall.sh")),
+            onSuccess = {
+                FState.serviceState.value = ServiceState.ERROR
+                settings.confId.value = null
                 SettingsHelper.writeSettings()
             }
         )
@@ -79,22 +115,9 @@ private class Linux : IOsSpecific {
 }
 
 private fun execScriptHelper(
-    scriptName: String,
     params: MutableList<String>,
     onSuccess: (() -> Unit)? = null
 ): Boolean {
-    val initScript = File(System.getProperty("compose.application.resources.dir"))
-        .resolve("scripts/service/$scriptName")
-        .absolutePath
-
-    val startMode = if (DEBUG_SERVICE) "Debug"
-        else getStartMode(settings.launchAtStartUp.value)
-
-
-    params.apply {
-        add(initScript)
-        add(startMode)
-    }
 
     val res = ProcessBuilder(params)
         .redirectOutput(ProcessBuilder.Redirect.INHERIT)
@@ -114,10 +137,10 @@ private enum class ErrorCode(val code: Int) {
 
     // may indicate an ExecutionPolicy exception
     UNSPECIFIED(1),
-    DEFAULT(2),
-    NEED_ADMIN(3),
-    NOT_INSTALLED(4),
-    NEED_RUNTIME(5)
+    DEFAULT(101),
+    NEED_ADMIN(102),
+    NOT_INSTALLED(103),
+    NEED_RUNTIME(104)
 }
 
 

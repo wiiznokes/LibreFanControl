@@ -6,7 +6,7 @@ if ($args.Count -ne 1)
     Write-Output "Error: need one argument, Manual or Automatic"
     exit $defaultErrorCode
 }
-elseif ($args[0] -ne "Manual" -and $args[0] -ne "Automatic")
+elseif ($args[0] -ne "Manual" -and $args[0] -ne "Automatic" -and $args[0] -ne "Debug")
 {
     Write-Output "Error: need one argument, Manual or Automatic"
     exit $defaultErrorCode
@@ -16,6 +16,11 @@ elseif ($args[0] -ne "Manual" -and $args[0] -ne "Automatic")
 $startMode = $args[0]
 
 Write-Output "begin change start mode to $startMode"
+
+if ($startMode -eq "Debug")
+{
+    exit 0
+}
 
 if (!(checkAdmin))
 {

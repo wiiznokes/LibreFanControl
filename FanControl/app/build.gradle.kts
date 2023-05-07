@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.example"
-version = "1.0.0"
+version = "${project.property("app.version")}"
 
 repositories {
     google()
@@ -54,9 +54,9 @@ kotlin {
                 implementation("io.grpc:grpc-okhttp:${project.property("grpc.version")}")
 
 
-                implementation("com.github.wiiznokes:setting-sliding-windows:${project.property("settings.version")}")
+                //implementation("com.github.wiiznokes:setting-sliding-windows:${project.property("settings.version")}")
                 // use to debug the lib locally
-                //implementation("com.example:setting-sliding-windows-jvm:${project.property("settings.version")}")
+                implementation("com.example:setting-sliding-windows-jvm:${project.property("settings.version")}")
             }
         }
 
@@ -95,6 +95,10 @@ compose.desktop {
 
             windows {
                 iconFile.set(project.file("drawable/app_icon.ico"))
+                dirChooser = true
+                menuGroup = "start-menu-group"
+                shortcut = true
+                msiPackageVersion = "${project.property("app.version")}"
             }
 
             linux {

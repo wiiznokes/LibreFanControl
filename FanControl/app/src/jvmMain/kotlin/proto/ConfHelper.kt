@@ -26,7 +26,7 @@ class ConfHelper {
     companion object {
 
         fun loadConf(confId: String): Boolean {
-            if (!FState.isServiceOpened) {
+            if (FState.serviceState.value != ServiceState.OPEN) {
                 println("load conf: service not running")
                 FState.ui.showError(CustomError("The service need to be started to load the configuration"), false)
                 return false

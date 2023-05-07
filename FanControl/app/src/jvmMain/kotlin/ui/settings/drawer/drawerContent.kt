@@ -64,14 +64,13 @@ fun drawerContent(
             theme = settings.theme
         ) { viewModel.onThemeChange(it) }
 
-        group(text = Resources.getString("settings/trans/lifecycle"))
-
-
+        group(text = Resources.getString("settings/trans/service"))
 
         launchAtStartUp(
             launchAtStartUp = settings.launchAtStartUp
         ) { viewModel.onLaunchAtStartUpChange(it) }
 
+        removeService { viewModel.removeService() }
 
         group(text = Resources.getString("settings/trans/donate"))
         donate()

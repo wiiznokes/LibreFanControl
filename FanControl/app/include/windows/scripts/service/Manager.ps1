@@ -11,10 +11,10 @@ $confPath = "C:\ProgramData\$appName"
 
 
 # 1 is already taken by ExecutionPolicy execption (can't run script on the machine)
-$defaultErrorCode = 2
-$needAdminErrorCode = 3
-$notInstalledErrorCode = 4
-$needRuntimeErrorCode = 5
+$defaultErrorCode = 101
+$needAdminErrorCode = 102
+$notInstalledErrorCode = 103
+$needRuntimeErrorCode = 104
 
 function checkInstall
 {
