@@ -2,7 +2,7 @@ $serviceName = "FanControlService"
 $appName = "FanControl"
 $DisplayName = "Fan control service"
 $Description = "Update fan speed and send sensors value to Fan control app"
-$exeName = "HardwareDaemon.exe"
+$exeName = "FanControlService.exe"
 
 $installPath = "C:\Program Files\$serviceName"
 $buildPath = "$PSScriptRoot/../../build/"
@@ -11,10 +11,10 @@ $confPath = "C:\ProgramData\$appName"
 
 
 # 1 is already taken by ExecutionPolicy execption (can't run script on the machine)
-$defaultErrorCode = 2
-$needAdminErrorCode = 3
-$notInstalledErrorCode = 4
-$needRuntimeErrorCode = 5
+$defaultErrorCode = 101
+$needAdminErrorCode = 102
+$notInstalledErrorCode = 103
+$needRuntimeErrorCode = 104
 
 function checkInstall
 {

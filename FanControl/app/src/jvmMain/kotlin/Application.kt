@@ -33,10 +33,6 @@ class Application(
     private var fetchSensorValueJob: Job? = null
 
 
-    private fun startService(): Boolean {
-        return OsSpecific.os.startService()
-    }
-
     fun onStart() {
         if (SettingsHelper.isSettings()) {
             SettingsHelper.loadSettings()
@@ -47,20 +43,27 @@ class Application(
 
         val startJob = scope.launch {
 
-            if (startService()) {
+            if (OsSpecific.os.startService()) {
                 val maxDelay = 7000L
                 var delay = 0L
-                while (!FState.isServiceOpened && delay < maxDelay) {
+                while (FState.serviceState.value == ServiceState.UNKNOWN && delay < maxDelay) {
                     delay += 500L
                     delay(delay)
 
-                    if (api.open()) FState.isServiceOpened = true
+                    if (api.open()) FState.serviceState.value = ServiceState.OPEN
                 }
-                if (!FState.isServiceOpened) {
+
+                if (FState.serviceState.value != ServiceState.OPEN) {
+                    FState.serviceState.value = ServiceState.ERROR
                     FState.ui.showError(CustomError("service can't be opened for some reason"))
                 }
+            } else {
+                FState.serviceState.value = ServiceState.ERROR
             }
 
+            if (FState.serviceState.value == ServiceState.ERROR) {
+                return@launch
+            }
 
             api.getHardware()
 
@@ -80,7 +83,7 @@ class Application(
 
         calculateValueJob = scope.launch {
             startJob.join()
-            if (FState.isServiceOpened) {
+            if (FState.serviceState.value == ServiceState.OPEN) {
                 startCalculate()
             }
         }
@@ -88,7 +91,7 @@ class Application(
         fetchSensorValueJob = scope.launch {
             startJob.join()
 
-            if (FState.isServiceOpened) {
+            if (FState.serviceState.value == ServiceState.OPEN) {
                 api.startUpdate()
             }
         }

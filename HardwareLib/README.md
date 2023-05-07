@@ -1,4 +1,8 @@
+Windows
 
+Requirements
+
+- dotnet est installé
 
 Linux
 

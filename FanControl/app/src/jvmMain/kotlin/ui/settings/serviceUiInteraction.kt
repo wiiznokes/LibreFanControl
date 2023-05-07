@@ -14,13 +14,6 @@ import ui.theme.LocalColors
 import utils.Resources
 
 
-fun getStartMode(launchAtStartUp: Boolean): String {
-    return when (launchAtStartUp) {
-        true -> "Automatic"
-        false -> "Manual"
-    }
-}
-
 fun SettingScope.launchAtStartUp(
     launchAtStartUp: MutableState<Boolean>,
     onLaunchAtStartUpChange: (Boolean) -> Unit,
@@ -70,5 +63,16 @@ fun launchAtStartUpDialog(
                 contentColor = LocalColors.current.onInputMain,
             )
         }
+    )
+}
+
+
+fun SettingScope.removeService(
+    onRemoveService: () -> Unit,
+) {
+    item(
+        title = Resources.getString("settings/remove_service"),
+        onClick = onRemoveService,
+        showAdvanceIcon = false
     )
 }

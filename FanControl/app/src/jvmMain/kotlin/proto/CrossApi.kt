@@ -1,6 +1,7 @@
 package proto
 
 import FState
+import ServiceState
 import com.google.protobuf.Empty
 import io.grpc.ManagedChannel
 import io.grpc.StatusException
@@ -24,7 +25,7 @@ class CrossApi(
 
     // don't always relevant
     private fun isActive(): Boolean {
-        val isActive = FState.isServiceOpened && !channel.isShutdown && !channel.isTerminated
+        val isActive = FState.serviceState.value == ServiceState.OPEN && !channel.isShutdown && !channel.isTerminated
 
         if (!isActive) {
             println("service is not active")

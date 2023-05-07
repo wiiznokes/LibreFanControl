@@ -9,7 +9,7 @@ if (!(checkAdmin))
 
 if ($args.Count -gt 1)
 {
-    Write-Output "Error: need optional one argument, -c or -conf"
+    Write-Output "Error: To many arguments. need optional one argument, -c or -conf"
     exit $defaultErrorCode
 }
 

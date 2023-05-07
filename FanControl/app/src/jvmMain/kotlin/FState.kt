@@ -11,6 +11,11 @@ import model.item.IControl
 import model.item.IFan
 import ui.settings.Settings
 
+enum class ServiceState {
+    UNKNOWN,
+    OPEN,
+    ERROR
+}
 
 object FState {
 
@@ -27,7 +32,7 @@ object FState {
 
     val ui = UiState()
 
-    var isServiceOpened = false
+    var serviceState = mutableStateOf(ServiceState.UNKNOWN)
 }
 
 

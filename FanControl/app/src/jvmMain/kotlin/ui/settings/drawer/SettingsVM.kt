@@ -32,4 +32,8 @@ class SettingsVM(
     fun onLaunchAtStartUpChange(launchAtStartUp: Boolean) {
         OsSpecific.os.changeServiceStartMode(launchAtStartUp)
     }
+
+    fun removeService() {
+        OsSpecific.os.removeService()
+    }
 }

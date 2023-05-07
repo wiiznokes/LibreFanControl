@@ -33,7 +33,9 @@
     "next": "suivant",
     "save_conf": "sauvegarder configuration",
     "remove_conf": "supprimer configuration",
-    "add_conf": "ajouter configuration"
+    "add_conf": "ajouter configuration",
+    "service_is_loading": "The background service is being started",
+    "service_error": "The service to manage the hardware has failed"
   },
   "unity": {
     "rpm": "RPM",
@@ -91,13 +93,14 @@
     "theme": "Thème",
     "exit_on_close": "Quitter à la fermeture",
     "launch_at_start_up": "Lancer au démarrage",
+    "remove_service": "Remove service",
     "donate": "Support",
     "info": "Information",
     "info_sub_title": "Plonger dans le fonctionnement",
     "help": "Aide",
     "help_sub_title": "Trouver de l'aide",
     "transition": {
-      "lifecycle": "Cycle de vie",
+      "service": "Service",
       "donate": "Donation",
       "other": "Autres"
     }
