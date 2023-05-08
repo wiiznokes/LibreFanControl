@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace FanControlService.External.LSensors;
+namespace FanControlService.External.LmSensors;
 
 using sensors_chip_name = IntPtr;
 using sensors_feature = IntPtr;

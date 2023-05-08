@@ -75,7 +75,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="External/LSensors/lsensorswrapper.so">
+        <Content Include="External\LmSensors\lsensorswrapper.so">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>

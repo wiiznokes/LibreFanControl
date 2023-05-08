@@ -11,7 +11,6 @@ public static class HardwareManager
 
     public static void Start()
     {
-        
 #if WINDOWS
         Lhm.Start();
         Lhm.CreateHardware();
@@ -23,7 +22,6 @@ public static class HardwareManager
 
     public static void Stop()
     {
-        
 #if WINDOWS
         Lhm.Stop();
 #else

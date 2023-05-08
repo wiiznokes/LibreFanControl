@@ -43,10 +43,10 @@ public class Lhm : IVisitor
     {
         if (_isStarted)
             return;
-        
+
         _mComputer.Open();
         _mComputer.Accept(this);
-        
+
         _isStarted = true;
     }
 
@@ -64,7 +64,7 @@ public class Lhm : IVisitor
     {
         if (!_isStarted)
             return;
-        
+
         var hardwareArray = _mComputer.Hardware;
         foreach (var hardware in hardwareArray)
         {
