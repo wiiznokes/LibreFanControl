@@ -5,6 +5,10 @@ cd scriptRoot/..
 
 rm -rf publish
 
+cd HardwareLib/FanControlService/External/LmSensors/
+make release
+cd ../../../..
+
 dotnet build ./HardwareLib/FanControlService -c "Release Linux"
 
 cd ./FanControl

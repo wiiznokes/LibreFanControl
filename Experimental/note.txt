@@ -1,0 +1,73 @@
+
+/sys/class/hwmon/hwmon6
+
+
+First, you have to switch to superuser using sudo su (using only sudo echo ... is not enough).
+Then you have execute 
+echo 1 > /sys/class/hwmon/hwmon6/pwmX_enable
+if you want to be able to control
+echo 1 > /sys/class/hwmon/hwmon6/pwmX
+, where X needs to be replaced with the number of the fan you want to control.
+
+
+
+https://www.kernel.org/doc/Documentation/hwmon/sysfs-interface
+
+
+*******
+* PWM *
+*******
+
+pwm[1-*]	Pulse width modulation fan control.
+		Integer value in the range 0 to 255
+		RW
+		255 is max or 100%.
+
+pwm[1-*]_enable
+		Fan speed control method:
+		0: no fan speed control (i.e. fan at full speed)
+		1: manual fan speed control enabled (using pwm[1-*])
+		2+: automatic fan speed control enabled
+		Check individual chip documentation files for automatic mode
+		details.
+		RW
+
+pwm[1-*]_mode	0: DC mode (direct current)
+		1: PWM mode (pulse-width modulation)
+		RW
+
+pwm[1-*]_freq	Base PWM frequency in Hz.
+		Only possibly available when pwmN_mode is PWM, but not always
+		present even then.
+		RW
+
+pwm[1-*]_auto_channels_temp
+		Select which temperature channels affect this PWM output in
+		auto mode. Bitfield, 1 is temp1, 2 is temp2, 4 is temp3 etc...
+		Which values are possible depend on the chip used.
+		RW
+
+pwm[1-*]_auto_point[1-*]_pwm
+pwm[1-*]_auto_point[1-*]_temp
+pwm[1-*]_auto_point[1-*]_temp_hyst
+		Define the PWM vs temperature curve. Number of trip points is
+		chip-dependent. Use this for chips which associate trip points
+		to PWM output channels.
+		RW
+
+temp[1-*]_auto_point[1-*]_pwm
+temp[1-*]_auto_point[1-*]_temp
+temp[1-*]_auto_point[1-*]_temp_hyst
+		Define the PWM vs temperature curve. Number of trip points is
+		chip-dependent. Use this for chips which associate trip points
+		to temperature channels.
+		RW
+
+There is a third case where trip points are associated to both PWM output
+channels and temperature channels: the PWM values are associated to PWM
+output channels while the temperature values are associated to temperature
+channels. In that case, the result is determined by the mapping between
+temperature inputs and PWM outputs. When several temperature inputs are
+mapped to a given PWM output, this leads to several candidate PWM values.
+The actual result is up to the chip, but in general the highest candidate
+value (fastest fan speed) wins.
