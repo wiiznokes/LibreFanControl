@@ -71,3 +71,84 @@ temperature inputs and PWM outputs. When several temperature inputs are
 mapped to a given PWM output, this leads to several candidate PWM values.
 The actual result is up to the chip, but in general the highest candidate
 value (fastest fan speed) wins.
+
+
+bash-5.2$ ls pwm2* --format=single-column
+pwm2
+pwm2_auto_point1_pwm
+pwm2_auto_point1_temp
+pwm2_auto_point2_pwm
+pwm2_auto_point2_temp
+pwm2_auto_point3_pwm
+pwm2_auto_point3_temp
+pwm2_auto_point4_pwm
+pwm2_auto_point4_temp
+pwm2_auto_point5_pwm
+pwm2_auto_point5_temp
+pwm2_crit_temp_tolerance
+pwm2_enable
+pwm2_floor
+pwm2_mode
+pwm2_start
+pwm2_step_down_time
+pwm2_step_up_time
+pwm2_stop_time
+pwm2_target_temp
+pwm2_temp_sel
+pwm2_temp_tolerance
+pwm2_weight_duty_base
+pwm2_weight_duty_step
+pwm2_weight_temp_sel
+pwm2_weight_temp_step
+pwm2_weight_temp_step_base
+pwm2_weight_temp_step_tol
+
+
+
+bash-5.2$ ls *pwm*
+pwm1			  pwm2_weight_temp_sel	      pwm4_temp_sel
+pwm1_auto_point1_pwm	  pwm2_weight_temp_step       pwm4_temp_tolerance
+pwm1_auto_point1_temp	  pwm2_weight_temp_step_base  pwm5
+pwm1_auto_point2_pwm	  pwm2_weight_temp_step_tol   pwm5_auto_point1_pwm
+pwm1_auto_point2_temp	  pwm3			      pwm5_auto_point1_temp
+pwm1_auto_point3_pwm	  pwm3_auto_point1_pwm	      pwm5_auto_point2_pwm
+pwm1_auto_point3_temp	  pwm3_auto_point1_temp       pwm5_auto_point2_temp
+pwm1_auto_point4_pwm	  pwm3_auto_point2_pwm	      pwm5_auto_point3_pwm
+pwm1_auto_point4_temp	  pwm3_auto_point2_temp       pwm5_auto_point3_temp
+pwm1_auto_point5_pwm	  pwm3_auto_point3_pwm	      pwm5_auto_point4_pwm
+pwm1_auto_point5_temp	  pwm3_auto_point3_temp       pwm5_auto_point4_temp
+pwm1_crit_temp_tolerance  pwm3_auto_point4_pwm	      pwm5_auto_point5_pwm
+pwm1_enable		  pwm3_auto_point4_temp       pwm5_auto_point5_temp
+pwm1_floor		  pwm3_auto_point5_pwm	      pwm5_crit_temp_tolerance
+pwm1_mode		  pwm3_auto_point5_temp       pwm5_enable
+pwm1_start		  pwm3_crit_temp_tolerance    pwm5_floor
+pwm1_step_down_time	  pwm3_enable		      pwm5_mode
+pwm1_step_up_time	  pwm3_floor		      pwm5_start
+pwm1_stop_time		  pwm3_mode		      pwm5_step_down_time
+pwm1_target_temp	  pwm3_start		      pwm5_step_up_time
+pwm1_temp_sel		  pwm3_step_down_time	      pwm5_stop_time
+pwm1_temp_tolerance	  pwm3_step_up_time	      pwm5_target_temp
+pwm2			  pwm3_stop_time	      pwm5_temp_sel
+pwm2_auto_point1_pwm	  pwm3_target_temp	      pwm5_temp_tolerance
+pwm2_auto_point1_temp	  pwm3_temp_sel		      pwm6
+pwm2_auto_point2_pwm	  pwm3_temp_tolerance	      pwm6_auto_point1_pwm
+pwm2_auto_point2_temp	  pwm4			      pwm6_auto_point1_temp
+pwm2_auto_point3_pwm	  pwm4_auto_point1_pwm	      pwm6_auto_point2_pwm
+pwm2_auto_point3_temp	  pwm4_auto_point1_temp       pwm6_auto_point2_temp
+pwm2_auto_point4_pwm	  pwm4_auto_point2_pwm	      pwm6_auto_point3_pwm
+pwm2_auto_point4_temp	  pwm4_auto_point2_temp       pwm6_auto_point3_temp
+pwm2_auto_point5_pwm	  pwm4_auto_point3_pwm	      pwm6_auto_point4_pwm
+pwm2_auto_point5_temp	  pwm4_auto_point3_temp       pwm6_auto_point4_temp
+pwm2_crit_temp_tolerance  pwm4_auto_point4_pwm	      pwm6_auto_point5_pwm
+pwm2_enable		  pwm4_auto_point4_temp       pwm6_auto_point5_temp
+pwm2_floor		  pwm4_auto_point5_pwm	      pwm6_crit_temp_tolerance
+pwm2_mode		  pwm4_auto_point5_temp       pwm6_enable
+pwm2_start		  pwm4_crit_temp_tolerance    pwm6_floor
+pwm2_step_down_time	  pwm4_enable		      pwm6_mode
+pwm2_step_up_time	  pwm4_floor		      pwm6_start
+pwm2_stop_time		  pwm4_mode		      pwm6_step_down_time
+pwm2_target_temp	  pwm4_start		      pwm6_step_up_time
+pwm2_temp_sel		  pwm4_step_down_time	      pwm6_stop_time
+pwm2_temp_tolerance	  pwm4_step_up_time	      pwm6_target_temp
+pwm2_weight_duty_base	  pwm4_stop_time	      pwm6_temp_sel
+pwm2_weight_duty_step	  pwm4_target_temp	      pwm6_temp_tolerance
