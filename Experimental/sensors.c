@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <sensors/sensors.h>
 
+#include "sensors.h"
 
 void fetch_temp()
 {
@@ -60,6 +61,7 @@ void fetch_temp2()
     int f = 0;
 
     while ((feat = sensors_get_features(cn, &f)) != 0) {
+      
       printf("    %d:%s\n", f, feat->name);
 
       sensors_subfeature const *subf;

@@ -1,4 +1,4 @@
-CC = clang
+CC = gcc
 DEBUG_FLAGS = -g -Wall
 RELEASE_FLAGS = -O2 -Wall
 LIB = -lsensors

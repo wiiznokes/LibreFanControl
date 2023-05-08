@@ -1,44 +1,44 @@
-#include <stdio.h>
-#include "include/sensors.h"
+#include "sensors_wrapper.h"
 
 
-
-void fetch_temp2()
+char* get_chip_name(const sensors_chip_name* chip)
 {
-    int res = sensors_init(NULL);
+    return chip->prefix;
+}
 
-    if (res != 0) {
-        printf("err sensors_init: %d\n", res);
+
+char* get_feature_name(const sensors_feature* feat)
+{
+    return feat->name;
+}
+
+int get_feature_type(const sensors_feature* feat)
+{
+    switch (feat->type)
+    {
+    case SENSORS_FEATURE_FAN: return sensors_feature_fan;
+    case SENSORS_FEATURE_TEMP: return sensors_feature_temp;
+    default: return undefined;
     }
+}
 
-    sensors_chip_name const * cn;
-    int c = 0;
-    while ((cn = sensors_get_detected_chips(0, &c)) != 0) {
-        printf("Chip: %s %s\n",cn->prefix, cn->path);
+int get_feature_number(const sensors_feature* feat)
+{
+    return feat->number;
+}
 
-        sensors_feature const *feat;
-        int f = 0;
 
-        while ((feat = sensors_get_features(cn, &f)) != 0) {
-            printf("    %d:%s\n", f, feat->name);
+char* get_sub_feature_name(const sensors_subfeature* sub_feat)
+{
+    return sub_feat->name;
+}
 
-            sensors_subfeature const *subf;
-            int s = 0;
-      
-            if ((subf = sensors_get_all_subfeatures(cn, feat, &s)) != 0) {
-                printf("        %d:%s = ", s, subf->name);
+int get_sub_feature_type(const sensors_subfeature* sub_feat)
+{
+    return sub_feat->type;
+}
 
-                double val;
-                if (subf->flags & SENSORS_MODE_R) {
-                    int rc = sensors_get_value(cn, subf->number, &val);
-                    if (rc < 0) {
-                        printf("err: %d\n", rc);
-                    } else {
-                        printf("%f\n", val);
-                    }
-                }
-            }
-        }
-        printf("\n");
-    }
+int get_sub_feature_number(const sensors_subfeature* sub_feat)
+{
+    return sub_feat->number;
 }

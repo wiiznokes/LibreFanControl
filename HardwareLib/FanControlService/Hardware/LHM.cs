@@ -84,11 +84,11 @@ public class Lhm : IVisitor
                         controlsIndex++;
                         break;
                     case SensorType.Temperature:
-                        State.HTemps.Add(new LhmTemp(id, sensor, name, tempsIndex));
+                        State.HTemps.Add(new LhmSensor(id, sensor, name, tempsIndex));
                         tempsIndex++;
                         break;
                     case SensorType.Fan:
-                        State.HFans.Add(new LhmFanSpeed(id, sensor, name, fansIndex));
+                        State.HFans.Add(new LhmSensor(id, sensor, name, fansIndex));
                         fansIndex++;
                         break;
 
@@ -115,11 +115,11 @@ public class Lhm : IVisitor
                             controlsIndex++;
                             break;
                         case SensorType.Temperature:
-                            State.HTemps.Add(new LhmTemp(id, subSensor, name, tempsIndex));
+                            State.HTemps.Add(new LhmSensor(id, subSensor, name, tempsIndex));
                             tempsIndex++;
                             break;
                         case SensorType.Fan:
-                            State.HFans.Add(new LhmFanSpeed(id, subSensor, name, fansIndex));
+                            State.HFans.Add(new LhmSensor(id, subSensor, name, fansIndex));
                             fansIndex++;
                             break;
 
