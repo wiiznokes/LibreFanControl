@@ -7,7 +7,7 @@ import ServiceState
 import proto.SettingsHelper
 import java.io.File
 
-private const val DEBUG_SERVICE = false
+private const val DEBUG_SERVICE = true
 
 
 fun getStartMode(launchAtStartUp: Boolean = settings.launchAtStartUp.value): String {

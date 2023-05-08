@@ -126,6 +126,7 @@ class CrossApi(
             }
         } catch (e: Exception) {
             println("ERROR: stream update has stop")
+            FState.serviceState.value = ServiceState.ERROR
         }
 
     }

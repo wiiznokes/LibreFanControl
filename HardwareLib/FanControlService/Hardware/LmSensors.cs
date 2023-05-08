@@ -59,15 +59,16 @@ public class LmSensors
 
                 var featNamePtr = LmSensorsWrapper.get_feature_name(sensorsFeature);
                 var featName = Marshal.PtrToStringAnsi(featNamePtr) ?? "fan" + featCount;
-                
+
+                var id = chipName + "/" + featName;
                 switch (featureType)
                 {
                     case LmSensorsWrapper.SensorsFeatureType.SensorsFeatureFan:
-                        State.HFans.Add(new LmSensor(chipName + "/" + featName, featName,
+                        State.HFans.Add(new LmSensor(id, id,
                             sensorsChipName, sensorsFeature));
                         break;
                     case LmSensorsWrapper.SensorsFeatureType.SensorsFeatureTemp:
-                        State.HTemps.Add(new LmSensor(chipName + "/" + featName, featName,
+                        State.HTemps.Add(new LmSensor(id, id,
                             sensorsChipName, sensorsFeature));
                         break;
                     default:

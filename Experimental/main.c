@@ -5,6 +5,6 @@
 
 int main() {
   
-  fetch_temp2();
+  fetch_temp();
   
 }
