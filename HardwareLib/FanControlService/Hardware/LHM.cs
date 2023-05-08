@@ -16,7 +16,7 @@ public class Lhm : IVisitor
         IsMemoryEnabled = true
     };
 
-    private bool _mIsStart;
+    private bool _isStarted;
 
     /////////////////////////// Visitor ///////////////////////////
     public void VisitComputer(IComputer computer)
@@ -41,29 +41,30 @@ public class Lhm : IVisitor
 
     public void Start()
     {
-        if (_mIsStart)
+        if (_isStarted)
             return;
-        _mIsStart = true;
-
+        
         _mComputer.Open();
         _mComputer.Accept(this);
+        
+        _isStarted = true;
     }
 
     public void Stop()
     {
-        if (_mIsStart == false)
+        if (!_isStarted)
             return;
-        _mIsStart = false;
 
         _mComputer.Close();
+        _isStarted = false;
     }
 
 
     public void CreateHardware()
     {
-        var controlsIndex = 0;
-        var tempsIndex = 0;
-        var fansIndex = 0;
+        if (!_isStarted)
+            return;
+        
         var hardwareArray = _mComputer.Hardware;
         foreach (var hardware in hardwareArray)
         {
@@ -80,16 +81,13 @@ public class Lhm : IVisitor
                 switch (sensor.SensorType)
                 {
                     case SensorType.Control:
-                        State.HControls.Add(new LhmControl(id, sensor, name, controlsIndex));
-                        controlsIndex++;
+                        State.HControls.Add(new LhmControl(id, name, sensor));
                         break;
                     case SensorType.Temperature:
-                        State.HTemps.Add(new LhmSensor(id, sensor, name, tempsIndex));
-                        tempsIndex++;
+                        State.HTemps.Add(new LhmSensor(id, name, sensor));
                         break;
                     case SensorType.Fan:
-                        State.HFans.Add(new LhmSensor(id, sensor, name, fansIndex));
-                        fansIndex++;
+                        State.HFans.Add(new LhmSensor(id, name, sensor));
                         break;
 
                     default: throw new Exception("wrong sensor type");
@@ -111,16 +109,13 @@ public class Lhm : IVisitor
                     switch (subSensor.SensorType)
                     {
                         case SensorType.Control:
-                            State.HControls.Add(new LhmControl(id, subSensor, name, controlsIndex));
-                            controlsIndex++;
+                            State.HControls.Add(new LhmControl(id, name, subSensor));
                             break;
                         case SensorType.Temperature:
-                            State.HTemps.Add(new LhmSensor(id, subSensor, name, tempsIndex));
-                            tempsIndex++;
+                            State.HTemps.Add(new LhmSensor(id, name, subSensor));
                             break;
                         case SensorType.Fan:
-                            State.HFans.Add(new LhmSensor(id, subSensor, name, fansIndex));
-                            fansIndex++;
+                            State.HFans.Add(new LhmSensor(id, name, subSensor));
                             break;
 
                         default: throw new Exception("wrong sensor type");

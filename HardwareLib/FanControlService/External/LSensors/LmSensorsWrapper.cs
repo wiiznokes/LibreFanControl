@@ -7,7 +7,7 @@ using sensors_feature = IntPtr;
 using sensors_subfeature = IntPtr;
 using FilePtr = IntPtr;
 
-public sealed class LmSensorsWrapper
+public static class LmSensorsWrapper
 {
     private const string DllPath = "External/LSensors/lsensorswrapper";
 
@@ -24,7 +24,7 @@ public sealed class LmSensorsWrapper
        reload the configuration file, call sensors_cleanup() below before
        calling sensors_init() again. */
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern IntPtr sensors_init(FilePtr f);
+    public static extern int sensors_init(FilePtr f);
 
 
     /* Clean-up function: You can't access anything after
@@ -38,6 +38,7 @@ public sealed class LmSensorsWrapper
        To start at the beginning of the list, use 0 for nr; NULL is returned if
        we are at the end of the list. Do not try to change these chip names, as
        they point to internal structures! */
+    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern unsafe sensors_chip_name sensors_get_detected_chips(sensors_chip_name
         match, int* nr);
 
@@ -47,6 +48,7 @@ public sealed class LmSensorsWrapper
        more features are found NULL is returned.
        Do not try to change the returned structure; you will corrupt internal
        data structures. */
+    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern unsafe sensors_feature sensors_get_features(sensors_chip_name name, int* nr);
 
 
@@ -55,38 +57,39 @@ public sealed class LmSensorsWrapper
        more features are found NULL is returned.
        Do not try to change the returned structure; you will corrupt internal
        data structures. */
+    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern unsafe sensors_subfeature sensors_get_all_subfeatures(sensors_chip_name name,
-        sensors_feature* feature, int* nr);
+        sensors_feature feature, int* nr);
 
 
     /* CHIP **************/
 
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern IntPtr get_chip_name(sensors_chip_name name);
+    public static extern IntPtr get_chip_name(sensors_chip_name chip);
 
 
     /* FEATURE **************/
 
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern IntPtr get_feature_name(sensors_feature name);
+    public static extern IntPtr get_feature_name(sensors_feature feat);
 
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern int get_feature_type(sensors_feature name);
+    public static extern int get_feature_type(sensors_feature feat);
 
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern int get_feature_number(sensors_feature name);
+    public static extern int get_feature_number(sensors_feature feat);
 
 
     /* SUB_FEATURE **************/
 
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern IntPtr get_subfeature_name(sensors_subfeature name);
+    public static extern IntPtr get_sub_feature_name(sensors_subfeature sub_feat);
 
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern int get_subfeature_type(sensors_subfeature name);
+    public static extern int get_sub_feature_type(sensors_subfeature sub_feat);
 
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern int get_subfeature_number(sensors_subfeature name);
+    public static extern int get_sub_feature_number(sensors_subfeature sub_feat);
 
 
     /* Read the value of a subfeature of a certain chip. Note that chip should not

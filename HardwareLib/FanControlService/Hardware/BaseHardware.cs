@@ -2,17 +2,15 @@ namespace FanControlService.Hardware;
 
 public abstract class BaseHardware
 {
-    protected BaseHardware(string name, int index, string id)
+    protected BaseHardware(string id, string name)
     {
-        Name = name;
-        Index = index;
         Id = id;
+        Name = name;
         Value = 0;
     }
 
-    public string Name { get; }
-    public int Index { get; }
     public string Id { get; }
+    public string Name { get; }
     public int Value { get; protected set; }
 
     public virtual void Update()

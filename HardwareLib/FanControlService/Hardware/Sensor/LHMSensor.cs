@@ -7,7 +7,7 @@ public class LhmSensor : BaseSensor
     // ISensor
     private readonly ISensor _mSensor;
 
-    public LhmSensor(string id, ISensor sensor, string name, int index) : base(name, index, id)
+    public LhmSensor(string id, string name, ISensor sensor) : base(id, name)
     {
         _mSensor = sensor;
     }
