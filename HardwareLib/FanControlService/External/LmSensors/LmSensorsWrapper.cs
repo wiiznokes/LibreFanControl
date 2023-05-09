@@ -17,6 +17,13 @@ public static class LmSensorsWrapper
         SensorsFeatureTemp = 2,
         Undefined = int.MaxValue
     }
+    
+    public enum SensorsSubFeatureType
+    {
+        SensorsSubFeatureFanInput = 1,
+        SensorsSubFeatureTempInput = 2,
+        Undefined = int.MaxValue
+    }
 
     /* Load the configuration file and the detected chips list. If this
        returns a value unequal to zero, you are in trouble; you can not
@@ -88,8 +95,12 @@ public static class LmSensorsWrapper
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern int get_sub_feature_type(sensors_subfeature sub_feat);
 
+    /*
+     * return -1 if no sub_feature with this type is found
+     */
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern int get_sub_feature_number(sensors_subfeature sub_feat);
+    public static extern int get_sub_feature_number(sensors_chip_name chip, sensors_feature feat,
+        SensorsSubFeatureType type);
 
 
     /* Read the value of a subfeature of a certain chip. Note that chip should not
@@ -98,4 +109,12 @@ public static class LmSensorsWrapper
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern unsafe int sensors_get_value(sensors_chip_name name, int subfeat_nr,
         double* value);
+    
+    
+    /* Set the value of a subfeature of a certain chip. Note that chip should not
+       contain wildcard values! This function will return 0 on success, and <0
+       on failure. */
+    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
+    public static extern int sensors_set_value(sensors_chip_name name, int subfeat_nr,
+        double value);
 }

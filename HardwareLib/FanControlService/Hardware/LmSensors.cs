@@ -59,23 +59,33 @@ public class LmSensors
                     continue;
 
                 var featNamePtr = LmSensorsWrapper.get_feature_name(sensorsFeature);
-                var featName = Marshal.PtrToStringAnsi(featNamePtr) ?? "fan" + featCount;
+                var featName = Marshal.PtrToStringAnsi(featNamePtr) ?? DefaultName(featureType) + featCount;
 
                 var id = chipName + "/" + featName;
                 switch (featureType)
                 {
                     case LmSensorsWrapper.SensorsFeatureType.SensorsFeatureFan:
                         State.HFans.Add(new LmSensor(id, id,
-                            sensorsChipName, sensorsFeature));
+                            sensorsChipName, sensorsFeature, featureType));
                         break;
                     case LmSensorsWrapper.SensorsFeatureType.SensorsFeatureTemp:
                         State.HTemps.Add(new LmSensor(id, id,
-                            sensorsChipName, sensorsFeature));
+                            sensorsChipName, sensorsFeature, featureType));
                         break;
                     default:
                         continue;
                 }
             }
         }
+    }
+
+    private string DefaultName(LmSensorsWrapper.SensorsFeatureType featureType)
+    {
+        return featureType switch
+        {
+            LmSensorsWrapper.SensorsFeatureType.SensorsFeatureFan => "Fan",
+            LmSensorsWrapper.SensorsFeatureType.SensorsFeatureTemp => "Temp",
+            _ => throw new ArgumentOutOfRangeException(nameof(featureType), featureType, null)
+        };
     }
 }
