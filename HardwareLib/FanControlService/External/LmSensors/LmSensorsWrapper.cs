@@ -15,14 +15,17 @@ public static class LmSensorsWrapper
     {
         SensorsFeatureFan = 1,
         SensorsFeatureTemp = 2,
-        Undefined = int.MaxValue
+        SensorsFeaturePwm = 3,
+        SensorsFeatureUndefined = int.MaxValue
     }
     
     public enum SensorsSubFeatureType
     {
         SensorsSubFeatureFanInput = 1,
         SensorsSubFeatureTempInput = 2,
-        Undefined = int.MaxValue
+        SensorsSubFeaturePwmIo = 3,
+        SensorsSubFeaturePwmEnable = 4,
+        SensorsSubFeatureUndefined = int.MaxValue
     }
 
     /* Load the configuration file and the detected chips list. If this

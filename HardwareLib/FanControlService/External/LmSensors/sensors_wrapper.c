@@ -1,4 +1,5 @@
 #include "sensors_wrapper.h"
+#include <stdio.h>
 
 char* get_chip_name(const sensors_chip_name* chip)
 {
@@ -16,6 +17,7 @@ custom_sensors_feature_type convert_feature_type(const sensors_feature_type type
 {
     switch (type)
     {
+    case SENSORS_FEATURE_PWM: return sensors_feature_pwm;
     case SENSORS_FEATURE_FAN: return sensors_feature_fan;
     case SENSORS_FEATURE_TEMP: return sensors_feature_temp;
     default: return sensors_feature_undefined;
@@ -25,6 +27,7 @@ custom_sensors_feature_type convert_feature_type(const sensors_feature_type type
 
 int get_feature_type(const sensors_feature* feat)
 {
+    printf("%d\n", feat->type);
     return convert_feature_type(feat->type);
 }
 
@@ -47,6 +50,8 @@ custom_sensors_sub_feature_type convert_sub_feature_type(const sensors_subfeatur
     {
     case SENSORS_SUBFEATURE_FAN_INPUT: return sensors_sub_feature_fan_input;
     case SENSORS_SUBFEATURE_TEMP_INPUT: return sensors_sub_feature_temp_input;
+    case SENSORS_SUBFEATURE_PWM_IO: return sensors_sub_feature_pwm_io;
+    case SENSORS_SUBFEATURE_PWM_ENABLE: return sensors_sub_feature_pwm_enable;
     default: return sensors_sub_feature_undefined;
     }
 }
@@ -58,7 +63,7 @@ int get_sub_feature_type(const sensors_subfeature* sub_feat)
 }
 
 int get_sub_feature_number(const sensors_chip_name* chip, const sensors_feature* feat,
-    custom_sensors_sub_feature_type type)
+                           const custom_sensors_sub_feature_type type)
 {
     sensors_subfeature const *sub_feature;
     int nr = 0;

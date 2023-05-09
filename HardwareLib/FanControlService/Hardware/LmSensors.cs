@@ -1,6 +1,8 @@
 using System.Runtime.InteropServices;
 using FanControlService.External.LmSensors;
+using FanControlService.Hardware.Control;
 using FanControlService.Hardware.Sensor;
+using static FanControlService.External.LmSensors.LmSensorsWrapper;
 
 namespace FanControlService.Hardware;
 
@@ -13,7 +15,7 @@ public class LmSensors
         if (_isStarted)
             return;
 
-        var res = LmSensorsWrapper.sensors_init(IntPtr.Zero);
+        var res = sensors_init(IntPtr.Zero);
         if (res < 0)
         {
             Console.WriteLine("Error sensors_init: " + res);
@@ -28,7 +30,7 @@ public class LmSensors
         if (!_isStarted)
             return;
 
-        LmSensorsWrapper.sensors_cleanup();
+        sensors_cleanup();
         _isStarted = false;
     }
 
@@ -41,34 +43,42 @@ public class LmSensors
 
         IntPtr sensorsChipName;
         var chipCount = 0;
-        while ((sensorsChipName = LmSensorsWrapper.sensors_get_detected_chips(IntPtr.Zero, &chipCount))
+        while ((sensorsChipName = sensors_get_detected_chips(IntPtr.Zero, &chipCount))
                != IntPtr.Zero)
         {
-            var chipNamePtr = LmSensorsWrapper.get_chip_name(sensorsChipName);
+            var chipNamePtr = get_chip_name(sensorsChipName);
             var chipName = Marshal.PtrToStringAnsi(chipNamePtr) ?? "chip" + chipCount;
 
             IntPtr sensorsFeature;
             var featCount = 0;
-            while ((sensorsFeature = LmSensorsWrapper.sensors_get_features(sensorsChipName, &featCount))
+            while ((sensorsFeature = sensors_get_features(sensorsChipName, &featCount))
                    != IntPtr.Zero)
             {
                 var featureType =
-                    (LmSensorsWrapper.SensorsFeatureType)LmSensorsWrapper.get_feature_type(sensorsFeature);
+                    (SensorsFeatureType)get_feature_type(sensorsFeature);
+                
 
-                if (featureType == LmSensorsWrapper.SensorsFeatureType.Undefined)
+                if (featureType == SensorsFeatureType.SensorsFeatureUndefined)
                     continue;
+                
+                
+                Console.WriteLine(featureType.ToString());
 
-                var featNamePtr = LmSensorsWrapper.get_feature_name(sensorsFeature);
+                var featNamePtr = get_feature_name(sensorsFeature);
                 var featName = Marshal.PtrToStringAnsi(featNamePtr) ?? DefaultName(featureType) + featCount;
 
                 var id = chipName + "/" + featName;
                 switch (featureType)
                 {
-                    case LmSensorsWrapper.SensorsFeatureType.SensorsFeatureFan:
+                    case SensorsFeatureType.SensorsFeaturePwm:
+                        State.HControls.Add(new LmControl(id, id,
+                            sensorsChipName, sensorsFeature));
+                        break;
+                    case SensorsFeatureType.SensorsFeatureFan:
                         State.HFans.Add(new LmSensor(id, id,
                             sensorsChipName, sensorsFeature, featureType));
                         break;
-                    case LmSensorsWrapper.SensorsFeatureType.SensorsFeatureTemp:
+                    case SensorsFeatureType.SensorsFeatureTemp:
                         State.HTemps.Add(new LmSensor(id, id,
                             sensorsChipName, sensorsFeature, featureType));
                         break;
@@ -79,12 +89,13 @@ public class LmSensors
         }
     }
 
-    private string DefaultName(LmSensorsWrapper.SensorsFeatureType featureType)
+    private string DefaultName(SensorsFeatureType featureType)
     {
         return featureType switch
         {
-            LmSensorsWrapper.SensorsFeatureType.SensorsFeatureFan => "Fan",
-            LmSensorsWrapper.SensorsFeatureType.SensorsFeatureTemp => "Temp",
+            SensorsFeatureType.SensorsFeaturePwm => "Control",
+            SensorsFeatureType.SensorsFeatureFan => "Fan",
+            SensorsFeatureType.SensorsFeatureTemp => "Temp",
             _ => throw new ArgumentOutOfRangeException(nameof(featureType), featureType, null)
         };
     }
