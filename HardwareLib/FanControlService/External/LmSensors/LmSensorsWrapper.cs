@@ -9,7 +9,7 @@ using FilePtr = IntPtr;
 
 public static class LmSensorsWrapper
 {
-    private const string DllPath = "External/LSensors/lsensorswrapper";
+    private const string DllPath = "External/LmSensors/lsensorswrapper";
 
     public enum SensorsFeatureType
     {
