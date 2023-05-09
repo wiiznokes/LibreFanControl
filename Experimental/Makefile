@@ -7,7 +7,7 @@ LIB = -lsensors
 
 
 
-build: main.o sensors.o
+build: main.o sensors.o sensors_pwm.o
 	$(CC) $(FLAGS) $^ -o $(EXE) $(LIB)
 
 

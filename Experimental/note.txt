@@ -152,3 +152,7 @@ pwm2_temp_sel		  pwm4_step_down_time	      pwm6_stop_time
 pwm2_temp_tolerance	  pwm4_step_up_time	      pwm6_target_temp
 pwm2_weight_duty_base	  pwm4_stop_time	      pwm6_temp_sel
 pwm2_weight_duty_step	  pwm4_target_temp	      pwm6_temp_tolerance
+
+
+
+sensors_read_dynamic_chip
