@@ -41,12 +41,12 @@ public class LmSensors
             return;
 
 
-        IntPtr sensorsChipName;
+        SensorsChipName? sensorsChipName;
         var chipCount = 0;
-        while ((sensorsChipName = sensors_get_detected_chips(IntPtr.Zero, &chipCount))
-               != IntPtr.Zero)
+        while ((sensorsChipName = sensors_get_detected_chips(null, &chipCount))
+               != null)
         {
-            var chipNamePtr = get_chip_name(sensorsChipName);
+            var chipNamePtr = sensorsChipName.Value.prefix;
             var chipName = Marshal.PtrToStringAnsi(chipNamePtr) ?? "chip" + chipCount;
 
             IntPtr sensorsFeature;
