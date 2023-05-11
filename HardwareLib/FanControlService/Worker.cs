@@ -12,8 +12,6 @@ public class Worker : BackgroundService
 {
     private const int Port = 5002;
 
-    private const int MaxDelay = 10000;
-    private const int Delay = 500;
     private static readonly CancellationTokenSource CancellationTokenSource = new();
     private readonly IHostApplicationLifetime _appLifetime;
     private readonly CancellationToken _cancellationToken = CancellationTokenSource.Token;
@@ -35,12 +33,13 @@ public class Worker : BackgroundService
     }
 
 
-    private bool StartService()
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         if (!SettingsDir.CheckFiles())
         {
             Console.WriteLine("[SERVICE] settings file don't exist");
-            return false;
+            AutoCancel();
+            return;
         }
 
         HardwareManager.Start();
@@ -48,30 +47,14 @@ public class Worker : BackgroundService
 
         StartGrpc();
 
-        if (State.Settings.ConfId == null)
+        if (State.Settings.ConfId != null)
         {
-            var totalDelay = 0;
-            while (!IsOpen && totalDelay < MaxDelay)
-            {
-                Thread.Sleep(Delay);
-                totalDelay += Delay;
-            }
+            Console.WriteLine("[SERVICE] load config");
 
-            if (IsOpen) return true;
-
-            Console.WriteLine("[SERVICE] delay before open passed");
-            return false;
+            ConfHelper.LoadConfFile(State.Settings.ConfId);
+            Update.CreateUpdateList();
         }
 
-        ConfHelper.LoadConfFile(State.Settings.ConfId);
-        Update.CreateUpdateList();
-
-        return true;
-    }
-
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        if (!StartService()) AutoCancel();
 
         while (!stoppingToken.IsCancellationRequested && !_cancellationRequested)
         {
@@ -79,17 +62,9 @@ public class Worker : BackgroundService
 
             CheckChange();
 
-            if (!SettingsAndConfHasChange && !IsOpen && State.Settings.ConfId == null)
-            {
-                Console.WriteLine("[SERVICE] stop service");
-                break;
-            }
-
-
             if (State.Settings.ConfId == null)
                 continue;
 
-            Console.WriteLine("[SERVICE] update");
 
             Update.UpdateUpdateList();
         }

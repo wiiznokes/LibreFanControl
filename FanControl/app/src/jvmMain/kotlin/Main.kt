@@ -9,6 +9,7 @@ import proto.ConfHelper
 import proto.SettingsHelper
 import ui.container.home
 import ui.theme.fanControlTheme
+import utils.OsSpecific
 import utils.Resources
 import utils.initDialogs
 
@@ -18,6 +19,9 @@ val app: Application = Application()
 fun main() {
     val visible = mutableStateOf(true)
 
+    if (!OsSpecific.os.isAdmin()) {
+        throw Exception("This app need admin privilege")
+    }
     app.onStart()
 
     application(
@@ -35,7 +39,8 @@ fun main() {
                         println("LAUNCH_AT_START_UP")
                         FState.settings.firstStart.value = false
                         SettingsHelper.writeSettings()
-                        FState.ui.dialogExpanded.value = UiState.Dialog.LAUNCH_AT_START_UP
+                        if (!FState.settings.launchAtStartUp.value)
+                            FState.ui.dialogExpanded.value = UiState.Dialog.LAUNCH_AT_START_UP
                     }
 
                     while (FState.ui.dialogExpanded.value != UiState.Dialog.NONE) {

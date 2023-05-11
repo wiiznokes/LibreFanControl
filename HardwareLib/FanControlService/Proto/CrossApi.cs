@@ -1,4 +1,5 @@
 ﻿using FanControlService.Hardware;
+using FanControlService.Utils;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Proto.Generated.PCrossApi;
@@ -71,11 +72,11 @@ public class CrossApi : PCrossApi.PCrossApiBase
             PType = type
         };
 
-        foreach (var hardware in list)
+        foreach (var (hardware, index) in list.WithIndex())
         {
             var update = new PUpdate
             {
-                PIndex = hardware.Index,
+                PIndex = index,
                 PValue = hardware.Value
             };
             updateList.PUpdates.Add(update);

@@ -115,11 +115,12 @@ fun topBarBody(
                 when (FState.serviceState.value) {
                     ServiceState.UNKNOWN -> {
 
-                        /*
+
                         CircularProgressIndicator(
                             color = LocalColors.current.onMainTopBar
                         )
-                        */
+
+                        /*
 
                         val infiniteTransition = rememberInfiniteTransition()
 
@@ -139,7 +140,7 @@ fun topBarBody(
                             painter = Resources.getIcon("topBar/forward_media40"),
                             contentDescription = Resources.getString("ct/service_is_loading"),
                             tint = LocalColors.current.onMainTopBar
-                        )
+                        )*/
                     }
 
                     ServiceState.ERROR -> {

@@ -11,12 +11,12 @@ public class ProtoException : Exception
 
 public static class SettingsDir
 {
-    #if WINDOWS
+#if WINDOWS
         private const string Dir = "C:\\ProgramData\\FanControl";
-    #else
-        private const string Dir = "/home/lenaic/.FanControl";
-    #endif
-    
+#else
+    private const string Dir = "/etc/FanControl";
+#endif
+
     private static readonly string ConfDir = Path.Combine(
         Dir,
         "conf"
@@ -60,6 +60,7 @@ public static class SettingsHelper
     {
         State.Settings.UpdateDelay = pSetting.PUpdateDelay;
         State.Settings.ConfId = NullableToNull(pSetting.PConfId);
+        State.Settings.ValueDisableControl = pSetting.PValueDisableControl;
     }
 
 

@@ -4,9 +4,14 @@ scriptRoot="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 . "$scriptRoot"/Manager.sh
 
 
-#if ! checkAdmin; then
-#    exit "$needAdminErrorCode"
-#fi
+if ! checkAdmin; then
+    exit "$needAdminErrorCode"
+fi
+
+if [ "$#" -ge 1 ] && [ "$1" = "-c" ]; then
+    rm -rf "$confPath"
+    echo "setting folder removed"
+fi
 
 
 if checkRunning; then
@@ -14,7 +19,6 @@ if checkRunning; then
     echo "service stopped"
 fi
 
-setServiceMode "Manual"
 
 if [ -f "$systemdServiceFile" ]; then
     rm -f "$systemdServiceFile"

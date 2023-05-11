@@ -13,6 +13,7 @@
         <Authors>FanControlService</Authors>
         <Company>FanControlService</Company>
         <Product>FanControlService</Product>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -56,13 +57,13 @@
 
 
     <ItemGroup>
-        <PackageReference Include="Google.Protobuf" Version="3.21.12"/>
-        <PackageReference Include="Grpc.AspNetCore.Server" Version="2.51.0"/>
-        <PackageReference Include="Grpc.Tools" Version="2.51.0">
+        <PackageReference Include="Google.Protobuf" Version="3.22.4"/>
+        <PackageReference Include="Grpc.AspNetCore.Server" Version="2.53.0"/>
+        <PackageReference Include="Grpc.Tools" Version="2.54.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.1"/>
+        <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.2"/>
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1"/>
         <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="7.0.0"/>
     </ItemGroup>
@@ -71,5 +72,11 @@
         <Protobuf Include="..\..\FanControl\proto\src\proto\settings.proto" GrpcServices="None" ProtoRoot="..\..\FanControl\proto\src\"/>
         <Protobuf Include="..\..\FanControl\proto\src\proto\conf.proto" GrpcServices="None" ProtoRoot="..\..\FanControl\proto\src\"/>
         <Protobuf Include="..\..\FanControl\proto\src\proto\crossApi.proto" GrpcServices="Server" ProtoRoot="..\..\FanControl\proto\src\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="External\LmSensors\libsensors.so.5.0.0">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 package ui.settings.drawer
 
+import Application
 import FState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -71,7 +72,8 @@ fun drawerContent(
         ) { viewModel.onLaunchAtStartUpChange(it) }
 
         removeService { viewModel.removeService() }
-
+        tryOpenService { Application.Api.scope.launch { Application.Api.api.open() } }
+        valueDisableControl { viewModel.onValueDisableControl(it) }
         group(text = Resources.getString("settings/trans/donate"))
         donate()
 

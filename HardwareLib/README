@@ -1,0 +1,11 @@
+Some useful infos
+
+
+- sudo dnf install dotnet-sdk-7.0
+- sudo dnf install lm_sensors-libs-3.6.0-13.fc38.x86_64
+- sudo dnf install lm_sensors-devel-3.6.0-13.fc38.x86_64 (this one works)
+
+https://www.kernel.org/doc/Documentation/hwmon/sysfs-interface
+
+repo used for lm-sensors
+https://github.com/Wer-Wolf/lm-sensors/tree/pwm

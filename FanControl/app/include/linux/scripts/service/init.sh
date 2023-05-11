@@ -25,7 +25,26 @@ fi
 
 
 if ! checkServiceFile || ! checkExecutableCopy || ! checkRunning; then
-    init_second_script="$scriptRoot"init2.sh
-    pkexec bash -c "$init_second_script $startMode"
+    if ! checkAdmin; then
+        exit "$needAdminErrorCode"
+    fi
+
+    if ! checkServiceFile; then
+        copyServiceFile
+    fi
+
+
+    if ! checkExecutableCopy; then
+        copyExecutable
+    fi
+
+    setServiceMode "$startMode"
+
+
+    if ! checkRunning; then
+        echo "Service is not active"
+        startService
+    fi
+
 fi
 

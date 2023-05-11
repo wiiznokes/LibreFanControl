@@ -1,15 +1,16 @@
 # LibreFanControl
 
-## Notes
-- You can see a screenshot of the app [here](https://github.com/wiiznokes/LibreFanControl/blob/main/assets/mainPageV1.png)
-- Linux is not supported for now
 
-## Why you should use it
-- open source
-- service very low on ressource (~30mb)
-- display sensors data on real time
-- control fans based on custom behaviors
-- save configuration
+- Open source
+- Service very low on ressource (~30mb)
+- Display sensors data on real time
+- Control fans based on custom behaviors
+- Save configuration
+- Multiplatform (Linux/Windows)
+
+
+
+![mainPageV1](https://github.com/wiiznokes/LibreFanControl/assets/78230769/543af76c-137c-456d-a04e-8ebfed323178)
 
 
 
@@ -19,14 +20,29 @@ You will need some component of [dotnet 7](https://dotnet.microsoft.com/en-us/do
 - `ASP.NET Core Runtime`
 - `.NET Runtime`
 
-If you want to build the project, you will just need the `SDK`.
+If you want to build the project, you will just need the `SDK`. The needed commands can be found in CI directory but some may not work directly on your machine.
+
+You will need to run the app with admin privilege on both Linux and Windows.
+
+If you have any trubles, checkout the [faq](./assets/faq.md).
+
+Issue, enhancement request and PR are welcomed!
+
+## Configurations files
+
+#### Windows
+- `C:\\ProgramData\\FanControl`
+#### Linux
+- `/etc/FanControl`
+
+On Linux, maybe you will need to download libsensors and execute sensors-detect.
 
 ## Plans (not in this order)
 
+- [x] Support Linux
 - [ ] Use strongly typed resources for strings and icons
 - [ ] Add a system to automatically receive updates
 - [ ] Add workflow to the project (CI/CD, ect...) (docker ?)
-- [ ] Support Linux (maybe reuse some parts of C# ?)
 - [ ] Implement settings (info, help)
 - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
 - [ ] Write an intelligent program to bind controls to their fans, and make a nice first config
@@ -40,4 +56,4 @@ If you want to build the project, you will just need the `SDK`.
 ##### Windows
 - [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor)
 ##### Linux
-- [lm-sensor](https://github.com/lm-sensors/lm-sensors)
+- [lm-sensors](https://github.com/lm-sensors/lm-sensors)

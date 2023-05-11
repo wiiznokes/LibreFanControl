@@ -31,6 +31,9 @@ interface IOsSpecific {
     fun startService(): Boolean
     fun changeServiceStartMode(launchAtStartUp: Boolean): Boolean
     fun removeService(): Boolean
+
+    fun isAdmin(): Boolean
+
 }
 
 
@@ -66,7 +69,7 @@ private class Windows : IOsSpecific {
             ),
             onSuccess = {
                 settings.launchAtStartUp.value = launchAtStartUp
-                SettingsHelper.writeSettings(true)
+                SettingsHelper.writeSettings()
             }
         )
     }
@@ -82,12 +85,16 @@ private class Windows : IOsSpecific {
         )
     }
 
+    override fun isAdmin(): Boolean {
+        return true
+    }
+
 }
 
 
 private class Linux : IOsSpecific {
 
-    override val settingsDir: File = File(System.getProperty("user.home"), ".FanControl")
+    override val settingsDir: File = File("/etc/FanControl")
     override fun startService(): Boolean {
 
         return execScriptHelper(
@@ -101,7 +108,7 @@ private class Linux : IOsSpecific {
             params = mutableListOf("bash", getScript("change_start_mode.sh"), getStartMode(launchAtStartUp)),
             onSuccess = {
                 settings.launchAtStartUp.value = launchAtStartUp
-                SettingsHelper.writeSettings(true)
+                SettingsHelper.writeSettings()
             }
         )
     }
@@ -115,6 +122,10 @@ private class Linux : IOsSpecific {
                 SettingsHelper.writeSettings()
             }
         )
+    }
+
+    override fun isAdmin(): Boolean {
+        return System.getenv()["USER"] == "root"
     }
 
 }
@@ -197,6 +208,9 @@ private fun handleErrorCode(code: Int): Boolean {
             false
         }
 
-        else -> throw Exception("Error code not known when execution init script: $code")
+        else -> {
+            println("Error code not known when execution init script: $code")
+            false
+        }
     }
 }

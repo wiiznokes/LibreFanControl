@@ -5,12 +5,16 @@ cd scriptRoot/..
 
 rm -rf publish
 
+
 dotnet build ./HardwareLib/FanControlService -c "Release Linux"
 
 cd ./FanControl
 ./gradlew generateAllProto
 
 #./gradlew packageReleaseAppImage
+
+sudo chmod +x ./app/build/compose/binaries/main-release/app/FanControl/lib/app/resources/build/FanControlService
+
 
 cd ..
 

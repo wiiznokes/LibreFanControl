@@ -15,6 +15,8 @@ systemdDir="/etc/systemd/system/"
 systemdServiceFile="$systemdDir$serviceFileName"
 exeCopyDir="/usr/local/bin/$serviceName"
 
+confPath="/etc/FanControl/"
+
 # 1 is already taken by ExecutionPolicy exception (can't run script on the machine (on Windows of course)
 defaultErrorCode=101
 needAdminErrorCode=102
@@ -26,6 +28,8 @@ replaceInServiceFile() {
     local value="$2"
     sed -i "s|$name=.*|$name=$value|" "${scriptRoot}${serviceFileName}"
 }
+
+
 
 
 setServiceMode() {

@@ -5,7 +5,6 @@ import Application.Api.scope
 import FState.settings
 import com.google.protobuf.NullValue
 import kotlinx.coroutines.launch
-import proto.SettingsDir.createDirs
 import proto.SettingsDir.settingsFile
 import proto.generated.pSettings.*
 import ui.settings.ConfInfo
@@ -21,11 +20,20 @@ object SettingsDir {
 
     private val confDir = settingsDir.resolve("conf")
 
-    fun createDirs() {
-        if (!confDir.exists()) {
-            confDir.mkdirs()
-            println("${confDir.absolutePath} created: ${confDir.exists()}")
+    fun tryCreateConfDirsIfNecessary(): Boolean {
+        if (!settingsDir.exists()) {
+            if (!settingsDir.mkdirs()) {
+                return false
+            }
         }
+
+        if (!confDir.exists()) {
+            if (!confDir.mkdirs()) {
+                return false
+            }
+        }
+
+        return true
     }
 
     val settingsFile = settingsDir.resolve("settings")
@@ -40,7 +48,6 @@ class SettingsHelper {
     companion object {
 
         fun isSettings(): Boolean {
-            createDirs()
             return settingsFile.exists()
         }
 
@@ -106,8 +113,8 @@ class SettingsHelper {
                 },
                 firstStart = pSetting.pFirstStart,
                 launchAtStartUp = pSetting.pLaunchAtStartUp,
-                degree = pSetting.pDegree
-
+                degree = pSetting.pDegree,
+                valueDisableControl = pSetting.pValueDisableControl
             )
 
 
@@ -135,6 +142,7 @@ class SettingsHelper {
                 pFirstStart = settings.firstStart.value
                 pLaunchAtStartUp = settings.launchAtStartUp.value
                 pDegree = settings.degree.value
+                pValueDisableControl = settings.valueDisableControl.value
             }
     }
 }

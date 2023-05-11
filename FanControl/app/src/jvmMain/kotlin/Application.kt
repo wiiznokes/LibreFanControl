@@ -10,6 +10,7 @@ import model.item.ILinear
 import model.item.ITarget
 import proto.ConfHelper
 import proto.CrossApi
+import proto.SettingsDir
 import proto.SettingsHelper
 import ui.settings.Settings
 import utils.OsSpecific
@@ -34,12 +35,16 @@ class Application(
 
 
     fun onStart() {
+
+        if (!SettingsDir.tryCreateConfDirsIfNecessary()) {
+            throw Exception("Need to be admin to initialise setting files")
+        }
+
         if (SettingsHelper.isSettings()) {
             SettingsHelper.loadSettings()
         } else {
             SettingsHelper.writeSettings()
         }
-
 
         val startJob = scope.launch {
 
