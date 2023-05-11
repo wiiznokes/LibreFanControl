@@ -30,110 +30,110 @@ public enum SensorsFeatureType
     SensorsFeatureUnknown = int.MaxValue
 }
 
-public enum SensorsSubfeatureType
+public enum SensorsSubFeatureType
 {
-    SensorsSubfeatureInInput = SensorsFeatureType.SensorsFeatureIn << 8,
-    SensorsSubfeatureInMin,
-    SensorsSubfeatureInMax,
-    SensorsSubfeatureInLcrit,
-    SensorsSubfeatureInCrit,
-    SensorsSubfeatureInAverage,
-    SensorsSubfeatureInLowest,
-    SensorsSubfeatureInHighest,
-    SensorsSubfeatureInAlarm = (SensorsFeatureType.SensorsFeatureIn << 8) | 0x80,
-    SensorsSubfeatureInMinAlarm,
-    SensorsSubfeatureInMaxAlarm,
-    SensorsSubfeatureInBeep,
-    SensorsSubfeatureInLcritAlarm,
-    SensorsSubfeatureInCritAlarm,
+    SensorsSubFeatureInInput = SensorsFeatureType.SensorsFeatureIn << 8,
+    SensorsSubFeatureInMin,
+    SensorsSubFeatureInMax,
+    SensorsSubFeatureInLcrit,
+    SensorsSubFeatureInCrit,
+    SensorsSubFeatureInAverage,
+    SensorsSubFeatureInLowest,
+    SensorsSubFeatureInHighest,
+    SensorsSubFeatureInAlarm = (SensorsFeatureType.SensorsFeatureIn << 8) | 0x80,
+    SensorsSubFeatureInMinAlarm,
+    SensorsSubFeatureInMaxAlarm,
+    SensorsSubFeatureInBeep,
+    SensorsSubFeatureInLcritAlarm,
+    SensorsSubFeatureInCritAlarm,
 
-    SensorsSubfeatureFanInput = SensorsFeatureType.SensorsFeatureFan << 8,
-    SensorsSubfeatureFanMin,
-    SensorsSubfeatureFanMax,
-    SensorsSubfeatureFanAlarm = (SensorsFeatureType.SensorsFeatureFan << 8) | 0x80,
-    SensorsSubfeatureFanFault,
-    SensorsSubfeatureFanDiv,
-    SensorsSubfeatureFanBeep,
-    SensorsSubfeatureFanPulses,
-    SensorsSubfeatureFanMinAlarm,
-    SensorsSubfeatureFanMaxAlarm,
+    SensorsSubFeatureFanInput = SensorsFeatureType.SensorsFeatureFan << 8,
+    SensorsSubFeatureFanMin,
+    SensorsSubFeatureFanMax,
+    SensorsSubFeatureFanAlarm = (SensorsFeatureType.SensorsFeatureFan << 8) | 0x80,
+    SensorsSubFeatureFanFault,
+    SensorsSubFeatureFanDiv,
+    SensorsSubFeatureFanBeep,
+    SensorsSubFeatureFanPulses,
+    SensorsSubFeatureFanMinAlarm,
+    SensorsSubFeatureFanMaxAlarm,
 
-    SensorsSubfeatureTempInput = SensorsFeatureType.SensorsFeatureTemp << 8,
-    SensorsSubfeatureTempMax,
-    SensorsSubfeatureTempMaxHyst,
-    SensorsSubfeatureTempMin,
-    SensorsSubfeatureTempCrit,
-    SensorsSubfeatureTempCritHyst,
-    SensorsSubfeatureTempLcrit,
-    SensorsSubfeatureTempEmergency,
-    SensorsSubfeatureTempEmergencyHyst,
-    SensorsSubfeatureTempLowest,
-    SensorsSubfeatureTempHighest,
-    SensorsSubfeatureTempMinHyst,
-    SensorsSubfeatureTempLcritHyst,
-    SensorsSubfeatureTempAlarm = (SensorsFeatureType.SensorsFeatureTemp << 8) | 0x80,
-    SensorsSubfeatureTempMaxAlarm,
-    SensorsSubfeatureTempMinAlarm,
-    SensorsSubfeatureTempCritAlarm,
-    SensorsSubfeatureTempFault,
-    SensorsSubfeatureTempType,
-    SensorsSubfeatureTempOffset,
-    SensorsSubfeatureTempBeep,
-    SensorsSubfeatureTempEmergencyAlarm,
-    SensorsSubfeatureTempLcritAlarm,
+    SensorsSubFeatureTempInput = SensorsFeatureType.SensorsFeatureTemp << 8,
+    SensorsSubFeatureTempMax,
+    SensorsSubFeatureTempMaxHyst,
+    SensorsSubFeatureTempMin,
+    SensorsSubFeatureTempCrit,
+    SensorsSubFeatureTempCritHyst,
+    SensorsSubFeatureTempLcrit,
+    SensorsSubFeatureTempEmergency,
+    SensorsSubFeatureTempEmergencyHyst,
+    SensorsSubFeatureTempLowest,
+    SensorsSubFeatureTempHighest,
+    SensorsSubFeatureTempMinHyst,
+    SensorsSubFeatureTempLcritHyst,
+    SensorsSubFeatureTempAlarm = (SensorsFeatureType.SensorsFeatureTemp << 8) | 0x80,
+    SensorsSubFeatureTempMaxAlarm,
+    SensorsSubFeatureTempMinAlarm,
+    SensorsSubFeatureTempCritAlarm,
+    SensorsSubFeatureTempFault,
+    SensorsSubFeatureTempType,
+    SensorsSubFeatureTempOffset,
+    SensorsSubFeatureTempBeep,
+    SensorsSubFeatureTempEmergencyAlarm,
+    SensorsSubFeatureTempLcritAlarm,
 
-    SensorsSubfeaturePowerAverage = SensorsFeatureType.SensorsFeaturePower << 8,
-    SensorsSubfeaturePowerAverageHighest,
-    SensorsSubfeaturePowerAverageLowest,
-    SensorsSubfeaturePowerInput,
-    SensorsSubfeaturePowerInputHighest,
-    SensorsSubfeaturePowerInputLowest,
-    SensorsSubfeaturePowerCap,
-    SensorsSubfeaturePowerCapHyst,
-    SensorsSubfeaturePowerMax,
-    SensorsSubfeaturePowerCrit,
-    SensorsSubfeaturePowerMin,
-    SensorsSubfeaturePowerLcrit,
-    SensorsSubfeaturePowerAverageInterval = (SensorsFeatureType.SensorsFeaturePower << 8) | 0x80,
-    SensorsSubfeaturePowerAlarm,
-    SensorsSubfeaturePowerCapAlarm,
-    SensorsSubfeaturePowerMaxAlarm,
-    SensorsSubfeaturePowerCritAlarm,
-    SensorsSubfeaturePowerMinAlarm,
-    SensorsSubfeaturePowerLcritAlarm,
+    SensorsSubFeaturePowerAverage = SensorsFeatureType.SensorsFeaturePower << 8,
+    SensorsSubFeaturePowerAverageHighest,
+    SensorsSubFeaturePowerAverageLowest,
+    SensorsSubFeaturePowerInput,
+    SensorsSubFeaturePowerInputHighest,
+    SensorsSubFeaturePowerInputLowest,
+    SensorsSubFeaturePowerCap,
+    SensorsSubFeaturePowerCapHyst,
+    SensorsSubFeaturePowerMax,
+    SensorsSubFeaturePowerCrit,
+    SensorsSubFeaturePowerMin,
+    SensorsSubFeaturePowerLcrit,
+    SensorsSubFeaturePowerAverageInterval = (SensorsFeatureType.SensorsFeaturePower << 8) | 0x80,
+    SensorsSubFeaturePowerAlarm,
+    SensorsSubFeaturePowerCapAlarm,
+    SensorsSubFeaturePowerMaxAlarm,
+    SensorsSubFeaturePowerCritAlarm,
+    SensorsSubFeaturePowerMinAlarm,
+    SensorsSubFeaturePowerLcritAlarm,
 
-    SensorsSubfeatureEnergyInput = SensorsFeatureType.SensorsFeatureEnergy << 8,
+    SensorsSubFeatureEnergyInput = SensorsFeatureType.SensorsFeatureEnergy << 8,
 
-    SensorsSubfeatureCurrInput = SensorsFeatureType.SensorsFeatureCurr << 8,
-    SensorsSubfeatureCurrMin,
-    SensorsSubfeatureCurrMax,
-    SensorsSubfeatureCurrLcrit,
-    SensorsSubfeatureCurrCrit,
-    SensorsSubfeatureCurrAverage,
-    SensorsSubfeatureCurrLowest,
-    SensorsSubfeatureCurrHighest,
-    SensorsSubfeatureCurrAlarm = (SensorsFeatureType.SensorsFeatureCurr << 8) | 0x80,
-    SensorsSubfeatureCurrMinAlarm,
-    SensorsSubfeatureCurrMaxAlarm,
-    SensorsSubfeatureCurrBeep,
-    SensorsSubfeatureCurrLcritAlarm,
-    SensorsSubfeatureCurrCritAlarm,
+    SensorsSubFeatureCurrInput = SensorsFeatureType.SensorsFeatureCurr << 8,
+    SensorsSubFeatureCurrMin,
+    SensorsSubFeatureCurrMax,
+    SensorsSubFeatureCurrLcrit,
+    SensorsSubFeatureCurrCrit,
+    SensorsSubFeatureCurrAverage,
+    SensorsSubFeatureCurrLowest,
+    SensorsSubFeatureCurrHighest,
+    SensorsSubFeatureCurrAlarm = (SensorsFeatureType.SensorsFeatureCurr << 8) | 0x80,
+    SensorsSubFeatureCurrMinAlarm,
+    SensorsSubFeatureCurrMaxAlarm,
+    SensorsSubFeatureCurrBeep,
+    SensorsSubFeatureCurrLcritAlarm,
+    SensorsSubFeatureCurrCritAlarm,
 
-    SensorsSubfeatureHumidityInput = SensorsFeatureType.SensorsFeatureHumidity << 8,
+    SensorsSubFeatureHumidityInput = SensorsFeatureType.SensorsFeatureHumidity << 8,
 
-    SensorsSubfeaturePwmIo = SensorsFeatureType.SensorsFeaturePwm << 8,
-    SensorsSubfeaturePwmFreq,
-    SensorsSubfeaturePwmEnable = (SensorsFeatureType.SensorsFeaturePwm << 8) | 0x80,
-    SensorsSubfeaturePwmMode,
+    SensorsSubFeaturePwmIo = SensorsFeatureType.SensorsFeaturePwm << 8,
+    SensorsSubFeaturePwmFreq,
+    SensorsSubFeaturePwmEnable = (SensorsFeatureType.SensorsFeaturePwm << 8) | 0x80,
+    SensorsSubFeaturePwmMode,
 
-    SensorsSubfeatureVid = SensorsFeatureType.SensorsFeatureVid << 8,
+    SensorsSubFeatureVid = SensorsFeatureType.SensorsFeatureVid << 8,
 
-    SensorsSubfeatureIntrusionAlarm = SensorsFeatureType.SensorsFeatureIntrusion << 8,
-    SensorsSubfeatureIntrusionBeep,
+    SensorsSubFeatureIntrusionAlarm = SensorsFeatureType.SensorsFeatureIntrusion << 8,
+    SensorsSubFeatureIntrusionBeep,
 
-    SensorsSubfeatureBeepEnable = SensorsFeatureType.SensorsFeatureBeepEnable << 8,
+    SensorsSubFeatureBeepEnable = SensorsFeatureType.SensorsFeatureBeepEnable << 8,
 
-    SensorsSubfeatureUnknown = int.MaxValue
+    SensorsSubFeatureUnknown = int.MaxValue
 };
 
 [StructLayout(LayoutKind.Sequential)]
@@ -142,16 +142,16 @@ public struct SensorsFeature
     public readonly IntPtr name;
     private readonly int number;
     public readonly SensorsFeatureType type;
-    private IntPtr first_subfeature;
-    private IntPtr padding1;
+    private readonly IntPtr first_sub_feature;
+    private readonly IntPtr padding1;
 }
 
 [StructLayout(LayoutKind.Sequential)]
 public struct SensorsSubFeature
 {
-    public readonly IntPtr name;
+    private readonly IntPtr name;
     public readonly int number;
-    public readonly SensorsSubfeatureType type;
+    public readonly SensorsSubFeatureType type;
     private readonly int mapping;
     private readonly uint flags;
 }
@@ -183,7 +183,7 @@ public static class LmSensorsWrapper
        they point to internal structures! */
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern unsafe SensorsChipName* sensors_get_detected_chips(
-        SensorsChipName* match, int* nr);
+        SensorsChipName* chip, int* nr);
 
 
     /* This returns all main features of a specific chip. nr is an internally
@@ -192,65 +192,32 @@ public static class LmSensorsWrapper
        Do not try to change the returned structure; you will corrupt internal
        data structures. */
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern unsafe SensorsFeature* sensors_get_features(SensorsChipName* name, int* nr);
+    public static extern unsafe SensorsFeature* sensors_get_features(SensorsChipName* chip, int* nr);
 
 
-    /* This returns all subfeatures of a given main feature. nr is an internally
+    /* This returns all sub features of a given main feature. nr is an internally
        used variable. Set it to zero to start at the begin of the list. If no
        more features are found NULL is returned.
        Do not try to change the returned structure; you will corrupt internal
        data structures. */
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern unsafe SensorsSubFeature* sensors_get_all_subfeatures(SensorsChipName* name,
-        SensorsFeature* feature, int* nr);
+    public static extern unsafe SensorsSubFeature* sensors_get_all_subfeatures(SensorsChipName* chip,
+        SensorsFeature* feat, int* nr);
+    
 
 
-    /* CHIP **************/
-
-    // [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    // public static extern IntPtr get_chip_name(sensors_chip_name chip);
-
-
-    /* FEATURE **************/
-
-    // [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    // public static extern IntPtr get_feature_name(sensors_feature feat);
-    //
-    // [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    // public static extern int get_feature_type(sensors_feature feat);
-    //
-    // [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    // public static extern int get_feature_number(sensors_feature feat);
-
-
-    /* SUB_FEATURE **************/
-
-    // [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    // public static extern IntPtr get_sub_feature_name(sensors_subfeature sub_feat);
-    //
-    // [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    // public static extern int get_sub_feature_type(sensors_subfeature sub_feat);
-    //
-    // /*
-    //  * return -1 if no sub_feature with this type is found
-    //  */
-    // [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    // public static extern int get_sub_feature_number(sensors_chip_name chip, sensors_feature feat,
-    //     SensorsSubFeatureType type);
-
-
-    /* Read the value of a subfeature of a certain chip. Note that chip should not
+    /* Read the value of a sub feature of a certain chip. Note that chip should not
      contain wildcard values! This function will return 0 on success, and <0
      on failure.  */
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern unsafe int sensors_get_value(SensorsChipName* name, int subfeatNr,
+    public static extern unsafe int sensors_get_value(SensorsChipName* chip, int subFeatNr,
         double* value);
 
 
-    /* Set the value of a subfeature of a certain chip. Note that chip should not
+    /* Set the value of a sub feature of a certain chip. Note that chip should not
        contain wildcard values! This function will return 0 on success, and <0
        on failure. */
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
-    public static extern unsafe int sensors_set_value(SensorsChipName* name, int subfeatNr,
+    public static extern unsafe int sensors_set_value(SensorsChipName* chip, int subFeatNr,
         double value);
 }

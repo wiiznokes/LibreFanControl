@@ -86,7 +86,7 @@ private class Windows : IOsSpecific {
     }
 
     override fun isAdmin(): Boolean {
-        return true
+        TODO("not used at this point")
     }
 
 }

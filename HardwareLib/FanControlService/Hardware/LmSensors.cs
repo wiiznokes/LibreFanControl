@@ -82,7 +82,7 @@ public class LmSensors
 
 
     public static unsafe int get_sub_feature_number(SensorsChipName* chip, SensorsFeature* feat,
-        SensorsSubfeatureType type)
+        SensorsSubFeatureType type)
     {
         SensorsSubFeature* subFeature;
         var nr = 0;

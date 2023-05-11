@@ -18,9 +18,9 @@ public class LmSensor : BaseSensor
         _subFeatureInputNumber = type switch
         {
             SensorsFeatureType.SensorsFeatureFan => LmSensors.get_sub_feature_number(_chip, _feat,
-                SensorsSubfeatureType.SensorsSubfeatureFanInput),
+                SensorsSubFeatureType.SensorsSubFeatureFanInput),
             SensorsFeatureType.SensorsFeatureTemp => LmSensors.get_sub_feature_number(_chip, _feat,
-                SensorsSubfeatureType.SensorsSubfeatureTempInput),
+                SensorsSubFeatureType.SensorsSubFeatureTempInput),
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
 

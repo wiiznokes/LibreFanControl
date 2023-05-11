@@ -72,7 +72,13 @@ fun drawerContent(
         ) { viewModel.onLaunchAtStartUpChange(it) }
 
         removeService { viewModel.removeService() }
-        tryOpenService { Application.Api.scope.launch { Application.Api.api.open() } }
+        tryOpenService {
+            if (FState.serviceState.value == ServiceState.OPEN) return@tryOpenService
+            Application.Api.scope.launch {
+                if(Application.Api.api.open())
+                    FState.serviceState.value = ServiceState.OPEN
+            }
+        }
         valueDisableControl { viewModel.onValueDisableControl(it) }
         group(text = Resources.getString("settings/trans/donate"))
         donate()

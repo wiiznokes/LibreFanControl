@@ -9,19 +9,23 @@ import proto.ConfHelper
 import proto.SettingsHelper
 import ui.container.home
 import ui.theme.fanControlTheme
-import utils.OsSpecific
-import utils.Resources
-import utils.initDialogs
+import utils.*
 
 
 val app: Application = Application()
 
 fun main() {
+
+    if (getOS() == OS.linux) {
+        // need admin to write in /etc dir
+        if (!OsSpecific.os.isAdmin()) {
+            throw Exception("This app need admin privilege. Please retry with sudo.")
+        }
+    }
+
+
     val visible = mutableStateOf(true)
 
-    if (!OsSpecific.os.isAdmin()) {
-        throw Exception("This app need admin privilege")
-    }
     app.onStart()
 
     application(
@@ -33,10 +37,8 @@ fun main() {
             icon = Resources.getIcon("app/toys_fan48"),
             onCloseRequest = {
                 CoroutineScope(Dispatchers.Default).launch {
-                    println("stop: ${FState.ui.dialogExpanded.value}")
 
                     if (FState.settings.firstStart.value) {
-                        println("LAUNCH_AT_START_UP")
                         FState.settings.firstStart.value = false
                         SettingsHelper.writeSettings()
                         if (!FState.settings.launchAtStartUp.value)
@@ -49,9 +51,7 @@ fun main() {
 
 
 
-
                     if (!ConfHelper.isConfSave(FState.settings.confId.value)) {
-                        println("CONF_IS_NOT_SAVE")
                         FState.ui.dialogExpanded.value = UiState.Dialog.CONF_IS_NOT_SAVE
                     }
 

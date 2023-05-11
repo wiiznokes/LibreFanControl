@@ -17,10 +17,10 @@ public class LmControl : BaseControl
         _feat = feat;
 
         _subFeatureIoNumber = LmSensors.get_sub_feature_number(_chip, _feat,
-            SensorsSubfeatureType.SensorsSubfeaturePwmIo);
+            SensorsSubFeatureType.SensorsSubFeaturePwmIo);
 
         _subFeatureEnableNumber = LmSensors.get_sub_feature_number(_chip, _feat,
-            SensorsSubfeatureType.SensorsSubfeaturePwmEnable);
+            SensorsSubFeatureType.SensorsSubFeaturePwmEnable);
     }
 
     public override unsafe void Update()
