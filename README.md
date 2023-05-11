@@ -24,14 +24,14 @@ If you want to build the project, you will just need the `SDK`. The needed comma
 
 You will need to run the app with admin privilege on both Linux and Windows.
 
-If you have any trubles, checkout the [faq](./assets/faq.md).
+If you have any troubles, check out the [faq](./assets/faq.md).
 
-Issue, enhancement request and PR are welcomed!
+Issues, enhancement requests and PR are welcomed!
 
 ## Configurations files
 
 #### Windows
-- `C:\\ProgramData\\FanControl`
+- `C:\ProgramData\FanControl`
 #### Linux
 - `/etc/FanControl`
 
