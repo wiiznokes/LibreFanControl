@@ -1,14 +1,16 @@
 # LibreFanControl
 
 
-- You can see a screenshot of the app [here](https://github.com/wiiznokes/LibreFanControl/blob/main/assets/mainPageV1.png)
-
-## Why you should use it
 - open source
 - service very low on ressource (~30mb)
 - display sensors data on real time
 - control fans based on custom behaviors
 - save configuration
+- multiplatform (Linux/Windows)
+
+
+
+![mainPageV1](https://github.com/wiiznokes/LibreFanControl/assets/78230769/543af76c-137c-456d-a04e-8ebfed323178)
 
 
 
@@ -22,7 +24,9 @@ If you want to build the project, you will just need the `SDK`. The needed comma
 
 You will need to run the app with admin privilege on both Linux and Windows.
 
+If you have any trubles, checkout the [faq](./assets/faq.md).
 
+Issue, enhancement request and PR are welcomed!
 
 ## Configurations files
 
@@ -35,7 +39,7 @@ On Linux, maybe you will need to download libsensors and execute sensors-detect.
 
 ## Plans (not in this order)
 
-- [x] Support Linux (maybe reuse some parts of C# ?)
+- [x] Support Linux
 - [ ] Use strongly typed resources for strings and icons
 - [ ] Add a system to automatically receive updates
 - [ ] Add workflow to the project (CI/CD, ect...) (docker ?)
@@ -52,4 +56,4 @@ On Linux, maybe you will need to download libsensors and execute sensors-detect.
 ##### Windows
 - [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor)
 ##### Linux
-- [lm-sensor](https://github.com/lm-sensors/lm-sensors)
+- [lm-sensors](https://github.com/lm-sensors/lm-sensors)
