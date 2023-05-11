@@ -69,7 +69,7 @@ private class Windows : IOsSpecific {
             ),
             onSuccess = {
                 settings.launchAtStartUp.value = launchAtStartUp
-                SettingsHelper.writeSettings(true)
+                SettingsHelper.writeSettings()
             }
         )
     }
@@ -108,7 +108,7 @@ private class Linux : IOsSpecific {
             params = mutableListOf("bash", getScript("change_start_mode.sh"), getStartMode(launchAtStartUp)),
             onSuccess = {
                 settings.launchAtStartUp.value = launchAtStartUp
-                SettingsHelper.writeSettings(true)
+                SettingsHelper.writeSettings()
             }
         )
     }

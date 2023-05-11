@@ -39,7 +39,8 @@ fun main() {
                         println("LAUNCH_AT_START_UP")
                         FState.settings.firstStart.value = false
                         SettingsHelper.writeSettings()
-                        FState.ui.dialogExpanded.value = UiState.Dialog.LAUNCH_AT_START_UP
+                        if (!FState.settings.launchAtStartUp.value)
+                            FState.ui.dialogExpanded.value = UiState.Dialog.LAUNCH_AT_START_UP
                     }
 
                     while (FState.ui.dialogExpanded.value != UiState.Dialog.NONE) {
