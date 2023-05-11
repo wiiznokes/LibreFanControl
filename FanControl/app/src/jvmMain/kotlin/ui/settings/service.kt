@@ -87,7 +87,7 @@ fun SettingScope.tryOpenService(
     onTryOpenService: () -> Unit,
 ) {
     item(
-        title = Resources.getString("settings/remove_service"),
+        title = Resources.getString("settings/try_open_service"),
         onClick = onTryOpenService,
         showAdvanceIcon = false
     )
