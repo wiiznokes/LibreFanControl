@@ -64,7 +64,7 @@ public class LmControl : BaseControl
         if (IsSetSpeed == false)
             return true;
 
-        var res = sensors_set_value(_chip, _subFeatureEnableNumber, 2);
+        var res = sensors_set_value(_chip, _subFeatureEnableNumber, State.Settings.ValueDisableControl);
         if (res < 0)
         {
             Console.WriteLine("Error: can't disable control " + Name + ". Code: " + res);

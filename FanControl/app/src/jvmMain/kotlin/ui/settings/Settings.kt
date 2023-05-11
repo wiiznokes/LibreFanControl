@@ -14,6 +14,7 @@ class Settings(
     firstStart: Boolean = true,
     launchAtStartUp: Boolean = false,
     degree: Boolean = true,
+    valueDisableControl: Int = 2,
 ) {
     val language: MutableState<Languages> = mutableStateOf(language)
     val confId: MutableState<String?> = mutableStateOf(confId)
@@ -23,7 +24,7 @@ class Settings(
     val firstStart = mutableStateOf(firstStart)
     val launchAtStartUp = mutableStateOf(launchAtStartUp)
     val degree = mutableStateOf(degree)
-
+    val valueDisableControl = mutableStateOf(valueDisableControl)
 
     fun getIndexInfo(_confId: String? = confId.value) = when (_confId) {
         null -> null

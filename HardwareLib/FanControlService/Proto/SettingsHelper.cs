@@ -14,7 +14,7 @@ public static class SettingsDir
 #if WINDOWS
         private const string Dir = "C:\\ProgramData\\FanControl";
 #else
-    private const string Dir = "/home/lenaic/.FanControl";
+    private const string Dir = "/etc/FanControl";
 #endif
 
     private static readonly string ConfDir = Path.Combine(
@@ -60,6 +60,7 @@ public static class SettingsHelper
     {
         State.Settings.UpdateDelay = pSetting.PUpdateDelay;
         State.Settings.ConfId = NullableToNull(pSetting.PConfId);
+        State.Settings.ValueDisableControl = pSetting.PValueDisableControl;
     }
 
 

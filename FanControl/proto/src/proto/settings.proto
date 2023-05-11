@@ -45,4 +45,5 @@ message PSettings {
   bool PFirstStart = 6;
   bool PLaunchAtStartUp = 7;
   bool PDegree = 8;
+  int32 PValueDisableControl = 9;
 }

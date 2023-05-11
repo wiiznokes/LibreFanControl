@@ -9,6 +9,7 @@ import proto.ConfHelper
 import proto.SettingsHelper
 import ui.container.home
 import ui.theme.fanControlTheme
+import utils.OsSpecific
 import utils.Resources
 import utils.initDialogs
 
@@ -18,6 +19,9 @@ val app: Application = Application()
 fun main() {
     val visible = mutableStateOf(true)
 
+    if(!OsSpecific.os.isAdmin()) {
+        throw Exception("This app need admin privilege")
+    }
     app.onStart()
 
     application(

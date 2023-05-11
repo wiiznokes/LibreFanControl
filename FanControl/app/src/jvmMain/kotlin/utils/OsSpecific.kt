@@ -7,7 +7,7 @@ import ServiceState
 import proto.SettingsHelper
 import java.io.File
 
-private const val DEBUG_SERVICE = true
+private const val DEBUG_SERVICE = false
 
 
 fun getStartMode(launchAtStartUp: Boolean = settings.launchAtStartUp.value): String {
@@ -31,6 +31,9 @@ interface IOsSpecific {
     fun startService(): Boolean
     fun changeServiceStartMode(launchAtStartUp: Boolean): Boolean
     fun removeService(): Boolean
+
+    fun isAdmin(): Boolean
+
 }
 
 
@@ -82,12 +85,16 @@ private class Windows : IOsSpecific {
         )
     }
 
+    override fun isAdmin(): Boolean {
+        return true
+    }
+
 }
 
 
 private class Linux : IOsSpecific {
 
-    override val settingsDir: File = File(System.getProperty("user.home"), ".FanControl")
+    override val settingsDir: File = File("/etc/FanControl")
     override fun startService(): Boolean {
 
         return execScriptHelper(
@@ -115,6 +122,10 @@ private class Linux : IOsSpecific {
                 SettingsHelper.writeSettings()
             }
         )
+    }
+
+    override fun isAdmin(): Boolean {
+        return System.getenv()["USER"] == "root"
     }
 
 }

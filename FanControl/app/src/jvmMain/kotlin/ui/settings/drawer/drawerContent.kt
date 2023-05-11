@@ -1,5 +1,6 @@
 package ui.settings.drawer
 
+import Application
 import FState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,7 @@ import com.example.settingSlidingWindows.SettingDefaults
 import com.example.settingSlidingWindows.rememberSettingState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import proto.CrossApi
 import ui.component.managerText
 import ui.settings.*
 import ui.theme.LocalColors
@@ -71,7 +73,8 @@ fun drawerContent(
         ) { viewModel.onLaunchAtStartUpChange(it) }
 
         removeService { viewModel.removeService() }
-
+        tryOpenService { Application.Api.scope.launch { Application.Api.api.open() } }
+        valueDisableControl { viewModel.onValueDisableControl(it) }
         group(text = Resources.getString("settings/trans/donate"))
         donate()
 

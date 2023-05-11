@@ -36,4 +36,12 @@ class SettingsVM(
     fun removeService() {
         OsSpecific.os.removeService()
     }
+
+    fun onValueDisableControl(value: Int) {
+        if (value < 2) {
+            return
+        }
+        settings.valueDisableControl.value = value
+        SettingsHelper.writeSettings(true)
+    }
 }
