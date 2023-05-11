@@ -117,7 +117,7 @@ class ITarget(
     value: Int = 0,
 
     idleTemp: Int = 45,
-    loadTemp: Int = 60,
+    loadTemp: Int = 55,
     idleFanSpeed: Int = 30,
     loadFanSpeed: Int = 100,
 
