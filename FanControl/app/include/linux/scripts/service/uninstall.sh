@@ -4,9 +4,14 @@ scriptRoot="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 . "$scriptRoot"/Manager.sh
 
 
-#if ! checkAdmin; then
-#    exit "$needAdminErrorCode"
-#fi
+if ! checkAdmin; then
+    exit "$needAdminErrorCode"
+fi
+
+if [ "$#" -ge 1 ] && [ "$1" = "-c" ]; then
+    rm -rf "$confPath"
+    echo "setting folder removed"
+fi
 
 
 if checkRunning; then

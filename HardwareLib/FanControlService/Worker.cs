@@ -31,7 +31,7 @@ public class Worker : BackgroundService
         _logger = logger;
         _appLifetime = appLifetime;
     }
-    
+
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -41,21 +41,21 @@ public class Worker : BackgroundService
             AutoCancel();
             return;
         }
-        
+
         HardwareManager.Start();
         SettingsHelper.LoadSettingsFile();
 
         StartGrpc();
-        
+
         if (State.Settings.ConfId != null)
         {
             Console.WriteLine("[SERVICE] load config");
-            
+
             ConfHelper.LoadConfFile(State.Settings.ConfId);
             Update.CreateUpdateList();
         }
 
-        
+
         while (!stoppingToken.IsCancellationRequested && !_cancellationRequested)
         {
             await Task.Delay(State.Settings.UpdateDelay * 1000, stoppingToken);

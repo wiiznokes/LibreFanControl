@@ -36,7 +36,7 @@ class Application(
 
     fun onStart() {
 
-        if(!SettingsDir.tryCreateConfDirsIfNecessary()) {
+        if (!SettingsDir.tryCreateConfDirsIfNecessary()) {
             throw Exception("Need to be admin to initialise setting files")
         }
 

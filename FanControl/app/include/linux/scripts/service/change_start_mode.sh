@@ -17,6 +17,11 @@ if [[ "$startMode" = "Debug" ]]; then
     exit 0
 fi
 
+
+if ! checkAdmin; then
+    exit "$needAdminErrorCode"
+fi
+
 echo "begin change mode: $startMode"
 
 setServiceMode "$startMode"

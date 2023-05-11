@@ -19,7 +19,7 @@ val app: Application = Application()
 fun main() {
     val visible = mutableStateOf(true)
 
-    if(!OsSpecific.os.isAdmin()) {
+    if (!OsSpecific.os.isAdmin()) {
         throw Exception("This app need admin privilege")
     }
     app.onStart()

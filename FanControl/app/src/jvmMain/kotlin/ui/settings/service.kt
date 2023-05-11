@@ -94,7 +94,6 @@ fun SettingScope.tryOpenService(
 }
 
 
-
 fun SettingScope.valueDisableControl(
     onValueDisableControl: (Int) -> Unit,
 ) {

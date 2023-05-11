@@ -13,7 +13,6 @@ import com.example.settingSlidingWindows.SettingDefaults
 import com.example.settingSlidingWindows.rememberSettingState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import proto.CrossApi
 import ui.component.managerText
 import ui.settings.*
 import ui.theme.LocalColors

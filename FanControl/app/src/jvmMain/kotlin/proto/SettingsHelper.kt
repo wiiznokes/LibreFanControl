@@ -2,7 +2,6 @@ package proto
 
 import Application.Api.api
 import Application.Api.scope
-import FState
 import FState.settings
 import com.google.protobuf.NullValue
 import kotlinx.coroutines.launch
@@ -23,13 +22,13 @@ object SettingsDir {
 
     fun tryCreateConfDirsIfNecessary(): Boolean {
         if (!settingsDir.exists()) {
-            if(!settingsDir.mkdirs()) {
+            if (!settingsDir.mkdirs()) {
                 return false
             }
         }
 
         if (!confDir.exists()) {
-            if(!confDir.mkdirs()) {
+            if (!confDir.mkdirs()) {
                 return false
             }
         }

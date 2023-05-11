@@ -22,7 +22,7 @@ public static class State
     {
         public static string? ConfId { get; set; }
         public static int UpdateDelay { get; set; }
-        
+
         public static int ValueDisableControl { get; set; }
     }
 
