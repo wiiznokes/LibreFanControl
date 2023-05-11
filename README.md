@@ -1,12 +1,12 @@
 # LibreFanControl
 
 
-- open source
-- service very low on ressource (~30mb)
-- display sensors data on real time
-- control fans based on custom behaviors
-- save configuration
-- multiplatform (Linux/Windows)
+- Open source
+- Service very low on ressource (~30mb)
+- Display sensors data on real time
+- Control fans based on custom behaviors
+- Save configuration
+- Multiplatform (Linux/Windows)
 
 
 
