@@ -14,7 +14,6 @@ if checkRunning; then
     echo "service stopped"
 fi
 
-setServiceMode "Manual"
 
 if [ -f "$systemdServiceFile" ]; then
     rm -f "$systemdServiceFile"

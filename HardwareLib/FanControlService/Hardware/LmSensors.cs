@@ -3,6 +3,7 @@ using FanControlService.External.LmSensors;
 using FanControlService.Hardware.Control;
 using FanControlService.Hardware.Sensor;
 using static FanControlService.External.LmSensors.LmSensorsWrapper;
+using SensorsFeatureType = FanControlService.External.LmSensors.SensorsFeatureType;
 
 namespace FanControlService.Hardware;
 
@@ -41,46 +42,36 @@ public class LmSensors
             return;
 
 
-        SensorsChipName? sensorsChipName;
+        SensorsChipName* sensorsChipName;
         var chipCount = 0;
         while ((sensorsChipName = sensors_get_detected_chips(null, &chipCount))
                != null)
         {
-            var chipNamePtr = sensorsChipName.Value.prefix;
-            var chipName = Marshal.PtrToStringAnsi(chipNamePtr) ?? "chip" + chipCount;
+            var chipName = Marshal.PtrToStringAnsi(sensorsChipName->prefix);
 
-            IntPtr sensorsFeature;
+            SensorsFeature* sensorsFeature;
             var featCount = 0;
             while ((sensorsFeature = sensors_get_features(sensorsChipName, &featCount))
-                   != IntPtr.Zero)
+                   != null)
             {
-                var featureType =
-                    (SensorsFeatureType)get_feature_type(sensorsFeature);
-                
-
-                if (featureType == SensorsFeatureType.SensorsFeatureUndefined)
-                    continue;
-                
-                
-                Console.WriteLine(featureType.ToString());
-
-                var featNamePtr = get_feature_name(sensorsFeature);
-                var featName = Marshal.PtrToStringAnsi(featNamePtr) ?? DefaultName(featureType) + featCount;
+                var featName = Marshal.PtrToStringAnsi(sensorsFeature->name);
 
                 var id = chipName + "/" + featName;
-                switch (featureType)
+
+
+                switch (sensorsFeature->type)
                 {
-                    case SensorsFeatureType.SensorsFeaturePwm:
-                        State.HControls.Add(new LmControl(id, id,
-                            sensorsChipName, sensorsFeature));
-                        break;
                     case SensorsFeatureType.SensorsFeatureFan:
                         State.HFans.Add(new LmSensor(id, id,
-                            sensorsChipName, sensorsFeature, featureType));
+                            sensorsChipName, sensorsFeature, sensorsFeature->type));
                         break;
                     case SensorsFeatureType.SensorsFeatureTemp:
                         State.HTemps.Add(new LmSensor(id, id,
-                            sensorsChipName, sensorsFeature, featureType));
+                            sensorsChipName, sensorsFeature, sensorsFeature->type));
+                        break;
+                    case SensorsFeatureType.SensorsFeaturePwm:
+                        State.HControls.Add(new LmControl(id, id,
+                            sensorsChipName, sensorsFeature));
                         break;
                     default:
                         continue;
@@ -89,14 +80,17 @@ public class LmSensors
         }
     }
 
-    private string DefaultName(SensorsFeatureType featureType)
+
+    public static unsafe int get_sub_feature_number(SensorsChipName* chip, SensorsFeature* feat,
+        SensorsSubfeatureType type)
     {
-        return featureType switch
-        {
-            SensorsFeatureType.SensorsFeaturePwm => "Control",
-            SensorsFeatureType.SensorsFeatureFan => "Fan",
-            SensorsFeatureType.SensorsFeatureTemp => "Temp",
-            _ => throw new ArgumentOutOfRangeException(nameof(featureType), featureType, null)
-        };
+        SensorsSubFeature* subFeature;
+        var nr = 0;
+
+        while ((subFeature = sensors_get_all_subfeatures(chip, feat, &nr)) != null)
+            if (subFeature->type == type)
+                return subFeature->number;
+
+        return -1;
     }
 }

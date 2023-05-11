@@ -42,7 +42,7 @@ extern "C" {
 /* This function returns a pointer to a string which describes the error.
    errnum may be negative (the corresponding positive error is returned).
    You may not modify the result! */
-const char *sensors_strerror(int errnum);
+const char* sensors_strerror(int errnum);
 
 /* These functions are called when a parse error is detected. Give them new
    values, and your own functions are called instead of the default (which
@@ -57,15 +57,15 @@ const char *sensors_strerror(int errnum);
    is never reported.)
    Note that filename can be NULL (if filename isn't known) and lineno
    can be 0 (if the error occurs before the actual parsing starts.) */
-extern void (*sensors_parse_error) (const char *err, int lineno);
-extern void (*sensors_parse_error_wfn) (const char *err,
-					const char *filename, int lineno);
+extern void (*sensors_parse_error)(const char* err, int lineno);
+extern void (*sensors_parse_error_wfn)(const char* err,
+                                       const char* filename, int lineno);
 
 /* This function is called when an immediately fatal error (like no
    memory left) is detected. Give it a new value, and your own function
    is called instead of the default (which prints to stderr and ends
    the program). Never let it return! */
-extern void (*sensors_fatal_error) (const char *proc, const char *err);
+extern void (*sensors_fatal_error)(const char* proc, const char* err);
 
 #ifdef __cplusplus
 }

@@ -197,6 +197,9 @@ private fun handleErrorCode(code: Int): Boolean {
             false
         }
 
-        else -> throw Exception("Error code not known when execution init script: $code")
+        else -> {
+            println("Error code not known when execution init script: $code")
+            false
+        }
     }
 }
