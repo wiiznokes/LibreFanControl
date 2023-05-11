@@ -15,7 +15,7 @@ interface BaseIBehavior : BaseI {
 class IFlat(
     name: String,
     override val id: String,
-    value: Int = 0,
+    value: Int = 50,
 ) : BaseIBehavior {
     override val name: MutableState<String> = mutableStateOf(name)
 
@@ -116,9 +116,9 @@ class ITarget(
     override val id: String,
     value: Int = 0,
 
-    idleTemp: Int = 40,
+    idleTemp: Int = 45,
     loadTemp: Int = 60,
-    idleFanSpeed: Int = 50,
+    idleFanSpeed: Int = 30,
     loadFanSpeed: Int = 100,
 
     tempId: String? = null,
