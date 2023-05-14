@@ -40,7 +40,7 @@ On Linux, maybe you will need to download libsensors and execute sensors-detect.
 ## Plans (not in this order)
 
 - [x] Support Linux
-- [ ] Use strongly typed resources for strings and icons
+- [ ] Use type safe strings and icons ([moko-resources](https://github.com/icerockdev/moko-resources) ?)
 - [ ] Add a system to automatically receive updates
 - [ ] Add workflow to the project (CI/CD, ect...) (docker ?)
 - [ ] Implement settings (info, help)
