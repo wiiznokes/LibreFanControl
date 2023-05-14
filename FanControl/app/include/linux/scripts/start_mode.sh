@@ -1,5 +1,13 @@
 #!/bin/bash
 
+
+# option:
+#   Manual
+#   Automatic
+#   Debug
+
+
+
 scriptRoot="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/"
 . "$scriptRoot"/Manager.sh
 
@@ -10,12 +18,15 @@ elif [ "$#" -eq 1 ] && [[ "$1" = "Manual" || "$1" = "Automatic" || "$1" = "Debug
     startMode="$1"
 else
     echo "Error: need one argument, Manual or Automatic"
-    exit 10
+    exit $defaultErrorCode
 fi
 
 if [[ "$startMode" = "Debug" ]]; then
     exit 0
 fi
+
+
+
 
 
 if ! checkAdmin; then
@@ -24,4 +35,6 @@ fi
 
 echo "begin change mode: $startMode"
 
-setServiceMode "$startMode"
+res=$(setServiceMode "$startMode")
+
+exit $res
