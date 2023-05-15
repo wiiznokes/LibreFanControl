@@ -47,29 +47,41 @@ public class LmSensors
                != null)
         {
             var chipName = Marshal.PtrToStringAnsi(sensorsChipName->prefix);
+            
 
             SensorsFeature* sensorsFeature;
             var featCount = 0;
             while ((sensorsFeature = sensors_get_features(sensorsChipName, &featCount))
                    != null)
             {
+                var featLabelPtr = sensors_get_label(sensorsChipName, sensorsFeature);
+                var featLabel = Marshal.PtrToStringAnsi(new IntPtr(featLabelPtr)) ?? "";
+                    
+                // Free the allocated memory
+                Marshal.FreeCoTaskMem(new IntPtr(featLabelPtr));
+                
                 var featName = Marshal.PtrToStringAnsi(sensorsFeature->name);
 
                 var id = chipName + "/" + featName;
+                
+                if (string.IsNullOrWhiteSpace(featLabel) || featLabel == featName)
+                {
+                    featLabel = id;
+                }
 
 
                 switch (sensorsFeature->type)
                 {
                     case SensorsFeatureType.SensorsFeatureFan:
-                        State.HFans.Add(new LmSensor(id, id,
+                        State.HFans.Add(new LmSensor(id, featLabel,
                             sensorsChipName, sensorsFeature, sensorsFeature->type));
                         break;
                     case SensorsFeatureType.SensorsFeatureTemp:
-                        State.HTemps.Add(new LmSensor(id, id,
+                        State.HTemps.Add(new LmSensor(id, featLabel,
                             sensorsChipName, sensorsFeature, sensorsFeature->type));
                         break;
                     case SensorsFeatureType.SensorsFeaturePwm:
-                        State.HControls.Add(new LmControl(id, id,
+                        State.HControls.Add(new LmControl(id, featLabel,
                             sensorsChipName, sensorsFeature));
                         break;
                     default:

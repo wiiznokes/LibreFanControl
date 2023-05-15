@@ -161,62 +161,45 @@ public static class LmSensorsWrapper
     private const string DllPath = "External/LmSensors/libsensors.so.5.0.0";
 
 
-    /* Load the configuration file and the detected chips list. If this
-       returns a value unequal to zero, you are in trouble; you can not
-       assume anything will be initialized properly. If you want to
-       reload the configuration file, call sensors_cleanup() below before
-       calling sensors_init() again. */
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern int sensors_init(IntPtr f);
 
 
-    /* Clean-up function: You can't access anything after
-        this, until the next sensors_init() call! */
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern void sensors_cleanup();
 
 
-    /* This function returns all detected chips that match a given chip name,
-       one by one. If no chip name is provided, all detected chips are returned.
-       To start at the beginning of the list, use 0 for nr; NULL is returned if
-       we are at the end of the list. Do not try to change these chip names, as
-       they point to internal structures! */
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern unsafe SensorsChipName* sensors_get_detected_chips(
         SensorsChipName* chip, int* nr);
 
 
-    /* This returns all main features of a specific chip. nr is an internally
-       used variable. Set it to zero to start at the begin of the list. If no
-       more features are found NULL is returned.
-       Do not try to change the returned structure; you will corrupt internal
-       data structures. */
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern unsafe SensorsFeature* sensors_get_features(SensorsChipName* chip, int* nr);
 
 
-    /* This returns all sub features of a given main feature. nr is an internally
-       used variable. Set it to zero to start at the begin of the list. If no
-       more features are found NULL is returned.
-       Do not try to change the returned structure; you will corrupt internal
-       data structures. */
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern unsafe SensorsSubFeature* sensors_get_all_subfeatures(SensorsChipName* chip,
         SensorsFeature* feat, int* nr);
 
 
-    /* Read the value of a sub feature of a certain chip. Note that chip should not
-     contain wildcard values! This function will return 0 on success, and <0
-     on failure.  */
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern unsafe int sensors_get_value(SensorsChipName* chip, int subFeatNr,
         double* value);
 
 
-    /* Set the value of a sub feature of a certain chip. Note that chip should not
-       contain wildcard values! This function will return 0 on success, and <0
-       on failure. */
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern unsafe int sensors_set_value(SensorsChipName* chip, int subFeatNr,
         double value);
+    
+    
+    
+    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
+    public static extern unsafe int sensors_snprintf_chip_name(char* str, int size,
+        SensorsChipName* chip);
+    
+    
+    [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
+    public static extern unsafe char* sensors_get_label(SensorsChipName* name,
+        SensorsFeature* feature);
 }
