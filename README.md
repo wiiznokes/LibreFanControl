@@ -41,10 +41,11 @@ On Linux, maybe you will need to download libsensors and execute sensors-detect.
 - [x] Support Linux
 - [ ] Use type safe strings and icons ([moko-resources](https://github.com/icerockdev/moko-resources) ?)
 - [ ] Add a system to automatically receive updates
-- [ ] Add workflow to the project (CI/CD, ect...) (docker ?)
+- [ ] Add workflow to the project (CI/CD, ect...) ([docker](https://docs.docker.com/) ?)
 - [ ] Implement settings (info, help)
 - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
 - [ ] Write an intelligent program to bind controls to their fans, and make a nice first config
+- [ ] Support [Flatpak](https://docs.flatpak.org/en/latest/first-build.html)
 
 ## Library used
 
