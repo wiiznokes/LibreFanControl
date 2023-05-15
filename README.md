@@ -2,7 +2,7 @@
 
 
 - Open source
-- Service very low on ressource (~20mb)
+- Service very low on ressource (~30mb)
 - Display sensors data on real time
 - Control fans based on custom behaviors
 - Save configuration
