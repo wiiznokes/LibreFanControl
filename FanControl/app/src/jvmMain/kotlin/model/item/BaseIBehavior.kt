@@ -30,9 +30,9 @@ class ILinear(
     value: Int = 0,
 
 
-    minTemp: Int = 25,
-    maxTemp: Int = 60,
-    minFanSpeed: Int = 10,
+    minTemp: Int = 45,
+    maxTemp: Int = 65,
+    minFanSpeed: Int = 15,
     maxFanSpeed: Int = 100,
 
     tempId: String? = null,
@@ -117,8 +117,8 @@ class ITarget(
     value: Int = 0,
 
     idleTemp: Int = 45,
-    loadTemp: Int = 55,
-    idleFanSpeed: Int = 30,
+    loadTemp: Int = 60,
+    idleFanSpeed: Int = 25,
     loadFanSpeed: Int = 100,
 
     tempId: String? = null,

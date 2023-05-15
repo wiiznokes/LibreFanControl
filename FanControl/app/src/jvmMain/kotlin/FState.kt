@@ -11,7 +11,7 @@ import model.item.IControl
 import model.item.IFan
 
 
-const val DEBUG = false
+const val DEBUG = true
 
 
 class ServiceState {
