@@ -45,6 +45,7 @@ On Linux, maybe you will need to download libsensors and execute sensors-detect.
 - [ ] Implement settings (info, help)
 - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
 - [ ] Write an intelligent program to bind controls to their fans, and make a nice first config
+- [ ] Support [Flatpak](https://docs.flatpak.org/en/latest/first-build.html)
 
 ## Library used
 
