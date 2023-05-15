@@ -9,13 +9,33 @@ import model.item.BaseIBehavior
 import model.item.BaseITemp
 import model.item.IControl
 import model.item.IFan
-import ui.settings.Settings
 
-enum class ServiceState {
-    UNKNOWN,
-    OPEN,
-    ERROR
+
+const val DEBUG = false
+
+
+class ServiceState {
+
+    enum class Status {
+        WAIT_OPEN,
+        OPEN,
+        ERROR
+    }
+
+    enum class ServiceState {
+        WAIT_OPEN,
+        OPEN,
+        ERROR
+    }
+
+    val status = mutableStateOf(Status.WAIT_OPEN)
+
+    fun setErrorStatus() {
+        status.value = Status.ERROR
+        FState.settings.confId.value = null
+    }
 }
+
 
 object FState {
 
@@ -32,7 +52,9 @@ object FState {
 
     val ui = UiState()
 
-    var serviceState = mutableStateOf(ServiceState.UNKNOWN)
+    var service = ServiceState()
+
+    var appVersion = ""
 }
 
 
@@ -71,10 +93,12 @@ class UiState {
     val dialogExpanded = mutableStateOf(Dialog.NONE)
 
     val errorDialog: MutableState<CustomError?> = mutableStateOf(null)
+
+
+    data class CustomError(
+        val content: String,
+        val copyContent: String? = null
+    )
 }
 
 
-data class CustomError(
-    val content: String,
-    val copyContent: String? = null
-)

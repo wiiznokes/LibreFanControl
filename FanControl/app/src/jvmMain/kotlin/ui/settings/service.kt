@@ -63,7 +63,13 @@ fun launchAtStartUpDialog(
                 text = Resources.getString("common/no")
             )
             baseDialogButton(
-                onClick = { onLaunchAtStartUpChange(true) },
+                onClick = {
+                    onLaunchAtStartUpChange(true)
+                    // means change is successful, in case there is an error, we don't close the dialog
+                    if (FState.ui.dialogExpanded.value == UiState.Dialog.LAUNCH_AT_START_UP) {
+                        FState.ui.dialogExpanded.value = UiState.Dialog.NONE
+                    }
+                },
                 text = Resources.getString("common/yes"),
                 containerColor = LocalColors.current.inputMain,
                 contentColor = LocalColors.current.onInputMain,
@@ -73,22 +79,43 @@ fun launchAtStartUpDialog(
 }
 
 
-fun SettingScope.removeService(
-    onRemoveService: () -> Unit,
+fun SettingScope.installService(
+    installService: () -> Unit,
 ) {
     item(
-        title = Resources.getString("settings/remove_service"),
-        onClick = onRemoveService,
+        title = Resources.getString("settings/install_service"),
+        onClick = installService,
         showAdvanceIcon = false
     )
 }
 
-fun SettingScope.tryOpenService(
-    onTryOpenService: () -> Unit,
+
+fun SettingScope.startService(
+    startService: () -> Unit,
 ) {
     item(
-        title = Resources.getString("settings/try_open_service"),
-        onClick = onTryOpenService,
+        title = Resources.getString("settings/start_service"),
+        onClick = startService,
+        showAdvanceIcon = false
+    )
+}
+
+fun SettingScope.openService(
+    openService: () -> Unit,
+) {
+    item(
+        title = Resources.getString("settings/open_service"),
+        onClick = openService,
+        showAdvanceIcon = false
+    )
+}
+
+fun SettingScope.uninstallService(
+    onRemoveService: () -> Unit,
+) {
+    item(
+        title = Resources.getString("settings/uninstall_service"),
+        onClick = onRemoveService,
         showAdvanceIcon = false
     )
 }

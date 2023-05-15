@@ -1,6 +1,9 @@
 package proto
 
 import FState
+import FState.hControls
+import FState.hFans
+import FState.hTemps
 import ServiceState
 import com.google.protobuf.Empty
 import io.grpc.ManagedChannel
@@ -25,10 +28,12 @@ class CrossApi(
 
     // don't always relevant
     private fun isActive(): Boolean {
-        val isActive = FState.serviceState.value == ServiceState.OPEN && !channel.isShutdown && !channel.isTerminated
+        val isActive =
+            FState.service.status.value == ServiceState.Status.OPEN && !channel.isShutdown && !channel.isTerminated
 
         if (!isActive) {
             println("service is not active")
+            FState.service.setErrorStatus()
             return false
         }
         return true
@@ -59,37 +64,55 @@ class CrossApi(
             false
         } catch (e: Exception) {
             e.printStackTrace()
+            FState.service.setErrorStatus()
             false
         }
     }
 
-    suspend fun getHardware() {
-        if (!isActive()) return
+    suspend fun getHardware(): Boolean {
+        if (!isActive()) return false
 
-        val pControls = stub.pGetHardware(pHardwareTypeMessage { pType = PHardwareType.CONTROL })
-        FState.hControls.addAll(pControls.pHardwaresList.map {
-            HControl(
-                name = it.pName,
-                id = it.pId
-            )
-        })
+        try {
+            val pControls = stub.pGetHardware(pHardwareTypeMessage { pType = PHardwareType.CONTROL })
+            hControls.apply {
+                clear()
+                addAll(pControls.pHardwaresList.map {
+                    HControl(
+                        name = it.pName,
+                        id = it.pId
+                    )
+                })
+            }
 
-        val pTemps = stub.pGetHardware(pHardwareTypeMessage { pType = PHardwareType.TEMP })
-        FState.hTemps.addAll(pTemps.pHardwaresList.map {
-            HTemp(
-                name = it.pName,
-                id = it.pId
-            )
-        })
+            val pTemps = stub.pGetHardware(pHardwareTypeMessage { pType = PHardwareType.TEMP })
+            hTemps.apply {
+                clear()
+                addAll(pTemps.pHardwaresList.map {
+                    HTemp(
+                        name = it.pName,
+                        id = it.pId
+                    )
+                })
+            }
 
-        val pFans = stub.pGetHardware(pHardwareTypeMessage { pType = PHardwareType.FAN })
-        FState.hFans.addAll(pFans.pHardwaresList.map {
-            HFan(
-                name = it.pName,
-                id = it.pId
-            )
-        })
-        println("getHardware success")
+            val pFans = stub.pGetHardware(pHardwareTypeMessage { pType = PHardwareType.FAN })
+            hFans.apply {
+                clear()
+                addAll(pFans.pHardwaresList.map {
+                    HFan(
+                        name = it.pName,
+                        id = it.pId
+                    )
+                })
+            }
+            println("getHardware success")
+            return true
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            FState.service.setErrorStatus()
+            return false
+        }
     }
 
 
@@ -105,19 +128,19 @@ class CrossApi(
                 when (updateList.pType) {
                     PHardwareType.CONTROL -> {
                         updateList.pUpdatesList.forEach {
-                            FState.hControls[it.pIndex].value.value = it.pValue
+                            hControls[it.pIndex].value.value = it.pValue
                         }
                     }
 
                     PHardwareType.TEMP -> {
                         updateList.pUpdatesList.forEach {
-                            FState.hTemps[it.pIndex].value.value = it.pValue
+                            hTemps[it.pIndex].value.value = it.pValue
                         }
                     }
 
                     PHardwareType.FAN -> {
                         updateList.pUpdatesList.forEach {
-                            FState.hFans[it.pIndex].value.value = it.pValue
+                            hFans[it.pIndex].value.value = it.pValue
                         }
                     }
 
@@ -125,14 +148,20 @@ class CrossApi(
                 }
             }
         } catch (e: Exception) {
+            if (!shouldClose) {
+                shouldClose = false
+                e.printStackTrace()
+            }
             println("ERROR: stream update has stop")
-            FState.serviceState.value = ServiceState.ERROR
+            FState.service.setErrorStatus()
         }
 
     }
 
-
+    private var shouldClose = false
     override fun close() {
+        shouldClose = true
+
         try {
             if (isActive()) {
                 runBlocking {
@@ -151,6 +180,7 @@ class CrossApi(
             println("shutdown has failed")
         }
 
+        println("close api finished")
     }
 
 

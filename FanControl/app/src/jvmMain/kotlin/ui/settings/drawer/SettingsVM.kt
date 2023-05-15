@@ -1,10 +1,10 @@
 package ui.settings.drawer
 
 import FState
+import Languages
+import Settings
+import Themes
 import proto.SettingsHelper
-import ui.settings.Languages
-import ui.settings.Settings
-import ui.settings.Themes
 import utils.OsSpecific
 
 class SettingsVM(
@@ -30,11 +30,11 @@ class SettingsVM(
 
 
     fun onLaunchAtStartUpChange(launchAtStartUp: Boolean) {
-        OsSpecific.os.changeServiceStartMode(launchAtStartUp)
+        OsSpecific.os.changeStartModeService(launchAtStartUp)
     }
 
-    fun removeService() {
-        OsSpecific.os.removeService()
+    fun onUninstallService() {
+        OsSpecific.os.uninstallService()
     }
 
     fun onValueDisableControl(value: Int) {

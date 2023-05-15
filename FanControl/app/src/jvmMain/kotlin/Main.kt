@@ -14,14 +14,18 @@ import utils.*
 
 val app: Application = Application()
 
-fun main() {
+fun main(args: Array<String>) {
+
 
     if (getOS() == OS.linux) {
         // need admin to write in /etc dir
         if (!OsSpecific.os.isAdmin()) {
-            throw Exception("This app need admin privilege. Please retry with sudo.")
+            if (!DEBUG)
+                throw Exception("This app need admin privilege. Please retry with sudo.")
         }
     }
+
+    FState.appVersion = args[0]
 
 
     val visible = mutableStateOf(true)

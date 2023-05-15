@@ -16,8 +16,8 @@ repositories {
     //mavenLocal()
 }
 
-kotlin {
 
+kotlin {
 
     jvm {
         compilations.configureEach {
@@ -72,6 +72,8 @@ kotlin {
 
 compose.desktop {
     application {
+        args.add("${project.property("app.version")}")
+
         mainClass = "MainKt"
         nativeDistributions {
 
@@ -85,7 +87,7 @@ compose.desktop {
                 }
             }
 
-            packageName = "FanControl"
+            packageName = "LibreFanControl"
             packageVersion = version.toString()
             copyright = "© 2023 Wiiznokes. All rights reserved."
             vendor = "Wiiznokes"
@@ -99,6 +101,7 @@ compose.desktop {
                 menuGroup = "start-menu-group"
                 shortcut = true
                 msiPackageVersion = "${project.property("app.version")}"
+                exePackageVersion = "${project.property("app.version")}"
             }
 
             linux {
@@ -106,6 +109,8 @@ compose.desktop {
                 menuGroup = "Utility"
                 shortcut = true
                 appCategory = "Utility"
+                debPackageVersion = "${project.property("app.version")}"
+                rpmPackageVersion = "${project.property("app.version")}"
             }
         }
     }

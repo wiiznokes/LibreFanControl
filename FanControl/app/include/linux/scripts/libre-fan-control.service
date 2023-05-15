@@ -1,0 +1,18 @@
+[Unit]
+Description=Fan Control Daemon
+ 
+[Service]
+Type=simple
+ 
+User=root
+ExecStart=/usr/local/bin/LibreFanControlService/LibreFanControlService
+ 
+
+ 
+# Configures the time to wait before service is stopped forcefully.
+TimeoutStopSec=300
+
+RemainAfterExit=no
+ 
+[Install]
+WantedBy=multi-user.target

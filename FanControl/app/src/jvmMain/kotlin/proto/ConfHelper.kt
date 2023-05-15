@@ -2,19 +2,20 @@ package proto
 
 import Application.Api.api
 import Application.Api.scope
-import CustomError
+import ConfInfo
 import FState
 import FState.iBehaviors
 import FState.iControls
 import FState.iFans
 import FState.iTemps
+import FState.service
 import ServiceState
+import UiState
 import kotlinx.coroutines.launch
 import model.item.*
 import proto.SettingsDir.getConfFile
 import proto.generated.pConf.*
 import proto.generated.pSettings.pConfInfo
-import ui.settings.ConfInfo
 import utils.OS
 import utils.OsException
 import utils.getOS
@@ -27,9 +28,12 @@ class ConfHelper {
     companion object {
 
         fun loadConf(confId: String): Boolean {
-            if (FState.serviceState.value != ServiceState.OPEN) {
+            if (service.status.value != ServiceState.Status.OPEN) {
                 println("load conf: service not running")
-                FState.ui.showError(CustomError("The service need to be started to load the configuration"), false)
+                FState.ui.showError(
+                    UiState.CustomError("The service need to be started to load the configuration"),
+                    false
+                )
                 return false
             }
 

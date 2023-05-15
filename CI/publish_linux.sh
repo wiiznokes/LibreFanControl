@@ -13,7 +13,7 @@ cd ./FanControl
 
 #./gradlew packageReleaseAppImage
 
-sudo chmod +x ./app/build/compose/binaries/main-release/app/FanControl/lib/app/resources/build/FanControlService
+sudo chmod +x ./app/build/compose/binaries/main-release/app/LibreFanControl/lib/app/resources/build/LibreFanControlService
 
 
 cd ..

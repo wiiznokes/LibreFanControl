@@ -1,14 +1,14 @@
 package ui.configuration.confDialogs
 
 import Application
+import ConfInfo
 import FState
+import Settings
 import kotlinx.coroutines.launch
 import model.item.BaseI.Companion.checkNameValid
 import model.item.NameException
 import proto.ConfHelper
 import proto.SettingsHelper
-import ui.settings.ConfInfo
-import ui.settings.Settings
 
 class ConfVM(
     val settings: Settings = FState.settings,
@@ -90,12 +90,15 @@ class ConfVM(
 
         settings.confInfoList.removeAt(index)
 
-        if (settings.confId.value == id)
+        var currentConfigIsRemove = false
+        if (settings.confId.value == id) {
             settings.confId.value = null
+            currentConfigIsRemove = true
+        }
 
         SettingsHelper.writeSettings()
 
-        if (settings.confId.value == id) {
+        if (currentConfigIsRemove) {
             Application.Api.scope.launch {
                 Application.Api.api.settingsAndConfChange()
             }

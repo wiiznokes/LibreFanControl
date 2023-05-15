@@ -1,18 +1,16 @@
 package utils
 
-import CustomError
+import DEBUG
 import FState
+import FState.service
 import FState.settings
-import ServiceState
+import UiState
 import proto.SettingsHelper
 import java.io.File
 
-private const val DEBUG_SERVICE = false
-
 
 fun getStartMode(launchAtStartUp: Boolean = settings.launchAtStartUp.value): String {
-    return if (DEBUG_SERVICE) "Debug"
-    else when (launchAtStartUp) {
+    return when (launchAtStartUp) {
         true -> "Automatic"
         false -> "Manual"
     }
@@ -21,22 +19,28 @@ fun getStartMode(launchAtStartUp: Boolean = settings.launchAtStartUp.value): Str
 
 fun getScript(scriptName: String): String {
     return File(System.getProperty("compose.application.resources.dir"))
-        .resolve("scripts/service/$scriptName")
+        .resolve("scripts/$scriptName")
         .absolutePath
 }
 
 
 interface IOsSpecific {
     val settingsDir: File
+
+    fun installService(version: String): Boolean
+
+
     fun startService(): Boolean
-    fun changeServiceStartMode(launchAtStartUp: Boolean): Boolean
-    fun removeService(): Boolean
+    fun changeStartModeService(launchAtStartUp: Boolean): Boolean
+    fun uninstallService(): Boolean
 
     fun isAdmin(): Boolean
 
 }
 
-
+/**
+ * Display pop error internally
+ */
 object OsSpecific {
 
     val os: IOsSpecific = when (getOS()) {
@@ -49,16 +53,26 @@ object OsSpecific {
 
 private class Windows : IOsSpecific {
 
-    override val settingsDir: File = File("C:\\ProgramData\\FanControl")
+    override val settingsDir: File = File("C:\\ProgramData\\LibreFanControl")
+
+    override fun installService(version: String): Boolean {
+        return execScriptHelper(
+            params = mutableListOf("powershell.exe", "-File", getScript("install.ps1")),
+            onSuccess = {
+                settings.versionInstalled.value = version
+                SettingsHelper.writeSettings()
+            }
+        )
+    }
 
     override fun startService(): Boolean {
 
         return execScriptHelper(
-            params = mutableListOf("powershell.exe", "-File", getScript("init.ps1"), getStartMode())
+            params = mutableListOf("powershell.exe", "-File", getScript("start.ps1"))
         )
     }
 
-    override fun changeServiceStartMode(launchAtStartUp: Boolean): Boolean {
+    override fun changeStartModeService(launchAtStartUp: Boolean): Boolean {
 
         return execScriptHelper(
             params = mutableListOf(
@@ -74,19 +88,20 @@ private class Windows : IOsSpecific {
         )
     }
 
-    override fun removeService(): Boolean {
+    override fun uninstallService(): Boolean {
         return execScriptHelper(
             params = mutableListOf("powershell.exe", "-File", getScript("uninstall.ps1")),
             onSuccess = {
-                FState.serviceState.value = ServiceState.ERROR
+                service.setErrorStatus()
                 settings.confId.value = null
+                settings.versionInstalled.value = ""
                 SettingsHelper.writeSettings()
             }
         )
     }
 
     override fun isAdmin(): Boolean {
-        TODO("not used at this point")
+        TODO("not needed at this point")
     }
 
 }
@@ -94,18 +109,31 @@ private class Windows : IOsSpecific {
 
 private class Linux : IOsSpecific {
 
-    override val settingsDir: File = File("/etc/FanControl")
-    override fun startService(): Boolean {
-
+    override val settingsDir: File = File("/etc/LibreFanControl")
+    override fun installService(version: String): Boolean {
         return execScriptHelper(
-            params = mutableListOf("bash", getScript("init.sh"), getStartMode())
+            params = mutableListOf("bash", getScript("install.sh")),
+            onSuccess = {
+                settings.versionInstalled.value = version
+                SettingsHelper.writeSettings()
+            }
         )
     }
 
-    override fun changeServiceStartMode(launchAtStartUp: Boolean): Boolean {
+    override fun startService(): Boolean {
 
         return execScriptHelper(
-            params = mutableListOf("bash", getScript("change_start_mode.sh"), getStartMode(launchAtStartUp)),
+            params = mutableListOf("bash", getScript("start.sh"))
+        )
+    }
+
+    override fun changeStartModeService(launchAtStartUp: Boolean): Boolean {
+
+        return execScriptHelper(
+            params = mutableListOf(
+                "bash", getScript("change_start_mode.sh"),
+                getStartMode(launchAtStartUp)
+            ),
             onSuccess = {
                 settings.launchAtStartUp.value = launchAtStartUp
                 SettingsHelper.writeSettings()
@@ -113,12 +141,13 @@ private class Linux : IOsSpecific {
         )
     }
 
-    override fun removeService(): Boolean {
+    override fun uninstallService(): Boolean {
         return execScriptHelper(
             params = mutableListOf("bash", getScript("uninstall.sh")),
             onSuccess = {
-                FState.serviceState.value = ServiceState.ERROR
+                service.setErrorStatus()
                 settings.confId.value = null
+                settings.versionInstalled.value = ""
                 SettingsHelper.writeSettings()
             }
         )
@@ -134,6 +163,9 @@ private fun execScriptHelper(
     params: MutableList<String>,
     onSuccess: (() -> Unit)? = null
 ): Boolean {
+
+    if (DEBUG)
+        return true
 
     val res = ProcessBuilder(params)
         .redirectOutput(ProcessBuilder.Redirect.INHERIT)
@@ -156,7 +188,8 @@ private enum class ErrorCode(val code: Int) {
     DEFAULT(101),
     NEED_ADMIN(102),
     NOT_INSTALLED(103),
-    NEED_RUNTIME(104)
+    NEED_RUNTIME(104),
+    INSTALLED(105),
 }
 
 
@@ -167,7 +200,7 @@ private fun handleErrorCode(code: Int): Boolean {
 
         ErrorCode.UNSPECIFIED.code -> {
             FState.ui.showError(
-                CustomError(
+                UiState.CustomError(
                     content = Resources.getString("dialog/error_content/unspecified"),
                     copyContent = "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned"
                 )
@@ -181,7 +214,7 @@ private fun handleErrorCode(code: Int): Boolean {
 
         ErrorCode.NEED_ADMIN.code -> {
             FState.ui.showError(
-                error = CustomError(
+                error = UiState.CustomError(
                     content = Resources.getString("dialog/error_content/need_admin")
                 ),
                 copy = false
@@ -191,7 +224,7 @@ private fun handleErrorCode(code: Int): Boolean {
 
         ErrorCode.NOT_INSTALLED.code -> {
             FState.ui.showError(
-                error = CustomError(
+                error = UiState.CustomError(
                     content = Resources.getString("dialog/error_content/not_installed")
                 )
             )
@@ -200,9 +233,18 @@ private fun handleErrorCode(code: Int): Boolean {
 
         ErrorCode.NEED_RUNTIME.code -> {
             FState.ui.showError(
-                CustomError(
+                UiState.CustomError(
                     content = Resources.getString("dialog/error_content/need_runtime"),
                     copyContent = "https://dotnet.microsoft.com/en-us/download/dotnet/7.0"
+                )
+            )
+            false
+        }
+
+        ErrorCode.INSTALLED.code -> {
+            FState.ui.showError(
+                UiState.CustomError(
+                    content = "already installed"
                 )
             )
             false

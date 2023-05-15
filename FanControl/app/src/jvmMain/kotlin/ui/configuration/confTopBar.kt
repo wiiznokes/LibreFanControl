@@ -1,5 +1,6 @@
 package ui.configuration
 
+import ConfInfo
 import FState
 import UiState
 import androidx.compose.foundation.clickable
@@ -22,7 +23,6 @@ import ui.component.ListChoiceDefault
 import ui.component.managerListChoice
 import ui.component.managerNameTextField
 import ui.configuration.confDialogs.ConfVM
-import ui.settings.ConfInfo
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces
 import utils.Resources

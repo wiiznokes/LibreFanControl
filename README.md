@@ -2,7 +2,7 @@
 
 
 - Open source
-- Service very low on ressource (~30mb)
+- Service very low on ressource (~20mb)
 - Display sensors data on real time
 - Control fans based on custom behaviors
 - Save configuration
@@ -31,9 +31,9 @@ Issues, enhancement requests and PR are welcomed!
 ## Configurations files
 
 #### Windows
-- `C:\ProgramData\FanControl`
+- `C:\ProgramData\LibreFanControl`
 #### Linux
-- `/etc/FanControl`
+- `/etc/LibreFanControl`
 
 On Linux, maybe you will need to download libsensors and execute sensors-detect.
 
