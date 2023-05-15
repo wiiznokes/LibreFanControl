@@ -6,7 +6,7 @@ cd scriptRoot/..
 rm -rf publish
 
 
-dotnet build ./HardwareLib/FanControlService -c "Release Linux"
+dotnet build ./HardwareLib/LibreFanControlService -c "Release Linux"
 
 cd ./FanControl
 ./gradlew generateAllProto
@@ -21,8 +21,8 @@ cd ..
 
 mkdir publish
 
-cp -r ./FanControl/app/build/compose/binaries/main-release/app/FanControl ./publish
+cp -r ./FanControl/app/build/compose/binaries/main-release/app/LibreFanControl ./publish
 
 cd publish
 
-tar -czvf FanControl.tar.gz FanControl/*
+tar -czvf LibreFanControl.tar.gz LibreFanControl/*

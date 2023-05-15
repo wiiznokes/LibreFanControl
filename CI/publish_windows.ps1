@@ -1,7 +1,7 @@
 
 Remove-Item -Recurse -Force -Path publish
 
-dotnet build ./HardwareLib/FanControlService -c "Release Windows"
+dotnet build ./HardwareLib/LibreFanControlService -c "Release Windows"
 
 
 cd ./FanControl
@@ -14,4 +14,4 @@ cd ..
 
 mkdir publish
 
-cp ./FanControl/app/build/compose/binaries/main-release/msi/FanControl* ./publish
+cp ./FanControl/app/build/compose/binaries/main-release/msi/LibreFanControl* ./publish
