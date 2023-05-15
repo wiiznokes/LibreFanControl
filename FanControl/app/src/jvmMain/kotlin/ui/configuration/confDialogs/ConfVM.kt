@@ -90,12 +90,15 @@ class ConfVM(
 
         settings.confInfoList.removeAt(index)
 
-        if (settings.confId.value == id)
+        var currentConfigIsRemove = false
+        if (settings.confId.value == id) {
             settings.confId.value = null
+            currentConfigIsRemove = true
+        }
 
         SettingsHelper.writeSettings()
 
-        if (settings.confId.value == id) {
+        if (currentConfigIsRemove) {
             Application.Api.scope.launch {
                 Application.Api.api.settingsAndConfChange()
             }
