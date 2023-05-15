@@ -2,7 +2,12 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
 
+/*
+     He may have problems as we add settings, because protobuf does not allow default value,
+     so some may be aberrant.
 
+     For annoying cases, it is possible to check if the value is out of range
+ */
 class Settings(
     language: Languages = Languages.en,
     confId: String? = null,

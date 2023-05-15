@@ -109,7 +109,10 @@ class SettingsHelper {
                     )
 
                 },
-                updateDelay = pSetting.pUpdateDelay,
+                updateDelay = pSetting.pUpdateDelay.let {
+                    // handle default value of protobuf
+                    if (it <= 0) 1 else it
+                },
                 theme = when (pSetting.pTheme) {
                     PThemes.DARK -> Themes.dark
                     PThemes.LIGHT -> Themes.light
@@ -122,8 +125,11 @@ class SettingsHelper {
                 firstStart = pSetting.pFirstStart,
                 launchAtStartUp = pSetting.pLaunchAtStartUp,
                 degree = pSetting.pDegree,
-                valueDisableControl = pSetting.pValueDisableControl,
-                versionInstalled = pSetting.pVersionInstalled
+                valueDisableControl = pSetting.pValueDisableControl.let {
+                    // handle default value of protobuf
+                    if (it < 2) 2 else it
+                },
+                versionInstalled = pSetting.pVersionInstalled.ifEmpty { "0.0.0" }
             )
 
 
