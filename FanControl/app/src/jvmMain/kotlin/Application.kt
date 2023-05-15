@@ -50,18 +50,22 @@ class Application(
 
             // version of service installed is not up-to-date
             if (FState.appVersion != settings.versionInstalled.value) {
-                // uninstall
+               println("version service is not up-to-date")
+
+                println("uninstall service")
                 if (!OsSpecific.os.uninstallService()) {
                     service.setErrorStatus()
                     return@launch
                 }
 
-                // install
+
+                println("install service")
                 if (!OsSpecific.os.installService(FState.appVersion)) {
                     service.setErrorStatus()
                     return@launch
                 }
 
+                println("change start mode service")
                 if (!OsSpecific.os.changeStartModeService(FState.settings.launchAtStartUp.value)) {
                     service.setErrorStatus()
                     return@launch
@@ -69,8 +73,7 @@ class Application(
             }
 
 
-
-
+            println("start service")
             if (OsSpecific.os.startService()) {
                 val maxDelay = 7000L
                 var delay = 0L
