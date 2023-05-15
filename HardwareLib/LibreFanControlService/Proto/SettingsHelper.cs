@@ -12,7 +12,7 @@ public class ProtoException : Exception
 public static class SettingsDir
 {
 #if WINDOWS
-        private const string Dir = "C:\\ProgramData\\LibreFanControl";
+    private const string Dir = "C:\\ProgramData\\LibreFanControl";
 #else
     private const string Dir = "/etc/LibreFanControl";
 #endif

@@ -29,7 +29,8 @@ if ($args.Count -eq 1)
     removeConfFolder
 }
 
-if (checkRunning) {
+if (checkRunning)
+{
     stopService
 }
 

@@ -1,14 +1,14 @@
 package ui.configuration.confDialogs
 
 import Application
+import ConfInfo
 import FState
+import Settings
 import kotlinx.coroutines.launch
 import model.item.BaseI.Companion.checkNameValid
 import model.item.NameException
 import proto.ConfHelper
 import proto.SettingsHelper
-import ConfInfo
-import Settings
 
 class ConfVM(
     val settings: Settings = FState.settings,

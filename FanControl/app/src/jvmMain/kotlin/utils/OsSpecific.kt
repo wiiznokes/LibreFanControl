@@ -1,14 +1,12 @@
 package utils
 
-import CustomError
 import DEBUG
 import FState
+import FState.service
 import FState.settings
-import ServiceState
+import UiState
 import proto.SettingsHelper
 import java.io.File
-
-
 
 
 fun getStartMode(launchAtStartUp: Boolean = settings.launchAtStartUp.value): String {
@@ -94,7 +92,7 @@ private class Windows : IOsSpecific {
         return execScriptHelper(
             params = mutableListOf("powershell.exe", "-File", getScript("uninstall.ps1")),
             onSuccess = {
-                FState.serviceState.value = ServiceState.ERROR
+                service.setErrorStatus()
                 settings.confId.value = null
                 settings.versionInstalled.value = ""
                 SettingsHelper.writeSettings()
@@ -132,8 +130,10 @@ private class Linux : IOsSpecific {
     override fun changeStartModeService(launchAtStartUp: Boolean): Boolean {
 
         return execScriptHelper(
-            params = mutableListOf("bash", getScript("change_start_mode.sh"),
-                getStartMode(launchAtStartUp)),
+            params = mutableListOf(
+                "bash", getScript("change_start_mode.sh"),
+                getStartMode(launchAtStartUp)
+            ),
             onSuccess = {
                 settings.launchAtStartUp.value = launchAtStartUp
                 SettingsHelper.writeSettings()
@@ -145,7 +145,7 @@ private class Linux : IOsSpecific {
         return execScriptHelper(
             params = mutableListOf("bash", getScript("uninstall.sh")),
             onSuccess = {
-                FState.serviceState.value = ServiceState.ERROR
+                service.setErrorStatus()
                 settings.confId.value = null
                 settings.versionInstalled.value = ""
                 SettingsHelper.writeSettings()
@@ -200,7 +200,7 @@ private fun handleErrorCode(code: Int): Boolean {
 
         ErrorCode.UNSPECIFIED.code -> {
             FState.ui.showError(
-                CustomError(
+                UiState.CustomError(
                     content = Resources.getString("dialog/error_content/unspecified"),
                     copyContent = "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned"
                 )
@@ -214,7 +214,7 @@ private fun handleErrorCode(code: Int): Boolean {
 
         ErrorCode.NEED_ADMIN.code -> {
             FState.ui.showError(
-                error = CustomError(
+                error = UiState.CustomError(
                     content = Resources.getString("dialog/error_content/need_admin")
                 ),
                 copy = false
@@ -224,7 +224,7 @@ private fun handleErrorCode(code: Int): Boolean {
 
         ErrorCode.NOT_INSTALLED.code -> {
             FState.ui.showError(
-                error = CustomError(
+                error = UiState.CustomError(
                     content = Resources.getString("dialog/error_content/not_installed")
                 )
             )
@@ -233,7 +233,7 @@ private fun handleErrorCode(code: Int): Boolean {
 
         ErrorCode.NEED_RUNTIME.code -> {
             FState.ui.showError(
-                CustomError(
+                UiState.CustomError(
                     content = Resources.getString("dialog/error_content/need_runtime"),
                     copyContent = "https://dotnet.microsoft.com/en-us/download/dotnet/7.0"
                 )
@@ -243,7 +243,7 @@ private fun handleErrorCode(code: Int): Boolean {
 
         ErrorCode.INSTALLED.code -> {
             FState.ui.showError(
-                CustomError(
+                UiState.CustomError(
                     content = "already installed"
                 )
             )

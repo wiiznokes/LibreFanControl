@@ -1,4 +1,3 @@
-
 $appName = "LibreFanControl"
 $serviceName = "${appName}Service"
 
@@ -17,7 +16,7 @@ $defaultErrorCode = 101
 $needAdminErrorCode = 102
 $notInstalledErrorCode = 103
 $needRuntimeErrorCode = 104
-$installedErrorCode=105
+$installedErrorCode = 105
 
 
 function checkExeDirInstall

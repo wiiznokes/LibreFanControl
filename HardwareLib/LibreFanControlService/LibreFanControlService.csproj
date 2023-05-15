@@ -57,21 +57,21 @@
 
 
     <ItemGroup>
-        <PackageReference Include="Google.Protobuf" Version="3.22.4" />
-        <PackageReference Include="Grpc.AspNetCore.Server" Version="2.53.0" />
+        <PackageReference Include="Google.Protobuf" Version="3.22.4"/>
+        <PackageReference Include="Grpc.AspNetCore.Server" Version="2.53.0"/>
         <PackageReference Include="Grpc.Tools" Version="2.54.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.2" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-        <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="7.0.0" />
+        <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.2"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="7.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="..\..\FanControl\proto\src\proto\settings.proto" GrpcServices="None" ProtoRoot="..\..\FanControl\proto\src\" />
-        <Protobuf Include="..\..\FanControl\proto\src\proto\conf.proto" GrpcServices="None" ProtoRoot="..\..\FanControl\proto\src\" />
-        <Protobuf Include="..\..\FanControl\proto\src\proto\crossApi.proto" GrpcServices="Server" ProtoRoot="..\..\FanControl\proto\src\" />
+        <Protobuf Include="..\..\FanControl\proto\src\proto\settings.proto" GrpcServices="None" ProtoRoot="..\..\FanControl\proto\src\"/>
+        <Protobuf Include="..\..\FanControl\proto\src\proto\conf.proto" GrpcServices="None" ProtoRoot="..\..\FanControl\proto\src\"/>
+        <Protobuf Include="..\..\FanControl\proto\src\proto\crossApi.proto" GrpcServices="Server" ProtoRoot="..\..\FanControl\proto\src\"/>
     </ItemGroup>
 
     <ItemGroup Condition=" '$(Configuration)' == 'Release Linux' Or '$(Configuration)' == 'Debug Linux'">

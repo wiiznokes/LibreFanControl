@@ -134,7 +134,7 @@ public enum SensorsSubFeatureType
     SensorsSubFeatureBeepEnable = SensorsFeatureType.SensorsFeatureBeepEnable << 8,
 
     SensorsSubFeatureUnknown = int.MaxValue
-};
+}
 
 [StructLayout(LayoutKind.Sequential)]
 public struct SensorsFeature
@@ -203,7 +203,6 @@ public static class LmSensorsWrapper
     [DllImport(DllPath, CallingConvention = CallingConvention.Cdecl)]
     public static extern unsafe SensorsSubFeature* sensors_get_all_subfeatures(SensorsChipName* chip,
         SensorsFeature* feat, int* nr);
-    
 
 
     /* Read the value of a sub feature of a certain chip. Note that chip should not

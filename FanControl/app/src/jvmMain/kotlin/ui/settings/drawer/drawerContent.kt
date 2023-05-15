@@ -2,6 +2,8 @@ package ui.settings.drawer
 
 import Application
 import FState
+import FState.service
+import ServiceState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -95,10 +97,10 @@ fun drawerContent(
 
 
         openService {
-            if (FState.serviceState.value == ServiceState.OPEN) return@openService
+            if (service.status.value == ServiceState.Status.OPEN) return@openService
             Application.Api.scope.launch {
-                if(Application.Api.api.open())
-                    FState.serviceState.value = ServiceState.OPEN
+                if (Application.Api.api.open())
+                    service.status.value = ServiceState.Status.OPEN
             }
         }
 

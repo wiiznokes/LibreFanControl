@@ -2,15 +2,15 @@ package proto
 
 import Application.Api.api
 import Application.Api.scope
+import ConfInfo
 import FState.settings
+import Languages
+import Settings
+import Themes
 import com.google.protobuf.NullValue
 import kotlinx.coroutines.launch
 import proto.SettingsDir.settingsFile
 import proto.generated.pSettings.*
-import ConfInfo
-import Languages
-import Settings
-import Themes
 import utils.OsSpecific
 import java.io.File
 

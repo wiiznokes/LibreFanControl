@@ -1,7 +1,9 @@
 package ui.container
 
 import FState
+import FState.service
 import ServiceState
+import ServiceState.Status
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.IconButton
@@ -18,7 +20,6 @@ import ui.component.managerText
 import ui.configuration.confTopBar
 import ui.theme.LocalColors
 import utils.Resources
-
 
 val topBarHeight = 45.dp
 
@@ -112,8 +113,8 @@ fun topBarBody(
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                when (FState.serviceState.value) {
-                    ServiceState.WAIT_OPEN -> {
+                when (service.status.value) {
+                    ServiceState.Status.WAIT_OPEN -> {
 
 
                         CircularProgressIndicator(
@@ -143,7 +144,7 @@ fun topBarBody(
                         )*/
                     }
 
-                    ServiceState.ERROR -> {
+                    Status.ERROR -> {
                         Icon(
                             modifier = Modifier,
                             painter = Resources.getIcon("topBar/error40"),
@@ -152,9 +153,9 @@ fun topBarBody(
                         )
                     }
 
-                    ServiceState.OPEN -> {}
+                    Status.OPEN -> {}
                 }
-                if (FState.serviceState.value != ServiceState.OPEN) {
+                if (service.status.value != Status.OPEN) {
                     Divider(
                         modifier = Modifier
                             .fillMaxHeight(0.8f)

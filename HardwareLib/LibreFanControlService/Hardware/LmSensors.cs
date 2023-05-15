@@ -3,7 +3,6 @@ using LibreFanControlService.External.LmSensors;
 using LibreFanControlService.Hardware.Control;
 using LibreFanControlService.Hardware.Sensor;
 using static LibreFanControlService.External.LmSensors.LmSensorsWrapper;
-using SensorsFeatureType = LibreFanControlService.External.LmSensors.SensorsFeatureType;
 
 namespace LibreFanControlService.Hardware;
 

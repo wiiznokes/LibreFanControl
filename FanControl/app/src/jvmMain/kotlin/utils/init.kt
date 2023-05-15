@@ -23,6 +23,7 @@ import ui.dialogs.errorDialog
 fun initSensor() {
     println("initItem, no config")
 
+    iControls.clear()
     hControls.forEach { hControl ->
         iControls.add(
             IControl(
@@ -36,6 +37,7 @@ fun initSensor() {
         )
     }
 
+    iTemps.clear()
     hTemps.forEach { hTemp ->
         iTemps.add(
             ITemp(
@@ -49,6 +51,7 @@ fun initSensor() {
         )
     }
 
+    iFans.clear()
     hFans.forEach { hFan ->
         iFans.add(
             IFan(

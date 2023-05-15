@@ -8,8 +8,8 @@ public class LmControl : BaseControl
 {
     private readonly unsafe SensorsChipName* _chip;
     private readonly unsafe SensorsFeature* _feat;
-    private readonly int _subFeatureIoNumber;
     private readonly int _subFeatureEnableNumber;
+    private readonly int _subFeatureIoNumber;
 
     public unsafe LmControl(string id, string name, SensorsChipName* chip, SensorsFeature* feat) : base(id, name)
     {
