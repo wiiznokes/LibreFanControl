@@ -1,10 +1,10 @@
 . $PSScriptRoot/Manager.ps1
 
+# option:
+#   -c remove conf folder
 
-if (!(checkAdmin))
-{
-    exit $needAdminErrorCode
-}
+
+
 
 
 if ($args.Count -gt 1)
@@ -13,17 +13,26 @@ if ($args.Count -gt 1)
     exit $defaultErrorCode
 }
 
+if (!(checkAdmin))
+{
+    exit $needAdminErrorCode
+}
+
 if ($args.Count -eq 1)
 {
-    if ($args[0] -ne "-c" -and $args[0] -ne "-conf")
+    if ($args[0] -ne "-c")
     {
-        Write-Output "Error: need optional one argument, -c or -conf"
+        Write-Output "need 0 or 1 argument (-c for remove conf folder)"
         exit $defaultErrorCode
     }
 
     removeConfFolder
 }
 
+if (checkRunning) {
+    stopService
+}
 
 deleteService
+
 removeInstallFolder

@@ -13,7 +13,7 @@ class Settings(
     launchAtStartUp: Boolean = false,
     degree: Boolean = true,
     valueDisableControl: Int = 2,
-    versionInstalled: String = ""
+    versionInstalled: String = "0.0.0"
 ) {
     val language: MutableState<Languages> = mutableStateOf(language)
     val confId: MutableState<String?> = mutableStateOf(confId)

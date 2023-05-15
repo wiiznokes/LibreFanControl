@@ -102,6 +102,7 @@ compose.desktop {
                 menuGroup = "start-menu-group"
                 shortcut = true
                 msiPackageVersion = "${project.property("app.version")}"
+                exePackageVersion = "${project.property("app.version")}"
             }
 
             linux {
@@ -109,6 +110,8 @@ compose.desktop {
                 menuGroup = "Utility"
                 shortcut = true
                 appCategory = "Utility"
+                debPackageVersion = "${project.property("app.version")}"
+                rpmPackageVersion = "${project.property("app.version")}"
             }
         }
     }

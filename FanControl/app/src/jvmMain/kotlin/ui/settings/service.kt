@@ -63,7 +63,13 @@ fun launchAtStartUpDialog(
                 text = Resources.getString("common/no")
             )
             baseDialogButton(
-                onClick = { onLaunchAtStartUpChange(true) },
+                onClick = {
+                    onLaunchAtStartUpChange(true)
+                    // means change is successful, in case there is an error, we don't close the dialog
+                    if (FState.ui.dialogExpanded.value == UiState.Dialog.LAUNCH_AT_START_UP) {
+                        FState.ui.dialogExpanded.value = UiState.Dialog.NONE
+                    }
+                },
                 text = Resources.getString("common/yes"),
                 containerColor = LocalColors.current.inputMain,
                 contentColor = LocalColors.current.onInputMain,

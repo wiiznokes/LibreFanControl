@@ -110,6 +110,8 @@ fun drawerContent(
         group(text = Resources.getString("settings/group/other"))
 
         donate()
+
+        info()
     }
 }
 

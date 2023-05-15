@@ -60,12 +60,14 @@ class Application(
                     FState.serviceState.value = ServiceState.ERROR
                     return@launch
                 }
+
+                if (!OsSpecific.os.changeStartModeService(FState.settings.launchAtStartUp.value)) {
+                    FState.serviceState.value = ServiceState.ERROR
+                    return@launch
+                }
             }
 
-            if (!OsSpecific.os.changeStartModeService(FState.settings.launchAtStartUp.value)) {
-                FState.serviceState.value = ServiceState.ERROR
-                return@launch
-            }
+
 
 
             if (OsSpecific.os.startService()) {

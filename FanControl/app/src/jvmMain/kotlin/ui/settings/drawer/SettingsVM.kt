@@ -31,7 +31,6 @@ class SettingsVM(
 
     fun onLaunchAtStartUpChange(launchAtStartUp: Boolean) {
         OsSpecific.os.changeStartModeService(launchAtStartUp)
-        FState.ui.dialogExpanded.value = UiState.Dialog.NONE
     }
 
     fun onUninstallService() {

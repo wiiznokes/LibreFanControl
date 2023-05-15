@@ -21,13 +21,13 @@ else
 fi
 
 
+echo "begin change mode: $startMode"
 
 
 if ! checkAdmin; then
     exit "$needAdminErrorCode"
 fi
 
-echo "begin change mode: $startMode"
 
 setServiceMode "$startMode"
 

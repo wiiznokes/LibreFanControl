@@ -55,15 +55,22 @@ object OsSpecific {
 
 private class Windows : IOsSpecific {
 
-    override val settingsDir: File = File("C:\\ProgramData\\FanControl")
+    override val settingsDir: File = File("C:\\ProgramData\\LibreFanControl")
+
     override fun installService(version: String): Boolean {
-        TODO("Not yet implemented")
+        return execScriptHelper(
+            params = mutableListOf("powershell.exe", "-File", getScript("install.ps1")),
+            onSuccess = {
+                settings.versionInstalled.value = version
+                SettingsHelper.writeSettings()
+            }
+        )
     }
 
     override fun startService(): Boolean {
 
         return execScriptHelper(
-            params = mutableListOf("powershell.exe", "-File", getScript("init.ps1"), getStartMode())
+            params = mutableListOf("powershell.exe", "-File", getScript("start.ps1"))
         )
     }
 
@@ -89,6 +96,7 @@ private class Windows : IOsSpecific {
             onSuccess = {
                 FState.serviceState.value = ServiceState.ERROR
                 settings.confId.value = null
+                settings.versionInstalled.value = ""
                 SettingsHelper.writeSettings()
             }
         )
@@ -124,7 +132,8 @@ private class Linux : IOsSpecific {
     override fun changeStartModeService(launchAtStartUp: Boolean): Boolean {
 
         return execScriptHelper(
-            params = mutableListOf("bash", getScript("change_start_mode.sh"), getStartMode(launchAtStartUp)),
+            params = mutableListOf("bash", getScript("change_start_mode.sh"),
+                getStartMode(launchAtStartUp)),
             onSuccess = {
                 settings.launchAtStartUp.value = launchAtStartUp
                 SettingsHelper.writeSettings()
