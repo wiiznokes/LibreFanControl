@@ -74,7 +74,7 @@
         <Protobuf Include="..\..\FanControl\proto\src\proto\crossApi.proto" GrpcServices="Server" ProtoRoot="..\..\FanControl\proto\src\" />
     </ItemGroup>
 
-    <ItemGroup>
+    <ItemGroup Condition=" '$(Configuration)' == 'Release Linux' Or '$(Configuration)' == 'Debug Linux'">
         <Content Include="External\LmSensors\libsensors.so.5.0.0">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
