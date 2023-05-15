@@ -10,6 +10,10 @@ import model.item.BaseITemp
 import model.item.IControl
 import model.item.IFan
 
+
+const val DEBUG = true
+
+
 enum class ServiceState {
     WAIT_OPEN,
     OPEN,

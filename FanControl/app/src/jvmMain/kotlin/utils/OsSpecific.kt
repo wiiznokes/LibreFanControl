@@ -1,18 +1,18 @@
 package utils
 
 import CustomError
+import DEBUG
 import FState
 import FState.settings
 import ServiceState
 import proto.SettingsHelper
 import java.io.File
 
-private const val DEBUG_SERVICE = false
+
 
 
 fun getStartMode(launchAtStartUp: Boolean = settings.launchAtStartUp.value): String {
-    return if (DEBUG_SERVICE) "Debug"
-    else when (launchAtStartUp) {
+    return when (launchAtStartUp) {
         true -> "Automatic"
         false -> "Manual"
     }
@@ -154,6 +154,9 @@ private fun execScriptHelper(
     params: MutableList<String>,
     onSuccess: (() -> Unit)? = null
 ): Boolean {
+
+    if (DEBUG)
+        return true
 
     val res = ProcessBuilder(params)
         .redirectOutput(ProcessBuilder.Redirect.INHERIT)
