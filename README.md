@@ -8,7 +8,7 @@
 - Save configuration
 - Multiplatform (Linux/Windows)
 
-
+Warning: there is still know issues, main functionality should work as expected, but the app is not well tested. Feel free to report issues though.
 
 ![mainPageV1](https://github.com/wiiznokes/LibreFanControl/assets/78230769/543af76c-137c-456d-a04e-8ebfed323178)
 
