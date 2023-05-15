@@ -20,6 +20,8 @@ if ! checkAdmin; then
 fi
 
 
+systemctl daemon-reload
+
 startService
 
 exit 0

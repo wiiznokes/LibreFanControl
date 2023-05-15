@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import ui.component.managerText
 import ui.settings.*
 import ui.theme.LocalColors
+import utils.OsSpecific
 import utils.Resources
 
 private val viewModel = SettingsVM()
@@ -54,10 +55,10 @@ fun drawerContent(
                 scope = scope
             )
         }
-        updateDelay(
-            onDelayChange = { viewModel.onUpdateDelay(it) },
-            updateDelay = settings.updateDelay
-        )
+
+        group(text = Resources.getString("settings/group/app"))
+
+
         language(
             language = settings.language
         ) { viewModel.onLanguageChange(it) }
@@ -65,27 +66,50 @@ fun drawerContent(
             theme = settings.theme
         ) { viewModel.onThemeChange(it) }
 
-        group(text = Resources.getString("settings/trans/service"))
+
+        group(text = Resources.getString("settings/group/hardware"))
+
+        updateDelay(
+            onDelayChange = { viewModel.onUpdateDelay(it) },
+            updateDelay = settings.updateDelay
+        )
+
+
+        valueDisableControl { viewModel.onValueDisableControl(it) }
+
+
+        group(text = Resources.getString("settings/group/service"))
 
         launchAtStartUp(
             launchAtStartUp = settings.launchAtStartUp
         ) { viewModel.onLaunchAtStartUpChange(it) }
 
-        removeService { viewModel.removeService() }
-        tryOpenService {
-            if (FState.serviceState.value == ServiceState.OPEN) return@tryOpenService
+        installService {
+            OsSpecific.os.installService(FState.appVersion)
+        }
+
+
+        startService {
+            OsSpecific.os.startService()
+        }
+
+
+        openService {
+            if (FState.serviceState.value == ServiceState.OPEN) return@openService
             Application.Api.scope.launch {
                 if(Application.Api.api.open())
                     FState.serviceState.value = ServiceState.OPEN
             }
         }
-        valueDisableControl { viewModel.onValueDisableControl(it) }
-        group(text = Resources.getString("settings/trans/donate"))
-        donate()
 
-        group(text = Resources.getString("settings/trans/other"))
-        info()
-        help()
+
+        uninstallService { viewModel.onUninstallService() }
+
+
+
+        group(text = Resources.getString("settings/group/other"))
+
+        donate()
     }
 }
 

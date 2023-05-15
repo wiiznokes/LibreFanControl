@@ -13,7 +13,9 @@ if ! checkAdmin; then
 fi
 
 
-source "${scriptRoot}uninstall.sh"
+if checkInstall; then
+    exit $installedErrorCode
+fi
 
 
 copyServiceFiles

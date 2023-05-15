@@ -21,22 +21,28 @@ fun getStartMode(launchAtStartUp: Boolean = settings.launchAtStartUp.value): Str
 
 fun getScript(scriptName: String): String {
     return File(System.getProperty("compose.application.resources.dir"))
-        .resolve("scripts/service/$scriptName")
+        .resolve("scripts/$scriptName")
         .absolutePath
 }
 
 
 interface IOsSpecific {
     val settingsDir: File
+
+    fun installService(version: String): Boolean
+
+
     fun startService(): Boolean
-    fun changeServiceStartMode(launchAtStartUp: Boolean): Boolean
-    fun removeService(): Boolean
+    fun changeStartModeService(launchAtStartUp: Boolean): Boolean
+    fun uninstallService(): Boolean
 
     fun isAdmin(): Boolean
 
 }
 
-
+/**
+ * Display pop error internally
+ */
 object OsSpecific {
 
     val os: IOsSpecific = when (getOS()) {
@@ -50,6 +56,9 @@ object OsSpecific {
 private class Windows : IOsSpecific {
 
     override val settingsDir: File = File("C:\\ProgramData\\FanControl")
+    override fun installService(version: String): Boolean {
+        TODO("Not yet implemented")
+    }
 
     override fun startService(): Boolean {
 
@@ -58,7 +67,7 @@ private class Windows : IOsSpecific {
         )
     }
 
-    override fun changeServiceStartMode(launchAtStartUp: Boolean): Boolean {
+    override fun changeStartModeService(launchAtStartUp: Boolean): Boolean {
 
         return execScriptHelper(
             params = mutableListOf(
@@ -74,7 +83,7 @@ private class Windows : IOsSpecific {
         )
     }
 
-    override fun removeService(): Boolean {
+    override fun uninstallService(): Boolean {
         return execScriptHelper(
             params = mutableListOf("powershell.exe", "-File", getScript("uninstall.ps1")),
             onSuccess = {
@@ -86,7 +95,7 @@ private class Windows : IOsSpecific {
     }
 
     override fun isAdmin(): Boolean {
-        TODO("not used at this point")
+        TODO("not needed at this point")
     }
 
 }
@@ -94,15 +103,25 @@ private class Windows : IOsSpecific {
 
 private class Linux : IOsSpecific {
 
-    override val settingsDir: File = File("/etc/FanControl")
-    override fun startService(): Boolean {
-
+    override val settingsDir: File = File("/etc/LibreFanControl")
+    override fun installService(version: String): Boolean {
         return execScriptHelper(
-            params = mutableListOf("bash", getScript("init.sh"), getStartMode())
+            params = mutableListOf("bash", getScript("install.sh")),
+            onSuccess = {
+                settings.versionInstalled.value = version
+                SettingsHelper.writeSettings()
+            }
         )
     }
 
-    override fun changeServiceStartMode(launchAtStartUp: Boolean): Boolean {
+    override fun startService(): Boolean {
+
+        return execScriptHelper(
+            params = mutableListOf("bash", getScript("start.sh"))
+        )
+    }
+
+    override fun changeStartModeService(launchAtStartUp: Boolean): Boolean {
 
         return execScriptHelper(
             params = mutableListOf("bash", getScript("change_start_mode.sh"), getStartMode(launchAtStartUp)),
@@ -113,12 +132,13 @@ private class Linux : IOsSpecific {
         )
     }
 
-    override fun removeService(): Boolean {
+    override fun uninstallService(): Boolean {
         return execScriptHelper(
             params = mutableListOf("bash", getScript("uninstall.sh")),
             onSuccess = {
                 FState.serviceState.value = ServiceState.ERROR
                 settings.confId.value = null
+                settings.versionInstalled.value = ""
                 SettingsHelper.writeSettings()
             }
         )
@@ -156,7 +176,8 @@ private enum class ErrorCode(val code: Int) {
     DEFAULT(101),
     NEED_ADMIN(102),
     NOT_INSTALLED(103),
-    NEED_RUNTIME(104)
+    NEED_RUNTIME(104),
+    INSTALLED(105),
 }
 
 
@@ -203,6 +224,15 @@ private fun handleErrorCode(code: Int): Boolean {
                 CustomError(
                     content = Resources.getString("dialog/error_content/need_runtime"),
                     copyContent = "https://dotnet.microsoft.com/en-us/download/dotnet/7.0"
+                )
+            )
+            false
+        }
+
+        ErrorCode.INSTALLED.code -> {
+            FState.ui.showError(
+                CustomError(
+                    content = "already installed"
                 )
             )
             false

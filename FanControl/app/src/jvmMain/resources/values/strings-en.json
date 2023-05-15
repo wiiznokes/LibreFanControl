@@ -93,18 +93,21 @@
     "theme": "Theme",
     "exit_on_close": "Quit when closing",
     "launch_at_start_up": "Launch at startup",
-    "remove_service": "Remove service",
-    "try_open_service": "Try Open service",
+    "install_service": "Install service",
+    "start_service": "Start service",
+    "open_service": "Open service",
+    "uninstall_service": "Uninstall service",
     "value_disable_control": "Disable control value",
-    "value_disable_control_sub_title": "Only available on Linux. See docs of your chip to know (value > 2).",
+    "value_disable_control_sub_title": "Only available on Linux. >= 2",
     "donate": "Support",
     "info": "Info",
     "info_sub_title": "Dive into app working",
     "help": "Help",
     "help_sub_title": "Get help here",
-    "transition": {
+    "group": {
+      "app": "App",
+      "hardware": "Hardware",
       "service": "Service",
-      "donate": "Donation",
       "other": "Others"
     }
   },

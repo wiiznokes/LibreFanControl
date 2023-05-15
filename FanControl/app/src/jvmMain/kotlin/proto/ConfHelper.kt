@@ -14,7 +14,7 @@ import model.item.*
 import proto.SettingsDir.getConfFile
 import proto.generated.pConf.*
 import proto.generated.pSettings.pConfInfo
-import ui.settings.ConfInfo
+import ConfInfo
 import utils.OS
 import utils.OsException
 import utils.getOS

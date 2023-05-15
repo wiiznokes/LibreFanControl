@@ -38,4 +38,3 @@ fi
 removeServiceFiles
 
 systemctl daemon-reload
-echo "service uninstalled: success"

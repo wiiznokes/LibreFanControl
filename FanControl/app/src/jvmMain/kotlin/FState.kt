@@ -9,10 +9,9 @@ import model.item.BaseIBehavior
 import model.item.BaseITemp
 import model.item.IControl
 import model.item.IFan
-import ui.settings.Settings
 
 enum class ServiceState {
-    UNKNOWN,
+    WAIT_OPEN,
     OPEN,
     ERROR
 }
@@ -32,7 +31,9 @@ object FState {
 
     val ui = UiState()
 
-    var serviceState = mutableStateOf(ServiceState.UNKNOWN)
+    var serviceState = mutableStateOf(ServiceState.WAIT_OPEN)
+
+    var appVersion = ""
 }
 
 

@@ -113,7 +113,7 @@ fun topBarBody(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 when (FState.serviceState.value) {
-                    ServiceState.UNKNOWN -> {
+                    ServiceState.WAIT_OPEN -> {
 
 
                         CircularProgressIndicator(

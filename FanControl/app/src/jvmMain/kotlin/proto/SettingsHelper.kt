@@ -7,10 +7,10 @@ import com.google.protobuf.NullValue
 import kotlinx.coroutines.launch
 import proto.SettingsDir.settingsFile
 import proto.generated.pSettings.*
-import ui.settings.ConfInfo
-import ui.settings.Languages
-import ui.settings.Settings
-import ui.settings.Themes
+import ConfInfo
+import Languages
+import Settings
+import Themes
 import utils.OsSpecific
 import java.io.File
 
@@ -52,6 +52,11 @@ class SettingsHelper {
         }
 
 
+        /**
+         * Read settings file into PSettings
+         * Parse PSettings into Settings
+         * Copy Settings to global state
+         */
         fun loadSettings() {
             val pSettings = PSettings.parseFrom(settingsFile.readBytes())
 
@@ -67,6 +72,7 @@ class SettingsHelper {
                 settings.firstStart.value = it.firstStart.value
                 settings.launchAtStartUp.value = it.launchAtStartUp.value
                 settings.degree.value = it.degree.value
+                settings.versionInstalled.value = it.versionInstalled.value
             }
         }
 
@@ -82,7 +88,9 @@ class SettingsHelper {
             }
         }
 
-
+        /**
+         * Create new Settings class from PSettings
+         */
         fun parsePSetting(pSetting: PSettings): Settings =
             Settings(
                 language = when (pSetting.pLanguage) {
@@ -114,7 +122,8 @@ class SettingsHelper {
                 firstStart = pSetting.pFirstStart,
                 launchAtStartUp = pSetting.pLaunchAtStartUp,
                 degree = pSetting.pDegree,
-                valueDisableControl = pSetting.pValueDisableControl
+                valueDisableControl = pSetting.pValueDisableControl,
+                versionInstalled = pSetting.pVersionInstalled
             )
 
 
@@ -143,6 +152,7 @@ class SettingsHelper {
                 pLaunchAtStartUp = settings.launchAtStartUp.value
                 pDegree = settings.degree.value
                 pValueDisableControl = settings.valueDisableControl.value
+                pVersionInstalled = settings.versionInstalled.value
             }
     }
 }

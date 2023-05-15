@@ -12,7 +12,6 @@ import proto.ConfHelper
 import proto.CrossApi
 import proto.SettingsDir
 import proto.SettingsHelper
-import ui.settings.Settings
 import utils.OsSpecific
 import utils.initSensor
 
@@ -48,10 +47,32 @@ class Application(
 
         val startJob = scope.launch {
 
+            // version of service installed is not up to date
+            if (FState.appVersion != settings.versionInstalled.value) {
+                // uninstall
+                if(!OsSpecific.os.uninstallService()) {
+                    FState.serviceState.value = ServiceState.ERROR
+                    return@launch
+                }
+
+                // install
+                if(!OsSpecific.os.installService(FState.appVersion)) {
+                    FState.serviceState.value = ServiceState.ERROR
+                    return@launch
+                }
+            }
+
+            if (!OsSpecific.os.changeStartModeService(FState.settings.launchAtStartUp.value)) {
+                FState.serviceState.value = ServiceState.ERROR
+                return@launch
+            }
+
+
             if (OsSpecific.os.startService()) {
                 val maxDelay = 7000L
                 var delay = 0L
-                while (FState.serviceState.value == ServiceState.UNKNOWN && delay < maxDelay) {
+                FState.serviceState.value = ServiceState.WAIT_OPEN
+                while (FState.serviceState.value == ServiceState.WAIT_OPEN && delay < maxDelay) {
                     delay += 500L
                     delay(delay)
 

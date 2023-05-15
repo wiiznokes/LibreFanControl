@@ -27,29 +27,28 @@ installedErrorCode=105
 
 
 
+
+
 checkInstall() {
+
+	isInstalled=0
     if [ ! -f $systemdDir$systemdFileName ]; then
 		echo "file $systemdDir$systemdFileName don't exist"
-		return $notInstalledErrorCode
+		isInstalled=$notInstalledErrorCode
     fi
 
     if [ ! -d $exeDir ]; then
 		echo "dir $exeDir don't exist"
-		return $notInstalledErrorCode
+		isInstalled=$notInstalledErrorCode
     fi
 
-    return 0
+    return $isInstalled
 }
 
 checkRunning() {
-    if [[ "$(systemctl is-active $systemdFileName)" = "active" ]]; then
-        echo "Service is active"
-        return 0
-    else
-        echo "Service is not active"
-        return 1
-    fi
+	systemctl is-active $systemdFileName > /dev/null
 
+	return $?
 }
 
 checkAdmin() {
@@ -108,24 +107,29 @@ copyServiceFiles() {
 
 setServiceMode() {
 
-    isEnabled="$(systemctl is-enabled $serviceFileName)"
+    systemctl is-enabled $systemdFileName > /dev/null
+    enabledCode=$?
 
-    if [[ "$isEnabled" != "enabled" && "$isEnabled" != "disabled" ]]; then
-        echo "can't set service mode: service is likely to be uninstalled"
-        return $defaultErrorCode
-    fi
+	if [ $enabledCode -eq 4 ]; then
+        echo "$systemdFileName file not found"
+		return $notInstalledErrorCode
+	fi
+
+	if [[ $enabledCode -ne 0 && $enabledCode -ne 1 ]]; then
+		return $defaultErrorCode
+	fi
 
 
     if [ "$1" = "Automatic" ]; then
-        if [[ $isEnabled = "enabled" ]]; then
+        if [ $enabledCode -eq 0 ]; then
             echo "service already set to auto"
             return 0
         fi
-        systemctl enable "$systemdFileName"
+        systemctl enable $systemdFileName
         echo "service set to auto"
         return 0
     else
-        if [[ $isEnabled = "disabled" ]]; then
+        if [ $enabledCode -eq 1 ]; then
             echo "service already set to manual"
             return 0
         fi

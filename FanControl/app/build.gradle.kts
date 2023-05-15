@@ -1,4 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.ir.interpreter.compileTimeAnnotation
 
 plugins {
     kotlin("multiplatform")
@@ -16,8 +17,8 @@ repositories {
     //mavenLocal()
 }
 
-kotlin {
 
+kotlin {
 
     jvm {
         compilations.configureEach {
@@ -72,6 +73,8 @@ kotlin {
 
 compose.desktop {
     application {
+        args.add("${project.property("app.version")}")
+
         mainClass = "MainKt"
         nativeDistributions {
 
@@ -85,7 +88,7 @@ compose.desktop {
                 }
             }
 
-            packageName = "FanControl"
+            packageName = "LibreFanControl"
             packageVersion = version.toString()
             copyright = "© 2023 Wiiznokes. All rights reserved."
             vendor = "Wiiznokes"

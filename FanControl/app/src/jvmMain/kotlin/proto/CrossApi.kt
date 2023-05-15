@@ -29,6 +29,7 @@ class CrossApi(
 
         if (!isActive) {
             println("service is not active")
+            FState.serviceState.value = ServiceState.ERROR
             return false
         }
         return true
@@ -59,6 +60,7 @@ class CrossApi(
             false
         } catch (e: Exception) {
             e.printStackTrace()
+            FState.serviceState.value = ServiceState.ERROR
             false
         }
     }

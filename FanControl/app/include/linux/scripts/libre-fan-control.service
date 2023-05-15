@@ -5,7 +5,7 @@ Description=Fan Control Daemon
 Type=simple
  
 User=root
-ExecStart=/usr/local/bin/FanControlService/FanControlService
+ExecStart=/usr/local/bin/LibreFanControlService/LibreFanControlService
  
 
  

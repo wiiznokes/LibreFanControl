@@ -1,8 +1,4 @@
 import proto.SettingsHelper
-import ui.settings.ConfInfo
-import ui.settings.Languages
-import ui.settings.Settings
-import ui.settings.Themes
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
