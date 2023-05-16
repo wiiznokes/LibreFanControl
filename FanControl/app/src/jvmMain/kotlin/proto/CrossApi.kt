@@ -187,22 +187,35 @@ class CrossApi(
     suspend fun settingsAndConfChange() {
         if (!isActive()) return
 
-        val res = stub.pSettingsAndConfChange(Empty.getDefaultInstance())
+        try {
+            val res = stub.pSettingsAndConfChange(Empty.getDefaultInstance())
 
-        when (res.pIsSuccess) {
-            true -> println("confChange success")
-            false -> println("confChange failed")
+            when (res.pIsSuccess) {
+                true -> println("confChange success")
+                false -> println("confChange failed")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            FState.service.setErrorStatus()
         }
+
+
     }
 
     suspend fun settingsChange() {
         if (!isActive()) return
 
-        val res = stub.pSettingsChange(Empty.getDefaultInstance())
+        try {
+            val res = stub.pSettingsChange(Empty.getDefaultInstance())
 
-        when (res.pIsSuccess) {
-            true -> println("settingsChange success")
-            false -> println("settingsChange failed")
+            when (res.pIsSuccess) {
+                true -> println("settingsChange success")
+                false -> println("settingsChange failed")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            FState.service.setErrorStatus()
         }
+
     }
 }
