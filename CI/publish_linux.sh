@@ -11,7 +11,7 @@ dotnet build ./HardwareLib/LibreFanControlService -c "Release Linux"
 cd ./FanControl
 ./gradlew generateAllProto
 
-#./gradlew packageReleaseAppImage
+./gradlew packageReleaseAppImage
 
 sudo chmod +x ./app/build/compose/binaries/main-release/app/LibreFanControl/lib/app/resources/build/LibreFanControlService
 
