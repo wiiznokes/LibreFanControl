@@ -19,13 +19,12 @@ You will need some component of [dotnet 7](https://dotnet.microsoft.com/en-us/do
 - `ASP.NET Core Runtime`
 - `.NET Runtime`
 
-If you want to build the project, you will just need the `SDK`. The needed commands can be found in CI directory but some may not work directly on your machine.
-
 You will need to run the app with admin privilege on both Linux and Windows.
 
 If you have any troubles, check out the [faq](./assets/faq.md).
 
-Issues, enhancement requests and PR are welcomed!
+**Issues, enhancement requests and PR are welcomed!**
+
 
 ## Configurations files
 
@@ -35,6 +34,14 @@ Issues, enhancement requests and PR are welcomed!
 - `/etc/LibreFanControl`
 
 On Linux, maybe you will need to download libsensors and execute sensors-detect.
+
+
+## Build
+- On Windows, if you want to build the project, you will just need the `SDK` of [dotnet 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0). 
+- On Linux, you will need a [JDK](https://jdk.java.net/java-se-ri/17).
+
+The needed commands can be found in CI directory.
+
 
 ## Plans (not in this order)
 
