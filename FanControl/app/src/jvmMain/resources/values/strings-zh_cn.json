@@ -1,0 +1,166 @@
+{
+  "title": {
+    "app_name": "FanControl",
+    "add_item": "添加Item",
+    "setting": "设置",
+    "control": "Control",
+    "behavior": "行为",
+    "sensor": "传感器",
+    "fan": "风扇",
+    "temp": "温度"
+  },
+  "icon_content_description": {
+    "open_drawer": "打开设置",
+    "close_drawer": "关闭设置",
+    "open_setting_item": "open setting item",
+    "close_setting_item": "close setting item",
+    "edit": "编辑",
+    "close_add_item": "close add item",
+    "open_add_item": "open add item",
+    "choose": "选择",
+    "decrease": "减少",
+    "increase": "增加",
+    "control": "控制info",
+    "flat": "f「lat」行为详情",
+    "linear": "「线性」行为详情",
+    "target": "「目标」行为详情",
+    "fan": "fan sensor info",
+    "temp": "温度传感器info",
+    "custom_temp": "自定义温度 info",
+    "edit_add": "添加item",
+    "edit_remove": "删除item",
+    "previous": "上一个",
+    "next": "下一个",
+    "save_conf": "保存配置",
+    "remove_conf": "移除配置",
+    "add_conf": "添加配置",
+    "service_is_loading": "后台服务正在启动",
+    "service_error": "The service to manage the hardware has failed"
+  },
+  "unity": {
+    "rpm": "RPM",
+    "degree": "°C",
+    "percent": "%"
+  },
+  "label": {
+    "name": "名称",
+    "conf_name": "配置名称"
+  },
+  "add_item": {
+    "name": {
+      "control": "控制",
+      "flat": "Flat",
+      "linear": "线性",
+      "target": "目标",
+      "fan": "风扇",
+      "temp": "温度",
+      "custom_temp": "自定义温度"
+    },
+    "info": {
+      "control": "Assigns a certain behavior to a certain hardware component.",
+      "flat": "返回一个固定值。",
+      "linear": "需要 4 个变量:\n- 最小温度\n- 最大温度\n- 最小速度\n- 最大速度\n和一个温度传感器。\n如果温度小于 <最小温度>，返回最小速度\n如果温度大于<最大温度>，返回最大速度\n其他情况下，将自动计算一个平均值(具体参考图标)。",
+      "target": "Take 4 variables:\n- ideal temperature\n- trigger temperature\n- ideal speed\n- trigger speed\nand a temperature sensor.\nIf the sensor exceeds the trigger temperature -> trigger speed until this sensor < ideal temperature.",
+      "fan": "显示某个风扇的速度。",
+      "temp": "显示某个传感器的温度。",
+      "custom_temp": "Combines several temperature sensors to apply certain function (average, max, min).\nCan be used in certain behaviors."
+    }
+  },
+  "default_value": {
+    "control_name": "控制",
+    "flat_name": "Flat",
+    "linear_name": "线性",
+    "target_name": "目标",
+    "fan_name": "风扇",
+    "temp_name": "温度",
+    "custom_temp_name": "自定义温度"
+  },
+  "linear": {
+    "min_temp": "最小温度",
+    "max_temp": "最大温度",
+    "min_fan_speed": "最小速度",
+    "max_fan_speed": "最大速度"
+  },
+  "target": {
+    "idle_temp": "空闲温度",
+    "load_temp": "负载温度",
+    "idle_fan_speed": "空闲速度",
+    "load_fan_speed": "负载速度"
+  },
+  "settings": {
+    "update_delay": "更新间隔: ",
+    "language": "语言",
+    "theme": "主题",
+    "exit_on_close": "关闭窗口时退出",
+    "launch_at_start_up": "开机自启",
+    "install_service": "安装服务",
+    "start_service": "启动服务",
+    "open_service": "Open service",
+    "uninstall_service": "卸载服务",
+    "value_disable_control": "Disable control value",
+    "value_disable_control_sub_title": "Only available on Linux. >= 2",
+    "donate": "捐赠支持",
+    "info": "Info",
+    "help": "帮助",
+    "help_sub_title": "在这里获取帮助",
+    "group": {
+      "app": "应用",
+      "hardware": "硬件",
+      "service": "服务",
+      "other": "其它"
+    }
+  },
+  "language": {
+    "en": "English",
+    "fr": "French",
+	"zh_cn": "简体中文"
+  },
+  "theme": {
+    "system": "跟随系统",
+    "light": "亮主题",
+    "dark": "暗主题"
+  },
+  "custom_temp": {
+    "average": "平均值",
+    "max": "最大值",
+    "min": "最小值",
+    "add_temp": "添加温度传感器"
+  },
+  "fan_speed": "风扇速度",
+  "common": {
+    "ok": "确定",
+    "add": "添加",
+    "cancel": "取消",
+    "none": "无",
+    "open": "打开",
+    "exit": "退出",
+    "copy": "复制",
+    "new": "新建",
+    "override": "覆盖",
+    "quit": "彻底退出",
+    "yes": "是",
+    "no": "否"
+  },
+  "exit": {
+    "title": "「退出」设置",
+    "remember_choice": "记住我的选择，不再提示",
+    "exit": "退出应用",
+    "background": "保持在后台运行"
+  },
+  "dialog": {
+    "title": {
+      "new_conf": "新建配置",
+      "launch_at_start_up": "Launch at start up",
+      "conf_not_save": "配置没保存",
+      "error": "错误"
+    },
+    "error_content": {
+      "unspecified": "Windows seems to prevent script execution. Try running this command with Powershell as admin:\nSet-ExecutionPolicy -ExecutionPolicy RemoteSigned\n\nIf it still doesn't work, leave an issue on GitHub.\n\n More info: https://learn.microsoft.com/fr-fr/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.3",
+      "need_admin": "The app need to be admin to create/modify/start the service. Please restart the app with admin privilege",
+      "not_installed": "The background service is not installed. Maybe restart the app could solve this problem.",
+      "need_runtime": "You need to install the ASP.NET Core 7.0 Runtime to run the background service."
+    },
+    "launch_at_start_up": "Do you want to automatically start FanControl at start up ? You will not be disturbed, a service will be launched in the background.",
+    "conf_not_save": "The current configuration is not save, what do you want to do ?"
+  }
+}
