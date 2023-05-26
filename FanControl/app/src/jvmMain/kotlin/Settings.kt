@@ -62,7 +62,8 @@ class ConfInfo(
 @Suppress("EnumEntryName")
 enum class Languages {
     en,
-    fr
+    fr,
+	zh_cn
 }
 
 @Suppress("EnumEntryName")
