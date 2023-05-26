@@ -1,9 +1,4 @@
 name: 'Build - publish windows'
-
-# **What it does**: Renders the content of every page and check all internal links.
-# **Why we have it**: To make sure all links connect correctly.
-# **Who does it impact**: Docs content.
-
 on:
   workflow_dispatch:
   push:
@@ -12,7 +7,7 @@ on:
   pull_request:
 
 permissions:
-  contents: read
+  contents: write
   # Needed for the 'trilom/file-changes-action' action
   pull-requests: read
 
@@ -22,11 +17,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.13.x
-          cache: npm
       - name: Setup Java JDK
         uses: actions/setup-java@v3
         with:
