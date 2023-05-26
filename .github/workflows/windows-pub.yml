@@ -1,0 +1,45 @@
+name: 'Build - publish windows'
+
+# **What it does**: Renders the content of every page and check all internal links.
+# **Why we have it**: To make sure all links connect correctly.
+# **Who does it impact**: Docs content.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+  # Needed for the 'trilom/file-changes-action' action
+  pull-requests: read
+
+jobs:
+  build:
+    runs-on: "windows-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.x
+          cache: npm
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+    # The Java version to make available on the path. Takes a whole or semver Java version, or 1.x syntax (e.g. 1.8 => Java 8.x). Early access versions can be specified in the form of e.g. 14-ea, 14.0.0-ea, or 14.0.0-ea.28
+          java-version: '17'
+          #distrubution: 'temurin'
+          distribution: 'temurin'
+          cache: gradle
+    # The package type (jre, jdk, jdk+fx)
+          java-package: 'jdk+fx' # optional, default is jdk
+      - name: use Written shell script
+        run: "bash ./CI/publish_windows.sh"
+      - name: path may wrong
+        run: 'cd FanControl && bash ../CI/publish_windows.sh'
+      - name: tree there
+        run: 'tree . --depth 3'
