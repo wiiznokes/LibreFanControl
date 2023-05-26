@@ -1,9 +1,9 @@
 {
   "title": {
-    "app_name": "FanControl",
-    "add_item": "添加Item",
+    "app_name": "LibreFanControl",
+    "add_item": "添加项目",
     "setting": "设置",
-    "control": "Control",
+    "control": "控制",
     "behavior": "行为",
     "sensor": "传感器",
     "fan": "风扇",
@@ -12,30 +12,30 @@
   "icon_content_description": {
     "open_drawer": "打开设置",
     "close_drawer": "关闭设置",
-    "open_setting_item": "open setting item",
-    "close_setting_item": "close setting item",
+    "open_setting_item": "打开设置项",
+    "close_setting_item": "关闭设置项",
     "edit": "编辑",
-    "close_add_item": "close add item",
-    "open_add_item": "open add item",
+    "close_add_item": "关闭「添加项目」",
+    "open_add_item": "打开「添加项目」",
     "choose": "选择",
     "decrease": "减少",
     "increase": "增加",
-    "control": "控制info",
-    "flat": "f「lat」行为详情",
+    "control": "控制详情",
+    "flat": "「固定」行为详情",
     "linear": "「线性」行为详情",
     "target": "「目标」行为详情",
-    "fan": "fan sensor info",
-    "temp": "温度传感器info",
-    "custom_temp": "自定义温度 info",
-    "edit_add": "添加item",
-    "edit_remove": "删除item",
+    "fan": "风扇传感器详情",
+    "temp": "温度传感器详情",
+    "custom_temp": "自定义温度详情",
+    "edit_add": "添加项",
+    "edit_remove": "删除项",
     "previous": "上一个",
     "next": "下一个",
     "save_conf": "保存配置",
     "remove_conf": "移除配置",
     "add_conf": "添加配置",
     "service_is_loading": "后台服务正在启动",
-    "service_error": "The service to manage the hardware has failed"
+    "service_error": "用来管理硬件的服务启动(?)失败"
   },
   "unity": {
     "rpm": "RPM",
@@ -49,7 +49,7 @@
   "add_item": {
     "name": {
       "control": "控制",
-      "flat": "Flat",
+      "flat": "固定",
       "linear": "线性",
       "target": "目标",
       "fan": "风扇",
@@ -57,18 +57,18 @@
       "custom_temp": "自定义温度"
     },
     "info": {
-      "control": "Assigns a certain behavior to a certain hardware component.",
+      "control": "为某一硬件组件分配一个行为。",
       "flat": "返回一个固定值。",
-      "linear": "需要 4 个变量:\n- 最小温度\n- 最大温度\n- 最小速度\n- 最大速度\n和一个温度传感器。\n如果温度小于 <最小温度>，返回最小速度\n如果温度大于<最大温度>，返回最大速度\n其他情况下，将自动计算一个平均值(具体参考图标)。",
-      "target": "Take 4 variables:\n- ideal temperature\n- trigger temperature\n- ideal speed\n- trigger speed\nand a temperature sensor.\nIf the sensor exceeds the trigger temperature -> trigger speed until this sensor < ideal temperature.",
+      "linear": "需要 4 个变量:\n- 最小温度\n- 最大温度\n- 最小速度\n- 最大速度\n和一个温度传感器。\n如果温度小于 <最小温度>，返回<最小速度>\n如果温度大于<最大温度>，返回 <最大速度>\n其他情况下，将自动计算一个平均值(具体参考图标)。",
+      "target": "需要 4 个变量:\n- 理想温度\n- 触发温度\n- 理想速度\n- 触发时速度\n和一个温度传感器。\n如果传感器温度超过<触发温度>，返回 <触发时速度>，直到这个传感器的温度小于 <理想速度>。",
       "fan": "显示某个风扇的速度。",
       "temp": "显示某个传感器的温度。",
-      "custom_temp": "Combines several temperature sensors to apply certain function (average, max, min).\nCan be used in certain behaviors."
+      "custom_temp": "结合多个温度传感器并用一个函数计算(如平均值、最大值、最小值)。\n可以被用在多个行为里。"
     }
   },
   "default_value": {
     "control_name": "控制",
-    "flat_name": "Flat",
+    "flat_name": "固定",
     "linear_name": "线性",
     "target_name": "目标",
     "fan_name": "风扇",
@@ -95,10 +95,10 @@
     "launch_at_start_up": "开机自启",
     "install_service": "安装服务",
     "start_service": "启动服务",
-    "open_service": "Open service",
+    "open_service": "打开服务",
     "uninstall_service": "卸载服务",
-    "value_disable_control": "Disable control value",
-    "value_disable_control_sub_title": "Only available on Linux. >= 2",
+    "value_disable_control": "禁用控件值",
+    "value_disable_control_sub_title": "只在Linux上可用. >= 2",
     "donate": "捐赠支持",
     "info": "Info",
     "help": "帮助",
@@ -150,17 +150,17 @@
   "dialog": {
     "title": {
       "new_conf": "新建配置",
-      "launch_at_start_up": "Launch at start up",
+      "launch_at_start_up": "开机自启",
       "conf_not_save": "配置没保存",
       "error": "错误"
     },
     "error_content": {
-      "unspecified": "Windows seems to prevent script execution. Try running this command with Powershell as admin:\nSet-ExecutionPolicy -ExecutionPolicy RemoteSigned\n\nIf it still doesn't work, leave an issue on GitHub.\n\n More info: https://learn.microsoft.com/fr-fr/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.3",
-      "need_admin": "The app need to be admin to create/modify/start the service. Please restart the app with admin privilege",
-      "not_installed": "The background service is not installed. Maybe restart the app could solve this problem.",
-      "need_runtime": "You need to install the ASP.NET Core 7.0 Runtime to run the background service."
+      "unspecified": "Windows 看起来阻止了脚本执行，尝试以管理员权限在Powershell运行这条命令:\nSet-ExecutionPolicy -ExecutionPolicy RemoteSigned\n\n如果没用，在GitHub仓库提个issue(最好使用英文)。\n\n 更多信息: https://learn.microsoft.com/fr-fr/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.3",
+      "need_admin": "此应用需要管理员权限来 创建/修改/启动 服务，请「以管理员运行」重启此程序",
+      "not_installed": "后台服务未安装，重启应用也许能解决此问题",
+      "need_runtime": "你需要安装 ASP.NET Core 7.0 Runtime 来运行后台服务。"
     },
-    "launch_at_start_up": "Do you want to automatically start FanControl at start up ? You will not be disturbed, a service will be launched in the background.",
-    "conf_not_save": "The current configuration is not save, what do you want to do ?"
+    "launch_at_start_up": "你想要LibreFanControl开机自启吗? 你不会被打扰，服务会在后台启动。",
+    "conf_not_save": "当前配置未保存，你想做什么?"
   }
 }
