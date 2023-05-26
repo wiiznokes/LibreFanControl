@@ -38,5 +38,5 @@ jobs:
         run: "bash ./CI/publish_windows.sh"
       - name: path may wrong
         run: 'cd FanControl && bash ../CI/publish_windows.sh'
-      - name: tree there
-        run: 'tree'
+      - name: tree there for test
+        run: 'tree /F'
