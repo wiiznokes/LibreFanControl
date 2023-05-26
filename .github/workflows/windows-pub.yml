@@ -39,4 +39,4 @@ jobs:
       - name: path may wrong
         run: 'cd FanControl && bash ../CI/publish_windows.sh'
       - name: tree there
-        run: 'tree . --depth 3'
+        run: 'tree'
