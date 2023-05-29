@@ -12,7 +12,7 @@ body:
         Example:
           "It should work like this..."
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: other-details
