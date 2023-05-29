@@ -46,7 +46,7 @@ jobs:
           distribution: 'temurin'
           cache: gradle
           
-      - name: Build windows artifact
+      - name: Build linux artifact
         run: "bash ./CI/build_linux.sh"
 
       - name: Upload a Build Artifact
