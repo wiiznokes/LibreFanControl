@@ -1,5 +1,5 @@
 name: 🐞 Issue Report
-description: Report a issue in LibreTube
+description: Report a issue in LibreFanControl
 labels: [bug]
 body:
 
@@ -37,24 +37,24 @@ body:
       required: true
 
   - type: input
-    id: libretube-version
+    id: librefancontrol-version
     attributes:
-      label: LibreTube version
+      label: LibreFanControl version
       description: |
-        You can find your LibreTube version in **Settings**.
+        You can find your LibreFanControl version in **Settings**.
       placeholder: |
         Example: "0.2.6"
     validations:
       required: true
 
-  - type: input
-    id: android-version
+- type: dropdown
+    id: os
     attributes:
-      label: Android version
-      description: |
-        You can find this somewhere in your Android settings.
-      placeholder: |
-        Example: "Android 12"
+      label: Operative System
+      description: Which operative system are you using?
+      options:
+        - Windows
+        - Linux
     validations:
       required: true
 
