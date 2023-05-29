@@ -14,7 +14,7 @@ body:
           2. Second step
           3. Issue here
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: expected-behavior
@@ -24,7 +24,7 @@ body:
         Example:
           "This should happen..."
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: actual-behavior
@@ -34,7 +34,7 @@ body:
         Example:
           "This happened instead..."
     validations:
-      required: true
+      required: false
 
   - type: input
     id: librefancontrol-version
@@ -57,7 +57,7 @@ body:
         - Linux
         - Both
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: other-details
@@ -65,16 +65,3 @@ body:
       label: Other details
       placeholder: |
         Additional details and attachments.
-
-  - type: checkboxes
-    id: acknowledgements
-    attributes:
-      label: Acknowledgements
-      description: Your issue will be closed if you haven't done these steps.
-      options:
-        - label: I have searched the existing issues and this is a new ticket, **NOT** a duplicate or related to another open issue.
-          required: true
-        - label: I have written a short but informative title.
-          required: true
-        - label: I will fill out all of the requested information in this form.
-          required: true
