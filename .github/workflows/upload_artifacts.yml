@@ -23,10 +23,10 @@ jobs:
           distribution: 'temurin'
           cache: gradle
           
-      - name: Build windows artifact
+      - name: Build Windows artifact
         run: "bash ./CI/build_windows.sh"
 
-      - name: Upload a Build Artifact
+      - name: Upload Windows artifact
         uses: actions/upload-artifact@v3.1.2
         with:
           name: LibreFanControl.msi
@@ -49,7 +49,7 @@ jobs:
       - name: Build linux artifact
         run: "bash ./CI/build_linux.sh"
 
-      - name: Upload a Build Artifact
+      - name: Upload Linux artifact
         uses: actions/upload-artifact@v3.1.2
         with:
           name: LibreFanControl.tar.gz

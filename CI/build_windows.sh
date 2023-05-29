@@ -12,3 +12,4 @@ cd ./FanControl
 cd ..
 mkdir publish
 cp ./FanControl/app/build/compose/binaries/main-release/msi/LibreFanControl* ./publish
+echo files copied !
