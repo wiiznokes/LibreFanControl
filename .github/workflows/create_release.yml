@@ -1,0 +1,41 @@
+name: Create release
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+permissions:
+  contents: write
+
+
+jobs:       
+  upload_artifacts:
+    uses: ./.github/workflows/upload_artifacts.yml
+
+  
+  create_release:
+    needs: upload_artifacts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: LibreFanControl*.tar.gz
+          path: ./publish
+      
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: LibreFanControl*.msi
+          path: ./publish
+
+
+      - name: Publish Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./publish/LibreFanControl*.tar.gz, ./publish/LibreFanControl*.msi"
+          generateReleaseNotes: true
+          makeLatest: true
