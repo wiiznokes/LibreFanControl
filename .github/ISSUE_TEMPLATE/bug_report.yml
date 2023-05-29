@@ -45,7 +45,7 @@ body:
       placeholder: |
         Example: "0.2.6"
     validations:
-      required: true
+      required: false
 
   - type: dropdown
     id: os
@@ -55,6 +55,8 @@ body:
       options:
         - Windows
         - Linux
+        - Both
+        - None
     validations:
       required: true
 
