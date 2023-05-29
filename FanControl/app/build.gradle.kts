@@ -42,7 +42,7 @@ kotlin {
                 implementation(compose.material3)
 
                 // json, use for string (will be replaced in the future)
-                implementation("org.json:json:20220924")
+                implementation("org.json:json:20230227")
 
                 // protobuf
                 implementation("com.google.protobuf:protobuf-kotlin:${project.property("protobuf.version")}")
