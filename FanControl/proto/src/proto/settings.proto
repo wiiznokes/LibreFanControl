@@ -15,6 +15,7 @@ import "google/protobuf/struct.proto";
 enum PLanguages {
   EN = 0;
   FR = 1;
+  ZH_CN = 2;
 }
 
 enum PThemes {

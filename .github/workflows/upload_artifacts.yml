@@ -1,0 +1,56 @@
+name: 'Upload artifacts'
+on:
+  workflow_dispatch:
+  workflow_call:
+  pull_request:
+      branches:
+        - main
+permissions:
+  contents: write
+
+
+jobs:
+  upload_msi_artifact:
+    runs-on: "windows-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: gradle
+          
+      - name: Build windows artifact
+        run: "bash ./CI/build_windows.sh"
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: LibreFanControl.msi
+          path: publish/LibreFanControl*.msi
+
+          
+  upload_app_image_artifact:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: gradle
+          
+      - name: Build windows artifact
+        run: "bash ./CI/build_linux.sh"
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: LibreFanControl.tar.gz
+          path: publish/LibreFanControl*.tar.gz

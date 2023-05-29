@@ -112,7 +112,8 @@
   },
   "language": {
     "en": "Anglais",
-    "fr": "Français"
+    "fr": "Français",
+	"zh_cn": "Chinois simplifié"
   },
   "theme": {
     "system": "Système",
