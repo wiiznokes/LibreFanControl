@@ -56,7 +56,6 @@ body:
         - Windows
         - Linux
         - Both
-        - None
     validations:
       required: true
 
