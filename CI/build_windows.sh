@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 
 rm -rf publish
 
@@ -11,5 +11,5 @@ cd ./LibreFanControl
 
 cd ..
 mkdir publish
-cp ./FanControl/app/build/compose/binaries/main-release/msi/LibreFanControl* ./publish
+cp ./LibreFanControl/app/build/compose/binaries/main-release/msi/LibreFanControl* ./publish
 echo files copied !
