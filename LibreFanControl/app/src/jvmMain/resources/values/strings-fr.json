@@ -1,6 +1,6 @@
 {
   "title": {
-    "app_name": "FanControl",
+    "app_name": "LibreFanControl",
     "add_item": "Ajouter item",
     "setting": "Paramètre",
     "control": "Control",
@@ -160,7 +160,7 @@
       "not_installed": "The background service is not installed. Maybe restart the app could solve this problem.",
       "need_runtime": "You need to install the ASP.NET Core 7.0 Runtime to run the background service."
     },
-    "launch_at_start_up": "Do you want to automatically start FanControl at start up ? You will not be disturbed, a service will be launched in the background.",
+    "launch_at_start_up": "Do you want to automatically start LibreFanControl at start up ? You will not be disturbed, a service will be launched in the background.",
     "conf_not_save": "The current configuration is not save, what do you want to do ?"
   }
 }

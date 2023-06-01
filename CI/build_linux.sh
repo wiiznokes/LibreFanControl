@@ -1,11 +1,12 @@
 #!/bin/bash
-
+set -e
 
 rm -rf publish
 
 
 dotnet build ./HardwareLib/LibreFanControlService -c "Release Linux"
-cd ./FanControl
+cd ./LibreFanControl
+chmod +x ./gradlew
 ./gradlew generateAllProto
 ./gradlew packageReleaseAppImage
 
@@ -13,7 +14,7 @@ cd ./FanControl
 
 cd ..
 mkdir publish
-cp -r ./FanControl/app/build/compose/binaries/main-release/app/LibreFanControl ./publish
+cp -r ./LibreFanControl/app/build/compose/binaries/main-release/app/LibreFanControl ./publish
 echo files copied !
 cd publish
 
