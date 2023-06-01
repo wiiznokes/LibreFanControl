@@ -14,7 +14,7 @@ chmod +x ./gradlew
 
 cd ..
 mkdir publish
-cp -r ./FanControl/app/build/compose/binaries/main-release/app/LibreFanControl ./publish
+cp -r ./LibreFanControl/app/build/compose/binaries/main-release/app/LibreFanControl ./publish
 echo files copied !
 cd publish
 
