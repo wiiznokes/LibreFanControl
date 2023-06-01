@@ -47,7 +47,7 @@ jobs:
           cache: gradle
           
       - name: Build linux artifact
-        run: "bash ./CI/build_linux.sh"
+        run: "chmod +x ./gradlew; bash ./CI/build_linux.sh"
 
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v3.1.2
