@@ -5,7 +5,7 @@ rm -rf publish
 
 
 dotnet build ./HardwareLib/LibreFanControlService -c "Release Linux"
-cd ./FanControl
+cd ./LibreFanControl
 ./gradlew generateAllProto
 ./gradlew packageReleaseAppImage
 
