@@ -1,8 +1,9 @@
 # LibreFanControl
 
+ [简体中文](./assets/zh_CN/README_zh-CN.md)
 
 - Open source
-- Service very low on ressource (~30mb)
+- Service very low on resource (~30mb)
 - Display sensors data on real time
 - Control fans based on custom behaviors
 - Save configuration
@@ -21,7 +22,7 @@ You will need some component of [dotnet 7](https://dotnet.microsoft.com/en-us/do
 
 You will need to run the app with admin privilege on both Linux and Windows.
 
-If you have any troubles, check out the [faq](./assets/faq.md).
+If you have any troubles, check out the [FAQ](./assets/faq.md).
 
 **Issues, enhancement requests and PR are welcomed!**
 
@@ -33,7 +34,7 @@ If you have any troubles, check out the [faq](./assets/faq.md).
 #### Linux
 - `/etc/LibreFanControl`
 
-On Linux, maybe you will need to download libsensors and execute sensors-detect.
+On Linux, maybe you will need to download `libsensors` and execute `sensors-detect`.
 
 
 ## Build
@@ -48,7 +49,7 @@ The needed commands can be found in CI directory.
 - [x] Support Linux
 - [ ] Use type safe strings and icons ([moko-resources](https://github.com/icerockdev/moko-resources) ?)
 - [ ] Add a system to automatically receive updates
-- [ ] Add workflow to the project (CI/CD, ect...) ([docker](https://docs.docker.com/) ?)
+- [x] Add workflow to the project (CI/CD, etc.) ([docker](https://docs.docker.com/)?) (GitHub Actions √)
 - [ ] Implement settings (info, help)
 - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
 - [ ] Write an intelligent program to bind controls to their fans, and make a nice first config
