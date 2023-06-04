@@ -94,7 +94,7 @@ private class Windows : IOsSpecific {
             onSuccess = {
                 service.setErrorStatus()
                 settings.confId.value = null
-                settings.versionInstalled.value = ""
+                settings.versionInstalled.value = "0.0.0"
                 SettingsHelper.writeSettings()
             }
         )
@@ -147,7 +147,7 @@ private class Linux : IOsSpecific {
             onSuccess = {
                 service.setErrorStatus()
                 settings.confId.value = null
-                settings.versionInstalled.value = ""
+                settings.versionInstalled.value = "0.0.0"
                 SettingsHelper.writeSettings()
             }
         )

@@ -23,7 +23,7 @@
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug Windows' ">
         <DefineConstants>DEBUG,WINDOWS</DefineConstants>
-        <OutputPath>.\..\..\FanControl\app\include\windows\build\</OutputPath>
+        <OutputPath>.\..\..\LibreFanControl\app\include\windows\build\</OutputPath>
         <DebugSymbols Condition=" '$(DebugSymbols)' == '' ">true</DebugSymbols>
         <Optimize Condition=" '$(Optimize)' == '' ">false</Optimize>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
@@ -31,7 +31,7 @@
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug Linux' ">
         <DefineConstants>DEBUG,LINUX</DefineConstants>
-        <OutputPath>.\..\..\FanControl\app\include\linux\build\</OutputPath>
+        <OutputPath>.\..\..\LibreFanControl\app\include\linux\build\</OutputPath>
         <DebugSymbols Condition=" '$(DebugSymbols)' == '' ">true</DebugSymbols>
         <Optimize Condition=" '$(Optimize)' == '' ">false</Optimize>
         <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
@@ -39,7 +39,7 @@
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release Windows' ">
         <DefineConstants>RELEASE,WINDOWS</DefineConstants>
-        <OutputPath>.\..\..\FanControl\app\include\windows\build\</OutputPath>
+        <OutputPath>.\..\..\LibreFanControl\app\include\windows\build\</OutputPath>
         <Optimize Condition=" '$(Optimize)' == '' ">true</Optimize>
         <DebugSymbols>false</DebugSymbols>
         <DebugType>none</DebugType>
@@ -48,7 +48,7 @@
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release Linux' ">
         <DefineConstants>RELEASE,LINUX</DefineConstants>
-        <OutputPath>.\..\..\FanControl\app\include\linux\build\</OutputPath>
+        <OutputPath>.\..\..\LibreFanControl\app\include\linux\build\</OutputPath>
         <Optimize Condition=" '$(Optimize)' == '' ">true</Optimize>
         <DebugSymbols>false</DebugSymbols>
         <DebugType>none</DebugType>
@@ -57,7 +57,7 @@
 
 
     <ItemGroup>
-        <PackageReference Include="Google.Protobuf" Version="3.22.4"/>
+        <PackageReference Include="Google.Protobuf" Version="3.23.2"/>
         <PackageReference Include="Grpc.AspNetCore.Server" Version="2.53.0"/>
         <PackageReference Include="Grpc.Tools" Version="2.54.0">
             <PrivateAssets>all</PrivateAssets>
@@ -69,9 +69,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="..\..\FanControl\proto\src\proto\settings.proto" GrpcServices="None" ProtoRoot="..\..\FanControl\proto\src\"/>
-        <Protobuf Include="..\..\FanControl\proto\src\proto\conf.proto" GrpcServices="None" ProtoRoot="..\..\FanControl\proto\src\"/>
-        <Protobuf Include="..\..\FanControl\proto\src\proto\crossApi.proto" GrpcServices="Server" ProtoRoot="..\..\FanControl\proto\src\"/>
+        <Protobuf Include="..\..\LibreFanControl\proto\src\proto\settings.proto" GrpcServices="None" ProtoRoot="..\..\LibreFanControl\proto\src\"/>
+        <Protobuf Include="..\..\LibreFanControl\proto\src\proto\conf.proto" GrpcServices="None" ProtoRoot="..\..\LibreFanControl\proto\src\"/>
+        <Protobuf Include="..\..\LibreFanControl\proto\src\proto\crossApi.proto" GrpcServices="Server" ProtoRoot="..\..\LibreFanControl\proto\src\"/>
     </ItemGroup>
 
     <ItemGroup Condition=" '$(Configuration)' == 'Release Linux' Or '$(Configuration)' == 'Debug Linux'">

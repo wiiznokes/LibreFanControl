@@ -96,6 +96,7 @@ class SettingsHelper {
                 language = when (pSetting.pLanguage) {
                     PLanguages.EN -> Languages.en
                     PLanguages.FR -> Languages.fr
+                    PLanguages.ZH_CN -> Languages.zh_cn
                     else -> {
                         println("error, unknown language")
                         Languages.en
@@ -138,6 +139,7 @@ class SettingsHelper {
                 pLanguage = when (settings.language.value) {
                     Languages.en -> PLanguages.EN
                     Languages.fr -> PLanguages.FR
+                    Languages.zh_cn -> PLanguages.ZH_CN
                 }
                 pConfId = nullToNullable(settings.confId.value)
                 settings.confInfoList.forEach { confInfo ->

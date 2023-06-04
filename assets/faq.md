@@ -3,7 +3,7 @@
 
 > What is `Disable control value` ?
 
-This is a setting that will only have an effect on Linux. Fan control can have several modes. FanControl puts it in manual mode, but when disabling manual control, the user can choose the desired control mode.
+This is a setting that will only have an effect on Linux. Fan control can have several modes. LibreFanControl puts it in manual mode, but when disabling manual control, the user can choose the desired control mode.
 
 For example, here is the driver [site](https://www.kernel.org/doc/html/next/hwmon/nct6775.html) for my chip.
 ```
