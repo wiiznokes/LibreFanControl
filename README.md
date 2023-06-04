@@ -1,6 +1,12 @@
 # LibreFanControl
 
- [简体中文](./assets/zh_CN/README_zh-CN.md)
+<details>
+<summary><h3>README Translation</h3></summary>
+
+- [简体中文](./assets/zh_CN/README_zh-CN.md)
+
+</details>
+
 
 - Open source
 - Service very low on resource (~30mb)
@@ -34,7 +40,7 @@ If you have any troubles, check out the [FAQ](./assets/faq.md).
 #### Linux
 - `/etc/LibreFanControl`
 
-On Linux, maybe you will need to download `libsensors` and execute `sensors-detect`.
+On Linux, maybe you will need to download `lm-sensors` and execute `sensors-detect`.
 
 
 ## Build
@@ -49,7 +55,7 @@ The needed commands can be found in CI directory.
 - [x] Support Linux
 - [ ] Use type safe strings and icons ([moko-resources](https://github.com/icerockdev/moko-resources) ?)
 - [ ] Add a system to automatically receive updates
-- [x] Add workflow to the project (CI/CD, etc.) ([docker](https://docs.docker.com/)?) (GitHub Actions √)
+- [ ] Compile with container ([docker](https://docs.docker.com/)) 
 - [ ] Implement settings (info, help)
 - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
 - [ ] Write an intelligent program to bind controls to their fans, and make a nice first config
