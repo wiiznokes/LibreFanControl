@@ -11,12 +11,19 @@ import ui.container.home
 import ui.theme.fanControlTheme
 import utils.*
 
-
+var DEBUG = false
 val app: Application = Application()
 
+// to run in debug mode (not install the service, no need to admin)
+// you need to set env variable: DEBUG=1
 fun main(args: Array<String>) {
 
-
+    val debug = System.getenv("DEBUG") ?: null
+    if (debug != null) {
+        println("DEBUG MODE ACTIVATED")
+        DEBUG = true
+    }
+    
     if (getOS() == OS.linux) {
         // need admin to write in /etc dir
         if (!OsSpecific.os.isAdmin()) {
@@ -25,8 +32,8 @@ fun main(args: Array<String>) {
         }
     }
 
+    // configured from gradle
     FState.appVersion = args[0]
-
 
     val visible = mutableStateOf(true)
 

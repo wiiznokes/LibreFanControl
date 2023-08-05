@@ -164,8 +164,10 @@ private fun execScriptHelper(
     onSuccess: (() -> Unit)? = null
 ): Boolean {
 
-    if (DEBUG)
+    if (DEBUG) {
+        println("DEBUG: $params")
         return true
+    }
 
     val res = ProcessBuilder(params)
         .redirectOutput(ProcessBuilder.Redirect.INHERIT)
