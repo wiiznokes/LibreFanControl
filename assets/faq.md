@@ -17,3 +17,6 @@ pwm[1-7]_enable
                 5 "Smart Fan IV" mode
 ```
 
+> Error while upgrading on Windows
+
+Try to kill `LibreFanControlService` with the task manager and launch .msi file. Choose install or repair option.
