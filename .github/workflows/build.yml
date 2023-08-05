@@ -9,7 +9,7 @@ permissions:
 
 
 jobs:
-  upload_msi_artifact:
+  build_msi:
     runs-on: "windows-latest"
     steps:
       - name: Checkout
@@ -26,7 +26,7 @@ jobs:
         run: "bash ./CI/build_windows.sh"
 
           
-  upload_app_image_artifact:
+  build_app_image:
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout
