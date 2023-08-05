@@ -7,11 +7,10 @@ tar -xzf LibreFanControl.tar.gz -C ./
 sudo dnf install aspnetcore-runtime-7.0
 ```
 
-3. (optional) install lm_sensors
+3. (optional) install lm_sensors and execute sensors-detect.
 ```
 sudo dnf install lm_sensors
 ```
-execute sensors-detect.
 ```
 sudo sensors-detect
 ```
