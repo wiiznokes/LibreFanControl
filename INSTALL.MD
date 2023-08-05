@@ -18,6 +18,7 @@ sudo sensors-detect
 This will generate a config file to tell LibreFanControl app how to talk to sensors.
 It will also automatically found modules (drivers) you need to load.
 Personally, I answer YES to all the questions and I have no problem.
+
 Notes: 
 - The uppercase answer is the default one.
 - After this step on my PC, I go from 3 to 25 sensors detected.
