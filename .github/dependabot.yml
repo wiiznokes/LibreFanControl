@@ -8,8 +8,8 @@ updates:
   - package-ecosystem: "nuget"
     directory: "./HardwareLib/LibreFanControlService"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
   - package-ecosystem: "gradle"
     directory: "./LibreFanControl"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
