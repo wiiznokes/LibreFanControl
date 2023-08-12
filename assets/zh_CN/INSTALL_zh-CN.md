@@ -1,29 +1,31 @@
 # 在Linux上安装
 
-0. 使用**你的Linux发行版的**包管理器安装命令:
+### 需求
+使用**你的Linux发行版的**包管理器安装命令:
  - Debian/Ubuntu : `sudo apt install <包名>`
  - Arch Linux : `sudo pacman -S <包名>`
  - Centos/Redhat/Fedora : `sudo dnf install <包名>`  
+
 将下文`(安装命令)`替换为对应命令
 
-1. 打开终端，并切换到一个目录，移动安装包，你将会把`LibreFanControl`的文件夹安装到这个目录下。  
+### 1. 打开终端，切换到压缩包所在目录，将`LibreFanControl`解压到你想安装的地方,如 `/opt`  
 (确保你有这个目录的读/写权限)
 ```
 # e.g.
-cd /opt
-mv (你下载压缩包的位置)/LibreFanControl.tar.gz ./
+tar -xzf LibreFanControl.tar.gz -C /opt
+```
+注：如果你以前安装过此应用，请先给卸载（删除）了：
+```
+# e.g.
+rm -rf /opt/LibreFanControl
 ```
 
-2. 解压软件压缩包:
-```
-tar -xzf LibreFanControl.tar.gz -C ./
-```
-3. 安装依赖
+### 2. 安装依赖
 ```
 (安装命令) aspnetcore-runtime-7.0
 ```
 
-4. (optional) 安装 `lm_sensors` 并执行 `sensors-detect`.
+### 3. (optional) 安装 `lm_sensors` 并执行 `sensors-detect`.
 ```
 (安装命令) lm_sensors
 ```
@@ -38,7 +40,7 @@ sudo sensors-detect
 - 英文大写的回答(`YES`)是默认选项
 - 作者在他电脑上做了这步后，他能检测到的传感器从三个到了25个。
 
-54. 好了，你可以在第0步选择的目录运行软件了:
+### 4. 好了，你可以运行安装在你选的目录的软件了:
 ```
-sudo ./LibreFanControl/bin/LibreFanControl
+sudo /opt/LibreFanControl/bin/LibreFanControl
 ```

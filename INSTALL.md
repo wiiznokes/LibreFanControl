@@ -11,11 +11,13 @@ Replace `(install command)` below to your command above.
 
 ### 1. Extract archive in the directory you want to place LibreFanControl, ex: `/opt`
 ```
+# e.g.
 tar -xzf LibreFanControl.tar.gz -C /opt
 ```
-Note: If you had already installed the app before, make sur to remove the directory before:
+Note: If you had already installed the app before, make sure to remove the directory before:
 ```
-rm -r /opt/LibreFanControl
+# e.g.
+rm -rf /opt/LibreFanControl
 ```
 ### 2. Install dependencies
 ```
@@ -37,7 +39,7 @@ Notes:
 - The uppercase answer is the default one.
 - After this step on my PC, I go from 3 to 25 sensors detected.
 
-### 4. You all good, you can execute the app in the place you went to it at step 0.
+### 4. You all good, you can execute the app that in the place you selected first.
 ```
 sudo /opt/LibreFanControl/bin/LibreFanControl
 ```
