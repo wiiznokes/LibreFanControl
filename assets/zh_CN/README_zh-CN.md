@@ -49,7 +49,7 @@
 - [x] 支持 Linux
 - [ ] 使用类型安全字符串和图标 ([moko-resources](https://github.com/icerockdev/moko-resources) ?)
 - [ ] 添加自动接收更新的系统
-- [x] 添加工作流到项目 (CI/CD,etc.) ([docker](https://docs.docker.com/) ?) ( GitHub Actions √)
+- [ ] 用容器编译 ([docker](https://docs.docker.com/)) 
 - [ ] 完全实现 `设置` (信息，帮助)
 - [ ] 添加「图表」行为 (横坐标 -> 温度，纵坐标 -> 风扇速度)
 - [ ] 自动将控制绑定到对应风扇速度的程序，并预写一个好的初始配置。

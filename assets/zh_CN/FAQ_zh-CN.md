@@ -3,9 +3,9 @@
 
 > 什么是 `Disable control value` ?
 
-这是一个只会在 Linux 上有效果的设置。风扇控制可以有多种模式。 LibreFanControl 将他设为手动模式，但当禁用手动控制时，用户可以选择他们期望的控制模式。
+这是一个只会在 Linux 上有效果的设置。风扇控制可以有多种模式。 `LibreFanControl` 将他设为手动模式，但当禁用手动控制时，用户可以选择他们期望的控制模式。
 
-举个例子，这是我的芯片的驱动[网站](https://www.kernel.org/doc/html/next/hwmon/nct6775.html).
+举个例子，这是作者的芯片的驱动[网站](https://www.kernel.org/doc/html/next/hwmon/nct6775.html).
 ```
 pwm[1-7]_enable
         这个文件控制着 风扇/温度 控件的模式:
@@ -17,3 +17,10 @@ pwm[1-7]_enable
                 5 "智能风扇 IV" 模式
 ```
 
+> 在Windows上升级时报错
+
+试着用`任务管理器`关闭服务`LibreFanControlService`，随后启动`.msi`安装包。选择`install or repair`选项
+
+> 具体怎么在Linux上安装
+
+[看这里](./INSTALL_zh-CN.md)。
