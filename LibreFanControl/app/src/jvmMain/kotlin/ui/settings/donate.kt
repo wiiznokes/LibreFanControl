@@ -1,5 +1,6 @@
 package ui.settings
 
+import Settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,7 +10,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.settingSlidingWindows.SettingScope
+import settingSlidingWindows.SettingScope
 import ui.component.managerText
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces

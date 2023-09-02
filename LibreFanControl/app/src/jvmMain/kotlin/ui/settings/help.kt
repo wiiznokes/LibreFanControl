@@ -1,7 +1,7 @@
 package ui.settings
 
 import androidx.compose.material3.Icon
-import com.example.settingSlidingWindows.SettingScope
+import settingSlidingWindows.SettingScope
 import ui.theme.LocalColors
 import utils.Resources
 

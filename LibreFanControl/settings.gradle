@@ -2,3 +2,4 @@ rootProject.name = "LibreFanControl"
 
 include 'proto'
 include 'app'
+

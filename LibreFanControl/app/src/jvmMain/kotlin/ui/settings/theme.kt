@@ -11,7 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.settingSlidingWindows.SettingScope
+import settingSlidingWindows.SettingScope
 import ui.component.managerText
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces

@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
-import com.example.settingSlidingWindows.SettingScope
+import settingSlidingWindows.SettingScope
 import ui.theme.LocalColors
 import ui.theme.LocalSpaces
 import utils.Resources

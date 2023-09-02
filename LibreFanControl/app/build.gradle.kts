@@ -12,8 +12,6 @@ repositories {
     google()
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    maven("https://jitpack.io")
-    //mavenLocal()
 }
 
 
@@ -38,7 +36,6 @@ kotlin {
             dependencies {
                 // ui
                 implementation(compose.desktop.currentOs)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.material3)
 
                 // json, use for string (will be replaced in the future)
@@ -52,11 +49,6 @@ kotlin {
                 implementation("io.grpc:grpc-protobuf:${project.property("grpc.version")}")
                 implementation("io.grpc:grpc-kotlin-stub:${project.property("grpc.kotlin.version")}")
                 implementation("io.grpc:grpc-okhttp:${project.property("grpc.version")}")
-
-
-                implementation("com.github.wiiznokes:setting-sliding-windows:${project.property("settings.version")}")
-                // use to debug the lib locally, need to comment ^ or v
-                //implementation("com.example:setting-sliding-windows-jvm:${project.property("settings.version")}")
             }
         }
 
@@ -109,6 +101,7 @@ compose.desktop {
                 menuGroup = "Utility"
                 shortcut = true
                 appCategory = "Utility"
+                packageVersion = "${project.property("app.version")}"
                 debPackageVersion = "${project.property("app.version")}"
                 rpmPackageVersion = "${project.property("app.version")}"
             }

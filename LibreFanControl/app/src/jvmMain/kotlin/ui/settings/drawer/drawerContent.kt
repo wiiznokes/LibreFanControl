@@ -10,11 +10,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.settingSlidingWindows.Setting
-import com.example.settingSlidingWindows.SettingDefaults
-import com.example.settingSlidingWindows.rememberSettingState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import settingSlidingWindows.Setting
+import settingSlidingWindows.SettingDefaults
+import settingSlidingWindows.rememberSettingState
 import ui.component.managerText
 import ui.settings.*
 import ui.theme.LocalColors
@@ -23,7 +23,6 @@ import utils.Resources
 
 private val viewModel = SettingsVM()
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun drawerContent(
     drawerState: DrawerState,
@@ -41,8 +40,9 @@ fun drawerContent(
 
     Setting(
         modifier = Modifier
-            .width(250.dp)
-            .fillMaxHeight(),
+            //.width(250.dp)
+            //.fillMaxHeight(),
+                ,
         settingState = settingState,
         settingColors = SettingDefaults.settingColors(
             container = LocalColors.current.secondContainer,
