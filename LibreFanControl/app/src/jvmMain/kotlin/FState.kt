@@ -11,8 +11,6 @@ import model.item.IControl
 import model.item.IFan
 
 
-
-
 class ServiceState {
 
     enum class Status {

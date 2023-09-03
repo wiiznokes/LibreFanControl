@@ -23,7 +23,7 @@ fun main(args: Array<String>) {
         println("DEBUG MODE ACTIVATED")
         DEBUG = true
     }
-    
+
     if (getOS() == OS.linux) {
         // need admin to write in /etc dir
         if (!OsSpecific.os.isAdmin()) {

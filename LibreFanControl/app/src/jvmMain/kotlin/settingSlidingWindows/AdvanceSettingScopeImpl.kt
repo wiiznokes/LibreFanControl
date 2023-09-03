@@ -66,7 +66,7 @@ internal class AdvanceSettingScopeImpl(
                     }
                 ) {
                     Icon(
-                        painter = getIcon("chevron/chevron_left${SettingDefaults.iconSize}"),
+                        painter = getIcon("arrow/chevron/chevron_left${SettingDefaults.iconSize}"),
                         contentDescription = null,
                         tint = settingColors.onBackground
                     )

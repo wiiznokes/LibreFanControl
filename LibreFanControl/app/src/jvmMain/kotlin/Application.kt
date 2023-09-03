@@ -50,7 +50,7 @@ class Application(
 
             // version of service installed is not up-to-date
             if (FState.appVersion != settings.versionInstalled.value) {
-               println("version service is not up-to-date")
+                println("version service is not up-to-date")
 
                 println("uninstall service")
                 if (!OsSpecific.os.uninstallService()) {

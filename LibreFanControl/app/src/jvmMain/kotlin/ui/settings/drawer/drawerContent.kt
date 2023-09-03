@@ -6,11 +6,16 @@ import FState.service
 import ServiceState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import settingSlidingWindows.Setting
 import settingSlidingWindows.SettingDefaults
@@ -40,9 +45,8 @@ fun drawerContent(
 
     Setting(
         modifier = Modifier
-            //.width(250.dp)
-            //.fillMaxHeight(),
-                ,
+            .width(250.dp)
+            .fillMaxHeight(),
         settingState = settingState,
         settingColors = SettingDefaults.settingColors(
             container = LocalColors.current.secondContainer,
@@ -51,12 +55,15 @@ fun drawerContent(
             onBackground = LocalColors.current.onSecondBackground
         )
     ) {
+        // cause error: Release should only be called once compose
+        /*
         header {
             managerHeader(
                 drawerState = drawerState,
                 scope = scope
             )
         }
+         */
 
         group(text = Resources.getString("settings/group/app"))
 
@@ -118,7 +125,6 @@ fun drawerContent(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun managerHeader(
     drawerState: DrawerState,
@@ -140,9 +146,12 @@ private fun managerHeader(
                 color = LocalColors.current.onSecondBackground,
                 style = MaterialTheme.typography.titleLarge
             )
-
             IconButton(
-                onClick = { scope.launch { drawerState.close() } }
+                onClick = {
+                    scope.launch {
+                        drawerState.close()
+                    }
+                }
             ) {
                 Icon(
                     painter = Resources.getIcon("arrow/arrow_back40"),
