@@ -11,13 +11,11 @@ Replace `(install command)` below to your command above.
 
 ### 1. Extract archive in the directory you want to place LibreFanControl, ex: `/opt`
 ```
-# e.g.
-tar -xzf LibreFanControl.tar.gz -C /opt
+sudo tar -xzf LibreFanControl.tar.gz -C /opt
 ```
-Note: If you had already installed the app before, make sure to remove the directory before:
+Note: If you had already installed the app before, make sure to remove the directory before to avoid problem:
 ```
-# e.g.
-rm -rf /opt/LibreFanControl
+sudo rm -rf /opt/LibreFanControl
 ```
 ### 2. Install dependencies
 ```
