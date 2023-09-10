@@ -55,7 +55,7 @@ The needed commands can be found in CI directory.
 - [x] Support Linux
 - [ ] Use type safe strings and icons ([moko-resources](https://github.com/icerockdev/moko-resources) ?)
 - [ ] Add a system to automatically receive updates
-- [ ] Compile with container ([docker](https://docs.docker.com/)) 
+- [ ] Compile with container ([docker](https://docs.docker.com/), [podman](https://podman.io/))
 - [ ] Implement settings (info, help)
 - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
 - [ ] Write an intelligent program to bind controls to their fans, and make a nice first config
