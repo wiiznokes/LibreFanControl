@@ -27,7 +27,11 @@ Compose has also some drowbacks
 
 But is fast and simple to use
 
-After this project, i discovered Rust, and i can tell it would have been much better suited.
+having a service have also some pros:
+- seperate control of the hardware with other things
+- expose an API on the network that other app could use
+
+After this project, i discovered Rust, and i can tell it would have been much better suited, especially for the service.
 simple build system, no GC, crates, cargo, types system, efficient, .......
 I think that for windows, this is the best we can get, using C# to make such a low level lib is very dumb imo; but for Linux, anoter project could be created using Rust and C interop for lm-sensors. I plan to maybe do that latter. Probably with just a tool to create config file, and an applet icon.
 
@@ -50,6 +54,6 @@ then we call startUpdate() to set a stream of values on this hardware.
 
 when we save a configuration, we notify the service with settingsAndConfChange()
 
-The service is responsible to calculate his values, and the app is also responsible to calculate his values (yes, i know this i bad, but as i said, this app is bad).
+The service is responsible to calculate his values, and the app is also responsible to calculate his values (yes, i know this i bad).
 
-well, if you make it this far, thank you. But otherwise, the app is not that bad xD
+well, if you make it this far, thank you.
