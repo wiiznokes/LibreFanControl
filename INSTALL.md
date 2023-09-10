@@ -1,5 +1,13 @@
 # Linux Installation
 
+<details>
+<summary><h3>Translation</h3></summary>
+
+- [简体中文](./assets/zh_CN/INSTALL_zh-CN.md)
+
+</details>
+
+
 ### Requirements
 Use the right package manager to install command for **your distrubution**:
  - Debian/Ubuntu : `sudo apt install <packages>`

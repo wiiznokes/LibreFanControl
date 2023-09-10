@@ -1,7 +1,7 @@
 # LibreFanControl
 
 <details>
-<summary><h3>README Translation</h3></summary>
+<summary><h3>Translation</h3></summary>
 
 - [简体中文](./assets/zh_CN/README_zh-CN.md)
 
@@ -28,7 +28,7 @@ You will need some component of [dotnet 7](https://dotnet.microsoft.com/en-us/do
 
 You will need to run the app with admin privilege on both Linux and Windows.
 
-If you have any troubles, check out the [FAQ](./assets/faq.md).
+If you have any troubles, check out the [FAQ](./FAQ.md).
 
 **Issues, enhancement requests and PR are welcomed!**
 
@@ -41,14 +41,6 @@ If you have any troubles, check out the [FAQ](./assets/faq.md).
 - `/etc/LibreFanControl`
 
 On Linux, maybe you will need to download `lm-sensors` and execute `sensors-detect`.
-
-
-## Build
-- On Windows, if you want to build the project, you will just need the `SDK` of [dotnet 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0). 
-- On Linux, you will need a [JDK](https://jdk.java.net/java-se-ri/17).
-
-The needed commands can be found in CI directory.
-
 
 ## Plans (not in this order)
 

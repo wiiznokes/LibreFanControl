@@ -1,7 +1,15 @@
 # LibreFanControl FAQ
 
+<details>
+<summary><h3>Translation</h3></summary>
 
-> What is `Disable control value` ?
+- [简体中文](./assets/zh_CN/FAQ_zh-CN.md)
+
+</details>
+
+
+<details>
+<summary><h3>What is `Disable control value` ?</h3></summary>
 
 This is a setting that will only have an effect on Linux. Fan control can have several modes. LibreFanControl puts it in manual mode, but when disabling manual control, the user can choose the desired control mode.
 
@@ -17,10 +25,28 @@ pwm[1-7]_enable
                 5 "Smart Fan IV" mode
 ```
 
-> Error while upgrading on Windows
+</details>
+
+
+<details>
+<summary><h3>Error while upgrading on Windows</h3></summary>
 
 Try to kill `LibreFanControlService` with the task manager and launch .msi file. Choose install or repair option.
 
-> How to install on Linux
+</details>
 
-[See](./../INSTALL.md).
+<details>
+<summary><h3>How to install on Linux</h3></summary>
+
+[See](./INSTALL.md).
+
+</details>
+
+<details>
+<summary><h3>How to build</h3></summary>
+
+[See](./BUILD.md).
+
+</details>
+
+
