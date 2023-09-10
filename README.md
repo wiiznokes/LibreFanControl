@@ -60,6 +60,7 @@ The needed commands can be found in CI directory.
 - [ ] Add graph behavior (abscissa -> temp, ordinate -> fan speed)
 - [ ] Write an intelligent program to bind controls to their fans, and make a nice first config
 - [ ] Support [Flatpak](https://docs.flatpak.org/en/latest/first-build.html)
+- [ ] Upgrade service (packaging, tray icon with actions)
 
 ## Library used
 
