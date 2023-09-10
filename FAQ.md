@@ -1,11 +1,6 @@
 # LibreFanControl FAQ
 
-<details>
-<summary><h3>Translation</h3></summary>
-
-- [简体中文](./assets/zh_CN/FAQ_zh-CN.md)
-
-</details>
+*Translation*: [简体中文](./assets/zh_CN/FAQ_zh-CN.md)
 
 
 <details>
