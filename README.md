@@ -63,3 +63,8 @@ On Linux, maybe you will need to download `lm-sensors` and execute `sensors-dete
 - [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor)
 ##### Linux
 - [lm-sensors](https://github.com/lm-sensors/lm-sensors)
+
+
+## Licence
+
+Can be discuss. I just want my code keep being open source.
