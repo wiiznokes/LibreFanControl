@@ -1,11 +1,8 @@
 # LibreFanControl
 
-**
-This project is deprecated. I'm working on a new version practically rewritten from scratch in Rust.
-It will be more efficient, will not use services, and will better support Linux.
-This is the repo: https://github.com/wiiznokes/fan-control
-**
+⚠️ 
 
+## This project is deprecated. The new version is here: https://github.com/wiiznokes/fan-control
 
 <details>
 <summary><h3>Translation</h3></summary>
